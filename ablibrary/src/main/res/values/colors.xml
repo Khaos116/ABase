@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="utf-8"?><!--添加颜色时，先搜索一下是否存在该颜色-->
+<resources>
+  <!-- **************主色************** -->
+  <!--黑色-->
+  <color name="black">#000000</color>
+  <!--白色-->
+  <color name="white">#FFFFFF</color>
+  <!--红色-->
+  <color name="red">#FF0000</color>
+  <!--绿色-->
+  <color name="green">#00FF00</color>
+  <!--蓝色-->
+  <color name="blue">#0000FF</color>
+  <!--黄色-->
+  <color name="yellow">#FFFF00</color>
+  <!--青色-->
+  <color name="cyan">#00FFFF</color>
+  <!--品红色-->
+  <color name="magenta">#FF00FF</color>
+  <!--灰色-->
+  <color name="gray">#888888</color>
+  <!--棕色-->
+  <color name="brown">#802A2A</color>
+  <!--紫色-->
+  <color name="purple">#A020F0</color>
+  <!--透明-->
+  <color name="transparent">#00000000</color>
+
+  <!-- **************style颜色************** -->
+  <color name="style_Primary">#008577</color>
+  <color name="style_PrimaryDark">#00574B</color>
+  <color name="style_Accent">#D81B60</color>
+
+  <!-- **************常用颜色************** -->
+  <!--象牙黑-->
+  <color name="black_292421">#292421</color>
+
+  <!--浅灰色-->
+  <color name="gray_C0C0C0">#C0C0C0</color>
+  <color name="gray_CCCCCC">#CCCCCC</color>
+  <!--深灰色-->
+  <color name="gray_444444">#444444</color>
+  <!--冷灰-->
+  <color name="gray_808A87">#808A87</color>
+  <!--石板灰-->
+  <color name="gray_708069">#708069</color>
+  <!--暖灰色-->
+  <color name="gray_808069">#808069</color>
+
+  <!--古董白-->
+  <color name="white_FAEBD7">#FAEBD7</color>
+  <!--天蓝色-->
+  <color name="white_F0FFFF">#F0FFFF</color>
+  <!--白烟-->
+  <color name="white_F5F5F5">#F5F5F5</color>
+  <!--花白-->
+  <color name="white_FFFAF0">#FFFAF0</color>
+  <!--蜜露橙-->
+  <color name="white_F0FFF0">#F0FFF0</color>
+  <!--象牙白-->
+  <color name="white_FAFFF0">#FAFFF0</color>
+  <!--海贝壳色-->
+  <color name="white_FFF5EE">#FFF5EE</color>
+
+  <!--砖红-->
+  <color name="red_9C661F">#9C661F</color>
+  <!--镉红-->
+  <color name="red_E3170D">#E3170D</color>
+  <!--珊瑚色-->
+  <color name="red_FF7F50">#FF7F50</color>
+  <!--耐火砖红-->
+  <color name="red_B22222">#B22222</color>
+  <!--印度红-->
+  <color name="red_B0171F">#B0171F</color>
+  <!--栗色-->
+  <color name="red_B03060">#B03060</color>
+  <!--粉红-->
+  <color name="red_FFC0CB">#FFC0CB</color>
+  <!--草莓色-->
+  <color name="red_872657">#872657</color>
+  <!--橙红色-->
+  <color name="red_FA8072">#FA8072</color>
+  <!--蕃茄红-->
+  <color name="red_FF6347">#FF6347</color>
+  <!--桔红-->
+  <color name="red_FF4500">#FF4500</color>
+  <!--深红色-->
+  <color name="red_FF00FF">#FF00FF</color>
+
+  <!--金黄色-->
+  <color name="yellow_FFD700">#FFD700</color>
+  <!--香蕉色-->
+  <color name="yellow_E3CF57">#E3CF57</color>
+  <!--镉黄-->
+  <color name="yellow_FF9912">#FF9912</color>
+  <!--黄花色-->
+  <color name="yellow_DAA569">#DAA569</color>
+  <!--橙色-->
+  <color name="yellow_FF6100">#FF6100</color>
+  <!--胡萝卜色-->
+  <color name="yellow_ED9121">#ED9121</color>
+  <!--桔黄-->
+  <color name="yellow_FF8000">#FF8000</color>
+  <!--淡黄色-->
+  <color name="yellow_F5DEB3">#F5DEB3</color>
+
+  <!--米色-->
+  <color name="brown_FFD700">#A39480</color>
+  <!--锻棕土色-->
+  <color name="brown_873324">#873324</color>
+  <!--巧克力色-->
+  <color name="brown_D2691E">#D2691E</color>
+  <!--肉色-->
+  <color name="brown_FF7D40">#FF7D40</color>
+  <!--黄褐色-->
+  <color name="brown_F0E68C">#F0E68C</color>
+  <!--玫瑰红-->
+  <color name="brown_BC8F8F">#BC8F8F</color>
+  <!--标土棕-->
+  <color name="brown_734A12">#734A12</color>
+  <!--乌贼墨棕-->
+  <color name="brown_5E2612">#5E2612</color>
+  <!--赫色-->
+  <color name="brown_A0522D">#A0522D</color>
+  <!--马棕色-->
+  <color name="brown_8B4513">#8B4513</color>
+  <!--沙棕色-->
+  <color name="brown_F4A460">#F4A460</color>
+  <!--棕褐色-->
+  <color name="brown_D2B48C">#D2B48C</color>
+
+  <!--钴色-->
+  <color name="blue_3D59AB">#3D59AB</color>
+  <!--锰蓝-->
+  <color name="blue_03A89E">#03A89E</color>
+  <!--深蓝色-->
+  <color name="blue_191970">#191970</color>
+  <!--孔雀蓝-->
+  <color name="blue_33A1C9">#33A1C9</color>
+  <!--土耳其玉色-->
+  <color name="blue_00C78C">#00C78C</color>
+  <!--浅灰蓝色-->
+  <color name="blue_B0E0E6">#B0E0E6</color>
+  <!--品蓝-->
+  <color name="blue_4169E1">#4169E1</color>
+  <!--石板蓝-->
+  <color name="blue_6A5ACD">#6A5ACD</color>
+  <!--天蓝-->
+  <color name="blue_87CEEB">#87CEEB</color>
+
+  <!--靛青-->
+  <color name="cyan_082E54">#082E54</color>
+  <!--青绿色-->
+  <color name="cyan_40E0D0">#40E0D0</color>
+
+  <!--绿土-->
+  <color name="green_385E0F">#385E0F</color>
+  <!--碧绿色-->
+  <color name="green_7FFFD4">#7FFFD4</color>
+  <!--黄绿色-->
+  <color name="green_7FFF00">#7FFF00</color>
+  <!--钴绿色-->
+  <color name="green_3D9140">#3D9140</color>
+  <!--翠绿色-->
+  <color name="green_00C957">#00C957</color>
+  <!--森林绿-->
+  <color name="green_228B22">#228B22</color>
+  <!--草地绿-->
+  <color name="green_7CFC00">#7CFC00</color>
+  <!--酸橙绿-->
+  <color name="green_32CD32">#32CD32</color>
+  <!--薄荷色-->
+  <color name="green_BDFCC9">#BDFCC9</color>
+  <!--草绿色-->
+  <color name="green_6B8E23">#6B8E23</color>
+  <!--暗绿色-->
+  <color name="green_308014">#308014</color>
+  <!--海绿色-->
+  <color name="green_2E8B57">#2E8B57</color>
+  <!--嫩绿色-->
+  <color name="green_00FF7F">#00FF7F</color>
+
+  <!--紫罗蓝色-->
+  <color name="purple_8A2BE2">#8A2BE2</color>
+  <!--湖紫色-->
+  <color name="purple_9933FA">#9933FA</color>
+  <!--淡紫色-->
+  <color name="purple_DA70D6">#DA70D6</color>
+  <!--梅红色-->
+  <color name="purple_DDA0DD">#DDA0DD</color>
+
+  <!--黑色带透明度-->
+  <color name="black_95">#F2000000</color>
+  <color name="black_90">#E6000000</color>
+  <color name="black_80">#CC000000</color>
+  <color name="black_75">#BF000000</color>
+  <color name="black_70">#B3000000</color>
+  <color name="black_60">#99000000</color>
+  <color name="black_50">#80000000</color>
+  <color name="black_40">#66000000</color>
+  <color name="black_35">#59000000</color>
+  <color name="black_34">#57000000</color>
+  <color name="black_30">#4D000000</color>
+  <color name="black_20">#33000000</color>
+  <color name="black_15">#26000000</color>
+  <color name="black_10">#1A000000</color>
+  <color name="black_05">#0D000000</color>
+
+  <!--白色带透明度-->
+  <color name="white_95">#F2FFFFFF</color>
+  <color name="white_90">#E6FFFFFF</color>
+  <color name="white_80">#CCFFFFFF</color>
+  <color name="white_75">#BFFFFFFF</color>
+  <color name="white_70">#B3FFFFFF</color>
+  <color name="white_60">#99FFFFFF</color>
+  <color name="white_50">#80FFFFFF</color>
+  <color name="white_40">#66FFFFFF</color>
+  <color name="white_35">#59FFFFFF</color>
+  <color name="white_34">#57FFFFFF</color>
+  <color name="white_30">#4DFFFFFF</color>
+  <color name="white_20">#33FFFFFF</color>
+  <color name="white_15">#26FFFFFF</color>
+  <color name="white_10">#1AFFFFFF</color>
+</resources>

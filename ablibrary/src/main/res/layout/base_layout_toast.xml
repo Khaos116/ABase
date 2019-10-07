@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@drawable/base_bg_toast"
+    >
+
+  <TextView
+      android:id="@+id/tv_content"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:paddingBottom="16dp"
+      android:paddingLeft="30dp"
+      android:paddingRight="30dp"
+      android:paddingTop="16dp"
+      android:textColor="#ffffff"
+      android:textSize="15sp"
+      tools:text="这是一个Toast"
+      />
+
+</RelativeLayout>

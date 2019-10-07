@@ -1,0 +1,39 @@
+<resources>
+
+  <!-- Base application theme. -->
+  <style name="BaseAppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+    <!-- Customize your theme here. -->
+    <item name="colorPrimary">@color/style_Primary</item>
+    <item name="colorPrimaryDark">@color/style_PrimaryDark</item>
+    <item name="colorAccent">@color/style_Accent</item>
+    <!--文字默认黑色-->
+    <item name="android:textColor">@color/black</item>
+    <!--状态栏透明-->
+    <item name="android:statusBarColor">@color/transparent</item>
+    <!--取消同时触发多个点击事件-->
+    <item name="android:splitMotionEvents">false</item>
+    <!--背景色-->
+    <item name="android:windowBackground">@color/white</item>
+    <!--滑块到顶和到底部效果去除-->
+    <item name="android:overScrollMode">never</item>
+    <!--Activity过渡效果-->
+    <item name="android:windowAnimationStyle">@style/BaseActivitySwitchAnimation</item>
+    <!-- 设置无标题-->
+    <item name="windowNoTitle">true</item>
+    <!--光标等控件的选中状态颜色-->
+    <item name="android:colorControlActivated">@color/style_Primary</item>
+    <!--去掉内边距-->
+    <item name="android:includeFontPadding">false</item>
+  </style>
+
+  <style name="BaseActivitySwitchAnimation">
+    <!-- 右进 -->
+    <item name="android:activityOpenEnterAnimation">@anim/enter_right</item>
+    <!-- 左出 -->
+    <item name="android:activityOpenExitAnimation">@anim/exit_left</item>
+    <!-- 左进 -->
+    <item name="android:activityCloseEnterAnimation">@anim/enter_left</item>
+    <!-- 右出 -->
+    <item name="android:activityCloseExitAnimation">@anim/exit_right</item>
+  </style>
+</resources>
