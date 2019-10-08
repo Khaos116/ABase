@@ -8,10 +8,12 @@
       android:allowBackup="true"
       android:icon="@mipmap/ic_launcher"
       android:label="@string/app_name"
+      android:name=".app.MyApplication"
       android:roundIcon="@mipmap/ic_launcher_round"
       android:supportsRtl="true"
       android:theme="@style/AppTheme"
       tools:ignore="AllowBackup,GoogleAppIndexingWarning">
+    <!--启动页-->
     <activity
         android:name=".component.splash.SplashActivity"
         android:launchMode="singleTop"
@@ -24,12 +26,18 @@
         <category android:name="android.intent.category.LAUNCHER"/>
       </intent-filter>
     </activity>
+    <!--主页-->
     <activity
         android:name=".component.main.MainActivity"
         android:launchMode="singleTask"
         android:screenOrientation="portrait"
         android:windowSoftInputMode="adjustPan|stateHidden"/>
-
+    <!--web-->
+    <activity
+        android:name=".component.web.WebActivity"
+        android:launchMode="singleTop"
+        android:screenOrientation="portrait"
+        android:windowSoftInputMode="adjustPan|stateHidden"/>
   </application>
 
 </manifest>

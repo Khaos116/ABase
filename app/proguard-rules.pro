@@ -135,6 +135,7 @@
 #############################################
 #            项目中特殊处理部分               #
 #############################################
+-keep class cc.abase.demo.repository.** { *; }
 
 #内部成员和方法不混淆
 
@@ -155,3 +156,9 @@
 #......
 
 #-----------处理第三方依赖库---------
+#fuel
+-keep class com.github.kittinunf.fuel.android.util.AndroidEnvironment
+-keep class com.github.kittinunf.**
+-keep public class com.github.kittinunf.** {
+  public protected *;
+}

@@ -71,16 +71,22 @@ dependencies {
 
   //----------------------★★★网络★★★----------------------//
   //https://github.com/ReactiveX/RxAndroid
-  implementation 'io.reactivex.rxjava2:rxandroid:2.1.1'
+  api 'io.reactivex.rxjava2:rxandroid:2.1.1'
   //https://github.com/kittinunf/fuel
-  implementation "com.github.kittinunf.fuel:fuel-rxjava:2.2.1"
-  implementation "com.github.kittinunf.fuel:fuel-android:2.2.1"
-  implementation "com.github.kittinunf.fuel:fuel-livedata:2.2.1"
-  implementation "com.github.kittinunf.fuel:fuel-gson:2.2.1"
+  api "com.github.kittinunf.fuel:fuel-rxjava:2.2.1"
+  api "com.github.kittinunf.fuel:fuel-android:2.2.1"
+  api "com.github.kittinunf.fuel:fuel-livedata:2.2.1"
+  api "com.github.kittinunf.fuel:fuel-gson:2.2.1"
+  api "com.google.code.gson:gson:2.8.5"
 
   //----------------------★★★存储★★★----------------------//
   //https://github.com/Tencent/MMKV
   api 'com.tencent:mmkv:1.0.23'
+  //https://github.com/VictorAlbertos/RxCache
+  api "com.github.VictorAlbertos.RxCache:runtime:1.8.3-2.x"
+  api('com.github.VictorAlbertos.Jolyglot:gson:0.0.4') {
+    exclude group: 'com.squareup.retrofit2'
+  }
 
   //----------------------★★★媒体★★★----------------------//
   //https://github.com/panpf/sketch

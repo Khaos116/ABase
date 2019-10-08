@@ -1,4 +1,4 @@
-package com.cc.base.repository.bean.local
+package cc.abase.demo.repository.bean.local
 
 /**
  * Description:

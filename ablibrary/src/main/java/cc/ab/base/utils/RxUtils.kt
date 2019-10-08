@@ -35,7 +35,7 @@ class RxUtils private constructor() {
    * 延迟出结果，防止请求结果出现太快
    * 统一线程处理(Rx 2.x)
    */
-  fun <T> rx2SchedulerHelperFDelay(delay: Long): FlowableTransformer<T, T> {    //compose简化线程
+  fun <T> rx2SchedulerHelperFDelay(delay: Long = 500): FlowableTransformer<T, T> {    //compose简化线程
     return FlowableTransformer { observable ->
       observable.zipWith(Flowable.timer(delay, TimeUnit.MILLISECONDS),
           BiFunction<T, Long, T> { t1, t2 -> t1 })
@@ -60,7 +60,7 @@ class RxUtils private constructor() {
    * 延迟出结果，防止请求结果出现太快
    * 统一线程处理(Rx 2.x)
    */
-  fun <T> rx2SchedulerHelperODelay(delay: Long): ObservableTransformer<T, T> {//compose简化线程
+  fun <T> rx2SchedulerHelperODelay(delay: Long = 500): ObservableTransformer<T, T> {//compose简化线程
     return ObservableTransformer { observable ->
       observable.zipWith(Observable.timer(delay, TimeUnit.MILLISECONDS),
           BiFunction<T, Long, T> { t1, t2 -> t1 })
@@ -70,6 +70,30 @@ class RxUtils private constructor() {
     }
   }
 
+  /**
+   * 统一线程处理(Rx 2.x)
+   */
+  fun <T> rx2SchedulerHelperS(): SingleTransformer<T, T> {//compose简化线程
+    return SingleTransformer { observable ->
+      observable.subscribeOn(Schedulers.io())
+        .unsubscribeOn(Schedulers.io())
+        .observeOn(AndroidSchedulers.mainThread())
+    }
+  }
+
+  /**
+   * 延迟出结果，防止请求结果出现太快
+   * 统一线程处理(Rx 2.x)
+   */
+  fun <T> rx2SchedulerHelperSDelay(delay: Long = 500): SingleTransformer<T, T> {//compose简化线程
+    return SingleTransformer { observable ->
+      observable.zipWith(Single.timer(delay, TimeUnit.MILLISECONDS),
+        BiFunction<T, Long, T> { t1, t2 -> t1 })
+        .subscribeOn(Schedulers.io())
+        .unsubscribeOn(Schedulers.io())
+        .observeOn(AndroidSchedulers.mainThread())
+    }
+  }
   /**
    * 生成Flowable
    */

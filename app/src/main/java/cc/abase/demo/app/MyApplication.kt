@@ -2,8 +2,11 @@ package cc.abase.demo.app
 
 import android.content.Context
 import cc.ab.base.app.BaseApplication
+import cc.ab.base.net.http.FuelHelper
 import cc.abase.demo.component.main.MainActivity
 import cc.abase.demo.component.splash.SplashActivity
+import cc.abase.demo.config.HeaderManger
+import cc.abase.demo.constants.GankUrls
 import cc.abase.demo.widget.CCRefreshHeader
 import com.billy.android.swipe.SmartSwipeBack
 import com.billy.android.swipe.SmartSwipeRefresh
@@ -15,11 +18,13 @@ import com.billy.android.swipe.refresh.ClassicHeader
  * @author: caiyoufei
  * @date: 2019/10/8 10:02
  */
-class CommApplication : BaseApplication() {
+open class MyApplication : BaseApplication() {
   override fun initInMainThread() {
   }
 
   override fun initInChildThread() {
+    initSmartSwipeBack()
+    FuelHelper.initFuel(GankUrls.BASE_URL, headerInterceptor = HeaderManger.instance.fuelHeader())
   }
   //静态代码段可以防止内存泄露
   companion object {
