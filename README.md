@@ -1,5 +1,6 @@
 # ABase
-2019最新流行APP架构  
+##### 准备实践框架
+~~~
 MvRx真响应式架构  
 epoxy积木搭建RecyclerView  
 ImmersionBar状态栏、刘海屏适配、键盘监听等  
