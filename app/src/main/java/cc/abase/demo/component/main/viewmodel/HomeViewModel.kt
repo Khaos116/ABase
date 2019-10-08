@@ -1,10 +1,8 @@
 package cc.abase.demo.component.main.viewmodel
 
 import cc.ab.base.mvrx.MvRxViewModel
-import com.airbnb.mvrx.Async
-import com.airbnb.mvrx.MvRxState
-import com.airbnb.mvrx.Uninitialized
-import com.cc.base.repository.emum.MainType
+import cc.abase.demo.repository.emum.MainType
+import com.airbnb.mvrx.*
 
 /**
  * Description:

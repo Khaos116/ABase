@@ -56,9 +56,9 @@ android {
   }
   buildTypes {
     debug {
-      zipAlignEnabled false
-      shrinkResources false
-      minifyEnabled false
+      zipAlignEnabled true
+      shrinkResources true
+      minifyEnabled true
       signingConfig signingConfigs.debug
       proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
     }

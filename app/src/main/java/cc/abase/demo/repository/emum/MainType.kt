@@ -1,4 +1,4 @@
-package com.cc.base.repository.emum
+package cc.abase.demo.repository.emum
 
 /**
  * Description:

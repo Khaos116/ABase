@@ -135,6 +135,7 @@
 #############################################
 #            项目中特殊处理部分               #
 #############################################
+-keep class cc.ab.base.net.http.response.** { *; }
 -keep class cc.abase.demo.repository.** { *; }
 
 #内部成员和方法不混淆
@@ -162,3 +163,83 @@
 -keep public class com.github.kittinunf.** {
   public protected *;
 }
+
+#----------retrofit--------------
+#-keepclassmembernames,allowobfuscation interface * {
+#    @retrofit2.http.* <methods>;
+#}
+#-dontwarn org.codehaus.mojo.animal_sniffer.IgnoreJRERequirement
+#
+
+-keep class retrofit2.** { *; }
+-dontwarn retrofit2.**
+-keepattributes Signature
+-keepattributes Exceptions
+-dontwarn okio.**
+-dontwarn javax.annotation.**
+
+#-------------------------
+
+#-------------- okhttp3 -------------
+-dontwarn com.squareup.okhttp.**
+-keep class com.squareup.okhttp.{*;}
+
+-dontwarn com.squareup.okhttp3.**
+-keep class com.squareup.okhttp3.** { *;}
+-dontwarn okio.**
+
+#------------------
+
+#----------- rxjava rxandroid----------------
+-dontwarn sun.misc.**
+-keepclassmembers class rx.internal.util.unsafe.*ArrayQueue*Field* {
+    long producerIndex;
+    long consumerIndex;
+}
+-keepclassmembers class rx.internal.util.unsafe.BaseLinkedQueueProducerNodeRef {
+    rx.internal.util.atomic.LinkedQueueNode producerNode;
+}
+-keepclassmembers class rx.internal.util.unsafe.BaseLinkedQueueConsumerNodeRef {
+    rx.internal.util.atomic.LinkedQueueNode consumerNode;
+}
+-dontnote rx.internal.util.PlatformDependent
+
+#--------------------------
+
+#----------- gson ----------------
+-keepattributes Signature
+-keepattributes *Annotation*
+-keepclassmembers enum * { *; }
+-keep class com.google.gson.** {*;}
+-keep class com.google.**{*;}
+-keep class sun.misc.Unsafe { *; }
+-keep class com.google.gson.stream.** { *; }
+-keep class com.google.gson.examples.android.model.** { *; }
+#--------------------------
+
+#----------- Mvrx ----------------
+-keepclassmembers class ** extends com.airbnb.mvrx.BaseMvRxViewModel {
+    ** Companion;
+}
+-keepclassmembers class ** extends com.airbnb.mvrx.BaseMvRxViewModel {
+    public <init>(...);
+    public static *** create(...);
+    public static *** initialState(...);
+}
+-keepclassmembers class ** implements com.airbnb.mvrx.MvRxViewModelFactory {
+     public <init>(...);
+     public *** create(...);
+     public *** initialState(...);
+}
+-keepnames class * implements com.airbnb.mvrx.MvRxViewModelFactory
+-keepclassmembers,includedescriptorclasses class ** implements com.airbnb.mvrx.MvRxState {
+   *;
+}
+-keepnames class com.airbnb.mvrx.MvRxState
+-keepnames class * implements com.airbnb.mvrx.MvRxState
+#--------------------------
+
+#----------- Rxcache ----------------
+-dontwarn io.rx_cache.internal.**
+-keepclassmembers enum io.rx_cache.Source { *; }
+#--------------------------
