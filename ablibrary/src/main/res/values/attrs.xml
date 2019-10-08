@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <!-- QMUIRadiusImageView -->
+  <declare-styleable name="QMUIRadiusImageView">
+    <attr name="qmui_border_width" format="dimension" />
+    <attr name="qmui_border_color" format="color" />
+    <attr name="qmui_selected_mask_color" format="color" />
+    <attr name="qmui_selected_border_color" format="color" />
+    <attr name="qmui_selected_border_width" format="dimension" />
+    <attr name="qmui_corner_radius" format="dimension" />
+    <attr name="qmui_is_oval" format="boolean" />
+    <attr name="qmui_is_circle" format="boolean" />
+    <attr name="qmui_is_touch_select_mode_enabled" format="boolean" />
+  </declare-styleable>
+  <!--九宫格控件-->
+  <declare-styleable name="NineGridView">
+    <attr format="dimension" name="singleImgSize" />
+    <attr format="dimension" name="imgGap" />
+    <attr format="integer" name="maxSize" />
+    <attr format="enum" name="showStyle">
+      <enum name="grid" value="0" />
+      <enum name="fill" value="1" />
+    </attr>
+  </declare-styleable>
+</resources>

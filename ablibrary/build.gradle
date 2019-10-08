@@ -66,6 +66,8 @@ dependencies {
   api 'com.airbnb.android:epoxy:3.7.0'
   //web https://github.com/Justson/AgentWeb
   api 'com.just.agentweb:agentweb:4.1.2'
+  //侧滑 https://qibilly.com/SmartSwipe-tutorial/
+  api 'com.billy.android:smart-swipe:1.0.0'
 
   //----------------------★★★网络★★★----------------------//
   //https://github.com/ReactiveX/RxAndroid

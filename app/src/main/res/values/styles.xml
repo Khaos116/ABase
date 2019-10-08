@@ -2,6 +2,11 @@
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="BaseAppTheme">
+
+    </style>
+    <!-- 启动页风格 -->
+    <style name="SplashTheme" parent="BaseAppTheme">
+        <item name="android:windowBackground">@drawable/icon_splash_bg</item>
     </style>
 
 </resources>
