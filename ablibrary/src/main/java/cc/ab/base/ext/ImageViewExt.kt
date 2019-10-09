@@ -1,5 +1,7 @@
 package cc.ab.base.ext
 
+import com.blankj.utilcode.util.Utils
+import me.panpf.sketch.Sketch
 import me.panpf.sketch.SketchImageView
 import java.io.File
 
@@ -19,7 +21,10 @@ fun SketchImageView.getCacheFile(url: String?): File? {
   return if (url.isNullOrBlank()) {
     null
   } else {
-    null
+    val cache = Sketch.with(Utils.getApp())
+        .configuration.diskCache
+    val key = cache.keyEncode(url)
+    return if (cache.exist(key)) cache.get(cache.keyEncode(url))?.file else null
   }
 }
 //
