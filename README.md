@@ -1,4 +1,4 @@
-# ABase
+# ABase(采用AndroidX)
 ##### 准备实践框架
 ~~~
 MvRx真响应式架构  
