@@ -6,6 +6,7 @@ import android.content.Context
 import android.util.Log
 import androidx.multidex.MultiDex
 import cc.ab.base.BuildConfig
+import cc.ab.base.utils.RxUtils
 import com.blankj.utilcode.util.LogUtils
 import com.blankj.utilcode.util.ProcessUtils
 import com.blankj.utilcode.util.Utils
@@ -13,8 +14,6 @@ import com.didichuxing.doraemonkit.DoraemonKit
 import com.tencent.mmkv.MMKV
 import io.reactivex.Observable
 import io.reactivex.ObservableOnSubscribe
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
 import me.jessyan.autosize.AutoSizeConfig
 
 /**
@@ -59,8 +58,7 @@ abstract class BaseApplication : Application() {
             emitter.onNext(true)
             emitter.onComplete()
         })
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
+            .compose(RxUtils.instance.rx2SchedulerHelperO())
             .subscribe({
                 initFinishInChildThread = true
             }, { Log.e("CASE", "$it") }, {})
