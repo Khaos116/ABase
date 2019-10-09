@@ -4,7 +4,7 @@
 三方库|描述
 :-:|:-:
 **[MvRx](https://github.com/airbnb/MvRx)**|[真响应式架构](https://www.jianshu.com/p/53240a44ec49)
-**[epoxy](https://github.com/airbnb/epoxy)**|[积木堆积方式加载RecyclerView](https://www.jianshu.com/p/d62ade6077c9)
+**[epoxy](https://github.com/airbnb/epoxy)**|[积木堆的方式加载RecyclerView](https://www.jianshu.com/p/d62ade6077c9)
 **[ImmersionBar](https://github.com/gyf-dev/ImmersionBar)**|状态栏和虚拟导航栏、全面屏+刘海屏适配、键盘监听
 **[AndroidAutoSize](https://github.com/JessYanCoding/AndroidAutoSize)**|今日头条UI适配方案
 **[SmartSwipe](https://qibilly.com/SmartSwipe-tutorial/)**|仿微信、小米侧滑返回、替代SmartRefresh下拉刷新
