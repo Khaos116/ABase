@@ -1,5 +1,6 @@
 # ABase
-2019最新流行APP架构  
+##### 准备实践框架
+~~~
 MvRx真响应式架构  
 epoxy积木搭建RecyclerView  
 ImmersionBar状态栏、刘海屏适配、键盘监听等  
@@ -14,3 +15,5 @@ MMKV替代SharedPreferences
 leakcanary内存泄漏检测  
 pandora潘多拉开发辅助  
 DoraemonKit哆啦A梦开发辅助  
+~~~
+![ABase](https://github.com/caiyoufei/ABase/blob/master/ABase.jpg)
