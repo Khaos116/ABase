@@ -19,3 +19,4 @@
 **[DoraemonKit](https://github.com/didi/DoraemonKit/blob/master/Doc/android_cn_guide.md)**|哆啦A梦开发辅助
 **[utilcode](https://github.com/Blankj/AndroidUtilCode/blob/master/lib/utilcode/README-CN.md)**|超强工具合集
 **[RxAndroid](https://github.com/ReactiveX/RxAndroid)**|Android线程切换+Rxjava
+**[LiveEventBus](https://github.com/JeremyLiao/LiveEventBus)**|跨进程通信、跨APP通信、自动取消订阅
