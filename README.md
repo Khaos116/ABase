@@ -3,19 +3,19 @@
   
 名称|描述
 :-:|:-:
-**[MvRx真响应式架构](https://github.com/airbnb/MvRx)**|说明
-**[epoxy积木搭建RecyclerView](https://github.com/airbnb/epoxy)**|说明
-**[ImmersionBar状态栏、刘海屏适配、键盘监听等](https://github.com/gyf-dev/ImmersionBar)**|说明
-**[AndroidAutoSize今日头条UI适配方案](https://github.com/JessYanCoding/AndroidAutoSize)**|说明
-**[SmartSwipe仿微信侧滑返回、替代SmartRefresh下拉刷新](https://qibilly.com/SmartSwipe-tutorial/)**|说明
-**[lottie-android AE动画库](https://github.com/airbnb/lottie-android)**|说明
-**[sketch图片加载方案](https://github.com/panpf/sketch)**|说明
-**[AgentWeb自适应宽度H5加载](https://github.com/Justson/AgentWeb)**|说明
-**[fuel新一代网络请求](https://github.com/kittinunf/fuel)**|说明
-**[RxCache接口数据缓存方案](https://github.com/VictorAlbertos/RxCache)**|说明
-**[MMKV替代SharedPreferences](https://github.com/Tencent/MMKV)**|说明
-**[leakcanary内存泄漏检测](https://github.com/square/leakcanary/releases)**|说明
-**[pandora潘多拉开发辅助](https://github.com/whataa/pandora/blob/master/README_CN.md)**|说明
-**[DoraemonKit哆啦A梦开发辅助](https://github.com/didi/DoraemonKit/blob/master/Doc/android_cn_guide.md)**|说明
+**[MvRx](https://github.com/airbnb/MvRx)**|[真响应式架构](https://www.jianshu.com/p/53240a44ec49)
+**[epoxy](https://github.com/airbnb/epoxy)**|[积木搭建RecyclerView](https://www.jianshu.com/p/d62ade6077c9)
+**[ImmersionBar](https://github.com/gyf-dev/ImmersionBar)**|状态栏和虚拟导航栏、全面屏+刘海屏适配、键盘监听
+**[AndroidAutoSize](https://github.com/JessYanCoding/AndroidAutoSize)**|今日头条UI适配方案
+**[SmartSwipe](https://qibilly.com/SmartSwipe-tutorial/)**|仿微信、小米侧滑返回、替代SmartRefresh下拉刷新
+**[lottie-android](https://github.com/airbnb/lottie-android)**|AE动画库
+**[sketch](https://github.com/panpf/sketch)**|图片加载(兼容圆角、圆形、高斯模糊、图片按压效果，图片边框)
+**[AgentWeb](https://github.com/Justson/AgentWeb)**|简化WebView加载
+**[fuel](https://github.com/kittinunf/fuel)**|新一代网络请求
+**[RxCache](https://github.com/VictorAlbertos/RxCache)**|接口数据缓存方案，自定义缓存时长
+**[MMKV](https://github.com/Tencent/MMKV)**|替代SharedPreferences的更高效方案
+**[leakcanary](https://github.com/square/leakcanary/releases)**|内存泄漏检测工具
+**[pandora](https://github.com/whataa/pandora/blob/master/README_CN.md)**|潘多拉开发辅助
+**[DoraemonKit](https://github.com/didi/DoraemonKit/blob/master/Doc/android_cn_guide.md)**|哆啦A梦开发辅助
   
 ![ABase](https://github.com/caiyoufei/ABase/blob/master/ABase.jpg)
