@@ -23,8 +23,7 @@ fun SketchImageView.getCacheFile(url: String?): File? {
   } else {
     val cache = Sketch.with(Utils.getApp())
         .configuration.diskCache
-    val key = cache.keyEncode(url)
-    return if (cache.exist(key)) cache.get(cache.keyEncode(url))?.file else null
+    return if (cache.exist(url)) cache.get(url)?.file else null
   }
 }
 //
