@@ -1,6 +1,6 @@
 # ABase(采用AndroidX)
 ##### 准备实践框架
-~~~
+  
 名称|描述
 :-:|:-:
 **MvRx真响应式架构**|说明
@@ -17,5 +17,12 @@
 **leakcanary内存泄漏检测**|说明
 **pandora潘多拉开发辅助**|说明
 **DoraemonKit哆啦A梦开发辅助**|说明
-~~~
+  
 ![ABase](https://github.com/caiyoufei/ABase/blob/master/ABase.jpg)
+
+
+姓名|技能|排行
+--|:--:|--:
+刘备|哭|大哥
+关羽|打|二哥
+张飞|骂|三弟
