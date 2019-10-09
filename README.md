@@ -17,5 +17,3 @@
 **[leakcanary](https://github.com/square/leakcanary/releases)**|内存泄漏检测工具
 **[pandora](https://github.com/whataa/pandora/blob/master/README_CN.md)**|潘多拉开发辅助
 **[DoraemonKit](https://github.com/didi/DoraemonKit/blob/master/Doc/android_cn_guide.md)**|哆啦A梦开发辅助
-  
-![ABase](https://github.com/caiyoufei/ABase/blob/master/ABase.jpg)
