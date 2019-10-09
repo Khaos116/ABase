@@ -7,7 +7,6 @@ import androidx.core.content.ContextCompat
 import cc.ab.base.R
 import cc.ab.base.net.http.response.PicBean
 import cc.ab.base.utils.RandomPlaceholder
-import cc.ab.base.widget.ninegridview.NineGridViewAdapter
 import com.blankj.utilcode.util.SizeUtils
 import com.blankj.utilcode.util.Utils
 import me.panpf.sketch.Sketch

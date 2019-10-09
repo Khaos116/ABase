@@ -4,6 +4,7 @@ import android.graphics.Rect
 import android.os.Parcel
 import android.os.Parcelable
 import android.os.Parcelable.Creator
+import com.previewlibrary.enitity.IThumbViewInfo
 
 /**
  * Description:
@@ -17,16 +18,16 @@ data class PicBean(
   var width: Int = 100,
   var height: Int = 100,
   var size: Float = 0f
-) : Parcelable {
-  fun getUrl(): String? {
+) : Parcelable, IThumbViewInfo {
+  override fun getUrl(): String? {
     return mediaUrl
   }
 
-  fun getVideoUrl(): String? {
+  override fun getVideoUrl(): String? {
     return null
   }
 
-  fun getBounds(): Rect? {
+  override fun getBounds(): Rect? {
     return mBounds
   }
 

@@ -8,10 +8,12 @@ import cc.abase.demo.component.splash.SplashActivity
 import cc.abase.demo.config.HeaderManger
 import cc.abase.demo.constants.GankUrls
 import cc.abase.demo.widget.CCRefreshHeader
+import cc.abase.demo.widget.imgpreview.PreviewImgLoader
 import com.billy.android.swipe.SmartSwipeBack
 import com.billy.android.swipe.SmartSwipeRefresh
 import com.billy.android.swipe.refresh.ClassicFooter
 import com.billy.android.swipe.refresh.ClassicHeader
+import com.previewlibrary.ZoomMediaLoader
 
 /**
  * Description:
@@ -23,7 +25,12 @@ open class MyApplication : BaseApplication() {
   }
 
   override fun initInChildThread() {
+    //侧滑返回
     initSmartSwipeBack()
+    //图片预览
+    ZoomMediaLoader.getInstance()
+      .init(PreviewImgLoader())
+    //网络请求
     FuelHelper.initFuel(GankUrls.BASE_URL, headerInterceptor = HeaderManger.instance.fuelHeader())
   }
   //静态代码段可以防止内存泄露

@@ -11,6 +11,7 @@ import cc.ab.base.widget.ninegridview.NineGridView
 import cc.abase.demo.R
 import cc.abase.demo.epoxy.base.BaseEpoxyModel
 import cc.abase.demo.repository.bean.gank.GankAndroidBean
+import cc.abase.demo.widget.imgpreview.PreviewImgUtils
 import com.airbnb.epoxy.EpoxyAttribute
 import com.airbnb.epoxy.EpoxyModelClass
 import kotlinx.android.synthetic.main.item_gank_android.view.*
@@ -64,7 +65,7 @@ abstract class GankAndroidItem : BaseEpoxyModel<BaseEpoxyHolder>() {
         views.add(nineGridView.getChildAt(i) as ImageView)
       }
       //多图预览
-//      PreviewImgUtils.instance.startPreview(nineGridView.context as Activity, list, views, index)
+      PreviewImgUtils.instance.startPreview(nineGridView.context as Activity, list, views, index)
     }
   }
 }
