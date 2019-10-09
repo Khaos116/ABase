@@ -39,6 +39,8 @@ dependencies {
   //----------------------★★★工具★★★----------------------//
   //https://github.com/Blankj/AndroidUtilCode/blob/master/lib/utilcode/README-CN.md
   api 'com.blankj:utilcodex:1.25.9'
+  //https://github.com/JeremyLiao/LiveEventBus
+  api 'com.jeremyliao:live-event-bus-x:1.5.2'
   //https://github.com/Kotlin/anko
   //api "org.jetbrains.anko:anko-commons:0.10.8"
   //内存泄漏检测 https://github.com/square/leakcanary/releases

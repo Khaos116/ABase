@@ -5,13 +5,20 @@ import android.content.Intent
 import android.net.wifi.WifiManager
 import android.util.Log
 import androidx.annotation.IntRange
-import cc.ab.base.ext.*
+import androidx.lifecycle.Observer
+import cc.ab.base.ext.getColorRes
+import cc.ab.base.ext.mContext
+import cc.ab.base.ext.toast
 import cc.abase.demo.R
 import cc.abase.demo.component.comm.CommActivity
 import cc.abase.demo.component.comm.CommFragment
-import com.blankj.utilcode.util.*
+import cc.abase.demo.constants.EventKeys
+import com.blankj.utilcode.util.AppUtils
+import com.blankj.utilcode.util.FragmentUtils
+import com.blankj.utilcode.util.NetworkUtils
 import com.gyf.immersionbar.ktx.immersionBar
-import kotlinx.android.synthetic.main.activity_main.mainNavigation
+import com.jeremyliao.liveeventbus.LiveEventBus
+import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : CommActivity() {
   //页面
@@ -60,6 +67,8 @@ class MainActivity : CommActivity() {
         Log.e("CASE", "wifiInfo=${it}")
       }
     }
+    LiveEventBus.get(EventKeys.WEB_URL, String::class.java).observe(this,
+      Observer<String> { Log.e("CASE", "Web打开的url=${it}") })
   }
 
   //设置选中的fragment

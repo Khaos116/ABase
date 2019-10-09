@@ -243,3 +243,10 @@
 -dontwarn io.rx_cache.internal.**
 -keepclassmembers enum io.rx_cache.Source { *; }
 #--------------------------
+
+#----------- LiveEventBus ----------------
+-dontwarn com.jeremyliao.liveeventbus.**
+-keep class com.jeremyliao.liveeventbus.** { *; }
+-keep class androidx.lifecycle.** { *; }
+-keep class androidx.arch.core.** { *; }
+#--------------------------

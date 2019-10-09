@@ -12,10 +12,12 @@ import cc.ab.base.ext.mContext
 import cc.abase.demo.R
 import cc.abase.demo.component.comm.CommTitleActivity
 import cc.abase.demo.config.HeaderManger
+import cc.abase.demo.constants.EventKeys
 import cc.abase.demo.widget.LollipopFixedWebView
+import com.jeremyliao.liveeventbus.LiveEventBus
 import com.just.agentweb.AgentWeb
 import com.just.agentweb.DefaultWebClient
-import kotlinx.android.synthetic.main.activity_web.webRootView
+import kotlinx.android.synthetic.main.activity_web.*
 
 /**
  * Description: 如果需要js对接，参考添加BridgeWebView https://github.com/lzyzsd/JsBridge
@@ -35,6 +37,7 @@ class WebActivity : CommTitleActivity() {
         fun startActivity(context: Context, url: String) {
             val intent = Intent(context, WebActivity::class.java)
             if (url.isNotBlank()) intent.putExtra(WEB_URL, url)
+            LiveEventBus.get(EventKeys.WEB_URL).post(url)
             context.startActivity(intent)
         }
     }
