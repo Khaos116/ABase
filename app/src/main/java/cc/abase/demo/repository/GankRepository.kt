@@ -3,8 +3,7 @@ package cc.abase.demo.repository
 import androidx.annotation.IntRange
 import cc.abase.demo.constants.GankUrls
 import cc.abase.demo.repository.bean.gank.GankAndroidBean
-import cc.abase.demo.repository.request.requestGank
-import cc.abase.demo.repository.request.requestGankByCache
+import cc.abase.demo.repository.request.GankRequest
 import com.github.kittinunf.fuel.httpGet
 import io.reactivex.Single
 
@@ -31,9 +30,9 @@ class GankRepository private constructor() {
     val request = String.format(GankUrls.ANDROID, size, page)
         .httpGet()
     return if (byCache) {
-      request.requestGankByCache(page = page, size = size)
+      GankRequest.instance.requestGankByCache(request, page = page, size = size)
     } else {
-      request.requestGank()
+      GankRequest.instance.requestGank(request)
     }
   }
 }

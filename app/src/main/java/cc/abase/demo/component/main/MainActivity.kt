@@ -6,19 +6,18 @@ import android.net.wifi.WifiManager
 import android.util.Log
 import androidx.annotation.IntRange
 import androidx.lifecycle.Observer
-import cc.ab.base.ext.getColorRes
-import cc.ab.base.ext.mContext
-import cc.ab.base.ext.toast
+import cc.ab.base.ext.*
 import cc.abase.demo.R
 import cc.abase.demo.component.comm.CommActivity
 import cc.abase.demo.component.comm.CommFragment
 import cc.abase.demo.constants.EventKeys
-import com.blankj.utilcode.util.AppUtils
+import cc.abase.demo.repository.UserRepository
 import com.blankj.utilcode.util.FragmentUtils
 import com.blankj.utilcode.util.NetworkUtils
 import com.gyf.immersionbar.ktx.immersionBar
 import com.jeremyliao.liveeventbus.LiveEventBus
-import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.activity_main.mainContainer
+import kotlinx.android.synthetic.main.activity_main.mainNavigation
 
 class MainActivity : CommActivity() {
   //页面
@@ -69,6 +68,11 @@ class MainActivity : CommActivity() {
     }
     LiveEventBus.get(EventKeys.WEB_URL, String::class.java).observe(this,
       Observer<String> { Log.e("CASE", "Web打开的url=${it}") })
+    val dis = UserRepository.instance.register("case", "123", "222")
+        .subscribe { t1, t2 ->
+          Log.e("CASE", "t1=${t1}")
+          Log.e("CASE", "t2=${t1}")
+        }
   }
 
   //设置选中的fragment
@@ -84,7 +88,7 @@ class MainActivity : CommActivity() {
     if (!fragment.isAdded) { //没有添加，则添加并显示
       val tag = fragment::class.java.simpleName
       FragmentUtils.add(
-          supportFragmentManager, fragment, R.id.mainContainer, tag, false
+          supportFragmentManager, fragment, mainContainer.id, tag, false
       )
     } else { //添加了就直接显示
       FragmentUtils.show(fragment)
@@ -118,8 +122,8 @@ class MainActivity : CommActivity() {
       toast(R.string.double_exit)
       touchTime = currentTime
     } else {
-      AppUtils.exitApp()
-//      super.onBackPressed()
+//      AppUtils.exitApp()
+      super.onBackPressed()
     }
   }
 }

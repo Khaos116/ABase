@@ -6,7 +6,7 @@ import cc.ab.base.net.http.FuelHelper
 import cc.abase.demo.component.main.MainActivity
 import cc.abase.demo.component.splash.SplashActivity
 import cc.abase.demo.config.HeaderManger
-import cc.abase.demo.constants.GankUrls
+import cc.abase.demo.constants.WanAndroidUrls
 import cc.abase.demo.widget.CCRefreshHeader
 import cc.abase.demo.widget.imgpreview.PreviewImgLoader
 import com.billy.android.swipe.SmartSwipeBack
@@ -31,7 +31,7 @@ open class MyApplication : BaseApplication() {
     ZoomMediaLoader.getInstance()
       .init(PreviewImgLoader())
     //网络请求
-    FuelHelper.initFuel(GankUrls.BASE_URL, headerInterceptor = HeaderManger.instance.fuelHeader())
+    FuelHelper.initFuel(WanAndroidUrls.BASE, headerInterceptor = HeaderManger.instance.fuelHeader())
   }
   //静态代码段可以防止内存泄露
   companion object {
