@@ -3,8 +3,9 @@ package cc.abase.demo.component.login
 import android.content.Context
 import android.content.Intent
 import android.util.Log
-import cc.ab.base.ext.click
+import cc.ab.base.ext.*
 import cc.ab.base.utils.CcInputHelper
+import cc.ab.base.utils.PressEffectHelper
 import cc.abase.demo.R
 import cc.abase.demo.component.comm.CommActivity
 import cc.abase.demo.constants.UiConstants
@@ -30,6 +31,7 @@ class LoginActivity : CommActivity() {
   private var countPass = 0
   override fun initView() {
     checkSubmit()
+    PressEffectHelper.alphaEffect(loginRegister)
     CcInputHelper.wrapCommCountLimit(
         loginEditAccount,
         30,
@@ -58,6 +60,7 @@ class LoginActivity : CommActivity() {
             Log.e("CASE", "error=${error}")
           }
     }
+    loginRegister.click { RegisterActivity.startActivity(mContext) }
   }
 
   override fun needKeyListener() = true
@@ -70,5 +73,10 @@ class LoginActivity : CommActivity() {
     val enable = countAcc >= 3 && countPass >= 6
     loginSubmit.isEnabled = enable
     loginSubmit.alpha = if (enable) 1f else UiConstants.disable_alpha
+    if (enable) {
+      loginSubmit.pressEffectAlpha()
+    } else {
+      loginSubmit.pressEffectDisable()
+    }
   }
 }
