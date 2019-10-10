@@ -26,6 +26,8 @@ class RegisterActivity : CommTitleActivity() {
   }
 
   override fun layoutResContentId() = R.layout.activity_register
+
+  override fun needKeyListener() = true
   //输入长度
   private var countAcc = 0
   private var countPass1 = 0
