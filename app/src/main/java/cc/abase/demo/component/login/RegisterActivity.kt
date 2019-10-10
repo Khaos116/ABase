@@ -28,37 +28,15 @@ class RegisterActivity : CommTitleActivity() {
   override fun layoutResContentId() = R.layout.activity_register
 
   override fun needKeyListener() = true
-  //输入长度
-  private var countAcc = 0
-  private var countPass1 = 0
-  private var countPass2 = 0
   override fun initContentView() {
     setTitleText(mContext.getString(R.string.login_register_hint))
     checkSubmit()
-    CcInputHelper.wrapCommCountLimit(
-        registerEditAccount,
-        30,
-        0,
-        inputCountCallBack = { hasInputCount, maxCount ->
-          countAcc = hasInputCount
-          checkSubmit()
-        })
-    CcInputHelper.wrapCommCountLimit(
-        registerEditPassword1,
-        30,
-        0,
-        inputCountCallBack = { hasInputCount, maxCount ->
-          countPass1 = hasInputCount
-          checkSubmit()
-        })
-    CcInputHelper.wrapCommCountLimit(
-        registerEditPassword2,
-        30,
-        0,
-        inputCountCallBack = { hasInputCount, maxCount ->
-          countPass2 = hasInputCount
-          checkSubmit()
-        })
+    CcInputHelper.wrapCommCountLimit(registerEditAccount, 30, 0)
+    CcInputHelper.wrapCommCountLimit(registerEditPassword1, 30, 0)
+    CcInputHelper.wrapCommCountLimit(registerEditPassword2, 30, 0)
+    registerEditAccount.addTextWatcher { checkSubmit() }
+    registerEditPassword1.addTextWatcher { checkSubmit() }
+    registerEditPassword2.addTextWatcher { checkSubmit() }
     registerSubmit.click {
       showActionLoading()
       UserRepository.instance.register(
@@ -75,7 +53,11 @@ class RegisterActivity : CommTitleActivity() {
   }
 
   private fun checkSubmit() {
-    val enable = countAcc >= 3 && countPass1 >= 6 && countPass1 == countPass2 &&
+    val textAcc = registerEditAccount.text
+    val textPass1 = registerEditPassword1.text
+    val textPass2 = registerEditPassword2.text
+    val enable = textAcc.length >= 3 && textPass1.length >= 6 &&
+        textPass1.length == textPass2.length &&
         TextUtils.equals(registerEditPassword1.text, registerEditPassword2.text)
     registerSubmit.isEnabled = enable
     registerSubmit.alpha = if (enable) 1f else UiConstants.disable_alpha

@@ -26,28 +26,13 @@ class LoginActivity : CommActivity() {
   }
 
   override fun layoutResId() = R.layout.activity_login
-  //输入长度
-  private var countAcc = 0
-  private var countPass = 0
   override fun initView() {
     checkSubmit()
     PressEffectHelper.alphaEffect(loginRegister)
-    CcInputHelper.wrapCommCountLimit(
-        loginEditAccount,
-        30,
-        0,
-        inputCountCallBack = { hasInputCount, maxCount ->
-          countAcc = hasInputCount
-          checkSubmit()
-        })
-    CcInputHelper.wrapCommCountLimit(
-        loginEditPassword,
-        30,
-        0,
-        inputCountCallBack = { hasInputCount, maxCount ->
-          countPass = hasInputCount
-          checkSubmit()
-        })
+    CcInputHelper.wrapCommCountLimit(loginEditAccount, 30, 0)
+    CcInputHelper.wrapCommCountLimit(loginEditPassword, 30, 0)
+    loginEditAccount.addTextWatcher { checkSubmit() }
+    loginEditPassword.addTextWatcher { checkSubmit() }
     loginSubmit.click {
       showActionLoading()
       UserRepository.instance.login(
@@ -70,7 +55,9 @@ class LoginActivity : CommActivity() {
   }
 
   private fun checkSubmit() {
-    val enable = countAcc >= 3 && countPass >= 6
+    val textAcc = loginEditAccount.text
+    val textPass = loginEditPassword.text
+    val enable = textAcc.length >= 3 && textPass.length >= 6
     loginSubmit.isEnabled = enable
     loginSubmit.alpha = if (enable) 1f else UiConstants.disable_alpha
     if (enable) {
