@@ -1,7 +1,5 @@
 package cc.abase.demo.repository.request
 
-import android.util.Log
-import cc.ab.base.utils.RxUtils
 import com.github.kittinunf.fuel.core.FuelError
 import com.github.kittinunf.fuel.core.Request
 import com.github.kittinunf.fuel.rx.rxString
@@ -25,7 +23,11 @@ class WanUserRequest private constructor() {
   fun register(request: Request): Single<String> {
     return request.rxString()
         .flatMap { flatMapSingle(it) }
-        .compose(RxUtils.instance.rx2SchedulerHelperSDelay())
+  }
+
+  fun login(request: Request): Single<String> {
+    return request.rxString()
+        .flatMap { flatMapSingle(it) }
   }
 
   private fun flatMapSingle(result: Result<String, FuelError>): Single<String> {

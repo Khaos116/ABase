@@ -13,4 +13,7 @@
     <string name="release_to_refresh">释放刷新</string>
     <string name="refresh_loading_data">数据加载中…</string>
     <string name="double_exit">再按一次退出</string>
+    <string name="login_account_hint">用户名</string>
+    <string name="login_password_hint">密码</string>
+    <string name="login_submit">登 录</string>
 </resources>

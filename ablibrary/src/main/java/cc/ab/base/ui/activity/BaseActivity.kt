@@ -52,7 +52,21 @@ abstract class BaseActivity : BaseMvRxActivity(), MvRxView {
     immersionBar {
       statusBarDarkFont(true)
       mStatusView?.let { statusBarView(it) }
+      if (needKeyListener()) {
+        keyboardEnable(true)
+        setOnKeyboardListener { isPopup, keyboardHeight -> keyBoardChange(isPopup, keyboardHeight) }
+      }
     }
+  }
+
+  protected open fun needKeyListener(): Boolean {
+    return false
+  }
+
+  protected open fun keyBoardChange(
+    isPopup: Boolean,
+    keyboardHeight: Int
+  ) {
   }
 
   //是否需要默认填充状态栏,默认填充为白色view

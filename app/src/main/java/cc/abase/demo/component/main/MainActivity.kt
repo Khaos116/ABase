@@ -5,19 +5,17 @@ import android.content.Intent
 import android.net.wifi.WifiManager
 import android.util.Log
 import androidx.annotation.IntRange
-import androidx.lifecycle.Observer
-import cc.ab.base.ext.*
+import cc.ab.base.ext.getColorRes
+import cc.ab.base.ext.mContext
+import cc.ab.base.ext.toast
 import cc.abase.demo.R
 import cc.abase.demo.component.comm.CommActivity
 import cc.abase.demo.component.comm.CommFragment
-import cc.abase.demo.constants.EventKeys
-import cc.abase.demo.repository.UserRepository
 import com.blankj.utilcode.util.FragmentUtils
 import com.blankj.utilcode.util.NetworkUtils
+import com.github.kittinunf.fuel.httpPost
 import com.gyf.immersionbar.ktx.immersionBar
-import com.jeremyliao.liveeventbus.LiveEventBus
-import kotlinx.android.synthetic.main.activity_main.mainContainer
-import kotlinx.android.synthetic.main.activity_main.mainNavigation
+import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : CommActivity() {
   //页面
@@ -66,13 +64,37 @@ class MainActivity : CommActivity() {
         Log.e("CASE", "wifiInfo=${it}")
       }
     }
-    LiveEventBus.get(EventKeys.WEB_URL, String::class.java).observe(this,
-      Observer<String> { Log.e("CASE", "Web打开的url=${it}") })
-    val dis = UserRepository.instance.register("case", "123", "222")
-        .subscribe { t1, t2 ->
-          Log.e("CASE", "t1=${t1}")
-          Log.e("CASE", "t2=${t1}")
+//    LiveEventBus.get(EventKeys.WEB_URL, String::class.java).observe(this,
+//      Observer<String> { Log.e("CASE", "Web打开的url=${it}") })
+//    val dis = UserRepository.instance.register("case", "123", "222")
+//        .subscribe { t1, t2 ->
+//          Log.e("CASE", "t1=${t1}")
+//          Log.e("CASE", "t2=${t1}")
+//        }
+
+    "https://www.wanandroid.com/user/login".httpPost()
+        .responseString { _, _, result ->
+          if (result.component2() == null) {
+            Log.e("login1", "result=${result.get()}")
+          } else {
+            Log.e("login1", "error=${result.component2()}")
+          }
         }
+
+    "https://www.wanandroid.com/user/login".httpPost(
+        listOf(
+            "username" to "caiyoufei",
+            "password" to "caiyoufei"
+        )
+    )
+        .responseString { _, _, result ->
+          if (result.component2() == null) {
+            Log.e("login2", "result=${result.get()}")
+          } else {
+            Log.e("login2", "error=${result.component2()}")
+          }
+        }
+
   }
 
   //设置选中的fragment

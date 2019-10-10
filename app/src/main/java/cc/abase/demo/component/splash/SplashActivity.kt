@@ -5,8 +5,10 @@ import cc.ab.base.ext.*
 import cc.ab.base.utils.RxUtils
 import cc.abase.demo.R
 import cc.abase.demo.component.comm.CommActivity
+import cc.abase.demo.component.login.LoginActivity
 import cc.abase.demo.component.main.MainActivity
 import cc.abase.demo.constants.ImageUrls
+import cc.abase.demo.repository.UserRepository
 import com.blankj.utilcode.constant.PermissionConstants
 import com.blankj.utilcode.util.*
 import com.gyf.immersionbar.ktx.immersionBar
@@ -89,7 +91,15 @@ class SplashActivity : CommActivity() {
   private fun goNextPage() {
     if (hasSDPermission == null) return
     if (countDownFinish != true) return
-    if (hasSDPermission == true) MainActivity.startActivity(mContext)
+    if (hasSDPermission == true) {
+      //是否引导
+      //是否登录
+      if (UserRepository.instance.isLogin()) {
+        MainActivity.startActivity(mContext)
+      } else {
+        LoginActivity.startActivity(mContext)
+      }
+    }
     finish()
   }
 
