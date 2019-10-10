@@ -3,7 +3,6 @@ package cc.abase.demo.repository
 import cc.abase.demo.constants.WanAndroidUrls
 import cc.abase.demo.repository.request.WanUserRequest
 import com.blankj.utilcode.util.EncryptUtils
-import com.blankj.utilcode.util.GsonUtils
 import com.github.kittinunf.fuel.httpPost
 import io.reactivex.Single
 
@@ -27,12 +26,13 @@ class UserRepository private constructor() {
     password: String,
     repassword: String
   ): Single<String> {
-    val map = HashMap<String, String>()
-    map["username"] = username
-    map["password"] = EncryptUtils.encryptMD5ToString(password)
-    map["repassword"] = EncryptUtils.encryptMD5ToString(repassword)
-    val request = WanAndroidUrls.User.REGISTER.httpPost()
-        .body(GsonUtils.toJson(map))
+    val request = WanAndroidUrls.User.REGISTER.httpPost(
+      listOf(
+        "username" to username,
+        "password" to EncryptUtils.encryptMD5ToString(password),
+        "repassword" to EncryptUtils.encryptMD5ToString(repassword)
+      )
+    )
     return WanUserRequest.instance.register(request)
   }
 }
