@@ -22,28 +22,78 @@ object FuelHelper {
     //添加header拦截器
     headerInterceptor?.let { FuelManager.instance.addRequestInterceptor(it) }
     //添加请求日志拦截器
-    FuelManager.instance.addRequestInterceptor(cUrlLoggingRequestInterceptor())
+    FuelManager.instance.addResponseInterceptor(CCResponseInterceptor)
+    FuelManager.instance.addRequestInterceptor(CCRequestInterceptor)
   }
 
-  private fun cUrlLoggingRequestInterceptor() = { next: (Request) -> Request ->
-    { r: Request ->
-      val logging = StringBuffer()
-      logging.append("\n-----Method = ${r.method}")
-      logging.append("\n-----headers = ${r.headers}")
-      logging.append("\n-----url---->${r.url}")
-      when (r.method) {
-        Method.POST -> {
-          logging.append("\n-----request parameters:")
-          r.parameters.forEach {
-            logging.append("\n-----${it.first}=${it.second}")
+  private object CCRequestInterceptor : FoldableRequestInterceptor {
+    override fun invoke(next: RequestTransformer): RequestTransformer {
+      return { request ->
+        val logging = StringBuffer()
+        logging.append("\n ")
+        logging.append("\n┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━请求参数拦截开始━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━>>>")
+        logging.append("\n┃")
+        logging.append("\n┣━━━   Method = ${request.method}")
+        logging.append("\n┃")
+        logging.append("\n┣━━━   headers = ${request.headers}")
+        logging.append("\n┃")
+        logging.append("\n┣━━━   url = ${request.url}")
+        when (request.method) {
+          Method.POST -> {
+            if (!request.parameters.isNullOrEmpty()) {
+              logging.append("\n┃")
+              logging.append("\n┣━━━   request parameters:")
+            }
+            request.parameters.forEach {
+              logging.append("\n┣━━━      [${it.first}]=${it.second}")
+            }
+          }
+          else -> {
           }
         }
-        else -> {
-
-        }
+        logging.append("\n┃")
+        logging.append("\n┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━请求参数拦截结束━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━<<<\n")
+        Log.i("request", logging.toString())
+        next(request)
       }
-      Log.e("CASE", logging.toString())
-      next(r)
+    }
+  }
+
+  private object CCResponseInterceptor : FoldableResponseInterceptor {
+    override fun invoke(next: ResponseTransformer): ResponseTransformer {
+      return { request, response ->
+        val logging = StringBuffer()
+        logging.append("\n ")
+        logging.append("\n┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━响应结果拦截开始━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━>>>")
+        logging.append("\n┃")
+        logging.append("\n┣━━━   Method = ${request.method}")
+        logging.append("\n┃")
+        logging.append("\n┣━━━   headers = ${request.headers}")
+        when (request.method) {
+          Method.POST -> {
+            if (!request.parameters.isNullOrEmpty()) {
+              logging.append("\n┃")
+              logging.append("\n┣━━━   request parameters:")
+            }
+            request.parameters.forEach {
+              logging.append("\n┣━━━      [${it.first}]=${it.second}")
+            }
+          }
+          else -> {
+          }
+        }
+        logging.append("\n┃")
+        logging.append(
+          "\n┣━━━   response = ${response.toString().trim().replace(
+            "\n",
+            "\n┃                     "
+          )}"
+        )
+        logging.append("\n┃")
+        logging.append("\n┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━响应结果拦截结束━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━<<<\n")
+        Log.i("response", logging.toString())
+        next(request, response)
+      }
     }
   }
 }
