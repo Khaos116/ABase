@@ -47,11 +47,13 @@ class LoginActivity : CommActivity() {
           checkSubmit()
         })
     loginSubmit.click {
+      showActionLoading()
       UserRepository.instance.login(
           loginEditAccount.text.toString(),
           loginEditPassword.text.toString()
       )
           .subscribe { result, error ->
+            dismissActionLoading()
             Log.e("CASE", "result=${result}")
             Log.e("CASE", "error=${error}")
           }

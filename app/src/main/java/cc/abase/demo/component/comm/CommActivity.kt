@@ -6,6 +6,7 @@ import android.view.Gravity
 import android.widget.FrameLayout
 import cc.ab.base.ext.*
 import cc.ab.base.ui.activity.BaseActivity
+import cc.abase.demo.widget.dialog.ActionDialog
 import com.airbnb.lottie.*
 
 /**
@@ -91,4 +92,23 @@ abstract class CommActivity : BaseActivity() {
     return Color.TRANSPARENT
   }
   //#################################镶嵌在页面中的loading<-END#################################//
+
+  private var mActionDialog: ActionDialog? = null
+
+  fun showActionLoading(text: String? = null) {
+    if (mActionDialog == null) {
+      mActionDialog = ActionDialog.newInstance(true)
+    }
+    mActionDialog?.onDismiss {
+      mActionDialog = null
+    }
+    mActionDialog?.let {
+      if (!text.isNullOrBlank()) it.hintText = text
+      it.show(supportFragmentManager)
+    }
+  }
+
+  fun dismissActionLoading() {
+    mActionDialog?.dismissAllowingStateLoss()
+  }
 }
