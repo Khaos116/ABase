@@ -2,6 +2,7 @@ package cc.abase.demo.component.splash
 
 import android.content.Context
 import android.content.Intent
+import android.util.Log
 import cc.ab.base.widget.discretescrollview.DSVOrientation
 import cc.ab.base.widget.discretescrollview.DiscreteScrollView.OnItemChangedListener
 import cc.abase.demo.R
@@ -60,6 +61,7 @@ class GuideActivity : CommActivity() {
   private var changeListener = OnItemChangedListener<ViewHolder> { viewHolder, adapterPostion ->
     //    val position = mAdapter.getRealPosition(adapterPostion)
     val position = adapterPostion
+    Log.e("CASE", "position=${position}")
     guideIndicator.setDotSelection(position)
   }
 }

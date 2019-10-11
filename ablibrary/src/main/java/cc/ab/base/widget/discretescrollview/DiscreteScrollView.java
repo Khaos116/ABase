@@ -1,15 +1,12 @@
 package cc.ab.base.widget.discretescrollview;
 
-
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.util.AttributeSet;
 import android.view.View;
-
 import androidx.annotation.*;
 import androidx.recyclerview.widget.RecyclerView;
 import cc.ab.base.R;
-
 import cc.ab.base.widget.discretescrollview.transform.DiscreteScrollItemTransformer;
 import cc.ab.base.widget.discretescrollview.util.ScrollListenerAdapter;
 import java.util.ArrayList;
@@ -182,7 +179,11 @@ public class DiscreteScrollView extends RecyclerView {
     }
   }
 
+  //因为预览和最后确定选中会回调2次，所以使用的时候进行判断
+  private int lastPosition = 0;
   private void notifyCurrentItemChanged(ViewHolder holder, int current) {
+    if (lastPosition == current) return;
+    lastPosition = current;
     for (OnItemChangedListener listener : onItemChangedListeners) {
       listener.onCurrentItemChanged(holder, current);
     }
@@ -231,8 +232,29 @@ public class DiscreteScrollView extends RecyclerView {
       }
     }
 
+    //是否执行预览
+    private boolean preview = false;
     @Override
     public void onScroll(float currentViewPosition) {
+      //==新增，手指不放，滑动到完全显示执行回调(★★这只是预览回调，手指放开才是真的回调★★)==//
+      if (currentViewPosition > 0.5f && !preview) {//上一页
+        preview = true;
+        int position = getCurrentItem() - 1;
+        ViewHolder holder = getViewHolder(position);
+        notifyCurrentItemChanged(holder, position);
+      } else if (currentViewPosition < -0.5f && !preview) {//下一页
+        preview = true;
+        int position = getCurrentItem() + 1;
+        ViewHolder holder = getViewHolder(position);
+        notifyCurrentItemChanged(holder, position);
+      } else if (currentViewPosition > -0.5f && currentViewPosition < 0.5f && preview) {//当前页
+        preview = false;
+        int position = getCurrentItem();
+        ViewHolder holder = getViewHolder(position);
+        notifyCurrentItemChanged(holder, position);
+      }
+      //===============================================================================//
+
       if (scrollStateChangeListeners.isEmpty()) {
         return;
       }
