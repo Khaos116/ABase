@@ -3,9 +3,10 @@ package cc.abase.demo.component.splash.adapter
 import android.view.*
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import cc.ab.base.ext.load
-import cc.ab.base.ext.visibleGone
+import cc.ab.base.ext.*
 import cc.abase.demo.R
+import cc.abase.demo.component.login.LoginActivity
+import cc.abase.demo.utils.MMkvUtils
 import kotlinx.android.synthetic.main.layout_guide.view.guideGo
 import kotlinx.android.synthetic.main.layout_guide.view.guideKIV
 import me.panpf.sketch.SketchImageView
@@ -32,8 +33,15 @@ class GuideAdapter(list: List<String>) : RecyclerView.Adapter<GuideAdapter.ViewH
     holder: ViewHolder,
     position: Int
   ) {
-    holder.textView?.visibleGone(position == itemCount - 1)
     holder.imageView?.load(mData[position])
+    holder.textView?.let { view ->
+      view.visibleGone(position == itemCount - 1)
+      view.pressEffectAlpha()
+      view.click {
+        MMkvUtils.instance.setNeedGuide(false)
+        LoginActivity.startActivity(it.context)
+      }
+    }
   }
 
   class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
