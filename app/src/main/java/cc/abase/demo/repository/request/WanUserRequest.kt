@@ -1,9 +1,13 @@
 package cc.abase.demo.repository.request
 
+import cc.ab.base.net.http.response.BaseResponse
+import cc.abase.demo.repository.bean.wan.UserBean
+import com.blankj.utilcode.util.GsonUtils
 import com.github.kittinunf.fuel.core.FuelError
 import com.github.kittinunf.fuel.core.Request
 import com.github.kittinunf.fuel.rx.rxString
 import com.github.kittinunf.result.Result
+import com.google.gson.reflect.TypeToken
 import io.reactivex.Single
 
 /**
@@ -20,17 +24,17 @@ class WanUserRequest private constructor() {
     val instance = SingletonHolder.holder
   }
 
-  fun register(request: Request): Single<String> {
+  fun register(request: Request): Single<BaseResponse<UserBean>> {
     return request.rxString()
         .flatMap { flatMapSingle(it) }
   }
 
-  fun login(request: Request): Single<String> {
+  fun login(request: Request): Single<BaseResponse<UserBean>> {
     return request.rxString()
         .flatMap { flatMapSingle(it) }
   }
 
-  private fun flatMapSingle(result: Result<String, FuelError>): Single<String> {
+  private fun flatMapSingle(result: Result<String, FuelError>): Single<BaseResponse<UserBean>> {
     return if (result.component2() == null) {
       Single.just(converWanData(result.component1()))
     } else {
@@ -40,8 +44,8 @@ class WanUserRequest private constructor() {
 
   //数据转换，可能抛出异常
   @Throws
-  private fun converWanData(response: String?): String {
+  private fun converWanData(response: String?): BaseResponse<UserBean> {
     if (response.isNullOrBlank()) throw Throwable("response is null or empty")
-    return response
+    return GsonUtils.fromJson(response, object : TypeToken<BaseResponse<UserBean>>() {}.type)
   }
 }

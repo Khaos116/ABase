@@ -2,14 +2,15 @@ package cc.abase.demo.component.login
 
 import android.content.Context
 import android.content.Intent
-import android.util.Log
 import cc.ab.base.ext.*
 import cc.ab.base.utils.CcInputHelper
 import cc.ab.base.utils.PressEffectHelper
 import cc.abase.demo.R
 import cc.abase.demo.component.comm.CommActivity
+import cc.abase.demo.component.main.MainActivity
 import cc.abase.demo.constants.UiConstants
 import cc.abase.demo.repository.UserRepository
+import com.blankj.utilcode.util.ActivityUtils
 import kotlinx.android.synthetic.main.activity_login.*
 
 /**
@@ -39,10 +40,13 @@ class LoginActivity : CommActivity() {
           loginEditAccount.text.toString(),
           loginEditPassword.text.toString()
       )
-          .subscribe { result, error ->
+          .subscribe { suc, error ->
             dismissActionLoading()
-            Log.e("CASE", "result=${result}")
-            Log.e("CASE", "error=${error}")
+            if (suc) {
+              MainActivity.startActivity(mContext)
+            } else {
+              mContext.toast(error.message)
+            }
           }
     }
     loginRegister.click { RegisterActivity.startActivity(mContext) }
@@ -51,7 +55,10 @@ class LoginActivity : CommActivity() {
   override fun needKeyListener() = true
 
   override fun initData() {
-
+    //来到登录页默认需要清除数据
+    UserRepository.instance.clearUserInfo()
+    //关闭其他所有页面
+    ActivityUtils.finishOtherActivities(javaClass)
   }
 
   private fun checkSubmit() {

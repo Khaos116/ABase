@@ -3,6 +3,7 @@ package cc.abase.demo.repository
 import android.util.Log
 import cc.ab.base.utils.RxUtils
 import cc.abase.demo.constants.WanAndroidUrls
+import cc.abase.demo.repository.bean.wan.UserBean
 import cc.abase.demo.repository.request.WanUserRequest
 import cc.abase.demo.utils.MMkvUtils
 import com.blankj.utilcode.util.EncryptUtils
@@ -30,15 +31,23 @@ class UserRepository private constructor() {
     username: String,
     password: String,
     repassword: String
-  ): Single<String> {
+  ): Single<Boolean> {
     val request = WanAndroidUrls.User.REGISTER.httpPost(
-      listOf(
-        "username" to username,
-        "password" to EncryptUtils.encryptMD5ToString(password),
-        "repassword" to EncryptUtils.encryptMD5ToString(repassword)
-      )
+        listOf(
+            "username" to username,
+            "password" to EncryptUtils.encryptMD5ToString(password),
+            "repassword" to EncryptUtils.encryptMD5ToString(repassword)
+        )
     )
     return WanUserRequest.instance.register(request)
+        .flatMap {
+          it.data?.let { user ->
+            setUid(user.id)
+            user.token?.let { token -> setToken(token) }
+            this.user = user
+          }
+          Single.just(it.code == 0 && it.data != null)
+        }
         .compose(RxUtils.instance.rx2SchedulerHelperSDelay())
   }
 
@@ -46,7 +55,7 @@ class UserRepository private constructor() {
   fun login(
     username: String,
     password: String
-  ): Single<String> {
+  ): Single<Boolean> {
     val request = WanAndroidUrls.User.REGISTER.httpPost(
         listOf(
             "username" to username,
@@ -54,9 +63,13 @@ class UserRepository private constructor() {
         )
     )
     return WanUserRequest.instance.login(request)
-        .map {
-          //TODO 缓存用户信息
-          it
+        .flatMap {
+          it.data?.let { user ->
+            setUid(user.id)
+            user.token?.let { token -> setToken(token) }
+            this.user = user
+          }
+          Single.just(it.code == 0 && it.data != null)
         }
         .compose(RxUtils.instance.rx2SchedulerHelperSDelay())
   }
@@ -73,6 +86,7 @@ class UserRepository private constructor() {
   }
 
   //======================用户登录相关信息======================//
+  private var user: UserBean? = null
   private var uid: Long = 0
   private var token: String? = null
   fun isLogin(): Boolean {
@@ -91,9 +105,14 @@ class UserRepository private constructor() {
     return token
   }
 
+  fun getUser(): UserBean? {
+    return user
+  }
+
   fun clearUserInfo() {
     uid = 0
     token = null
+    user = null
     MMkvUtils.instance.clearUserInfo()
   }
 

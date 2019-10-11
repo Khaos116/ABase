@@ -7,8 +7,14 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.core.app.NotificationManagerCompat
 import cc.ab.base.R
-import cc.ab.base.widget.toast.inner.*
-import com.blankj.utilcode.util.*
+import cc.ab.base.widget.toast.inner.ActivityToast
+import cc.ab.base.widget.toast.inner.CcToast
+import cc.ab.base.widget.toast.inner.IToast
+import cc.ab.base.widget.toast.inner.SystemToast
+import com.blankj.utilcode.util.ActivityUtils
+import com.blankj.utilcode.util.AppUtils
+import com.blankj.utilcode.util.RomUtils
+import com.blankj.utilcode.util.SizeUtils
 
 /**
  *description: Toast工具类防止各种异常情况,及机型适配.
@@ -99,6 +105,9 @@ object AmToast {
    */
   fun showCenterToast(mContext: Context?, msg: String?, duration: Int = DURATION_SHORT) {
     if (mContext == null) {
+      return
+    }
+    if (!AppUtils.isAppForeground()) {//非前台不提示
       return
     }
     if (msg.isNullOrBlank()) {

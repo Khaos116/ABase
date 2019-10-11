@@ -2,20 +2,20 @@ package cc.abase.demo.component.main
 
 import android.content.Context
 import android.content.Intent
-import android.net.wifi.WifiManager
 import android.util.Log
 import androidx.annotation.IntRange
-import cc.ab.base.ext.getColorRes
-import cc.ab.base.ext.mContext
-import cc.ab.base.ext.toast
+import androidx.lifecycle.Observer
+import cc.ab.base.ext.*
 import cc.abase.demo.R
 import cc.abase.demo.component.comm.CommActivity
 import cc.abase.demo.component.comm.CommFragment
+import cc.abase.demo.constants.EventKeys
+import com.blankj.utilcode.util.ActivityUtils
 import com.blankj.utilcode.util.FragmentUtils
-import com.blankj.utilcode.util.NetworkUtils
-import com.github.kittinunf.fuel.httpPost
 import com.gyf.immersionbar.ktx.immersionBar
-import kotlinx.android.synthetic.main.activity_main.*
+import com.jeremyliao.liveeventbus.LiveEventBus
+import kotlinx.android.synthetic.main.activity_main.mainContainer
+import kotlinx.android.synthetic.main.activity_main.mainNavigation
 
 class MainActivity : CommActivity() {
   //页面
@@ -57,44 +57,11 @@ class MainActivity : CommActivity() {
   }
 
   override fun initData() {
-    if (NetworkUtils.isWifiConnected()) {
-      (applicationContext.getSystemService(
-          Context.WIFI_SERVICE
-      ) as? WifiManager)?.connectionInfo?.let {
-        Log.e("CASE", "wifiInfo=${it}")
-      }
-    }
-//    LiveEventBus.get(EventKeys.WEB_URL, String::class.java).observe(this,
-//      Observer<String> { Log.e("CASE", "Web打开的url=${it}") })
-//    val dis = UserRepository.instance.register("case", "123", "222")
-//        .subscribe { t1, t2 ->
-//          Log.e("CASE", "t1=${t1}")
-//          Log.e("CASE", "t2=${t1}")
-//        }
-
-    "https://www.wanandroid.com/user/login".httpPost()
-        .responseString { _, _, result ->
-          if (result.component2() == null) {
-            Log.e("login1", "result=${result.get()}")
-          } else {
-            Log.e("login1", "error=${result.component2()}")
-          }
-        }
-
-    "https://www.wanandroid.com/user/login".httpPost(
-        listOf(
-            "username" to "caiyoufei",
-            "password" to "caiyoufei"
-        )
-    )
-        .responseString { _, _, result ->
-          if (result.component2() == null) {
-            Log.e("login2", "result=${result.get()}")
-          } else {
-            Log.e("login2", "error=${result.component2()}")
-          }
-        }
-
+    //关闭其他所有页面
+    ActivityUtils.finishOtherActivities(javaClass)
+    //测试打开的web监听
+    LiveEventBus.get(EventKeys.WEB_URL, String::class.java)
+        .observe(this, Observer<String> { Log.e("CASE", "Web打开的url=${it}") })
   }
 
   //设置选中的fragment

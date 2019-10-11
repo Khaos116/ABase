@@ -3,11 +3,11 @@ package cc.abase.demo.component.login
 import android.content.Context
 import android.content.Intent
 import android.text.TextUtils
-import android.util.Log
 import cc.ab.base.ext.*
 import cc.ab.base.utils.CcInputHelper
 import cc.abase.demo.R
 import cc.abase.demo.component.comm.CommTitleActivity
+import cc.abase.demo.component.main.MainActivity
 import cc.abase.demo.constants.UiConstants
 import cc.abase.demo.repository.UserRepository
 import kotlinx.android.synthetic.main.activity_register.*
@@ -44,10 +44,13 @@ class RegisterActivity : CommTitleActivity() {
           registerEditPassword1.text.toString(),
           registerEditPassword2.text.toString()
       )
-          .subscribe { result, error ->
+          .subscribe { suc, error ->
             dismissActionLoading()
-            Log.e("CASE", "result=${result}")
-            Log.e("CASE", "error=${error}")
+            if (suc) {
+              MainActivity.startActivity(mContext)
+            } else {
+              mContext.toast(error.message)
+            }
           }
     }
   }
