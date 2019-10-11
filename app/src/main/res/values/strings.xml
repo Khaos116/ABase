@@ -14,9 +14,12 @@
   <string name="refresh_loading_data">数据加载中…</string>
   <string name="double_exit">再按一次退出</string>
   <string name="login_account_hint">请输入用户名</string>
+  <string name="login_account_short">用户名太短</string>
   <string name="login_password_hint">请输入密码</string>
   <string name="login_password_again_hint">再次请输入密码</string>
   <string name="login_submit">登 录</string>
   <string name="login_register_hint">注 册</string>
   <string name="guide_go">立即体验</string>
+  <string name="login_password_short">密码太短</string>
+  <string name="login_password_not_same">两次输入的密码不一致</string>
 </resources>

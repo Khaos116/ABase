@@ -8,6 +8,7 @@ import cc.ab.base.utils.CcInputHelper
 import cc.abase.demo.R
 import cc.abase.demo.component.comm.CommTitleActivity
 import cc.abase.demo.component.main.MainActivity
+import cc.abase.demo.constants.LengthConstants
 import cc.abase.demo.constants.UiConstants
 import cc.abase.demo.repository.UserRepository
 import kotlinx.android.synthetic.main.activity_register.*
@@ -28,12 +29,23 @@ class RegisterActivity : CommTitleActivity() {
   override fun layoutResContentId() = R.layout.activity_register
 
   override fun needKeyListener() = true
+  override fun keyBoardChange(
+    isPopup: Boolean,
+    keyboardHeight: Int
+  ) {
+    if (!isPopup) {
+      registerEditAccount.clearFocus()
+      registerEditPassword1.clearFocus()
+      registerEditPassword2.clearFocus()
+    }
+  }
+
   override fun initContentView() {
     setTitleText(mContext.getString(R.string.login_register_hint))
     checkSubmit()
-    CcInputHelper.wrapCommCountLimit(registerEditAccount, 30, 0)
-    CcInputHelper.wrapCommCountLimit(registerEditPassword1, 30, 0)
-    CcInputHelper.wrapCommCountLimit(registerEditPassword2, 30, 0)
+    CcInputHelper.wrapCommCountLimit(registerEditAccount, LengthConstants.MAX_LEN_ACC, 0)
+    CcInputHelper.wrapCommCountLimit(registerEditPassword1, LengthConstants.MAX_LEN_PASS, 0)
+    CcInputHelper.wrapCommCountLimit(registerEditPassword2, LengthConstants.MAX_LEN_PASS, 0)
     registerEditAccount.addTextWatcher { checkSubmit() }
     registerEditPassword1.addTextWatcher { checkSubmit() }
     registerEditPassword2.addTextWatcher { checkSubmit() }
@@ -59,8 +71,29 @@ class RegisterActivity : CommTitleActivity() {
     val textAcc = registerEditAccount.text
     val textPass1 = registerEditPassword1.text
     val textPass2 = registerEditPassword2.text
-    val enable = textAcc.length >= 3 && textPass1.length >= 6 &&
-        textPass1.length == textPass2.length &&
+    if (textAcc.isEmpty()) {
+      registerInputAccount.hint = mContext.getString(R.string.login_account_hint)
+    } else if (textAcc.isNotEmpty() && textAcc.length < LengthConstants.MIN_LEN_ACC) {
+      registerInputAccount.hint = mContext.getString(R.string.login_account_short)
+    } else {
+      registerInputAccount.hint = ""
+    }
+    if (textPass1.isEmpty()) {
+      registerInputPassword1.hint = mContext.getString(R.string.login_password_hint)
+    } else if (textPass1.isNotEmpty() && textPass1.length < LengthConstants.MIN_LEN_PASS) {
+      registerInputPassword1.hint = mContext.getString(R.string.login_password_short)
+    } else {
+      registerInputPassword1.hint = ""
+    }
+    if (textPass2.isEmpty()) {
+      registerInputPassword2.hint = mContext.getString(R.string.login_password_again_hint)
+    } else if (!TextUtils.equals(textPass1, textPass2)) {
+      registerInputPassword2.hint = mContext.getString(R.string.login_password_not_same)
+    } else {
+      registerInputPassword2.hint = ""
+    }
+    val enable = textAcc.length >= LengthConstants.MIN_LEN_ACC &&
+        textPass1.length >= LengthConstants.MIN_LEN_PASS &&
         TextUtils.equals(registerEditPassword1.text, registerEditPassword2.text)
     registerSubmit.isEnabled = enable
     registerSubmit.alpha = if (enable) 1f else UiConstants.disable_alpha
