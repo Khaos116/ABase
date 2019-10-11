@@ -2,28 +2,45 @@
 <resources>
   <!-- QMUIRadiusImageView -->
   <declare-styleable name="QMUIRadiusImageView">
-    <attr name="qmui_border_width" format="dimension" />
-    <attr name="qmui_border_color" format="color" />
-    <attr name="qmui_selected_mask_color" format="color" />
-    <attr name="qmui_selected_border_color" format="color" />
-    <attr name="qmui_selected_border_width" format="dimension" />
-    <attr name="qmui_corner_radius" format="dimension" />
-    <attr name="qmui_is_oval" format="boolean" />
-    <attr name="qmui_is_circle" format="boolean" />
-    <attr name="qmui_is_touch_select_mode_enabled" format="boolean" />
+    <attr name="qmui_border_width" format="dimension"/>
+    <attr name="qmui_border_color" format="color"/>
+    <attr name="qmui_selected_mask_color" format="color"/>
+    <attr name="qmui_selected_border_color" format="color"/>
+    <attr name="qmui_selected_border_width" format="dimension"/>
+    <attr name="qmui_corner_radius" format="dimension"/>
+    <attr name="qmui_is_oval" format="boolean"/>
+    <attr name="qmui_is_circle" format="boolean"/>
+    <attr name="qmui_is_touch_select_mode_enabled" format="boolean"/>
   </declare-styleable>
   <!--九宫格控件-->
   <declare-styleable name="NineGridView">
-    <attr format="dimension" name="singleImgSize" />
-    <attr format="dimension" name="imgGap" />
-    <attr format="integer" name="maxSize" />
-    <attr format="enum" name="showStyle">
-      <enum name="grid" value="0" />
-      <enum name="fill" value="1" />
+    <attr name="singleImgSize" format="dimension"/>
+    <attr name="imgGap" format="dimension"/>
+    <attr name="maxSize" format="integer"/>
+    <attr name="showStyle" format="enum">
+      <enum name="grid" value="0"/>
+      <enum name="fill" value="1"/>
     </attr>
   </declare-styleable>
   <declare-styleable name="DiscreteScrollView">
     <attr name="dsv_orientation" format="enum">
+      <enum name="horizontal" value="0"/>
+      <enum name="vertical" value="1"/>
+    </attr>
+  </declare-styleable>
+  <declare-styleable name="DotsIndicator">
+    <attr name="dots_count" format="integer"/>
+    <attr name="selected_dot_scale_factor" format="float"/>
+    <attr name="selected_dot_resource" format="reference"/>
+    <attr name="unselected_dot_resource" format="reference"/>
+    <attr name="first_selected_dot_resource" format="reference"/>
+    <attr name="first_unselected_dot_resource" format="reference"/>
+    <attr name="dot_height" format="dimension"/>
+    <attr name="dot_width" format="dimension"/>
+    <attr name="first_dot_height" format="dimension"/>
+    <attr name="first_dot_width" format="dimension"/>
+    <attr name="margins_between_dots" format="dimension"/>
+    <attr name="dot_orientation" format="enum">
       <enum name="horizontal" value="0"/>
       <enum name="vertical" value="1"/>
     </attr>
