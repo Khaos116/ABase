@@ -3,7 +3,9 @@ package cc.abase.demo.app
 import android.content.Context
 import cc.ab.base.app.BaseApplication
 import cc.ab.base.net.http.FuelHelper
+import cc.abase.demo.component.login.LoginActivity
 import cc.abase.demo.component.main.MainActivity
+import cc.abase.demo.component.splash.GuideActivity
 import cc.abase.demo.component.splash.SplashActivity
 import cc.abase.demo.config.HeaderManger
 import cc.abase.demo.constants.WanAndroidUrls
@@ -65,6 +67,14 @@ open class MyApplication : BaseApplication() {
      */
     SmartSwipeBack.activitySlidingBack(
         this
-    ) { activity -> activity !is MainActivity && activity !is SplashActivity }
+    ) { activity -> !list.contains(activity.javaClass.name) }
   }
+
+  //不需要侧滑的页面
+  private val list = listOf(
+      SplashActivity::class.java.name,
+      MainActivity::class.java.name,
+      GuideActivity::class.java.name,
+      LoginActivity::class.java.name
+  )
 }

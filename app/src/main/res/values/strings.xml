@@ -18,4 +18,5 @@
   <string name="login_password_again_hint">再次请输入密码</string>
   <string name="login_submit">登 录</string>
   <string name="login_register_hint">注 册</string>
+  <string name="guide_go">立即体验</string>
 </resources>

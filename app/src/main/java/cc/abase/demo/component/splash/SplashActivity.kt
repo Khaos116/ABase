@@ -9,6 +9,7 @@ import cc.abase.demo.component.login.LoginActivity
 import cc.abase.demo.component.main.MainActivity
 import cc.abase.demo.constants.ImageUrls
 import cc.abase.demo.repository.UserRepository
+import cc.abase.demo.utils.MMkvUtils
 import com.blankj.utilcode.constant.PermissionConstants
 import com.blankj.utilcode.util.*
 import com.gyf.immersionbar.ktx.immersionBar
@@ -92,12 +93,13 @@ class SplashActivity : CommActivity() {
     if (hasSDPermission == null) return
     if (countDownFinish != true) return
     if (hasSDPermission == true) {
-      //是否引导
-      //是否登录
-      if (UserRepository.instance.isLogin()) {
-        MainActivity.startActivity(mContext)
-      } else {
-        LoginActivity.startActivity(mContext)
+      when {
+        //是否引导
+        MMkvUtils.instance.getNeedGuide() -> GuideActivity.startActivity(mContext)
+        //是否登录
+        UserRepository.instance.isLogin() -> MainActivity.startActivity(mContext)
+        //没有其他需要，进入主页
+        else -> LoginActivity.startActivity(mContext)
       }
     }
     finish()

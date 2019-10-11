@@ -25,6 +25,12 @@
         <category android:name="android.intent.category.LAUNCHER"/>
       </intent-filter>
     </activity>
+    <!--引导页-->
+    <activity
+        android:name=".component.splash.GuideActivity"
+        android:launchMode="singleTop"
+        android:screenOrientation="portrait"
+        android:windowSoftInputMode="adjustPan|stateHidden" />
     <!--登录页-->
     <activity
         android:name=".component.login.LoginActivity"
