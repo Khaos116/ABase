@@ -45,11 +45,12 @@ class GuideActivity : CommActivity() {
   override fun initView() {
     guideDSV.setOrientation(DSVOrientation.VERTICAL)
     guideDSV.setOffscreenItems(1)
-    guideDSV.setItemTransitionTimeMillis(300)
+    guideDSV.setItemTransitionTimeMillis(200)
     guideDSV.addOnItemChangedListener(changeListener)
     guideDSV.adapter = mAdapter
     guideIndicator.initDots(mAdapter.itemCount)
     guideIndicator.setDotSelection(0)
+    guideIndicator.onSelectListener = { guideDSV.smoothScrollToPosition(it) }
   }
 
   override fun initData() {

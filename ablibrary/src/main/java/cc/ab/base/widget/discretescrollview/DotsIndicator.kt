@@ -12,8 +12,7 @@ import com.blankj.utilcode.util.SizeUtils
 
 class DotsIndicator : LinearLayout {
 
-  var selection: Int = 0
-    private set
+  private var selection: Int = 0
   private var dotsCount: Int = 0
   private var dotHeight: Int = SizeUtils.dp2px(7f)
   private var dotWidth: Int = SizeUtils.dp2px(7f)
@@ -29,7 +28,6 @@ class DotsIndicator : LinearLayout {
   var onSelectListener: ((position: Int) -> Unit)? = null
 
   constructor(context: Context?) : super(context) {
-    orientation = HORIZONTAL
     layoutParams = LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT)
     gravity = Gravity.CENTER
   }
@@ -38,7 +36,6 @@ class DotsIndicator : LinearLayout {
     context: Context?,
     attrs: AttributeSet
   ) : super(context, attrs) {
-    orientation = HORIZONTAL
     layoutParams = LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT)
     gravity = Gravity.CENTER
 
@@ -95,21 +92,22 @@ class DotsIndicator : LinearLayout {
       val dot = ImageView(context)
       dot.id = i
       dot.tag = i
-      if (i == dotsCount - 1) {
-        dot.layoutParams = LayoutParams(
-            firstDotHeight, firstDotWidth
-        ).apply {
-          this.marginEnd = marginsBetweenDots
-          this.gravity = Gravity.CENTER_VERTICAL
+      val param =
+        if (i == dotsCount - 1) {
+          LayoutParams(firstDotHeight, firstDotWidth)
+        } else {
+          LayoutParams(dotHeight, dotWidth)
         }
-
+      if (orientation == HORIZONTAL) {
+        param.marginEnd = marginsBetweenDots / 2
+        param.marginStart = marginsBetweenDots / 2
+        param.gravity = Gravity.CENTER_VERTICAL
       } else {
-        dot.layoutParams = LayoutParams(dotHeight, dotWidth).apply {
-          this.marginEnd = marginsBetweenDots
-          this.gravity = Gravity.CENTER_VERTICAL
-        }
+        param.topMargin = marginsBetweenDots / 2
+        param.bottomMargin = marginsBetweenDots / 2
+        param.gravity = Gravity.CENTER_HORIZONTAL
       }
-
+      dot.layoutParams = param
       dot.scaleType = ImageView.ScaleType.FIT_XY
 
       if (i == dotsCount - 1) {

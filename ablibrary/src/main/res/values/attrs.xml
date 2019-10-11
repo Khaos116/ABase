@@ -40,9 +40,5 @@
     <attr name="first_dot_height" format="dimension"/>
     <attr name="first_dot_width" format="dimension"/>
     <attr name="margins_between_dots" format="dimension"/>
-    <attr name="dot_orientation" format="enum">
-      <enum name="horizontal" value="0"/>
-      <enum name="vertical" value="1"/>
-    </attr>
   </declare-styleable>
 </resources>
