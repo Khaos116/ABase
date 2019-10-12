@@ -34,7 +34,7 @@ dependencies {
   implementation 'androidx.appcompat:appcompat:1.1.0'
   implementation 'androidx.core:core-ktx:1.1.0'
   //分包(分包导致文件找不到解决方案:https://blog.csdn.net/Greathfs/article/details/80601362)
-  implementation 'androidx.multidex:multidex:2.0.1'
+  api 'androidx.multidex:multidex:2.0.1'
 
   //----------------------★★★工具★★★----------------------//
   //https://github.com/Blankj/AndroidUtilCode/blob/master/lib/utilcode/README-CN.md
