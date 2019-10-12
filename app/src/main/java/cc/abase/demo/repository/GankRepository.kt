@@ -13,7 +13,7 @@ import io.reactivex.Single
  * @author: caiyoufei
  * @date: 2019/10/8 17:58
  */
-class GankRepository private constructor() {
+class GankRepository private constructor(): BaseRepository() {
   private object SingletonHolder {
     val holder = GankRepository()
   }

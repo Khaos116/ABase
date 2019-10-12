@@ -2,14 +2,17 @@ package cc.abase.demo.repository.request
 
 import cc.ab.base.net.http.response.BaseResponse
 import cc.abase.demo.repository.UserRepository
+import cc.abase.demo.repository.bean.wan.IntegralBean
 import cc.abase.demo.repository.bean.wan.UserBean
 import com.blankj.utilcode.util.GsonUtils
 import com.github.kittinunf.fuel.core.FuelError
 import com.github.kittinunf.fuel.core.Request
+import com.github.kittinunf.fuel.rx.rxString
 import com.github.kittinunf.fuel.rx.rxStringPair
 import com.github.kittinunf.result.Result
 import com.google.gson.reflect.TypeToken
 import io.reactivex.Single
+import java.lang.reflect.Type
 
 /**
  * Description:
@@ -34,12 +37,15 @@ class WanUserRequest private constructor() : BaseRequest() {
             for (cookie in it.first.header("Set-Cookie")) {
               if (sb.isNotEmpty()) sb.append(";")
               sb.append(cookie.split(";")[0])
+              if(cookie.contains("JSESSIONID")){
+                break
+              }
             }
             UserRepository.instance.setToken(sb.toString())
           }
           Single.just(it.second)
         }
-        .flatMap { flatMapSingle(it) }
+        .flatMap { flatMapSingle(it, object : TypeToken<BaseResponse<UserBean>>() {}) }
   }
 
   fun login(request: Request): Single<BaseResponse<UserBean>> {
@@ -51,18 +57,32 @@ class WanUserRequest private constructor() : BaseRequest() {
             for (cookie in it.first.header("Set-Cookie")) {
               if (sb.isNotEmpty()) sb.append(";")
               sb.append(cookie.split(";")[0])
+              if(cookie.contains("JSESSIONID")){
+                break
+              }
             }
             UserRepository.instance.setToken(sb.toString())
           }
           Single.just(it.second)
         }
-        .flatMap { flatMapSingle(it) }
+        .flatMap { flatMapSingle(it, object : TypeToken<BaseResponse<UserBean>>() {}) }
+  }
+
+  //我的积分
+  fun myIntegral(request: Request): Single<BaseResponse<IntegralBean>> {
+    return request.rxString()
+        .flatMap {
+          flatMapSingle(it, object : TypeToken<BaseResponse<IntegralBean>>() {})
+        }
   }
 
   //======================================下面是统一处理======================================//
-  private fun flatMapSingle(result: Result<String, FuelError>): Single<BaseResponse<UserBean>> {
+  private fun <T> flatMapSingle(
+    result: Result<String, FuelError>,
+    type: TypeToken<BaseResponse<T>>
+  ): Single<BaseResponse<T>> {
     return if (result.component2() == null) {
-      Single.just(converWanData(result.component1()))
+      Single.just(converWanData(result.component1(), type.type))
     } else {
       Single.error(converFuelError(result.component2()))
     }
@@ -70,10 +90,13 @@ class WanUserRequest private constructor() : BaseRequest() {
 
   //数据转换，可能抛出异常
   @Throws
-  private fun converWanData(response: String?): BaseResponse<UserBean> {
+  private fun <T> converWanData(
+    response: String?,
+    type: Type
+  ): BaseResponse<T> {
     if (response.isNullOrBlank()) throw converDataError()
     try {
-      return GsonUtils.fromJson(response, object : TypeToken<BaseResponse<UserBean>>() {}.type)
+      return GsonUtils.fromJson(response, type)
     } catch (e: Exception) {
       e.printStackTrace()
     }

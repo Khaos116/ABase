@@ -4,6 +4,7 @@ import android.util.Log
 import cc.ab.base.net.http.response.ApiException
 import cc.ab.base.utils.RxUtils
 import cc.abase.demo.constants.WanAndroidUrls
+import cc.abase.demo.repository.bean.wan.IntegralBean
 import cc.abase.demo.repository.bean.wan.UserBean
 import cc.abase.demo.repository.request.WanUserRequest
 import cc.abase.demo.utils.MMkvUtils
@@ -18,7 +19,7 @@ import io.reactivex.Single
  * @author: caiyoufei
  * @date: 2019/10/9 21:37
  */
-class UserRepository private constructor() {
+class UserRepository private constructor() : BaseRepository() {
   private object SingletonHolder {
     val holder = UserRepository()
   }
@@ -90,6 +91,14 @@ class UserRepository private constructor() {
           Log.e("CASE", "退出成功:${it.component2() == null}")
         }
         .subscribe({}, {})
+  }
+
+  //我的积分
+  fun myIntegral(): Single<IntegralBean> {
+    val request = WanAndroidUrls.User.INTEGRAL.httpGet()
+    return WanUserRequest.instance.myIntegral(request)
+        .flatMap { justRespons(it) }
+        .compose(RxUtils.instance.rx2SchedulerHelperSDelay())
   }
 
   //======================用户登录相关信息======================//

@@ -8,6 +8,7 @@ import cc.abase.demo.component.main.MainActivity
 import cc.abase.demo.component.splash.GuideActivity
 import cc.abase.demo.component.splash.SplashActivity
 import cc.abase.demo.config.HeaderManger
+import cc.abase.demo.config.ResponseManager
 import cc.abase.demo.constants.WanAndroidUrls
 import cc.abase.demo.widget.CCRefreshHeader
 import cc.abase.demo.widget.imgpreview.PreviewImgLoader
@@ -33,7 +34,10 @@ open class MyApplication : BaseApplication() {
     ZoomMediaLoader.getInstance()
       .init(PreviewImgLoader())
     //网络请求
-    FuelHelper.initFuel(WanAndroidUrls.BASE, headerInterceptor = HeaderManger.instance.fuelHeader())
+    FuelHelper.initFuel(WanAndroidUrls.BASE,
+        requestInterceptor = HeaderManger.instance.fuelHeader(),
+        responseInterceptor= ResponseManager.instance.fuelResponse()
+        )
   }
   //静态代码段可以防止内存泄露
   companion object {

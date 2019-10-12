@@ -13,15 +13,17 @@ object FuelHelper {
   fun initFuel(
     baseUrl: String,
     timeOut: Int = 30,
-    headerInterceptor: FoldableRequestInterceptor? = null
+    requestInterceptor: FoldableRequestInterceptor? = null,
+    responseInterceptor: FoldableResponseInterceptor? = null
   ) {
     //服务器接口地址
     FuelManager.instance.basePath = baseUrl
     //超时时间
     FuelManager.instance.timeoutInMillisecond = timeOut * 1000
     FuelManager.instance.timeoutReadInMillisecond = timeOut * 1000
-    //添加header拦截器
-    headerInterceptor?.let { FuelManager.instance.addRequestInterceptor(it) }
+    //添加拦截器
+    requestInterceptor?.let { FuelManager.instance.addRequestInterceptor(it) }
+    responseInterceptor?.let { FuelManager.instance.addResponseInterceptor(it) }
     //添加请求日志拦截器
     FuelManager.instance.addResponseInterceptor(CCResponseInterceptor)
     FuelManager.instance.addRequestInterceptor(CCRequestInterceptor)
