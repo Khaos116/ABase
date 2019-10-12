@@ -11,7 +11,7 @@
 **[lottie-android](https://github.com/airbnb/lottie-android)**|AE动画库
 **[sketch](https://github.com/panpf/sketch)**|图片加载(兼容圆角、圆形、高斯模糊、图片按压效果，图片边框)
 **[AgentWeb](https://github.com/Justson/AgentWeb)**|简化WebView加载
-**[fuel](https://github.com/kittinunf/fuel)**|新一代网络请求
+**[fuel](https://github.com/kittinunf/fuel)**|新一代网络请(pandora会导致带参数的post无法发出请求)
 **[RxCache](https://github.com/VictorAlbertos/RxCache)**|接口数据缓存方案，自定义缓存时长
 **[MMKV](https://github.com/Tencent/MMKV)**|替代SharedPreferences的更高效方案
 **[leakcanary](https://github.com/square/leakcanary/releases)**|内存泄漏检测工具
@@ -20,3 +20,4 @@
 **[utilcode](https://github.com/Blankj/AndroidUtilCode/blob/master/lib/utilcode/README-CN.md)**|超强工具合集
 **[RxAndroid](https://github.com/ReactiveX/RxAndroid)**|Android线程切换+Rxjava
 **[LiveEventBus](https://github.com/JeremyLiao/LiveEventBus)**|跨进程通信、跨APP通信、自动取消订阅
+**[DiscreteScrollView](https://github.com/yarolegovich/DiscreteScrollView)**|RecyclerView实现ViewPager、禁止双指操作滑动多屏
