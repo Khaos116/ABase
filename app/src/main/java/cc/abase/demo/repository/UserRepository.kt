@@ -1,6 +1,7 @@
 package cc.abase.demo.repository
 
 import android.util.Log
+import cc.ab.base.net.http.response.ApiException
 import cc.ab.base.utils.RxUtils
 import cc.abase.demo.constants.WanAndroidUrls
 import cc.abase.demo.repository.bean.wan.UserBean
@@ -46,7 +47,11 @@ class UserRepository private constructor() {
             user.token?.let { token -> setToken(token) }
             this.user = user
           }
-          Single.just(it.errorCode == 0 && it.data != null)
+          if (it.errorCode == 0) {
+            Single.just(it.data != null)
+          } else {
+            Single.error(ApiException(code = it.errorCode, msg = it.errorMsg))
+          }
         }
         .compose(RxUtils.instance.rx2SchedulerHelperSDelay())
   }
@@ -69,7 +74,11 @@ class UserRepository private constructor() {
             user.token?.let { token -> setToken(token) }
             this.user = user
           }
-          Single.just(it.errorCode == 0 && it.data != null)
+          if (it.errorCode == 0) {
+            Single.just(it.data != null)
+          } else {
+            Single.error(ApiException(code = it.errorCode, msg = it.errorMsg))
+          }
         }
         .compose(RxUtils.instance.rx2SchedulerHelperSDelay())
   }

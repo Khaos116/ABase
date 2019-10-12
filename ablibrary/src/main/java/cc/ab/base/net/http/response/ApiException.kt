@@ -9,4 +9,4 @@ open class ApiException constructor(
   var code: Int = 0,
   var msg: String? = null,
   val fields: Map<String, Any>? = null
-) : Exception()
+) : Exception(msg)
