@@ -13,7 +13,7 @@ import io.rx_cache2.EvictProvider
  * @author: caiyoufei
  * @date: 2019/10/8 15:48
  */
-internal class CacheRepository private constructor() : BaseRepository<GankCacheApi>(
+internal class CacheRepository private constructor() : BaseCacheRepository<GankCacheApi>(
     GankCacheApi::class.java
 ) {
 

@@ -20,7 +20,7 @@ import io.rx_cache2.EvictProvider
  * @author: caiyoufei
  * @date: 2019/10/8 11:32
  */
-internal class GankRequest private constructor() {
+internal class GankRequest private constructor() : BaseRequest() {
   private object SingletonHolder {
     val holder = GankRequest()
   }
@@ -63,18 +63,23 @@ internal class GankRequest private constructor() {
     return if (result.component2() == null) {
       Single.just(converGankData(result.component1()))
     } else {
-      Single.error(result.component2()?.exception ?: Throwable("null"))
+      Single.error(converFuelError(result.component2()))
     }
   }
 
   //数据转换，可能抛出异常
   @Throws
   private fun converGankData(response: String?): MutableList<GankAndroidBean> {
-    if (response.isNullOrBlank()) throw Throwable("response is null or empty")
-    val result: GankResponse<MutableList<GankAndroidBean>> = GsonUtils.fromJson(
-        response, object : TypeToken<GankResponse<MutableList<GankAndroidBean>>>() {
-    }.type
-    )
-    return result.results ?: mutableListOf()
+    if (response.isNullOrBlank()) throw converDataError()
+    try {
+      val result: GankResponse<MutableList<GankAndroidBean>> = GsonUtils.fromJson(
+          response, object : TypeToken<GankResponse<MutableList<GankAndroidBean>>>() {
+      }.type
+      )
+      return result.results ?: mutableListOf()
+    } catch (e: Exception) {
+      e.printStackTrace()
+    }
+    throw converDataError()
   }
 }

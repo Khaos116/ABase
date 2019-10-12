@@ -46,7 +46,7 @@ class UserRepository private constructor() {
             user.token?.let { token -> setToken(token) }
             this.user = user
           }
-          Single.just(it.code == 0 && it.data != null)
+          Single.just(it.errorCode == 0 && it.data != null)
         }
         .compose(RxUtils.instance.rx2SchedulerHelperSDelay())
   }
@@ -56,7 +56,7 @@ class UserRepository private constructor() {
     username: String,
     password: String
   ): Single<Boolean> {
-    val request = WanAndroidUrls.User.REGISTER.httpPost(
+    val request = WanAndroidUrls.User.LOGIN.httpPost(
         listOf(
             "username" to username,
             "password" to EncryptUtils.encryptMD5ToString(password)
@@ -69,7 +69,7 @@ class UserRepository private constructor() {
             user.token?.let { token -> setToken(token) }
             this.user = user
           }
-          Single.just(it.code == 0 && it.data != null)
+          Single.just(it.errorCode == 0 && it.data != null)
         }
         .compose(RxUtils.instance.rx2SchedulerHelperSDelay())
   }

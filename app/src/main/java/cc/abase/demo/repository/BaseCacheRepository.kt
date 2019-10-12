@@ -10,7 +10,7 @@ import java.io.File
  * @author: caiyoufei
  * @date: 2019/10/9 21:47
  */
-abstract class BaseRepository<T>(classProviders: Class<T>) {
+abstract class BaseCacheRepository<T>(classProviders: Class<T>) {
   //缓存目录
   private val cacheDir = PathUtils.getExternalAppDataPath() + File.separator + ".fuel"
   //缓存api

@@ -7,6 +7,8 @@ import android.os.Environment;
 import android.text.TextUtils;
 import android.util.Log;
 
+import androidx.annotation.Nullable;
+
 import com.blankj.utilcode.util.Utils;
 
 import java.io.File;
@@ -25,8 +27,6 @@ import javax.net.ssl.SSLSocketFactory;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.TrustManagerFactory;
 import javax.net.ssl.X509TrustManager;
-
-import okhttp3.OkHttpClient;
 
 /**
  * 参考：https://www.jianshu.com/p/cc7ae2f96b64
@@ -98,30 +98,53 @@ public class CharlesUtils {
     return (!TextUtils.isEmpty(proxyAddress)) && (proxyPort != -1);
   }
 
+//  /**
+//   * 为okhttp客户端设置抓包验证
+//   *
+//   * @param builder okhttp客户端builder
+//   * @param certificate 自签名证书的输入流
+//   */
+//  public void setOkHttpCharlesSSL(OkHttpClient.Builder builder, InputStream certificate) {
+//    try {
+//      if (builder == null || certificate == null) return;
+//      X509TrustManager trustManager = trustManagerForCertificates(certificate);
+//      if (trustManager != null) {
+//        SSLContext sslContext = SSLContext.getInstance("SSL");
+//        //使用构建出的trustManger初始化SSLContext对象
+//        sslContext.init(null, new TrustManager[] { trustManager }, null);
+//        //获得sslSocketFactory对象
+//        SSLSocketFactory sslSocketFactory = sslContext.getSocketFactory();
+//        builder.sslSocketFactory(sslSocketFactory, trustManager);
+//        Log.e("CharlesUtils", "开启抓包");
+//      } else {
+//        Log.e("CharlesUtils", "验证pem文件失败");
+//      }
+//    } catch (Exception e) {
+//      e.printStackTrace();
+//      Log.e("CharlesUtils", "验证pem文件失败:" + e.getMessage());
+//    }
+//  }
+
   /**
-   * 为okhttp客户端设置抓包验证
-   *
-   * @param builder okhttp客户端builder
+   * 获取Fuel请求需抓包需要的SSLSocketFactory
    * @param certificate 自签名证书的输入流
    */
-  public void setCharlesSSL(OkHttpClient.Builder builder, InputStream certificate) {
+  @Nullable
+  public SSLSocketFactory getFuelCharlesSSL(InputStream certificate) {
     try {
-      if (builder == null || certificate == null) return;
+      if (certificate == null) return null;
       X509TrustManager trustManager = trustManagerForCertificates(certificate);
       if (trustManager != null) {
-        SSLContext sslContext = SSLContext.getInstance("TLS");
+        SSLContext sslContext = SSLContext.getInstance("SSL");
         //使用构建出的trustManger初始化SSLContext对象
         sslContext.init(null, new TrustManager[] { trustManager }, null);
         //获得sslSocketFactory对象
-        SSLSocketFactory sslSocketFactory = sslContext.getSocketFactory();
-        builder.sslSocketFactory(sslSocketFactory, trustManager);
-        Log.e("CharlesUtils", "开启抓包");
-      } else {
-        Log.e("CharlesUtils", "验证pem文件失败");
+        return sslContext.getSocketFactory();
       }
+      return null;
     } catch (Exception e) {
       e.printStackTrace();
-      Log.e("CharlesUtils", "验证pem文件失败:" + e.getMessage());
+      return null;
     }
   }
 

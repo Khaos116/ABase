@@ -42,14 +42,17 @@ class LoginActivity : CommActivity() {
           loginEditAccount.text.toString(),
           loginEditPassword.text.toString()
       )
-          .subscribe { suc, error ->
-            dismissActionLoading()
-            if (suc) {
-              MainActivity.startActivity(mContext)
-            } else {
-              mContext.toast(error.message)
-            }
+        .subscribe({ suc ->
+          dismissActionLoading()
+          if (suc) {
+            MainActivity.startActivity(mContext)
+          } else {
+            mContext.toast(R.string.login_fail)
           }
+        }, { error ->
+          dismissActionLoading()
+          mContext.toast(error.message)
+        })
     }
     loginRegister.click { RegisterActivity.startActivity(mContext) }
   }

@@ -22,4 +22,10 @@
   <string name="guide_go">立即体验</string>
   <string name="login_password_short">密码太短</string>
   <string name="login_password_not_same">两次输入的密码不一致</string>
+    <string name="login_fail">登录失败</string>
+  <string name="data_conver_error">数据转换异常</string>
+  <string name="data_request_error">数据请求出错</string>
+  <string name="client_request_error">请求参数错误</string>
+  <string name="service_response_error">服务器异常</string>
+  <string name="unknown_error">未知错误</string>
 </resources>

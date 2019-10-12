@@ -15,7 +15,7 @@ import io.reactivex.Single
  * @author: caiyoufei
  * @date: 2019/10/9 21:38
  */
-class WanUserRequest private constructor() {
+class WanUserRequest private constructor() : BaseRequest() {
   private object SingletonHolder {
     val holder = WanUserRequest()
   }
@@ -34,18 +34,24 @@ class WanUserRequest private constructor() {
         .flatMap { flatMapSingle(it) }
   }
 
+  //======================================下面是统一处理======================================//
   private fun flatMapSingle(result: Result<String, FuelError>): Single<BaseResponse<UserBean>> {
     return if (result.component2() == null) {
       Single.just(converWanData(result.component1()))
     } else {
-      Single.error(result.component2()?.exception ?: Throwable("null"))
+      Single.error(converFuelError(result.component2()))
     }
   }
 
   //数据转换，可能抛出异常
   @Throws
   private fun converWanData(response: String?): BaseResponse<UserBean> {
-    if (response.isNullOrBlank()) throw Throwable("response is null or empty")
-    return GsonUtils.fromJson(response, object : TypeToken<BaseResponse<UserBean>>() {}.type)
+    if (response.isNullOrBlank()) throw converDataError()
+    try {
+      return GsonUtils.fromJson(response, object : TypeToken<BaseResponse<UserBean>>() {}.type)
+    } catch (e: Exception) {
+      e.printStackTrace()
+    }
+    throw converDataError()
   }
 }
