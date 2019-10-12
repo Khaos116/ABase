@@ -44,7 +44,6 @@ class UserRepository private constructor() {
         .flatMap {
           it.data?.let { user ->
             setUid(user.id)
-            user.token?.let { token -> setToken(token) }
             this.user = user
           }
           if (it.errorCode == 0) {
@@ -71,7 +70,6 @@ class UserRepository private constructor() {
         .flatMap {
           it.data?.let { user ->
             setUid(user.id)
-            user.token?.let { token -> setToken(token) }
             this.user = user
           }
           if (it.errorCode == 0) {
@@ -105,12 +103,12 @@ class UserRepository private constructor() {
   }
 
   fun getUid(): Long {
-    uid = MMkvUtils.instance.getUid()
+    if (uid == 0L) uid = MMkvUtils.instance.getUid()
     return uid
   }
 
   fun getToken(): String? {
-    token = MMkvUtils.instance.getToken()
+    if (token.isNullOrBlank()) token = MMkvUtils.instance.getToken()
     return token
   }
 
@@ -130,7 +128,8 @@ class UserRepository private constructor() {
     MMkvUtils.instance.setUid(uid)
   }
 
-  private fun setToken(token: String) {
+  internal fun setToken(token: String) {
+    Log.e("CASE", "Token=${token}")
     this.token = token
     MMkvUtils.instance.setToken(token)
   }

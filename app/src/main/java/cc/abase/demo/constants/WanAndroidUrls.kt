@@ -19,6 +19,8 @@ interface WanAndroidUrls {
       const val REGISTER = "user/register"//POST：username,password,repassword
       //退出
       const val LOGOUT = "user/logout/json"//GET
+      //个人积分
+      const val INTEGRAL = "lg/coin/userinfo/json"//GET
     }
   }
 }

@@ -61,7 +61,6 @@ class GuideActivity : CommActivity() {
   private var changeListener = OnItemChangedListener<ViewHolder> { viewHolder, adapterPostion ->
     //    val position = mAdapter.getRealPosition(adapterPostion)
     val position = adapterPostion
-    Log.e("CASE", "position=${position}")
     guideIndicator.setDotSelection(position)
   }
 }

@@ -1,9 +1,10 @@
 package cc.abase.demo.config
 
+import cc.abase.demo.constants.WanAndroidUrls
+import cc.abase.demo.repository.UserRepository
 import com.blankj.utilcode.util.AppUtils
 import com.blankj.utilcode.util.GsonUtils
-import com.github.kittinunf.fuel.core.FoldableRequestInterceptor
-import com.github.kittinunf.fuel.core.RequestTransformer
+import com.github.kittinunf.fuel.core.*
 import java.util.HashMap
 
 /**
@@ -15,6 +16,12 @@ class HeaderManger private constructor() {
   private object SingletonHolder {
     val holder = HeaderManger()
   }
+
+  //不需要Token的接口
+  private val noTokenUrls = listOf(
+      FuelManager.instance.basePath ?: "" + WanAndroidUrls.User.LOGIN,
+      FuelManager.instance.basePath ?: "" + WanAndroidUrls.User.REGISTER
+  )
 
   companion object {
     val instance = SingletonHolder.holder
@@ -36,11 +43,10 @@ class HeaderManger private constructor() {
   }
 
   //获取动态header
-//  fun getDynamicHeaders(): Map<String, String> {
-//    val headers = HashMap<String, String>()
-//    headers["Authorization"] = OauthRepo.getAuthorization()
-//    return headers
-//  }
+  fun getTokenPair(): Pair<String, String>? {
+    val token = UserRepository.instance.getToken()
+    return if (token.isNullOrBlank()) null else Pair("Cookie", token)
+  }
 
   //获取fuel添加的header
   fun fuelHeader(): FoldableRequestInterceptor {
@@ -48,6 +54,12 @@ class HeaderManger private constructor() {
       override fun invoke(next: RequestTransformer): RequestTransformer {
         return { request ->
           request.header(getStaticHeaders())
+          getTokenPair()?.let { pair ->
+            //没有在去除token的接口就添加token
+            if (!noTokenUrls.contains(request.url.toString())) {
+              request.appendHeader(pair)
+            }
+          }
           next(request)
         }
       }

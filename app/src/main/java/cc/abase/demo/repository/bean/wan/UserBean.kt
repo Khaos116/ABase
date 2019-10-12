@@ -13,7 +13,6 @@ data class UserBean(
   var nickname: String? = null,
   var password: String? = null,
   var publicName: String? = null,
-  var token: String? = null,
   var type: Int = 0,
   var username: String? = null,
   val chapterTops: List<Any>? = null,

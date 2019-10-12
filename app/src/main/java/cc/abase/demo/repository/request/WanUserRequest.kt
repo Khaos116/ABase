@@ -1,11 +1,12 @@
 package cc.abase.demo.repository.request
 
 import cc.ab.base.net.http.response.BaseResponse
+import cc.abase.demo.repository.UserRepository
 import cc.abase.demo.repository.bean.wan.UserBean
 import com.blankj.utilcode.util.GsonUtils
 import com.github.kittinunf.fuel.core.FuelError
 import com.github.kittinunf.fuel.core.Request
-import com.github.kittinunf.fuel.rx.rxString
+import com.github.kittinunf.fuel.rx.rxStringPair
 import com.github.kittinunf.result.Result
 import com.google.gson.reflect.TypeToken
 import io.reactivex.Single
@@ -25,12 +26,36 @@ class WanUserRequest private constructor() : BaseRequest() {
   }
 
   fun register(request: Request): Single<BaseResponse<UserBean>> {
-    return request.rxString()
+    return request.rxStringPair()
+        .flatMap {
+          //保存Cookie
+          if (it.first.headers.containsKey("Set-Cookie")) {
+            val sb = StringBuilder()
+            for (cookie in it.first.header("Set-Cookie")) {
+              if (sb.isNotEmpty()) sb.append(";")
+              sb.append(cookie.split(";")[0])
+            }
+            UserRepository.instance.setToken(sb.toString())
+          }
+          Single.just(it.second)
+        }
         .flatMap { flatMapSingle(it) }
   }
 
   fun login(request: Request): Single<BaseResponse<UserBean>> {
-    return request.rxString()
+    return request.rxStringPair()
+        .flatMap {
+          //保存Cookie
+          if (it.first.headers.containsKey("Set-Cookie")) {
+            val sb = StringBuilder()
+            for (cookie in it.first.header("Set-Cookie")) {
+              if (sb.isNotEmpty()) sb.append(";")
+              sb.append(cookie.split(";")[0])
+            }
+            UserRepository.instance.setToken(sb.toString())
+          }
+          Single.just(it.second)
+        }
         .flatMap { flatMapSingle(it) }
   }
 
