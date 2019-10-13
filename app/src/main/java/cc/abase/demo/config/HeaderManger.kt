@@ -1,6 +1,6 @@
 package cc.abase.demo.config
 
-import cc.abase.demo.constants.WanAndroidUrls
+import cc.abase.demo.constants.WanUrls
 import cc.abase.demo.repository.UserRepository
 import com.blankj.utilcode.util.AppUtils
 import com.blankj.utilcode.util.GsonUtils
@@ -19,8 +19,8 @@ class HeaderManger private constructor() {
 
   //不需要Token的接口
   private val noTokenUrls = listOf(
-      FuelManager.instance.basePath ?: "" + WanAndroidUrls.User.LOGIN,
-      FuelManager.instance.basePath ?: "" + WanAndroidUrls.User.REGISTER
+      FuelManager.instance.basePath ?: "" + WanUrls.User.LOGIN,
+      FuelManager.instance.basePath ?: "" + WanUrls.User.REGISTER
   )
 
   companion object {

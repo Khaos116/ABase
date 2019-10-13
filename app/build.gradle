@@ -109,6 +109,8 @@ dependencies {
   implementation 'androidx.core:core-ktx:1.1.0'
   implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
 
-  //https://github.com/airbnb/epoxy
+  //https://github.com/airbnb/epoxy 放在lib中失败
   kapt 'com.airbnb.android:epoxy-processor:3.7.0'
+  //https://github.com/saiwu-bigkoo/Android-ConvenientBanner
+  implementation 'com.bigkoo:convenientbanner:2.1.5'
 }

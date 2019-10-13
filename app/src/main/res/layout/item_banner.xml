@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.bigkoo.convenientbanner.ConvenientBanner
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/itemBanner"
+    android:layout_width="match_parent"
+    android:layout_height="200dp"
+    app:autoTurningTime="3000"
+    app:canLoop="true"
+    />

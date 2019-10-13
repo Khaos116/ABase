@@ -5,7 +5,7 @@ import android.content.Intent
 import android.util.Log
 import androidx.annotation.IntRange
 import androidx.lifecycle.Observer
-import cc.ab.base.ext.*
+import cc.ab.base.ext.toast
 import cc.abase.demo.R
 import cc.abase.demo.component.comm.CommActivity
 import cc.abase.demo.component.comm.CommFragment
@@ -81,14 +81,6 @@ class MainActivity : CommActivity() {
       )
     } else { //添加了就直接显示
       FragmentUtils.show(fragment)
-    }
-    //修改状态栏颜色
-    immersionBar {
-      mStatusView?.setBackgroundColor(
-          mContext.getColorRes(if (index == 1) R.color.transparent else R.color.colorAccent)
-      )
-      statusBarDarkFont(index != 0)
-      statusBarView(mStatusView)
     }
   }
 

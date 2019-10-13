@@ -10,7 +10,6 @@ import cc.abase.demo.component.comm.CommActivity
 import cc.abase.demo.component.main.MainActivity
 import cc.abase.demo.constants.LengthConstants
 import cc.abase.demo.constants.UiConstants
-import cc.abase.demo.repository.BaseRepository
 import cc.abase.demo.repository.UserRepository
 import com.blankj.utilcode.util.ActivityUtils
 import kotlinx.android.synthetic.main.activity_login.*

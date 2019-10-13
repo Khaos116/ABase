@@ -5,6 +5,8 @@ import cc.ab.base.net.http.response.BaseResponse
 import cc.abase.demo.R
 import cc.abase.demo.component.login.LoginActivity
 import cc.abase.demo.constants.ErrorCode
+import cc.abase.demo.repository.base.BaseRequest
+import cc.abase.demo.repository.cache.CacheRepository
 import com.blankj.utilcode.util.ActivityUtils
 import com.blankj.utilcode.util.GsonUtils
 import com.github.kittinunf.fuel.core.FuelError
@@ -13,6 +15,8 @@ import com.github.kittinunf.fuel.rx.rxString
 import com.github.kittinunf.result.Result
 import com.google.gson.reflect.TypeToken
 import io.reactivex.Single
+import io.rx_cache2.DynamicKey
+import io.rx_cache2.EvictProvider
 import java.lang.reflect.Type
 
 /**
@@ -41,6 +45,21 @@ class WanRequest private constructor() : BaseRequest() {
   ):
       Single<BaseResponse<T>> {
     return request.rxString()
+        .flatMap { flatMapSingle(it, type) }
+  }
+
+  //请求数据，如果有缓存则返回缓存，没有则进行请求
+  internal fun <T> startRequestWithCache(
+    request: Request,
+    page: Int = 1,
+    size: Int = 20,
+    type: TypeToken<BaseResponse<T>>
+  ): Single<BaseResponse<T>> {
+    return CacheRepository.instance.getCacheData(
+        request.rxString(),//请求结果以string返回
+        DynamicKey("url=${request.url}page=${page},size=${size}"),//缓存相关的key
+        update = EvictProvider(false)//false不强制清除缓存,true强制清除缓存
+    )
         .flatMap { flatMapSingle(it, type) }
   }
 

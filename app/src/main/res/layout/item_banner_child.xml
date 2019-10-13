@@ -1,16 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:id="@+id/dynRoot"
     android:layout_height="match_parent"
-    android:background="#f3f3f3"
     android:orientation="vertical"
     >
 
-  <com.airbnb.epoxy.EpoxyRecyclerView
-      android:id="@+id/dynEpoxyRecycler"
-      android:background="@color/white"
+  <me.panpf.sketch.SketchImageView
+      android:id="@+id/itemBannerIV"
       android:layout_width="match_parent"
       android:layout_height="match_parent"
+      android:scaleType="centerCrop"
       />
 </FrameLayout>

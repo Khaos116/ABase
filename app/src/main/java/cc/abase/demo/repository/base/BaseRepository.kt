@@ -1,4 +1,4 @@
-package cc.abase.demo.repository
+package cc.abase.demo.repository.base
 
 import cc.ab.base.net.http.response.ApiException
 import cc.ab.base.net.http.response.BaseResponse

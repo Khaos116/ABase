@@ -6,7 +6,7 @@ package cc.abase.demo.constants
  * @author: caiyoufei
  * @date: 2019/10/9 21:31
  */
-interface WanAndroidUrls {
+interface WanUrls {
   companion object {
     const val BASE = "https://www.wanandroid.com/"
   }
@@ -21,6 +21,15 @@ interface WanAndroidUrls {
       const val LOGOUT = "user/logout/json"//GET
       //个人积分
       const val INTEGRAL = "lg/coin/userinfo/json"//GET
+    }
+  }
+
+  interface Home {
+    companion object {
+      //banner
+      const val BANNER = "banner/json"
+      //文章
+      const val ARTICLE = "article/list/%s/json"//页数，从0开始
     }
   }
 }

@@ -33,9 +33,7 @@ class DynViewModel(
   }
 
   private fun getAndroidList(refresh: Boolean) = withState { state ->
-    if (state.request is Loading) {
-      return@withState
-    }
+    if (state.request is Loading) return@withState
     val tempPage = if (refresh) 1 else page + 1
     GankRepository.instance.androidList(tempPage, pageSize)
         .execute {

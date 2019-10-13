@@ -11,10 +11,10 @@ import java.util.concurrent.TimeUnit
  * @author: caiyoufei
  * @date: 2019/10/8 11:23
  */
-interface GankCacheApi {
+interface CacheApi {
   @ProviderKey("gankAndroidList")
   @LifeCache(duration = 1, timeUnit = TimeUnit.HOURS)
-  fun androidList(
+  fun requestWithCache(
     single: Single<Result<String, FuelError>>,
     pageSize: DynamicKey? = null,
     update: EvictProvider

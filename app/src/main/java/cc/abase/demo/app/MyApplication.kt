@@ -9,7 +9,7 @@ import cc.abase.demo.component.splash.GuideActivity
 import cc.abase.demo.component.splash.SplashActivity
 import cc.abase.demo.config.HeaderManger
 import cc.abase.demo.config.ResponseManager
-import cc.abase.demo.constants.WanAndroidUrls
+import cc.abase.demo.constants.WanUrls
 import cc.abase.demo.widget.CCRefreshHeader
 import cc.abase.demo.widget.imgpreview.PreviewImgLoader
 import com.billy.android.swipe.SmartSwipeBack
@@ -34,7 +34,7 @@ open class MyApplication : BaseApplication() {
     ZoomMediaLoader.getInstance()
       .init(PreviewImgLoader())
     //网络请求
-    FuelHelper.initFuel(WanAndroidUrls.BASE,
+    FuelHelper.initFuel(WanUrls.BASE,
         requestInterceptor = HeaderManger.instance.fuelHeader(),
         responseInterceptor= ResponseManager.instance.fuelResponse()
         )

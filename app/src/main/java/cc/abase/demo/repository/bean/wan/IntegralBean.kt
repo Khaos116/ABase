@@ -1,6 +1,5 @@
 package cc.abase.demo.repository.bean.wan
 
-import cc.abase.demo.constants.WanAndroidUrls
 import com.github.kittinunf.fuel.core.ResponseDeserializable
 import com.google.gson.Gson
 

@@ -20,8 +20,8 @@ class DotsIndicator : LinearLayout {
   var firstDotWidth: Int = SizeUtils.dp2px(14f)
   var marginsBetweenDots: Int = SizeUtils.dp2px(10f)
   var selectedDotScaleFactor: Float = 1.4f
-  var selectedDotResource: Int = R.drawable.circle_white
-  var unselectedDotResource: Int = R.drawable.circle_gray
+  var selectedDotResource: Int = R.drawable.circle_accent
+  var unselectedDotResource: Int = R.drawable.circle_primary
   var firstSelectedDotResource: Int = R.drawable.ic_home_white_24dp
   var firstUnselectedDotResource: Int = R.drawable.ic_home_gray_24dp
 

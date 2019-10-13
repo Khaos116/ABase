@@ -1,8 +1,8 @@
 package cc.abase.demo.repository.request
 
-import cc.ab.base.utils.RxUtils
-import cc.abase.demo.repository.CacheRepository
+import cc.abase.demo.repository.base.BaseRequest
 import cc.abase.demo.repository.bean.gank.GankResponse
+import cc.abase.demo.repository.cache.CacheRepository
 import com.blankj.utilcode.util.GsonUtils
 import com.github.kittinunf.fuel.core.FuelError
 import com.github.kittinunf.fuel.core.Request
@@ -45,9 +45,9 @@ internal class GankRequest private constructor() : BaseRequest() {
     size: Int = 20,
     type: TypeToken<GankResponse<T>>
   ): Single<GankResponse<T>> {
-    return CacheRepository.instance.androidList(
+    return CacheRepository.instance.getCacheData(
         request.rxString(),//请求结果以string返回
-        DynamicKey("page=${page},size=${size}"),//缓存相关的key
+        DynamicKey("url=${request.url},page=${page},size=${size}"),//缓存相关的key
         update = EvictProvider(false)//false不强制清除缓存,true强制清除缓存
     )
         .flatMap { flatMapSingle(it, type) }

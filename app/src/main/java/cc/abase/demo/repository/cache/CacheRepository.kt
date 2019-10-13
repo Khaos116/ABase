@@ -1,6 +1,6 @@
-package cc.abase.demo.repository
+package cc.abase.demo.repository.cache
 
-import cc.abase.demo.repository.cache.GankCacheApi
+import cc.abase.demo.repository.base.BaseCacheRepository
 import com.github.kittinunf.fuel.core.FuelError
 import com.github.kittinunf.result.Result
 import io.reactivex.Single
@@ -13,8 +13,8 @@ import io.rx_cache2.EvictProvider
  * @author: caiyoufei
  * @date: 2019/10/8 15:48
  */
-internal class CacheRepository private constructor() : BaseCacheRepository<GankCacheApi>(
-    GankCacheApi::class.java
+internal class CacheRepository private constructor() : BaseCacheRepository<CacheApi>(
+    CacheApi::class.java
 ) {
 
   private object SingletonHolder {
@@ -25,12 +25,12 @@ internal class CacheRepository private constructor() : BaseCacheRepository<GankC
     val instance = SingletonHolder.holder
   }
 
-  //带缓存的安卓数据获取
-  internal fun androidList(
+  //获取缓存数据，如果不存在，则进行请求
+  internal fun getCacheData(
     single: Single<Result<String, FuelError>>,
-    pageSize: DynamicKey,
+    pageSizeUrl: DynamicKey,
     update: EvictProvider
   ): Single<Result<String, FuelError>> {
-    return cacheApi.androidList(single, pageSize, update)
+    return cacheApi.requestWithCache(single, pageSizeUrl, update)
   }
 }

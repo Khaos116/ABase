@@ -5,7 +5,8 @@ import android.util.Log
 import cc.ab.base.net.http.response.ApiException
 import cc.ab.base.net.http.response.BaseResponse
 import cc.ab.base.utils.RxUtils
-import cc.abase.demo.constants.WanAndroidUrls
+import cc.abase.demo.constants.WanUrls
+import cc.abase.demo.repository.base.BaseRepository
 import cc.abase.demo.repository.bean.wan.IntegralBean
 import cc.abase.demo.repository.bean.wan.UserBean
 import cc.abase.demo.repository.request.WanRequest
@@ -42,7 +43,7 @@ class UserRepository private constructor() : BaseRepository() {
     repassword: String
   ): Single<Boolean> {
     //创建请求
-    val request = WanAndroidUrls.User.REGISTER.httpPost(
+    val request = WanUrls.User.REGISTER.httpPost(
         listOf(
             "username" to username,
             "password" to EncryptUtils.encryptMD5ToString(password),
@@ -72,7 +73,7 @@ class UserRepository private constructor() : BaseRepository() {
     password: String
   ): Single<Boolean> {
     //创建请求
-    val request = WanAndroidUrls.User.LOGIN.httpPost(
+    val request = WanUrls.User.LOGIN.httpPost(
         listOf(
             "username" to username,
             "password" to EncryptUtils.encryptMD5ToString(password)
@@ -99,7 +100,7 @@ class UserRepository private constructor() : BaseRepository() {
   @SuppressLint("CheckResult")
   fun logOut() {
     clearUserInfo()
-    WanAndroidUrls.User.LOGOUT.httpGet()
+    WanUrls.User.LOGOUT.httpGet()
         .rxString()
         .map { Log.e("CASE", "退出成功:${it.component2() == null}") }
         .subscribe({}, {})
@@ -107,7 +108,7 @@ class UserRepository private constructor() : BaseRepository() {
 
   //我的积分
   fun myIntegral(): Single<IntegralBean> {
-    val request = WanAndroidUrls.User.INTEGRAL.httpGet()
+    val request = WanUrls.User.INTEGRAL.httpGet()
     return WanRequest.instance.startRequest(request, integralType)
         .flatMap { justRespons(it) }
         .compose(RxUtils.instance.rx2SchedulerHelperSDelay())

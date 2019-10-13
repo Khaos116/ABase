@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="12dp"
+    >
+
+  <TextView
+      android:id="@+id/itemArticleUser"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="10dp"
+      android:textColor="@color/colorAccent"
+      tools:text="张风捷特烈"
+      />
+
+  <TextView
+      android:id="@+id/itemArticleTitle"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="10dp"
+      tools:text="[-综合篇-] 相机、OpenGL、视频、Flutter和SurfaceView"
+      />
+</LinearLayout>
