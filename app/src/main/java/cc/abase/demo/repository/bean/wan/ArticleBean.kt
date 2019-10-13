@@ -40,8 +40,8 @@ data class ArticleBean(
     get() {
       if (field == null) {
         field = when {
-          author.isNullOrBlank() -> shareUser ?: ""
-          shareUser.isNullOrBlank() -> author ?: ""
+          author.isNullOrBlank() -> shareUser?.trim() ?: ""
+          shareUser.isNullOrBlank() -> author?.trim() ?: ""
           else -> "未知"
         }
       }
@@ -51,9 +51,9 @@ data class ArticleBean(
     get() {
       if (field == null) {
         field = when {
-          title.isNullOrBlank() -> desc ?: ""
-          desc.isNullOrBlank() -> title ?: ""
-          else -> title ?: "" + "\n" + desc ?: ""
+          title.isNullOrBlank() -> desc?.trim() ?: ""
+          desc.isNullOrBlank() -> title?.trim() ?: ""
+          else -> title?.trim() ?: "" + "\n" + desc?.trim() ?: ""
         }
       }
       return field
