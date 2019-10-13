@@ -5,6 +5,6 @@
     android:id="@+id/itemBanner"
     android:layout_width="match_parent"
     android:layout_height="200dp"
-    app:autoTurningTime="3000"
+    app:autoTurningTime="5000"
     app:canLoop="true"
     />
