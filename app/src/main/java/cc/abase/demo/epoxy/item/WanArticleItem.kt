@@ -9,8 +9,7 @@ import cc.abase.demo.epoxy.base.BaseEpoxyModel
 import cc.abase.demo.repository.bean.wan.ArticleBean
 import com.airbnb.epoxy.EpoxyAttribute
 import com.airbnb.epoxy.EpoxyModelClass
-import kotlinx.android.synthetic.main.item_wan_article.view.itemArticleTitle
-import kotlinx.android.synthetic.main.item_wan_article.view.itemArticleUser
+import kotlinx.android.synthetic.main.item_wan_article.view.*
 
 /**
  * Description:
@@ -25,13 +24,14 @@ abstract class WanArticleItem : BaseEpoxyModel<BaseEpoxyHolder>() {
   //点击item
   @EpoxyAttribute(EpoxyAttribute.Option.DoNotHash)
   var onItemClick: ((bean: ArticleBean?) -> Unit)? = null
-
   override fun onBind(itemView: View) {
     dataBean?.let {
-      //发布者
-      itemView.itemArticleUser.text = it.shareUser
-      //标题
-      itemView.itemArticleTitle.text = it.title
+      //作者
+      itemView.itemArticleUser.text = it.showAuthor
+      //时间
+      itemView.itemArticleTime.text = it.niceDate
+      //标题+描述
+      itemView.itemArticleDes.text = it.showInfo
     }
     //item点击
     itemView.click { onItemClick?.invoke(dataBean) }

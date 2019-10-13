@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -10,18 +11,41 @@
 
   <TextView
       android:id="@+id/itemArticleUser"
-      android:layout_width="match_parent"
+      android:layout_width="wrap_content"
       android:layout_height="wrap_content"
-      android:layout_marginTop="10dp"
+      android:singleLine="true"
       android:textColor="@color/colorAccent"
-      tools:text="张风捷特烈"
+      app:layout_constrainedWidth="true"
+      app:layout_constraintEnd_toStartOf="@id/itemArticleTime"
+      app:layout_constraintHorizontal_bias="0"
+      app:layout_constraintHorizontal_chainStyle="packed"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toTopOf="parent"
+      tools:text="这是用户名"
       />
 
   <TextView
-      android:id="@+id/itemArticleTitle"
-      android:layout_width="match_parent"
+      android:id="@+id/itemArticleTime"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginStart="10dp"
+      android:textColor="@color/colorPrimary"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintStart_toEndOf="@id/itemArticleUser"
+      app:layout_constraintTop_toTopOf="parent"
+      tools:text="2019年10月3日18:10:37"
+      />
+
+  <TextView
+      android:id="@+id/itemArticleDes"
+      android:layout_width="0dp"
       android:layout_height="wrap_content"
       android:layout_marginTop="10dp"
-      tools:text="[-综合篇-] 相机、OpenGL、视频、Flutter和SurfaceView"
+      android:textColor="@color/black"
+      android:textSize="14sp"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toBottomOf="@id/itemArticleUser"
+      tools:text="这是消息内容,这是消息内容,这是消息内容,这是消息内容,这是消息内容,这是消息内容,这是消息内容,这是消息内容,这是消息内容,这是消息内容"
       />
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

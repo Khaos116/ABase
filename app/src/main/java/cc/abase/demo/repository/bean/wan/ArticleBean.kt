@@ -35,4 +35,27 @@ data class ArticleBean(
   var userId: Long = 0,//-1,
   var visible: Int = 0,//1,
   var zan: Int = 0//0
-)
+) {
+  var showAuthor: String? = null
+    get() {
+      if (field == null) {
+        field = when {
+          author.isNullOrBlank() -> shareUser ?: ""
+          shareUser.isNullOrBlank() -> author ?: ""
+          else -> "未知"
+        }
+      }
+      return field
+    }
+  var showInfo: String? = null
+    get() {
+      if (field == null) {
+        field = when {
+          title.isNullOrBlank() -> desc ?: ""
+          desc.isNullOrBlank() -> title ?: ""
+          else -> title ?: "" + "\n" + desc ?: ""
+        }
+      }
+      return field
+    }
+}
