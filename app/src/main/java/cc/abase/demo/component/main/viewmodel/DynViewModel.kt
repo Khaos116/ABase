@@ -36,10 +36,11 @@ class DynViewModel(
     if (state.request is Loading) {
       return@withState
     }
-    page = if (refresh) 1 else page + 1
-    GankRepository.instance.androidList(page, pageSize)
+    val tempPage = if (refresh) 1 else page + 1
+    GankRepository.instance.androidList(tempPage, pageSize)
         .execute {
           val result: MutableList<GankAndroidBean> = it.invoke() ?: mutableListOf()
+          if (it is Success) page = tempPage
           copy(
               //只有刷新成功后才会清数据
               androidList = if (refresh && it is Success) result//刷新成功
