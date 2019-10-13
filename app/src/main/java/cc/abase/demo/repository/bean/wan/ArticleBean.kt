@@ -1,5 +1,7 @@
 package cc.abase.demo.repository.bean.wan
 
+import com.blankj.utilcode.util.TimeUtils
+
 /**
  * Description:
  * @author: caiyoufei
@@ -36,6 +38,7 @@ data class ArticleBean(
   var visible: Int = 0,//1,
   var zan: Int = 0//0
 ) {
+
   var showType: String? = null
     get() {
       if (field == null) {
@@ -51,6 +54,7 @@ data class ArticleBean(
       }
       return field
     }
+
   var showAuthor: String? = null
     get() {
       if (field == null) {
@@ -62,14 +66,23 @@ data class ArticleBean(
       }
       return field
     }
+
   var showInfo: String? = null
     get() {
       if (field == null) {
         field = when {
           title.isNullOrBlank() -> desc?.trim() ?: ""
           desc.isNullOrBlank() -> title?.trim() ?: ""
-          else -> title?.trim() ?: "" + "\n" + desc?.trim() ?: ""
+          else -> String.format("%s\n%s", title?.trim() ?: "", desc?.trim() ?: "")
         }
+      }
+      return field
+    }
+
+  var showTime: String? = null
+    get() {
+      if (field.isNullOrBlank() && publishTime > 0) {
+        field = TimeUtils.millis2String(publishTime)
       }
       return field
     }
