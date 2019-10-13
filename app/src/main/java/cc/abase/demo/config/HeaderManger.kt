@@ -8,7 +8,7 @@ import com.github.kittinunf.fuel.core.*
 import java.util.HashMap
 
 /**
- * Description:请求头和token等
+ * Description:统一请求头拦截处理，如添加header和token等
  * @author: caiyoufei
  * @date: 2019/9/30 21:01
  */

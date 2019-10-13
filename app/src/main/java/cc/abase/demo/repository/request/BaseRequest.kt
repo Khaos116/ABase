@@ -7,18 +7,18 @@ import com.blankj.utilcode.util.Utils
 import com.github.kittinunf.fuel.core.FuelError
 
 /**
- * Description:
+ * Description:创建数据转换异常和请求相关异常
  * @author: caiyoufei
  * @date: 2019/10/12 15:34
  */
 abstract class BaseRequest {
   //数据转换异常
-  fun converDataError(): Throwable {
+  protected fun converDataError(): Throwable {
     return ApiException(msg = Utils.getApp().getString(R.string.data_conver_error))
   }
 
   //请求异常
-  fun converFuelError(error: FuelError?): Throwable {
+  protected fun converFuelError(error: FuelError?): Throwable {
     if (error == null || error.exception.message.isNullOrEmpty()) {
       return ApiException(msg = Utils.getApp().getString(R.string.data_request_error))
     } else {

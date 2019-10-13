@@ -1,17 +1,20 @@
 package cc.abase.demo.repository
 
+import android.annotation.SuppressLint
 import android.util.Log
 import cc.ab.base.net.http.response.ApiException
+import cc.ab.base.net.http.response.BaseResponse
 import cc.ab.base.utils.RxUtils
 import cc.abase.demo.constants.WanAndroidUrls
 import cc.abase.demo.repository.bean.wan.IntegralBean
 import cc.abase.demo.repository.bean.wan.UserBean
-import cc.abase.demo.repository.request.WanUserRequest
+import cc.abase.demo.repository.request.WanRequest
 import cc.abase.demo.utils.MMkvUtils
 import com.blankj.utilcode.util.EncryptUtils
 import com.github.kittinunf.fuel.httpGet
 import com.github.kittinunf.fuel.httpPost
 import com.github.kittinunf.fuel.rx.rxString
+import com.google.gson.reflect.TypeToken
 import io.reactivex.Single
 
 /**
@@ -28,12 +31,17 @@ class UserRepository private constructor() : BaseRepository() {
     val instance = SingletonHolder.holder
   }
 
+  //由于没有找到Gson的type泛型获取方法，所以改为外部传入
+  private var userType = object : TypeToken<BaseResponse<UserBean>>() {}
+  private var integralType = object : TypeToken<BaseResponse<IntegralBean>>() {}
+
   //注册
   fun register(
     username: String,
     password: String,
     repassword: String
   ): Single<Boolean> {
+    //创建请求
     val request = WanAndroidUrls.User.REGISTER.httpPost(
         listOf(
             "username" to username,
@@ -41,7 +49,9 @@ class UserRepository private constructor() : BaseRepository() {
             "repassword" to EncryptUtils.encryptMD5ToString(repassword)
         )
     )
-    return WanUserRequest.instance.register(request)
+    //执行请求
+    return WanRequest.instance.startRequest(request, userType)
+        //保存登录数据
         .flatMap {
           it.data?.let { user ->
             setUid(user.id)
@@ -61,13 +71,16 @@ class UserRepository private constructor() : BaseRepository() {
     username: String,
     password: String
   ): Single<Boolean> {
+    //创建请求
     val request = WanAndroidUrls.User.LOGIN.httpPost(
         listOf(
             "username" to username,
             "password" to EncryptUtils.encryptMD5ToString(password)
         )
     )
-    return WanUserRequest.instance.login(request)
+    //执行请求
+    return WanRequest.instance.startRequest(request, userType)
+        //保存登录数据
         .flatMap {
           it.data?.let { user ->
             setUid(user.id)
@@ -83,20 +96,19 @@ class UserRepository private constructor() : BaseRepository() {
   }
 
   //登出
+  @SuppressLint("CheckResult")
   fun logOut() {
     clearUserInfo()
-    val dis = WanAndroidUrls.User.LOGOUT.httpGet()
+    WanAndroidUrls.User.LOGOUT.httpGet()
         .rxString()
-        .map {
-          Log.e("CASE", "退出成功:${it.component2() == null}")
-        }
+        .map { Log.e("CASE", "退出成功:${it.component2() == null}") }
         .subscribe({}, {})
   }
 
   //我的积分
   fun myIntegral(): Single<IntegralBean> {
     val request = WanAndroidUrls.User.INTEGRAL.httpGet()
-    return WanUserRequest.instance.myIntegral(request)
+    return WanRequest.instance.startRequest(request, integralType)
         .flatMap { justRespons(it) }
         .compose(RxUtils.instance.rx2SchedulerHelperSDelay())
   }

@@ -29,4 +29,5 @@
   <string name="service_response_error">服务器异常</string>
   <string name="service_no_data">服务器无数据</string>
   <string name="unknown_error">未知错误</string>
+  <string name="need_login">登录过期，请重新登录</string>
 </resources>
