@@ -12,7 +12,8 @@ import com.airbnb.epoxy.EpoxyModelClass
 import com.bigkoo.convenientbanner.ConvenientBanner
 import com.bigkoo.convenientbanner.holder.CBViewHolderCreator
 import com.bigkoo.convenientbanner.holder.Holder
-import kotlinx.android.synthetic.main.item_banner_child.view.*
+import com.blankj.utilcode.util.EncryptUtils
+import kotlinx.android.synthetic.main.item_banner_child.view.itemBannerIV
 import me.panpf.sketch.SketchImageView
 
 /**
@@ -25,9 +26,15 @@ abstract class BannerItem : BaseEpoxyModel<BaseEpoxyHolder>() {
   //数据源
   @EpoxyAttribute
   var dataList: MutableList<BannerBean>? = null
-
+  private var bannerMD5: String? = null
   override fun onBind(itemView: View) {
     dataList?.let { data ->
+      val sb = StringBuilder()
+      for (ba in data) {
+        sb.append(ba.url ?: "")
+      }
+      if (bannerMD5 == EncryptUtils.encryptMD5ToString(sb.toString())) return
+      bannerMD5 = EncryptUtils.encryptMD5ToString(sb.toString())
       val banner: ConvenientBanner<BannerBean> = itemView.findViewById(R.id.itemBanner)
       banner.setPages(
           object : CBViewHolderCreator {
@@ -46,6 +53,9 @@ abstract class BannerItem : BaseEpoxyModel<BaseEpoxyHolder>() {
           .setOnItemClickListener { p ->
             data[p].url?.let { url -> WebActivity.startActivity(banner.context, url) }
           }
+      if (!banner.isTurning) {
+        banner.startTurning()
+      }
     }
   }
 }
