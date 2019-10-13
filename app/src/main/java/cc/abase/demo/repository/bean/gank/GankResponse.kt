@@ -11,21 +11,6 @@ import java.lang.reflect.Type
  */
 data class GankResponse<out T>(
   val error: Boolean = true,
-  val message: String? = null,
+  var message: String? = null,
   val results: T?
-) {
-  val rawType: Type by lazy {
-    getSuperclassTypeParameter(javaClass)
-  }
-
-  companion object {
-    fun getSuperclassTypeParameter(cls: Class<*>): Type {
-      val superclass = cls.genericSuperclass
-      if (superclass is Class<*>) {
-        throw RuntimeException("Missing type parameter.")
-      }
-      val parameterized = superclass as ParameterizedType
-      return `$Gson$Types`.canonicalize(parameterized.actualTypeArguments[0])
-    }
-  }
-}
+)

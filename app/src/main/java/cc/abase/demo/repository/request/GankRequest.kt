@@ -2,7 +2,6 @@ package cc.abase.demo.repository.request
 
 import cc.ab.base.utils.RxUtils
 import cc.abase.demo.repository.CacheRepository
-import cc.abase.demo.repository.bean.gank.GankAndroidBean
 import cc.abase.demo.repository.bean.gank.GankResponse
 import com.blankj.utilcode.util.GsonUtils
 import com.github.kittinunf.fuel.core.FuelError
@@ -13,6 +12,7 @@ import com.google.gson.reflect.TypeToken
 import io.reactivex.Single
 import io.rx_cache2.DynamicKey
 import io.rx_cache2.EvictProvider
+import java.lang.reflect.Type
 
 /**
  * Description:Gank的网络请求，通过Repository调用
@@ -30,38 +30,37 @@ internal class GankRequest private constructor() : BaseRequest() {
   }
 
   //直接请求数据，不走缓存
-  internal fun requestGank(request: Request): Single<MutableList<GankAndroidBean>> {
+  internal fun <T> startRequest(
+    request: Request,
+    type: TypeToken<GankResponse<T>>
+  ): Single<GankResponse<T>> {
     return request.rxString()
-        .flatMap { flatMapSingle(it) }
-        .compose(RxUtils.instance.rx2SchedulerHelperSDelay())
+        .flatMap { flatMapSingle(it, type) }
   }
 
   //请求数据，如果有缓存则返回缓存，没有则进行请求
-  internal fun requestGankByCache(
+  internal fun <T> startRequestWithCache(
     request: Request,
     page: Int = 1,
-    size: Int = 20
-  ): Single<MutableList<GankAndroidBean>> {
+    size: Int = 20,
+    type: TypeToken<GankResponse<T>>
+  ): Single<GankResponse<T>> {
     return CacheRepository.instance.androidList(
         request.rxString(),//请求结果以string返回
         DynamicKey("page=${page},size=${size}"),//缓存相关的key
         update = EvictProvider(false)//false不强制清除缓存,true强制清除缓存
     )
-        .flatMap { flatMapSingle(it) }
-        .compose(
-            if (page <= 1) {//由于第一次加载的时候是loading，所以不能让接口请求的太快
-              RxUtils.instance.rx2SchedulerHelperSDelay()
-            } else {
-              RxUtils.instance.rx2SchedulerHelperS()
-            }
-        )
+        .flatMap { flatMapSingle(it, type) }
   }
 
   //======================================下面是统一处理======================================//
   //成功和失败的处理
-  private fun flatMapSingle(result: Result<String, FuelError>): Single<MutableList<GankAndroidBean>> {
+  private fun <T> flatMapSingle(
+    result: Result<String, FuelError>,
+    type: TypeToken<GankResponse<T>>
+  ): Single<GankResponse<T>> {
     return if (result.component2() == null) {
-      Single.just(converGankData(result.component1()))
+      Single.just(converGankData(result.component1(), type.type))
     } else {
       Single.error(converFuelError(result.component2()))
     }
@@ -69,14 +68,13 @@ internal class GankRequest private constructor() : BaseRequest() {
 
   //数据转换，可能抛出异常
   @Throws
-  private fun converGankData(response: String?): MutableList<GankAndroidBean> {
+  private fun <T> converGankData(
+    response: String?,
+    type: Type
+  ): GankResponse<T> {
     if (response.isNullOrBlank()) throw converDataError()
     try {
-      val result: GankResponse<MutableList<GankAndroidBean>> = GsonUtils.fromJson(
-          response, object : TypeToken<GankResponse<MutableList<GankAndroidBean>>>() {
-      }.type
-      )
-      return result.results ?: mutableListOf()
+      return GsonUtils.fromJson(response, type)
     } catch (e: Exception) {
       e.printStackTrace()
     }

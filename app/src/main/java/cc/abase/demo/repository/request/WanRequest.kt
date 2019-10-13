@@ -35,7 +35,7 @@ class WanRequest private constructor() : BaseRequest() {
   )
 
   //执行请求
-  fun <T> startRequest(
+  internal fun <T> startRequest(
     request: Request,
     type: TypeToken<BaseResponse<T>>
   ):
@@ -66,6 +66,7 @@ class WanRequest private constructor() : BaseRequest() {
     try {
       val result: BaseResponse<T> = GsonUtils.fromJson(response, type)
       if (globalErrorCode.contains(result.errorCode)) {
+        result.errorMsg = null
         dealGlobalErrorCode(result.errorCode)
       }
       return result

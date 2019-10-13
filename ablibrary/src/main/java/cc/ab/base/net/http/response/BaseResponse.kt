@@ -7,6 +7,6 @@ package cc.ab.base.net.http.response
  */
 data class BaseResponse<out T>(
   val errorCode: Int = -1,//正常接口使用的状态码
-  val errorMsg: String? = null,//code异常对应的信息提示
+  var errorMsg: String? = null,//code异常对应的信息提示
   val data: T? = null//正常返回的数据信息
 )
