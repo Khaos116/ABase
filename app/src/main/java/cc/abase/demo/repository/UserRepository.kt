@@ -138,8 +138,10 @@ class UserRepository private constructor() : BaseRepository() {
   }
 
   internal fun setToken(token: String) {
-    Log.e("CASE", "Token=${token}")
-    this.token = token
-    MMkvUtils.instance.setToken(token)
+    if (token.isNotBlank() && token != this.token) {
+      Log.e("CASE", "更新Token为:${token}")
+      this.token = token
+      MMkvUtils.instance.setToken(token)
+    }
   }
 }
