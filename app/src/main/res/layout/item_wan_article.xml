@@ -37,6 +37,19 @@
       />
 
   <TextView
+      android:id="@+id/itemArticleType"
+      android:layout_width="0dp"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="10dp"
+      android:textColor="@color/black"
+      android:textSize="14sp"
+      android:textStyle="bold"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toBottomOf="@id/itemArticleUser"
+      tools:text="这是类型展示"
+      />
+  <TextView
       android:id="@+id/itemArticleDes"
       android:layout_width="0dp"
       android:layout_height="wrap_content"
@@ -45,7 +58,7 @@
       android:textSize="14sp"
       app:layout_constraintEnd_toEndOf="parent"
       app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintTop_toBottomOf="@id/itemArticleUser"
+      app:layout_constraintTop_toBottomOf="@id/itemArticleType"
       tools:text="这是消息内容,这是消息内容,这是消息内容,这是消息内容,这是消息内容,这是消息内容,这是消息内容,这是消息内容,这是消息内容,这是消息内容"
       />
 </androidx.constraintlayout.widget.ConstraintLayout>

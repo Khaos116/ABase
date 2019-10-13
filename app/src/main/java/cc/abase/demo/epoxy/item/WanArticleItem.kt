@@ -30,6 +30,8 @@ abstract class WanArticleItem : BaseEpoxyModel<BaseEpoxyHolder>() {
       itemView.itemArticleUser.text = it.showAuthor
       //时间
       itemView.itemArticleTime.text = it.niceDate
+      //类型
+      itemView.itemArticleType.text = it.showType
       //标题+描述
       itemView.itemArticleDes.text = it.showInfo
     }

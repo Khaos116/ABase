@@ -36,6 +36,21 @@ data class ArticleBean(
   var visible: Int = 0,//1,
   var zan: Int = 0//0
 ) {
+  var showType: String? = null
+    get() {
+      if (field == null) {
+        field = if (!chapterName.isNullOrBlank() && !superChapterName.isNullOrBlank()) {
+          String.format("%s  -  %s", superChapterName?.trim() ?: "", chapterName?.trim() ?: "")
+        } else if (chapterName.isNullOrBlank()) {
+          superChapterName?.trim() ?: ""
+        } else if (superChapterName.isNullOrBlank()) {
+          chapterName?.trim() ?: ""
+        } else {
+          "未知"
+        }
+      }
+      return field
+    }
   var showAuthor: String? = null
     get() {
       if (field == null) {
