@@ -26,8 +26,10 @@ class MineFragment : CommFragment() {
   }
 
   override fun initData() {
+    showLoadingView()
     val dis = UserRepository.instance.myIntegral()
         .subscribe { t1, t2 ->
+          dismissLoadingView()
           if (t1 != null) {
             myIntegral.text = String.format("我的积分:%d", t1.coinCount)
           } else if (t2 != null) {
