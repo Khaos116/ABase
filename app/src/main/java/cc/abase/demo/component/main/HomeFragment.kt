@@ -97,12 +97,8 @@ class HomeFragment : CommFragment() {
     if (!state.banners.isNullOrEmpty() || !state.articles.isNullOrEmpty()) {
       //处理Banner'
       if (!state.banners.isNullOrEmpty()) {
-        val sb = StringBuilder()
-        state.banners.forEach { ban ->
-          sb.append(ban.imagePath ?: "")
-        }
         bannerItem {
-          id("home_banner_${sb.toString().hashCode()}")
+          id("home_banner_${state.banners.hashCode() + state.banners.size}")
           dataList(state.banners)
         }
       }

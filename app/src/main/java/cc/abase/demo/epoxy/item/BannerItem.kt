@@ -1,18 +1,19 @@
 package cc.abase.demo.epoxy.item
 
+import android.view.Gravity
 import android.view.View
 import cc.ab.base.ext.load
 import cc.ab.base.ui.holder.BaseEpoxyHolder
+import cc.ab.base.widget.discretescrollview.DSVOrientation
+import cc.ab.base.widget.discretescrollview.DiscreteBanner
+import cc.ab.base.widget.discretescrollview.holder.DiscreteHolder
+import cc.ab.base.widget.discretescrollview.holder.DiscreteHolderCreator
 import cc.abase.demo.R
 import cc.abase.demo.component.web.WebActivity
 import cc.abase.demo.epoxy.base.BaseEpoxyModel
 import cc.abase.demo.repository.bean.wan.BannerBean
 import com.airbnb.epoxy.EpoxyAttribute
 import com.airbnb.epoxy.EpoxyModelClass
-import com.bigkoo.convenientbanner.ConvenientBanner
-import com.bigkoo.convenientbanner.holder.CBViewHolderCreator
-import com.bigkoo.convenientbanner.holder.Holder
-import com.blankj.utilcode.util.EncryptUtils
 import kotlinx.android.synthetic.main.item_banner_child.view.itemBannerIV
 import me.panpf.sketch.SketchImageView
 
@@ -26,43 +27,37 @@ abstract class BannerItem : BaseEpoxyModel<BaseEpoxyHolder>() {
   //数据源
   @EpoxyAttribute
   var dataList: MutableList<BannerBean>? = null
-  private var bannerMD5: String? = null
+
   override fun onBind(itemView: View) {
     dataList?.let { data ->
-      val sb = StringBuilder()
-      for (ba in data) {
-        sb.append(ba.url ?: "")
-      }
-      if (bannerMD5 == EncryptUtils.encryptMD5ToString(sb.toString())) return
-      bannerMD5 = EncryptUtils.encryptMD5ToString(sb.toString())
-      val banner: ConvenientBanner<BannerBean> = itemView.findViewById(R.id.itemBanner)
-      banner.setPages(
-          object : CBViewHolderCreator {
-            override fun createHolder(view: View): Holder<BannerBean> {
-              return LocalImageHolderView(view)
-            }
-
+      //防止每次滑出屏幕再滑入后重新创建
+      val tag = data.hashCode() + data.size
+      if (itemView.tag == tag) return@let
+      itemView.tag = tag
+      val banner: DiscreteBanner<BannerBean> = itemView.findViewById(R.id.itemBanner)
+      banner.setOrientation(DSVOrientation.HORIZONTAL)
+          .setLooper(true)
+          .setOnItemClick { _, t -> WebActivity.startActivity(banner.context, t.url ?: "") }
+          .also {
+            it.setIndicatorGravity(Gravity.BOTTOM or Gravity.END)
+            it.setIndicatorOffsetY(-it.defaultOffset / 2f)
+            it.setIndicatorOffsetX(-it.defaultOffset)
+          }
+          .setPages(object : DiscreteHolderCreator {
+            override fun createHolder(view: View) = HomeBannerHolderView(view)
             override fun getLayoutId() = R.layout.item_banner_child
-
-          }
-          , data)
-          .setPageIndicator(
-              intArrayOf(R.drawable.circle_primary, R.drawable.circle_accent)
-          )
-          .setPageIndicatorAlign(ConvenientBanner.PageIndicatorAlign.ALIGN_PARENT_RIGHT)
-          .setOnItemClickListener { p ->
-            data[p].url?.let { url -> WebActivity.startActivity(banner.context, url) }
-          }
-      if (!banner.isTurning) {
-        banner.startTurning()
-      }
+          }, data)
     }
   }
 }
 
-class LocalImageHolderView(view: View?) : Holder<BannerBean>(view) {
+class HomeBannerHolderView(view: View?) : DiscreteHolder<BannerBean>(view) {
   private var imageView: SketchImageView? = null
-  override fun updateUI(data: BannerBean) {
+  override fun updateUI(
+    data: BannerBean,
+    position: Int,
+    count: Int
+  ) {
     imageView?.load(data.imagePath)
   }
 

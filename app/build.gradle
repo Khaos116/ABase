@@ -111,6 +111,4 @@ dependencies {
 
   //https://github.com/airbnb/epoxy 放在lib中失败
   kapt 'com.airbnb.android:epoxy-processor:3.7.0'
-  //https://github.com/saiwu-bigkoo/Android-ConvenientBanner
-  implementation 'com.bigkoo:convenientbanner:2.1.5'
 }
