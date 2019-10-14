@@ -14,7 +14,7 @@ import org.jetbrains.annotations.NotNull;
  * @author: caiyoufei
  * @date: 2019/10/14 12:09
  */
-public class DiscretePageAdapter<T> extends RecyclerView.Adapter<DiscreteHolder> {
+public class DiscretePageAdapter<T> extends RecyclerView.Adapter<DiscreteHolder<T>> {
   private List<T> datas;
   private DiscreteHolderCreator creator;
   private OnItemClickListener onItemClickListener;
@@ -24,6 +24,7 @@ public class DiscretePageAdapter<T> extends RecyclerView.Adapter<DiscreteHolder>
     this.datas = datas;
   }
 
+  @SuppressWarnings("unchecked")
   @NotNull @Override
   public DiscreteHolder onCreateViewHolder(ViewGroup parent, int viewType) {
     int layoutId = creator.getLayoutId();

@@ -2,6 +2,8 @@ package cc.abase.demo.component.splash
 
 import android.content.Context
 import android.content.Intent
+import cc.ab.base.ext.mContext
+import cc.ab.base.ext.toast
 import cc.ab.base.widget.discretescrollview.DSVOrientation
 import cc.ab.base.widget.discretescrollview.DiscreteBanner
 import cc.abase.demo.R
@@ -40,7 +42,9 @@ class GuideActivity : CommActivity() {
     findViewById<DiscreteBanner<String>>(R.id.guideBanner)
         .setOrientation(DSVOrientation.VERTICAL)
         .apply { getIndicator()?.needSpecial = true }
+        .setLooper(true)
         .setPages(GuideHolderCreator(), mList)
+        .setOnItemClick { position, t -> mContext.toast("$position") }
   }
 
   override fun initData() {

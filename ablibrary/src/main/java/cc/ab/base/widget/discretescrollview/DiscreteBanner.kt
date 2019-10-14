@@ -80,7 +80,21 @@ class DiscreteBanner<T> @JvmOverloads constructor(
   //初始化indicator
   private fun initIndicator() {
     mIndicator = DotsIndicator(context)
-    mIndicator.onSelectListener = { mPager.smoothScrollToPosition(it) }
+    mIndicator.onSelectListener = {
+      val temp = mLooperAdapter
+      if (looper && temp != null) {
+        //拿到当前无限循环的位置
+        val currentP = mPager.currentItem
+        //拿到当前真实位置
+        val realP = temp.getRealPosition(currentP)
+        //计算需要移动的数量
+        val offsetP = it - realP
+        //如果需要移动，则进行移动
+        if (offsetP != 0) mPager.smoothScrollToPosition(currentP + offsetP)
+      } else {
+        mPager.smoothScrollToPosition(it)
+      }
+    }
     val indicatorParam = LayoutParams(-2, -2)
     if (orientation == DSVOrientation.HORIZONTAL.ordinal) {//横向
       mIndicator.orientation = LinearLayout.HORIZONTAL
@@ -166,8 +180,8 @@ class DiscreteBanner<T> @JvmOverloads constructor(
     }
     if (looper) {
       mPagerAdapter?.let {
-        //        this.mLooperAdapter = InfiniteScrollAdapter.wrap(it)
-        this.mPager.adapter = mPagerAdapter
+        this.mLooperAdapter = InfiniteScrollAdapter.wrap(it)
+        this.mPager.adapter = mLooperAdapter
       }
     } else {
       this.mPager.adapter = mPagerAdapter
