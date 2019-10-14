@@ -25,7 +25,7 @@
   
 ================================================================     
 ##  Banner效果图  
-![横向Banner](https://github.com/caiyoufei/ABase/blob/master/image/horizontal_banner.gif)![纵向Banner](https://github.com/caiyoufei/ABase/blob/master/image/vertical_banner.gif)  
+![横向Banner](https://github.com/caiyoufei/ABase/blob/master/image/horizontal_banner.gif)|![纵向Banner](https://github.com/caiyoufei/ABase/blob/master/image/vertical_banner.gif)  
 
 ================================================================    
 ##  Banner代码配置
