@@ -46,6 +46,7 @@ banner.setOrientation(if (vertical) DSVOrientation.VERTICAL else DSVOrientation.
       override fun createHolder(view: View) = HomeBannerHolderView(view)
       override fun getLayoutId() = R.layout.item_banner_child
     }, data)//BannerBean的数据列表MutableList<BannerBean>
+    
 //需要自定义ViewHolder  
 class HomeBannerHolderView(view: View?) : DiscreteHolder<BannerBean>(view) {
   private var imageView: SketchImageView? = null
