@@ -20,4 +20,4 @@
 **[utilcode](https://github.com/Blankj/AndroidUtilCode/blob/master/lib/utilcode/README-CN.md)**|超强工具合集
 **[RxAndroid](https://github.com/ReactiveX/RxAndroid)**|Android线程切换+Rxjava
 **[LiveEventBus](https://github.com/JeremyLiao/LiveEventBus)**|跨进程通信、跨APP通信、自动取消订阅
-**[DiscreteScrollView](https://github.com/yarolegovich/DiscreteScrollView)**|RecyclerView实现ViewPager、禁止双指操作滑动多屏
+**[DiscreteScrollView](https://github.com/yarolegovich/DiscreteScrollView)**|实现无限轮播Banner、ViewPager横竖屏滑动等
