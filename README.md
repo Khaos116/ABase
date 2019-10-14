@@ -22,8 +22,8 @@
 **[LiveEventBus](https://github.com/JeremyLiao/LiveEventBus)**|跨进程通信、跨APP通信、自动取消订阅
 **[DiscreteScrollView](https://github.com/yarolegovich/DiscreteScrollView)**|实现无限轮播Banner、ViewPager横竖屏滑动等
   
-#####  横向Banner  
+##  横向Banner  
 ![横向Banner](https://github.com/caiyoufei/ABase/blob/master/image/horizontal_banner.gif)
   
-#####  纵向Banner  
+##  纵向Banner  
 ![纵向Banner](https://github.com/caiyoufei/ABase/blob/master/image/vertical_banner.gif)
