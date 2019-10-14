@@ -14,16 +14,15 @@ class DotsIndicator : LinearLayout {
 
   private var selection: Int = 0
   private var dotsCount: Int = 0
-  private var dotHeight: Int = SizeUtils.dp2px(7f)
-  private var dotWidth: Int = SizeUtils.dp2px(7f)
-  var firstDotHeight: Int = SizeUtils.dp2px(14f)
-  var firstDotWidth: Int = SizeUtils.dp2px(14f)
-  var marginsBetweenDots: Int = SizeUtils.dp2px(10f)
+  var dotSize: Int = SizeUtils.dp2px(7f)
+  var lastDotSize: Int = SizeUtils.dp2px(14f)
+  var marginsBetweenDots: Int = SizeUtils.dp2px(8f)
   var selectedDotScaleFactor: Float = 1.4f
   var selectedDotResource: Int = R.drawable.circle_accent
   var unselectedDotResource: Int = R.drawable.circle_primary
   var firstSelectedDotResource: Int = R.drawable.ic_home_white_24dp
   var firstUnselectedDotResource: Int = R.drawable.ic_home_gray_24dp
+  var needSpecial: Boolean = false//是否需要特殊处理最后一个
 
   var onSelectListener: ((position: Int) -> Unit)? = null
 
@@ -66,17 +65,11 @@ class DotsIndicator : LinearLayout {
         firstUnselectedDotResource
     )
 
-    dotHeight =
-      ta.getDimensionPixelSize(R.styleable.DotsIndicator_dot_height, dotHeight)
+    dotSize =
+      ta.getDimensionPixelSize(R.styleable.DotsIndicator_dot_size, dotSize)
 
-    dotWidth =
-      ta.getDimensionPixelSize(R.styleable.DotsIndicator_dot_width, dotWidth)
-
-    firstDotHeight =
-      ta.getDimensionPixelSize(R.styleable.DotsIndicator_first_dot_height, firstDotHeight)
-
-    firstDotWidth =
-      ta.getDimensionPixelSize(R.styleable.DotsIndicator_first_dot_width, firstDotWidth)
+    lastDotSize =
+      ta.getDimensionPixelSize(R.styleable.DotsIndicator_last_dot_size, lastDotSize)
 
     marginsBetweenDots =
       ta.getDimensionPixelSize(R.styleable.DotsIndicator_margins_between_dots, marginsBetweenDots)
@@ -85,6 +78,10 @@ class DotsIndicator : LinearLayout {
     ta.recycle()
   }
 
+  //当不需要特殊的时候需要设置间距(+1是为了防止放大显示不全，不能去除小数，只能往上加)
+  private val marginNoSpecial = (dotSize * (selectedDotScaleFactor - 1) / 2f).toInt() + 1
+  //需要特殊的时候需要设置间距(+1是为了防止放大显示不全，不能去除小数，只能往上加)
+  private val marginSpecial = (lastDotSize * (selectedDotScaleFactor - 1) / 2f).toInt() + 1
   fun initDots(dotsCount: Int) {
     this.dotsCount = dotsCount
     removeAllViews()
@@ -92,17 +89,22 @@ class DotsIndicator : LinearLayout {
       val dot = ImageView(context)
       dot.id = i
       dot.tag = i
+      val margin = if (needSpecial) marginSpecial else marginNoSpecial
       val param =
-        if (i == dotsCount - 1) {
-          LayoutParams(firstDotHeight, firstDotWidth)
+        if (i == dotsCount - 1 && needSpecial) {
+          LayoutParams(lastDotSize, lastDotSize)
         } else {
-          LayoutParams(dotHeight, dotWidth)
+          LayoutParams(dotSize, dotSize)
         }
       if (orientation == HORIZONTAL) {
         param.marginEnd = marginsBetweenDots / 2
         param.marginStart = marginsBetweenDots / 2
+        param.topMargin = margin
+        param.bottomMargin = margin
         param.gravity = Gravity.CENTER_VERTICAL
       } else {
+        param.marginEnd = margin
+        param.marginStart = margin
         param.topMargin = marginsBetweenDots / 2
         param.bottomMargin = marginsBetweenDots / 2
         param.gravity = Gravity.CENTER_HORIZONTAL
@@ -110,7 +112,7 @@ class DotsIndicator : LinearLayout {
       dot.layoutParams = param
       dot.scaleType = ImageView.ScaleType.FIT_XY
 
-      if (i == dotsCount - 1) {
+      if (i == dotsCount - 1 && needSpecial) {
         if (selection == dotsCount - 1) {
           dot.setImageResource(firstSelectedDotResource)
         } else {
@@ -182,12 +184,11 @@ class DotsIndicator : LinearLayout {
     increaseAnimator.addListener(animationListener)
     decreaseAnimator.addListener(animationListener)
 
-
     newSelection.setImageResource(
-        if (newSelection.tag == dotsCount - 1) firstSelectedDotResource else selectedDotResource
+        if (newSelection.tag == dotsCount - 1 && needSpecial) firstSelectedDotResource else selectedDotResource
     )
     selectedDot.setImageResource(
-        if (selection == dotsCount - 1) firstUnselectedDotResource else unselectedDotResource
+        if (selection == dotsCount - 1 && needSpecial) firstUnselectedDotResource else unselectedDotResource
     )
     selection = newSelection.tag as Int
   }

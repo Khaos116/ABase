@@ -35,7 +35,7 @@ class DiscreteBanner<T> @JvmOverloads constructor(
   //圆点
   private lateinit var mIndicator: DotsIndicator
   //默认间距
-  private var defaultOffset: Float = SizeUtils.dp2px(8f) * 1f
+  var defaultOffset: Float = SizeUtils.dp2px(8f) * 1f
   //是否无限循环
   private var looper: Boolean = false
   //无限循环adapter
@@ -80,7 +80,7 @@ class DiscreteBanner<T> @JvmOverloads constructor(
   //初始化indicator
   private fun initIndicator() {
     mIndicator = DotsIndicator(context)
-    mIndicator.onSelectListener = { }
+    mIndicator.onSelectListener = { mPager.smoothScrollToPosition(it) }
     val indicatorParam = LayoutParams(-2, -2)
     if (orientation == DSVOrientation.HORIZONTAL.ordinal) {//横向
       mIndicator.orientation = LinearLayout.HORIZONTAL
@@ -140,9 +140,14 @@ class DiscreteBanner<T> @JvmOverloads constructor(
     return this
   }
 
-  //获取对象，外面设置更多属性
+  //获取pager对象，外面设置更多属性
   fun getPager(): DiscreteScrollView? {
     return mPager
+  }
+
+  //获取Indicator对象，外面设置更多属性
+  fun getIndicator(): DotsIndicator? {
+    return mIndicator
   }
 
   //点击banner

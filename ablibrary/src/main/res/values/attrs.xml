@@ -35,10 +35,8 @@
     <attr name="unselected_dot_resource" format="reference"/>
     <attr name="first_selected_dot_resource" format="reference"/>
     <attr name="first_unselected_dot_resource" format="reference"/>
-    <attr name="dot_height" format="dimension"/>
-    <attr name="dot_width" format="dimension"/>
-    <attr name="first_dot_height" format="dimension"/>
-    <attr name="first_dot_width" format="dimension"/>
+    <attr name="dot_size" format="dimension"/>
+    <attr name="last_dot_size" format="dimension"/>
     <attr name="margins_between_dots" format="dimension"/>
   </declare-styleable>
 </resources>
