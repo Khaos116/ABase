@@ -1,12 +1,10 @@
 package cc.ab.base.widget.discretescrollview;
 
 import android.content.Context;
-import android.content.res.TypedArray;
 import android.util.AttributeSet;
 import android.view.View;
 import androidx.annotation.*;
 import androidx.recyclerview.widget.RecyclerView;
-import cc.ab.base.R;
 import cc.ab.base.widget.discretescrollview.transform.DiscreteScrollItemTransformer;
 import cc.ab.base.widget.discretescrollview.util.ScrollListenerAdapter;
 import java.util.ArrayList;
@@ -48,18 +46,11 @@ public class DiscreteScrollView extends RecyclerView {
     scrollStateChangeListeners = new ArrayList<>();
     onItemChangedListeners = new ArrayList<>();
 
-    int orientation = DEFAULT_ORIENTATION;
-    if (attrs != null) {
-      TypedArray ta = getContext().obtainStyledAttributes(attrs, R.styleable.DiscreteScrollView);
-      orientation = ta.getInt(R.styleable.DiscreteScrollView_dsv_orientation, DEFAULT_ORIENTATION);
-      ta.recycle();
-    }
-
     isOverScrollEnabled = getOverScrollMode() != OVER_SCROLL_NEVER;
 
     layoutManager = new DiscreteScrollLayoutManager(
         getContext(), new ScrollStateListener(),
-        DSVOrientation.values()[orientation]);
+        DSVOrientation.values()[DEFAULT_ORIENTATION]);
     setLayoutManager(layoutManager);
   }
 
@@ -198,6 +189,12 @@ public class DiscreteScrollView extends RecyclerView {
     notifyCurrentItemChanged(currentHolder, current);
   }
 
+  //banner才修正预览,否则正常显示的可能导致手指滑动回调一个，释放后回调一个
+  private boolean isBanner = false;
+
+  public void setBanner(boolean mBanner) {
+    isBanner = mBanner;
+  }
   private class ScrollStateListener implements DiscreteScrollLayoutManager.ScrollStateListener {
 
     @Override
@@ -236,22 +233,24 @@ public class DiscreteScrollView extends RecyclerView {
     private boolean preview = false;
     @Override
     public void onScroll(float currentViewPosition) {
-      //==新增，手指不放，滑动到完全显示执行回调(★★这只是预览回调，手指放开才是真的回调★★)==//
-      if (currentViewPosition > 0.5f && !preview) {//上一页
-        preview = true;
-        int position = getCurrentItem() - 1;
-        ViewHolder holder = getViewHolder(position);
-        notifyCurrentItemChanged(holder, position);
-      } else if (currentViewPosition < -0.5f && !preview) {//下一页
-        preview = true;
-        int position = getCurrentItem() + 1;
-        ViewHolder holder = getViewHolder(position);
-        notifyCurrentItemChanged(holder, position);
-      } else if (currentViewPosition > -0.5f && currentViewPosition < 0.5f && preview) {//当前页
-        preview = false;
-        int position = getCurrentItem();
-        ViewHolder holder = getViewHolder(position);
-        notifyCurrentItemChanged(holder, position);
+      if (isBanner) {
+        //==新增，手指不放，滑动到完全显示执行回调(★★这只是预览回调，手指放开才是真的回调★★)==//
+        if (currentViewPosition > 0.5f && !preview) {//上一页
+          preview = true;
+          int position = getCurrentItem() - 1;
+          ViewHolder holder = getViewHolder(position);
+          notifyCurrentItemChanged(holder, position);
+        } else if (currentViewPosition < -0.5f && !preview) {//下一页
+          preview = true;
+          int position = getCurrentItem() + 1;
+          ViewHolder holder = getViewHolder(position);
+          notifyCurrentItemChanged(holder, position);
+        } else if (currentViewPosition > -0.5f && currentViewPosition < 0.5f && preview) {//当前页
+          preview = false;
+          int position = getCurrentItem();
+          ViewHolder holder = getViewHolder(position);
+          notifyCurrentItemChanged(holder, position);
+        }
       }
       //===============================================================================//
 
