@@ -1,5 +1,6 @@
 # ABase(采用AndroidX)
 ##### 准备实践框架
+使用了[干货集中营开源API](http://gank.io/api)和[玩Android开源API](https://www.wanandroid.com/blog/show/2)
   
 三方库|描述
 :-:|:-:
