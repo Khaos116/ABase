@@ -119,11 +119,13 @@ class DiscreteBanner<T> @JvmOverloads constructor(
       mIndicator.orientation = LinearLayout.HORIZONTAL
       (mIndicator.layoutParams as LayoutParams).gravity =
         Gravity.BOTTOM or Gravity.CENTER_HORIZONTAL
+      mIndicator.translationX = 0f
       mIndicator.translationY = -defaultOffset
     } else {//竖向
       mIndicator.orientation = LinearLayout.VERTICAL
       (mIndicator.layoutParams as LayoutParams).gravity = Gravity.END or Gravity.CENTER_VERTICAL
       mIndicator.translationX = -defaultOffset
+      mIndicator.translationY = 0f
     }
     return this
   }

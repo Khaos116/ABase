@@ -27,22 +27,25 @@ abstract class BannerItem : BaseEpoxyModel<BaseEpoxyHolder>() {
   //数据源
   @EpoxyAttribute
   var dataList: MutableList<BannerBean>? = null
-
   override fun onBind(itemView: View) {
+    //随机横竖屏切换
+    val vertical = System.currentTimeMillis() % 2 == 0L
     dataList?.let { data ->
       //防止每次滑出屏幕再滑入后重新创建
       val tag = data.hashCode() + data.size
       if (itemView.tag == tag) return@let
       itemView.tag = tag
       val banner: DiscreteBanner<BannerBean> = itemView.findViewById(R.id.itemBanner)
-      banner.setOrientation(DSVOrientation.HORIZONTAL)
+      banner.setOrientation(if (vertical) DSVOrientation.VERTICAL else DSVOrientation.HORIZONTAL)
           .setLooper(true)
           .setAutoPlay(true)
           .setOnItemClick { _, t -> WebActivity.startActivity(banner.context, t.url ?: "") }
           .also {
-            it.setIndicatorGravity(Gravity.BOTTOM or Gravity.END)
-            it.setIndicatorOffsetY(-it.defaultOffset / 2f)
-            it.setIndicatorOffsetX(-it.defaultOffset)
+            if (!vertical) {
+              it.setIndicatorGravity(Gravity.BOTTOM or Gravity.END)
+              it.setIndicatorOffsetY(-it.defaultOffset / 2f)
+              it.setIndicatorOffsetX(-it.defaultOffset)
+            }
           }
           .setPages(object : DiscreteHolderCreator {
             override fun createHolder(view: View) = HomeBannerHolderView(view)
