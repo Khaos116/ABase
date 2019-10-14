@@ -37,6 +37,7 @@ abstract class BannerItem : BaseEpoxyModel<BaseEpoxyHolder>() {
       val banner: DiscreteBanner<BannerBean> = itemView.findViewById(R.id.itemBanner)
       banner.setOrientation(DSVOrientation.HORIZONTAL)
           .setLooper(true)
+          .setAutoPlay(true)
           .setOnItemClick { _, t -> WebActivity.startActivity(banner.context, t.url ?: "") }
           .also {
             it.setIndicatorGravity(Gravity.BOTTOM or Gravity.END)

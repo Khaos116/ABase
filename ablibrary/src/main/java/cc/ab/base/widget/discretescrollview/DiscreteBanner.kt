@@ -1,13 +1,12 @@
 package cc.ab.base.widget.discretescrollview
 
 import android.content.Context
+import android.os.Handler
 import android.util.AttributeSet
-import android.view.Gravity
+import android.view.*
 import android.widget.FrameLayout
 import android.widget.LinearLayout
-import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import cc.ab.base.R
-import cc.ab.base.widget.discretescrollview.DiscreteScrollView.OnItemChangedListener
 import cc.ab.base.widget.discretescrollview.adapter.DiscretePageAdapter
 import cc.ab.base.widget.discretescrollview.holder.DiscreteHolder
 import cc.ab.base.widget.discretescrollview.holder.DiscreteHolderCreator
@@ -34,14 +33,18 @@ class DiscreteBanner<T> @JvmOverloads constructor(
   private var mPagerAdapter: DiscretePageAdapter<T>? = null
   //圆点
   private lateinit var mIndicator: DotsIndicator
-  //默认间距
-  var defaultOffset: Float = SizeUtils.dp2px(8f) * 1f
   //是否无限循环
   private var looper: Boolean = false
   //无限循环adapter
   private var mLooperAdapter: InfiniteScrollAdapter<DiscreteHolder<T>>? = null
+  //是否需要自动轮播
+  private var needAutoPlay = false
+  //默认间距
+  val defaultOffset: Float = SizeUtils.dp2px(8f) * 1f
   //默认滚动时间
-  private var defaultScrollTime = 200
+  val defaultScrollTime = 200
+  //自动轮播时间间隔
+  val defaultAutoPlayDuration = 5000L
 
   //初始化
   init {
@@ -148,6 +151,12 @@ class DiscreteBanner<T> @JvmOverloads constructor(
     return this
   }
 
+  //设置是否自动轮播
+  fun setAutoPlay(auto: Boolean): DiscreteBanner<T> {
+    this.needAutoPlay = auto
+    return this
+  }
+
   //设置点击事件
   fun setOnItemClick(click: (position: Int, t: T) -> Unit): DiscreteBanner<T> {
     itemClick = click
@@ -173,6 +182,7 @@ class DiscreteBanner<T> @JvmOverloads constructor(
     holderCreator: DiscreteHolderCreator,
     datas: List<T>
   ): DiscreteBanner<T> {
+    stopPlay()
     this.mData = datas
     this.mPagerAdapter = DiscretePageAdapter(holderCreator, mData)
     this.mPagerAdapter?.setOnItemClickListener { position, t ->
@@ -188,20 +198,77 @@ class DiscreteBanner<T> @JvmOverloads constructor(
     }
     mIndicator.initDots(datas.size)
     mIndicator.setDotSelection(0)
+    startPlay()
     return this
   }
 
-  //防止存在多个监听
-  private var changelistener: OnItemChangedListener<ViewHolder>? = null
-
-  //监听item位置改变
-  public fun setOnItemChangedListener(listener: OnItemChangedListener<ViewHolder>) {
-    val temp = changelistener
-    if (temp == null) {
-      changelistener = listener
-    } else {
-      mPager.removeItemChangedListener(temp)
+  //开始轮播
+  fun startPlay() {
+    stopPlay()
+    if (needAutoPlay && mPagerAdapter?.itemCount ?: 0 > 1) {
+      playHandler.postDelayed(playRunnable, defaultAutoPlayDuration)
     }
-    mPager.addOnItemChangedListener(listener)
+  }
+
+  //关闭轮播
+  fun stopPlay() {
+    playHandler.removeCallbacks(playRunnable)
+  }
+
+  //自动轮播的Handler
+  private val playHandler = Handler()
+  //自动轮播的Runnable
+  private val playRunnable = Runnable {
+    kotlin.run {
+      mPager.smoothScrollToPosition(mPager.currentItem + 1)
+      next()
+    }
+  }
+
+  //执行下一页
+  private fun next() {
+    playHandler.postDelayed(playRunnable, defaultAutoPlayDuration)
+  }
+
+  //添加-播放
+  override fun onAttachedToWindow() {
+    super.onAttachedToWindow()
+    startPlay()
+  }
+
+  //移除-停止
+  override fun onDetachedFromWindow() {
+    super.onDetachedFromWindow()
+    stopPlay()
+  }
+
+  //显示播放，隐藏停止
+  override fun onWindowVisibilityChanged(visibility: Int) {
+    super.onWindowVisibilityChanged(visibility)
+    if (visibility == View.VISIBLE) {
+      startPlay()
+    } else if (visibility == View.INVISIBLE || visibility == View.GONE) {
+      stopPlay()
+    }
+  }
+
+  //手指触摸打断自动轮播
+  override fun dispatchTouchEvent(ev: MotionEvent?): Boolean {
+    if (needAutoPlay && mPagerAdapter?.itemCount ?: 0 > 1) {
+      ev?.let { e ->
+        val action = e.action
+        if (action == MotionEvent.ACTION_DOWN) {
+          stopPlay()
+        } else if (action == MotionEvent.ACTION_UP ||
+            action == MotionEvent.ACTION_CANCEL ||
+            action == MotionEvent.ACTION_OUTSIDE
+        ) {
+          startPlay()
+        } else {
+          return super.dispatchTouchEvent(ev)
+        }
+      }
+    }
+    return super.dispatchTouchEvent(ev)
   }
 }
