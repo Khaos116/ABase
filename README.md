@@ -30,3 +30,39 @@
 ================================================================    
 ##  纵向Banner  
 ![纵向Banner](https://github.com/caiyoufei/ABase/blob/master/image/vertical_banner.gif)
+
+================================================================    
+##  Banner代码配置
+~~~
+val banner: DiscreteBanner<BannerBean> = itemView.findViewById(R.id.itemBanner)
+banner.setOrientation(if (vertical) DSVOrientation.VERTICAL else DSVOrientation.HORIZONTAL)
+    .setLooper(true)//无限循环
+    .setAutoPlay(true)//自动播放
+    .setOnItemClick { _, t ->  }//banner点击
+    .also {
+      if (!vertical) {//由于默认是横向原点居底部(引导页使用)，所以banner处修改为底部居右
+        it.setIndicatorGravity(Gravity.BOTTOM or Gravity.END)
+        it.setIndicatorOffsetY(-it.defaultOffset / 2f)
+        it.setIndicatorOffsetX(-it.defaultOffset)
+      }
+    }
+    .setPages(object : DiscreteHolderCreator {
+      override fun createHolder(view: View) = HomeBannerHolderView(view)
+      override fun getLayoutId() = R.layout.item_banner_child
+    }, data)//BannerBean的数据列表MutableList<BannerBean>
+//需要自定义ViewHolder  
+class HomeBannerHolderView(view: View?) : DiscreteHolder<BannerBean>(view) {
+  private var imageView: SketchImageView? = null
+  override fun updateUI(
+    data: BannerBean,
+    position: Int,
+    count: Int
+  ) {
+    imageView?.load(data.imagePath)
+  }
+
+  override fun initView(view: View) {
+    this.imageView = view.itemBannerIV
+  }
+}
+~~~
