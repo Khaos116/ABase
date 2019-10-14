@@ -50,7 +50,7 @@ class DiscreteBanner<T> @JvmOverloads constructor(
   init {
     if (attrs != null) {
       val ta = getContext().obtainStyledAttributes(attrs, R.styleable.DiscreteBanner)
-      orientation =
+      this.orientation =
         ta.getInt(R.styleable.DiscreteBanner_dsv_orientation, DSVOrientation.HORIZONTAL.ordinal)
       ta.recycle()
     }
@@ -113,6 +113,7 @@ class DiscreteBanner<T> @JvmOverloads constructor(
 
   //设置横竖切换
   fun setOrientation(orientation: DSVOrientation): DiscreteBanner<T> {
+    this.orientation = orientation.ordinal
     mPager.setOrientation(orientation)
     if (orientation == DSVOrientation.HORIZONTAL) {//横向
       mIndicator.orientation = LinearLayout.HORIZONTAL
@@ -258,6 +259,10 @@ class DiscreteBanner<T> @JvmOverloads constructor(
       ev?.let { e ->
         val action = e.action
         if (action == MotionEvent.ACTION_DOWN) {
+          //如果需要竖向滑动，则请求父控件不拦截
+          if (this.orientation == DSVOrientation.VERTICAL.ordinal && mPagerAdapter?.itemCount ?: 0 > 1) {
+            mPager.parent.requestDisallowInterceptTouchEvent(true)
+          }
           stopPlay()
         } else if (action == MotionEvent.ACTION_UP ||
             action == MotionEvent.ACTION_CANCEL ||
