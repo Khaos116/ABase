@@ -5,16 +5,17 @@
     package="cc.abase.demo">
 
   <application
+      android:name=".app.MyApplication"
       android:allowBackup="true"
       android:icon="@mipmap/ic_launcher"
       android:label="@string/app_name"
-      android:name=".app.MyApplication"
       android:supportsRtl="true"
       android:theme="@style/AppTheme"
       tools:ignore="AllowBackup,GoogleAppIndexingWarning">
     <!--启动页-->
     <activity
         android:name=".component.splash.SplashActivity"
+        android:configChanges="screenLayout|orientation"
         android:launchMode="singleTop"
         android:screenOrientation="portrait"
         android:theme="@style/SplashTheme"
@@ -28,15 +29,17 @@
     <!--引导页-->
     <activity
         android:name=".component.splash.GuideActivity"
+        android:configChanges="screenLayout|orientation"
         android:launchMode="singleTop"
         android:screenOrientation="portrait"
-        android:windowSoftInputMode="adjustPan|stateHidden" />
+        android:windowSoftInputMode="adjustPan|stateHidden"/>
     <!--登录页-->
     <activity
         android:name=".component.login.LoginActivity"
+        android:configChanges="screenLayout|orientation"
         android:launchMode="singleTop"
         android:screenOrientation="portrait"
-        android:windowSoftInputMode="adjustPan|stateHidden" />
+        android:windowSoftInputMode="adjustPan|stateHidden"/>
     <!--注册页-->
     <activity
         android:name=".component.login.RegisterActivity"
@@ -46,12 +49,14 @@
     <!--主页-->
     <activity
         android:name=".component.main.MainActivity"
+        android:configChanges="screenLayout|orientation"
         android:launchMode="singleTask"
         android:screenOrientation="portrait"
         android:windowSoftInputMode="adjustPan|stateHidden"/>
     <!--web-->
     <activity
         android:name=".component.web.WebActivity"
+        android:configChanges="screenLayout|orientation"
         android:launchMode="singleTop"
         android:screenOrientation="portrait"
         android:windowSoftInputMode="adjustPan|stateHidden"/>
