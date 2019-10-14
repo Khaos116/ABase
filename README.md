@@ -23,5 +23,5 @@
 **[DiscreteScrollView](https://github.com/yarolegovich/DiscreteScrollView)**|实现无限轮播Banner、ViewPager横竖屏滑动等
   
 #####效果  
-[横向Banner](https://github.com/caiyoufei/ABase/blob/master/image/horizontal_banner.gif)
-[纵向Banner](https://github.com/caiyoufei/ABase/blob/master/image/vertical_banner.gif)
+![横向Banner](https://github.com/caiyoufei/ABase/blob/master/image/horizontal_banner.gif)
+![纵向Banner](https://github.com/caiyoufei/ABase/blob/master/image/vertical_banner.gif)
