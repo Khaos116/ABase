@@ -21,7 +21,9 @@
 -keepattributes *Annotation*,InnerClasses
 # 避免混淆泛型
 -keepattributes Signature
-# 保留代码行号，方便异常信息的追踪
+# 将.class信息中的类名重新定义为"Proguard"字符串
+-renamesourcefileattribute SourceFile
+# 并保留源文件名为"Proguard"字符串，而非原始的类名 并保留行号
 -keepattributes SourceFile,LineNumberTable
 # 混淆采用的算法
 -optimizations !code/simplification/cast,!field/*,!class/merging/*
