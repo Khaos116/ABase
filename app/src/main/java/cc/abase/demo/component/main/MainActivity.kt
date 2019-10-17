@@ -12,7 +12,6 @@ import cc.abase.demo.component.comm.CommFragment
 import cc.abase.demo.constants.EventKeys
 import com.blankj.utilcode.util.ActivityUtils
 import com.blankj.utilcode.util.FragmentUtils
-import com.gyf.immersionbar.ktx.immersionBar
 import com.jeremyliao.liveeventbus.LiveEventBus
 import kotlinx.android.synthetic.main.activity_main.mainContainer
 import kotlinx.android.synthetic.main.activity_main.mainNavigation
@@ -45,6 +44,7 @@ class MainActivity : CommActivity() {
     fragmentList = mutableListOf(homeFragment, dynFragment, mineFragment)
     //设置选中
     selectFragment(0)
+    setSelectIndex(0)
     //切换
     mainNavigation.setOnNavigationItemSelectedListener {
       when (it.itemId) {

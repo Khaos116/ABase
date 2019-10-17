@@ -2,8 +2,10 @@ package cc.abase.demo.component.main
 
 import android.util.Log
 import android.view.View
+import cc.ab.base.ext.click
 import cc.ab.base.ext.toast
 import cc.abase.demo.R
+import cc.abase.demo.component.chat.ChatActivity
 import cc.abase.demo.component.comm.CommFragment
 import cc.abase.demo.repository.UserRepository
 import kotlinx.android.synthetic.main.fragment_mine.myIntegral
@@ -23,6 +25,7 @@ class MineFragment : CommFragment() {
   override val contentLayout = R.layout.fragment_mine
 
   override fun initView(root: View?) {
+    myIntegral.click { ChatActivity.startActivity(mContext) }
   }
 
   override fun initData() {
