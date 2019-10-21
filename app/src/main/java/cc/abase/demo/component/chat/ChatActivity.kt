@@ -66,6 +66,7 @@ class ChatActivity : CommTitleActivity() {
       if (isBottom) scrollChatBottom()
     }
     initEmoji()
+    chatEdit.requestFocus()
   }
 
   override fun initData() {
