@@ -64,3 +64,7 @@ class HomeBannerHolderView(view: View?) : DiscreteHolder<BannerBean>(view) {
   }
 }
 ~~~
+
+================================================================
+##  聊天Emoji效果图
+![聊天Emoji](https://github.com/caiyoufei/ABase/blob/master/image/emoji_chat.gif)
