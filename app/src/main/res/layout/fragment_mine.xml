@@ -1,10 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:id="@+id/mineRoot"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+    <TextView
+        android:id="@+id/myChatEmoji"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingStart="12dp"
+        android:paddingTop="10dp"
+        android:paddingEnd="12dp"
+        android:paddingBottom="10dp"
+        android:text="@string/fun_chat" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@color/gray_CCCCCC" />
     <TextView
         android:id="@+id/myIntegral"
         android:layout_width="match_parent"
@@ -12,4 +26,4 @@
         android:gravity="center"
         android:text="@string/main_mine"
         android:textSize="20sp" />
-</FrameLayout>
+</LinearLayout>

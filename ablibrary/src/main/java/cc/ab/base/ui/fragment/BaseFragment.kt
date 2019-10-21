@@ -3,7 +3,9 @@ package cc.ab.base.ui.fragment
 import android.app.Activity
 import android.content.Context
 import android.os.Bundle
-import android.view.*
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.widget.FrameLayout
 import cc.ab.base.ext.removeParent
 import com.airbnb.mvrx.BaseMvRxFragment
@@ -21,11 +23,13 @@ abstract class BaseFragment : BaseMvRxFragment() {
   private var isInViewPager = false
   //页面基础信息
   lateinit var mContext: Activity
+  lateinit var mActivity: Activity
   protected var rootView: FrameLayout? = null
 
   override fun onAttach(context: Context) {
     super.onAttach(context)
     mContext = context as Activity
+    mActivity = context
   }
 
   override fun onCreateView(

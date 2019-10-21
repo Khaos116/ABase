@@ -4,11 +4,12 @@ import android.util.Log
 import android.view.View
 import cc.ab.base.ext.click
 import cc.ab.base.ext.toast
+import cc.ab.base.utils.PressEffectHelper
 import cc.abase.demo.R
 import cc.abase.demo.component.chat.ChatActivity
 import cc.abase.demo.component.comm.CommFragment
 import cc.abase.demo.repository.UserRepository
-import kotlinx.android.synthetic.main.fragment_mine.myIntegral
+import kotlinx.android.synthetic.main.fragment_mine.*
 
 /**
  * Description:
@@ -25,7 +26,8 @@ class MineFragment : CommFragment() {
   override val contentLayout = R.layout.fragment_mine
 
   override fun initView(root: View?) {
-    myIntegral.click { ChatActivity.startActivity(mContext) }
+    PressEffectHelper.bgColorEffect(myChatEmoji)
+    myChatEmoji.click { ChatActivity.startActivity(mContext) }
   }
 
   override fun initData() {
@@ -34,7 +36,7 @@ class MineFragment : CommFragment() {
         .subscribe { t1, t2 ->
           dismissLoadingView()
           if (t1 != null) {
-            myIntegral.text = String.format("我的积分:%d", t1.coinCount)
+            myIntegral.text = String.format(mActivity.getString(R.string.my_integral), t1.coinCount)
           } else if (t2 != null) {
             mContext.toast(t2.message)
           }
