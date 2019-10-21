@@ -17,6 +17,8 @@ import com.billy.android.swipe.SmartSwipeRefresh
 import com.billy.android.swipe.refresh.ClassicFooter
 import com.billy.android.swipe.refresh.ClassicHeader
 import com.previewlibrary.ZoomMediaLoader
+import com.vanniktech.emoji.EmojiManager
+import com.vanniktech.emoji.ios.IosEmojiProvider
 
 /**
  * Description:
@@ -32,18 +34,23 @@ open class MyApplication : BaseApplication() {
     initSmartSwipeBack()
     //图片预览
     ZoomMediaLoader.getInstance()
-      .init(PreviewImgLoader())
+        .init(PreviewImgLoader())
     //网络请求
-    FuelHelper.initFuel(WanUrls.BASE,
+    FuelHelper.initFuel(
+        WanUrls.BASE,
         requestInterceptor = HeaderManger.instance.fuelHeader(),
-        responseInterceptor= ResponseManager.instance.fuelResponse()
-        )
+        responseInterceptor = ResponseManager.instance.fuelResponse()
+    )
+    //表情
+    EmojiManager.install(IosEmojiProvider())
   }
+
   //静态代码段可以防止内存泄露
   companion object {
     init {
       //设置全局的Header构建器
-      SmartSwipeRefresh.setDefaultRefreshViewCreator(object : SmartSwipeRefresh.SmartSwipeRefreshViewCreator {
+      SmartSwipeRefresh.setDefaultRefreshViewCreator(object :
+          SmartSwipeRefresh.SmartSwipeRefreshViewCreator {
         override fun createRefreshHeader(context: Context?): SmartSwipeRefresh.SmartSwipeRefreshHeader {
           return if (context == null) ClassicHeader(context) else CCRefreshHeader(context)
         }

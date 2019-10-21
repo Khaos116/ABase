@@ -33,9 +33,13 @@ abstract class SimpleTextItem : BaseEpoxyModel<BaseEpoxyHolder>() {
   @EpoxyAttribute
   var paddingEndPx: Int = SizeUtils.dp2px(12f)
   @EpoxyAttribute
+  var paddingTopPx: Int = SizeUtils.dp2px(10f)
+  @EpoxyAttribute
+  var paddingBottomPx: Int = SizeUtils.dp2px(10f)
+  @EpoxyAttribute
   var textColor: Int = Color.parseColor("#333333")
   @EpoxyAttribute
-  var gravity: Int = Gravity.CENTER_VERTICAL
+  var gravity: Int = Gravity.CENTER
   @EpoxyAttribute
   var needBold: Boolean = false
 
@@ -45,7 +49,7 @@ abstract class SimpleTextItem : BaseEpoxyModel<BaseEpoxyHolder>() {
     itemView.itemSimpleTv.setTextSize(TypedValue.COMPLEX_UNIT_PX, textSizePx)
     itemView.itemSimpleTv.typeface =
       Typeface.defaultFromStyle(if (needBold) Typeface.BOLD else Typeface.NORMAL)
-    itemView.itemSimpleTv.setPadding(paddingStartPx, 0, paddingEndPx, 0)
+    itemView.itemSimpleTv.setPadding(paddingStartPx, paddingTopPx, paddingEndPx, paddingBottomPx)
     itemView.itemSimpleTv.text = msg
     if (onItemClick == null) {
       itemView.pressEffectDisable()
