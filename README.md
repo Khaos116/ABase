@@ -22,6 +22,7 @@
 **[RxAndroid](https://github.com/ReactiveX/RxAndroid)**|Android线程切换+Rxjava
 **[LiveEventBus](https://github.com/JeremyLiao/LiveEventBus)**|跨进程通信、跨APP通信、自动取消订阅
 **[DiscreteScrollView](https://github.com/yarolegovich/DiscreteScrollView)**|实现无限轮播Banner、ViewPager横竖屏滑动等
+**[Emoji](https://github.com/vanniktech/Emoji)**|聊天Emoji表情选择面板
   
 ================================================================     
 ##  Banner效果图  
