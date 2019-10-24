@@ -76,7 +76,8 @@ class HomeFragment : CommFragment() {
           //显示loading
           showLoadingView()
           //为了防止loading结束后还存在失败的view所以需刷新一下
-          epoxyController.requestModelBuild()
+          epoxyController.data = state//透明背景的loading需要这样设置
+          //epoxyController.requestModelBuild()非透明背景的loading还可以这样设置
         }
       } else if (state.request.complete) {//请求结束
         mSmartSwipeRefresh?.finished(state.request is Success)

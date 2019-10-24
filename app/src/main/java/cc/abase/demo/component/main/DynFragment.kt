@@ -72,7 +72,7 @@ class DynFragment : CommFragment() {
           //显示loading
           showLoadingView()
           //为了防止loading结束后还存在失败的view所以需刷新一下
-          epoxyController.requestModelBuild()
+          if (state.androidList.isNullOrEmpty()) epoxyController.data = state
         }
       } else if (state.request.complete) {//请求结束
         mSmartSwipeRefresh?.finished(state.request is Success)
