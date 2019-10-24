@@ -22,7 +22,7 @@
   <string name="guide_go">立即体验</string>
   <string name="login_password_short">密码太短</string>
   <string name="login_password_not_same">两次输入的密码不一致</string>
-    <string name="login_fail">登录失败</string>
+  <string name="login_fail">登录失败</string>
   <string name="data_conver_error">数据转换异常</string>
   <string name="data_request_error">数据请求出错</string>
   <string name="client_request_error">请求参数错误</string>
@@ -30,8 +30,9 @@
   <string name="service_no_data">服务器无数据</string>
   <string name="unknown_error">未知错误</string>
   <string name="need_login">登录过期，请重新登录</string>
-    <string name="chat_send">发送</string>
+  <string name="chat_send">发送</string>
   <string name="chat_title">聊天模拟</string>
-    <string name="fun_chat">聊天Emoji</string>
-    <string name="my_integral">我的积分:%1$S</string>
+  <string name="fun_chat">聊天Emoji</string>
+  <string name="my_integral">我的积分:%1$S</string>
+  <string name="data_request_time_error">手机时间错误</string>
 </resources>

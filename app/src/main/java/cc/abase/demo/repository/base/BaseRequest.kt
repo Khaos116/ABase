@@ -1,5 +1,6 @@
 package cc.abase.demo.repository.base
 
+import android.util.Log
 import cc.ab.base.net.http.response.ApiException
 import cc.abase.demo.R
 import com.blankj.utilcode.util.NetworkUtils
@@ -32,7 +33,11 @@ abstract class BaseRequest {
         code < 0 -> {
           Throwable(
               message = if (NetworkUtils.isConnected()) {
-                comtext.getString(R.string.data_request_error)
+                if (error.exception.message?.contains("Chain validation failed") == true) {
+                  comtext.getString(R.string.data_request_time_error)
+                } else {
+                  comtext.getString(R.string.data_request_error)
+                }
               } else {
                 comtext.getString(R.string.no_network)
               }, cause = error.exception

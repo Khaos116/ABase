@@ -1,6 +1,7 @@
 package cc.ab.base.net.http
 
 import android.util.Log
+import cc.ab.base.net.http.ssl.SSLManager
 import cc.ab.base.utils.CharlesUtils
 import com.github.kittinunf.fuel.core.*
 
@@ -27,10 +28,15 @@ object FuelHelper {
     //添加请求日志拦截器
     FuelManager.instance.addResponseInterceptor(CCResponseInterceptor)
     FuelManager.instance.addRequestInterceptor(CCRequestInterceptor)
-    CharlesUtils.getInstance().getFuelCharlesSSL(
+    val ssl = CharlesUtils.getInstance()
+        .getFuelCharlesSSL(
       CharlesUtils.getInstance().getCharlesInputStream("charles.pem")
-    )?.let {
-      FuelManager.instance.socketFactory = it
+        )
+    if (ssl != null) {
+      FuelManager.instance.socketFactory = ssl
+    } else {
+      SSLManager.createSSLSocketFactory()
+          ?.let { FuelManager.instance.socketFactory = it }
     }
   }
 

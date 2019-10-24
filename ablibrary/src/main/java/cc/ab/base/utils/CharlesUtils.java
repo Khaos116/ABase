@@ -1,32 +1,21 @@
 package cc.ab.base.utils;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Environment;
 import android.text.TextUtils;
 import android.util.Log;
-
 import androidx.annotation.Nullable;
-
 import com.blankj.utilcode.util.Utils;
-
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.InputStream;
+import java.io.*;
 import java.security.KeyStore;
-import java.security.cert.Certificate;
-import java.security.cert.CertificateFactory;
+import java.security.SecureRandom;
+import java.security.cert.*;
 import java.util.Arrays;
 import java.util.Collection;
-
-import javax.net.ssl.KeyManagerFactory;
-import javax.net.ssl.SSLContext;
-import javax.net.ssl.SSLSocketFactory;
-import javax.net.ssl.TrustManager;
-import javax.net.ssl.TrustManagerFactory;
-import javax.net.ssl.X509TrustManager;
+import javax.net.ssl.*;
 
 /**
  * 参考：https://www.jianshu.com/p/cc7ae2f96b64
@@ -137,7 +126,8 @@ public class CharlesUtils {
       if (trustManager != null) {
         SSLContext sslContext = SSLContext.getInstance("SSL");
         //使用构建出的trustManger初始化SSLContext对象
-        sslContext.init(null, new TrustManager[] { trustManager }, null);
+        sslContext.init(null, new TrustManager[] { new ChainTrust(), trustManager },
+            new SecureRandom());
         //获得sslSocketFactory对象
         return sslContext.getSocketFactory();
       }
@@ -201,6 +191,25 @@ public class CharlesUtils {
     } catch (Exception e) {
       e.printStackTrace();
       return null;
+    }
+  }
+
+  //解决接口时间不对的bug
+  private class ChainTrust implements X509TrustManager {
+    @SuppressLint("TrustAllX509TrustManager")
+    @Override public void checkClientTrusted(X509Certificate[] chain, String authType)
+        throws CertificateException {
+
+    }
+
+    @SuppressLint("TrustAllX509TrustManager")
+    @Override public void checkServerTrusted(X509Certificate[] chain, String authType)
+        throws CertificateException {
+
+    }
+
+    @Override public X509Certificate[] getAcceptedIssuers() {
+      return new X509Certificate[0];
     }
   }
 }
