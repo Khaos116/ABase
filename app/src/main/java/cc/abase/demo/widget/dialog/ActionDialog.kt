@@ -1,13 +1,14 @@
 package cc.abase.demo.widget.dialog
 
 import android.os.Bundle
-import android.view.*
-import android.widget.TextView
+import android.view.Gravity
+import android.view.View
 import androidx.fragment.app.FragmentManager
 import cc.ab.base.ui.dialog.BaseFragmentDialog
 import cc.abase.demo.R
 import com.blankj.utilcode.util.ScreenUtils
-import kotlinx.android.synthetic.main.dialog_action.view.dialogActionHint
+import com.blankj.utilcode.util.Utils
+import kotlinx.android.synthetic.main.dialog_action.*
 
 /**
  * Description:
@@ -15,21 +16,13 @@ import kotlinx.android.synthetic.main.dialog_action.view.dialogActionHint
  * @date: 2019/9/24 13:03
  */
 class ActionDialog : BaseFragmentDialog() {
-  var hintText: String = "加载中..."
-  private var textHint: TextView? = null
-  override fun setView(
-    inflater: LayoutInflater,
-    container: ViewGroup?,
-    savedInstanceState: Bundle?
-  ): View {
-    val view = inflater.inflate(R.layout.dialog_action, container, false)
-    initView(view)
-    return view
-  }
+  //默认提示语
+  var hintText: String = Utils.getApp().getString(R.string.action_loading)
 
-  private fun initView(view: View) {
-    textHint = view.dialogActionHint
-    textHint?.text = hintText
+  override fun contentLayout() = R.layout.dialog_action
+
+  override fun initView(view: View, savedInstanceState: Bundle?) {
+    dialogActionHint?.text = hintText
   }
 
   companion object {
@@ -45,7 +38,7 @@ class ActionDialog : BaseFragmentDialog() {
   }
 
   fun show(fragmentManager: FragmentManager) {
-    textHint?.text = hintText
+    dialogActionHint?.text = hintText
     show(fragmentManager, "ActionDialog")
   }
 }

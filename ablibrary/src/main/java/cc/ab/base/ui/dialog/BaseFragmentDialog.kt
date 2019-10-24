@@ -6,7 +6,10 @@ import android.content.DialogInterface
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.view.*
+import android.view.Gravity
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.view.WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN
 import androidx.fragment.app.DialogFragment
@@ -35,12 +38,6 @@ abstract class BaseFragmentDialog : DialogFragment() {
   private var showListener: (() -> Unit)? = null
   private var disListener: (() -> Unit)? = null
 
-  protected abstract fun setView(
-    inflater: LayoutInflater,
-    container: ViewGroup?,
-    savedInstanceState: Bundle?
-  ): View
-
   private var contentView: View? = null
   override fun onCreateView(
     inflater: LayoutInflater,
@@ -49,7 +46,7 @@ abstract class BaseFragmentDialog : DialogFragment() {
   ): View? {
     setStyle()
     if (contentView == null) {
-      val view = setView(inflater, container, savedInstanceState)
+      val view = inflater.inflate(contentLayout(), container, false)
       contentView = view
       viewLoadedListener?.invoke(view)
     } else {
@@ -69,7 +66,9 @@ abstract class BaseFragmentDialog : DialogFragment() {
     val c = context
     if (lowerBackground && c != null) setBackgroundAlpha(c, 0.3F)
     super.onViewCreated(view, savedInstanceState)
+    initView(view, savedInstanceState)
   }
+
 
   override fun onDestroyView() {
     val c = context
@@ -175,4 +174,12 @@ abstract class BaseFragmentDialog : DialogFragment() {
     mAnimation?.also { window?.setWindowAnimations(it) }
     window?.attributes = wlp
   }
+
+  //-----------------------需要重写-----------------------//
+  //XML布局
+  protected abstract fun contentLayout(): Int
+
+  //初始化
+  protected abstract fun initView(view: View, savedInstanceState: Bundle?)
+
 }
