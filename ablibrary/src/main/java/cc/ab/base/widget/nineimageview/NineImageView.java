@@ -64,6 +64,7 @@ public class NineImageView extends ViewGroup {
   }
 
   public void setData(List<ImageData> data, LayoutHelper layoutHelper) {
+    removeAllViews();
     this.dataSource = data;
     this.shouldLoad = true;
     mFirstLoad = true;
