@@ -65,7 +65,12 @@ public class NineImageView extends ViewGroup {
   }
 
   public void setData(List<ImageData> data, LayoutHelper layoutHelper) {
-    removeAllViews();
+    int count = getChildCount();
+    for (int i = 0; i < count; i++) {
+      ImageView childMImageView = (ImageView) getChildAt(i);
+      childMImageView.setImageDrawable(null);
+      childMImageView.setVisibility(View.GONE);
+    }
     this.dataSource = data;
     this.shouldLoad = true;
     mFirstLoad = true;
@@ -93,9 +98,6 @@ public class NineImageView extends ViewGroup {
         }
         imageCell.setData(imageData, mDisplayOptions, cellWidth, cellHeight);
         imageCell.setVisibility(VISIBLE);
-      }
-      for (; index < getChildCount(); index++) {
-        getChildAt(index).setVisibility(GONE);
       }
     }
     requestLayout();
