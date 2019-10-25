@@ -1,4 +1,4 @@
-package cc.ab.base.widget.ninegridview;
+package cc.ab.base.widget;
 
 import android.content.Context;
 import android.content.res.TypedArray;
