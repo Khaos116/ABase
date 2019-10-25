@@ -23,6 +23,8 @@ import kotlinx.android.synthetic.main.item_gank_android.view.*
  */
 @EpoxyModelClass(layout = R.layout.item_gank_android)
 abstract class GankAndroidItem : BaseEpoxyModel<BaseEpoxyHolder>() {
+  //true使用自己定义的Nine实现9宫格,false使用GlideImageView的9宫格实现
+  private val userAdapterNine = false
   //数据源
   @EpoxyAttribute
   var dataBean: GankAndroidBean? = null
@@ -39,11 +41,28 @@ abstract class GankAndroidItem : BaseEpoxyModel<BaseEpoxyHolder>() {
       //内容
       itemView.itemGankAndroidDes.text = it.desc
       //图片
-      itemView.itemGankAndroidNine.visibleGone(!it.images.isNullOrEmpty())
-      if (!it.images.isNullOrEmpty()) {
-        //多张图片，九宫格
-        val nieView: NineGridView<PicBean> = itemView.findViewById(R.id.itemGankAndroidNine)
-        setMultiImages(it.urlImgs, nieView)
+      if (userAdapterNine) {
+        itemView.itemGankAndroidNine2.gone()
+        itemView.itemGankAndroidNine.visibleGone(!it.images.isNullOrEmpty())
+        if (!it.images.isNullOrEmpty()) {
+          //多张图片，九宫格
+          val nieView: NineGridView<PicBean> = itemView.findViewById(R.id.itemGankAndroidNine)
+          setMultiImages(it.urlImgs, nieView)
+        }
+      } else {
+        itemView.itemGankAndroidNine.gone()
+        itemView.itemGankAndroidNine2.visibleGone(!it.images.isNullOrEmpty())
+        if (!it.images.isNullOrEmpty()) {
+          itemView.itemGankAndroidNine2.data = it.urlImgs2
+          itemView.itemGankAndroidNine2.setOnItemClickListener { position, view ->
+            val dataList = itemView.itemGankAndroidNine2.data
+            val viewList = itemView.itemGankAndroidNine2.geViews()
+            //多图预览
+            PreviewImgUtils.instance.startPreview2(
+                itemView.context as Activity, dataList, viewList, position
+            )
+          }
+        }
       }
     }
     //item点击

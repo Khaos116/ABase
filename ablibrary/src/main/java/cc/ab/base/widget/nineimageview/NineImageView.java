@@ -4,6 +4,7 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import cc.ab.base.ext.ViewExtKt;
 import com.blankj.utilcode.util.SizeUtils;
 import java.util.ArrayList;
@@ -122,10 +123,10 @@ public class NineImageView extends ViewGroup {
     return dataSource;
   }
 
-  public List<View> geViews() {
-    List<View> mViews = new ArrayList<>();
+  public List<ImageView> geViews() {
+    List<ImageView> mViews = new ArrayList<>();
     for (int i = 0; i < getChildCount(); i++) {
-      View mChild = getChildAt(i);
+      ImageView mChild = (ImageView) getChildAt(i);
       if (mChild.getVisibility() == View.VISIBLE) {
         mViews.add(mChild);
       }
@@ -139,8 +140,8 @@ public class NineImageView extends ViewGroup {
     int height = 0;
     for (int i = 0; i < size; i++) {
       ImageData item = dataSource.get(i);
-      int currWidth = item.startX + item.width;
-      int currHeight = item.startY + item.height;
+      int currWidth = item.getStartX() + item.getWidth();
+      int currHeight = item.getStartY() + item.getHeight();
       width = currWidth > width ? currWidth : width;
       height = currHeight > height ? currHeight : height;
     }
@@ -183,13 +184,13 @@ public class NineImageView extends ViewGroup {
       height = 0;
       for (int i = 0; i < size; i++) {
         ImageData item = dataSource.get(i);
-        item.startX *= scale;
-        item.startY *= scale;
-        item.width *= scale;
-        item.height *= scale;
+        item.setStartX((int) (item.getStartX() * scale));
+        item.setStartY((int) (item.getStartY() * scale));
+        item.setWidth((int) (item.getWidth() * scale));
+        item.setHeight((int) (item.getHeight() * scale));
 
-        int currWidth = item.startX + item.width;
-        int currHeight = item.startY + item.height;
+        int currWidth = item.getStartX() + item.getWidth();
+        int currHeight = item.getStartY() + item.getHeight();
         width = currWidth > width ? currWidth : width;
         height = currHeight > height ? currHeight : height;
       }
@@ -204,8 +205,8 @@ public class NineImageView extends ViewGroup {
       ImageCell imageCell = (ImageCell) getChildAt(i);
       if (imageCell != null && imageCell.getVisibility() != GONE) {
         ImageData imageData = dataSource.get(i);
-        imageCell.measure(MeasureSpec.makeMeasureSpec(imageData.width, MeasureSpec.EXACTLY),
-            MeasureSpec.makeMeasureSpec(imageData.height, MeasureSpec.EXACTLY));
+        imageCell.measure(MeasureSpec.makeMeasureSpec(imageData.getWidth(), MeasureSpec.EXACTLY),
+            MeasureSpec.makeMeasureSpec(imageData.getHeight(), MeasureSpec.EXACTLY));
       }
     }
   }
@@ -229,9 +230,9 @@ public class NineImageView extends ViewGroup {
         ImageCell imageCell = (ImageCell) getChildAt(i);
         if (imageCell != null && imageCell.getVisibility() != GONE) {
           ImageData imageData = dataSource.get(i);
-          imageCell.layout(imageData.startX, imageData.startY,
-              imageData.startX + imageCell.getMeasuredWidth(),
-              imageData.startY + imageCell.getMeasuredHeight());
+          imageCell.layout(imageData.getStartX(), imageData.getStartY(),
+              imageData.getStartX() + imageCell.getMeasuredWidth(),
+              imageData.getStartY() + imageCell.getMeasuredHeight());
           if (shouldLoad) {
             shouldLoad = false;
             imageCell.setData(imageData, mDisplayOptions, cellWidth, cellHeight);

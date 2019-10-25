@@ -4,6 +4,7 @@ import android.app.Activity
 import android.graphics.Rect
 import android.widget.ImageView
 import cc.ab.base.net.http.response.PicBean
+import cc.ab.base.widget.nineimageview.ImageData
 import com.previewlibrary.GPreviewBuilder
 import kotlin.math.min
 
@@ -34,12 +35,34 @@ class PreviewImgUtils private constructor() {
     }
     GPreviewBuilder.from(activity)//activity实例必须
 //      .to(CustomActivity::class.java!!)//自定义Activity 使用默认的预览不需要
-      .setData(picList)//集合
+        .setData(picList)//集合
 //      .setUserFragment(UserFragment::class.java!!)//自定义Fragment 使用默认的预览不需要
-      .setCurrentIndex(position)
-      .setSingleFling(false)//是否在黑屏区域点击返回
-      .setDrag(false)//是否禁用图片拖拽返回
-      .setType(GPreviewBuilder.IndicatorType.Number)//指示器类型
-      .start()//启动
+        .setCurrentIndex(position)
+        .setSingleFling(false)//是否在黑屏区域点击返回
+        .setDrag(false)//是否禁用图片拖拽返回
+        .setType(GPreviewBuilder.IndicatorType.Number)//指示器类型
+        .start()//启动
+  }
+
+  fun startPreview2(
+    activity: Activity,
+    picList: MutableList<ImageData>,
+    views: MutableList<ImageView>,
+    position: Int
+  ) {
+    for (i in 0 until min(picList.size, views.size)) {
+      val bounds = Rect()
+      views[i].getGlobalVisibleRect(bounds)
+      picList[i].mBounds = bounds
+    }
+    GPreviewBuilder.from(activity)//activity实例必须
+//      .to(CustomActivity::class.java!!)//自定义Activity 使用默认的预览不需要
+        .setData(picList)//集合
+//      .setUserFragment(UserFragment::class.java!!)//自定义Fragment 使用默认的预览不需要
+        .setCurrentIndex(position)
+        .setSingleFling(false)//是否在黑屏区域点击返回
+        .setDrag(false)//是否禁用图片拖拽返回
+        .setType(GPreviewBuilder.IndicatorType.Number)//指示器类型
+        .start()//启动
   }
 }

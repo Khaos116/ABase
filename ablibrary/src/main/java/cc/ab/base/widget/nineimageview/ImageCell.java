@@ -40,7 +40,7 @@ public class ImageCell extends SketchImageView {
 
   public void setData(ImageData imageData, DisplayOptions options, int w, int h) {
     if (imageData != null) {
-      load(imageData.url, options, w, h);
+      load(imageData.getUrl(), options, w, h);
     }
   }
 

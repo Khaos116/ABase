@@ -1,6 +1,7 @@
 package cc.abase.demo.repository.bean.gank
 
 import cc.ab.base.net.http.response.PicBean
+import cc.ab.base.widget.nineimageview.ImageData
 import cc.abase.demo.utils.TimeUtils
 
 /**
@@ -36,6 +37,18 @@ data class GankAndroidBean(
         field = mutableListOf()
         images?.forEach { url ->
           if (!url.isNullOrBlank()) field.add(PicBean(mediaUrl = url))
+        }
+      }
+      return field
+    }
+
+  //获取图片地址2
+  var urlImgs2 = mutableListOf<ImageData>()
+    get() {
+      if (field.isNullOrEmpty() && !images.isNullOrEmpty()) {
+        field = mutableListOf()
+        images?.forEach { url ->
+          if (!url.isNullOrBlank()) field.add(ImageData(url))
         }
       }
       return field
