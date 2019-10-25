@@ -38,37 +38,29 @@ public class ImageCell extends SketchImageView {
     displayOptions.setErrorImage(R.drawable.svg_placeholder_fail);
   }
 
-  public void setData(ImageData imageData, DisplayOptions options) {
+  public void setData(ImageData imageData, DisplayOptions options, int w, int h) {
     if (imageData != null) {
-      load(imageData.url, options);
+      load(imageData.url, options, w, h);
     }
   }
 
-  public void load(final String url, final DisplayOptions options) {
-    if (getWidth() > 0) {
-      if (options == null) {
-        int holder = RandomPlaceholder.Companion.getInstance().getPlaceHolder(url);
-        displayOptions.setLoadingImage(holder);
-        //圆角
-        RoundRectImageShaper shaper = new RoundRectImageShaper(SizeUtils.dp2px(5f));
-        //shaper.setStroke(colorStroke, 1)
-        displayOptions.setShaper(shaper);
-        //图片尺寸
-        ShapeSize shapeSize = new ShapeSize(getWidth(), getHeight(), ScaleType.CENTER_CROP);
-        displayOptions.setShapeSize(shapeSize);
-        this.setOptions(displayOptions);
-        this.getOptions().setDisplayer(new FadeInImageDisplayer());
-      }
-      // DisplayHelper
-      Sketch.with(getContext())
-          .display(url, this)
-          .commit();
-    } else {
-      this.post(new Runnable() {
-        @Override public void run() {
-          load(url, options);
-        }
-      });
+  public void load(final String url, final DisplayOptions options, int w, int h) {
+    if (options == null) {
+      int holder = RandomPlaceholder.Companion.getInstance().getPlaceHolder(url);
+      displayOptions.setLoadingImage(holder);
+      //圆角
+      RoundRectImageShaper shaper = new RoundRectImageShaper(SizeUtils.dp2px(5f));
+      //shaper.setStroke(colorStroke, 1)
+      displayOptions.setShaper(shaper);
+      //图片尺寸
+      ShapeSize shapeSize = new ShapeSize(w, h, ScaleType.CENTER_CROP);
+      displayOptions.setShapeSize(shapeSize);
+      this.setOptions(displayOptions);
+      this.getOptions().setDisplayer(new FadeInImageDisplayer());
     }
+    // DisplayHelper
+    Sketch.with(getContext())
+        .display(url, this)
+        .commit();
   }
 }

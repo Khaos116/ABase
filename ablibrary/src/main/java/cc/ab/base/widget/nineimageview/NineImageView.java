@@ -89,7 +89,7 @@ public class NineImageView extends ViewGroup {
           });
           addView(imageCell);
         }
-        imageCell.setData(imageData, mDisplayOptions);
+        imageCell.setData(imageData, mDisplayOptions, cellWidth, cellHeight);
         imageCell.setVisibility(VISIBLE);
       }
       for (; index < getChildCount(); index++) {
@@ -233,7 +233,7 @@ public class NineImageView extends ViewGroup {
               imageData.startY + imageCell.getMeasuredHeight());
           if (shouldLoad) {
             shouldLoad = false;
-            imageCell.setData(imageData, mDisplayOptions);
+            imageCell.setData(imageData, mDisplayOptions, cellWidth, cellHeight);
           }
         }
       }
