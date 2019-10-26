@@ -1,14 +1,13 @@
 package cc.abase.demo.repository
 
 import androidx.annotation.IntRange
-import cc.ab.base.net.http.response.BaseResponse
 import cc.ab.base.utils.RxUtils
 import cc.abase.demo.constants.WanUrls
 import cc.abase.demo.repository.base.BaseRepository
-import cc.abase.demo.repository.bean.wan.*
+import cc.abase.demo.repository.bean.wan.ArticleDataBean
+import cc.abase.demo.repository.bean.wan.BannerBean
 import cc.abase.demo.repository.request.WanRequest
 import com.github.kittinunf.fuel.httpGet
-import com.google.gson.reflect.TypeToken
 import io.reactivex.Single
 
 /**
@@ -25,22 +24,18 @@ class HomeRepository private constructor() : BaseRepository() {
     val instance = SingletonHolder.holder
   }
 
-  //数据转换type
-  private val bannerType = object : TypeToken<BaseResponse<MutableList<BannerBean>>>() {}
-  private val articleType = object : TypeToken<BaseResponse<ArticleDataBean>>() {}
-
-  //获取Banner
+  //获取Banner--->Single<MutableList<...>> 需要调用startRequest...List的请求
   fun banner(readCache: Boolean = true): Single<MutableList<BannerBean>> {
     val request = WanUrls.Home.BANNER.httpGet()
     return if (readCache) {
-      WanRequest.instance.startRequestWithCache(request, type = bannerType)
+      WanRequest.instance.startRequestWithCacheList(request)
     } else {
-      WanRequest.instance.startRequest(request, bannerType)
+      WanRequest.instance.startRequestList<BannerBean>(request)
     }.flatMap { justRespons(it) }
         .compose(RxUtils.instance.rx2SchedulerHelperSDelay())
   }
 
-  //获取文章列表
+  //获取文章列表--->Single<...> 需要调用startRequest...不包含List的请求
   fun article(
     @IntRange(
         from = 0
@@ -49,9 +44,9 @@ class HomeRepository private constructor() : BaseRepository() {
     val request = String.format(WanUrls.Home.ARTICLE, page)
         .httpGet()
     return if (readCache) {
-      WanRequest.instance.startRequestWithCache(request, page = page, type = articleType)
+      WanRequest.instance.startRequestWithCache(request, page = page)
     } else {
-      WanRequest.instance.startRequest(request, articleType)
+      WanRequest.instance.startRequest<ArticleDataBean>(request)
     }.flatMap { justRespons(it) }
         .compose(RxUtils.instance.rx2SchedulerHelperSDelay())
   }

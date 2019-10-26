@@ -7,13 +7,13 @@ import cc.abase.demo.component.login.LoginActivity
 import cc.abase.demo.constants.ErrorCode
 import cc.abase.demo.repository.base.BaseRequest
 import cc.abase.demo.repository.cache.CacheRepository
+import cc.abase.demo.repository.parse.BaseParameterizedTypeImpl
 import com.blankj.utilcode.util.ActivityUtils
 import com.blankj.utilcode.util.GsonUtils
 import com.github.kittinunf.fuel.core.FuelError
 import com.github.kittinunf.fuel.core.Request
 import com.github.kittinunf.fuel.rx.rxString
 import com.github.kittinunf.result.Result
-import com.google.gson.reflect.TypeToken
 import io.reactivex.Single
 import io.rx_cache2.DynamicKey
 import io.rx_cache2.EvictProvider
@@ -39,37 +39,65 @@ class WanRequest private constructor() : BaseRequest() {
   )
 
   //执行请求
-  internal fun <T> startRequest(
-    request: Request,
-    type: TypeToken<BaseResponse<T>>
-  ):
+  internal inline fun <reified T> startRequest(request: Request):
       Single<BaseResponse<T>> {
     return request.rxString()
-        .flatMap { flatMapSingle(it, type) }
+        .flatMap { flatMapSingle<T>(it) }
+  }
+
+  internal inline fun <reified T> startRequestList(request: Request):
+      Single<BaseResponse<MutableList<T>>> {
+    return request.rxString()
+        .flatMap { flatMapSingleList<T>(it) }
   }
 
   //请求数据，如果有缓存则返回缓存，没有则进行请求
-  internal fun <T> startRequestWithCache(
+  internal inline fun <reified T> startRequestWithCache(
     request: Request,
     page: Int = 1,
-    size: Int = 20,
-    type: TypeToken<BaseResponse<T>>
+    size: Int = 20
   ): Single<BaseResponse<T>> {
     return CacheRepository.instance.getCacheData(
         request.rxString(),//请求结果以string返回
         DynamicKey("url=${request.url}page=${page},size=${size}"),//缓存相关的key
         update = EvictProvider(false)//false不强制清除缓存,true强制清除缓存
     )
-        .flatMap { flatMapSingle(it, type) }
+        .flatMap { flatMapSingle<T>(it) }
+  }
+
+  internal inline fun <reified T> startRequestWithCacheList(
+    request: Request,
+    page: Int = 1,
+    size: Int = 20
+  ): Single<BaseResponse<MutableList<T>>> {
+    return CacheRepository.instance.getCacheData(
+        request.rxString(),//请求结果以string返回
+        DynamicKey("url=${request.url}page=${page},size=${size}"),//缓存相关的key
+        update = EvictProvider(false)//false不强制清除缓存,true强制清除缓存
+    )
+        .flatMap { flatMapSingleList<T>(it) }
   }
 
   //区分成功和失败
-  private fun <T> flatMapSingle(
-    result: Result<String, FuelError>,
-    type: TypeToken<BaseResponse<T>>
+  private inline fun <reified T> flatMapSingle(
+    result: Result<String, FuelError>
   ): Single<BaseResponse<T>> {
     return if (result.component2() == null) {
-      Single.just(converWanData(result.component1(), type.type))
+      Single.just(
+          converWanData(result.component1(), BaseParameterizedTypeImpl.typeOne(T::class.java))
+      )
+    } else {
+      Single.error(converFuelError(result.component2()))
+    }
+  }
+
+  private inline fun <reified T> flatMapSingleList(
+    result: Result<String, FuelError>
+  ): Single<BaseResponse<MutableList<T>>> {
+    return if (result.component2() == null) {
+      Single.just(
+          converWanData(result.component1(), BaseParameterizedTypeImpl.typeList(T::class.java))
+      )
     } else {
       Single.error(converFuelError(result.component2()))
     }

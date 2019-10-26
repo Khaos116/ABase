@@ -3,7 +3,6 @@ package cc.abase.demo.repository
 import android.annotation.SuppressLint
 import android.util.Log
 import cc.ab.base.net.http.response.ApiException
-import cc.ab.base.net.http.response.BaseResponse
 import cc.ab.base.utils.RxUtils
 import cc.abase.demo.constants.WanUrls
 import cc.abase.demo.repository.base.BaseRepository
@@ -15,7 +14,6 @@ import com.blankj.utilcode.util.EncryptUtils
 import com.github.kittinunf.fuel.httpGet
 import com.github.kittinunf.fuel.httpPost
 import com.github.kittinunf.fuel.rx.rxString
-import com.google.gson.reflect.TypeToken
 import io.reactivex.Single
 
 /**
@@ -32,10 +30,6 @@ class UserRepository private constructor() : BaseRepository() {
     val instance = SingletonHolder.holder
   }
 
-  //由于没有找到Gson的type泛型获取方法，所以改为外部传入
-  private var userType = object : TypeToken<BaseResponse<UserBean>>() {}
-  private var integralType = object : TypeToken<BaseResponse<IntegralBean>>() {}
-
   //注册
   fun register(
     username: String,
@@ -51,7 +45,7 @@ class UserRepository private constructor() : BaseRepository() {
         )
     )
     //执行请求
-    return WanRequest.instance.startRequest(request, userType)
+    return WanRequest.instance.startRequest<UserBean>(request)
         //保存登录数据
         .flatMap {
           it.data?.let { user ->
@@ -80,7 +74,7 @@ class UserRepository private constructor() : BaseRepository() {
         )
     )
     //执行请求
-    return WanRequest.instance.startRequest(request, userType)
+    return WanRequest.instance.startRequest<UserBean>(request)
         //保存登录数据
         .flatMap {
           it.data?.let { user ->
@@ -109,7 +103,7 @@ class UserRepository private constructor() : BaseRepository() {
   //我的积分
   fun myIntegral(): Single<IntegralBean> {
     val request = WanUrls.User.INTEGRAL.httpGet()
-    return WanRequest.instance.startRequest(request, integralType)
+    return WanRequest.instance.startRequest<IntegralBean>(request)
         .flatMap { justRespons(it) }
         .compose(RxUtils.instance.rx2SchedulerHelperSDelay())
   }
