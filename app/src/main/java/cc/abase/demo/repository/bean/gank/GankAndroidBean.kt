@@ -13,7 +13,7 @@ data class GankAndroidBean(
   var _id: String,// "5bbb01af9d21226111b86f0d",
   var createdAt: String? = null,// "2018-10-08T07:05:19.297Z",
   var desc: String? = null,// "适用于Android的灵活，强大且轻量级的插件框架【爱奇艺】",
-  var images: List<String?>?,
+  var images: List<String?>? = null,
   var publishedAt: String? = null,// "2019-04-10T00:00:00.0Z",
   var source: String? = null,// "chrome",
   var type: String? = null,// "Android",
