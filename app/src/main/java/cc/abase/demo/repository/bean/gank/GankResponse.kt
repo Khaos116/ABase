@@ -1,9 +1,5 @@
 package cc.abase.demo.repository.bean.gank
 
-import com.google.gson.internal.`$Gson$Types`
-import java.lang.reflect.ParameterizedType
-import java.lang.reflect.Type
-
 /**
  * Description:
  * @author: caiyoufei
@@ -12,5 +8,5 @@ import java.lang.reflect.Type
 data class GankResponse<out T>(
   val error: Boolean = true,
   var message: String? = null,
-  val results: T?
+  val results: T? = null
 )
