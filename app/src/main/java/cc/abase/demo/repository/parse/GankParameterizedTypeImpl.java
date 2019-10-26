@@ -1,7 +1,6 @@
 package cc.abase.demo.repository.parse;
 
 import cc.abase.demo.repository.bean.gank.GankResponse;
-import com.google.gson.Gson;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.List;
@@ -17,23 +16,20 @@ public class GankParameterizedTypeImpl implements ParameterizedType {
   private final Class raw;
   private final Type[] args;
 
-  public GankParameterizedTypeImpl(Class raw, Type[] args) {
+  private GankParameterizedTypeImpl(Class raw, Type[] args) {
     this.raw = raw;
     this.args = args != null ? args : new Type[0];
   }
 
-  public static <T> GankResponse<T> fromJsonObject(String reader, Class<T> clazz) throws Exception {
-    Type type = new GankParameterizedTypeImpl(GankResponse.class, new Class[] { clazz });
-    return new Gson().fromJson(reader, type);
+  public static Type typeOne(Class<?> clazz) {
+    return new GankParameterizedTypeImpl(GankResponse.class, new Class[] { clazz });
   }
 
-  public static <T> GankResponse<List<T>> fromJsonArray(String reader, Class<T> clazz)
-      throws Exception {
+  public static Type typeList(Class<?> clazz) {
     // 生成List<T> 中的 List<T>
     Type listType = new GankParameterizedTypeImpl(List.class, new Class[] { clazz });
     // 根据List<T>生成完整的Response<List<T>>
-    Type type = new GankParameterizedTypeImpl(GankResponse.class, new Type[] { listType });
-    return new Gson().fromJson(reader, type);
+    return new GankParameterizedTypeImpl(GankResponse.class, new Type[] { listType });
   }
 
   @NotNull @Override
