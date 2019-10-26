@@ -5,10 +5,8 @@ import cc.ab.base.utils.RxUtils
 import cc.abase.demo.constants.GankUrls
 import cc.abase.demo.repository.base.BaseRepository
 import cc.abase.demo.repository.bean.gank.GankAndroidBean
-import cc.abase.demo.repository.bean.gank.GankResponse
 import cc.abase.demo.repository.request.GankRequest
 import com.github.kittinunf.fuel.httpGet
-import com.google.gson.reflect.TypeToken
 import io.reactivex.Single
 
 /**
@@ -26,9 +24,7 @@ class GankRepository private constructor(): BaseRepository() {
     val instance = SingletonHolder.holder
   }
 
-  private val typeAndroidList = object : TypeToken<GankResponse<MutableList<GankAndroidBean>>>() {}
-
-  //获取安卓信息列表
+  //获取安卓信息列表,返回Single<MutableList<...>>需要访问Request...List
   fun androidList(
     @IntRange(from = 1) page: Int, size: Int,
     readCache: Boolean = true
@@ -36,11 +32,9 @@ class GankRepository private constructor(): BaseRepository() {
     val request = String.format(GankUrls.ANDROID, size, page)
         .httpGet()
     return if (readCache) {
-      GankRequest.instance.startRequestWithCache(
-          request, page = page, size = size, type = typeAndroidList
-      )
+      GankRequest.instance.startRequestWithCacheList(request, page = page, size = size)
     } else {
-      GankRequest.instance.startRequest(request, typeAndroidList)
+      GankRequest.instance.startRequestList<GankAndroidBean>(request)
     }.flatMap { justRespons(it) }
         .compose(
             if (page <= 1) {//由于第一次加载的时候是loading，所以不能让接口请求的太快
