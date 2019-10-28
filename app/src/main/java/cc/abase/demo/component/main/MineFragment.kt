@@ -4,7 +4,7 @@ import android.content.Intent
 import android.util.Log
 import android.view.Gravity
 import android.view.View
-import cc.ab.base.ext.toast
+import cc.ab.base.ext.*
 import cc.abase.demo.R
 import cc.abase.demo.component.chat.ChatActivity
 import cc.abase.demo.component.comm.CommActivity
@@ -16,8 +16,7 @@ import cc.abase.demo.mvrx.MvRxEpoxyController
 import cc.abase.demo.repository.UserRepository
 import com.blankj.utilcode.util.ColorUtils
 import com.blankj.utilcode.util.StringUtils
-import kotlinx.android.synthetic.main.fragment_mine.mineIntegral
-import kotlinx.android.synthetic.main.fragment_mine.mineRecycler
+import kotlinx.android.synthetic.main.fragment_mine.*
 
 /**
  * Description:
@@ -47,9 +46,11 @@ class MineFragment : CommFragment() {
 
   override fun initData() {
     showLoadingView()
+    mineRoot.gone()
     val dis = UserRepository.instance.myIntegral()
         .subscribe { t1, t2 ->
           dismissLoadingView()
+          mineRoot.visible()
           if (t1 != null) {
             mineIntegral.text =
               String.format(StringUtils.getString(R.string.my_integral), t1.coinCount)
