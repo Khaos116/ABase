@@ -139,6 +139,13 @@ class RxFFmpegActivity : CommTitleActivity() {
       if (path.startsWith("com.sec.android.gallery3d")) {
         return null
       }
+      //file:///storage/emulated/0/ffmpeg2.mp4
+      val index = selectedVideo.toString()
+          .indexOf("/storage/emulated")
+      if (index > 0) {
+        return selectedVideo.toString()
+            .substring(index)
+      }
     } else {
       return null
     }
