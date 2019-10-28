@@ -18,6 +18,22 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1px"
+        android:background="@color/gray_CCCCCC"
+        />
+
+    <TextView
+        android:id="@+id/myFFmpeg"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingStart="12dp"
+        android:paddingTop="10dp"
+        android:paddingEnd="12dp"
+        android:paddingBottom="10dp"
+        android:text="@string/ffmpeg_title"
+        />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
         android:background="@color/gray_CCCCCC" />
     <TextView
         android:id="@+id/myIntegral"

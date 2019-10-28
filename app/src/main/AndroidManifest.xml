@@ -67,6 +67,13 @@
         android:launchMode="singleTop"
         android:screenOrientation="portrait"
         android:windowSoftInputMode="adjustPan|stateHidden" />
+    <!--视频封面获取和压缩-->
+    <activity
+        android:name=".component.ffmpeg.RxFFmpegActivity"
+        android:configChanges="screenLayout|orientation"
+        android:launchMode="singleTop"
+        android:screenOrientation="portrait"
+        android:windowSoftInputMode="adjustPan|stateHidden"/>
   </application>
 
 </manifest>

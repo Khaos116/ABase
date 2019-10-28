@@ -8,6 +8,7 @@ import cc.ab.base.utils.PressEffectHelper
 import cc.abase.demo.R
 import cc.abase.demo.component.chat.ChatActivity
 import cc.abase.demo.component.comm.CommFragment
+import cc.abase.demo.component.ffmpeg.RxFFmpegActivity
 import cc.abase.demo.repository.UserRepository
 import kotlinx.android.synthetic.main.fragment_mine.*
 
@@ -28,6 +29,7 @@ class MineFragment : CommFragment() {
   override fun initView(root: View?) {
     PressEffectHelper.bgColorEffect(myChatEmoji)
     myChatEmoji.click { ChatActivity.startActivity(mContext) }
+    myFFmpeg.click { RxFFmpegActivity.startActivity(mContext) }
   }
 
   override fun initData() {

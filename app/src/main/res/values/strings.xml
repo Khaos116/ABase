@@ -36,4 +36,9 @@
   <string name="my_integral">我的积分:%1$S</string>
   <string name="data_request_time_error">手机时间错误</string>
     <string name="action_loading">加载中...</string>
+  <string name="compress_video_fail">视频压缩失败</string>
+  <string name="pic_first_frame_fail">视频封面获取失败</string>
+    <string name="select_a_video">请选择一个视频</string>
+  <string name="start_compress">开始压缩</string>
+  <string name="ffmpeg_title">视频压缩与封面获取</string>
 </resources>

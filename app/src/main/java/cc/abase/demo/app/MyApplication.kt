@@ -19,6 +19,7 @@ import com.billy.android.swipe.refresh.ClassicHeader
 import com.previewlibrary.ZoomMediaLoader
 import com.vanniktech.emoji.EmojiManager
 import com.vanniktech.emoji.ios.IosEmojiProvider
+import io.microshow.rxffmpeg.RxFFmpegInvoke
 
 /**
  * Description:
@@ -43,6 +44,9 @@ open class MyApplication : BaseApplication() {
     )
     //表情
     EmojiManager.install(IosEmojiProvider())
+    //RxFFmpeg
+    RxFFmpegInvoke.getInstance()
+        .setDebug(true)
   }
 
   //静态代码段可以防止内存泄露
