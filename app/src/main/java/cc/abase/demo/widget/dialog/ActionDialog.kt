@@ -7,8 +7,8 @@ import androidx.fragment.app.FragmentManager
 import cc.ab.base.ui.dialog.BaseFragmentDialog
 import cc.abase.demo.R
 import com.blankj.utilcode.util.ScreenUtils
-import com.blankj.utilcode.util.Utils
-import kotlinx.android.synthetic.main.dialog_action.*
+import com.blankj.utilcode.util.StringUtils
+import kotlinx.android.synthetic.main.dialog_action.dialogActionHint
 
 /**
  * Description:
@@ -17,7 +17,7 @@ import kotlinx.android.synthetic.main.dialog_action.*
  */
 class ActionDialog : BaseFragmentDialog() {
   //默认提示语
-  var hintText: String = Utils.getApp().getString(R.string.action_loading)
+  var hintText: String = StringUtils.getString(R.string.action_loading)
 
   override fun contentLayout() = R.layout.dialog_action
 

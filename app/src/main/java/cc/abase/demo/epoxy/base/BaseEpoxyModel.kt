@@ -8,8 +8,7 @@ import cc.ab.base.ext.getColorRes
 import cc.ab.base.ui.holder.BaseEpoxyHolder
 import com.airbnb.epoxy.EpoxyAttribute
 import com.airbnb.epoxy.EpoxyModelWithHolder
-import com.blankj.utilcode.util.SizeUtils
-import com.blankj.utilcode.util.Utils
+import com.blankj.utilcode.util.*
 
 /**
  * Description:
@@ -77,7 +76,7 @@ abstract class BaseEpoxyModel<T : BaseEpoxyHolder> :
       view.setBackgroundColor(it)
     }
     bgColorRes?.let {
-      view.setBackgroundColor(Utils.getApp().getColorRes(it))
+      view.setBackgroundColor(ColorUtils.getColor(it))
     }
   }
 

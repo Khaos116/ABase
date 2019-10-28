@@ -7,17 +7,16 @@ import android.view.View
 import android.view.ViewGroup
 import android.webkit.WebSettings
 import android.webkit.WebView
-import cc.ab.base.ext.getColorRes
-import cc.ab.base.ext.mContext
 import cc.abase.demo.R
 import cc.abase.demo.component.comm.CommTitleActivity
 import cc.abase.demo.config.HeaderManger
 import cc.abase.demo.constants.EventKeys
 import cc.abase.demo.widget.LollipopFixedWebView
+import com.blankj.utilcode.util.ColorUtils
 import com.jeremyliao.liveeventbus.LiveEventBus
 import com.just.agentweb.AgentWeb
 import com.just.agentweb.DefaultWebClient
-import kotlinx.android.synthetic.main.activity_web.*
+import kotlinx.android.synthetic.main.activity_web.webRootView
 
 /**
  * Description: 如果需要js对接，参考添加BridgeWebView https://github.com/lzyzsd/JsBridge
@@ -90,7 +89,7 @@ class WebActivity : CommTitleActivity() {
         webView.scrollBarStyle = View.SCROLLBARS_INSIDE_INSET
         agentBuilder = AgentWeb.with(this)
             .setAgentWebParent(webRootView, ViewGroup.LayoutParams(-1, -1))//添加到父容器
-            .useDefaultIndicator(mContext.getColorRes(R.color.colorPrimary))//设置进度条颜色
+            .useDefaultIndicator(ColorUtils.getColor(R.color.colorPrimary))//设置进度条颜色
 //            .setWebViewClient(getWebViewClient())//监听结束，适配宽度
             .setWebChromeClient(webChromeClient)//监听标题
             .setWebView(webView)//真正的webview

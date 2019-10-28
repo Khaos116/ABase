@@ -5,7 +5,7 @@ import cc.ab.base.net.http.response.BaseResponse
 import cc.abase.demo.R.string
 import cc.abase.demo.repository.bean.gank.GankResponse
 import com.blankj.utilcode.util.PathUtils
-import com.blankj.utilcode.util.Utils
+import com.blankj.utilcode.util.StringUtils
 import io.reactivex.Single
 import io.rx_cache2.internal.RxCache
 import io.victoralbertos.jolyglot.GsonSpeaker
@@ -39,9 +39,7 @@ abstract class BaseCacheRepository<T>(classProviders: Class<T>) {
       Single.error(
           if (response.errorCode == 0 && response.data == null) {
             ApiException(
-                msg = Utils.getApp().getString(
-                    string.service_no_data
-                )
+                msg = StringUtils.getString(string.service_no_data)
             )
           } else {
             ApiException(code = response.errorCode, msg = response.errorMsg)
@@ -58,9 +56,7 @@ abstract class BaseCacheRepository<T>(classProviders: Class<T>) {
       Single.error(
           if (!response.error && response.results == null) {
             ApiException(
-                msg = Utils.getApp().getString(
-                    string.service_no_data
-                )
+                msg = StringUtils.getString(string.service_no_data)
             )
           } else {
             ApiException(msg = response.message)

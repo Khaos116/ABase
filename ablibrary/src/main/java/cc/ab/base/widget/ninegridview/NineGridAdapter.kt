@@ -3,12 +3,11 @@ package cc.ab.base.widget.ninegridview
 import android.content.Context
 import android.widget.ImageView
 import android.widget.ImageView.ScaleType
-import androidx.core.content.ContextCompat
 import cc.ab.base.R
 import cc.ab.base.net.http.response.PicBean
 import cc.ab.base.utils.RandomPlaceholder
+import com.blankj.utilcode.util.ColorUtils
 import com.blankj.utilcode.util.SizeUtils
-import com.blankj.utilcode.util.Utils
 import me.panpf.sketch.Sketch
 import me.panpf.sketch.SketchImageView
 import me.panpf.sketch.display.FadeInImageDisplayer
@@ -24,7 +23,7 @@ import me.panpf.sketch.shaper.RoundRectImageShaper
 class NineGridAdapter(private val imageSize: Int = SizeUtils.dp2px(100f)) :
     NineGridViewAdapter<PicBean>() {
 
-  private val colorStroke = ContextCompat.getColor(Utils.getApp(), R.color.white_F5F5F5)
+  private val colorStroke = ColorUtils.getColor(R.color.white_F5F5F5)
   override fun onDisplayImage(
     context: Context?,
     imageView: ImageView?,

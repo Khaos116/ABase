@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.*;
 import android.util.AttributeSet;
 import androidx.appcompat.widget.AppCompatTextView;
+import com.blankj.utilcode.util.ColorUtils;
 
 /**
  * https://www.jianshu.com/p/a9d09cb7577f
@@ -31,7 +32,7 @@ public class FlashingTextView extends AppCompatTextView {
 
   private void initView(Context context, AttributeSet attrs) {
     Paint paint1 = new Paint();
-    paint1.setColor(getResources().getColor(android.R.color.holo_blue_dark));
+    paint1.setColor(ColorUtils.getColor(android.R.color.holo_blue_dark));
     paint1.setStyle(Paint.Style.FILL);
   }
 

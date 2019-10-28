@@ -9,7 +9,7 @@ import cc.abase.demo.R
 import cc.abase.demo.utils.NetUtils
 import com.airbnb.epoxy.EpoxyAttribute
 import com.airbnb.epoxy.EpoxyModelClass
-import com.blankj.utilcode.util.Utils
+import com.blankj.utilcode.util.StringUtils
 import kotlinx.android.synthetic.main.item_comm_loadmore.view.loadMorePb
 import kotlinx.android.synthetic.main.item_comm_loadmore.view.loadMoreTv
 
@@ -63,9 +63,8 @@ abstract class LoadMoreItem : BaseEpoxyModel<BaseEpoxyHolder>() {
   private fun setLoadState(itemView: View) {
     itemView.loadMoreTv.text = if (!tipsText.isNullOrBlank()) tipsText
     else {
-      Utils.getApp()
-          .getString(
-              if (fail) {
+      StringUtils.getString(
+          if (fail) {
                 R.string.load_more_fail
               } else {
                 R.string.load_more_info

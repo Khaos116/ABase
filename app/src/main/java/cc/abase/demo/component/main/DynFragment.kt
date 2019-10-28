@@ -15,8 +15,7 @@ import com.airbnb.mvrx.*
 import com.billy.android.swipe.SmartSwipeRefresh
 import com.billy.android.swipe.SmartSwipeRefresh.SmartSwipeRefreshDataLoader
 import com.billy.android.swipe.consumer.SlidingConsumer
-import com.blankj.utilcode.util.LogUtils
-import com.blankj.utilcode.util.NetworkUtils
+import com.blankj.utilcode.util.*
 import kotlinx.android.synthetic.main.fragment_dyn.dynEpoxyRecycler
 
 /**
@@ -123,7 +122,7 @@ class DynFragment : CommFragment() {
         state.request is Success -> errorEmptyItem {
           id("dyn_suc_no_data")
           imageResource(R.drawable.svg_no_data)
-          tipsText(mContext.getString(R.string.no_data))
+          tipsText(StringUtils.getString(R.string.no_data))
         }
         //无网络或者请求失败
         state.request is Fail -> errorEmptyItem {

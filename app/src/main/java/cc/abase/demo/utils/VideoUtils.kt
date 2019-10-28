@@ -69,7 +69,7 @@ class VideoUtils private constructor() {
           }
 
           override fun onCancel() {
-            result?.invoke(false, Utils.getApp().getString(R.string.compress_video_fail))
+            result?.invoke(false, StringUtils.getString(R.string.compress_video_fail))
           }
 
           override fun onProgress(
@@ -85,7 +85,7 @@ class VideoUtils private constructor() {
 
           override fun onError(message: String?) {
             Log.e("CASE", "视频压缩失败")
-            result?.invoke(false, Utils.getApp().getString(R.string.compress_video_fail))
+            result?.invoke(false, StringUtils.getString(R.string.compress_video_fail))
           }
         })
   }
@@ -104,12 +104,12 @@ class VideoUtils private constructor() {
             if (destImg.exists() && destImg.length() > 0) {
               call?.invoke(true, destImg.path)
             } else {
-              call?.invoke(false, Utils.getApp().getString(R.string.pic_first_frame_fail))
+              call?.invoke(false, StringUtils.getString(R.string.pic_first_frame_fail))
             }
           }
 
           override fun onCancel() {
-            call?.invoke(false, Utils.getApp().getString(R.string.pic_first_frame_fail))
+            call?.invoke(false, StringUtils.getString(R.string.pic_first_frame_fail))
           }
 
           override fun onProgress(
@@ -119,7 +119,7 @@ class VideoUtils private constructor() {
           }
 
           override fun onError(message: String?) {
-            call?.invoke(false, message ?: Utils.getApp().getString(R.string.pic_first_frame_fail))
+            call?.invoke(false, message ?: StringUtils.getString(R.string.pic_first_frame_fail))
           }
         })
   }

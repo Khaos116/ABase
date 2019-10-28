@@ -7,7 +7,7 @@ import android.widget.TextView
 import cc.abase.demo.R
 import com.airbnb.lottie.LottieAnimationView
 import com.billy.android.swipe.SmartSwipeRefresh.SmartSwipeRefreshHeader
-import com.blankj.utilcode.util.Utils
+import com.blankj.utilcode.util.StringUtils
 
 /**
  * Description:https://qibilly.com/SmartSwipe-tutorial/pages/SmartSwipeRefresh.html
@@ -37,14 +37,12 @@ class CCRefreshHeader(context: Context) : SmartSwipeRefreshHeader {
   }
 
   override fun onStartDragging() {
-    headerTv?.text = Utils.getApp()
-        .getString(R.string.pull_to_refresh)
+    headerTv?.text = StringUtils.getString(R.string.pull_to_refresh)
   }
 
   override fun onDataLoading() {
     headerLav?.playAnimation()
-    headerTv?.text = Utils.getApp()
-        .getString(R.string.refresh_loading_data)
+    headerTv?.text = StringUtils.getString(R.string.refresh_loading_data)
   }
 
   override fun getView(): View {
@@ -55,8 +53,7 @@ class CCRefreshHeader(context: Context) : SmartSwipeRefreshHeader {
     dragging: Boolean,
     progress: Float
   ) {
-    headerTv?.text = Utils.getApp()
-        .getString(
+    headerTv?.text = StringUtils.getString(
             if (progress < 1) {
               R.string.pull_to_refresh
             } else {

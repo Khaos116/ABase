@@ -1,10 +1,8 @@
 package cc.abase.demo.repository.base
 
-import android.util.Log
 import cc.ab.base.net.http.response.ApiException
 import cc.abase.demo.R
-import com.blankj.utilcode.util.NetworkUtils
-import com.blankj.utilcode.util.Utils
+import com.blankj.utilcode.util.*
 import com.github.kittinunf.fuel.core.FuelError
 
 /**
@@ -15,13 +13,13 @@ import com.github.kittinunf.fuel.core.FuelError
 abstract class BaseRequest {
   //数据转换异常
   protected fun converDataError(): Throwable {
-    return ApiException(msg = Utils.getApp().getString(R.string.data_conver_error))
+    return ApiException(msg = StringUtils.getString(R.string.data_conver_error))
   }
 
   //请求异常
   protected fun converFuelError(error: FuelError?): Throwable {
     if (error == null || error.exception.message.isNullOrEmpty()) {
-      return ApiException(msg = Utils.getApp().getString(R.string.data_request_error))
+      return ApiException(msg = StringUtils.getString(R.string.data_request_error))
     } else {
       val code = error.response.statusCode
       val comtext = Utils.getApp()
@@ -34,30 +32,30 @@ abstract class BaseRequest {
           Throwable(
               message = if (NetworkUtils.isConnected()) {
                 if (error.exception.message?.contains("Chain validation failed") == true) {
-                  comtext.getString(R.string.data_request_time_error)
+                  StringUtils.getString(R.string.data_request_time_error)
                 } else {
-                  comtext.getString(R.string.data_request_error)
+                  StringUtils.getString(R.string.data_request_error)
                 }
               } else {
-                comtext.getString(R.string.no_network)
+                StringUtils.getString(R.string.no_network)
               }, cause = error.exception
           )
         }
         //客户端参数错误
         code in 400..499 -> {
           Throwable(
-              message = comtext.getString(R.string.client_request_error), cause = error.exception
+              message = StringUtils.getString(R.string.client_request_error), cause = error.exception
           )
         }
         //服务器响应错误
         code in 500..599 -> {
           Throwable(
-              message = comtext.getString(R.string.service_response_error), cause = error.exception
+              message = StringUtils.getString(R.string.service_response_error), cause = error.exception
           )
         }
         //未知错误
         else -> {
-          Throwable(message = comtext.getString(R.string.unknown_error), cause = error.exception)
+          Throwable(message = StringUtils.getString(R.string.unknown_error), cause = error.exception)
         }
       }
       return throwable

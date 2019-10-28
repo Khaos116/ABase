@@ -11,6 +11,7 @@ import cc.abase.demo.component.main.MainActivity
 import cc.abase.demo.constants.LengthConstants
 import cc.abase.demo.constants.UiConstants
 import cc.abase.demo.repository.UserRepository
+import com.blankj.utilcode.util.StringUtils
 import kotlinx.android.synthetic.main.activity_register.*
 
 /**
@@ -29,7 +30,7 @@ class RegisterActivity : CommTitleActivity() {
   override fun layoutResContentId() = R.layout.activity_register
 
   override fun initContentView() {
-    setTitleText(mContext.getString(R.string.login_register_hint))
+    setTitleText(StringUtils.getString(R.string.login_register_hint))
     checkSubmit()
     CcInputHelper.wrapCommCountLimit(registerEditAccount, LengthConstants.MAX_LEN_ACC, 0)
     CcInputHelper.wrapCommCountLimit(registerEditPassword1, LengthConstants.MAX_LEN_PASS, 0)
@@ -61,23 +62,23 @@ class RegisterActivity : CommTitleActivity() {
     val textPass1 = registerEditPassword1.text
     val textPass2 = registerEditPassword2.text
     if (textAcc.isEmpty()) {
-      registerInputAccount.hint = mContext.getString(R.string.login_account_hint)
+      registerInputAccount.hint = StringUtils.getString(R.string.login_account_hint)
     } else if (textAcc.isNotEmpty() && textAcc.length < LengthConstants.MIN_LEN_ACC) {
-      registerInputAccount.hint = mContext.getString(R.string.login_account_short)
+      registerInputAccount.hint = StringUtils.getString(R.string.login_account_short)
     } else {
       registerInputAccount.hint = ""
     }
     if (textPass1.isEmpty()) {
-      registerInputPassword1.hint = mContext.getString(R.string.login_password_hint)
+      registerInputPassword1.hint = StringUtils.getString(R.string.login_password_hint)
     } else if (textPass1.isNotEmpty() && textPass1.length < LengthConstants.MIN_LEN_PASS) {
-      registerInputPassword1.hint = mContext.getString(R.string.login_password_short)
+      registerInputPassword1.hint = StringUtils.getString(R.string.login_password_short)
     } else {
       registerInputPassword1.hint = ""
     }
     if (textPass2.isEmpty()) {
-      registerInputPassword2.hint = mContext.getString(R.string.login_password_again_hint)
+      registerInputPassword2.hint = StringUtils.getString(R.string.login_password_again_hint)
     } else if (!TextUtils.equals(textPass1, textPass2)) {
-      registerInputPassword2.hint = mContext.getString(R.string.login_password_not_same)
+      registerInputPassword2.hint = StringUtils.getString(R.string.login_password_not_same)
     } else {
       registerInputPassword2.hint = ""
     }

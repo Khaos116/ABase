@@ -12,6 +12,7 @@ import cc.abase.demo.constants.LengthConstants
 import cc.abase.demo.constants.UiConstants
 import cc.abase.demo.repository.UserRepository
 import com.blankj.utilcode.util.ActivityUtils
+import com.blankj.utilcode.util.StringUtils
 import kotlinx.android.synthetic.main.activity_login.*
 
 /**
@@ -70,16 +71,16 @@ class LoginActivity : CommActivity() {
     val textAcc = loginEditAccount.text
     val textPass = loginEditPassword.text
     if (textAcc.isEmpty()) {
-      loginInputAccount.hint = mContext.getString(R.string.login_account_hint)
+      loginInputAccount.hint = StringUtils.getString(R.string.login_account_hint)
     } else if (textAcc.isNotEmpty() && textAcc.length < LengthConstants.MIN_LEN_ACC) {
-      loginInputAccount.hint = mContext.getString(R.string.login_account_short)
+      loginInputAccount.hint = StringUtils.getString(R.string.login_account_short)
     } else {
       loginInputAccount.hint = ""
     }
     if (textPass.isEmpty()) {
-      loginInputPassword.hint = mContext.getString(R.string.login_password_hint)
+      loginInputPassword.hint = StringUtils.getString(R.string.login_password_hint)
     } else if (textPass.isNotEmpty() && textPass.length < LengthConstants.MIN_LEN_PASS) {
-      loginInputPassword.hint = mContext.getString(R.string.login_password_short)
+      loginInputPassword.hint = StringUtils.getString(R.string.login_password_short)
     } else {
       loginInputPassword.hint = ""
     }

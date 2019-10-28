@@ -52,10 +52,10 @@ class MineFragment : CommFragment() {
           dismissLoadingView()
           if (t1 != null) {
             mineIntegral.text =
-              String.format(mActivity.getString(R.string.my_integral), t1.coinCount)
+              String.format(StringUtils.getString(R.string.my_integral), t1.coinCount)
           } else if (t2 != null) {
             mineIntegral.text =
-              String.format(mActivity.getString(R.string.my_integral), 0)
+              String.format(StringUtils.getString(R.string.my_integral), 0)
             mContext.toast(t2.message)
           }
           epoxyController.data = menuList
