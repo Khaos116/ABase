@@ -28,18 +28,6 @@ class RegisterActivity : CommTitleActivity() {
 
   override fun layoutResContentId() = R.layout.activity_register
 
-  override fun needKeyListener() = true
-  override fun keyBoardChange(
-    isPopup: Boolean,
-    keyboardHeight: Int
-  ) {
-    if (!isPopup) {
-      registerEditAccount.clearFocus()
-      registerEditPassword1.clearFocus()
-      registerEditPassword2.clearFocus()
-    }
-  }
-
   override fun initContentView() {
     setTitleText(mContext.getString(R.string.login_register_hint))
     checkSubmit()
@@ -65,6 +53,7 @@ class RegisterActivity : CommTitleActivity() {
             }
           }
     }
+    extKeyBoard { statusHeight, navigationHeight, keyBoardHeight -> }
   }
 
   private fun checkSubmit() {

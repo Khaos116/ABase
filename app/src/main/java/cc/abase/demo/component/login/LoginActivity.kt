@@ -29,6 +29,7 @@ class LoginActivity : CommActivity() {
   }
 
   override fun layoutResId() = R.layout.activity_login
+
   override fun initView() {
     checkSubmit()
     PressEffectHelper.alphaEffect(loginRegister)
@@ -55,18 +56,7 @@ class LoginActivity : CommActivity() {
         })
     }
     loginRegister.click { RegisterActivity.startActivity(mContext) }
-  }
-
-  override fun needKeyListener() = true
-
-  override fun keyBoardChange(
-    isPopup: Boolean,
-    keyboardHeight: Int
-  ) {
-    if (!isPopup) {
-      loginEditAccount.clearFocus()
-      loginEditPassword.clearFocus()
-    }
+    extKeyBoard { statusHeight, navigationHeight, keyBoardHeight -> }
   }
 
   override fun initData() {
