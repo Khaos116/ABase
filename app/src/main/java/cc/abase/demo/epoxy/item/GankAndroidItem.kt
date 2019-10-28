@@ -3,7 +3,10 @@ package cc.abase.demo.epoxy.item
 import android.app.Activity
 import android.view.View
 import android.widget.ImageView
-import cc.ab.base.ext.*
+import cc.ab.base.ext.click
+import cc.ab.base.ext.gone
+import cc.ab.base.ext.pressEffectBgColor
+import cc.ab.base.ext.visibleGone
 import cc.ab.base.net.http.response.PicBean
 import cc.ab.base.ui.holder.BaseEpoxyHolder
 import cc.ab.base.widget.ninegridview.NineGridAdapter
@@ -11,6 +14,7 @@ import cc.ab.base.widget.ninegridview.NineGridView
 import cc.abase.demo.R
 import cc.abase.demo.epoxy.base.BaseEpoxyModel
 import cc.abase.demo.repository.bean.gank.GankAndroidBean
+import cc.abase.demo.utils.BrowserUtils
 import cc.abase.demo.widget.imgpreview.PreviewImgUtils
 import com.airbnb.epoxy.EpoxyAttribute
 import com.airbnb.epoxy.EpoxyModelClass
@@ -57,10 +61,7 @@ abstract class GankAndroidItem : BaseEpoxyModel<BaseEpoxyHolder>() {
           itemView.itemGankAndroidNine2.setOnItemClickListener { position, view ->
             val dataList = itemView.itemGankAndroidNine2.data
             val viewList = itemView.itemGankAndroidNine2.geViews()
-            //多图预览
-            PreviewImgUtils.instance.startPreview2(
-                itemView.context as Activity, dataList, viewList, position
-            )
+            BrowserUtils.instance.show(position, view, dataList, viewList)
           }
         }
       }
