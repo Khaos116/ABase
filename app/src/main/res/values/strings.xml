@@ -32,7 +32,6 @@
   <string name="need_login">登录过期，请重新登录</string>
   <string name="chat_send">发送</string>
   <string name="chat_title">聊天模拟</string>
-  <string name="fun_chat">聊天Emoji</string>
   <string name="my_integral">我的积分:%1$S</string>
   <string name="data_request_time_error">手机时间错误</string>
     <string name="action_loading">加载中...</string>
