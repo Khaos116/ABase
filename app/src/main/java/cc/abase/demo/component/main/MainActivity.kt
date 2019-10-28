@@ -91,7 +91,9 @@ class MainActivity : CommActivity() {
       2 -> R.id.menu_main_mine
       else -> R.id.menu_main_home
     }
-    if (mainNavigation.selectedItemId != selectId) mainNavigation.selectedItemId = selectId
+    mainNavigation?.post {
+      if (mainNavigation.selectedItemId != selectId) mainNavigation.selectedItemId = selectId
+    }
   }
 
   private var touchTime = 0L
