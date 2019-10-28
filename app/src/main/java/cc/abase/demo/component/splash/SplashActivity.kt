@@ -1,5 +1,6 @@
 package cc.abase.demo.component.splash
 
+import android.Manifest
 import android.util.Log
 import cc.ab.base.ext.*
 import cc.ab.base.utils.RxUtils
@@ -69,23 +70,32 @@ class SplashActivity : CommActivity() {
 
   override fun initData() {
     loadData()
-    PermissionUtils.permission(PermissionConstants.STORAGE)
-        .callback(object : PermissionUtils.SimpleCallback {
-          //权限允许
-          override fun onGranted() {
-            Log.e("CASE", "有SD卡读写权限")
-            hasSDPermission = true
-            goNextPage()
-          }
+    if (PermissionUtils.isGranted(
+            Manifest.permission.WRITE_EXTERNAL_STORAGE,
+            Manifest.permission.READ_EXTERNAL_STORAGE
+        )
+    ) {
+      hasSDPermission = true
+      goNextPage()
+    } else {
+      PermissionUtils.permission(PermissionConstants.STORAGE)
+          .callback(object : PermissionUtils.SimpleCallback {
+            //权限允许
+            override fun onGranted() {
+              Log.e("CASE", "有SD卡读写权限:${PermissionUtils.isGranted(PermissionConstants.STORAGE)}")
+              hasSDPermission = true
+              goNextPage()
+            }
 
-          //权限拒绝
-          override fun onDenied() {
-            mContext.toast("没有SD卡权限,不能使用APP")
-            hasSDPermission = false
-            goNextPage()
-          }
-        })
-        .request()
+            //权限拒绝
+            override fun onDenied() {
+              mContext.toast("没有SD卡权限,不能使用APP")
+              hasSDPermission = false
+              goNextPage()
+            }
+          })
+          .request()
+    }
   }
 
   //打开下个页面
