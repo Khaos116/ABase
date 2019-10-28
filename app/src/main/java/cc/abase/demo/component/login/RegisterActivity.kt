@@ -58,7 +58,7 @@ class RegisterActivity : CommTitleActivity() {
       )
           .subscribe { suc, error ->
             dismissActionLoading()
-            if (suc) {
+            if (suc == true) {
               MainActivity.startActivity(mContext)
             } else {
               mContext.toast(error.message)
