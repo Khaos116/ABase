@@ -252,3 +252,8 @@
 -keep class androidx.lifecycle.** { *; }
 -keep class androidx.arch.core.** { *; }
 #--------------------------
+
+#----------- RxFFmpeg ----------------
+-dontwarn io.microshow.rxffmpeg.**
+-keep class io.microshow.rxffmpeg.**{*;}
+#--------------------------
