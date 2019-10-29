@@ -6,8 +6,7 @@ import android.content.Intent
 import android.media.MediaMetadataRetriever
 import android.provider.MediaStore
 import android.provider.MediaStore.Images.Media
-import cc.ab.base.ext.click
-import cc.ab.base.ext.mContext
+import cc.ab.base.ext.*
 import cc.abase.demo.R
 import cc.abase.demo.component.comm.CommTitleActivity
 import cc.abase.demo.constants.UiConstants
@@ -35,6 +34,7 @@ class RxFFmpegActivity : CommTitleActivity() {
 
   override fun initContentView() {
     setTitleText(getString(R.string.ffmpeg_title))
+    ffmpegCover.pressEffectAlpha()
     ffmpegCompress.alpha = UiConstants.disable_alpha
     ffmpegCompress.isEnabled = false
     ffmpegSel.click {
@@ -86,7 +86,7 @@ class RxFFmpegActivity : CommTitleActivity() {
         ffmpegCover.layoutParams?.height =
           (ffmpegCover.width * 1f * size.second / size.first).toInt()
         ffmpegCover.displayImage(info)
-        ffmpegCover.click { BrowserUtils.instance.show(listOf(info)) }
+        ffmpegCover.click { BrowserUtils.instance.show(arrayListOf(info)) }
       } else {
         ffmpegResult.append("\n封面获取失败:$info")
       }

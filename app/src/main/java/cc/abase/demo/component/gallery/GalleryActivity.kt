@@ -2,14 +2,12 @@ package cc.abase.demo.component.gallery
 
 import android.content.Context
 import android.content.Intent
-import cc.ab.base.ext.*
+import cc.ab.base.ext.click
+import cc.ab.base.ext.pressEffectAlpha
 import cc.ab.base.widget.discretescrollview.adapter.DiscretePageAdapter
 import cc.abase.demo.R
 import cc.abase.demo.component.comm.CommActivity
 import cc.abase.demo.component.gallery.adapter.GalleryHolderCreator
-import com.billy.android.swipe.*
-import com.billy.android.swipe.consumer.SlidingConsumer
-import com.billy.android.swipe.listener.SimpleSwipeListener
 import kotlinx.android.synthetic.main.activity_gallery.*
 
 /**
@@ -58,7 +56,7 @@ class GalleryActivity : CommActivity() {
   }
 
   override fun initData() {
-    galleryNumber.text = String.format("%1\$s/%2\$s", currentPosition, mDataList.size)
+    galleryNumber.text = String.format("%1\$s/%2\$s", currentPosition + 1, mDataList.size)
     galleryRecycler.adapter = DiscretePageAdapter<String>(GalleryHolderCreator(), mDataList)
     galleryRecycler.scrollToPosition(currentPosition)
   }

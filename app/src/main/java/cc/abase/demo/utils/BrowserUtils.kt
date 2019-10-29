@@ -11,12 +11,12 @@ import com.blankj.utilcode.util.ActivityUtils
 class BrowserUtils private constructor() {
 
   fun show(
-    urls: List<String>,
+    urls: ArrayList<String>,
     position: Int = 0
   ) {
     ActivityUtils.getTopActivity()
         ?.let {
-          GalleryActivity.startActivity(it, urls as ArrayList<String>, position)
+          GalleryActivity.startActivity(it, urls, position)
         }
   }
 
