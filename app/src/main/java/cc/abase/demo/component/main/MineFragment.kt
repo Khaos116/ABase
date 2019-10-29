@@ -25,7 +25,7 @@ import kotlinx.android.synthetic.main.fragment_mine.*
  */
 class MineFragment : CommFragment() {
   //菜单列表
-  val menuList = mutableListOf(
+  private val menuList = mutableListOf(
       Pair(StringUtils.getString(R.string.chat_title), ChatActivity::class.java),
       Pair(StringUtils.getString(R.string.ffmpeg_title), RxFFmpegActivity::class.java)
   )
