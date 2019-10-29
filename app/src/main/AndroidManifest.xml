@@ -74,6 +74,13 @@
         android:launchMode="singleTop"
         android:screenOrientation="portrait"
         android:windowSoftInputMode="adjustPan|stateHidden"/>
+    <!--图片预览-->
+    <activity
+        android:name=".component.gallery.GalleryActivity"
+        android:configChanges="screenLayout|orientation"
+        android:launchMode="singleTop"
+        android:screenOrientation="portrait"
+        android:windowSoftInputMode="adjustPan|stateHidden"/>
   </application>
 
 </manifest>
