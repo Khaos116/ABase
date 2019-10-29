@@ -2,11 +2,13 @@ package cc.abase.demo.component.gallery
 
 import android.content.Context
 import android.content.Intent
-import cc.ab.base.ext.*
+import cc.ab.base.ext.click
+import cc.ab.base.ext.pressEffectAlpha
 import cc.ab.base.widget.discretescrollview.adapter.DiscretePageAdapter
 import cc.abase.demo.R
 import cc.abase.demo.component.comm.CommActivity
 import cc.abase.demo.component.gallery.adapter.GalleryHolderCreator
+import com.gyf.immersionbar.ktx.immersionBar
 import kotlinx.android.synthetic.main.activity_gallery.*
 
 /**
@@ -46,8 +48,16 @@ class GalleryActivity : CommActivity() {
     currentPosition = intent.getIntExtra(INTENT_KEY_POSITION, 1)
   }
 
+  override fun initStatus() {
+    immersionBar {
+      fullScreen(true)
+      transparentNavigationBar()
+      statusBarDarkFont(true)
+      navigationBarDarkIcon(true)
+    }
+  }
+
   override fun initView() {
-    extFillScreen()
     galleryBack.pressEffectAlpha()
     galleryBack.click { finish() }
     galleryRecycler.addOnItemChangedListener { viewHolder, adapterPosition ->
