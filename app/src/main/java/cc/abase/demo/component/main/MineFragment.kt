@@ -61,7 +61,6 @@ class MineFragment : CommFragment() {
           }
           epoxyController.data = menuList
         }
-    Log.e("CASE", "MineFragment-开始加载数据")
   }
 
   //epoxy
