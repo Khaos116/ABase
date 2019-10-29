@@ -36,7 +36,7 @@ data class GankAndroidBean(
       if (field.isNullOrEmpty() && !images.isNullOrEmpty()) {
         field = mutableListOf()
         images?.forEach { url ->
-          if (!url.isNullOrBlank()) field.add(PicBean(mediaUrl = url))
+          if (!url.isNullOrBlank()) field.add(PicBean(url = url))
         }
       }
       return field

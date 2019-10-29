@@ -94,6 +94,4 @@ dependencies {
   //----------------------★★★媒体★★★----------------------//
   //https://github.com/panpf/sketch
   api 'me.panpf:sketch:2.7.1-rc01'
-  //图片预览库 https://github.com/yangchaojiang/ZoomPreviewPicture
-  api 'com.ycjiang:ImagePreview:2.2.6'
 }

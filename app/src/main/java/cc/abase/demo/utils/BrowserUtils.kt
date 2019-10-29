@@ -1,10 +1,7 @@
 package cc.abase.demo.utils
 
-import android.app.Activity
-import android.view.View
-import android.widget.ImageView
-import cc.ab.base.widget.nineimageview.ImageData
-import cc.abase.demo.widget.imgpreview.PreviewImgUtils
+import cc.abase.demo.component.gallery.GalleryActivity
+import com.blankj.utilcode.util.ActivityUtils
 
 /**
  * Description:
@@ -12,16 +9,15 @@ import cc.abase.demo.widget.imgpreview.PreviewImgUtils
  * @date: 2019/10/28 12:06
  */
 class BrowserUtils private constructor() {
+
   fun show(
-    position: Int,
-    view: View,
-    dataList: MutableList<ImageData>,
-    viewList: MutableList<ImageView>
+    urls: List<String>,
+    position: Int = 0
   ) {
-    //多图预览
-    PreviewImgUtils.instance.startPreview2(
-        view.context as Activity, dataList, viewList, position
-    )
+    ActivityUtils.getTopActivity()
+        ?.let {
+          GalleryActivity.startActivity(it, urls as ArrayList<String>, position)
+        }
   }
 
   private object SingletonHolder {

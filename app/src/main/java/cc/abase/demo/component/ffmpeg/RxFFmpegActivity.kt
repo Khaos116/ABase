@@ -11,6 +11,7 @@ import cc.ab.base.ext.mContext
 import cc.abase.demo.R
 import cc.abase.demo.component.comm.CommTitleActivity
 import cc.abase.demo.constants.UiConstants
+import cc.abase.demo.utils.BrowserUtils
 import cc.abase.demo.utils.VideoUtils
 import com.blankj.utilcode.util.FileUtils
 import kotlinx.android.synthetic.main.activity_rxffmpeg.*
@@ -85,6 +86,7 @@ class RxFFmpegActivity : CommTitleActivity() {
         ffmpegCover.layoutParams?.height =
           (ffmpegCover.width * 1f * size.second / size.first).toInt()
         ffmpegCover.displayImage(info)
+        ffmpegCover.click { BrowserUtils.instance.show(listOf(info)) }
       } else {
         ffmpegResult.append("\n封面获取失败:$info")
       }

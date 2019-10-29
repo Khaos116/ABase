@@ -3,6 +3,7 @@ package cc.abase.demo.app
 import android.content.Context
 import cc.ab.base.app.BaseApplication
 import cc.ab.base.net.http.FuelHelper
+import cc.abase.demo.component.gallery.GalleryActivity
 import cc.abase.demo.component.login.LoginActivity
 import cc.abase.demo.component.main.MainActivity
 import cc.abase.demo.component.splash.GuideActivity
@@ -11,12 +12,10 @@ import cc.abase.demo.config.HeaderManger
 import cc.abase.demo.config.ResponseManager
 import cc.abase.demo.constants.WanUrls
 import cc.abase.demo.widget.CCRefreshHeader
-import cc.abase.demo.widget.imgpreview.PreviewImgLoader
 import com.billy.android.swipe.SmartSwipeBack
 import com.billy.android.swipe.SmartSwipeRefresh
 import com.billy.android.swipe.refresh.ClassicFooter
 import com.billy.android.swipe.refresh.ClassicHeader
-import com.previewlibrary.ZoomMediaLoader
 import com.vanniktech.emoji.EmojiManager
 import com.vanniktech.emoji.ios.IosEmojiProvider
 import io.microshow.rxffmpeg.RxFFmpegInvoke
@@ -33,9 +32,6 @@ open class MyApplication : BaseApplication() {
   override fun initInChildThread() {
     //侧滑返回
     initSmartSwipeBack()
-    //图片预览
-    ZoomMediaLoader.getInstance()
-        .init(PreviewImgLoader())
     //网络请求
     FuelHelper.initFuel(
         WanUrls.BASE,
@@ -90,6 +86,7 @@ open class MyApplication : BaseApplication() {
       SplashActivity::class.java.name,
       MainActivity::class.java.name,
       GuideActivity::class.java.name,
-      LoginActivity::class.java.name
+      LoginActivity::class.java.name,
+      GalleryActivity::class.java.name
   )
 }

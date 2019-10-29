@@ -4,7 +4,6 @@ import android.graphics.Rect
 import android.os.Parcel
 import android.os.Parcelable
 import android.os.Parcelable.Creator
-import com.previewlibrary.enitity.IThumbViewInfo
 
 /**
  * Description:
@@ -13,23 +12,12 @@ import com.previewlibrary.enitity.IThumbViewInfo
  */
 data class PicBean(
   var id: Long = 0L,
-  var mediaUrl: String? = null,
+  var url: String? = null,
   var mBounds: Rect? = null, // 记录坐标
   var width: Int = 100,
   var height: Int = 100,
   var size: Float = 0f
-) : Parcelable, IThumbViewInfo {
-  override fun getUrl(): String? {
-    return mediaUrl
-  }
-
-  override fun getVideoUrl(): String? {
-    return null
-  }
-
-  override fun getBounds(): Rect? {
-    return mBounds
-  }
+) : Parcelable {
 
   constructor(parcel: Parcel) : this(
       parcel.readLong(),
@@ -45,7 +33,7 @@ data class PicBean(
     flags: Int
   ) {
     parcel.writeLong(id)
-    parcel.writeString(mediaUrl)
+    parcel.writeString(url)
     parcel.writeParcelable(mBounds, flags)
     parcel.writeInt(width)
     parcel.writeInt(height)

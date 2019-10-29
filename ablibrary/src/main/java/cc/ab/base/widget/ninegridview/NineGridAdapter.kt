@@ -33,7 +33,7 @@ class NineGridAdapter(private val imageSize: Int = SizeUtils.dp2px(100f)) :
       context?.let { c ->
         if (imageView is SketchImageView) {
           val displayOptions = DisplayOptions()
-          val holder = RandomPlaceholder.instance.getPlaceHolder(it.mediaUrl)
+          val holder = RandomPlaceholder.instance.getPlaceHolder(it.url)
           displayOptions.setLoadingImage(holder)
           displayOptions.setErrorImage(R.drawable.svg_placeholder_fail)
           //圆角
@@ -47,7 +47,7 @@ class NineGridAdapter(private val imageSize: Int = SizeUtils.dp2px(100f)) :
           imageView.options.displayer = FadeInImageDisplayer()
           // DisplayHelper
           Sketch.with(c)
-              .display(it.mediaUrl, imageView)
+              .display(it.url, imageView)
               .commit()
         }
       }

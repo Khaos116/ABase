@@ -4,7 +4,6 @@ import android.graphics.Rect
 import android.os.Parcel
 import android.os.Parcelable
 import android.os.Parcelable.Creator
-import com.previewlibrary.enitity.IThumbViewInfo
 
 /**
  * Description:
@@ -12,13 +11,13 @@ import com.previewlibrary.enitity.IThumbViewInfo
  * @date: 2019/10/25 20:30
  */
 data class ImageData(
-  var urlImage: String,
+  var url: String,
   var mBounds: Rect? = null, // 记录坐标
   var startX: Int = 0,
   var startY: Int = 0,
   var width: Int = 1,
   var height: Int = 1
-) : Parcelable, IThumbViewInfo {
+) : Parcelable {
   constructor(parcel: Parcel) : this(
       parcel.readString() ?: "",
       parcel.readParcelable(Rect::class.java.classLoader),
@@ -26,26 +25,13 @@ data class ImageData(
       parcel.readInt(),
       parcel.readInt(),
       parcel.readInt()
-  ) {
-  }
-
-  override fun getUrl(): String? {
-    return urlImage
-  }
-
-  override fun getVideoUrl(): String? {
-    return null
-  }
-
-  override fun getBounds(): Rect? {
-    return mBounds
-  }
+  )
 
   override fun writeToParcel(
     parcel: Parcel,
     flags: Int
   ) {
-    parcel.writeString(urlImage)
+    parcel.writeString(url)
     parcel.writeParcelable(mBounds, flags)
     parcel.writeInt(startX)
     parcel.writeInt(startY)

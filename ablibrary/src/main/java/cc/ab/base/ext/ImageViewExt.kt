@@ -13,6 +13,7 @@ fun SketchImageView.load(
   holderRes: Int = 0,
   errorRes: Int = 0
 ) {
+  if (url.isNullOrBlank()) this.setImageResource(R.drawable.svg_placeholder_fail)
   url?.let {
     var displayOptions: DisplayOptions? = null
     if (holderRes >= 0 || errorRes >= 0) {
@@ -28,6 +29,7 @@ fun SketchImageView.load(
 }
 
 fun SketchImageView.load(file: File?) {
+  if (file == null) this.setImageResource(R.drawable.svg_placeholder_fail)
   file?.let {
     this.displayImage(file.path)
   }
