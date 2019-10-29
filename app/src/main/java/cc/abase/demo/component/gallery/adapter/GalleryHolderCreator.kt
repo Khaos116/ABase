@@ -1,9 +1,11 @@
 package cc.abase.demo.component.gallery.adapter
 
+import android.app.Activity
 import android.graphics.drawable.Drawable
 import android.view.View
 import android.widget.ImageView
 import cc.ab.base.ext.load
+import cc.ab.base.ext.mContentView
 import cc.ab.base.widget.discretescrollview.holder.DiscreteHolder
 import cc.ab.base.widget.discretescrollview.holder.DiscreteHolderCreator
 import cc.abase.demo.R
@@ -57,15 +59,20 @@ class GalleryHolder(view: View) : DiscreteHolder<String>(view) {
           override fun onCompleted(
             drawable: Drawable,
             imageFrom: ImageFrom,
-            imageAttrs: ImageAttrs
+            atts: ImageAttrs
           ) {
-            val scanType = if (drawable.intrinsicWidth > drawable.intrinsicHeight) {
-              ImageView.ScaleType.FIT_CENTER
-            } else {
-              ImageView.ScaleType.CENTER_CROP
+            imageView?.let { skiv ->
+              val root = (skiv.context as Activity).mContentView
+              val rootRatio = if (root.height == 0) 1f else root.width * 1f / root.height
+              val imageRatio = if (atts.height == 0) 1f else atts.width * 1f / atts.height
+              val scanType = if (rootRatio > imageRatio) {
+                ImageView.ScaleType.CENTER_CROP
+              } else {
+                ImageView.ScaleType.FIT_CENTER
+              }
+              imageView?.scaleType = scanType
+              hashMap[data] = scanType
             }
-            imageView?.scaleType = scanType
-            hashMap[data] = scanType
           }
         }
       } else {
