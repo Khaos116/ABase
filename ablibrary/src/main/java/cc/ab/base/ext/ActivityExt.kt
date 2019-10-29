@@ -1,6 +1,7 @@
 package cc.ab.base.ext
 
 import android.app.Activity
+import android.graphics.Color
 import android.view.*
 import android.widget.FrameLayout
 
@@ -13,9 +14,18 @@ import android.widget.FrameLayout
 fun Activity.extFullScreen() {
   window?.let { win ->
     win.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
+    win.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION)
     win.decorView.systemUiVisibility = (View.SYSTEM_UI_FLAG_LAYOUT_STABLE
         or View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
         or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN)
+  }
+}
+
+//填充状态栏和虚拟导航栏
+fun Activity.extFillScreen() {
+  window?.let { win ->
+    win.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
+    win.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION)
   }
 }
 
