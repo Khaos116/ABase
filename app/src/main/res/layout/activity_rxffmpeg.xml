@@ -29,12 +29,11 @@
         android:textSize="14sp"
         />
 
-    <me.panpf.sketch.SketchImageView
-        android:id="@+id/ffmpegCover"
+    <com.shuyu.gsyvideoplayer.video.StandardGSYVideoPlayer
+        android:id="@+id/ffmpegPlayer"
         android:layout_width="200dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        />
+        android:layout_height="0dp"
+        android:layout_marginTop="10dp" />
 
     <TextView
         android:id="@+id/ffmpegCompress"

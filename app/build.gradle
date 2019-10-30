@@ -153,6 +153,9 @@ dependencies {
   implementation 'com.vanniktech:emoji-ios:0.6.0'
   //封面获取，视频压缩
   implementation 'com.github.microshow:RxFFmpeg:2.1.0'
+  //https://github.com/CarGuo/GSYVideoPlayer
+  implementation 'com.shuyu:gsyVideoPlayer-java:7.1.1'
+  implementation 'com.shuyu:GSYVideoPlayer-exo2:7.1.1'
 
   //https://github.com/airbnb/epoxy 放在lib中失败
   kapt 'com.airbnb.android:epoxy-processor:3.7.0'

@@ -3,18 +3,25 @@ package cc.abase.demo.component.ffmpeg
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.content.pm.ActivityInfo
 import android.media.MediaMetadataRetriever
 import android.provider.MediaStore
 import android.provider.MediaStore.Images.Media
+import android.widget.ImageView
 import cc.ab.base.ext.*
-import cc.abase.demo.R
 import cc.abase.demo.component.comm.CommTitleActivity
 import cc.abase.demo.constants.UiConstants
-import cc.abase.demo.utils.BrowserUtils
 import cc.abase.demo.utils.VideoUtils
 import com.blankj.utilcode.util.FileUtils
+import com.shuyu.gsyvideoplayer.GSYVideoManager
+import com.shuyu.gsyvideoplayer.player.PlayerFactory
+import com.shuyu.gsyvideoplayer.utils.OrientationUtils
+import com.shuyu.gsyvideoplayer.video.StandardGSYVideoPlayer
 import kotlinx.android.synthetic.main.activity_rxffmpeg.*
+import me.panpf.sketch.SketchImageView
+import tv.danmaku.ijk.media.exo2.Exo2PlayerManager
 import java.io.File
+
 
 /**
  * Description:
@@ -30,11 +37,25 @@ class RxFFmpegActivity : CommTitleActivity() {
     }
   }
 
-  override fun layoutResContentId() = R.layout.activity_rxffmpeg
+  //选中的视频
+  private var selVideoPath: String? = null
+  //封面
+  private var coverImage: SketchImageView? = null
+  //播放器
+  private var player: StandardGSYVideoPlayer? = null
+  //播放器旋转工具
+  private var orientationUtils: OrientationUtils? = null
+
+  override fun layoutResContentId() = cc.abase.demo.R.layout.activity_rxffmpeg
 
   override fun initContentView() {
-    setTitleText(getString(R.string.ffmpeg_title))
-    ffmpegCover.pressEffectAlpha()
+    PlayerFactory.setPlayManager(Exo2PlayerManager::class.java)//EXO模式
+    setTitleText(getString(cc.abase.demo.R.string.ffmpeg_title))
+    ffmpegPlayer.pressEffectAlpha()
+    player = ffmpegPlayer
+    player?.backButton?.gone()
+    player?.titleTextView?.gone()
+    coverImage = SketchImageView(this)
     ffmpegCompress.alpha = UiConstants.disable_alpha
     ffmpegCompress.isEnabled = false
     ffmpegSel.click {
@@ -65,14 +86,29 @@ class RxFFmpegActivity : CommTitleActivity() {
             pro = { p -> ffmpegResult.append("\n压缩进度:${p}%") })
       }
     }
+    coverImage?.scaleType = ImageView.ScaleType.CENTER_CROP
   }
 
   override fun initData() {
   }
 
-  //选中的视频
-  private var selVideoPath: String? = null
-
+  private fun initPlayer(videoPath: String, coverPath: String) {
+    val size = getVideoSize(videoPath)
+    player?.onVideoReset()
+    player?.layoutParams?.height =
+      ((player?.width ?: 0) * 1f * size.second / size.first).toInt()
+    player?.setUp(videoPath, false, "测试视频")
+    //增加封面
+    coverImage?.removeParent()
+    player?.thumbImageView = coverImage
+    coverImage?.displayImage(coverPath)
+    orientationUtils = OrientationUtils(this, player)
+    //设置全屏按键功能,这是使用的是选择屏幕，而不是全屏
+    player?.fullscreenButton?.setOnClickListener { orientationUtils?.resolveByClick() }
+    //是否可以滑动调整
+    player?.setIsTouchWiget(true)
+    coverImage?.click { player?.startPlayLogic() }
+  }
   //解析选择的视频
   private fun parseVideo(videoPath: String) {
     selVideoPath = videoPath
@@ -82,11 +118,7 @@ class RxFFmpegActivity : CommTitleActivity() {
     ffmpegCompress.isEnabled = true
     VideoUtils.instance.getFirstFrame(File(videoPath)) { suc, info ->
       if (suc) {
-        val size = getVideoSize(videoPath)
-        ffmpegCover.layoutParams?.height =
-          (ffmpegCover.width * 1f * size.second / size.first).toInt()
-        ffmpegCover.displayImage(info)
-        ffmpegCover.click { BrowserUtils.instance.show(arrayListOf(info)) }
+        initPlayer(videoPath, info)
       } else {
         ffmpegResult.append("\n封面获取失败:$info")
       }
@@ -161,5 +193,33 @@ class RxFFmpegActivity : CommTitleActivity() {
       cursor.close()
     }
     return picturePath
+  }
+
+
+  override fun onResume() {
+    super.onResume()
+    player?.onVideoResume()
+  }
+
+  override fun onPause() {
+    super.onPause()
+    player?.onVideoPause()
+  }
+
+  override fun onBackPressed() {
+    //先返回正常状态
+    if (orientationUtils?.screenType == ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE) {
+      player?.fullscreenButton?.performClick()
+      return
+    }
+    //释放所有
+    player?.setVideoAllCallBack(null)
+    super.onBackPressed()
+  }
+
+  override fun onDestroy() {
+    super.onDestroy()
+    GSYVideoManager.releaseAllVideos()
+    orientationUtils?.releaseListener()
   }
 }
