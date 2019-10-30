@@ -2,18 +2,18 @@
 <FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
     android:id="@+id/ffmpegPlayerParent"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true"
     >
 
-  <com.shuyu.gsyvideoplayer.video.StandardGSYVideoPlayer
+  <com.dueeeke.videoplayer.player.VideoView
       android:id="@+id/ffmpegPlayer"
       android:layout_width="match_parent"
       android:layout_height="match_parent"
-      android:visibility="invisible"
       android:layout_gravity="center_vertical|end"
+      android:visibility="invisible"
       />
 
   <LinearLayout

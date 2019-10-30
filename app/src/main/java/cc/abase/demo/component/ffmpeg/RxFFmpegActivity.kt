@@ -3,27 +3,21 @@ package cc.abase.demo.component.ffmpeg
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
-import android.content.res.Configuration
 import android.media.MediaMetadataRetriever
 import android.provider.MediaStore
 import android.provider.MediaStore.Images.Media
-import android.widget.ImageView
+import android.view.ViewGroup
 import cc.ab.base.ext.*
 import cc.abase.demo.component.comm.CommTitleActivity
 import cc.abase.demo.constants.UiConstants
 import cc.abase.demo.utils.VideoUtils
-import com.blankj.utilcode.util.BarUtils
 import com.blankj.utilcode.util.FileUtils
-import com.shuyu.gsyvideoplayer.GSYVideoManager
-import com.shuyu.gsyvideoplayer.builder.GSYVideoOptionBuilder
-import com.shuyu.gsyvideoplayer.listener.GSYSampleCallBack
-import com.shuyu.gsyvideoplayer.player.PlayerFactory
-import com.shuyu.gsyvideoplayer.utils.GSYVideoType
-import com.shuyu.gsyvideoplayer.utils.OrientationUtils
-import com.shuyu.gsyvideoplayer.video.StandardGSYVideoPlayer
+import com.dueeeke.videocontroller.StandardVideoController
+import com.dueeeke.videoplayer.exo.ExoMediaPlayer
+import com.dueeeke.videoplayer.exo.ExoMediaPlayerFactory
+import com.dueeeke.videoplayer.player.*
 import kotlinx.android.synthetic.main.activity_rxffmpeg.*
 import me.panpf.sketch.SketchImageView
-import tv.danmaku.ijk.media.exo2.Exo2PlayerManager
 import java.io.File
 
 /**
@@ -42,29 +36,26 @@ class RxFFmpegActivity : CommTitleActivity() {
 
   //选中的视频
   private var selVideoPath: String? = null
-  //封面
-  private var coverImage: SketchImageView? = null
-  //播放器
-  private var player: StandardGSYVideoPlayer? = null
-  //播放器旋转工具
-  private var orientationUtils: OrientationUtils? = null
+  //控制器
+  private var controller: StandardVideoController<VideoView<ExoMediaPlayer>>? = null
 
   override fun layoutResContentId() = cc.abase.demo.R.layout.activity_rxffmpeg
   override fun onCreateBefore() {
     //全局统一设置
-    PlayerFactory.setPlayManager(Exo2PlayerManager::class.java)//EXO播放内核
-    GSYVideoType.setShowType(GSYVideoType.SCREEN_TYPE_DEFAULT)//画面使用CenterCrop模式
-    GSYVideoType.setRenderType(GSYVideoType.TEXTURE)//使用texture播放
+    VideoViewManager.setConfig(
+        VideoViewConfig.newBuilder()
+            //使用ExoPlayer解码
+            .setPlayerFactory(ExoMediaPlayerFactory.create())
+            .build()
+    )
   }
 
   override fun initContentView() {
     setTitleText(getString(cc.abase.demo.R.string.ffmpeg_title))
-    player = ffmpegPlayer
-    coverImage = SketchImageView(this)
     ffmpegCompress.alpha = UiConstants.disable_alpha
     ffmpegCompress.isEnabled = false
     ffmpegSel.click {
-      player?.onVideoReset()
+      ffmpegPlayer?.pause()
       val openAlbumIntent = Intent(Intent.ACTION_PICK)
       openAlbumIntent.setDataAndType(Media.EXTERNAL_CONTENT_URI, "video/*")
       openAlbumIntent.putExtra("return-data", true)
@@ -92,14 +83,39 @@ class RxFFmpegActivity : CommTitleActivity() {
             pro = { p -> ffmpegResult.append("\n压缩进度:${p}%") })
       }
     }
-    coverImage?.scaleType = ImageView.ScaleType.CENTER_CROP
+    //控制器
+    controller = StandardVideoController(this)
+    //通过反射修改封面ImageView
+    controller?.let { contro ->
+      //把封面的各种相关联的都拿到
+      val thumb = contro.thumb
+      val parent = thumb.parent
+      val index = (parent as ViewGroup).indexOfChild(thumb)
+      val param = thumb.layoutParams
+      val id = thumb.id
+      //从父控件移除
+      thumb.removeParent()
+      //创建新的封面
+      val skiv = SketchImageView(mContext)
+      skiv.id = id
+      skiv.layoutParams = param
+      skiv.onClickListener = contro
+      //替换封面
+      parent.addView(skiv, index)
+      //替换内存变量
+      val field = contro.javaClass.getDeclaredField("mThumb")
+      field.isAccessible = true
+      field.set(contro, skiv)
+    }
+    //全屏时跟随屏幕旋转
+    controller?.setEnableOrientation(true)
+    //设置控制器
+    ffmpegPlayer.setVideoController(controller)
   }
 
   override fun initData() {
   }
 
-  private var isPlay = false
-  private var isPause = false
   private fun initPlayer(
     videoPath: String,
     coverPath: String
@@ -109,63 +125,18 @@ class RxFFmpegActivity : CommTitleActivity() {
     val ratioParent = ffmpegPlayerParent.width * 1f / ffmpegPlayerParent.height
     val ratioVideo = size.first * 1f / size.second
     if (ratioParent > ratioVideo) {//高视频
-      player?.layoutParams?.height = ffmpegPlayerParent.height
-      player?.layoutParams?.width =
+      ffmpegPlayer?.layoutParams?.height = ffmpegPlayerParent.height
+      ffmpegPlayer?.layoutParams?.width =
         (ffmpegPlayerParent.height * 1f / size.second * size.first).toInt()
     } else {//宽视频
-      player?.layoutParams?.height =
+      ffmpegPlayer?.layoutParams?.height =
         (ffmpegPlayerParent.width * 1f / size.first * size.second).toInt()
-      player?.layoutParams?.width = ffmpegPlayerParent.width
+      ffmpegPlayer?.layoutParams?.width = ffmpegPlayerParent.width
     }
-    player?.visible()
-    //设置封面
-    coverImage?.removeParent()
-    val builder = GSYVideoOptionBuilder()
-    builder.setThumbImageView(coverImage)
-        .setIsTouchWiget(true)
-        .setRotateViewAuto(true)
-        .setLockLand(false)
-        .setAutoFullWithSize(true)
-        .setShowFullAnimation(false)
-        .setNeedLockFull(true)
-        .setUrl(videoPath)
-        .setCacheWithPlay(false)
-        .setVideoTitle(" ")
-        .setVideoAllCallBack(object : GSYSampleCallBack() {
-          override fun onQuitFullscreen(
-            url: String?,
-            vararg objects: Any?
-          ) {
-            super.onQuitFullscreen(url, *objects)
-            orientationUtils?.backToProtVideo()
-          }
-
-          override fun onPrepared(
-            url: String?,
-            vararg objects: Any?
-          ) {
-            super.onPrepared(url, *objects)
-            //开始播放了才能旋转和全屏
-            orientationUtils?.isEnable = true
-            isPlay = true
-          }
-        })
-        .setLockClickListener { view, lock ->
-          //配合下方的onConfigurationChanged
-          orientationUtils?.isEnable = !lock
-        }
-        .build(player)
-    player?.let { play ->
-      play.isLooping = true
-      play.backButton?.gone()
-      play.titleTextView?.gone()
-      play.fullscreenButton?.setOnClickListener {
-        if (play.width > play.height) orientationUtils?.resolveByClick()
-        play.startWindowFullscreen(mActivity, true, true)
-        BarUtils.setNavBarVisibility(mActivity, false)
-      }
-    }
-    coverImage?.displayImage(coverPath)
+    ffmpegPlayer?.setUrl(videoPath)
+    ffmpegPlayer?.visible()
+    ffmpegPlayer?.requestLayout()
+    controller?.thumb?.let { if (it is SketchImageView) it.load(coverPath) }
   }
 
   //解析选择的视频
@@ -254,40 +225,24 @@ class RxFFmpegActivity : CommTitleActivity() {
     return picturePath
   }
 
+  //是否要重新播放
+  private var needResumePlay = false
   override fun onResume() {
     super.onResume()
-    player?.currentPlayer?.onVideoResume(false)
-    super.onResume()
-    isPause = false
+    if (needResumePlay) ffmpegPlayer?.resume()
   }
 
   override fun onPause() {
     super.onPause()
-    player?.currentPlayer?.onVideoPause()
-    super.onPause()
-    isPause = true
+    if (ffmpegPlayer?.isPlaying == true) needResumePlay = true
   }
 
   override fun onBackPressed() {
-    orientationUtils?.backToProtVideo()
-    if (GSYVideoManager.backFromWindowFull(this)) return
-    super.onBackPressed()
+    if (ffmpegPlayer?.onBackPressed() == false) super.onBackPressed()
   }
 
   override fun onDestroy() {
     super.onDestroy()
-    if (isPlay) player?.currentPlayer?.release()
-    orientationUtils?.releaseListener()
-  }
-
-  override fun onConfigurationChanged(newConfig: Configuration) {
-    super.onConfigurationChanged(newConfig)
-    //如果旋转了就全屏
-    if (isPlay && !isPause) {
-      player?.onConfigurationChanged(this, newConfig, orientationUtils, true, true)
-    }
-    if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-      player?.postDelayed({ BarUtils.setNavBarVisibility(mActivity, false) }, 500)
-    }
+    ffmpegPlayer?.release()
   }
 }
