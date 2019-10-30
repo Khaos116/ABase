@@ -1,11 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
+<FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:id="@+id/ffmpegPlayerParent"
     android:layout_height="match_parent"
     android:fillViewport="true"
     >
+
+  <com.shuyu.gsyvideoplayer.video.StandardGSYVideoPlayer
+      android:id="@+id/ffmpegPlayer"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:visibility="invisible"
+      android:layout_gravity="center_vertical|end"
+      />
 
   <LinearLayout
       android:layout_width="match_parent"
@@ -28,12 +37,6 @@
         android:textColor="@color/white"
         android:textSize="14sp"
         />
-
-    <com.shuyu.gsyvideoplayer.video.StandardGSYVideoPlayer
-        android:id="@+id/ffmpegPlayer"
-        android:layout_width="200dp"
-        android:layout_height="0dp"
-        android:layout_marginTop="10dp" />
 
     <TextView
         android:id="@+id/ffmpegCompress"
@@ -59,9 +62,13 @@
         android:paddingTop="5dp"
         android:paddingEnd="10dp"
         android:paddingBottom="5dp"
-        android:textColor="@color/black"
+        android:shadowColor="@color/black"
+        android:shadowDx="2"
+        android:shadowDy="2"
+        android:shadowRadius="4"
+        android:textColor="@color/style_Accent"
         android:textSize="14sp"
         tools:text="压缩进度35%"
         />
   </LinearLayout>
-</ScrollView>
+</FrameLayout>
