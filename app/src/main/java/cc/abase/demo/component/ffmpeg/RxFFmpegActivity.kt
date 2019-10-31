@@ -5,7 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.media.MediaMetadataRetriever
 import android.provider.MediaStore
-import android.provider.MediaStore.Images.Media
+import android.util.Log
 import cc.ab.base.ext.*
 import cc.abase.demo.component.comm.CommTitleActivity
 import cc.abase.demo.constants.UiConstants
@@ -17,9 +17,12 @@ import com.dueeeke.videoplayer.exo.ExoMediaPlayerFactory
 import com.dueeeke.videoplayer.player.VideoView
 import com.dueeeke.videoplayer.player.VideoViewConfig
 import com.dueeeke.videoplayer.player.VideoViewManager
+import com.luck.picture.lib.PictureSelector
+import com.luck.picture.lib.config.PictureMimeType
 import kotlinx.android.synthetic.main.activity_rxffmpeg.*
 import kotlinx.android.synthetic.main.dkplayer_layout_standard_controller.view.*
 import java.io.File
+
 
 /**
  * Description:
@@ -29,6 +32,7 @@ import java.io.File
 class RxFFmpegActivity : CommTitleActivity() {
   companion object {
     private const val INTENT_SEL_VIDEO = 0x0101
+    private const val INTENT_SEL_VIDEO2 = 0x0201
     fun startActivity(context: Context) {
       val intent = Intent(context, RxFFmpegActivity::class.java)
       context.startActivity(intent)
@@ -59,10 +63,16 @@ class RxFFmpegActivity : CommTitleActivity() {
       ffmpegPlayer.release()
       ffmpegPlayer.thumb.setImageDrawable(null)
       ffmpegPlayer.gone()
-      val openAlbumIntent = Intent(Intent.ACTION_PICK)
-      openAlbumIntent.setDataAndType(Media.EXTERNAL_CONTENT_URI, "video/*")
-      openAlbumIntent.putExtra("return-data", true)
-      startActivityForResult(openAlbumIntent, INTENT_SEL_VIDEO)
+      PictureSelector.create(mActivity)
+        .openGallery(PictureMimeType.ofVideo())
+        .maxSelectNum(1)
+        .isCamera(false)
+        .previewVideo(true)
+        .forResult(INTENT_SEL_VIDEO2)
+//      val openAlbumIntent = Intent(Intent.ACTION_PICK)
+//      openAlbumIntent.setDataAndType(Media.EXTERNAL_CONTENT_URI, "video/*")
+//      openAlbumIntent.putExtra("return-data", true)
+//      startActivityForResult(openAlbumIntent, INTENT_SEL_VIDEO)
     }
     ffmpegCompress.click {
       selVideoPath?.let { path ->
@@ -193,6 +203,16 @@ class RxFFmpegActivity : CommTitleActivity() {
     data?.let {
       if (requestCode == INTENT_SEL_VIDEO && resultCode == Activity.RESULT_OK) {
         selectVideo(mContext, it)?.let { path -> if (File(path).exists()) parseVideo(path) }
+      } else if (requestCode == INTENT_SEL_VIDEO2 && resultCode == Activity.RESULT_OK) {
+        // 图片、视频、音频选择结果回调
+        PictureSelector.obtainMultipleResult(data)?.let { medias ->
+          if (medias.isNotEmpty()) {
+            val path = medias.first().path
+            if (File(path).exists()) parseVideo(path)
+          }
+        }
+      } else {
+        Log.e("CASE", "onActivityResult:other")
       }
     }
   }
