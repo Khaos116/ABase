@@ -181,6 +181,8 @@ class RxFFmpegActivity : CommTitleActivity() {
       mMetadataRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_VIDEO_HEIGHT)
     val videoWidth =
       mMetadataRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_VIDEO_WIDTH)
+    val bitrate = mMetadataRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_BITRATE)
+    ffmpegResult.append("\n原视频码率:${bitrate.toInt() / 1000}K")
     val width: Int
     val height: Int
     if (Integer.parseInt(videoRotation) == 90 || Integer.parseInt(videoRotation) == 270) {

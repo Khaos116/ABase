@@ -60,6 +60,14 @@ class VideoUtils private constructor() {
     }
     Log.e("CASE", "视频压缩前大小:${FileUtils.getFileSize(originFile)}")
     val command = getCommandCompress(originFile.path, outFile.path)
+    //码率太低不进行压缩，直接拷贝原文件并返回
+    if (command.isNullOrBlank()) {
+      FileUtils.copyFile(originFile, outFile)
+      Log.e("CASE", "视频码率太小，不用压缩，直接拷贝上传")
+      result?.invoke(true, outFile.path)
+      return
+    }
+    Log.e("CASE", "执行的压缩命令:$command")
     RxFFmpegInvoke.getInstance()
         .runCommandRxJava(command.split(" ").toTypedArray())
         .subscribe(object : RxFFmpegSubscriber() {
@@ -181,7 +189,7 @@ class VideoUtils private constructor() {
   private fun getCommandCompress(
     originPath: String,
     outPath: String
-  ): String {
+  ): String? {
     //https://blog.csdn.net/qq_31332467/article/details/79166945
     //4K视频可能会闪退，所以需要添加尺寸压缩
     val mMetadataRetriever = MediaMetadataRetriever()
@@ -192,6 +200,14 @@ class VideoUtils private constructor() {
       mMetadataRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_VIDEO_HEIGHT)
     val videoWidth =
       mMetadataRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_VIDEO_WIDTH)
+    val bitrate = mMetadataRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_BITRATE)
+    //码率低于400不进行压缩
+    if (bitrate.toInt() < 400 * 1000) return null
+    val newBitrate = if (bitrate.toInt() > 3000 * 1000) {
+      3000
+    } else {
+      (bitrate.toInt() * 0.8f / 1000f).toInt()
+    }
     val width: Int
     val height: Int
     if (Integer.parseInt(videoRotation) == 90 || Integer.parseInt(videoRotation) == 270) {
@@ -207,13 +223,13 @@ class VideoUtils private constructor() {
     return if (min(width, height) > 1080) {
       //大于1080p
       String.format(
-          "ffmpeg -y -i %1\$s -b 3000k -r 30 -vcodec libx264 -vf scale=%2\$s -preset superfast %3\$s",
+          "ffmpeg -y -i %1\$s -b ${newBitrate}k -r 30 -vcodec libx264 -vf scale=%2\$s -preset superfast %3\$s",
           originPath, if (width > height) "1080:-1" else "-1:1080", outPath
       )
     } else {
       //小于1080p
       String.format(
-          "ffmpeg -y -i %1\$s -b 2097k -r 30 -vcodec libx264 -preset superfast %2\$s",
+          "ffmpeg -y -i %1\$s -b ${newBitrate}k -r 30 -vcodec libx264 -preset superfast %2\$s",
           originPath, outPath
       )
     }
