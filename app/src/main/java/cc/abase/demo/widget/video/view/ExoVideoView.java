@@ -3,6 +3,12 @@ package cc.abase.demo.widget.video.view;
 import android.content.Context;
 import android.util.AttributeSet;
 
+import androidx.annotation.NonNull;
+import androidx.lifecycle.Lifecycle;
+import androidx.lifecycle.LifecycleObserver;
+import androidx.lifecycle.LifecycleOwner;
+import androidx.lifecycle.OnLifecycleEvent;
+
 import com.dueeeke.videoplayer.player.PlayerFactory;
 import com.dueeeke.videoplayer.player.VideoView;
 import com.google.android.exoplayer2.LoadControl;
@@ -12,7 +18,7 @@ import com.google.android.exoplayer2.trackselection.TrackSelector;
 
 import cc.abase.demo.widget.video.player.CustomExoMediaPlayer;
 
-public class ExoVideoView extends VideoView<CustomExoMediaPlayer> {
+public class ExoVideoView extends VideoView<CustomExoMediaPlayer> implements LifecycleObserver {
 
     private MediaSource mMediaSource;
 
@@ -21,6 +27,7 @@ public class ExoVideoView extends VideoView<CustomExoMediaPlayer> {
     private LoadControl mLoadControl;
     private RenderersFactory mRenderersFactory;
     private TrackSelector mTrackSelector;
+    private Lifecycle mLifecycle;
 
     public ExoVideoView(Context context) {
         this(context, null);
@@ -59,6 +66,33 @@ public class ExoVideoView extends VideoView<CustomExoMediaPlayer> {
             return true;
         }
         return super.prepareDataSource();
+    }
+
+    //是否要重新播放
+    private boolean needResumePlay = false;
+
+    public void setLifecycleOwner(@NonNull LifecycleOwner owner) {
+        if (mLifecycle != null) mLifecycle.removeObserver(this);
+        mLifecycle = owner.getLifecycle();
+        mLifecycle.addObserver(this);
+    }
+
+    @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
+    public void onResumeVideo() {
+        if (needResumePlay) resume();
+    }
+
+    @OnLifecycleEvent(Lifecycle.Event.ON_PAUSE)
+    public void onPauseVideo() {
+        if (isPlaying()) {
+            pause();
+            needResumePlay = true;
+        }
+    }
+
+    @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
+    public void onDestroyVideo() {
+        release();
     }
 
     /**

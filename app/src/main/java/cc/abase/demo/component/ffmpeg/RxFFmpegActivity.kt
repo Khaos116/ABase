@@ -6,10 +6,7 @@ import android.content.Intent
 import android.media.MediaMetadataRetriever
 import android.provider.MediaStore
 import android.provider.MediaStore.Images.Media
-import cc.ab.base.ext.click
-import cc.ab.base.ext.load
-import cc.ab.base.ext.mContext
-import cc.ab.base.ext.visible
+import cc.ab.base.ext.*
 import cc.abase.demo.component.comm.CommTitleActivity
 import cc.abase.demo.constants.UiConstants
 import cc.abase.demo.utils.VideoUtils
@@ -21,6 +18,7 @@ import com.dueeeke.videoplayer.player.VideoView
 import com.dueeeke.videoplayer.player.VideoViewConfig
 import com.dueeeke.videoplayer.player.VideoViewManager
 import kotlinx.android.synthetic.main.activity_rxffmpeg.*
+import kotlinx.android.synthetic.main.dkplayer_layout_standard_controller.view.*
 import java.io.File
 
 /**
@@ -58,7 +56,9 @@ class RxFFmpegActivity : CommTitleActivity() {
     ffmpegCompress.alpha = UiConstants.disable_alpha
     ffmpegCompress.isEnabled = false
     ffmpegSel.click {
-      ffmpegPlayer?.release()
+      ffmpegPlayer.release()
+      ffmpegPlayer.thumb.setImageDrawable(null)
+      ffmpegPlayer.gone()
       val openAlbumIntent = Intent(Intent.ACTION_PICK)
       openAlbumIntent.setDataAndType(Media.EXTERNAL_CONTENT_URI, "video/*")
       openAlbumIntent.putExtra("return-data", true)
@@ -114,7 +114,9 @@ class RxFFmpegActivity : CommTitleActivity() {
     controller?.setEnableOrientation(true)
     //设置控制器
     ffmpegPlayer.setVideoController(controller)
-    ffmpegPlayer?.setLooping(true)
+    ffmpegPlayer.setLooping(true)
+    //内部处理生命周期
+    ffmpegPlayer.setLifecycleOwner(this)
   }
 
   override fun initData() {
@@ -229,24 +231,7 @@ class RxFFmpegActivity : CommTitleActivity() {
     return picturePath
   }
 
-  //是否要重新播放
-  private var needResumePlay = false
-  override fun onResume() {
-    super.onResume()
-    if (needResumePlay) ffmpegPlayer?.resume()
-  }
-
-  override fun onPause() {
-    super.onPause()
-    if (ffmpegPlayer?.isPlaying == true) needResumePlay = true
-  }
-
   override fun onBackPressed() {
     if (ffmpegPlayer?.onBackPressed() == false) super.onBackPressed()
-  }
-
-  override fun onDestroy() {
-    super.onDestroy()
-    ffmpegPlayer?.release()
   }
 }
