@@ -59,9 +59,6 @@ class MainActivity : CommActivity() {
   override fun initData() {
     //关闭其他所有页面
     ActivityUtils.finishOtherActivities(javaClass)
-    //测试打开的web监听
-    LiveEventBus.get(EventKeys.WEB_URL, String::class.java)
-        .observe(this, Observer<String> { Log.e("CASE", "Web打开的url=${it}") })
   }
 
   //设置选中的fragment

@@ -36,7 +36,6 @@ class WebActivity : CommTitleActivity() {
         fun startActivity(context: Context, url: String) {
             val intent = Intent(context, WebActivity::class.java)
             if (url.isNotBlank()) intent.putExtra(WEB_URL, url)
-            LiveEventBus.get(EventKeys.WEB_URL).post(url)
             context.startActivity(intent)
         }
     }
