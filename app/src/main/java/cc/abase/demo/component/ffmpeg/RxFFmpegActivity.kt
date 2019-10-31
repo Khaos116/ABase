@@ -6,18 +6,21 @@ import android.content.Intent
 import android.media.MediaMetadataRetriever
 import android.provider.MediaStore
 import android.provider.MediaStore.Images.Media
-import android.view.ViewGroup
-import cc.ab.base.ext.*
+import cc.ab.base.ext.click
+import cc.ab.base.ext.load
+import cc.ab.base.ext.mContext
+import cc.ab.base.ext.visible
 import cc.abase.demo.component.comm.CommTitleActivity
 import cc.abase.demo.constants.UiConstants
 import cc.abase.demo.utils.VideoUtils
+import cc.abase.demo.widget.video.controller.StandardVideoController
+import cc.abase.demo.widget.video.player.CustomExoMediaPlayer
 import com.blankj.utilcode.util.FileUtils
-import com.dueeeke.videocontroller.StandardVideoController
-import com.dueeeke.videoplayer.exo.ExoMediaPlayer
 import com.dueeeke.videoplayer.exo.ExoMediaPlayerFactory
-import com.dueeeke.videoplayer.player.*
+import com.dueeeke.videoplayer.player.VideoView
+import com.dueeeke.videoplayer.player.VideoViewConfig
+import com.dueeeke.videoplayer.player.VideoViewManager
 import kotlinx.android.synthetic.main.activity_rxffmpeg.*
-import me.panpf.sketch.SketchImageView
 import java.io.File
 
 /**
@@ -37,7 +40,7 @@ class RxFFmpegActivity : CommTitleActivity() {
   //选中的视频
   private var selVideoPath: String? = null
   //控制器
-  private var controller: StandardVideoController<VideoView<ExoMediaPlayer>>? = null
+  private var controller: StandardVideoController<VideoView<CustomExoMediaPlayer>>? = null
 
   override fun layoutResContentId() = cc.abase.demo.R.layout.activity_rxffmpeg
   override fun onCreateBefore() {
@@ -55,7 +58,7 @@ class RxFFmpegActivity : CommTitleActivity() {
     ffmpegCompress.alpha = UiConstants.disable_alpha
     ffmpegCompress.isEnabled = false
     ffmpegSel.click {
-      ffmpegPlayer?.pause()
+      ffmpegPlayer?.release()
       val openAlbumIntent = Intent(Intent.ACTION_PICK)
       openAlbumIntent.setDataAndType(Media.EXTERNAL_CONTENT_URI, "video/*")
       openAlbumIntent.putExtra("return-data", true)
@@ -86,27 +89,27 @@ class RxFFmpegActivity : CommTitleActivity() {
     //控制器
     controller = StandardVideoController(this)
     //通过反射修改封面ImageView
-    controller?.let { contro ->
-      //把封面的各种相关联的都拿到
-      val thumb = contro.thumb
-      val parent = thumb.parent
-      val index = (parent as ViewGroup).indexOfChild(thumb)
-      val param = thumb.layoutParams
-      val id = thumb.id
-      //从父控件移除
-      thumb.removeParent()
-      //创建新的封面
-      val skiv = SketchImageView(mContext)
-      skiv.id = id
-      skiv.layoutParams = param
-      skiv.onClickListener = contro
-      //替换封面
-      parent.addView(skiv, index)
-      //替换内存变量
-      val field = contro.javaClass.getDeclaredField("mThumb")
-      field.isAccessible = true
-      field.set(contro, skiv)
-    }
+//    controller?.let { contro ->
+//      //把封面的各种相关联的都拿到
+//      val thumb = contro.thumb
+//      val parent = thumb.parent
+//      val index = (parent as ViewGroup).indexOfChild(thumb)
+//      val param = thumb.layoutParams
+//      val id = thumb.id
+//      //从父控件移除
+//      thumb.removeParent()
+//      //创建新的封面
+//      val skiv = SketchImageView(mContext)
+//      skiv.id = id
+//      skiv.layoutParams = param
+//      skiv.onClickListener = contro
+//      //替换封面
+//      parent.addView(skiv, index)
+//      //替换内存变量
+//      val field = contro.javaClass.getDeclaredField("mThumb")
+//      field.isAccessible = true
+//      field.set(contro, skiv)
+//    }
     //全屏时跟随屏幕旋转
     controller?.setEnableOrientation(true)
     //设置控制器
@@ -136,7 +139,7 @@ class RxFFmpegActivity : CommTitleActivity() {
     ffmpegPlayer?.setUrl(videoPath)
     ffmpegPlayer?.visible()
     ffmpegPlayer?.requestLayout()
-    controller?.thumb?.let { if (it is SketchImageView) it.load(coverPath) }
+    controller?.thumb?.load(coverPath)
   }
 
   //解析选择的视频
