@@ -282,6 +282,48 @@ public class StandardVideoController<T extends MediaPlayerControl> extends Gestu
     }
 
     /**
+     * 横屏
+     */
+    protected void onOrientationLandscape(Activity activity) {
+        int[] videoSize = mMediaPlayer.getVideoSize();
+        if (videoSize[0] < videoSize[1]) return;//纵向视频
+        int o = activity.getRequestedOrientation();
+        if (o == ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE) {
+            mFromUser = false;
+            return;
+        }
+        //手动操作的情况
+        if (o == ActivityInfo.SCREEN_ORIENTATION_PORTRAIT && mFromUser) {
+            return;
+        }
+        if (!mMediaPlayer.isFullScreen()) {
+            mMediaPlayer.startFullScreen();
+        }
+        activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+    }
+
+    /**
+     * 反向横屏
+     */
+    protected void onOrientationReverseLandscape(Activity activity) {
+        int[] videoSize = mMediaPlayer.getVideoSize();
+        if (videoSize[0] < videoSize[1]) return;//纵向视频
+        int o = activity.getRequestedOrientation();
+        if (o == ActivityInfo.SCREEN_ORIENTATION_REVERSE_LANDSCAPE) {
+            mFromUser = false;
+            return;
+        }
+        //手动操作的情况
+        if (o == ActivityInfo.SCREEN_ORIENTATION_PORTRAIT && mFromUser) {
+            return;
+        }
+        if (!mMediaPlayer.isFullScreen()) {
+            mMediaPlayer.startFullScreen();
+        }
+        activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_REVERSE_LANDSCAPE);
+    }
+
+    /**
      * 设置标题
      */
     public void setTitle(String title) {
