@@ -53,22 +53,28 @@
         android:textSize="14sp"
         />
 
-    <TextView
-        android:id="@+id/ffmpegResult"
-        android:layout_width="wrap_content"
+    <ScrollView
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:paddingStart="10dp"
-        android:paddingTop="5dp"
-        android:paddingEnd="10dp"
-        android:paddingBottom="5dp"
-        android:shadowColor="@color/black"
-        android:shadowDx="2"
-        android:shadowDy="2"
-        android:shadowRadius="4"
-        android:textColor="@color/style_Accent"
-        android:textSize="14sp"
-        tools:text="压缩进度35%"
-        />
+        >
+
+      <TextView
+          android:id="@+id/ffmpegResult"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_marginTop="10dp"
+          android:paddingStart="10dp"
+          android:paddingTop="5dp"
+          android:paddingEnd="10dp"
+          android:paddingBottom="5dp"
+          android:shadowColor="@color/black"
+          android:shadowDx="2"
+          android:shadowDy="2"
+          android:shadowRadius="4"
+          android:textColor="@color/style_Accent"
+          android:textSize="14sp"
+          tools:text="压缩进度35%"
+          />
+    </ScrollView>
   </LinearLayout>
 </FrameLayout>
