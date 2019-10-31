@@ -182,6 +182,7 @@ class VideoUtils private constructor() {
     originPath: String,
     outPath: String
   ): String {
+    //https://blog.csdn.net/qq_31332467/article/details/79166945
     //4K视频可能会闪退，所以需要添加尺寸压缩
     val mMetadataRetriever = MediaMetadataRetriever()
     mMetadataRetriever.setDataSource(originPath)
@@ -201,6 +202,8 @@ class VideoUtils private constructor() {
       width = videoWidth.toInt()
       height = videoHeight.toInt()
     }
+    //需要根据视频大小和视频时长计算得到需要压缩的码率，不然会导致高清视频压缩后变模糊，非高清视频压缩后文件变大
+    //https://blog.csdn.net/zhezhebie/article/details/79263492
     return if (min(width, height) > 1080) {
       //大于1080p
       String.format(
