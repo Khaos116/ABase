@@ -114,6 +114,7 @@ class RxFFmpegActivity : CommTitleActivity() {
     controller?.setEnableOrientation(true)
     //设置控制器
     ffmpegPlayer.setVideoController(controller)
+    ffmpegPlayer?.setLooping(true)
   }
 
   override fun initData() {
