@@ -39,4 +39,20 @@
     <attr name="last_dot_size" format="dimension"/>
     <attr name="margins_between_dots" format="dimension"/>
   </declare-styleable>
+
+  <!--圆角控件-->
+  <attr name="corner_radius" format="dimension" />
+  <declare-styleable name="GeneralRoundLinearLayout">
+    <attr name="corner_radius" />
+  </declare-styleable>
+  <declare-styleable name="GeneralRoundRelativeLayout">
+    <attr name="corner_radius" />
+  </declare-styleable>
+  <declare-styleable name="GeneralRoundFrameLayout">
+    <attr name="corner_radius" />
+  </declare-styleable>
+  <declare-styleable name="GeneralRoundConstraintLayout">
+    <attr name="corner_radius" />
+  </declare-styleable>
+
 </resources>
