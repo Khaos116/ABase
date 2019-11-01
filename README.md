@@ -72,3 +72,7 @@ class HomeBannerHolderView(view: View?) : DiscreteHolder<BannerBean>(view) {
 ================================================================
 ##  FFmpeg获取视频封面和压缩视频
 ![封面和压缩](https://github.com/caiyoufei/ABase/blob/master/image/video_cover_compress.gif)
+
+================================================================
+##  控件高斯模糊效果
+![高斯模糊](https://github.com/caiyoufei/ABase/blob/master/image/blur.png)
