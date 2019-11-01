@@ -13,16 +13,14 @@ import cc.abase.demo.utils.VideoUtils
 import cc.abase.demo.widget.video.controller.StandardVideoController
 import cc.abase.demo.widget.video.player.CustomExoMediaPlayer
 import com.blankj.utilcode.util.FileUtils
+import com.blankj.utilcode.util.PathUtils
 import com.dueeeke.videoplayer.exo.ExoMediaPlayerFactory
-import com.dueeeke.videoplayer.player.VideoView
-import com.dueeeke.videoplayer.player.VideoViewConfig
-import com.dueeeke.videoplayer.player.VideoViewManager
+import com.dueeeke.videoplayer.player.*
 import com.luck.picture.lib.PictureSelector
 import com.luck.picture.lib.config.PictureMimeType
 import kotlinx.android.synthetic.main.activity_rxffmpeg.*
-import kotlinx.android.synthetic.main.dkplayer_layout_standard_controller.view.*
+import kotlinx.android.synthetic.main.dkplayer_layout_standard_controller.view.thumb
 import java.io.File
-
 
 /**
  * Description:
@@ -130,6 +128,12 @@ class RxFFmpegActivity : CommTitleActivity() {
   }
 
   override fun initData() {
+    //高斯模糊测试代码
+//    val url =
+//      PathUtils.getExternalStoragePath() + File.separator + "251C90F4C97303004ACF85BDE3164342.jpg"
+//    iv1.load(url)
+//    iv2.loadBlur(url, blur = 15)
+//    iv3.loadCornerBlur(url, cornerDP = 8f, blur = 25)
   }
 
   private fun initPlayer(
