@@ -75,4 +75,4 @@ class HomeBannerHolderView(view: View?) : DiscreteHolder<BannerBean>(view) {
 
 ================================================================
 ##  控件高斯模糊效果
-![高斯模糊](https://github.com/caiyoufei/ABase/blob/master/image/blur.webp)
+![高斯模糊](https://github.com/caiyoufei/ABase/blob/master/image/blur.png)
