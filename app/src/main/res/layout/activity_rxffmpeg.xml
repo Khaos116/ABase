@@ -1,16 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/ffmpegPlayerParent"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
     android:fillViewport="true"
-    >
+    android:layout_height="match_parent"
+    android:padding="12dp">
 
   <cc.abase.demo.widget.video.view.ExoVideoView
       android:id="@+id/ffmpegPlayer"
       android:layout_width="match_parent"
+      app:corner_radius="8dp"
       android:layout_height="match_parent"
       android:layout_gravity="center_vertical|end"
       android:visibility="invisible"
