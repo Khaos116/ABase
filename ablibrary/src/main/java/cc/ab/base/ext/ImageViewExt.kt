@@ -69,7 +69,7 @@ fun SketchImageView.loadCornerBlur(
   url: String?,
   holderRes: Int = 0,
   errorRes: Int = 0,
-  @FloatRange(from = 1.0) cornerDP: Float,
+  @FloatRange(from = 0.0) cornerDP: Float,
   @IntRange(from = 0, to = 100) blur: Int
 ) {
   val displayOptions = DisplayOptions()
