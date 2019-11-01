@@ -1,6 +1,7 @@
 package cc.ab.base.ext
 
 import android.widget.ImageView
+import androidx.annotation.FloatRange
 import androidx.annotation.IntRange
 import cc.ab.base.R
 import cc.ab.base.utils.RandomPlaceholder
@@ -68,7 +69,7 @@ fun SketchImageView.loadCornerBlur(
   url: String?,
   holderRes: Int = 0,
   errorRes: Int = 0,
-  cornerDP: Float,
+  @FloatRange(from = 1.0) cornerDP: Float,
   @IntRange(from = 0, to = 100) blur: Int
 ) {
   val displayOptions = DisplayOptions()
