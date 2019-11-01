@@ -138,16 +138,17 @@ class RxFFmpegActivity : CommTitleActivity() {
   ) {
     //设置尺寸
     val size = getVideoSize(videoPath)
-    val ratioParent = ffmpegPlayerParent.width * 1f / ffmpegPlayerParent.height
+    val parent = ffmpegPlayerParent
+    val width = parent.width - parent.paddingStart - parent.paddingEnd
+    val height = parent.height - parent.paddingTop - parent.paddingBottom
+    val ratioParent = width * 1f / height
     val ratioVideo = size.first * 1f / size.second
     if (ratioParent > ratioVideo) {//高视频
-      ffmpegPlayer?.layoutParams?.height = ffmpegPlayerParent.height
-      ffmpegPlayer?.layoutParams?.width =
-        (ffmpegPlayerParent.height * 1f / size.second * size.first).toInt()
+      ffmpegPlayer?.layoutParams?.height = height
+      ffmpegPlayer?.layoutParams?.width = (height * 1f / size.second * size.first).toInt()
     } else {//宽视频
-      ffmpegPlayer?.layoutParams?.height =
-        (ffmpegPlayerParent.width * 1f / size.first * size.second).toInt()
-      ffmpegPlayer?.layoutParams?.width = ffmpegPlayerParent.width
+      ffmpegPlayer?.layoutParams?.height = (width * 1f / size.first * size.second).toInt()
+      ffmpegPlayer?.layoutParams?.width = width
     }
     ffmpegPlayer?.setUrl(videoPath)
     ffmpegPlayer?.visible()
