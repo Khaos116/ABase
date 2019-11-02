@@ -1,8 +1,10 @@
 package cc.abase.demo.utils
 
 import android.Manifest
+import android.graphics.Bitmap
 import android.media.MediaMetadataRetriever
 import android.util.Log
+import cc.ab.base.utils.RxUtils
 import cc.abase.demo.R
 import com.blankj.utilcode.util.*
 import io.microshow.rxffmpeg.RxFFmpegInvoke
@@ -233,5 +235,28 @@ class VideoUtils private constructor() {
           originPath, outPath
       )
     }
+  }
+
+  //网络视频封面获取
+  fun getNetVideoFistFrame(videoUrl: String, call: (bit: Bitmap?) -> Unit) {
+    val ob = io.reactivex.Observable.just(videoUrl)
+      .flatMap {
+        val retriever = MediaMetadataRetriever()
+        retriever.setDataSource(it, HashMap())
+        val bitmap = retriever.frameAtTime
+        io.reactivex.Observable.just(
+          if (bitmap.width > ScreenUtils.getScreenWidth()) {
+            val width = ScreenUtils.getScreenWidth()
+            val height = ScreenUtils.getScreenWidth() * 1f / bitmap.width * bitmap.height
+            ImageUtils.compressBySampleSize(bitmap, width, height.toInt())
+          } else {
+            bitmap
+          }
+        )
+      }
+      .compose(RxUtils.instance.rx2SchedulerHelperO())
+      .subscribe({ bit ->
+        call.invoke(bit)
+      }, { call.invoke(null) })
   }
 }
