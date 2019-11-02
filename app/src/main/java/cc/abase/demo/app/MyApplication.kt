@@ -16,6 +16,8 @@ import com.billy.android.swipe.SmartSwipeBack
 import com.billy.android.swipe.SmartSwipeRefresh
 import com.billy.android.swipe.refresh.ClassicFooter
 import com.billy.android.swipe.refresh.ClassicHeader
+import com.dueeeke.videoplayer.exo.ExoMediaPlayerFactory
+import com.dueeeke.videoplayer.player.*
 import com.vanniktech.emoji.EmojiManager
 import com.vanniktech.emoji.ios.IosEmojiProvider
 import io.microshow.rxffmpeg.RxFFmpegInvoke
@@ -43,6 +45,14 @@ open class MyApplication : BaseApplication() {
     //RxFFmpeg
     RxFFmpegInvoke.getInstance()
         .setDebug(true)
+    //视频播放全局配置
+    VideoViewManager.setConfig(
+        VideoViewConfig.newBuilder()
+            //使用ExoPlayer解码
+            .setPlayerFactory(ExoMediaPlayerFactory.create())
+            .setScreenScaleType(VideoView.SCREEN_SCALE_DEFAULT)
+            .build()
+    )
   }
 
   //静态代码段可以防止内存泄露

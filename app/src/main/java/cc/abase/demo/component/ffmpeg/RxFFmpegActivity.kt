@@ -13,7 +13,6 @@ import cc.abase.demo.utils.VideoUtils
 import cc.abase.demo.widget.video.controller.StandardVideoController
 import cc.abase.demo.widget.video.player.CustomExoMediaPlayer
 import com.blankj.utilcode.util.FileUtils
-import com.dueeeke.videoplayer.exo.ExoMediaPlayerFactory
 import com.dueeeke.videoplayer.player.*
 import com.luck.picture.lib.PictureSelector
 import com.luck.picture.lib.config.PictureMimeType
