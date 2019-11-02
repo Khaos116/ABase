@@ -183,6 +183,7 @@ class RxFFmpegActivity : CommTitleActivity() {
     val videoWidth =
       mMetadataRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_VIDEO_WIDTH)
     val bitrate = mMetadataRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_BITRATE)
+    mMetadataRetriever.release()
     ffmpegResult.append("\n原视频码率:${bitrate.toInt() / 1000}K")
     val width: Int
     val height: Int

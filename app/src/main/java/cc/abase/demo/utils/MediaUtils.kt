@@ -34,6 +34,7 @@ class MediaUtils private constructor() {
       val mmr = MediaMetadataRetriever()
       mmr.setDataSource(filePath)
       val mimeType = mmr.extractMetadata(MediaMetadataRetriever.METADATA_KEY_MIMETYPE)
+      mmr.release()
       mimeType?.contains("video", true) == true
     } catch (e: Exception) {
       e.printStackTrace()

@@ -19,7 +19,7 @@
 
   <cc.abase.demo.widget.video.view.ExoVideoView
       android:id="@+id/videoDetailVideoView"
-      android:layout_width="wrap_content"
+      android:layout_width="match_parent"
       android:layout_height="0dp"
       app:corner_radius="0dp"
       app:layout_constraintDimensionRatio="16:9"

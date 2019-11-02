@@ -171,6 +171,7 @@ class VideoUtils private constructor() {
       mMetadataRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_VIDEO_HEIGHT)
     val videoWidth =
       mMetadataRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_VIDEO_WIDTH)
+    mMetadataRetriever.release()
     val width: Int
     val height: Int
     if (Integer.parseInt(videoRotation) == 90 || Integer.parseInt(videoRotation) == 270) {
@@ -203,6 +204,7 @@ class VideoUtils private constructor() {
     val videoWidth =
       mMetadataRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_VIDEO_WIDTH)
     val bitrate = mMetadataRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_BITRATE)
+    mMetadataRetriever.release()
     //码率低于400不进行压缩
     if (bitrate.toInt() < 400 * 1000) return null
     val newBitrate = if (bitrate.toInt() > 3000 * 1000) {
@@ -244,6 +246,7 @@ class VideoUtils private constructor() {
         val retriever = MediaMetadataRetriever()
         retriever.setDataSource(it, HashMap())
         val bitmap = retriever.frameAtTime
+        retriever.release()
         io.reactivex.Observable.just(
           if (bitmap.width > ScreenUtils.getScreenWidth()) {
             val width = ScreenUtils.getScreenWidth()
