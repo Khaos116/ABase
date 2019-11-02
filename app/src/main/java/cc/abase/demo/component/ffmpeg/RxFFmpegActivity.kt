@@ -13,7 +13,6 @@ import cc.abase.demo.utils.VideoUtils
 import cc.abase.demo.widget.video.controller.StandardVideoController
 import cc.abase.demo.widget.video.player.CustomExoMediaPlayer
 import com.blankj.utilcode.util.FileUtils
-import com.blankj.utilcode.util.PathUtils
 import com.dueeeke.videoplayer.exo.ExoMediaPlayerFactory
 import com.dueeeke.videoplayer.player.*
 import com.luck.picture.lib.PictureSelector
@@ -43,16 +42,9 @@ class RxFFmpegActivity : CommTitleActivity() {
   private var controller: StandardVideoController<VideoView<CustomExoMediaPlayer>>? = null
 
   override fun layoutResContentId() = cc.abase.demo.R.layout.activity_rxffmpeg
-  override fun onCreateBefore() {
-    //全局统一设置
-    VideoViewManager.setConfig(
-        VideoViewConfig.newBuilder()
-            //使用ExoPlayer解码
-            .setPlayerFactory(ExoMediaPlayerFactory.create())
-            .build()
-    )
-  }
 
+  //压缩后的视频地址
+  private var compressVideoPath: String? = null
   override fun initContentView() {
     setTitleText(getString(cc.abase.demo.R.string.ffmpeg_title))
     ffmpegCompress.alpha = UiConstants.disable_alpha
@@ -85,6 +77,7 @@ class RxFFmpegActivity : CommTitleActivity() {
               ffmpegCompress.alpha = 1f
               ffmpegCompress.isEnabled = true
               if (suc) {
+                compressVideoPath = info
                 ffmpegResult.append("\n压缩成功:$info")
                 ffmpegResult.append("\n压缩后视频大小:${FileUtils.getFileSize(info)}")
               } else {
@@ -93,6 +86,9 @@ class RxFFmpegActivity : CommTitleActivity() {
             },
             pro = { p -> ffmpegResult.append("\n压缩进度:${p}%") })
       }
+    }
+    ffmpegPlay.click {
+      compressVideoPath?.let { path -> VideoDetailActivity.startActivity(mContext, path) }
     }
     //控制器
     controller = StandardVideoController(this)
@@ -140,24 +136,26 @@ class RxFFmpegActivity : CommTitleActivity() {
     videoPath: String,
     coverPath: String
   ) {
-    //设置尺寸
-    val size = getVideoSize(videoPath)
-    val parent = ffmpegPlayerParent
-    val width = parent.width - parent.paddingStart - parent.paddingEnd
-    val height = parent.height - parent.paddingTop - parent.paddingBottom
-    val ratioParent = width * 1f / height
-    val ratioVideo = size.first * 1f / size.second
-    if (ratioParent > ratioVideo) {//高视频
-      ffmpegPlayer?.layoutParams?.height = height
-      ffmpegPlayer?.layoutParams?.width = (height * 1f / size.second * size.first).toInt()
-    } else {//宽视频
-      ffmpegPlayer?.layoutParams?.height = (width * 1f / size.first * size.second).toInt()
-      ffmpegPlayer?.layoutParams?.width = width
+    ffmpegPlayer?.let { videoView ->
+      //设置尺寸
+      val size = getVideoSize(videoPath)
+      val parent = ffmpegPlayerParent
+      val width = parent.width - parent.paddingStart - parent.paddingEnd
+      val height = parent.height - parent.paddingTop - parent.paddingBottom
+      val ratioParent = width * 1f / height
+      val ratioVideo = size.first * 1f / size.second
+      if (ratioParent > ratioVideo) {//高视频
+        videoView.layoutParams?.height = height
+        videoView.layoutParams?.width = (height * 1f / size.second * size.first).toInt()
+      } else {//宽视频
+        videoView.layoutParams?.height = (width * 1f / size.first * size.second).toInt()
+        videoView.layoutParams?.width = width
+      }
+      videoView.setUrl(videoPath)
+      videoView.visible()
+      videoView.requestLayout()
+      controller?.thumb?.load(coverPath)
     }
-    ffmpegPlayer?.setUrl(videoPath)
-    ffmpegPlayer?.visible()
-    ffmpegPlayer?.requestLayout()
-    controller?.thumb?.load(coverPath)
   }
 
   //解析选择的视频

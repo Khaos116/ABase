@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/ffmpegPlayerParent"
     android:layout_width="match_parent"
-    android:fillViewport="true"
     android:layout_height="match_parent"
+    android:fillViewport="true"
     android:padding="12dp">
 
   <cc.abase.demo.widget.video.view.ExoVideoView
       android:id="@+id/ffmpegPlayer"
       android:layout_width="match_parent"
-      app:corner_radius="8dp"
       android:layout_height="match_parent"
       android:layout_gravity="center_vertical|end"
       android:visibility="invisible"
+      app:corner_radius="8dp"
       />
 
   <LinearLayout
@@ -23,6 +23,20 @@
       android:orientation="vertical"
       android:padding="12dp"
       >
+
+    <TextView
+        android:id="@+id/ffmpegPlay"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/shape_half_dark_green"
+        android:paddingStart="10dp"
+        android:paddingTop="5dp"
+        android:paddingEnd="10dp"
+        android:paddingBottom="5dp"
+        android:text="@string/play_compress_video"
+        android:textColor="@color/white"
+        android:textSize="14sp" />
 
     <TextView
         android:id="@+id/ffmpegSel"
@@ -79,26 +93,26 @@
     </ScrollView>
   </LinearLayout>
 
-<!--  <me.panpf.sketch.SketchImageView-->
-<!--      android:id="@+id/iv1"-->
-<!--      android:layout_width="match_parent"-->
-<!--      android:layout_height="150dp"-->
-<!--      android:scaleType="centerCrop"-->
-<!--      />-->
+  <!--  <me.panpf.sketch.SketchImageView-->
+  <!--      android:id="@+id/iv1"-->
+  <!--      android:layout_width="match_parent"-->
+  <!--      android:layout_height="150dp"-->
+  <!--      android:scaleType="centerCrop"-->
+  <!--      />-->
 
-<!--  <me.panpf.sketch.SketchImageView-->
-<!--      android:id="@+id/iv2"-->
-<!--      android:layout_width="match_parent"-->
-<!--      android:layout_height="150dp"-->
-<!--      android:layout_marginTop="152dp"-->
-<!--      android:scaleType="centerCrop"-->
-<!--      />-->
+  <!--  <me.panpf.sketch.SketchImageView-->
+  <!--      android:id="@+id/iv2"-->
+  <!--      android:layout_width="match_parent"-->
+  <!--      android:layout_height="150dp"-->
+  <!--      android:layout_marginTop="152dp"-->
+  <!--      android:scaleType="centerCrop"-->
+  <!--      />-->
 
-<!--  <me.panpf.sketch.SketchImageView-->
-<!--      android:id="@+id/iv3"-->
-<!--      android:layout_width="match_parent"-->
-<!--      android:layout_height="150dp"-->
-<!--      android:layout_marginTop="304dp"-->
-<!--      android:scaleType="centerCrop"-->
-<!--      />-->
+  <!--  <me.panpf.sketch.SketchImageView-->
+  <!--      android:id="@+id/iv3"-->
+  <!--      android:layout_width="match_parent"-->
+  <!--      android:layout_height="150dp"-->
+  <!--      android:layout_marginTop="304dp"-->
+  <!--      android:scaleType="centerCrop"-->
+  <!--      />-->
 </FrameLayout>
