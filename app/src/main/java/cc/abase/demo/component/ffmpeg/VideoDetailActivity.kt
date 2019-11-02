@@ -2,11 +2,9 @@ package cc.abase.demo.component.ffmpeg
 
 import android.content.Context
 import android.content.Intent
-import android.media.MediaMetadataRetriever
 import android.util.Log
 import cc.ab.base.ext.load
 import cc.ab.base.ext.mStatusBarHeight
-import cc.ab.base.utils.RxUtils
 import cc.abase.demo.R
 import cc.abase.demo.component.comm.CommActivity
 import cc.abase.demo.utils.MediaUtils
@@ -15,8 +13,7 @@ import cc.abase.demo.widget.video.controller.StandardVideoController
 import cc.abase.demo.widget.video.player.CustomExoMediaPlayer
 import com.dueeeke.videoplayer.player.VideoView
 import com.gyf.immersionbar.ktx.immersionBar
-import kotlinx.android.synthetic.main.activity_video_detail.videoDetailStatus
-import kotlinx.android.synthetic.main.activity_video_detail.videoDetailVideoView
+import kotlinx.android.synthetic.main.activity_video_detail.*
 import java.io.File
 
 /**
@@ -29,11 +26,13 @@ class VideoDetailActivity : CommActivity() {
     private const val INTENT_KEY_VIDEO_URL = "INTENT_KEY_VIDEO_URL"
     fun startActivity(
       context: Context,
-      videoUrl: String
+      videoUrl: String?
     ) {
       val intent = Intent(context, VideoDetailActivity::class.java)
       intent.putExtra(
-          INTENT_KEY_VIDEO_URL, "http://vfx.mtime.cn/Video/2019/03/18/mp4/190318231014076505.mp4"
+        INTENT_KEY_VIDEO_URL, if (videoUrl.isNullOrBlank()) {
+          "http://vfx.mtime.cn/Video/2019/03/18/mp4/190318231014076505.mp4"
+        } else videoUrl
       )
       context.startActivity(intent)
     }
@@ -48,7 +47,7 @@ class VideoDetailActivity : CommActivity() {
     immersionBar { statusBarDarkFont(false) }
   }
 
-  override fun layoutResId() = cc.abase.demo.R.layout.activity_video_detail
+  override fun layoutResId() = R.layout.activity_video_detail
 
   override fun initView() {
     videoDetailStatus.layoutParams.height = mStatusBarHeight
@@ -69,18 +68,13 @@ class VideoDetailActivity : CommActivity() {
     url?.let {
       videoDetailVideoView.setUrl(it)
       if (it.startsWith("http", true)) {
-        io.reactivex.Observable.just(it)
-            .flatMap {
-              val retriever =MediaMetadataRetriever()
-              retriever.setDataSource(it, HashMap())
-              val bitmap = retriever.getFrameAtTime()
-              io.reactivex.Observable.just(bitmap)
-            }
-            .compose(RxUtils.instance.rx2SchedulerHelperO())
-            .subscribe({ bit ->
-              controller?.thumb?.setImageBitmap(bit)
-            }, { controller?.thumb?.setImageResource(R.drawable.svg_placeholder_fail) })
-
+        VideoUtils.instance.getNetVideoFistFrame(it) { bit ->
+          if (bit != null) {
+            controller?.thumb?.setImageBitmap(bit)
+          } else {
+            controller?.thumb?.setImageResource(R.drawable.svg_placeholder_fail)
+          }
+        }
       } else if (File(it).exists()) {
         if (MediaUtils.instance.isVideoFile(it)) {
           VideoUtils.instance.getFirstFrame(File(it)) { suc, info ->

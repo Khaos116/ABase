@@ -13,11 +13,11 @@ import cc.abase.demo.utils.VideoUtils
 import cc.abase.demo.widget.video.controller.StandardVideoController
 import cc.abase.demo.widget.video.player.CustomExoMediaPlayer
 import com.blankj.utilcode.util.FileUtils
-import com.dueeeke.videoplayer.player.*
+import com.dueeeke.videoplayer.player.VideoView
 import com.luck.picture.lib.PictureSelector
 import com.luck.picture.lib.config.PictureMimeType
 import kotlinx.android.synthetic.main.activity_rxffmpeg.*
-import kotlinx.android.synthetic.main.dkplayer_layout_standard_controller.view.thumb
+import kotlinx.android.synthetic.main.dkplayer_layout_standard_controller.view.*
 import java.io.File
 
 /**
@@ -77,6 +77,7 @@ class RxFFmpegActivity : CommTitleActivity() {
               ffmpegCompress.isEnabled = true
               if (suc) {
                 compressVideoPath = info
+                ffmpegPlay.text = "播放本地压缩视频"
                 ffmpegResult.append("\n压缩成功:$info")
                 ffmpegResult.append("\n压缩后视频大小:${FileUtils.getFileSize(info)}")
               } else {
@@ -86,9 +87,7 @@ class RxFFmpegActivity : CommTitleActivity() {
             pro = { p -> ffmpegResult.append("\n压缩进度:${p}%") })
       }
     }
-    ffmpegPlay.click {
-      compressVideoPath?.let { path -> VideoDetailActivity.startActivity(mContext, path) }
-    }
+    ffmpegPlay.click { VideoDetailActivity.startActivity(mContext, compressVideoPath) }
     //控制器
     controller = StandardVideoController(this)
     //通过反射修改封面ImageView
