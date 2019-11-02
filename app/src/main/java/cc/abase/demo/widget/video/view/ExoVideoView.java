@@ -5,10 +5,12 @@ import android.graphics.Canvas;
 import android.util.AttributeSet;
 
 import androidx.annotation.NonNull;
-import androidx.lifecycle.Lifecycle;
-import androidx.lifecycle.LifecycleObserver;
-import androidx.lifecycle.LifecycleOwner;
-import androidx.lifecycle.OnLifecycleEvent;
+import androidx.lifecycle.*;
+
+import cc.ab.base.widget.roundlayout.abs.GeneralRoundViewImpl;
+import cc.ab.base.widget.roundlayout.abs.IRoundView;
+import cc.abase.demo.R;
+import cc.abase.demo.widget.video.player.CustomExoMediaPlayer;
 
 import com.dueeeke.videoplayer.player.PlayerFactory;
 import com.dueeeke.videoplayer.player.VideoView;
@@ -17,133 +19,133 @@ import com.google.android.exoplayer2.RenderersFactory;
 import com.google.android.exoplayer2.source.MediaSource;
 import com.google.android.exoplayer2.trackselection.TrackSelector;
 
-import cc.ab.base.widget.roundlayout.abs.GeneralRoundViewImpl;
-import cc.ab.base.widget.roundlayout.abs.IRoundView;
-import cc.abase.demo.R;
-import cc.abase.demo.widget.video.player.CustomExoMediaPlayer;
+public class ExoVideoView extends VideoView<CustomExoMediaPlayer>
+    implements LifecycleObserver, IRoundView {
+  private GeneralRoundViewImpl generalRoundViewImpl;
+  private MediaSource mMediaSource;
 
-public class ExoVideoView extends VideoView<CustomExoMediaPlayer> implements LifecycleObserver, IRoundView {
-    private GeneralRoundViewImpl generalRoundViewImpl;
-    private MediaSource mMediaSource;
+  private boolean mIsCacheEnabled;
 
-    private boolean mIsCacheEnabled;
+  private LoadControl mLoadControl;
+  private RenderersFactory mRenderersFactory;
+  private TrackSelector mTrackSelector;
+  private Lifecycle mLifecycle;
+  //是否要重新播放
+  private boolean needResumePlay = false;
 
-    private LoadControl mLoadControl;
-    private RenderersFactory mRenderersFactory;
-    private TrackSelector mTrackSelector;
-    private Lifecycle mLifecycle;
+  public ExoVideoView(Context context) {
+    this(context, null);
+  }
 
-    public ExoVideoView(Context context) {
-        this(context, null);
+  public ExoVideoView(Context context, AttributeSet attrs) {
+    this(context, attrs, 0);
+  }
+
+  public ExoVideoView(Context context, AttributeSet attrs, int defStyleAttr) {
+    super(context, attrs, defStyleAttr);
+    //由于传递了泛型，必须将CustomExoMediaPlayer设置进来，否者报错
+    setPlayerFactory(new PlayerFactory<CustomExoMediaPlayer>() {
+      @Override
+      public CustomExoMediaPlayer createPlayer() {
+        return new CustomExoMediaPlayer();
+      }
+    });
+    generalRoundViewImpl = new GeneralRoundViewImpl(this,
+        context,
+        attrs,
+        R.styleable.ExoVideoView,
+        R.styleable.ExoVideoView_corner_radius);
+  }
+
+  @Override
+  public void setCornerRadius(float cornerRadius) {
+    generalRoundViewImpl.setCornerRadius(cornerRadius);
+  }
+
+  @Override
+  public void onLayout(boolean changed, int left, int top, int right, int bottom) {
+    super.onLayout(changed, left, top, right, bottom);
+    generalRoundViewImpl.onLayout(changed, left, top, right, bottom);
+  }
+
+  @Override
+  protected void dispatchDraw(Canvas canvas) {
+    generalRoundViewImpl.beforeDispatchDraw(canvas);
+    super.dispatchDraw(canvas);
+    generalRoundViewImpl.afterDispatchDraw(canvas);
+  }
+
+  @Override
+  protected void setInitOptions() {
+    super.setInitOptions();
+    mMediaPlayer.setLoadControl(mLoadControl);
+    mMediaPlayer.setRenderersFactory(mRenderersFactory);
+    mMediaPlayer.setTrackSelector(mTrackSelector);
+  }
+
+  @Override
+  protected boolean prepareDataSource() {
+    mIsCacheEnabled = mUrl.startsWith("http");
+    if (mIsCacheEnabled) {
+      mMediaPlayer.setDataSource(mUrl, mHeaders, true);
+      return true;
+    } else if (mMediaSource != null) {
+      mMediaPlayer.setDataSource(mMediaSource);
+      return true;
     }
+    return super.prepareDataSource();
+  }
 
-    public ExoVideoView(Context context, AttributeSet attrs) {
-        this(context, attrs, 0);
-    }
+  public void setLifecycleOwner(@NonNull LifecycleOwner owner) {
+    if (mLifecycle != null) mLifecycle.removeObserver(this);
+    mLifecycle = owner.getLifecycle();
+    mLifecycle.addObserver(this);
+  }
 
-    public ExoVideoView(Context context, AttributeSet attrs, int defStyleAttr) {
-        super(context, attrs, defStyleAttr);
-        //由于传递了泛型，必须将CustomExoMediaPlayer设置进来，否者报错
-        setPlayerFactory(new PlayerFactory<CustomExoMediaPlayer>() {
-            @Override
-            public CustomExoMediaPlayer createPlayer() {
-                return new CustomExoMediaPlayer();
-            }
-        });
-        generalRoundViewImpl = new GeneralRoundViewImpl(this,
-                context,
-                attrs,
-                R.styleable.ExoVideoView,
-                R.styleable.ExoVideoView_corner_radius);
+  @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
+  public void onResumeVideo() {
+    if (needResumePlay) {
+      needResumePlay = false;
+      resume();
     }
-    @Override
-    public void setCornerRadius(float cornerRadius) {
-        generalRoundViewImpl.setCornerRadius(cornerRadius);
-    }
+  }
 
-    @Override
-    public void onLayout(boolean changed, int left, int top, int right, int bottom) {
-        super.onLayout(changed, left, top, right, bottom);
-        generalRoundViewImpl.onLayout(changed, left, top, right, bottom);
+  @OnLifecycleEvent(Lifecycle.Event.ON_PAUSE)
+  public void onPauseVideo() {
+    if (isPlaying()) {
+      pause();
+      needResumePlay = true;
     }
+  }
 
-    @Override
-    protected void dispatchDraw(Canvas canvas) {
-        generalRoundViewImpl.beforeDispatchDraw(canvas);
-        super.dispatchDraw(canvas);
-        generalRoundViewImpl.afterDispatchDraw(canvas);
-    }
+  @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
+  public void onDestroyVideo() {
+    release();
+  }
 
-    @Override
-    protected void setInitOptions() {
-        super.setInitOptions();
-        mMediaPlayer.setLoadControl(mLoadControl);
-        mMediaPlayer.setRenderersFactory(mRenderersFactory);
-        mMediaPlayer.setTrackSelector(mTrackSelector);
-    }
+  /**
+   * 设置ExoPlayer的MediaSource
+   */
+  public void setMediaSource(MediaSource mediaSource) {
+    this.mMediaSource = mediaSource;
+  }
 
-    @Override
-    protected boolean prepareDataSource() {
-        if (mIsCacheEnabled) {
-            mMediaPlayer.setDataSource(mUrl, mHeaders, true);
-            return true;
-        } else if (mMediaSource != null) {
-            mMediaPlayer.setDataSource(mMediaSource);
-            return true;
-        }
-        return super.prepareDataSource();
-    }
+  /**
+   * 是否打开缓存
+   */
+  public void setCacheEnabled(boolean isEnabled) {
+    mIsCacheEnabled = isEnabled;
+  }
 
-    //是否要重新播放
-    private boolean needResumePlay = false;
+  public void setLoadControl(LoadControl loadControl) {
+    mLoadControl = loadControl;
+  }
 
-    public void setLifecycleOwner(@NonNull LifecycleOwner owner) {
-        if (mLifecycle != null) mLifecycle.removeObserver(this);
-        mLifecycle = owner.getLifecycle();
-        mLifecycle.addObserver(this);
-    }
+  public void setRenderersFactory(RenderersFactory renderersFactory) {
+    mRenderersFactory = renderersFactory;
+  }
 
-    @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
-    public void onResumeVideo() {
-        if (needResumePlay) resume();
-    }
-
-    @OnLifecycleEvent(Lifecycle.Event.ON_PAUSE)
-    public void onPauseVideo() {
-        if (isPlaying()) {
-            pause();
-            needResumePlay = true;
-        }
-    }
-
-    @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
-    public void onDestroyVideo() {
-        release();
-    }
-
-    /**
-     * 设置ExoPlayer的MediaSource
-     */
-    public void setMediaSource(MediaSource mediaSource) {
-        this.mMediaSource = mediaSource;
-    }
-
-    /**
-     * 是否打开缓存
-     */
-    public void setCacheEnabled(boolean isEnabled) {
-        mIsCacheEnabled = isEnabled;
-    }
-
-    public void setLoadControl(LoadControl loadControl) {
-        mLoadControl = loadControl;
-    }
-
-    public void setRenderersFactory(RenderersFactory renderersFactory) {
-        mRenderersFactory = renderersFactory;
-    }
-
-    public void setTrackSelector(TrackSelector trackSelector) {
-        mTrackSelector = trackSelector;
-    }
+  public void setTrackSelector(TrackSelector trackSelector) {
+    mTrackSelector = trackSelector;
+  }
 }
