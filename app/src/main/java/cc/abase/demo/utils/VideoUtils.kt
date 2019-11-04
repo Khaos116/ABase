@@ -63,7 +63,7 @@ class VideoUtils private constructor() {
     Log.e("CASE", "视频压缩前大小:${FileUtils.getFileSize(originFile)}")
     val command = getCommandCompress(originFile.path, outFile.path)
     //码率太低不进行压缩，直接拷贝原文件并返回
-    if (command.isNullOrBlank()) {
+    if (command == null) {
       FileUtils.copyFile(originFile, outFile)
       Log.e("CASE", "视频码率太小，不用压缩，直接拷贝上传")
       result?.invoke(true, outFile.path)
@@ -71,7 +71,7 @@ class VideoUtils private constructor() {
     }
     Log.e("CASE", "执行的压缩命令:$command")
     RxFFmpegInvoke.getInstance()
-        .runCommandRxJava(command.split(" ").toTypedArray())
+        .runCommandRxJava(command)
         .subscribe(object : RxFFmpegSubscriber() {
           override fun onFinish() {
             Log.e("CASE", "视频压缩成功后大小:${FileUtils.getFileSize(outFile)}")
@@ -108,7 +108,7 @@ class VideoUtils private constructor() {
     val destImg = File(outParentImgs, EncryptUtils.encryptMD5File2String(originFile) + ".jpg")
     val command = getCommandFirstFrame(originFile.path, destImg.path)
     RxFFmpegInvoke.getInstance()
-        .runCommandRxJava(command.split(" ").toTypedArray())
+        .runCommandRxJava(command)
         .subscribe(object : RxFFmpegSubscriber() {
           override fun onFinish() {
             if (destImg.exists() && destImg.length() > 0) {
@@ -161,7 +161,7 @@ class VideoUtils private constructor() {
   private fun getCommandFirstFrame(
     originPath: String,
     outPath: String
-  ): String {
+  ): Array<String> {
     //读取图片尺寸和旋转角度
     val mMetadataRetriever = MediaMetadataRetriever()
     mMetadataRetriever.setDataSource(originPath)
@@ -182,17 +182,28 @@ class VideoUtils private constructor() {
       width = videoWidth.toInt()
       height = videoHeight.toInt()
     }
-    return String.format(
-        "ffmpeg -y -i %1\$s -y -f image2 -t 0.001 -s %2\$sx%3\$s %4\$s",
-        originPath, width, height, outPath
-    )
+    //return String.format("ffmpeg -y -i %1\$s -y -f image2 -t 0.001 -s %2\$sx%3\$s %4\$s",originPath, width, height, outPath)
+    val list = mutableListOf<String>()
+    list.add("ffmpeg")
+    list.add("-y")
+    list.add("-i")
+    list.add(originPath)
+    list.add("-y")
+    list.add("-f")
+    list.add("image2")
+    list.add("-t")
+    list.add("0.001")
+    list.add("-s")
+    list.add("${width}x${height}")
+    list.add(outPath)
+    return list.toTypedArray()//采用list转换，防止文件名带空格造成分割错误
   }
 
   //文件压缩命令
   private fun getCommandCompress(
     originPath: String,
     outPath: String
-  ): String? {
+  ): Array<String>? {
     //https://blog.csdn.net/qq_31332467/article/details/79166945
     //4K视频可能会闪退，所以需要添加尺寸压缩
     val mMetadataRetriever = MediaMetadataRetriever()
@@ -224,19 +235,25 @@ class VideoUtils private constructor() {
     }
     //需要根据视频大小和视频时长计算得到需要压缩的码率，不然会导致高清视频压缩后变模糊，非高清视频压缩后文件变大
     //https://blog.csdn.net/zhezhebie/article/details/79263492
-    return if (min(width, height) > 1080) {
-      //大于1080p
-      String.format(
-          "ffmpeg -y -i %1\$s -b ${newBitrate}k -r 30 -vcodec libx264 -vf scale=%2\$s -preset superfast %3\$s",
-          originPath, if (width > height) "1080:-1" else "-1:1080", outPath
-      )
-    } else {
-      //小于1080p
-      String.format(
-          "ffmpeg -y -i %1\$s -b ${newBitrate}k -r 30 -vcodec libx264 -preset superfast %2\$s",
-          originPath, outPath
-      )
+    val list = mutableListOf<String>()
+    list.add("ffmpeg")
+    list.add("-y")
+    list.add("-i")
+    list.add(originPath)
+    list.add("-b")
+    list.add("${newBitrate}k")
+    list.add("-r")
+    list.add("30")
+    list.add("-vcodec")
+    list.add("libx264")
+    if (min(width, height) > 1080) {//大于1080p
+      list.add("-vf")
+      list.add("scale=${if (width > height) "1080:-1" else "-1:1080"}")
     }
+    list.add("-preset")
+    list.add("superfast")
+    list.add(outPath)
+    return list.toTypedArray()//采用list转换，防止文件名带空格造成分割错误
   }
 
   //网络视频封面获取
