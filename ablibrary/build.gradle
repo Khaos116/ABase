@@ -47,15 +47,15 @@ dependencies {
   //内存泄漏检测 https://github.com/square/leakcanary/releases
   debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.0-beta-3'
   //辅助工具 https://github.com/whataa/pandora/blob/master/README_CN.md
-//  debugImplementation 'com.github.whataa:pandora:androidx_v2.0.5'
-//  releaseImplementation 'com.github.whataa:pandora-no-op:v2.0.3'
+  //debugImplementation 'com.github.whataa:pandora:androidx_v2.0.5'
+  //releaseImplementation 'com.github.whataa:pandora-no-op:v2.0.3'
   //辅助工具 https://github.com/didi/DoraemonKit/blob/master/Doc/android_cn_guide.md
   debugImplementation 'com.didichuxing.doraemonkit:doraemonkit:1.2.1'
   releaseImplementation 'com.didichuxing.doraemonkit:doraemonkit-no-op:1.2.0'
 
   //----------------------★★★框架★★★----------------------//
   //https://github.com/airbnb/MvRx
-  api 'com.airbnb.android:mvrx:1.1.0'
+  api 'com.airbnb.android:mvrx:1.3.0'
 
   //----------------------★★★UI★★★----------------------//
   //刘海屏适配 https://github.com/gyf-dev/ImmersionBar
@@ -64,23 +64,24 @@ dependencies {
   //适配 https://github.com/JessYanCoding/AndroidAutoSize
   implementation 'me.jessyan:autosize:1.1.2'
   //https://github.com/airbnb/lottie-android
-  api 'com.airbnb.android:lottie:3.0.7'
+  api 'com.airbnb.android:lottie:3.1.0'
   //https://github.com/airbnb/epoxy
-  api 'com.airbnb.android:epoxy:3.7.0'
+  api 'com.airbnb.android:epoxy:3.8.0'
   //web https://github.com/Justson/AgentWeb
   api 'com.just.agentweb:agentweb:4.1.2'
-  //侧滑 https://qibilly.com/SmartSwipe-tutorial/
+  //侧滑 https://github.com/luckybilly/SmartSwipe
   api 'com.billy.android:smart-swipe:1.0.0'
 
   //----------------------★★★网络★★★----------------------//
   //https://github.com/ReactiveX/RxAndroid
   api 'io.reactivex.rxjava2:rxandroid:2.1.1'
-//  implementation 'com.squareup.okhttp3:okhttp:4.2.0'
+  //implementation 'com.squareup.okhttp3:okhttp:4.2.0'
   //https://github.com/kittinunf/fuel
   api "com.github.kittinunf.fuel:fuel-rxjava:2.2.1"
-//  api "com.github.kittinunf.fuel:fuel-android:2.2.1"
-//  api "com.github.kittinunf.fuel:fuel-livedata:2.2.1"
-  api "com.github.kittinunf.fuel:fuel-gson:2.2.1"
+  //api "com.github.kittinunf.fuel:fuel-android:2.2.1"
+  //api "com.github.kittinunf.fuel:fuel-livedata:2.2.1"
+  //api "com.github.kittinunf.fuel:fuel-gson:2.2.1"
+  //https://github.com/google/gson
   api "com.google.code.gson:gson:2.8.6"
 
   //----------------------★★★存储★★★----------------------//

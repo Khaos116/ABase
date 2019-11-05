@@ -3,6 +3,7 @@ package cc.ab.base.ui.activity
 import android.os.Bundle
 import android.view.View
 import android.widget.LinearLayout
+import androidx.appcompat.app.AppCompatActivity
 import cc.ab.base.ext.*
 import com.airbnb.mvrx.*
 import com.gyf.immersionbar.ktx.immersionBar
@@ -14,7 +15,7 @@ import kotlinx.android.synthetic.main.base_activity.baseStatusView
  * @author: caiyoufei
  * @date: 2019/9/20 16:37
  */
-abstract class BaseActivity : BaseMvRxActivity(), MvRxView {
+abstract class BaseActivity : AppCompatActivity(), MvRxView {
   //MvRxView
   private val mvrxViewIdProperty = MvRxViewId()
   final override val mvrxViewId: String by mvrxViewIdProperty
