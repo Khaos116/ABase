@@ -55,7 +55,7 @@ class VideoDetailActivity : CommActivity() {
     controller = StandardVideoController(this)
     //全屏时跟随屏幕旋转
     controller?.setEnableOrientation(true)
-    controller?.layoutMode
+    controller?.isNeedNoFullShowBack = true
     //设置控制器
     videoDetailVideoView.setVideoController(controller)
     videoDetailVideoView.setLooping(false)

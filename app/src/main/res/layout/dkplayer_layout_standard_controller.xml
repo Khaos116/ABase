@@ -15,19 +15,10 @@
         android:visibility="gone"
         tools:visibility="visible">
 
-        <ImageView
-            android:id="@+id/back"
-            android:layout_width="@dimen/dkplayer_controller_height"
-            android:layout_height="@dimen/dkplayer_controller_height"
-            android:layout_gravity="center"
-            android:padding="@dimen/dkplayer_controller_icon_padding"
-            android:src="@drawable/dkplayer_ic_action_arrow_back"
-            android:visibility="gone"
-            tools:visibility="visible" />
-
         <com.dueeeke.videocontroller.MarqueeTextView
             android:id="@+id/title"
             android:layout_width="0dp"
+            android:layout_marginStart="@dimen/dkplayer_controller_height"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:ellipsize="marquee"
@@ -59,7 +50,17 @@
             tools:visibility="visible" />
 
     </LinearLayout>
-
+    <!--方便在非全屏时也显示返回按钮.所以提出来处理-->
+    <ImageView
+        android:id="@+id/back"
+        android:layout_width="@dimen/dkplayer_controller_height"
+        android:layout_height="@dimen/dkplayer_controller_height"
+        android:contentDescription="@null"
+        android:padding="@dimen/dkplayer_controller_icon_padding"
+        android:src="@drawable/dkplayer_ic_action_arrow_back"
+        android:visibility="gone"
+        tools:visibility="visible"
+        />
     <LinearLayout
         android:id="@+id/bottom_container"
         android:layout_width="match_parent"
