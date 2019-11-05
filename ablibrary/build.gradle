@@ -50,7 +50,9 @@ dependencies {
   //debugImplementation 'com.github.whataa:pandora:androidx_v2.0.5'
   //releaseImplementation 'com.github.whataa:pandora-no-op:v2.0.3'
   //辅助工具 https://github.com/didi/DoraemonKit/blob/master/Doc/android_cn_guide.md
-  debugImplementation 'com.didichuxing.doraemonkit:doraemonkit:1.2.8'
+  debugImplementation('com.didichuxing.doraemonkit:doraemonkit:1.2.8') {
+    exclude module: 'utilcode'
+  }
   releaseImplementation 'com.didichuxing.doraemonkit:doraemonkit-no-op:1.2.8'
 
   //----------------------★★★框架★★★----------------------//
