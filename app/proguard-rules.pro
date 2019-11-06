@@ -270,3 +270,8 @@
 -keep class com.google.android.exoplayer2.** { *; }
 -dontwarn com.google.android.exoplayer2.**
 #--------------------------
+
+#----------- bugly ----------------
+-dontwarn com.tencent.bugly.**
+-keep public class com.tencent.bugly.**{*;}
+#--------------------------

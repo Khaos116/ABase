@@ -12,6 +12,8 @@ buildscript {
     classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
     //https://github.com/shwenzhang/AndResGuard
     classpath 'com.tencent.mm:AndResGuard-gradle-plugin:1.2.17'
+    //bugly的mapping上传
+    classpath 'com.tencent.bugly:symtabfileuploader:2.2.1'
   }
 }
 

@@ -3,6 +3,14 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 apply from: 'and_res_guard.gradle'
+apply plugin: 'bugly'
+
+def buglyAppId = 'c6e450ad19'
+def buglyAppKey = '54ece6d9-fcb0-4ce2-8dae-b86efb65617c'
+def buglyAppIdDebug = 'c6e450ad19'
+def buglyAppKeyDebug = '54ece6d9-fcb0-4ce2-8dae-b86efb65617c'
+def buglyAppIdRelease = 'c6e450ad19'
+def buglyAppKeyRelease = '54ece6d9-fcb0-4ce2-8dae-b86efb65617c'
 
 android {
   compileSdkVersion 29
@@ -63,6 +71,9 @@ android {
       minifyEnabled false
       signingConfig signingConfigs.debug
       proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+      buglyAppId = buglyAppIdDebug
+      buglyAppKey = buglyAppKeyDebug
+      resValue "string", "bugly_app_id", buglyAppIdDebug
     }
     release {
       zipAlignEnabled true
@@ -70,6 +81,9 @@ android {
       minifyEnabled true
       signingConfig signingConfigs.release
       proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+      buglyAppId = buglyAppIdRelease
+      buglyAppKey = buglyAppKeyRelease
+      resValue "string", "bugly_app_id", buglyAppIdRelease
     }
   }
 }
@@ -142,6 +156,12 @@ configurations.all {
   }
 }
 
+bugly {
+  debug = true
+  appId = buglyAppId
+  appKey = buglyAppKey
+}
+
 dependencies {
   implementation fileTree(dir: 'libs', include: ['*.jar'])
   implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
@@ -169,6 +189,9 @@ dependencies {
   //图片选择https://github.com/LuckSiege/PictureSelector
   implementation 'com.github.LuckSiege.PictureSelector:picture_library:v2.2.4'
 
+  //bugly https://bugly.qq.com/docs/user-guide/instruction-manual-android/?v=20190916214340
+  implementation 'com.tencent.bugly:crashreport:3.1.0'
+  implementation 'com.tencent.bugly:nativecrashreport:3.7.1'
   //https://github.com/airbnb/epoxy 放在lib中失败
-  kapt 'com.airbnb.android:epoxy-processor:3.7.0'
+  kapt 'com.airbnb.android:epoxy-processor:3.8.0'
 }

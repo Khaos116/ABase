@@ -84,3 +84,4 @@ lint/tmp/
 # lint/reports/
 ######################################################
 class_files.txt
+bugly/

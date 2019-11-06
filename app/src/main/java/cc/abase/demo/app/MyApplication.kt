@@ -11,6 +11,7 @@ import cc.abase.demo.component.splash.SplashActivity
 import cc.abase.demo.config.HeaderManger
 import cc.abase.demo.config.ResponseManager
 import cc.abase.demo.constants.WanUrls
+import cc.abase.demo.utils.BuglyManager
 import cc.abase.demo.widget.CCRefreshHeader
 import com.billy.android.swipe.SmartSwipeBack
 import com.billy.android.swipe.SmartSwipeRefresh
@@ -53,6 +54,8 @@ open class MyApplication : BaseApplication() {
             .setScreenScaleType(VideoView.SCREEN_SCALE_DEFAULT)
             .build()
     )
+    //初始化Bugly
+    BuglyManager.instance.initBugly(this)
   }
 
   //静态代码段可以防止内存泄露
