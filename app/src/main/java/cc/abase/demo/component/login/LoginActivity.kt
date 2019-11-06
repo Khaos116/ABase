@@ -11,6 +11,7 @@ import cc.abase.demo.component.main.MainActivity
 import cc.abase.demo.constants.LengthConstants
 import cc.abase.demo.constants.UiConstants
 import cc.abase.demo.repository.UserRepository
+import cc.abase.demo.utils.AppInfoUtils
 import com.blankj.utilcode.util.ActivityUtils
 import com.blankj.utilcode.util.StringUtils
 import kotlinx.android.synthetic.main.activity_login.*
@@ -31,7 +32,13 @@ class LoginActivity : CommActivity() {
 
   override fun layoutResId() = R.layout.activity_login
 
+  //隐藏功能点击次数
+  private var count = 0
   override fun initView() {
+    loginAppInfo.setPadding(0, mStatusBarHeight, 0, 0)
+    loginAppInfo.setOnClickListener {
+      if ((++count) == 10) loginAppInfo.text = AppInfoUtils.instance.getAppInfo()
+    }
     checkSubmit()
     PressEffectHelper.alphaEffect(loginRegister)
     CcInputHelper.wrapCommCountLimit(loginEditAccount, LengthConstants.MAX_LEN_ACC, 0)

@@ -12,6 +12,7 @@ android {
     targetSdkVersion 29
     versionCode rootProject.ext.android.versionCode
     versionName rootProject.ext.android.versionName
+    resValue "string", "build_time", rootProject.ext.android.buildTime
     //允许使用SVG
 //    vectorDrawables.useSupportLibrary = true
     multiDexEnabled true
