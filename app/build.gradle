@@ -5,11 +5,11 @@ apply plugin: 'kotlin-kapt'
 apply from: 'and_res_guard.gradle'
 
 android {
-  compileSdkVersion 28
+  compileSdkVersion 29
   defaultConfig {
     applicationId rootProject.ext.android.applicationId
-    minSdkVersion 21
-    targetSdkVersion 28
+    minSdkVersion 23
+    targetSdkVersion 29
     versionCode rootProject.ext.android.versionCode
     versionName rootProject.ext.android.versionName
     //允许使用SVG
