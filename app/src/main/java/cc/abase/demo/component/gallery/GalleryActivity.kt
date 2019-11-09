@@ -43,7 +43,7 @@ class GalleryActivity : CommActivity() {
   override fun layoutResId() = R.layout.activity_gallery
 
   override fun onCreateBefore() {
-    mDataList = intent.getStringArrayListExtra(INTENT_KEY_LIST)
+    mDataList = intent.getStringArrayListExtra(INTENT_KEY_LIST)?: mutableListOf<String>()
         .toMutableList()
     currentPosition = intent.getIntExtra(INTENT_KEY_POSITION, 1)
   }
