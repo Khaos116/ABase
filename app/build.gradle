@@ -52,16 +52,16 @@ android {
   //配置不同版本的keystore
   signingConfigs {
     debug {
-      storeFile file(STORE_FILE_QRCODE)
-      storePassword STORE_PASSWORD_QRCODE
-      keyAlias KEY_ALIAS_QRCODE
-      keyPassword KEY_PASSWORD_QRCODE
+      storeFile file(STORE_FILE_ABASE)
+      storePassword STORE_PASSWORD_ABASE
+      keyAlias KEY_ALIAS_ABASE
+      keyPassword KEY_PASSWORD_ABASE
     }
     release {
-      storeFile file(STORE_FILE_QRCODE)
-      storePassword STORE_PASSWORD_QRCODE
-      keyAlias KEY_ALIAS_QRCODE
-      keyPassword KEY_PASSWORD_QRCODE
+      storeFile file(STORE_FILE_ABASE)
+      storePassword STORE_PASSWORD_ABASE
+      keyAlias KEY_ALIAS_ABASE
+      keyPassword KEY_PASSWORD_ABASE
     }
   }
   buildTypes {
