@@ -57,7 +57,7 @@ class SplashActivity : CommActivity() {
     //有尺寸了才开始计时
     splashTime?.post {
       disposable = Flowable.intervalRange(0, count + 1, 0, 1, TimeUnit.SECONDS)
-          .compose(RxUtils.instance.rx2SchedulerHelperF())
+          .compose(RxUtils.instance.rx2SchedulerHelperF(lifecycleProvider))
           .doOnNext { splashTime.text = String.format("%d", max(1, count - it)) }
           .doOnComplete {
             Log.e("CASE", "倒计时结束")

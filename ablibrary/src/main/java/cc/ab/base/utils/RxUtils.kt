@@ -1,5 +1,7 @@
 package cc.ab.base.utils
 
+import androidx.lifecycle.Lifecycle
+import com.trello.rxlifecycle3.LifecycleProvider
 import io.reactivex.*
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.functions.BiFunction
@@ -23,77 +25,105 @@ class RxUtils private constructor() {
   /**
    * 统一线程处理(Rx 2.x)
    */
-  fun <T> rx2SchedulerHelperF(): FlowableTransformer<T, T> {//compose简化线程
+  fun <T> rx2SchedulerHelperF(provider: LifecycleProvider<Lifecycle.Event>? = null): FlowableTransformer<T, T> {//compose简化线程
     return FlowableTransformer { observable ->
-      observable.subscribeOn(Schedulers.io())
-          .unsubscribeOn(Schedulers.io())
-          .observeOn(AndroidSchedulers.mainThread())
-    }
-  }
-
-  /**
-   * 延迟出结果，防止请求结果出现太快
-   * 统一线程处理(Rx 2.x)
-   */
-  fun <T> rx2SchedulerHelperFDelay(delay: Long = 500): FlowableTransformer<T, T> {    //compose简化线程
-    return FlowableTransformer { observable ->
-      observable.zipWith(Flowable.timer(delay, TimeUnit.MILLISECONDS),
-          BiFunction<T, Long, T> { t1, t2 -> t1 })
-          .subscribeOn(Schedulers.io())
-          .unsubscribeOn(Schedulers.io())
-          .observeOn(AndroidSchedulers.mainThread())
-    }
-  }
-
-  /**
-   * 统一线程处理(Rx 2.x)
-   */
-  fun <T> rx2SchedulerHelperO(): ObservableTransformer<T, T> {//compose简化线程
-    return ObservableTransformer { observable ->
-      observable.subscribeOn(Schedulers.io())
-          .unsubscribeOn(Schedulers.io())
-          .observeOn(AndroidSchedulers.mainThread())
-    }
-  }
-
-  /**
-   * 延迟出结果，防止请求结果出现太快
-   * 统一线程处理(Rx 2.x)
-   */
-  fun <T> rx2SchedulerHelperODelay(delay: Long = 500): ObservableTransformer<T, T> {//compose简化线程
-    return ObservableTransformer { observable ->
-      observable.zipWith(Observable.timer(delay, TimeUnit.MILLISECONDS),
-          BiFunction<T, Long, T> { t1, t2 -> t1 })
-          .subscribeOn(Schedulers.io())
-          .unsubscribeOn(Schedulers.io())
-          .observeOn(AndroidSchedulers.mainThread())
-    }
-  }
-
-  /**
-   * 统一线程处理(Rx 2.x)
-   */
-  fun <T> rx2SchedulerHelperS(): SingleTransformer<T, T> {//compose简化线程
-    return SingleTransformer { observable ->
-      observable.subscribeOn(Schedulers.io())
-        .unsubscribeOn(Schedulers.io())
-        .observeOn(AndroidSchedulers.mainThread())
-    }
-  }
-
-  /**
-   * 延迟出结果，防止请求结果出现太快
-   * 统一线程处理(Rx 2.x)
-   */
-  fun <T> rx2SchedulerHelperSDelay(delay: Long = 500): SingleTransformer<T, T> {//compose简化线程
-    return SingleTransformer { observable ->
-      observable.zipWith(Single.timer(delay, TimeUnit.MILLISECONDS),
-        BiFunction<T, Long, T> { t1, t2 -> t1 })
+      (if (provider != null) observable.compose(provider.bindUntilEvent(Lifecycle.Event.ON_DESTROY))
+      else observable)
         .subscribeOn(Schedulers.io())
         .unsubscribeOn(Schedulers.io())
         .observeOn(AndroidSchedulers.mainThread())
     }
   }
+
+  /**
+   * 延迟出结果，防止请求结果出现太快
+   * 统一线程处理(Rx 2.x)
+   */
+  fun <T> rx2SchedulerHelperFDelay(
+    delay: Long = 500,
+    provider: LifecycleProvider<Lifecycle.Event>? = null
+  ): FlowableTransformer<T, T> {    //compose简化线程
+    return FlowableTransformer { observable ->
+      (if (provider != null) observable.zipWith(
+        Flowable.timer(delay, TimeUnit.MILLISECONDS),
+        BiFunction<T, Long, T> { t1, t2 -> t1 })
+        .compose(provider.bindUntilEvent(Lifecycle.Event.ON_DESTROY))
+      else observable.zipWith(Flowable.timer(delay, TimeUnit.MILLISECONDS),
+        BiFunction<T, Long, T> { t1, t2 -> t1 }))
+        .subscribeOn(Schedulers.io())
+        .unsubscribeOn(Schedulers.io())
+        .observeOn(AndroidSchedulers.mainThread())
+    }
+  }
+
+  /**
+   * 统一线程处理(Rx 2.x)
+   */
+  fun <T> rx2SchedulerHelperO(provider: LifecycleProvider<Lifecycle.Event>? = null): ObservableTransformer<T, T> {//compose简化线程
+    return ObservableTransformer { observable ->
+      (if (provider != null) observable.compose(provider.bindUntilEvent(Lifecycle.Event.ON_DESTROY))
+      else observable)
+        .subscribeOn(Schedulers.io())
+        .unsubscribeOn(Schedulers.io())
+        .observeOn(AndroidSchedulers.mainThread())
+    }
+  }
+
+  /**
+   * 延迟出结果，防止请求结果出现太快
+   * 统一线程处理(Rx 2.x)
+   */
+  fun <T> rx2SchedulerHelperODelay(
+    delay: Long = 500,
+    provider: LifecycleProvider<Lifecycle.Event>? = null
+  ): ObservableTransformer<T, T> {//compose简化线程
+    return ObservableTransformer { observable ->
+      (if (provider != null) observable.zipWith(
+        Observable.timer(delay, TimeUnit.MILLISECONDS),
+        BiFunction<T, Long, T> { t1, t2 -> t1 })
+        .compose(provider.bindUntilEvent(Lifecycle.Event.ON_DESTROY))
+      else observable.zipWith(Observable.timer(delay, TimeUnit.MILLISECONDS),
+        BiFunction<T, Long, T> { t1, t2 -> t1 }))
+        .subscribeOn(Schedulers.io())
+        .unsubscribeOn(Schedulers.io())
+        .observeOn(AndroidSchedulers.mainThread())
+    }
+  }
+
+  /**
+   * 统一线程处理(Rx 2.x)
+   */
+  fun <T> rx2SchedulerHelperS(provider: LifecycleProvider<Lifecycle.Event>? = null): SingleTransformer<T, T> {//compose简化线程
+    return SingleTransformer { observable ->
+      (if (provider != null) observable.compose(provider.bindUntilEvent(Lifecycle.Event.ON_DESTROY))
+      else observable)
+        .subscribeOn(Schedulers.io())
+        .unsubscribeOn(Schedulers.io())
+        .observeOn(AndroidSchedulers.mainThread())
+    }
+  }
+
+  /**
+   * 延迟出结果，防止请求结果出现太快
+   * 统一线程处理(Rx 2.x)
+   */
+  fun <T> rx2SchedulerHelperSDelay(
+    delay: Long = 500,
+    provider: LifecycleProvider<Lifecycle.Event>? = null
+  ): SingleTransformer<T, T> {//compose简化线程
+    return SingleTransformer { observable ->
+      (if (provider != null) observable.zipWith(
+        Single.timer(delay, TimeUnit.MILLISECONDS),
+        BiFunction<T, Long, T> { t1, t2 -> t1 })
+        .compose(provider.bindUntilEvent(Lifecycle.Event.ON_DESTROY))
+      else observable.zipWith(Single.timer(delay, TimeUnit.MILLISECONDS),
+        BiFunction<T, Long, T> { t1, t2 -> t1 }))
+        .subscribeOn(Schedulers.io())
+        .unsubscribeOn(Schedulers.io())
+        .observeOn(AndroidSchedulers.mainThread())
+    }
+  }
+
   /**
    * 生成Flowable
    */

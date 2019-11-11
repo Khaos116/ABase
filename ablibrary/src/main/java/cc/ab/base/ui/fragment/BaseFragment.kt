@@ -7,8 +7,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
+import androidx.lifecycle.Lifecycle
 import cc.ab.base.ext.removeParent
 import com.airbnb.mvrx.BaseMvRxFragment
+import com.trello.lifecycle2.android.lifecycle.AndroidLifecycle
+import com.trello.rxlifecycle3.LifecycleProvider
 
 /**
  * Description:
@@ -25,11 +28,18 @@ abstract class BaseFragment : BaseMvRxFragment() {
   lateinit var mContext: Activity
   lateinit var mActivity: Activity
   protected var rootView: FrameLayout? = null
+  //防止内存泄漏
+  lateinit var lifecycleProvider: LifecycleProvider<Lifecycle.Event>
 
   override fun onAttach(context: Context) {
     super.onAttach(context)
     mContext = context as Activity
     mActivity = context
+  }
+
+  override fun onCreate(savedInstanceState: Bundle?) {
+    super.onCreate(savedInstanceState)
+    lifecycleProvider = AndroidLifecycle.createLifecycleProvider(this);
   }
 
   override fun onCreateView(
