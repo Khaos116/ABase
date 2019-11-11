@@ -118,8 +118,6 @@ class PermissionUtils private constructor() {
   fun hasLocationPermission(): Boolean {
     val c = Utils.getApp()
     val mLocationManager = c.getSystemService(Context.LOCATION_SERVICE) as LocationManager
-    val providerEnabled = mLocationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)
-    if (!providerEnabled) return false
     return try {
       mLocationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER)
           ?.let {
