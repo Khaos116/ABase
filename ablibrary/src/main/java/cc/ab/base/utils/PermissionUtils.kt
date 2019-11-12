@@ -10,7 +10,6 @@ import android.media.*
 import android.net.Uri
 import android.os.Build
 import android.provider.Settings
-import android.util.Log
 import androidx.core.app.ActivityCompat
 import com.blankj.utilcode.util.*
 import java.io.File
@@ -54,6 +53,10 @@ class PermissionUtils private constructor() {
     return try {
       //targetSdkVersion低于23，使用异常捕捉相机权限
       val camera = Camera.open()
+      // setParameters 是针对魅族MX5 做的。MX5 通过Camera.open() 拿到的Camera
+      // 对象不为null
+      val mParameters = camera.parameters
+      camera.parameters = mParameters
       camera.release()
       true
     } catch (e: Exception) {
@@ -124,22 +127,32 @@ class PermissionUtils private constructor() {
   @SuppressLint("MissingPermission")
   fun hasLocationPermission(): Boolean {
     val c = Utils.getApp()
-    val permission = ActivityCompat.checkSelfPermission(c, Manifest.permission_group.LOCATION)
+    val permission = ActivityCompat.checkSelfPermission(c, Manifest.permission.ACCESS_FINE_LOCATION)
     if (permission < 0) {
-      if (permission == -1) Log.e("CASE", "定位权限被拒绝")
-      if (permission == -2) Log.e("CASE", "定位权限被永久拒绝")
+      if (permission == -1) LogUtils.e("定位权限被拒绝")
+      if (permission == -2) LogUtils.e("定位权限被永久拒绝")
       return false
     }
-    return true
+    val mLocationManager = c.getSystemService(Context.LOCATION_SERVICE) as LocationManager
+    return try {
+      mLocationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER)
+        ?.let {
+          LogUtils.e("getLastKnownLocation=$it")
+        }
+      true
+    } catch (e: Exception) {
+      LogUtils.e("LocationUtil:$e")
+      false
+    }
   }
 
   //定位是否可用
   fun locationEnable(): Boolean {
     val c = Utils.getApp()
-    val permission = ActivityCompat.checkSelfPermission(c, Manifest.permission_group.LOCATION)
+    val permission = ActivityCompat.checkSelfPermission(c, Manifest.permission.ACCESS_FINE_LOCATION)
     if (permission < 0) {
-      if (permission == -1) Log.e("CASE", "定位权限被拒绝")
-      if (permission == -2) Log.e("CASE", "定位权限被永久拒绝")
+      if (permission == -1) LogUtils.e("定位权限被拒绝")
+      if (permission == -2) LogUtils.e("定位权限被永久拒绝")
       return false
     }
     val mLocationManager = c.getSystemService(Context.LOCATION_SERVICE) as LocationManager
