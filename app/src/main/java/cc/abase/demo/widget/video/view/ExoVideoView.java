@@ -3,15 +3,13 @@ package cc.abase.demo.widget.video.view;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.util.AttributeSet;
-
 import androidx.annotation.NonNull;
 import androidx.lifecycle.*;
-
 import cc.ab.base.widget.roundlayout.abs.GeneralRoundViewImpl;
 import cc.ab.base.widget.roundlayout.abs.IRoundView;
 import cc.abase.demo.R;
+import cc.abase.demo.widget.video.ExoVideoCacheUtils;
 import cc.abase.demo.widget.video.player.CustomExoMediaPlayer;
-
 import com.dueeeke.videoplayer.player.PlayerFactory;
 import com.dueeeke.videoplayer.player.VideoView;
 import com.google.android.exoplayer2.LoadControl;
@@ -87,7 +85,8 @@ public class ExoVideoView extends VideoView<CustomExoMediaPlayer>
   protected boolean prepareDataSource() {
     mIsCacheEnabled = mUrl.startsWith("http");
     if (mIsCacheEnabled) {
-      mMediaPlayer.setDataSource(mUrl, mHeaders, true);
+      String newUrl = ExoVideoCacheUtils.Companion.getInstance().getCacheUrl(mUrl);
+      mMediaPlayer.setDataSource(newUrl, mHeaders, true);
       return true;
     } else if (mMediaSource != null) {
       mMediaPlayer.setDataSource(mMediaSource);
