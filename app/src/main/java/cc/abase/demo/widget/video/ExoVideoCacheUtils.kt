@@ -1,5 +1,6 @@
 package cc.abase.demo.widget.video
 
+
 import android.net.Uri
 import cc.abase.demo.widget.video.player.ExoVideoCacheManager
 import com.blankj.utilcode.util.Utils
@@ -74,7 +75,7 @@ class ExoVideoCacheUtils private constructor() {
     //只处理单独针对APP的
     val result = cache.keys.filter { it.contains(appVideoTag) && it.contains("${appVideoType}?") }
     if (!result.isNullOrEmpty()) {
-      for (i in result.size - 1..0 step -1) {
+      for (i in result.size - 1 downTo 0) {
         val key = result[i]
         //获取视频总的需要缓存的长度
         val mMetadata = cache.getContentMetadata(key)
@@ -84,7 +85,7 @@ class ExoVideoCacheUtils private constructor() {
           val cachedSpans = cache.getCachedSpans(key)
           if (!cachedSpans.isNullOrEmpty()) {
             val list = cachedSpans.toMutableList()
-            for (j in list.size - 1..0 step -1) {
+            for (j in list.size - 1 downTo 0) {
               cache.removeSpan(list[j])
             }
           }
