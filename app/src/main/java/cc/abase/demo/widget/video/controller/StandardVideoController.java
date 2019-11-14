@@ -1,7 +1,9 @@
 package cc.abase.demo.widget.video.controller;
 
 import android.app.Activity;
-import android.content.*;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.util.AttributeSet;
@@ -9,15 +11,29 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
-import android.widget.*;
-import androidx.annotation.*;
-import cc.abase.demo.R;
-import com.dueeeke.videocontroller.*;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
+import android.widget.SeekBar;
+import android.widget.TextView;
+import android.widget.Toast;
+import androidx.annotation.AttrRes;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import com.blankj.utilcode.util.BarUtils;
+import com.dueeeke.videocontroller.BatteryReceiver;
+import com.dueeeke.videocontroller.CenterView;
+import com.dueeeke.videocontroller.CutoutUtil;
+import com.dueeeke.videocontroller.MarqueeTextView;
+import com.dueeeke.videocontroller.StatusView;
 import com.dueeeke.videoplayer.controller.GestureVideoController;
 import com.dueeeke.videoplayer.controller.MediaPlayerControl;
 import com.dueeeke.videoplayer.player.VideoView;
 import com.dueeeke.videoplayer.util.L;
 import com.dueeeke.videoplayer.util.PlayerUtils;
+
+import cc.abase.demo.R;
 import me.panpf.sketch.SketchImageView;
 
 /**
@@ -59,6 +75,7 @@ public class StandardVideoController<T extends MediaPlayerControl> extends Gestu
   private BatteryReceiver mBatteryReceiver;
   private int mCurrentOrientation = -1;
   private boolean needNoFullShowBack = false;
+  private boolean needBackFitStatues = false;
 
   public StandardVideoController(@NonNull Context context) {
     this(context, null);
@@ -458,6 +475,7 @@ public class StandardVideoController<T extends MediaPlayerControl> extends Gestu
     lblp.setMargins(dp24, 0, dp24, 0);
     FrameLayout.LayoutParams sflp = (LayoutParams) mStopFullscreen.getLayoutParams();
     sflp.setMargins(0, 0, 0, 0);
+    setBackButtonFit(needBackFitStatues);
   }
 
   protected void adjustLandscape() {
@@ -469,6 +487,7 @@ public class StandardVideoController<T extends MediaPlayerControl> extends Gestu
     layoutParams.setMargins(dp24 + mPadding, 0, dp24 + mPadding, 0);
     FrameLayout.LayoutParams sflp = (LayoutParams) mStopFullscreen.getLayoutParams();
     sflp.setMargins(mPadding, 0, 0, 0);
+    setBackButtonFit(false);
   }
 
   protected void adjustReserveLandscape() {
@@ -480,6 +499,16 @@ public class StandardVideoController<T extends MediaPlayerControl> extends Gestu
     layoutParams.setMargins(dp24, 0, dp24, 0);
     FrameLayout.LayoutParams sflp = (LayoutParams) mStopFullscreen.getLayoutParams();
     sflp.setMargins(0, 0, 0, 0);
+    setBackButtonFit(false);
+  }
+
+  private void setBackButtonFit(boolean fit) {
+    if (mBackButton != null) {
+      FrameLayout.LayoutParams mParams = (FrameLayout.LayoutParams) mBackButton.getLayoutParams();
+      if (mParams != null) {
+        mParams.setMargins(0, fit ? BarUtils.getStatusBarHeight() : 0, 0, 0);
+      }
+    }
   }
 
   private void show(int timeout) {
@@ -548,6 +577,12 @@ public class StandardVideoController<T extends MediaPlayerControl> extends Gestu
     mBottomContainer.startAnimation(mHideAnim);
   }
 
+  //设置返回图标是否需要不填充到状态栏
+  public void setBackIconFitStatues(boolean fit) {
+    needBackFitStatues = fit;
+    setBackButtonFit(needBackFitStatues);
+  }
+
   @Override
   protected void initView() {
     super.initView();
@@ -610,6 +645,9 @@ public class StandardVideoController<T extends MediaPlayerControl> extends Gestu
   protected void onConfigurationChanged(Configuration newConfig) {
     super.onConfigurationChanged(newConfig);
     adjustView();
+    setBackButtonFit(
+        newConfig.orientation == ActivityInfo.SCREEN_ORIENTATION_PORTRAIT ||
+            newConfig.orientation == ActivityInfo.SCREEN_ORIENTATION_REVERSE_PORTRAIT);
   }
 
   @Override

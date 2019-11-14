@@ -100,5 +100,5 @@ dependencies {
 
   //----------------------★★★媒体★★★----------------------//
   //https://github.com/panpf/sketch
-  api 'me.panpf:sketch:2.7.1-rc01'
+  api 'me.panpf:sketch:2.7.1'
 }
