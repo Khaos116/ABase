@@ -6,7 +6,9 @@ import android.widget.LinearLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Lifecycle
 import cc.ab.base.ext.*
-import com.airbnb.mvrx.*
+import cc.ab.base.utils.CleanLeakUtils
+import com.airbnb.mvrx.MvRxView
+import com.airbnb.mvrx.MvRxViewId
 import com.gyf.immersionbar.ktx.immersionBar
 import com.trello.lifecycle2.android.lifecycle.AndroidLifecycle
 import com.trello.rxlifecycle3.LifecycleProvider
@@ -68,6 +70,11 @@ abstract class BaseActivity : AppCompatActivity(), MvRxView {
   }
 
   override fun invalidate() {
+  }
+
+  override fun onDestroy() {
+    CleanLeakUtils.instance.fixInputMethodManagerLeak(this)
+    super.onDestroy()
   }
 
   //-----------------------需要重写-----------------------//
