@@ -61,4 +61,7 @@ class CCRefreshHeader(context: Context) : SmartSwipeRefreshHeader {
             }
         )
   }
+
+  override fun onReset() {
+  }
 }
