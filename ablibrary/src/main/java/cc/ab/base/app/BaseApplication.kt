@@ -3,7 +3,6 @@ package cc.ab.base.app
 import android.annotation.SuppressLint
 import android.app.Application
 import android.content.Context
-import android.util.Log
 import androidx.multidex.MultiDex
 import cc.ab.base.BuildConfig
 import cc.ab.base.utils.RxUtils
