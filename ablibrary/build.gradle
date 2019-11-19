@@ -47,7 +47,7 @@ dependencies {
   //内存泄漏检测 https://github.com/square/leakcanary/releases
   debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.0-beta-3'
   //辅助工具 https://github.com/whataa/pandora/blob/master/README_CN.md
-  //debugImplementation 'com.github.whataa:pandora:androidx_v2.0.5'
+  //debugImplementation 'com.github.whataa:pandora:androidx_v2.0.6'
   //releaseImplementation 'com.github.whataa:pandora-no-op:v2.0.3'
   //辅助工具 https://github.com/didi/DoraemonKit/blob/master/Doc/android_cn_guide.md
   debugImplementation('com.didichuxing.doraemonkit:doraemonkit:1.2.8') {
