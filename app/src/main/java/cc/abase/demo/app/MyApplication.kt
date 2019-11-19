@@ -18,7 +18,9 @@ import com.billy.android.swipe.SmartSwipeRefresh
 import com.billy.android.swipe.refresh.ClassicFooter
 import com.billy.android.swipe.refresh.ClassicHeader
 import com.dueeeke.videoplayer.exo.ExoMediaPlayerFactory
-import com.dueeeke.videoplayer.player.*
+import com.dueeeke.videoplayer.player.VideoView
+import com.dueeeke.videoplayer.player.VideoViewConfig
+import com.dueeeke.videoplayer.player.VideoViewManager
 import com.vanniktech.emoji.EmojiManager
 import com.vanniktech.emoji.ios.IosEmojiProvider
 import io.microshow.rxffmpeg.RxFFmpegInvoke
@@ -100,6 +102,7 @@ open class MyApplication : BaseApplication() {
       MainActivity::class.java.name,
       GuideActivity::class.java.name,
       LoginActivity::class.java.name,
-      GalleryActivity::class.java.name
+      GalleryActivity::class.java.name,
+      "com.didichuxing.doraemonkit.ui.UniversalActivity"
   )
 }
