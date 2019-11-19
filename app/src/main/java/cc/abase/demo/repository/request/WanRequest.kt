@@ -4,6 +4,7 @@ import cc.ab.base.ext.toast
 import cc.ab.base.net.http.response.BaseResponse
 import cc.abase.demo.R
 import cc.abase.demo.component.login.LoginActivity
+import cc.abase.demo.config.GlobalErrorHandle
 import cc.abase.demo.constants.ErrorCode
 import cc.abase.demo.repository.base.BaseRequest
 import cc.abase.demo.repository.cache.CacheRepository
@@ -32,11 +33,6 @@ class WanRequest private constructor() : BaseRequest() {
   companion object {
     val instance = SingletonHolder.holder
   }
-
-  //需要全局处理的ErrorCode
-  private val globalErrorCode = listOf(
-      ErrorCode.NO_LOGIN//未登录
-  )
 
   //执行请求
   internal inline fun <reified T> startRequest(request: Request):
@@ -112,32 +108,14 @@ class WanRequest private constructor() : BaseRequest() {
     if (response.isNullOrBlank()) throw converDataError()
     try {
       val result: BaseResponse<T> = GsonUtils.fromJson(response, type)
-      if (globalErrorCode.contains(result.errorCode)) {
+      if (GlobalErrorHandle.instance.globalErrorCodes.contains(result.errorCode)) {
         result.errorMsg = null
-        dealGlobalErrorCode(result.errorCode)
+        GlobalErrorHandle.instance.dealGlobalErrorCode(result.errorCode)
       }
       return result
     } catch (e: Exception) {
       e.printStackTrace()
     }
     throw converDataError()
-  }
-
-  //统一处理
-  private fun dealGlobalErrorCode(errorCode: Int) {
-    val activity = ActivityUtils.getTopActivity()
-    activity?.let { ac ->
-      when (errorCode) {
-        //未登录
-        ErrorCode.NO_LOGIN -> {
-          ac.runOnUiThread {
-            ac.toast(R.string.need_login)
-            LoginActivity.startActivity(ac)
-          }
-        }
-        else -> {
-        }
-      }
-    }
   }
 }

@@ -32,6 +32,7 @@ class ResponseManager private constructor() {
               }
             }
           }
+          val result = String(response.body().toByteArray())
           next(request, response)
         }
       }
