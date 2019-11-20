@@ -13,9 +13,9 @@ import io.reactivex.functions.BiFunction
  */
 data class HomeState(
   val banners: MutableList<BannerBean>? = mutableListOf(),
-  var hasMore: Boolean = false,
+  val hasMore: Boolean = false,
   val articles: MutableList<ArticleBean> = mutableListOf(),
-  var request: Async<Any> = Uninitialized
+  val request: Async<Any> = Uninitialized
 ) : MvRxState
 
 class HomeViewModel(

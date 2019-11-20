@@ -11,9 +11,9 @@ import com.airbnb.mvrx.*
  * @date: 2019/9/30 20:14
  */
 data class DynState(
-  var androidList: MutableList<GankAndroidBean> = mutableListOf(),
-  var hasMore: Boolean = false,
-  var request: Async<Any> = Uninitialized
+  val androidList: MutableList<GankAndroidBean> = mutableListOf(),
+  val hasMore: Boolean = false,
+  val request: Async<Any> = Uninitialized
 ) : MvRxState
 
 class DynViewModel(
