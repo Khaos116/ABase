@@ -1,39 +1,49 @@
 package cc.abase.demo.component.sticky.adapter
 
-import android.content.Context
-
-import android.widget.Toast
 import cc.abase.demo.component.sticky.widget.HasStickyHeader
+import cc.abase.demo.epoxy.base.DividerItem_
 import cc.abase.demo.epoxy.item.*
+import cc.abase.demo.repository.bean.local.CityBean
+import cc.abase.demo.repository.bean.local.ProvinceBean
 import com.airbnb.epoxy.EpoxyAdapter
 
 /**
  * Showcases [EpoxyAdapter] with sticky header support
  */
 class StickyHeaderAdapter(
-  private val context: Context
+  provinces: MutableList<ProvinceBean>,
+  onProvinceClick: ((province: ProvinceBean) -> Unit)? = null,
+  onCityClick: ((city: CityBean) -> Unit)? = null
 ) : EpoxyAdapter(), HasStickyHeader {
 
   init {
     enableDiffing()
-    for (i in 0 until 100) {
-      addModel(when {
-        i % 5 == 0 -> StickyTopItem_().apply {
-          id("sticky-header $i")
-          text("Sticky header $i")
-          onItemClick {
-            Toast.makeText(context, "clicked", Toast.LENGTH_LONG).show()
-          }
+    provinces.forEachIndexed { index, provinceBean ->
+      //省份
+      addModel(
+          StickyTopItem_().apply {
+            id("sticky_province_${provinceBean.id}")
+            province(provinceBean)
+            onItemClick { p -> onProvinceClick?.invoke(p) }
+          })
+      provinceBean.cmsRegionDtoList?.forEachIndexed { index2, cityBean ->
+        //城市
+        addModel(
+            StickyNormalItem_().apply {
+              id("sticky_city_${cityBean.id}")
+              city(cityBean)
+              onItemClick { c -> onCityClick?.invoke(c) }
+            }
+        )
+        //非最后一条添加分割线
+        if (index2 < ((provinceBean.cmsRegionDtoList?.size ?: 0) - 1)) {
+          addModel(
+              DividerItem_().apply {
+                id("sticky_city_line_${cityBean.id}")
+              }
+          )
         }
-        else -> StickyNormalItem_().apply {
-          id("view holder $i")
-          text("this is a View Holder item")
-          onItemClick {
-            Toast.makeText(context, "clicked", Toast.LENGTH_LONG)
-                .show()
-          }
-        }
-      })
+      }
     }
     notifyModelsChanged()
   }

@@ -5,6 +5,7 @@ import cc.ab.base.ext.click
 import cc.ab.base.ui.holder.BaseEpoxyHolder
 import cc.abase.demo.R
 import cc.abase.demo.epoxy.base.BaseEpoxyModel
+import cc.abase.demo.repository.bean.local.ProvinceBean
 import com.airbnb.epoxy.EpoxyAttribute
 import com.airbnb.epoxy.EpoxyModelClass
 import kotlinx.android.synthetic.main.item_sticky_top.view.itemStickyTopText
@@ -16,12 +17,14 @@ import kotlinx.android.synthetic.main.item_sticky_top.view.itemStickyTopText
 @EpoxyModelClass(layout = R.layout.item_sticky_top)
 abstract class StickyTopItem : BaseEpoxyModel<BaseEpoxyHolder>() {
   @EpoxyAttribute
-  var text: String = ""
+  var province: ProvinceBean? = null
   @EpoxyAttribute(EpoxyAttribute.Option.DoNotHash)
-  var onItemClick: ((text: String?) -> Unit)? = null
+  var onItemClick: ((province: ProvinceBean) -> Unit)? = null
 
   override fun onBind(itemView: View) {
-    itemView.itemStickyTopText.text = text
-    itemView.itemStickyTopText.click { onItemClick?.invoke(text) }
+    province?.let {data->
+      itemView.itemStickyTopText.text = data.regionName
+      itemView.itemStickyTopText.click { onItemClick?.invoke(data) }
+    }
   }
 }

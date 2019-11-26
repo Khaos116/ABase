@@ -3,7 +3,8 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/gray_C0C0C0"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="#e0e0e0"
     android:orientation="vertical"
     >
 
@@ -12,10 +13,16 @@
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
       android:background="?attr/selectableItemBackground"
-      android:gravity="center"
-      android:padding="10dp"
-      android:textColor="@color/white"
-      android:textSize="12sp"
+      android:gravity="center_vertical"
+      android:includeFontPadding="false"
+      android:paddingStart="12dp"
+      android:paddingTop="10dp"
+      android:paddingEnd="12dp"
+      android:paddingBottom="10dp"
+      android:textColor="@color/style_Accent"
+      android:textSize="14sp"
+      android:textStyle="bold"
+      tools:text="北京"
       />
 
 </LinearLayout>
