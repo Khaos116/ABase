@@ -42,4 +42,5 @@
   <string name="ffmpeg_title">视频压缩与封面获取</string>
   <string name="update_app">APP更新</string>
   <string name="play_compress_video">播放网络视频</string>
+  <string name="title_sticky">Sticky吸顶效果</string>
 </resources>

@@ -11,6 +11,7 @@ import cc.abase.demo.R
 import cc.abase.demo.component.chat.ChatActivity
 import cc.abase.demo.component.comm.CommFragment
 import cc.abase.demo.component.ffmpeg.RxFFmpegActivity
+import cc.abase.demo.component.sticky.StickyActivity
 import cc.abase.demo.component.update.CcUpdateService
 import cc.abase.demo.component.update.UpdateEnum
 import cc.abase.demo.constants.EventKeys
@@ -36,7 +37,8 @@ class MineFragment : CommFragment() {
   private val menuList = mutableListOf(
       Pair(StringUtils.getString(R.string.chat_title), ChatActivity::class.java),
       Pair(StringUtils.getString(R.string.ffmpeg_title), RxFFmpegActivity::class.java),
-      Pair(StringUtils.getString(R.string.update_app), CcUpdateService::class.java)
+      Pair(StringUtils.getString(R.string.update_app), CcUpdateService::class.java),
+      Pair(StringUtils.getString(R.string.title_sticky), StickyActivity::class.java)
   )
   //item文字颜色
   private var typeColor = ColorUtils.getColor(R.color.style_Primary)
