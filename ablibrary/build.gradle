@@ -41,21 +41,21 @@ dependencies {
   //https://github.com/Blankj/AndroidUtilCode/blob/master/lib/utilcode/README-CN.md
   api 'com.blankj:utilcodex:1.25.9'
   //https://github.com/JeremyLiao/LiveEventBus
-  api 'com.jeremyliao:live-event-bus-x:1.5.6'
+  api 'com.jeremyliao:live-event-bus-x:1.5.7'
   //https://github.com/Kotlin/anko
   //api "org.jetbrains.anko:anko-commons:0.10.8"
   //内存泄漏检测 https://github.com/square/leakcanary/releases
-  debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.0-beta-3'
+  debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.0-beta-5'
   //辅助工具 https://github.com/whataa/pandora/blob/master/README_CN.md
   //debugImplementation 'com.github.whataa:pandora:androidx_v2.0.6'
   //releaseImplementation 'com.github.whataa:pandora-no-op:v2.0.3'
   //辅助工具 https://github.com/didi/DoraemonKit/blob/master/Doc/android_cn_guide.md
-  debugImplementation('com.didichuxing.doraemonkit:doraemonkit:1.2.8') {
+  debugImplementation('com.didichuxing.doraemonkit:doraemonkit:2.0.1') {
     exclude module: 'utilcode'
   }
   //https://github.com/square/okhttp
   implementation 'com.squareup.okhttp3:okhttp:4.2.2'
-  releaseImplementation 'com.didichuxing.doraemonkit:doraemonkit-no-op:1.2.8'
+  releaseImplementation 'com.didichuxing.doraemonkit:doraemonkit-no-op:2.0.2'
 
   //----------------------★★★框架★★★----------------------//
   //https://github.com/airbnb/MvRx
@@ -70,7 +70,7 @@ dependencies {
   //适配 https://github.com/JessYanCoding/AndroidAutoSize
   implementation 'me.jessyan:autosize:1.1.2'
   //https://github.com/airbnb/lottie-android
-  api 'com.airbnb.android:lottie:3.1.0'
+  api 'com.airbnb.android:lottie:3.2.2'
   //https://github.com/airbnb/epoxy
   api 'com.airbnb.android:epoxy:3.8.0'
   //web https://github.com/Justson/AgentWeb
