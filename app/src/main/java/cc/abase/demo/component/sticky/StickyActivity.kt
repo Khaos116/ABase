@@ -2,6 +2,8 @@ package cc.abase.demo.component.sticky
 
 import android.content.Context
 import android.content.Intent
+import cc.ab.base.ext.mContext
+import cc.ab.base.ext.toast
 import cc.abase.demo.R
 import cc.abase.demo.component.comm.CommTitleActivity
 import cc.abase.demo.component.sticky.adapter.StickyHeaderAdapter
@@ -45,7 +47,13 @@ class StickyActivity : CommTitleActivity() {
       if (state.request.complete) {
         dismissLoadingView()
         if (adapter == null) {
-          adapter = StickyHeaderAdapter(state.provinces)
+          adapter = StickyHeaderAdapter(state.provinces,
+              onProvinceClick = {
+                mContext.toast(it.regionName)
+              },
+              onCityClick = {
+                mContext.toast(it.regionFullName)
+              })
           stickyRecycler.adapter = adapter
         }
       }
