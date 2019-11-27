@@ -10,7 +10,7 @@ import cc.abase.demo.component.sticky.adapter.StickyHeaderAdapter
 import cc.abase.demo.component.sticky.viewmodel.StickyViewModel
 import cc.abase.demo.component.sticky.widget.StickyHeaderLinearLayoutManager
 import com.blankj.utilcode.util.StringUtils
-import kotlinx.android.synthetic.main.activity_sticky.stickyRecycler
+import kotlinx.android.synthetic.main.activity_sticky.*
 
 /**
  * Description:
@@ -38,8 +38,15 @@ class StickyActivity : CommTitleActivity() {
 
   override fun initContentView() {
     setTitleText(StringUtils.getString(R.string.title_sticky))
-    stickyRecycler.layoutManager = StickyHeaderLinearLayoutManager<StickyHeaderAdapter>(this)
+    val manager = StickyHeaderLinearLayoutManager<StickyHeaderAdapter>(this)
+    stickyRecycler.layoutManager = manager
     showLoadingView()
+    stickyBar.setOnTouchingLetterChangedListener { tag ->
+      adapter?.let { ad ->
+        val position = ad.getTagPosition(tag)
+        if (position >= 0) manager.scrollToPositionWithOffset(position, 0)
+      }
+    }
   }
 
   override fun initData() {
@@ -48,12 +55,8 @@ class StickyActivity : CommTitleActivity() {
         dismissLoadingView()
         if (adapter == null) {
           adapter = StickyHeaderAdapter(state.provinces,
-              onProvinceClick = {
-                mContext.toast(it.regionName)
-              },
-              onCityClick = {
-                mContext.toast(it.regionFullName)
-              })
+            onProvinceClick = { mContext.toast(it.regionName) },
+            onCityClick = { mContext.toast(it.regionFullName) })
           stickyRecycler.adapter = adapter
         }
       }
