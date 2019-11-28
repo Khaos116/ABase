@@ -23,7 +23,11 @@ abstract class StickyNormalItem : BaseEpoxyModel<BaseEpoxyHolder>() {
 
   override fun onBind(itemView: View) {
     city?.let { data ->
-      itemView.itemStickyNormalText.text = data.regionFullName
+      itemView.itemStickyNormalText.text = if (data.regionCode?.startsWith("+") == true) {
+        String.format("%s  (%s)", data.regionFullName, data.regionCode)
+      } else {
+        data.regionFullName
+      }
       itemView.itemStickyNormalText.click { onItemClick?.invoke(data) }
     }
   }

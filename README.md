@@ -79,4 +79,4 @@ class HomeBannerHolderView(view: View?) : DiscreteHolder<BannerBean>(view) {
 
 ================================================================
 ##  Epoxy吸顶效果
-![吸顶效果](https://github.com/caiyoufei/ABase/blob/master/image/sticky.gif)
+![吸顶效果](https://github.com/caiyoufei/ABase/blob/master/image/sticky.gif)![吸顶效果](https://github.com/caiyoufei/ABase/blob/master/image/sticky2.gif)

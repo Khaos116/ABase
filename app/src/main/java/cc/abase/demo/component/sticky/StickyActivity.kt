@@ -10,7 +10,8 @@ import cc.abase.demo.component.sticky.adapter.StickyHeaderAdapter
 import cc.abase.demo.component.sticky.viewmodel.StickyViewModel
 import cc.abase.demo.component.sticky.widget.StickyHeaderLinearLayoutManager
 import com.blankj.utilcode.util.StringUtils
-import kotlinx.android.synthetic.main.activity_sticky.*
+import kotlinx.android.synthetic.main.activity_sticky.stickyBar
+import kotlinx.android.synthetic.main.activity_sticky.stickyRecycler
 
 /**
  * Description:
@@ -61,6 +62,11 @@ class StickyActivity : CommTitleActivity() {
         }
       }
     }
-    viewModel.loadProvince()
+    //随机加载数据
+    if (System.currentTimeMillis() % 2 == 0L) {
+      viewModel.loadCountry()
+    } else {
+      viewModel.loadProvince()
+    }
   }
 }
