@@ -79,6 +79,8 @@ class UserRepository private constructor() : BaseRepository() {
         .flatMap {
           it.data?.let { user ->
             setUid(user.id)
+            MMkvUtils.instance.setAccount(username)
+            MMkvUtils.instance.setPassword(password)
             this.user = user
           }
           if (it.errorCode == 0) {

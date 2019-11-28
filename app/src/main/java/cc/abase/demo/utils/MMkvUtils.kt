@@ -1,7 +1,6 @@
 package cc.abase.demo.utils
 
 import com.tencent.mmkv.MMKV
-import java.util.*
 
 /**
  * Description:
@@ -20,6 +19,8 @@ class MMkvUtils private constructor() {
     private val GUIDE_SPLASH = "KKMV_KEY_GUIDE_SPLASH"
     private val USER_UID = "KKMV_KEY_USER_UID"
     private val USER_TOKEN = "KKMV_KEY_USER_TOKEN"
+    private val USER_ACCOUNT = "USER_ACCOUNT"
+    private val USER_PWD = "USER_PWD"
     fun setNeedGuide(need: Boolean = true) {
         MMKV.defaultMMKV().encode(GUIDE_SPLASH, need)
     }
@@ -30,6 +31,22 @@ class MMkvUtils private constructor() {
 
     fun getUid(): Long {
         return MMKV.defaultMMKV().decodeLong(USER_UID, 0L)
+    }
+
+    fun setAccount(account: String) {
+        MMKV.defaultMMKV().encode(USER_ACCOUNT, account)
+    }
+
+    fun setPassword(pwd: String) {
+        MMKV.defaultMMKV().encode(USER_PWD, pwd)
+    }
+
+    fun getAccount(): String {
+        return MMKV.defaultMMKV().decodeString(USER_ACCOUNT, "")
+    }
+
+    fun getPassword(): String {
+        return MMKV.defaultMMKV().decodeString(USER_PWD, "")
     }
 
     fun setUid(uid: Long) {

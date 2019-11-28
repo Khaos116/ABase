@@ -12,6 +12,7 @@ import cc.abase.demo.constants.LengthConstants
 import cc.abase.demo.constants.UiConstants
 import cc.abase.demo.repository.UserRepository
 import cc.abase.demo.utils.AppInfoUtils
+import cc.abase.demo.utils.MMkvUtils
 import com.blankj.utilcode.util.ActivityUtils
 import com.blankj.utilcode.util.StringUtils
 import kotlinx.android.synthetic.main.activity_login.*
@@ -65,6 +66,9 @@ class LoginActivity : CommActivity() {
     }
     loginRegister.click { RegisterActivity.startActivity(mContext) }
     extKeyBoard { statusHeight, navigationHeight, keyBoardHeight -> }
+    //读取上次的数据
+    loginEditAccount.setText(MMkvUtils.instance.getAccount())
+    loginEditPassword.setText(MMkvUtils.instance.getPassword())
   }
 
   override fun initData() {
