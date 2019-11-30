@@ -53,7 +53,11 @@ class HeaderManger private constructor() {
     return object : FoldableRequestInterceptor {
       override fun invoke(next: RequestTransformer): RequestTransformer {
         return { request ->
-          request.header(getStaticHeaders())
+          //为了防止原本的header被覆盖，所以判断没有的才添加(否则会出现文件上传失败的情况)
+          val temp = request.headers
+          getStaticHeaders().entries.forEach { map ->
+            if (!temp.containsKey(map.key)) request.header(Pair(map.key, map.value))
+          }
           getTokenPair()?.let { pair ->
             //没有在去除token的接口就添加token
             if (!noTokenUrls.contains(request.url.toString())) {
