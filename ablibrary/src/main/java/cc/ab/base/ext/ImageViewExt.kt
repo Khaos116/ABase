@@ -22,7 +22,7 @@ fun ImageView.loadSquare(
   size: Int = ScreenUtils.getScreenWidth() / 2
 ) {
   if (url.isNullOrBlank()) {
-    setImageResource(R.drawable.place_holder_square_fail)
+    setImageResource(R.drawable.place_holder_square_fail2)
   } else {
     //如果是相同的图片则不再进行加载
     if (getTag(R.id.id_tag_sketch_suc) == url) return
@@ -33,15 +33,15 @@ fun ImageView.loadSquare(
     Sketch.with(context)
       .load(url, object : LoadListener {
         override fun onStarted() {
-          setImageResource(R.drawable.place_holder_square_loading)
+          setImageResource(R.drawable.place_holder_square_loading2)
         }
 
         override fun onCanceled(cause: CancelCause) {
-          setImageResource(R.drawable.place_holder_square_fail)
+          setImageResource(R.drawable.place_holder_square_fail2)
         }
 
         override fun onError(cause: ErrorCause) {
-          setImageResource(R.drawable.place_holder_square_fail)
+          setImageResource(R.drawable.place_holder_square_fail2)
         }
 
         override fun onCompleted(result: LoadResult) {
