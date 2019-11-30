@@ -5,9 +5,9 @@ import android.content.Intent
 import android.util.Log
 import cc.ab.base.ext.load
 import cc.ab.base.ext.mStatusBarHeight
+import cc.ab.base.utils.MediaUtils
 import cc.abase.demo.R
 import cc.abase.demo.component.comm.CommActivity
-import cc.abase.demo.utils.MediaUtils
 import cc.abase.demo.utils.VideoUtils
 import cc.abase.demo.widget.video.controller.StandardVideoController
 import cc.abase.demo.widget.video.player.CustomExoMediaPlayer

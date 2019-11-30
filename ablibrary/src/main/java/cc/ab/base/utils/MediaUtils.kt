@@ -1,4 +1,4 @@
-package cc.abase.demo.utils
+package cc.ab.base.utils
 
 import android.graphics.BitmapFactory
 import android.media.MediaMetadataRetriever
