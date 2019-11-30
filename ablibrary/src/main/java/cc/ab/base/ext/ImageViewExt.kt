@@ -5,16 +5,54 @@ import androidx.annotation.FloatRange
 import androidx.annotation.IntRange
 import cc.ab.base.R
 import cc.ab.base.utils.RandomPlaceholder
+import com.blankj.utilcode.util.ScreenUtils
 import com.blankj.utilcode.util.SizeUtils
 import com.blankj.utilcode.util.Utils
 import me.panpf.sketch.Sketch
 import me.panpf.sketch.SketchImageView
 import me.panpf.sketch.display.FadeInImageDisplayer
 import me.panpf.sketch.process.GaussianBlurImageProcessor
-import me.panpf.sketch.request.DisplayOptions
-import me.panpf.sketch.request.ShapeSize
+import me.panpf.sketch.request.*
 import me.panpf.sketch.shaper.RoundRectImageShaper
 import java.io.File
+
+//加载正方形图片
+fun ImageView.loadSquare(
+  url: String?,
+  size: Int = ScreenUtils.getScreenWidth() / 2
+) {
+  if (url.isNullOrBlank()) {
+    setImageResource(R.drawable.place_holder_square_fail)
+  } else {
+    //如果是相同的图片则不再进行加载
+    if (getTag(R.id.id_tag_sketch_suc) == url) return
+    setTag(R.id.id_tag_sketch_suc, null)
+    val option = LoadOptions()
+    val size2 = if (width > 0) width else size
+    option.resize = Resize(size2, size2)
+    Sketch.with(context)
+      .load(url, object : LoadListener {
+        override fun onStarted() {
+          setImageResource(R.drawable.place_holder_square_loading)
+        }
+
+        override fun onCanceled(cause: CancelCause) {
+          setImageResource(R.drawable.place_holder_square_fail)
+        }
+
+        override fun onError(cause: ErrorCause) {
+          setImageResource(R.drawable.place_holder_square_fail)
+        }
+
+        override fun onCompleted(result: LoadResult) {
+          setImageBitmap(result.bitmap)
+          setTag(R.id.id_tag_sketch_suc, url)
+        }
+      })
+      .options(option)
+      .commit()
+  }
+}
 
 //获取缓存文件
 fun SketchImageView.getCacheFile(url: String?): File? {
