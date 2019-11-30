@@ -4,9 +4,6 @@ import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.Matrix
 import android.text.TextUtils
-import io.microshow.rxffmpeg.RxFFmpegProgress
-import io.reactivex.Flowable
-import io.reactivex.Single
 import me.panpf.sketch.SLog
 import me.panpf.sketch.Sketch
 import me.panpf.sketch.uri.AbsBitmapDiskCacheUriModel
