@@ -44,10 +44,11 @@ class DragActivity : CommTitleActivity() {
 
   //最大图片数量
   private val MAX_IMG_SIZE = 9
+  //360 - (96+12+96+12+96) = 48 /2 = 24
   //列表左边间距
-  private val paddingStart: Int = SizeUtils.dp2px(32f)
+  private val paddingStart: Int = SizeUtils.dp2px(24f)
   //列表右边间距
-  private var paddingRight: Int = SizeUtils.dp2px(31 - 12f)
+  private var paddingRight: Int = SizeUtils.dp2px(24f - 12f)
   //数据层
   private val viewModel: DragViewModel by lazy {
     DragViewModel()
