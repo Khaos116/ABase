@@ -7,6 +7,7 @@ import android.media.MediaMetadataRetriever
 import android.provider.MediaStore
 import android.util.Log
 import cc.ab.base.ext.*
+import cc.ab.base.widget.engine.PicSelEngine
 import cc.abase.demo.component.comm.CommTitleActivity
 import cc.abase.demo.constants.UiConstants
 import cc.abase.demo.utils.VideoUtils
@@ -56,6 +57,7 @@ class RxFFmpegActivity : CommTitleActivity() {
         .openGallery(PictureMimeType.ofVideo())
         .maxSelectNum(1)
         .isCamera(false)
+        .loadImageEngine(PicSelEngine())
         .previewVideo(true)
         .forResult(INTENT_SEL_VIDEO2)
 //      val openAlbumIntent = Intent(Intent.ACTION_PICK)

@@ -30,6 +30,11 @@ fun ImageView.loadSquare(
     val option = LoadOptions()
     val size2 = if (width > 0) width else size
     option.resize = Resize(size2, size2)
+    option.isInPreferQualityOverSpeed = true
+    option.isLowQualityImage = true
+    if (!url.startsWith("http")) {
+      option.isThumbnailMode = true
+    }
     Sketch.with(context)
       .load(url, object : LoadListener {
         override fun onStarted() {

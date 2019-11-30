@@ -6,12 +6,19 @@ import android.content.Context
 import androidx.multidex.MultiDex
 import cc.ab.base.BuildConfig
 import cc.ab.base.utils.RxUtils
-import com.blankj.utilcode.util.*
+import cc.ab.base.widget.sketch.VideoThumbnailUriModel
+import com.blankj.utilcode.util.LogUtils
+import com.blankj.utilcode.util.PermissionUtils
+import com.blankj.utilcode.util.ProcessUtils
+import com.blankj.utilcode.util.Utils
 import com.didichuxing.doraemonkit.DoraemonKit
 import com.tencent.mmkv.MMKV
 import io.reactivex.Observable
 import io.reactivex.ObservableOnSubscribe
 import me.jessyan.autosize.AutoSizeConfig
+import me.panpf.sketch.Configuration
+import me.panpf.sketch.Sketch
+
 
 /**
  * Description:
@@ -62,6 +69,11 @@ abstract class BaseApplication : Application() {
     //字体sp不跟随系统大小变化
     AutoSizeConfig.getInstance()
         .isExcludeFontScale = true
+    //Sketch配置视频封面加载
+    val configuration: Configuration = Sketch.with(this).configuration
+    configuration.uriModelManager.add(
+        VideoThumbnailUriModel()
+    )
   }
 
   //所有进程中的初始化
