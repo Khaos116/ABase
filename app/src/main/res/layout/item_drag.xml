@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="95dp"
+    android:layout_height="95dp"
+    android:layout_marginBottom="12dp"
+    android:layout_marginEnd="12dp"
+    >
+  <me.panpf.sketch.SketchImageView
+      android:id="@+id/itemDragImgCover"
+      android:layout_width="match_parent"
+      android:scaleType="centerCrop"
+      android:layout_height="match_parent"
+      />
+  <ImageView
+      android:id="@+id/itemDragImgDel"
+      android:layout_width="22dp"
+      android:layout_height="22dp"
+      android:layout_gravity="end"
+      android:contentDescription="@null"
+      android:padding="4dp"
+      android:src="@drawable/del_img"
+      />
+  <ImageView
+      android:id="@+id/itemDragImgAdd"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:layout_gravity="center"
+      android:contentDescription="@null"
+      android:src="@drawable/add_img"
+      android:visibility="gone"
+      tools:visibility="visible"
+      />
+</FrameLayout>
