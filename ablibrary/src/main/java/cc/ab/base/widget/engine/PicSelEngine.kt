@@ -39,7 +39,7 @@ class PicSelEngine : ImageEngine {
     if (sizeDir == 0) {
       imageView.post {
         sizeDir = imageView.width
-        loadAsBitmapGridImage(context, url, imageView, placeholderId)
+        loadFolderAsBitmapImage(context, url, imageView, placeholderId)
       }
     } else {
       imageView.layoutParams.width = sizeDir
