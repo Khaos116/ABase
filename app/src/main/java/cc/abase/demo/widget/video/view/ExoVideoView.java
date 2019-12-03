@@ -30,6 +30,8 @@ public class ExoVideoView extends VideoView<CustomExoMediaPlayer>
   private Lifecycle mLifecycle;
   //是否要重新播放
   private boolean needResumePlay = false;
+  //视频尺寸变化
+  private OnVideoSizeChangeListener videoSizeChangeListener;
 
   public ExoVideoView(Context context) {
     this(context, null);
@@ -44,8 +46,8 @@ public class ExoVideoView extends VideoView<CustomExoMediaPlayer>
     //由于传递了泛型，必须将CustomExoMediaPlayer设置进来，否者报错
     setPlayerFactory(new PlayerFactory<CustomExoMediaPlayer>() {
       @Override
-      public CustomExoMediaPlayer createPlayer() {
-        return new CustomExoMediaPlayer();
+      public CustomExoMediaPlayer createPlayer(Context context) {
+        return new CustomExoMediaPlayer(context);
       }
     });
     generalRoundViewImpl = new GeneralRoundViewImpl(this,
@@ -93,6 +95,13 @@ public class ExoVideoView extends VideoView<CustomExoMediaPlayer>
       return true;
     }
     return super.prepareDataSource();
+  }
+
+  @Override public void onVideoSizeChanged(int videoWidth, int videoHeight) {
+    super.onVideoSizeChanged(videoWidth, videoHeight);
+    if (videoSizeChangeListener != null) {
+      videoSizeChangeListener.sizeChange(videoWidth, videoHeight);
+    }
   }
 
   public void setLifecycleOwner(@NonNull LifecycleOwner owner) {
@@ -146,5 +155,13 @@ public class ExoVideoView extends VideoView<CustomExoMediaPlayer>
 
   public void setTrackSelector(TrackSelector trackSelector) {
     mTrackSelector = trackSelector;
+  }
+
+  public void setVideoSizeChangeListener(OnVideoSizeChangeListener mVideoSizeChangeListener) {
+    videoSizeChangeListener = mVideoSizeChangeListener;
+  }
+
+  public interface OnVideoSizeChangeListener {
+    void sizeChange(int videoWidth, int videoHeight);
   }
 }
