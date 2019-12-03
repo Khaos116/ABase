@@ -13,8 +13,7 @@ import cc.abase.demo.widget.video.controller.VodControlView
 import cc.abase.demo.widget.video.controller.VodControlView.VerticalFullListener
 import com.dueeeke.videocontroller.component.*
 import com.gyf.immersionbar.ktx.immersionBar
-import kotlinx.android.synthetic.main.activity_video_detail.videoDetailStatus
-import kotlinx.android.synthetic.main.activity_video_detail.videoDetailVideoView
+import kotlinx.android.synthetic.main.activity_video_detail.*
 import kotlinx.android.synthetic.main.dkplayer_layout_prepare_view.view.thumb
 import java.io.File
 
@@ -56,6 +55,8 @@ class VideoDetailActivity : CommActivity() {
   override fun layoutResId() = R.layout.activity_video_detail
 
   override fun initView() {
+    videoDetailBack.pressEffectAlpha()
+    videoDetailBack.click { onBackPressed() }
     videoDetailStatus.layoutParams.height = mStatusBarHeight
     //控制器
     controller = StandardVideoController(this)

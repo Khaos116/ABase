@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     >
-
+  <!--状态栏布局填充-->
   <View
       android:id="@+id/videoDetailStatus"
       android:layout_width="match_parent"
@@ -16,7 +16,7 @@
       app:layout_constraintStart_toStartOf="parent"
       app:layout_constraintTop_toTopOf="parent"
       />
-
+  <!--非全屏播放器-->
   <cc.abase.demo.widget.video.view.ExoVideoView
       android:id="@+id/videoDetailVideoView"
       android:layout_width="match_parent"
@@ -27,7 +27,19 @@
       app:layout_constraintStart_toStartOf="parent"
       app:layout_constraintTop_toBottomOf="@id/videoDetailStatus"
       />
-
+  <!--返回按钮-->
+  <ImageView
+      android:id="@+id/videoDetailBack"
+      android:layout_width="@dimen/dkplayer_controller_height"
+      android:layout_height="@dimen/dkplayer_controller_height"
+      android:layout_gravity="center"
+      android:contentDescription="@null"
+      android:padding="@dimen/dkplayer_controller_icon_padding"
+      android:src="@drawable/dkplayer_ic_action_arrow_back"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toTopOf="@id/videoDetailVideoView"
+      />
+  <!--评论列表等-->
   <com.airbnb.epoxy.EpoxyRecyclerView
       android:id="@+id/videoDetailRecycler"
       android:layout_width="match_parent"
