@@ -118,7 +118,7 @@ class RxFFmpegActivity : CommTitleActivity() {
           }
         }
 
-        override fun isVideoFull(): Boolean {
+        override fun isStopOutFull(): Boolean {
           return ffmpegPlayer.isFullScreen
         }
       })
@@ -131,7 +131,7 @@ class RxFFmpegActivity : CommTitleActivity() {
     }
     //设置控制器
     ffmpegPlayer.setVideoController(controller)
-    ffmpegPlayer.setLooping(true)
+    ffmpegPlayer.setLooping(false)
     //内部处理生命周期
     ffmpegPlayer.setLifecycleOwner(this)
   }

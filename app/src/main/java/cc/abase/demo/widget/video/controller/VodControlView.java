@@ -127,7 +127,7 @@ public class VodControlView extends FrameLayout
       case VideoView.STATE_PLAYBACK_COMPLETED:
         setVisibility(GONE);
         //修改部分3:
-        if (verticalFullListener != null && verticalFullListener.isVideoFull()) {
+        if (verticalFullListener != null && verticalFullListener.isStopOutFull()) {
           mControlWrapper.stopFullScreen();
         }
         mBottomProgress.setProgress(0);
@@ -291,6 +291,6 @@ public class VodControlView extends FrameLayout
   public interface VerticalFullListener {
     boolean isVerticalVideo();
 
-    boolean isVideoFull();
+    boolean isStopOutFull();
   }
 }

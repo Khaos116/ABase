@@ -139,6 +139,8 @@
 #############################################
 -keep class cc.ab.base.net.http.response.** { *; }
 -keep class cc.abase.demo.repository.** { *; }
+-keep class com.luck.picture.lib.entity.** { *; }
+-keep class cc.ab.base.widget.engine.** { *; }
 
 #内部成员和方法不混淆
 

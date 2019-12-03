@@ -80,8 +80,8 @@ class VideoDetailActivity : CommActivity() {
           }
         }
 
-        override fun isVideoFull(): Boolean {
-          return videoDetailVideoView.isFullScreen
+        override fun isStopOutFull(): Boolean {
+          return false
         }
       })
       it.addControlComponent(vodControlView)
