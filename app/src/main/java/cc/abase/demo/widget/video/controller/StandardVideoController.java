@@ -2,80 +2,37 @@ package cc.abase.demo.widget.video.controller;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.pm.ActivityInfo;
-import android.content.res.Configuration;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
-import android.widget.FrameLayout;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.ProgressBar;
-import android.widget.SeekBar;
-import android.widget.TextView;
-import android.widget.Toast;
-import androidx.annotation.AttrRes;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import com.blankj.utilcode.util.BarUtils;
-import com.dueeeke.videocontroller.BatteryReceiver;
-import com.dueeeke.videocontroller.CenterView;
-import com.dueeeke.videocontroller.CutoutUtil;
-import com.dueeeke.videocontroller.MarqueeTextView;
-import com.dueeeke.videocontroller.StatusView;
+import android.widget.*;
+import androidx.annotation.*;
+import cc.abase.demo.R;
+import com.dueeeke.videocontroller.component.VodControlView;
+import com.dueeeke.videocontroller.component.*;
 import com.dueeeke.videoplayer.controller.GestureVideoController;
-import com.dueeeke.videoplayer.controller.MediaPlayerControl;
 import com.dueeeke.videoplayer.player.VideoView;
 import com.dueeeke.videoplayer.util.L;
 import com.dueeeke.videoplayer.util.PlayerUtils;
 
-import cc.abase.demo.R;
-import me.panpf.sketch.SketchImageView;
-
 /**
+ * CASE主要修改功能：2019年12月3日17:53:01
+ * 1、Base中只禁止了竖屏旋转，仍然可以横屏旋转
+ * 2、Base中的变量为private外部无法访问，因此还重写了变量设置
+ * 3、通过外部传入是否能旋转，禁止横屏旋转和功能
+ *
  * 直播/点播控制器
  * Created by Devlin_n on 2017/4/7.
  */
 
-public class StandardVideoController<T extends MediaPlayerControl> extends GestureVideoController<T>
-    implements View.OnClickListener, SeekBar.OnSeekBarChangeListener,
-    GestureVideoController.GestureListener {
-  protected TextView mTotalTime, mCurrTime;
-  protected ImageView mFullScreenButton;
-  protected LinearLayout mBottomContainer, mTopContainer;
-  protected SeekBar mVideoProgress;
-  protected ImageView mBackButton;
+public class StandardVideoController extends GestureVideoController
+    implements View.OnClickListener {
+
   protected ImageView mLockButton;
-  protected MarqueeTextView mTitle;
-  protected ImageView mRefreshButton;
-  protected StatusView mStatusView;
-  protected CenterView mCenterView;
-  /**
-   * 是否需要适配刘海屏
-   */
-  protected boolean mNeedAdaptCutout;
-  protected int mPadding;
-  private boolean mIsLive;
-  private boolean mIsDragging;
-  private ProgressBar mBottomProgress;
-  private ImageView mPlayButton;
-  private ImageView mStartPlayButton;
-  private ProgressBar mLoadingProgress;
-  private SketchImageView mThumb;
-  private FrameLayout mCompleteContainer;
-  private ImageView mStopFullscreen;
-  private TextView mSysTime;//系统当前时间
-  private ImageView mBatteryLevel;//电量
-  private Animation mShowAnim;
-  private Animation mHideAnim;
-  private BatteryReceiver mBatteryReceiver;
-  private int mCurrentOrientation = -1;
-  private boolean needNoFullShowBack = false;
-  private boolean needBackFitStatues = false;
+
+  protected ProgressBar mLoadingProgress;
 
   public StandardVideoController(@NonNull Context context) {
     this(context, null);
@@ -90,53 +47,41 @@ public class StandardVideoController<T extends MediaPlayerControl> extends Gestu
     super(context, attrs, defStyleAttr);
   }
 
-  public boolean isNeedNoFullShowBack() {
-    return needNoFullShowBack;
-  }
-
-  public StandardVideoController<T> setNeedNoFullShowBack(boolean mNeedNoFullShowBack) {
-    needNoFullShowBack = mNeedNoFullShowBack;
-    return this;
-  }
-
   @Override
   protected int getLayoutId() {
     return R.layout.dkplayer_layout_standard_controller;
   }
 
+  //修改部分1:内部无法访问，所以自己重写判断
+  private boolean enableOrientation = false;
+
   @Override
-  public void setMediaPlayer(T mediaPlayer) {
-    super.setMediaPlayer(mediaPlayer);
-    mStatusView.attachMediaPlayer(mMediaPlayer);
+  protected void initView() {
+    super.initView();
+    mLockButton = findViewById(R.id.lock);
+    mLockButton.setOnClickListener(this);
+    mLoadingProgress = findViewById(R.id.loading);
   }
 
   @Override
-  public void show() {
-    show(mDefaultTimeout);
-  }
-
-  @Override
-  public void hide() {
-    if (mShowing) {
-      if (mMediaPlayer.isFullScreen()) {
+  public void setPlayerState(int playerState) {
+    super.setPlayerState(playerState);
+    switch (playerState) {
+      case VideoView.PLAYER_NORMAL:
+        L.e("PLAYER_NORMAL");
+        setLayoutParams(new FrameLayout.LayoutParams(
+            ViewGroup.LayoutParams.MATCH_PARENT,
+            ViewGroup.LayoutParams.MATCH_PARENT));
         mLockButton.setVisibility(GONE);
-        mLockButton.setAnimation(mHideAnim);
-        if (!mIsLocked) {
-          hideAllViews();
+        break;
+      case VideoView.PLAYER_FULL_SCREEN:
+        L.e("PLAYER_FULL_SCREEN");
+        if (isShowing()) {
+          mLockButton.setVisibility(VISIBLE);
+        } else {
+          mLockButton.setVisibility(GONE);
         }
-      } else {
-        if (needNoFullShowBack) {
-          mBackButton.setVisibility(GONE);
-          mBackButton.startAnimation(mHideAnim);
-        }
-        mBottomContainer.setVisibility(GONE);
-        mBottomContainer.startAnimation(mHideAnim);
-      }
-      if (!mIsLive && !mIsLocked) {
-        mBottomProgress.setVisibility(VISIBLE);
-        mBottomProgress.startAnimation(mShowAnim);
-      }
-      mShowing = false;
+        break;
     }
   }
 
@@ -147,641 +92,159 @@ public class StandardVideoController<T extends MediaPlayerControl> extends Gestu
       //调用release方法会回到此状态
       case VideoView.STATE_IDLE:
         L.e("STATE_IDLE");
-        hide();
-        mIsLocked = false;
         mLockButton.setSelected(false);
-        mBottomProgress.setProgress(0);
-        mBottomProgress.setSecondaryProgress(0);
-        mVideoProgress.setProgress(0);
-        mVideoProgress.setSecondaryProgress(0);
-        mCompleteContainer.setVisibility(GONE);
-        mBottomProgress.setVisibility(GONE);
         mLoadingProgress.setVisibility(GONE);
-        mStatusView.dismiss();
-        mStartPlayButton.setVisibility(VISIBLE);
-        mThumb.setVisibility(VISIBLE);
         break;
       case VideoView.STATE_PLAYING:
         L.e("STATE_PLAYING");
-        //开始刷新进度
-        post(mShowProgress);
-        mPlayButton.setSelected(true);
-        mLoadingProgress.setVisibility(GONE);
-        mCompleteContainer.setVisibility(GONE);
-        mThumb.setVisibility(GONE);
-        mStartPlayButton.setVisibility(GONE);
         break;
       case VideoView.STATE_PAUSED:
         L.e("STATE_PAUSED");
-        mPlayButton.setSelected(false);
-        mStartPlayButton.setVisibility(GONE);
-        //removeCallbacks(mShowProgress);
         break;
       case VideoView.STATE_PREPARING:
         L.e("STATE_PREPARING");
-        mCompleteContainer.setVisibility(GONE);
-        mStartPlayButton.setVisibility(GONE);
-        mStatusView.dismiss();
         mLoadingProgress.setVisibility(VISIBLE);
-        //                mThumb.setVisibility(VISIBLE);
         break;
       case VideoView.STATE_PREPARED:
         L.e("STATE_PREPARED");
-        if (!mIsLive) mBottomProgress.setVisibility(VISIBLE);
-        //                mLoadingProgress.setVisibility(GONE);
-        mStartPlayButton.setVisibility(GONE);
+        mLoadingProgress.setVisibility(GONE);
         break;
       case VideoView.STATE_ERROR:
         L.e("STATE_ERROR");
-        removeCallbacks(mFadeOut);
-        hide();
-        mStatusView.showErrorView(this);
-        removeCallbacks(mShowProgress);
-        mStartPlayButton.setVisibility(GONE);
         mLoadingProgress.setVisibility(GONE);
-        mThumb.setVisibility(GONE);
-        mBottomProgress.setVisibility(GONE);
-        mTopContainer.setVisibility(GONE);
         break;
       case VideoView.STATE_BUFFERING:
         L.e("STATE_BUFFERING");
-        mStartPlayButton.setVisibility(GONE);
         mLoadingProgress.setVisibility(VISIBLE);
-        mThumb.setVisibility(GONE);
-        mPlayButton.setSelected(mMediaPlayer.isPlaying());
         break;
       case VideoView.STATE_BUFFERED:
         L.e("STATE_BUFFERED");
         mLoadingProgress.setVisibility(GONE);
-        mStartPlayButton.setVisibility(GONE);
-        mThumb.setVisibility(GONE);
-        mPlayButton.setSelected(mMediaPlayer.isPlaying());
         break;
       case VideoView.STATE_PLAYBACK_COMPLETED:
         L.e("STATE_PLAYBACK_COMPLETED");
-        hide();
-        removeCallbacks(mShowProgress);
-        mStartPlayButton.setVisibility(GONE);
-        mThumb.setVisibility(VISIBLE);
-        mCompleteContainer.setVisibility(VISIBLE);
-        mStopFullscreen.setVisibility(mMediaPlayer.isFullScreen() ? VISIBLE : GONE);
-        mBottomProgress.setVisibility(GONE);
-        mBottomProgress.setProgress(0);
-        mBottomProgress.setSecondaryProgress(0);
         mLoadingProgress.setVisibility(GONE);
-        mIsLocked = false;
-        break;
-    }
-  }
-
-  @Override
-  public void setPlayerState(int playerState) {
-    super.setPlayerState(playerState);
-    switch (playerState) {
-      case VideoView.PLAYER_NORMAL:
-        L.e("PLAYER_NORMAL");
-        if (mIsLocked) return;
-        if (mNeedAdaptCutout) {
-          CutoutUtil.adaptCutoutAboveAndroidP(getContext(), false);
-        }
-        setLayoutParams(new FrameLayout.LayoutParams(
-            ViewGroup.LayoutParams.MATCH_PARENT,
-            ViewGroup.LayoutParams.MATCH_PARENT));
-        mIsGestureEnabled = false;
-        mFullScreenButton.setSelected(false);
         mLockButton.setVisibility(GONE);
-        mTitle.setVisibility(INVISIBLE);
-        mTitle.setNeedFocus(false);
-        mSysTime.setVisibility(GONE);
-        mBatteryLevel.setVisibility(GONE);
-        mTopContainer.setVisibility(GONE);
-        mStopFullscreen.setVisibility(GONE);
-        break;
-      case VideoView.PLAYER_FULL_SCREEN:
-        L.e("PLAYER_FULL_SCREEN");
-        if (mIsLocked) return;
-        if (mNeedAdaptCutout) {
-          CutoutUtil.adaptCutoutAboveAndroidP(getContext(), true);
-        }
-        mIsGestureEnabled = true;
-        mFullScreenButton.setSelected(true);
-        mTitle.setVisibility(VISIBLE);
-        mTitle.setNeedFocus(true);
-        mSysTime.setVisibility(VISIBLE);
-        mBatteryLevel.setVisibility(VISIBLE);
-        mStopFullscreen.setVisibility(VISIBLE);
-        if (mShowing) {
-          mLockButton.setVisibility(VISIBLE);
-          mTopContainer.setVisibility(VISIBLE);
-        } else {
-          mLockButton.setVisibility(GONE);
-        }
+        mLockButton.setSelected(false);
         break;
     }
   }
 
   /**
-   * 显示移动网络播放警告
+   * 快速添加各个组件
+   *
+   * @param title 标题
+   * @param isLive 是否为直播
    */
-  @Override
-  public boolean showNetWarning() {
-    //现在是按父类的逻辑显示移动网络播放警告
-    if (super.showNetWarning()) {
-      mStatusView.showNetWarning(this);
-    }
-    return super.showNetWarning();
-  }
-
-  @Override
-  public void hideNetWarning() {
-    mStatusView.dismiss();
-  }
-
-  /**
-   * 子类中请使用此方法来进入全屏
-   */
-  protected void startFullScreenFromUser() {
-    Activity activity = PlayerUtils.scanForActivity(getContext());
-    if (activity == null) return;
-    int[] videoSize = mMediaPlayer.getVideoSize();
-    if (videoSize[0] > videoSize[1]) {//横向视频
-      activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-    }
-    mMediaPlayer.startFullScreen();
-    mFromUser = true;
-  }
-
-  /**
-   * 子类中请使用此方法来退出全屏
-   */
-  protected void stopFullScreenFromUser() {
-    Activity activity = PlayerUtils.scanForActivity(getContext());
-    if (activity == null) return;
-    mMediaPlayer.stopFullScreen();
-    int[] videoSize = mMediaPlayer.getVideoSize();
-    if (videoSize[0] > videoSize[1]) {//横向视频
-      activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-    }
-    mFromUser = true;
-  }
-
-  @Override
-  protected int setProgress() {
-    if (mMediaPlayer == null || mIsDragging) {
-      return 0;
-    }
-
-    if (mIsLive) return 0;
-
-    int position = (int) mMediaPlayer.getCurrentPosition();
-    int duration = (int) mMediaPlayer.getDuration();
-    if (mVideoProgress != null) {
-      if (duration > 0) {
-        mVideoProgress.setEnabled(true);
-        int pos = (int) (position * 1.0 / duration * mVideoProgress.getMax());
-        mVideoProgress.setProgress(pos);
-        mBottomProgress.setProgress(pos);
-      } else {
-        mVideoProgress.setEnabled(false);
-      }
-      int percent = mMediaPlayer.getBufferedPercentage();
-      if (percent >= 95) { //解决缓冲进度不能100%问题
-        mVideoProgress.setSecondaryProgress(mVideoProgress.getMax());
-        mBottomProgress.setSecondaryProgress(mBottomProgress.getMax());
-      } else {
-        mVideoProgress.setSecondaryProgress(percent * 10);
-        mBottomProgress.setSecondaryProgress(percent * 10);
-      }
-    }
-
-    if (mTotalTime != null) {
-      mTotalTime.setText(stringForTime(duration));
-    }
-    if (mCurrTime != null) {
-      mCurrTime.setText(stringForTime(position));
-    }
-
-    return position;
-  }
-
-  @Override
-  protected void onAttachedToWindow() {
-    super.onAttachedToWindow();
-    getContext().registerReceiver(mBatteryReceiver,
-        new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
-    checkCutout();
-  }
-
-  @Override
-  protected void onDetachedFromWindow() {
-    super.onDetachedFromWindow();
-    getContext().unregisterReceiver(mBatteryReceiver);
-  }
-
-  @Override
-  public boolean onBackPressed() {
-    if (mIsLocked) {
-      show();
-      Toast.makeText(getContext(), R.string.dkplayer_lock_tip, Toast.LENGTH_SHORT).show();
-      return true;
-    }
-
-    Activity activity = PlayerUtils.scanForActivity(getContext());
-    if (activity == null) return super.onBackPressed();
-
-    if (mMediaPlayer.isFullScreen()) {
-      stopFullScreenFromUser();
-      return true;
-    }
-    return super.onBackPressed();
-  }
-
-  @Override
-  public void onOrientationChanged(int orientation) {
-    super.onOrientationChanged(orientation);
-    adjustView();
-  }
-
-  /**
-   * 横屏
-   */
-  protected void onOrientationLandscape(Activity activity) {
-    int[] videoSize = mMediaPlayer.getVideoSize();
-    if (videoSize[0] < videoSize[1]) return;//纵向视频
-    int o = activity.getRequestedOrientation();
-    if (o == ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE) {
-      mFromUser = false;
-      return;
-    }
-    //手动操作的情况
-    if (o == ActivityInfo.SCREEN_ORIENTATION_PORTRAIT && mFromUser) {
-      return;
-    }
-    if (!mMediaPlayer.isFullScreen()) {
-      mMediaPlayer.startFullScreen();
-    }
-    activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-  }
-
-  /**
-   * 反向横屏
-   */
-  protected void onOrientationReverseLandscape(Activity activity) {
-    int[] videoSize = mMediaPlayer.getVideoSize();
-    if (videoSize[0] < videoSize[1]) return;//纵向视频
-    int o = activity.getRequestedOrientation();
-    if (o == ActivityInfo.SCREEN_ORIENTATION_REVERSE_LANDSCAPE) {
-      mFromUser = false;
-      return;
-    }
-    //手动操作的情况
-    if (o == ActivityInfo.SCREEN_ORIENTATION_PORTRAIT && mFromUser) {
-      return;
-    }
-    if (!mMediaPlayer.isFullScreen()) {
-      mMediaPlayer.startFullScreen();
-    }
-    activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_REVERSE_LANDSCAPE);
-  }
-
-  private void adjustView() {
-    if (mNeedAdaptCutout) {
-      Activity activity = PlayerUtils.scanForActivity(getContext());
-      if (activity == null) {
-        return;
-      }
-      int o = activity.getRequestedOrientation();
-      if (o == mCurrentOrientation) {
-        return;
-      }
-      L.d("adjustView");
-      if (o == ActivityInfo.SCREEN_ORIENTATION_PORTRAIT) {
-        adjustPortrait();
-      } else if (o == ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE) {
-        adjustLandscape();
-      } else if (o == ActivityInfo.SCREEN_ORIENTATION_REVERSE_LANDSCAPE) {
-        adjustReserveLandscape();
-      }
-      mCurrentOrientation = o;
-    }
-  }
-
-  protected void adjustPortrait() {
-    mTopContainer.setPadding(0, 0, 0, 0);
-    mBottomContainer.setPadding(0, 0, 0, 0);
-    mBottomProgress.setPadding(0, 0, 0, 0);
-    FrameLayout.LayoutParams lblp = (LayoutParams) mLockButton.getLayoutParams();
-    int dp24 = PlayerUtils.dp2px(getContext(), 24);
-    lblp.setMargins(dp24, 0, dp24, 0);
-    FrameLayout.LayoutParams sflp = (LayoutParams) mStopFullscreen.getLayoutParams();
-    sflp.setMargins(0, 0, 0, 0);
-    setBackButtonFit(needBackFitStatues);
-  }
-
-  protected void adjustLandscape() {
-    mTopContainer.setPadding(mPadding, 0, 0, 0);
-    mBottomContainer.setPadding(mPadding, 0, 0, 0);
-    mBottomProgress.setPadding(mPadding, 0, 0, 0);
-    FrameLayout.LayoutParams layoutParams = (LayoutParams) mLockButton.getLayoutParams();
-    int dp24 = PlayerUtils.dp2px(getContext(), 24);
-    layoutParams.setMargins(dp24 + mPadding, 0, dp24 + mPadding, 0);
-    FrameLayout.LayoutParams sflp = (LayoutParams) mStopFullscreen.getLayoutParams();
-    sflp.setMargins(mPadding, 0, 0, 0);
-    setBackButtonFit(false);
-  }
-
-  protected void adjustReserveLandscape() {
-    mTopContainer.setPadding(0, 0, mPadding, 0);
-    mBottomContainer.setPadding(0, 0, mPadding, 0);
-    mBottomProgress.setPadding(0, 0, mPadding, 0);
-    FrameLayout.LayoutParams layoutParams = (LayoutParams) mLockButton.getLayoutParams();
-    int dp24 = PlayerUtils.dp2px(getContext(), 24);
-    layoutParams.setMargins(dp24, 0, dp24, 0);
-    FrameLayout.LayoutParams sflp = (LayoutParams) mStopFullscreen.getLayoutParams();
-    sflp.setMargins(0, 0, 0, 0);
-    setBackButtonFit(false);
-  }
-
-  private void setBackButtonFit(boolean fit) {
-    if (mBackButton != null) {
-      FrameLayout.LayoutParams mParams = (FrameLayout.LayoutParams) mBackButton.getLayoutParams();
-      if (mParams != null) {
-        mParams.setMargins(0, fit ? BarUtils.getStatusBarHeight() : 0, 0, 0);
-      }
-    }
-  }
-
-  private void show(int timeout) {
-    if (mSysTime != null) {
-      mSysTime.setText(getCurrentSystemTime());
-    }
-    if (!mShowing) {
-      if (mMediaPlayer.isFullScreen()) {
-        if (mLockButton.getVisibility() != VISIBLE) {
-          mLockButton.setVisibility(VISIBLE);
-          mLockButton.setAnimation(mShowAnim);
-        }
-        if (!mIsLocked) {
-          showAllViews();
-        }
-      } else {
-        if (needNoFullShowBack) {
-          mBackButton.setVisibility(VISIBLE);
-          mBackButton.startAnimation(mShowAnim);
-        }
-        mBottomContainer.setVisibility(VISIBLE);
-        mBottomContainer.startAnimation(mShowAnim);
-      }
-      if (!mIsLocked && !mIsLive) {
-        mBottomProgress.setVisibility(GONE);
-        mBottomProgress.startAnimation(mHideAnim);
-      }
-      mShowing = true;
-    }
-    removeCallbacks(mFadeOut);
-    if (timeout != 0) {
-      postDelayed(mFadeOut, timeout);
-    }
-  }
-
-  private void showAllViews() {
-    if (needNoFullShowBack) {
-      mBackButton.setVisibility(VISIBLE);
-      mBackButton.startAnimation(mShowAnim);
-    }
-    mBottomContainer.setVisibility(VISIBLE);
-    mBottomContainer.startAnimation(mShowAnim);
-    mTopContainer.setVisibility(VISIBLE);
-    mTopContainer.startAnimation(mShowAnim);
-  }
-
-  /**
-   * 检查是否需要适配刘海
-   */
-  private void checkCutout() {
-    mNeedAdaptCutout = CutoutUtil.allowDisplayToCutout(getContext());
-    if (mNeedAdaptCutout) {
-      mPadding = (int) PlayerUtils.getStatusBarHeight(getContext());
-    }
-    L.d("needAdaptCutout: " + mNeedAdaptCutout + " padding: " + mPadding);
-  }
-
-  private void hideAllViews() {
-    mTopContainer.setVisibility(GONE);
-    mTopContainer.startAnimation(mHideAnim);
-    if (needNoFullShowBack) {
-      mBackButton.setVisibility(GONE);
-      mBackButton.startAnimation(mHideAnim);
-    }
-    mBottomContainer.setVisibility(GONE);
-    mBottomContainer.startAnimation(mHideAnim);
-  }
-
-  //设置返回图标是否需要不填充到状态栏
-  public void setBackIconFitStatues(boolean fit) {
-    needBackFitStatues = fit;
-    setBackButtonFit(needBackFitStatues);
-  }
-
-  @Override
-  protected void initView() {
-    super.initView();
-    mFullScreenButton = mControllerView.findViewById(R.id.fullscreen);
-    mFullScreenButton.setOnClickListener(this);
-    mBottomContainer = mControllerView.findViewById(R.id.bottom_container);
-    mTopContainer = mControllerView.findViewById(R.id.top_container);
-    mVideoProgress = mControllerView.findViewById(R.id.seekBar);
-    mVideoProgress.setOnSeekBarChangeListener(this);
-    mTotalTime = mControllerView.findViewById(R.id.total_time);
-    mCurrTime = mControllerView.findViewById(R.id.curr_time);
-    mBackButton = mControllerView.findViewById(R.id.back);
-    mBackButton.setOnClickListener(this);
-    mLockButton = mControllerView.findViewById(R.id.lock);
-    mLockButton.setOnClickListener(this);
-    mThumb = mControllerView.findViewById(R.id.thumb);
-    mThumb.setOnClickListener(this);
-    mPlayButton = mControllerView.findViewById(R.id.iv_play);
-    mPlayButton.setOnClickListener(this);
-    mStartPlayButton = mControllerView.findViewById(R.id.start_play);
-    mLoadingProgress = mControllerView.findViewById(R.id.loading);
-    mBottomProgress = mControllerView.findViewById(R.id.bottom_progress);
-    ImageView rePlayButton = mControllerView.findViewById(R.id.iv_replay);
-    rePlayButton.setOnClickListener(this);
-    mCompleteContainer = mControllerView.findViewById(R.id.complete_container);
-    mCompleteContainer.setOnClickListener(this);
-    mStopFullscreen = mControllerView.findViewById(R.id.stop_fullscreen);
-    mStopFullscreen.setOnClickListener(this);
-    mTitle = mControllerView.findViewById(R.id.title);
-    mSysTime = mControllerView.findViewById(R.id.sys_time);
-    mBatteryLevel = mControllerView.findViewById(R.id.iv_battery);
-    mBatteryReceiver = new BatteryReceiver(mBatteryLevel);
-    mRefreshButton = mControllerView.findViewById(R.id.iv_refresh);
-    mRefreshButton.setOnClickListener(this);
-
-    setGestureListener(this);
-
-    mStatusView = new StatusView(getContext());
-
-    mCenterView = new CenterView(getContext());
-    mCenterView.setVisibility(GONE);
-    addView(mCenterView);
-
-    mHideAnim = new AlphaAnimation(1f, 0f);
-    mHideAnim.setDuration(300);
-    mShowAnim = new AlphaAnimation(0f, 1f);
-    mShowAnim.setDuration(300);
-  }
-
-  @Override
-  protected void slideToChangePosition(float deltaX) {
-    if (mIsLive) {
-      mNeedSeek = false;
+  public void addDefaultControlComponent(String title, boolean isLive) {
+    CompleteView completeView = new CompleteView(getContext());
+    ErrorView errorView = new ErrorView(getContext());
+    PrepareView prepareView = new PrepareView(getContext());
+    prepareView.setClickStart();
+    TitleView titleView = new TitleView(getContext());
+    titleView.setTitle(title);
+    addControlComponent(completeView, errorView, prepareView, titleView);
+    if (isLive) {
+      addControlComponent(new LiveControlView(getContext()));
     } else {
-      super.slideToChangePosition(deltaX);
+      addControlComponent(new VodControlView(getContext()));
     }
-  }
-
-  @Override
-  protected void onConfigurationChanged(Configuration newConfig) {
-    super.onConfigurationChanged(newConfig);
-    adjustView();
-    setBackButtonFit(
-        newConfig.orientation == ActivityInfo.SCREEN_ORIENTATION_PORTRAIT ||
-            newConfig.orientation == ActivityInfo.SCREEN_ORIENTATION_REVERSE_PORTRAIT);
+    addControlComponent(new GestureView(getContext()));
+    setCanChangePosition(!isLive);
   }
 
   @Override
   public void onClick(View v) {
     int i = v.getId();
-    if (i == R.id.fullscreen || i == R.id.stop_fullscreen) {
-      doStartStopFullScreen();
-    } else if (i == R.id.lock) {
-      doLockUnlock();
-    } else if (i == R.id.iv_play || i == R.id.thumb) {
-      doPauseResume();
-    } else if (i == R.id.iv_replay || i == R.id.iv_refresh) {
-      mMediaPlayer.replay(true);
-    } else if (i == R.id.back) {
-      if (mMediaPlayer.isFullScreen()) {
-        stopFullScreenFromUser();
-      } else {
-        ((Activity) getContext()).onBackPressed();
+    if (i == R.id.lock) {
+      mControlWrapper.toggleLockState();
+    }
+  }
+
+  @Override
+  protected void show(Animation showAnim) {
+    super.show(showAnim);
+    if (mControlWrapper.isFullScreen()) {
+      if (mLockButton.getVisibility() == GONE) {
+        mLockButton.setVisibility(VISIBLE);
+        if (showAnim != null) {
+          mLockButton.startAnimation(showAnim);
+        }
       }
     }
   }
 
-  protected void doLockUnlock() {
-    if (mIsLocked) {
-      mIsLocked = false;
-      mShowing = false;
-      mIsGestureEnabled = true;
-      show();
-      mLockButton.setSelected(false);
-      Toast.makeText(getContext(), R.string.dkplayer_unlocked, Toast.LENGTH_SHORT).show();
-    } else {
-      hide();
-      mIsLocked = true;
-      mIsGestureEnabled = false;
+  @Override
+  protected void hide(Animation hideAnim) {
+    super.hide(hideAnim);
+    if (mControlWrapper.isFullScreen()) {
+      mLockButton.setVisibility(GONE);
+      if (hideAnim != null) {
+        mLockButton.startAnimation(hideAnim);
+      }
+    }
+  }
+
+  @Override
+  protected void onLockStateChanged(boolean isLocked) {
+    if (isLocked) {
+      setGestureEnabled(false);
       mLockButton.setSelected(true);
       Toast.makeText(getContext(), R.string.dkplayer_locked, Toast.LENGTH_SHORT).show();
-    }
-  }
-
-  /**
-   * 设置标题
-   */
-  public void setTitle(String title) {
-    mTitle.setText(title);
-  }
-
-  /**
-   * 设置是否为直播视频
-   */
-  public void setLive() {
-    mIsLive = true;
-    mBottomProgress.setVisibility(GONE);
-    mVideoProgress.setVisibility(INVISIBLE);
-    mTotalTime.setVisibility(INVISIBLE);
-    mCurrTime.setVisibility(INVISIBLE);
-    mRefreshButton.setVisibility(VISIBLE);
-  }
-
-  @Override
-  public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-    if (!fromUser) {
-      return;
-    }
-
-    long duration = mMediaPlayer.getDuration();
-    long newPosition = (duration * progress) / mVideoProgress.getMax();
-    if (mCurrTime != null) {
-      mCurrTime.setText(stringForTime((int) newPosition));
-    }
-  }
-
-  @Override
-  public void onStartTrackingTouch(SeekBar seekBar) {
-    mIsDragging = true;
-    removeCallbacks(mShowProgress);
-    removeCallbacks(mFadeOut);
-  }
-
-  @Override
-  public void onStopTrackingTouch(SeekBar seekBar) {
-    long duration = mMediaPlayer.getDuration();
-    long newPosition = (duration * seekBar.getProgress()) / mVideoProgress.getMax();
-    mMediaPlayer.seekTo((int) newPosition);
-    mIsDragging = false;
-    post(mShowProgress);
-    show();
-  }
-
-  @Nullable
-  public SketchImageView getThumb() {
-    return mThumb;
-  }
-
-  @Override
-  public void onStartSlide() {
-    hide();
-    mCenterView.setVisibility(VISIBLE);
-  }
-
-  @Override
-  public void onStopSlide() {
-    if (mCenterView.getVisibility() == VISIBLE) {
-      mCenterView.setVisibility(GONE);
-    }
-  }
-
-  @Override
-  public void onPositionChange(int slidePosition, int currentPosition, int duration) {
-    mCenterView.setProVisibility(View.GONE);
-    if (slidePosition > currentPosition) {
-      mCenterView.setIcon(R.drawable.dkplayer_ic_action_fast_forward);
     } else {
-      mCenterView.setIcon(R.drawable.dkplayer_ic_action_fast_rewind);
+      setGestureEnabled(true);
+      mLockButton.setSelected(false);
+      Toast.makeText(getContext(), R.string.dkplayer_unlocked, Toast.LENGTH_SHORT).show();
     }
-    mCenterView.setTextView(stringForTime(slidePosition) + "/" + stringForTime(duration));
   }
 
   @Override
-  public void onBrightnessChange(int percent) {
-    mCenterView.setProVisibility(View.VISIBLE);
-    mCenterView.setIcon(R.drawable.dkplayer_ic_action_brightness);
-    mCenterView.setTextView(percent + "%");
-    mCenterView.setProPercent(percent);
+  public boolean onBackPressed() {
+    if (isLocked()) {
+      showInner();
+      Toast.makeText(getContext(), R.string.dkplayer_lock_tip, Toast.LENGTH_SHORT).show();
+      return true;
+    }
+    if (mControlWrapper.isFullScreen()) {
+      return stopFullScreen();
+    }
+    return super.onBackPressed();
+  }
+
+  //修改部分2:
+  @Override public void setEnableOrientation(boolean enableOrientation) {
+    super.setEnableOrientation(enableOrientation);
+    this.enableOrientation = enableOrientation;
+  }
+
+  //修改部分3:
+  @Override protected void onOrientationLandscape(Activity activity) {
+    if (enableOrientation) {
+      super.onOrientationLandscape(activity);
+    }
+  }
+
+  //修改部分4:
+  @Override protected void onOrientationReverseLandscape(Activity activity) {
+    if (enableOrientation) {
+      super.onOrientationReverseLandscape(activity);
+    }
   }
 
   @Override
-  public void onVolumeChange(int percent) {
-    mCenterView.setProVisibility(View.VISIBLE);
-    if (percent <= 0) {
-      mCenterView.setIcon(R.drawable.dkplayer_ic_action_volume_off);
-    } else {
-      mCenterView.setIcon(R.drawable.dkplayer_ic_action_volume_up);
+  protected void adjustView(int orientation, int space) {
+    super.adjustView(orientation, space);
+    int dp24 = PlayerUtils.dp2px(getContext(), 24);
+    if (orientation == ActivityInfo.SCREEN_ORIENTATION_PORTRAIT) {
+      FrameLayout.LayoutParams lblp = (LayoutParams) mLockButton.getLayoutParams();
+      lblp.setMargins(dp24, 0, dp24, 0);
+    } else if (orientation == ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE) {
+      FrameLayout.LayoutParams layoutParams = (LayoutParams) mLockButton.getLayoutParams();
+      layoutParams.setMargins(dp24 + space, 0, dp24 + space, 0);
+    } else if (orientation == ActivityInfo.SCREEN_ORIENTATION_REVERSE_LANDSCAPE) {
+      FrameLayout.LayoutParams layoutParams = (LayoutParams) mLockButton.getLayoutParams();
+      layoutParams.setMargins(dp24, 0, dp24, 0);
     }
-    mCenterView.setTextView(percent + "%");
-    mCenterView.setProPercent(percent);
   }
 }
+
