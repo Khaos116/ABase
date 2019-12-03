@@ -1,6 +1,6 @@
 ######  https://github.com/github/gitignore  ######
 # Built application files
-*.apk
+.apk
 *.ap_
 *.aab
 
