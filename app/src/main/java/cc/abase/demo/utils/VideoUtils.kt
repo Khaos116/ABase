@@ -60,11 +60,11 @@ class VideoUtils private constructor() {
       result?.invoke(true, outFile.path)
       return
     }
-    Log.e("CASE", "视频压缩前大小:${FileUtils.getFileSize(originFile)}")
+    Log.e("CASE", "视频压缩前大小:${FileUtils.getSize(originFile)}")
     val command = getCommandCompress(originFile.path, outFile.path)
     //码率太低不进行压缩，直接拷贝原文件并返回
     if (command == null) {
-      FileUtils.copyFile(originFile, outFile)
+      FileUtils.copy(originFile, outFile,null)
       Log.e("CASE", "视频码率太小，不用压缩，直接拷贝上传")
       result?.invoke(true, outFile.path)
       return
@@ -74,7 +74,7 @@ class VideoUtils private constructor() {
         .runCommandRxJava(command)
         .subscribe(object : RxFFmpegSubscriber() {
           override fun onFinish() {
-            Log.e("CASE", "视频压缩成功后大小:${FileUtils.getFileSize(outFile)}")
+            Log.e("CASE", "视频压缩成功后大小:${FileUtils.getSize(outFile)}")
             result?.invoke(outFile.length() > 1024 * 1024, outFile.path)
           }
 
