@@ -3,17 +3,19 @@ package cc.abase.demo.component.ffmpeg
 import android.content.Context
 import android.content.Intent
 import android.util.Log
-import cc.ab.base.ext.load
-import cc.ab.base.ext.mStatusBarHeight
+import cc.ab.base.ext.*
 import cc.ab.base.utils.MediaUtils
 import cc.abase.demo.R
 import cc.abase.demo.component.comm.CommActivity
 import cc.abase.demo.utils.VideoUtils
 import cc.abase.demo.widget.video.controller.StandardVideoController
-import cc.abase.demo.widget.video.player.CustomExoMediaPlayer
-import com.dueeeke.videoplayer.player.VideoView
+import cc.abase.demo.widget.video.controller.VodControlView
+import cc.abase.demo.widget.video.controller.VodControlView.VerticalFullListener
+import com.dueeeke.videocontroller.component.*
 import com.gyf.immersionbar.ktx.immersionBar
-import kotlinx.android.synthetic.main.activity_video_detail.*
+import kotlinx.android.synthetic.main.activity_video_detail.videoDetailStatus
+import kotlinx.android.synthetic.main.activity_video_detail.videoDetailVideoView
+import kotlinx.android.synthetic.main.dkplayer_layout_prepare_view.view.thumb
 import java.io.File
 
 /**
@@ -30,16 +32,20 @@ class VideoDetailActivity : CommActivity() {
     ) {
       val intent = Intent(context, VideoDetailActivity::class.java)
       intent.putExtra(
-        INTENT_KEY_VIDEO_URL, if (videoUrl.isNullOrBlank()) {
-          "http://vfx.mtime.cn/Video/2019/03/18/mp4/190318231014076505.mp4"
-        } else videoUrl
+          INTENT_KEY_VIDEO_URL, if (videoUrl.isNullOrBlank()) {
+        "http://vfx.mtime.cn/Video/2019/03/18/mp4/190318231014076505.mp4"
+      } else videoUrl
       )
       context.startActivity(intent)
     }
   }
 
   //控制器
-  private var controller: StandardVideoController<VideoView<CustomExoMediaPlayer>>? = null
+  private var controller: StandardVideoController? = null
+  //准备播放页
+  private var prepareView: PrepareView? = null
+  //每次设置资源后的第一次播放
+  private var isFirstPlay = true
 
   override fun fillStatus() = false
 
@@ -53,9 +59,38 @@ class VideoDetailActivity : CommActivity() {
     videoDetailStatus.layoutParams.height = mStatusBarHeight
     //控制器
     controller = StandardVideoController(this)
-    //全屏时跟随屏幕旋转
+    prepareView = PrepareView(mContext)
+    controller?.let {
+      it.addControlComponent(prepareView)//播放前预览封面
+      it.addControlComponent(CompleteView(this)) //自动完成播放界面
+      it.addControlComponent(ErrorView(this)) //错误界面
+      val titleView = TitleView(this) //标题栏
+      it.addControlComponent(titleView)
+      val vodControlView = VodControlView(this) //点播控制条
+      //是否显示底部进度条,默认显示
+      vodControlView.showBottomProgress(true)
+      vodControlView.setVerticalFullListener(object : VerticalFullListener {
+        override fun isVerticalVideo(): Boolean {
+          val videoSize = videoDetailVideoView.videoSize
+          return if (videoSize != null) {
+            videoSize[0] < videoSize[1]//纵向视频
+          } else {
+            false
+          }
+        }
+
+        override fun isVideoFull(): Boolean {
+          return videoDetailVideoView.isFullScreen
+        }
+      })
+      it.addControlComponent(vodControlView)
+    }
     controller?.setEnableOrientation(true)
-    controller?.isNeedNoFullShowBack = true
+    videoDetailVideoView.setVideoSizeChangeListener { videoWidth, videoHeight ->
+      //全屏时跟随屏幕旋转
+      controller?.setEnableOrientation(videoWidth > videoHeight)
+    }
+//    controller?.isNeedNoFullShowBack = true
     //设置控制器
     videoDetailVideoView.setVideoController(controller)
     videoDetailVideoView.setLooping(false)
@@ -67,6 +102,20 @@ class VideoDetailActivity : CommActivity() {
     val url = intent.getStringExtra(INTENT_KEY_VIDEO_URL)
     url?.let {
       videoDetailVideoView.setUrl(it)
+      controller?.thumb?.click {
+        when {
+          isFirstPlay -> {
+            videoDetailVideoView.start()
+            isFirstPlay = false
+          }
+          videoDetailVideoView.isPlaying -> {
+            videoDetailVideoView.pause()
+          }
+          else -> {
+            videoDetailVideoView.resume()
+          }
+        }
+      }
       if (it.startsWith("http", true)) {
         VideoUtils.instance.getNetVideoFistFrame(it) { bit ->
           if (bit != null) {

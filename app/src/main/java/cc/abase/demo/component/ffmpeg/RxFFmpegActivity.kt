@@ -12,13 +12,14 @@ import cc.abase.demo.component.comm.CommTitleActivity
 import cc.abase.demo.constants.UiConstants
 import cc.abase.demo.utils.VideoUtils
 import cc.abase.demo.widget.video.controller.StandardVideoController
-import cc.abase.demo.widget.video.player.CustomExoMediaPlayer
+import cc.abase.demo.widget.video.controller.VodControlView
+import cc.abase.demo.widget.video.controller.VodControlView.VerticalFullListener
 import com.blankj.utilcode.util.FileUtils
-import com.dueeeke.videoplayer.player.VideoView
+import com.dueeeke.videocontroller.component.*
 import com.luck.picture.lib.PictureSelector
 import com.luck.picture.lib.config.PictureMimeType
 import kotlinx.android.synthetic.main.activity_rxffmpeg.*
-import kotlinx.android.synthetic.main.dkplayer_layout_standard_controller.view.*
+import kotlinx.android.synthetic.main.dkplayer_layout_prepare_view.view.thumb
 import java.io.File
 
 /**
@@ -39,27 +40,32 @@ class RxFFmpegActivity : CommTitleActivity() {
   //选中的视频
   private var selVideoPath: String? = null
   //控制器
-  private var controller: StandardVideoController<VideoView<CustomExoMediaPlayer>>? = null
+  private var controller: StandardVideoController? = null
+  //准备播放页
+  private var prepareView: PrepareView? = null
+  //每次设置资源后的第一次播放
+  private var isFirstPlay = true
 
   override fun layoutResContentId() = cc.abase.demo.R.layout.activity_rxffmpeg
 
   //压缩后的视频地址
   private var compressVideoPath: String? = null
+
   override fun initContentView() {
     setTitleText(getString(cc.abase.demo.R.string.ffmpeg_title))
     ffmpegCompress.alpha = UiConstants.disable_alpha
     ffmpegCompress.isEnabled = false
     ffmpegSel.click {
       ffmpegPlayer.release()
-      ffmpegPlayer.thumb.setImageDrawable(null)
+      controller?.thumb?.setImageDrawable(null)
       ffmpegPlayer.gone()
       PictureSelector.create(mActivity)
-        .openGallery(PictureMimeType.ofVideo())
-        .maxSelectNum(1)
-        .isCamera(false)
-        .loadImageEngine(PicSelEngine())
-        .previewVideo(true)
-        .forResult(INTENT_SEL_VIDEO2)
+          .openGallery(PictureMimeType.ofVideo())
+          .maxSelectNum(1)
+          .isCamera(false)
+          .loadImageEngine(PicSelEngine())
+          .previewVideo(true)
+          .forResult(INTENT_SEL_VIDEO2)
 //      val openAlbumIntent = Intent(Intent.ACTION_PICK)
 //      openAlbumIntent.setDataAndType(Media.EXTERNAL_CONTENT_URI, "video/*")
 //      openAlbumIntent.putExtra("return-data", true)
@@ -81,7 +87,7 @@ class RxFFmpegActivity : CommTitleActivity() {
                 compressVideoPath = info
                 ffmpegPlay.text = "播放本地压缩视频"
                 ffmpegResult.append("\n压缩成功:$info")
-                ffmpegResult.append("\n压缩后视频大小:${FileUtils.getFileSize(info)}")
+                ffmpegResult.append("\n压缩后视频大小:${FileUtils.getSize(info)}")
               } else {
                 ffmpegResult.append("\n$info")
               }
@@ -92,30 +98,37 @@ class RxFFmpegActivity : CommTitleActivity() {
     ffmpegPlay.click { VideoDetailActivity.startActivity(mContext, compressVideoPath) }
     //控制器
     controller = StandardVideoController(this)
-    //通过反射修改封面ImageView
-//    controller?.let { contro ->
-//      //把封面的各种相关联的都拿到
-//      val thumb = contro.thumb
-//      val parent = thumb.parent
-//      val index = (parent as ViewGroup).indexOfChild(thumb)
-//      val param = thumb.layoutParams
-//      val id = thumb.id
-//      //从父控件移除
-//      thumb.removeParent()
-//      //创建新的封面
-//      val skiv = SketchImageView(mContext)
-//      skiv.id = id
-//      skiv.layoutParams = param
-//      skiv.onClickListener = contro
-//      //替换封面
-//      parent.addView(skiv, index)
-//      //替换内存变量
-//      val field = contro.javaClass.getDeclaredField("mThumb")
-//      field.isAccessible = true
-//      field.set(contro, skiv)
-//    }
-    //全屏时跟随屏幕旋转
+    prepareView = PrepareView(mContext)
+    controller?.let {
+      it.addControlComponent(prepareView)//播放前预览封面
+      it.addControlComponent(CompleteView(this)) //自动完成播放界面
+      it.addControlComponent(ErrorView(this)) //错误界面
+      val titleView = TitleView(this) //标题栏
+      it.addControlComponent(titleView)
+      val vodControlView = VodControlView(this) //点播控制条
+      //是否显示底部进度条,默认显示
+      vodControlView.showBottomProgress(true)
+      vodControlView.setVerticalFullListener(object : VerticalFullListener {
+        override fun isVerticalVideo(): Boolean {
+          val videoSize = ffmpegPlayer.videoSize
+          return if (videoSize != null) {
+            videoSize[0] < videoSize[1]//纵向视频
+          } else {
+            false
+          }
+        }
+
+        override fun isVideoFull(): Boolean {
+          return ffmpegPlayer.isFullScreen
+        }
+      })
+      it.addControlComponent(vodControlView)
+    }
     controller?.setEnableOrientation(true)
+    ffmpegPlayer.setVideoSizeChangeListener { videoWidth, videoHeight ->
+      //全屏时跟随屏幕旋转
+      controller?.setEnableOrientation(videoWidth > videoHeight)
+    }
     //设置控制器
     ffmpegPlayer.setVideoController(controller)
     ffmpegPlayer.setLooping(true)
@@ -154,7 +167,22 @@ class RxFFmpegActivity : CommTitleActivity() {
       videoView.setUrl(videoPath)
       videoView.visible()
       videoView.requestLayout()
+      isFirstPlay = true
       controller?.thumb?.load(coverPath)
+      controller?.thumb?.click {
+        when {
+          isFirstPlay -> {
+            videoView.start()
+            isFirstPlay = false
+          }
+          videoView.isPlaying -> {
+            videoView.pause()
+          }
+          else -> {
+            videoView.resume()
+          }
+        }
+      }
     }
   }
 
@@ -162,7 +190,7 @@ class RxFFmpegActivity : CommTitleActivity() {
   private fun parseVideo(videoPath: String) {
     selVideoPath = videoPath
     ffmpegResult.text = videoPath
-    ffmpegResult.append("\n原视频大小:${FileUtils.getFileSize(videoPath)}")
+    ffmpegResult.append("\n原视频大小:${FileUtils.getSize(videoPath)}")
     ffmpegCompress.alpha = 1f
     ffmpegCompress.isEnabled = true
     VideoUtils.instance.getFirstFrame(File(videoPath)) { suc, info ->
@@ -211,12 +239,14 @@ class RxFFmpegActivity : CommTitleActivity() {
         selectVideo(mContext, it)?.let { path -> if (File(path).exists()) parseVideo(path) }
       } else if (requestCode == INTENT_SEL_VIDEO2 && resultCode == Activity.RESULT_OK) {
         // 图片、视频、音频选择结果回调
-        PictureSelector.obtainMultipleResult(data)?.let { medias ->
-          if (medias.isNotEmpty()) {
-            val path = medias.first().path
-            if (File(path).exists()) parseVideo(path)
-          }
-        }
+        PictureSelector.obtainMultipleResult(data)
+            ?.let { medias ->
+              if (medias.isNotEmpty()) {
+                val path = medias.first()
+                    .path
+                if (File(path).exists()) parseVideo(path)
+              }
+            }
       } else {
         Log.e("CASE", "onActivityResult:other")
       }
