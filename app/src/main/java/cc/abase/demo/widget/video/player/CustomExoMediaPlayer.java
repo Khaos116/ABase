@@ -1,5 +1,6 @@
 package cc.abase.demo.widget.video.player;
 
+import android.content.Context;
 import com.dueeeke.videoplayer.exo.ExoMediaPlayer;
 import com.google.android.exoplayer2.source.MediaSource;
 import com.google.android.exoplayer2.upstream.DataSource;
@@ -15,6 +16,10 @@ import java.util.Map;
 public class CustomExoMediaPlayer extends ExoMediaPlayer {
 
     private Cache mCache;
+
+    public CustomExoMediaPlayer(Context context) {
+        super(context);
+    }
 
     public void setDataSource(String path, Map<String, String> headers, boolean isCache) {
         if (isCache) {
