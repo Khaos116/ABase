@@ -139,7 +139,6 @@
 #############################################
 -keep class cc.ab.base.net.http.response.** { *; }
 -keep class cc.abase.demo.repository.** { *; }
--keep class com.luck.picture.lib.entity.** { *; }
 -keep class cc.ab.base.widget.engine.** { *; }
 
 #内部成员和方法不混淆
@@ -277,3 +276,9 @@
 -dontwarn com.tencent.bugly.**
 -keep public class com.tencent.bugly.**{*;}
 #--------------------------
+
+#PictureSelector 2.0
+-keep class com.luck.picture.lib.** { *; }
+-dontwarn com.yalantis.ucrop**
+-keep class com.yalantis.ucrop** { *; }
+-keep interface com.yalantis.ucrop** { *; }
