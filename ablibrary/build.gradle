@@ -39,13 +39,13 @@ dependencies {
 
   //----------------------★★★工具★★★----------------------//
   //https://github.com/Blankj/AndroidUtilCode/blob/master/lib/utilcode/README-CN.md
-  api 'com.blankj:utilcodex:1.25.9'
+  api 'com.blankj:utilcodex:1.26.0'
   //https://github.com/JeremyLiao/LiveEventBus
   api 'com.jeremyliao:live-event-bus-x:1.5.7'
   //https://github.com/Kotlin/anko
   //api "org.jetbrains.anko:anko-commons:0.10.8"
   //内存泄漏检测 https://github.com/square/leakcanary/releases
-  debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.0-beta-5'
+  debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.0'
   //辅助工具 https://github.com/whataa/pandora/blob/master/README_CN.md
   //debugImplementation 'com.github.whataa:pandora:androidx_v2.0.6'
   //releaseImplementation 'com.github.whataa:pandora-no-op:v2.0.3'
@@ -70,7 +70,7 @@ dependencies {
   //适配 https://github.com/JessYanCoding/AndroidAutoSize
   implementation 'me.jessyan:autosize:1.1.2'
   //https://github.com/airbnb/lottie-android
-  api 'com.airbnb.android:lottie:3.2.2'
+  api 'com.airbnb.android:lottie:3.3.0'
   //https://github.com/airbnb/epoxy
   api 'com.airbnb.android:epoxy:3.8.0'
   //web https://github.com/Justson/AgentWeb
@@ -99,10 +99,10 @@ dependencies {
   }
 
   //----------------------★★★媒体★★★----------------------//
-  //https://github.com/panpf/sketch
+  //图片加载 https://github.com/panpf/sketch
   api 'me.panpf:sketch:2.7.1'
-  //图片选择https://github.com/LuckSiege/PictureSelector
-  api 'com.github.LuckSiege.PictureSelector:picture_library:v2.3.4'
+  //图片选择 https://github.com/LuckSiege/PictureSelector
+  api 'com.github.LuckSiege.PictureSelector:picture_library:v2.3.7'
   //封面加载 https://github.com/wseemann/FFmpegMediaMetadataRetriever
   api 'com.github.wseemann:FFmpegMediaMetadataRetriever-armeabi-v7a:1.0.14'
 }
