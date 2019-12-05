@@ -1,6 +1,7 @@
 package cc.abase.demo.widget.video
 
 import android.net.Uri
+import android.util.Log
 import com.blankj.utilcode.util.Utils
 import com.dueeeke.videoplayer.exo.ExoMediaSourceHelper
 import com.google.android.exoplayer2.upstream.cache.Cache
@@ -45,10 +46,11 @@ class ExoVideoCacheUtils private constructor() {
       videoPrefix = originUrl.split("${appVideoType}?")[0] + appVideoType
     } else {
       //非当前APP
+      Log.e("CASE", "无需判断缓存的播放地址:$originUrl")
       return originUrl
     }
     //判断是否缓存完成
-    if (mVideoCache == null) initExoCache()
+    if (mVideoCache == null) mVideoCache = initExoCache()
     mVideoCache?.let { cache ->
       //拿到所有缓存的key
       cache.keys?.let { keys ->
@@ -62,20 +64,24 @@ class ExoVideoCacheUtils private constructor() {
             val len = mMetadata.get(appVideoLenKey, 0)
             //获取到缓存完成的地址
             if (len > 0L && cache.isCached(key, 0, len)) {
+              Log.e("CASE", "播放转换前的地址:$originUrl")
+              Log.e("CASE", "播放转换后的地址:$key")
               return key
             }
           }
         } else {
+          Log.e("CASE", "边播边缓存的地址1:$originUrl")
           return originUrl
         }
       }
     }
+    Log.e("CASE", "边播边缓存的地址2:$originUrl")
     return originUrl
   }
 
   //打开APP的时候去清理没有缓存完成的视频信息(★★★子线程中执行★★★)
   fun openAappClearNoCacheComplete() {
-    if (mVideoCache == null) initExoCache()
+    if (mVideoCache == null) mVideoCache = initExoCache()
     mVideoCache?.let { cache ->
       //只处理单独针对APP的
       val result = cache.keys.filter { it.contains(appVideoTag) && it.contains("${appVideoType}?") }
@@ -105,13 +111,18 @@ class ExoVideoCacheUtils private constructor() {
     val temp = mVideoCache
     if (temp != null) return temp
     val helper = ExoMediaSourceHelper.getInstance(Utils.getApp())
-    val field = helper.javaClass.getDeclaredField("mCache")
+    val method = helper.javaClass.getDeclaredMethod("getCacheDataSourceFactory")//反射方法
+    method.isAccessible = true
+    method.invoke(helper)
+    val field = helper.javaClass.getDeclaredField("mCache")//反射对象
     field.isAccessible = true
     val result = field.get(helper)
     if (result is Cache) {
       return result
     } else {
-      throw Throwable("ExoMediaSourceHelper has no \"mCache\" member")
+      val msg = "ExoMediaSourceHelper has no \"mCache\" member"
+      Log.e("CASE", msg)
+      throw Throwable(msg)
     }
   }
 }

@@ -125,12 +125,6 @@ public class ExoVideoView extends VideoView<CustomExoMediaPlayer>
     mIsCacheEnabled = url.startsWith("http");
     if (mIsCacheEnabled) {
       String newUrl = ExoVideoCacheUtils.Companion.getInstance().getCacheUrl(url);
-      if (!TextUtils.equals(newUrl, url)) {
-        Log.e("CASE", "播放转换前的地址:" + url);
-        Log.e("CASE", "播放转换后的地址:" + newUrl);
-      } else {
-        Log.e("CASE", "边播边缓存的地址:" + url);
-      }
       mMediaSource = mHelper.getMediaSource(newUrl, headers, mIsCacheEnabled);
     } else {
       mMediaSource = mHelper.getMediaSource(url, headers, mIsCacheEnabled);
