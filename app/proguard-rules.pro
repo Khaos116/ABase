@@ -148,6 +148,7 @@
 #############################################
 
 #-----------处理反射类---------------
+-keep class com.dueeeke.videoplayer.exo.ExoMediaSourceHelper { *; }
 
 #......
 
