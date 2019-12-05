@@ -66,6 +66,10 @@ class HomeBannerHolderView(view: View?) : DiscreteHolder<BannerBean>(view) {
 ~~~
 
 ================================================================
+##  所有效果
+![所有效果](https://github.com/caiyoufei/ABase/blob/master/image/all_effect.png)
+
+================================================================
 ##  聊天Emoji效果图
 ![聊天Emoji](https://github.com/caiyoufei/ABase/blob/master/image/emoji_chat.gif)
 
