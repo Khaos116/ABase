@@ -1,13 +1,18 @@
-package cc.ab.base.utils
+package cc.abase.demo.widget.spedit
 
+import android.graphics.Color
 import android.text.*
+import android.view.View
 import android.widget.EditText
 import cc.ab.base.ext.toast
-import cc.ab.base.widget.spedit.mention.data.MentionUser
-import cc.ab.base.widget.spedit.view.SpXEditText
-import cc.ab.base.net.http.response.AtBean
+import cc.ab.base.utils.CcInputHelper
+import cc.ab.base.widget.span.ClickPreventableTextView
+import cc.ab.base.widget.span.TouchableSpan
+import cc.abase.demo.R
+import cc.abase.demo.repository.bean.local.AtBean
+import com.blankj.utilcode.util.ColorUtils
 import com.blankj.utilcode.util.Utils
-import java.util.*
+import java.util.ArrayList
 
 /**
  * Description:
@@ -33,17 +38,17 @@ class SpeditUtil private constructor() {
     maxLen: Int
   ) {
     editText.text?.let { ed ->
-      val insertUser = MentionUser(userName, uid)
+      val insertUser = AtBean(uid, userName)
       if (maxLen - CcInputHelper.getRealLength(ed.toString()) <
           CcInputHelper.getRealLength(insertUser.displayText)
       ) {
         Utils.getApp()
-            .toast("字数超出限制")
+            .toast(R.string.over_max_len)
       } else if (!hasIn(editText, uid)) {
-        insertUserSpan(ed, insertUser.spanStringFore)
+        insertUserSpan(ed, insertUser.spannableString)
       } else {
         Utils.getApp()
-            .toast("你已经@过Ta啦！")
+            .toast(R.string.already_at)
       }
     }
   }
@@ -81,7 +86,11 @@ class SpeditUtil private constructor() {
     edit: SpXEditText,
     maxLen: Int
   ) {
-    edit.filters = arrayOf(SpeditFilter(maxLen))
+    edit.filters = arrayOf(
+        SpeditFilter(
+            maxLen
+        )
+    )
   }
 
   /**
@@ -93,11 +102,11 @@ class SpeditUtil private constructor() {
   ): List<AtBean> {
     val list = ArrayList<AtBean>()
     val result = if (oneEnter) getEditTextEnter1(editText) else getEditTextEnter2(editText)
-    val dataSpans = result.getSpans(0, result.length, MentionUser::class.java)
+    val dataSpans = result.getSpans(0, result.length, AtBean::class.java)
     for (user in dataSpans) {
       list.add(
           AtBean(
-              user.id, result.getSpanStart(user),
+              user.uid, user.name, result.getSpanStart(user),
               user.displayText.length, 0
           )
       )
@@ -114,8 +123,8 @@ class SpeditUtil private constructor() {
   ): Boolean {
     val has = false
     editText.text?.let { ed ->
-      val dataSpans = ed.getSpans(0, editText.length(), MentionUser::class.java)
-      for ((_, id) in dataSpans) {
+      val dataSpans = ed.getSpans(0, editText.length(), AtBean::class.java)
+      for ((id, _) in dataSpans) {
         if (id == uid) {
           return true
         }
@@ -159,7 +168,7 @@ class SpeditUtil private constructor() {
             (if (dest == null) 0 else CcInputHelper.getRealLength(dest)) > maxLen
         ) {
           Utils.getApp()
-              .toast("字数超出限制")
+              .toast(R.string.over_max_len)
           return ""
         }
       }
@@ -274,7 +283,7 @@ class SpeditUtil private constructor() {
         return delEndEmptyChar(cs.delete(cs.length - 1, cs.length))
       //末尾是空格的字符
       cs.endsWith(" ") -> {
-        val spans = cs.getSpans(0, cs.length, MentionUser::class.java)
+        val spans = cs.getSpans(0, cs.length, AtBean::class.java)
         if (spans.isNotEmpty()) {
           val endStr = spans[spans.size - 1].displayText
           if (cs.endsWith(endStr)) return cs
@@ -285,5 +294,40 @@ class SpeditUtil private constructor() {
       //正常字符，直接返回
       else -> cs
     }
+  }
+
+  /**
+   * 转换需要展示的@效果
+   */
+  fun getAtSpan(
+    content: String,
+    atList: MutableList<AtBean>? = null,
+    spanColorNormal: Int = ColorUtils.getColor(R.color.style_Primary),
+    spanColorPress: Int = ColorUtils.getColor(R.color.style_PrimaryDark),
+    click: ((at: AtBean) -> Unit)? = null
+  ): SpannableStringBuilder {
+    val result = SpannableStringBuilder()
+    result.append(content)
+    if (!atList.isNullOrEmpty()) {
+      atList.forEach {
+        val index = it.index
+        val len = it.len
+        if (index != null && len != null && len > 0 && index + len <= content.length) {
+          val stringClick = SpannableString(content.substring(index, index + len))
+          stringClick.setSpan(
+              object : TouchableSpan(spanColorNormal, spanColorPress, Color.TRANSPARENT) {
+                override fun onClick(widget: View) {
+                  if (widget is ClickPreventableTextView) {
+                    widget.preventNextClick()
+                  }
+                  click?.invoke(it)
+                }
+              }, 0, stringClick.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+          )
+          result.replace(index, index + len, stringClick)
+        }
+      }
+    }
+    return result
   }
 }

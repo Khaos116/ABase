@@ -45,4 +45,7 @@
   <string name="title_sticky">Sticky吸顶效果</string>
   <string name="title_drag">九宫格拖拽效果</string>
   <string name="title_spedit">\@或#展示效果</string>
+  <string name="over_max_len">字数超出限制</string>
+  <string name="already_at">你已经@过Ta啦！</string>
+  <string name="spedit_input_hint">在这里输入内容</string>
 </resources>

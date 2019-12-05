@@ -9,7 +9,9 @@ import cc.abase.demo.component.comm.CommTitleActivity
 import cc.abase.demo.component.sticky.adapter.StickyHeaderAdapter
 import cc.abase.demo.component.sticky.viewmodel.StickyViewModel
 import cc.abase.demo.component.sticky.widget.StickyHeaderLinearLayoutManager
+import cc.abase.demo.constants.EventKeys
 import com.blankj.utilcode.util.StringUtils
+import com.jeremyliao.liveeventbus.LiveEventBus
 import kotlinx.android.synthetic.main.activity_sticky.stickyBar
 import kotlinx.android.synthetic.main.activity_sticky.stickyRecycler
 
@@ -21,8 +23,12 @@ import kotlinx.android.synthetic.main.activity_sticky.stickyRecycler
 class StickyActivity : CommTitleActivity() {
 
   companion object {
-    fun startActivity(context: Context) {
+    private const val INTENT_KEY_CHOOSE = "INTENT_KEY_CHOOSE"
+    private const val INTENT_KEY_TAG = "INTENT_KEY_TAG"
+    fun startActivity(context: Context, needChoose: Boolean = false) {
       val intent = Intent(context, StickyActivity::class.java)
+      intent.putExtra(INTENT_KEY_CHOOSE, needChoose)
+      intent.putExtra(INTENT_KEY_TAG, context::class.java.name)
       context.startActivity(intent)
     }
   }
@@ -32,6 +38,10 @@ class StickyActivity : CommTitleActivity() {
     StickyViewModel()
   }
 
+  //是否需要选择
+  private var needChoose = false
+  //那个页面需要选择的标签
+  private var mTag = ""
   //适配器
   private var adapter: StickyHeaderAdapter? = null
 
@@ -51,13 +61,23 @@ class StickyActivity : CommTitleActivity() {
   }
 
   override fun initData() {
+    needChoose = intent.getBooleanExtra(INTENT_KEY_CHOOSE, false)
+    mTag = intent.getStringExtra(INTENT_KEY_TAG) ?: ""
     viewModel.subscribe { state ->
       if (state.request.complete) {
         dismissLoadingView()
         if (adapter == null) {
           adapter = StickyHeaderAdapter(state.provinces,
             onProvinceClick = { mContext.toast(it.regionName) },
-            onCityClick = { mContext.toast(it.regionFullName) })
+            onCityClick = {
+              if (needChoose) {
+                it.fromTag = mTag
+                LiveEventBus.get(EventKeys.CHOOSE_STICKY).post(it)
+                finish()
+              } else {
+                mContext.toast(it.regionFullName)
+              }
+            })
           stickyRecycler.adapter = adapter
         }
       }
