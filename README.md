@@ -83,4 +83,4 @@ class HomeBannerHolderView(view: View?) : DiscreteHolder<BannerBean>(view) {
 
 ================================================================
 ##  @和#效果
-![高斯模糊](https://github.com/caiyoufei/ABase/blob/master/image/at_#.gif)
+![高斯模糊](https://github.com/caiyoufei/ABase/blob/master/image/at_topic.gif)

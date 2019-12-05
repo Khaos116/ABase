@@ -76,7 +76,7 @@ dependencies {
   //web https://github.com/Justson/AgentWeb
   api 'com.just.agentweb:agentweb:4.1.2'
   //侧滑 https://github.com/luckybilly/SmartSwipe
-  api 'com.billy.android:smart-swipe:1.0.8'
+  api 'com.billy.android:smart-swipe:1.1.0'
 
   //----------------------★★★网络★★★----------------------//
   //https://github.com/ReactiveX/RxAndroid
