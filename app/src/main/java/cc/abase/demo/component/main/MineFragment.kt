@@ -16,6 +16,7 @@ import cc.abase.demo.component.spedit.SpeditActivity
 import cc.abase.demo.component.sticky.StickyActivity
 import cc.abase.demo.component.update.CcUpdateService
 import cc.abase.demo.component.update.UpdateEnum
+import cc.abase.demo.component.web.WebActivity
 import cc.abase.demo.constants.EventKeys
 import cc.abase.demo.epoxy.base.dividerItem
 import cc.abase.demo.epoxy.item.simpleTextItem
@@ -42,7 +43,8 @@ class MineFragment : CommFragment() {
       Pair(StringUtils.getString(R.string.update_app), CcUpdateService::class.java),
       Pair(StringUtils.getString(R.string.title_sticky), StickyActivity::class.java),
       Pair(StringUtils.getString(R.string.title_drag), DragActivity::class.java),
-      Pair(StringUtils.getString(R.string.title_spedit), SpeditActivity::class.java)
+      Pair(StringUtils.getString(R.string.title_spedit), SpeditActivity::class.java),
+      Pair(StringUtils.getString(R.string.coordinator_refresh), WebActivity::class.java)
   )
   //item文字颜色
   private var typeColor = ColorUtils.getColor(R.color.style_Primary)
@@ -111,7 +113,13 @@ class MineFragment : CommFragment() {
           onItemClick {
             val second = pair.second.newInstance()
             if (second is Activity) {
-              mActivity.startActivity(Intent(mContext, pair.second))
+              if (StringUtils.getString(R.string.coordinator_refresh) == pair.first) {
+                WebActivity.startActivity(
+                    mContext, "https://github.com/caiyoufei/CoordinatorSwipe/blob/master/README.md"
+                )
+              } else {
+                mActivity.startActivity(Intent(mContext, pair.second))
+              }
             } else if (second is CcUpdateService) {
               CcUpdateService.startIntent(apkUrk, showNotification = true)
             }
