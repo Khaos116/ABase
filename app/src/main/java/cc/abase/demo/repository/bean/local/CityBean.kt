@@ -15,5 +15,6 @@ data class CityBean(
   var latitude: Double? = 0.0,// 36.625594,
   var pinYin: String? = null,// "handan",
   var pinYinFirst: String? = null,// "HD",
-  var regionFullName: String? = null// "邯郸市"
+  var regionFullName: String? = null,// "邯郸市"
+  var fromTag: String? = ""//从哪个页面进行的选择
 )
