@@ -82,5 +82,5 @@ class HomeBannerHolderView(view: View?) : DiscreteHolder<BannerBean>(view) {
 ![吸顶效果](https://github.com/caiyoufei/ABase/blob/master/image/sticky.gif)![吸顶效果](https://github.com/caiyoufei/ABase/blob/master/image/sticky2.gif)
 
 ================================================================
-##  @和#效果
+##  @或#效果
 ![高斯模糊](https://github.com/caiyoufei/ABase/blob/master/image/at_topic.gif)
