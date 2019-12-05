@@ -8,9 +8,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
-import android.widget.*;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
+import android.widget.SeekBar;
+import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+
+import com.dueeeke.videocontroller.R;
 import com.dueeeke.videoplayer.controller.ControlWrapper;
 import com.dueeeke.videoplayer.controller.IControlComponent;
 import com.dueeeke.videoplayer.player.VideoView;
@@ -26,7 +34,7 @@ import static com.dueeeke.videoplayer.util.PlayerUtils.stringForTime;
  * 点播底部控制栏
  */
 public class VodControlView extends FrameLayout
-    implements IControlComponent, View.OnClickListener, SeekBar.OnSeekBarChangeListener {
+        implements IControlComponent, View.OnClickListener, SeekBar.OnSeekBarChangeListener {
 
   protected ControlWrapper mControlWrapper;
 
@@ -46,16 +54,16 @@ public class VodControlView extends FrameLayout
   {
     setVisibility(GONE);
     LayoutInflater.from(getContext()).inflate(getLayoutId(), this, true);
-    mFullScreen = findViewById(com.dueeeke.videocontroller.R.id.fullscreen);
+    mFullScreen = findViewById(R.id.fullscreen);
     mFullScreen.setOnClickListener(this);
-    mBottomContainer = findViewById(com.dueeeke.videocontroller.R.id.bottom_container);
-    mVideoProgress = findViewById(com.dueeeke.videocontroller.R.id.seekBar);
+    mBottomContainer = findViewById(R.id.bottom_container);
+    mVideoProgress = findViewById(R.id.seekBar);
     mVideoProgress.setOnSeekBarChangeListener(this);
-    mTotalTime = findViewById(com.dueeeke.videocontroller.R.id.total_time);
-    mCurrTime = findViewById(com.dueeeke.videocontroller.R.id.curr_time);
-    mPlayButton = findViewById(com.dueeeke.videocontroller.R.id.iv_play);
+    mTotalTime = findViewById(R.id.total_time);
+    mCurrTime = findViewById(R.id.curr_time);
+    mPlayButton = findViewById(R.id.iv_play);
     mPlayButton.setOnClickListener(this);
-    mBottomProgress = findViewById(com.dueeeke.videocontroller.R.id.bottom_progress);
+    mBottomProgress = findViewById(R.id.bottom_progress);
   }
 
   public VodControlView(@NonNull Context context) {
@@ -69,13 +77,14 @@ public class VodControlView extends FrameLayout
   public VodControlView(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
     super(context, attrs, defStyleAttr);
   }
+
+  protected int getLayoutId() {
+    return R.layout.dkplayer_layout_vod_control_view;
+  }
+
   //修改部分2:
   public void setVerticalFullListener(VerticalFullListener mVerticalFullListener) {
     verticalFullListener = mVerticalFullListener;
-  }
-
-  protected int getLayoutId() {
-    return com.dueeeke.videocontroller.R.layout.dkplayer_layout_vod_control_view;
   }
 
   /**
@@ -96,27 +105,26 @@ public class VodControlView extends FrameLayout
   }
 
   @Override
-  public void show(Animation showAnim) {
-    mBottomContainer.setVisibility(VISIBLE);
-    if (showAnim != null) {
-      mBottomContainer.startAnimation(showAnim);
-    }
-    if (mIsShowBottomProgress) {
-      mBottomProgress.setVisibility(GONE);
-    }
-  }
-
-  @Override
-  public void hide(Animation hideAnim) {
-    mBottomContainer.setVisibility(GONE);
-    if (hideAnim != null) {
-      mBottomContainer.startAnimation(hideAnim);
-    }
-    if (mIsShowBottomProgress) {
-      mBottomProgress.setVisibility(VISIBLE);
-      AlphaAnimation animation = new AlphaAnimation(0f, 1f);
-      animation.setDuration(300);
-      mBottomProgress.startAnimation(animation);
+  public void onVisibilityChanged(boolean isVisible, Animation anim) {
+    if (isVisible) {
+      mBottomContainer.setVisibility(VISIBLE);
+      if (anim != null) {
+        mBottomContainer.startAnimation(anim);
+      }
+      if (mIsShowBottomProgress) {
+        mBottomProgress.setVisibility(GONE);
+      }
+    } else {
+      mBottomContainer.setVisibility(GONE);
+      if (anim != null) {
+        mBottomContainer.startAnimation(anim);
+      }
+      if (mIsShowBottomProgress) {
+        mBottomProgress.setVisibility(VISIBLE);
+        AlphaAnimation animation = new AlphaAnimation(0f, 1f);
+        animation.setDuration(300);
+        mBottomProgress.startAnimation(animation);
+      }
     }
   }
 
@@ -176,19 +184,21 @@ public class VodControlView extends FrameLayout
         mFullScreen.setSelected(true);
         break;
     }
-  }
 
-  @Override
-  public void adjustView(int orientation, int space) {
-    if (orientation == ActivityInfo.SCREEN_ORIENTATION_PORTRAIT) {
-      mBottomContainer.setPadding(0, 0, 0, 0);
-      mBottomProgress.setPadding(0, 0, 0, 0);
-    } else if (orientation == ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE) {
-      mBottomContainer.setPadding(space, 0, 0, 0);
-      mBottomProgress.setPadding(space, 0, 0, 0);
-    } else if (orientation == ActivityInfo.SCREEN_ORIENTATION_REVERSE_LANDSCAPE) {
-      mBottomContainer.setPadding(0, 0, space, 0);
-      mBottomProgress.setPadding(0, 0, space, 0);
+    Activity activity = PlayerUtils.scanForActivity(getContext());
+    if (activity != null && mControlWrapper.hasCutout()) {
+      int orientation = activity.getRequestedOrientation();
+      int cutoutHeight = mControlWrapper.getCutoutHeight();
+      if (orientation == ActivityInfo.SCREEN_ORIENTATION_PORTRAIT) {
+        mBottomContainer.setPadding(0, 0, 0, 0);
+        mBottomProgress.setPadding(0, 0, 0, 0);
+      } else if (orientation == ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE) {
+        mBottomContainer.setPadding(cutoutHeight, 0, 0, 0);
+        mBottomProgress.setPadding(cutoutHeight, 0, 0, 0);
+      } else if (orientation == ActivityInfo.SCREEN_ORIENTATION_REVERSE_LANDSCAPE) {
+        mBottomContainer.setPadding(0, 0, cutoutHeight, 0);
+        mBottomProgress.setPadding(0, 0, cutoutHeight, 0);
+      }
     }
   }
 
@@ -227,19 +237,15 @@ public class VodControlView extends FrameLayout
 
   @Override
   public void onLockStateChanged(boolean isLocked) {
-    if (isLocked) {
-      hide(null);
-    } else {
-      show(null);
-    }
+    onVisibilityChanged(!isLocked, null);
   }
 
   @Override
   public void onClick(View v) {
     int id = v.getId();
-    if (id == com.dueeeke.videocontroller.R.id.fullscreen) {
+    if (id == R.id.fullscreen) {
       toggleFullScreen();
-    } else if (id == com.dueeeke.videocontroller.R.id.iv_play) {
+    } else if (id == R.id.iv_play) {
       mControlWrapper.togglePlay();
     }
   }
@@ -286,7 +292,6 @@ public class VodControlView extends FrameLayout
     mControlWrapper.startProgress();
     mControlWrapper.startFadeOut();
   }
-
   //修改部分5:
   public interface VerticalFullListener {
     boolean isVerticalVideo();

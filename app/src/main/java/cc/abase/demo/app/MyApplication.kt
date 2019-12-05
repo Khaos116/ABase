@@ -13,6 +13,7 @@ import cc.abase.demo.config.ResponseManager
 import cc.abase.demo.constants.WanUrls
 import cc.abase.demo.utils.BuglyManager
 import cc.abase.demo.widget.CCRefreshHeader
+import cc.abase.demo.widget.video.ExoVideoCacheUtils
 import com.billy.android.swipe.SmartSwipeBack
 import com.billy.android.swipe.SmartSwipeRefresh
 import com.billy.android.swipe.refresh.ClassicFooter
@@ -60,6 +61,8 @@ open class MyApplication : BaseApplication() {
     BuglyManager.instance.initBugly(this)
     // 添加中文城市词典
     Pinyin.init(Pinyin.newConfig().with(CnCityDict.getInstance(this)))
+    //清理没有缓存完成的视频
+    ExoVideoCacheUtils.instance.openAappClearNoCacheComplete()
   }
 
   //静态代码段可以防止内存泄露

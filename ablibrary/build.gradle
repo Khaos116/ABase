@@ -102,7 +102,7 @@ dependencies {
   //图片加载 https://github.com/panpf/sketch
   api 'me.panpf:sketch:2.7.1'
   //图片选择 https://github.com/LuckSiege/PictureSelector
-  api 'com.github.LuckSiege.PictureSelector:picture_library:v2.3.7'
+  api 'com.github.LuckSiege.PictureSelector:picture_library:v2.3.8'
   //封面加载 https://github.com/wseemann/FFmpegMediaMetadataRetriever
   api 'com.github.wseemann:FFmpegMediaMetadataRetriever-armeabi-v7a:1.0.14'
 }

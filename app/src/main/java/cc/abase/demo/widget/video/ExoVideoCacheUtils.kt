@@ -1,9 +1,9 @@
 package cc.abase.demo.widget.video
 
-
 import android.net.Uri
-import cc.abase.demo.widget.video.player.ExoVideoCacheManager
 import com.blankj.utilcode.util.Utils
+import com.dueeeke.videoplayer.exo.ExoMediaSourceHelper
+import com.google.android.exoplayer2.upstream.cache.Cache
 
 /**
  * Description:
@@ -18,6 +18,8 @@ class ExoVideoCacheUtils private constructor() {
   companion object {
     val instance = SingletonHolder.holder
   }
+
+  private var mVideoCache: Cache? = null
 
   //APP视频的特有标识
   private val appVideoTag = "happyrundianbovideo"
@@ -46,24 +48,26 @@ class ExoVideoCacheUtils private constructor() {
       return originUrl
     }
     //判断是否缓存完成
-    val cache = ExoVideoCacheManager.getCache(Utils.getApp())
-    //拿到所有缓存的key
-    cache.keys?.let { keys ->
-      //拿到和当前mp4匹配的key
-      val result = keys.filter { key -> key.startsWith(videoPrefix) }
-      if (!result.isNullOrEmpty()) {
-        //遍历key
-        result.forEach { key ->
-          //获取视频总的需要缓存的长度
-          val mMetadata = cache.getContentMetadata(key)
-          val len = mMetadata.get(appVideoLenKey, 0)
-          //获取到缓存完成的地址
-          if (len > 0L && cache.isCached(key, 0, len)) {
-            return key
+    if (mVideoCache == null) initExoCache()
+    mVideoCache?.let { cache ->
+      //拿到所有缓存的key
+      cache.keys?.let { keys ->
+        //拿到和当前mp4匹配的key
+        val result = keys.filter { key -> key.startsWith(videoPrefix) }
+        if (!result.isNullOrEmpty()) {
+          //遍历key
+          result.forEach { key ->
+            //获取视频总的需要缓存的长度
+            val mMetadata = cache.getContentMetadata(key)
+            val len = mMetadata.get(appVideoLenKey, 0)
+            //获取到缓存完成的地址
+            if (len > 0L && cache.isCached(key, 0, len)) {
+              return key
+            }
           }
+        } else {
+          return originUrl
         }
-      } else {
-        return originUrl
       }
     }
     return originUrl
@@ -71,26 +75,43 @@ class ExoVideoCacheUtils private constructor() {
 
   //打开APP的时候去清理没有缓存完成的视频信息(★★★子线程中执行★★★)
   fun openAappClearNoCacheComplete() {
-    val cache = ExoVideoCacheManager.getCache(Utils.getApp())
-    //只处理单独针对APP的
-    val result = cache.keys.filter { it.contains(appVideoTag) && it.contains("${appVideoType}?") }
-    if (!result.isNullOrEmpty()) {
-      for (i in result.size - 1 downTo 0) {
-        val key = result[i]
-        //获取视频总的需要缓存的长度
-        val mMetadata = cache.getContentMetadata(key)
-        val len = mMetadata.get(appVideoLenKey, 0)
-        //获取到缓存完成的地址
-        if (len <= 0L || !cache.isCached(key, 0, len)) {
-          val cachedSpans = cache.getCachedSpans(key)
-          if (!cachedSpans.isNullOrEmpty()) {
-            val list = cachedSpans.toMutableList()
-            for (j in list.size - 1 downTo 0) {
-              cache.removeSpan(list[j])
+    if (mVideoCache == null) initExoCache()
+    mVideoCache?.let { cache ->
+      //只处理单独针对APP的
+      val result = cache.keys.filter { it.contains(appVideoTag) && it.contains("${appVideoType}?") }
+      if (!result.isNullOrEmpty()) {
+        for (i in result.size - 1 downTo 0) {
+          val key = result[i]
+          //获取视频总的需要缓存的长度
+          val mMetadata = cache.getContentMetadata(key)
+          val len = mMetadata.get(appVideoLenKey, 0)
+          //获取到缓存完成的地址
+          if (len <= 0L || !cache.isCached(key, 0, len)) {
+            val cachedSpans = cache.getCachedSpans(key)
+            if (!cachedSpans.isNullOrEmpty()) {
+              val list = cachedSpans.toMutableList()
+              for (j in list.size - 1 downTo 0) {
+                cache.removeSpan(list[j])
+              }
             }
           }
         }
       }
+    }
+  }
+
+  //这里使用了反射的方式，所以ExoMediaSourceHelper不能进行混淆
+  private fun initExoCache(): Cache {
+    val temp = mVideoCache
+    if (temp != null) return temp
+    val helper = ExoMediaSourceHelper.getInstance(Utils.getApp())
+    val field = helper.javaClass.getDeclaredField("mCache")
+    field.isAccessible = true
+    val result = field.get(helper)
+    if (result is Cache) {
+      return result
+    } else {
+      throw Throwable("ExoMediaSourceHelper has no \"mCache\" member")
     }
   }
 }
