@@ -10,13 +10,13 @@ import cc.ab.base.ext.*
 import cc.abase.demo.R
 import cc.abase.demo.component.chat.ChatActivity
 import cc.abase.demo.component.comm.CommFragment
+import cc.abase.demo.component.coordinator.CoordinatorActivity
 import cc.abase.demo.component.drag.DragActivity
 import cc.abase.demo.component.ffmpeg.RxFFmpegActivity
 import cc.abase.demo.component.spedit.SpeditActivity
 import cc.abase.demo.component.sticky.StickyActivity
 import cc.abase.demo.component.update.CcUpdateService
 import cc.abase.demo.component.update.UpdateEnum
-import cc.abase.demo.component.web.WebActivity
 import cc.abase.demo.constants.EventKeys
 import cc.abase.demo.epoxy.base.dividerItem
 import cc.abase.demo.epoxy.item.simpleTextItem
@@ -38,13 +38,13 @@ class MineFragment : CommFragment() {
   private val apkUrk = "https://down8.xiazaidb.com/app/yingyongbianliang.apk"
   //菜单列表
   private val menuList = mutableListOf(
-      Pair(StringUtils.getString(R.string.chat_title), ChatActivity::class.java),
-      Pair(StringUtils.getString(R.string.ffmpeg_title), RxFFmpegActivity::class.java),
-      Pair(StringUtils.getString(R.string.update_app), CcUpdateService::class.java),
-      Pair(StringUtils.getString(R.string.title_sticky), StickyActivity::class.java),
-      Pair(StringUtils.getString(R.string.title_drag), DragActivity::class.java),
-      Pair(StringUtils.getString(R.string.title_spedit), SpeditActivity::class.java),
-      Pair(StringUtils.getString(R.string.coordinator_refresh), WebActivity::class.java)
+    Pair(StringUtils.getString(R.string.chat_title), ChatActivity::class.java),
+    Pair(StringUtils.getString(R.string.ffmpeg_title), RxFFmpegActivity::class.java),
+    Pair(StringUtils.getString(R.string.update_app), CcUpdateService::class.java),
+    Pair(StringUtils.getString(R.string.title_sticky), StickyActivity::class.java),
+    Pair(StringUtils.getString(R.string.title_drag), DragActivity::class.java),
+    Pair(StringUtils.getString(R.string.title_spedit), SpeditActivity::class.java),
+    Pair(StringUtils.getString(R.string.coordinator_refresh), CoordinatorActivity::class.java)
   )
   //item文字颜色
   private var typeColor = ColorUtils.getColor(R.color.style_Primary)
@@ -65,39 +65,39 @@ class MineFragment : CommFragment() {
     showLoadingView()
     mineRoot.gone()
     val dis = UserRepository.instance.myIntegral()
-        .subscribe { t1, t2 ->
-          dismissLoadingView()
-          mineRoot.visible()
-          if (t1 != null) {
-            mineIntegral.text =
-              String.format(StringUtils.getString(R.string.my_integral), t1.coinCount)
-          } else if (t2 != null) {
-            mineIntegral.text =
-              String.format(StringUtils.getString(R.string.my_integral), 0)
-            mContext.toast(t2.message)
-          }
-          epoxyController.data = menuList
+      .subscribe { t1, t2 ->
+        dismissLoadingView()
+        mineRoot.visible()
+        if (t1 != null) {
+          mineIntegral.text =
+            String.format(StringUtils.getString(R.string.my_integral), t1.coinCount)
+        } else if (t2 != null) {
+          mineIntegral.text =
+            String.format(StringUtils.getString(R.string.my_integral), 0)
+          mContext.toast(t2.message)
         }
+        epoxyController.data = menuList
+      }
     val cls = Pair(UpdateEnum.START, 0f).javaClass
     LiveEventBus.get(EventKeys.UPDATE_PROGRESS, cls)
-        .observe(this, Observer {
-          when {
-            it.first == UpdateEnum.START -> {
-              Log.e("CASE", "APK开始下载")
-            }
-            it.first == UpdateEnum.DOWNLOADING -> {
-              Log.e(
-                  "CASE", "APK下载进度：${String.format(Locale.getDefault(), "%.1f", it.second) + "%"}"
-              )
-            }
-            it.first == UpdateEnum.SUCCESS -> {
-              Log.e("CASE", "APK下载成功")
-            }
-            it.first == UpdateEnum.FAIL -> {
-              Log.e("CASE", "APK下载失败")
-            }
+      .observe(this, Observer {
+        when {
+          it.first == UpdateEnum.START -> {
+            Log.e("CASE", "APK开始下载")
           }
-        })
+          it.first == UpdateEnum.DOWNLOADING -> {
+            Log.e(
+              "CASE", "APK下载进度：${String.format(Locale.getDefault(), "%.1f", it.second) + "%"}"
+            )
+          }
+          it.first == UpdateEnum.SUCCESS -> {
+            Log.e("CASE", "APK下载成功")
+          }
+          it.first == UpdateEnum.FAIL -> {
+            Log.e("CASE", "APK下载失败")
+          }
+        }
+      })
   }
 
   //epoxy
@@ -113,13 +113,7 @@ class MineFragment : CommFragment() {
           onItemClick {
             val second = pair.second.newInstance()
             if (second is Activity) {
-              if (StringUtils.getString(R.string.coordinator_refresh) == pair.first) {
-                WebActivity.startActivity(
-                    mContext, "https://github.com/caiyoufei/CoordinatorSwipe/blob/master/README.md"
-                )
-              } else {
-                mActivity.startActivity(Intent(mContext, pair.second))
-              }
+              mActivity.startActivity(Intent(mContext, pair.second))
             } else if (second is CcUpdateService) {
               CcUpdateService.startIntent(apkUrk, showNotification = true)
             }

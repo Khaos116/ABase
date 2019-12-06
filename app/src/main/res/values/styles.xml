@@ -9,4 +9,10 @@
         <item name="android:windowBackground">@drawable/icon_splash_bg</item>
     </style>
 
+    <style name="CollapsingTextAppearance" parent="Base.TextAppearance.AppCompat.Widget.ActionBar.Title"/>
+
+    <style name="CollapsingTextAppearance.Inverse">
+        <item name="android:textSize">21sp</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
 </resources>

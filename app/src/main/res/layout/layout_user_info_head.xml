@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="180dp"
+    android:orientation="vertical"
+    tools:background="#323333"
+    >
+
+  <ImageView
+      android:id="@+id/userInfoUserHead"
+      android:layout_width="60dp"
+      android:layout_height="60dp"
+      android:layout_marginStart="16dp"
+      android:layout_marginBottom="32dp"
+      android:contentDescription="@null"
+      android:src="@drawable/head_placeholder_border"
+      app:layout_constraintBottom_toBottomOf="parent"
+      app:layout_constraintStart_toStartOf="parent"
+      />
+
+  <TextView
+      android:id="@+id/userInfoUserName"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginStart="10dp"
+      android:singleLine="true"
+      android:text="Mr.Sandiag"
+      android:textColor="#ffffffff"
+      android:textSize="16sp"
+      app:layout_constrainedWidth="true"
+      app:layout_constraintBottom_toTopOf="@id/userInfoUserFollowFans"
+      app:layout_constraintEnd_toStartOf="@id/userInfoUserLevel"
+      app:layout_constraintHorizontal_bias="0"
+      app:layout_constraintHorizontal_chainStyle="packed"
+      app:layout_constraintStart_toEndOf="@id/userInfoUserHead"
+      app:layout_constraintTop_toTopOf="@id/userInfoUserHead"
+      />
+
+  <TextView
+      android:id="@+id/userInfoUserLevel"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginStart="15dp"
+      android:layout_marginEnd="16dp"
+      app:layout_constraintBottom_toBottomOf="@id/userInfoUserName"
+      app:layout_constraintEnd_toStartOf="@id/userInfoUserFollowLayout"
+      app:layout_constraintStart_toEndOf="@id/userInfoUserName"
+      app:layout_constraintTop_toTopOf="@id/userInfoUserName"
+      tools:background="@drawable/level_1"
+      tools:gravity="center"
+      tools:layout_height="16dp"
+      tools:layout_width="32dp"
+      tools:paddingEnd="0dp"
+      tools:paddingStart="13dp"
+      tools:paddingTop="1dp"
+      tools:text="1"
+      tools:textColor="@color/white"
+      tools:textSize="8sp"
+      />
+
+  <TextView
+      android:id="@+id/userInfoUserFollowFans"
+      android:layout_width="0dp"
+      android:layout_height="wrap_content"
+      android:paddingTop="1dp"
+      android:singleLine="true"
+      android:text="10关注  |  5678粉丝"
+      android:textColor="#ff999999"
+      android:textSize="12sp"
+      app:layout_constraintBottom_toBottomOf="@id/userInfoUserHead"
+      app:layout_constraintEnd_toStartOf="@id/userInfoUserFollowLayout"
+      app:layout_constraintStart_toStartOf="@id/userInfoUserName"
+      app:layout_constraintTop_toBottomOf="@id/userInfoUserName"
+      />
+
+  <LinearLayout
+      android:id="@+id/userInfoUserFollowLayout"
+      android:layout_width="88dp"
+      android:layout_height="wrap_content"
+      android:gravity="center_vertical"
+      android:orientation="horizontal"
+      app:layout_constraintBottom_toBottomOf="@id/userInfoUserHead"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintTop_toTopOf="@id/userInfoUserHead"
+      >
+
+    <ImageView
+        android:id="@+id/userInfoUserFollowIv"
+        android:layout_width="38dp"
+        android:layout_height="33dp"
+        android:contentDescription="@null"
+        android:padding="8dp"
+        android:src="@drawable/unfollow_shequ_white"
+        />
+
+    <TextView
+        android:id="@+id/userInfoUserFollowTv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="未关注"
+        android:textColor="#ff999999"
+        android:textSize="12sp"
+        />
+  </LinearLayout>
+
+  <TextView
+      android:id="@+id/userInfoUserSign"
+      android:layout_width="match_parent"
+      android:layout_height="32dp"
+      android:layout_marginStart="16dp"
+      android:layout_marginEnd="16dp"
+      android:gravity="center_vertical"
+      android:paddingTop="1dp"
+      android:singleLine="true"
+      android:text="這個人比較爛，沒有任何簽名…"
+      android:textColor="#ff999999"
+      android:textSize="12sp"
+      app:layout_constraintBottom_toBottomOf="parent"
+      app:layout_constraintStart_toStartOf="parent"
+      />
+</androidx.constraintlayout.widget.ConstraintLayout>
