@@ -1,6 +1,7 @@
 package cc.abase.demo.component.splash
 
 import android.Manifest
+import android.content.Intent
 import android.util.Log
 import cc.ab.base.ext.*
 import cc.ab.base.utils.RxUtils
@@ -30,7 +31,7 @@ import kotlin.math.max
 class SplashActivity : CommActivity() {
   //一个小时变一张图
   private val randomImg = TimeUtils.millis2String(System.currentTimeMillis())
-      .split(" ")[1].split(":")[0].toInt()
+    .split(" ")[1].split(":")[0].toInt()
   //倒计时3秒
   private val count = 3L
   //倒计时
@@ -39,6 +40,8 @@ class SplashActivity : CommActivity() {
   private var hasSDPermission: Boolean? = null
   //倒计时是否结束
   private var countDownFinish: Boolean? = null
+  //是否需要关闭页面
+  private var hasFinish = false
 
   //不设置状态栏填充，即显示全屏
   override fun fillStatus() = false
@@ -51,51 +54,67 @@ class SplashActivity : CommActivity() {
   override fun layoutResId() = R.layout.activity_splash
 
   override fun initView() {
+    hasFinish = checkReOpenHome()
+    if (hasFinish) return
     disposable?.dispose()
     //页面无缝过渡后重置背景，不然会导致页面显示出现问题。主要解决由于window背景设置后的一些问题
     window.setBackgroundDrawable(null)
     //有尺寸了才开始计时
     splashTime?.post {
       disposable = Flowable.intervalRange(0, count + 1, 0, 1, TimeUnit.SECONDS)
-          .compose(RxUtils.instance.rx2SchedulerHelperF(lifecycleProvider))
-          .doOnNext { splashTime.text = String.format("%d", max(1, count - it)) }
-          .doOnComplete {
-            Log.e("CASE", "倒计时结束")
-            countDownFinish = true
-            goNextPage()
-          }
-          .subscribe()
+        .compose(RxUtils.instance.rx2SchedulerHelperF(lifecycleProvider))
+        .doOnNext { splashTime.text = String.format("%d", max(1, count - it)) }
+        .doOnComplete {
+          Log.e("CASE", "倒计时结束")
+          countDownFinish = true
+          goNextPage()
+        }
+        .subscribe()
     }
   }
 
   override fun initData() {
+    if (hasFinish) return
     loadData()
     if (PermissionUtils.isGranted(
-            Manifest.permission.WRITE_EXTERNAL_STORAGE,
-            Manifest.permission.READ_EXTERNAL_STORAGE
-        )
+        Manifest.permission.WRITE_EXTERNAL_STORAGE,
+        Manifest.permission.READ_EXTERNAL_STORAGE
+      )
     ) {
       hasSDPermission = true
       goNextPage()
     } else {
       PermissionUtils.permission(PermissionConstants.STORAGE)
-          .callback(object : PermissionUtils.SimpleCallback {
-            //权限允许
-            override fun onGranted() {
-              Log.e("CASE", "有SD卡读写权限:${PermissionUtils.isGranted(PermissionConstants.STORAGE)}")
-              hasSDPermission = true
-              goNextPage()
-            }
+        .callback(object : PermissionUtils.SimpleCallback {
+          //权限允许
+          override fun onGranted() {
+            Log.e("CASE", "有SD卡读写权限:${PermissionUtils.isGranted(PermissionConstants.STORAGE)}")
+            hasSDPermission = true
+            goNextPage()
+          }
 
-            //权限拒绝
-            override fun onDenied() {
-              mContext.toast("没有SD卡权限,不能使用APP")
-              hasSDPermission = false
-              goNextPage()
-            }
-          })
-          .request()
+          //权限拒绝
+          override fun onDenied() {
+            mContext.toast("没有SD卡权限,不能使用APP")
+            hasSDPermission = false
+            goNextPage()
+          }
+        })
+        .request()
     }
+  }
+
+  //https://www.cnblogs.com/xqz0618/p/thistaskroot.html
+  private fun checkReOpenHome(): Boolean {
+    // 避免从桌面启动程序后，会重新实例化入口类的activity
+    if (!this.isTaskRoot && intent != null // 判断当前activity是不是所在任务栈的根
+      && intent.hasCategory(Intent.CATEGORY_LAUNCHER)
+      && Intent.ACTION_MAIN == intent.action
+    ) {
+      finish()
+      return true
+    }
+    return false
   }
 
   //打开下个页面
@@ -133,8 +152,8 @@ class SplashActivity : CommActivity() {
     } else {//加载网络图片
       splashCover.gone()
       Sketch.with(Utils.getApp())
-          .download(url, null)
-          .commit()
+        .download(url, null)
+        .commit()
     }
   }
 
