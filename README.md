@@ -92,3 +92,8 @@ class HomeBannerHolderView(view: View?) : DiscreteHolder<BannerBean>(view) {
 ================================================================
 ##  Coordinator嵌套刷新
 ![Coordinator嵌套刷新](https://github.com/caiyoufei/ABase/blob/master/image/coordinator_refresh.gif)
+
+
+================================================================
+##  Epoxy展开和收缩效果
+![Epoxy展开和收缩效果](https://github.com/caiyoufei/ABase/blob/master/image/epoxy_expand.gif)

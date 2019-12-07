@@ -15,5 +15,6 @@ data class ProvinceBean(
   var latitude: Double? = 0.0,// 38.037433,
   var pinYin: String? = null,// "hebei",
   var pinYinFirst: String? = null,// "HB",
-  var cmsRegionDtoList: MutableList<CityBean>? = null//
+  var cmsRegionDtoList: MutableList<CityBean>? = null,//
+  var expand: Boolean = false//是否展开
 )

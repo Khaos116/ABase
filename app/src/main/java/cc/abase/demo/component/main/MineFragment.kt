@@ -12,6 +12,7 @@ import cc.abase.demo.component.chat.ChatActivity
 import cc.abase.demo.component.comm.CommFragment
 import cc.abase.demo.component.coordinator.CoordinatorActivity
 import cc.abase.demo.component.drag.DragActivity
+import cc.abase.demo.component.expand.EpoxyExpandActivity
 import cc.abase.demo.component.ffmpeg.RxFFmpegActivity
 import cc.abase.demo.component.spedit.SpeditActivity
 import cc.abase.demo.component.sticky.StickyActivity
@@ -44,7 +45,8 @@ class MineFragment : CommFragment() {
     Pair(StringUtils.getString(R.string.title_sticky), StickyActivity::class.java),
     Pair(StringUtils.getString(R.string.title_drag), DragActivity::class.java),
     Pair(StringUtils.getString(R.string.title_spedit), SpeditActivity::class.java),
-    Pair(StringUtils.getString(R.string.coordinator_refresh), CoordinatorActivity::class.java)
+    Pair(StringUtils.getString(R.string.coordinator_refresh), CoordinatorActivity::class.java),
+    Pair(StringUtils.getString(R.string.epoxy_expandable), EpoxyExpandActivity::class.java)
   )
   //item文字颜色
   private var typeColor = ColorUtils.getColor(R.color.style_Primary)

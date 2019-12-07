@@ -49,4 +49,5 @@
   <string name="already_at">你已经@过Ta啦！</string>
   <string name="spedit_input_hint">在这里输入内容</string>
   <string name="coordinator_refresh">Coordinator嵌套下拉刷新</string>
+  <string name="epoxy_expandable">Epoxy收缩展开效果</string>
 </resources>
