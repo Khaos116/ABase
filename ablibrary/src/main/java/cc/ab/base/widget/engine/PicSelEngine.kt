@@ -24,13 +24,8 @@ class PicSelEngine : ImageEngine {
   //占位图
   private var optionGrid: DisplayOptions? = null
 
-  //文件夹对于图片
-  override fun loadFolderAsBitmapImage(
-    context: Context,
-    path: String,
-    imageView: ImageView,
-    placeholderId: Int
-  ) {
+  //文件夹对应图片
+  override fun loadFolderImage(context: Context, path: String, imageView: ImageView) {
     val url =
       if (MediaUtils.instance.isVideoFile(path)) {
         VideoThumbnailUriModel.makeUri(path)
@@ -39,7 +34,7 @@ class PicSelEngine : ImageEngine {
     if (sizeDir == 0) {
       imageView.post {
         sizeDir = imageView.width
-        loadFolderAsBitmapImage(context, url, imageView, placeholderId)
+        loadFolderImage(context, url, imageView)
       }
     } else {
       imageView.layoutParams.width = sizeDir
@@ -93,12 +88,7 @@ class PicSelEngine : ImageEngine {
   }
 
   //列表预览图片的加载
-  override fun loadAsBitmapGridImage(
-    context: Context,
-    path: String,
-    imageView: ImageView,
-    placeholderId: Int
-  ) {
+  override fun loadGridImage(context: Context, path: String, imageView: ImageView) {
     val url =
       if (MediaUtils.instance.isVideoFile(path)) {
         VideoThumbnailUriModel.makeUri(path)
@@ -111,7 +101,7 @@ class PicSelEngine : ImageEngine {
         optionGrid?.setLoadingImage(R.drawable.place_holder_square_loading2)
         optionGrid?.setErrorImage(R.drawable.place_holder_square_fail2)
         imageView.setImageResource(R.drawable.place_holder_square_loading2)
-        loadAsBitmapGridImage(context, url, imageView, placeholderId)
+        loadGridImage(context, url, imageView)
       }
     } else {
       imageView.layoutParams.width = sizeGrid

@@ -175,7 +175,7 @@ dependencies {
 
   //表情 https://github.com/vanniktech/Emoji
   implementation 'com.vanniktech:emoji-ios:0.6.0'
-  //封面获取，视频压缩
+  //封面获取，视频压缩 https://github.com/microshow/RxFFmpeg
   implementation 'com.github.microshow:RxFFmpeg:2.1.0'
 
   //必选 https://github.com/dueeeke/DKVideoPlayer/wiki
