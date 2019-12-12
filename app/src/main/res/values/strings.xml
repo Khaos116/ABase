@@ -9,6 +9,7 @@
   <string name="no_network">似乎已断开网络连接</string>
   <string name="load_more_info">数据加载中</string>
   <string name="load_more_fail">加载失败，点击重试</string>
+  <string name="no_more_data">没有更多数据了</string>
   <string name="pull_to_refresh">下拉刷新</string>
   <string name="release_to_refresh">释放刷新</string>
   <string name="refresh_loading_data">数据加载中…</string>

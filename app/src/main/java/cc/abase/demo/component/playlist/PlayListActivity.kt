@@ -10,6 +10,7 @@ import cc.abase.demo.R
 import cc.abase.demo.component.comm.CommTitleActivity
 import cc.abase.demo.component.playlist.viewmoel.PlayListState
 import cc.abase.demo.component.playlist.viewmoel.PlayListViewModel
+import cc.abase.demo.epoxy.base.loadMoreItem
 import cc.abase.demo.epoxy.item.videoListItem
 import cc.abase.demo.mvrx.MvRxEpoxyController
 import cc.abase.demo.repository.bean.local.VideoBean
@@ -23,7 +24,7 @@ import kotlinx.android.synthetic.main.item_list_video.view.itemVideoContainer
 import kotlinx.android.synthetic.main.item_list_video.view.itemVideoPrepareView
 
 /**
- * Description:
+ * Description:https://github.com/dueeeke/DKVideoPlayer
  * @author: caiyoufei
  * @date: 2019/12/12 11:32
  */
@@ -54,6 +55,11 @@ class PlayListActivity : CommTitleActivity() {
   }
 
   override fun layoutResContentId() = R.layout.activity_play_list
+
+  override fun onCreateBefore() {
+    super.onCreateBefore()
+    extKeepScreenOn()
+  }
 
   override fun initContentView() {
     setTitleText(StringUtils.getString(R.string.title_play_list))
@@ -113,13 +119,23 @@ class PlayListActivity : CommTitleActivity() {
 
   //epoxy
   private val epoxyController = MvRxEpoxyController<PlayListState> { state ->
+    //记录数据，方便点击的时候计算位置，因为没有添加分割线，所以不需要处理播放位置
     mVideoList = state.videoList
+    //添加视频item
     state.videoList.forEachIndexed { index, videoBean ->
       videoListItem {
         id("play_list_${videoBean.id}")
         videoBean(videoBean)
         onItemClick { mContext.toast(videoBean.title) }
         onContainerClick { startPlay(mVideoList.indexOf(it)) }
+      }
+    }
+    //添加没有更多的item
+    if (!state.hasMore) {
+      loadMoreItem {
+        id("play_list_more")
+        fail(true)
+        tipsText(StringUtils.getString(R.string.no_more_data))
       }
     }
   }
@@ -158,7 +174,6 @@ class PlayListActivity : CommTitleActivity() {
     mVideoView?.let {
       it.release()
       if (it.isFullScreen) it.stopFullScreen()
-
       if (requestedOrientation != ActivityInfo.SCREEN_ORIENTATION_PORTRAIT) {
         requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
       }
