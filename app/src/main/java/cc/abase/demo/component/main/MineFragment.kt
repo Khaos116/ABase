@@ -14,6 +14,8 @@ import cc.abase.demo.component.coordinator.CoordinatorActivity
 import cc.abase.demo.component.drag.DragActivity
 import cc.abase.demo.component.expand.EpoxyExpandActivity
 import cc.abase.demo.component.ffmpeg.RxFFmpegActivity
+import cc.abase.demo.component.playlist.PlayListActivity
+import cc.abase.demo.component.playlist.PlayPagerActivity
 import cc.abase.demo.component.spedit.SpeditActivity
 import cc.abase.demo.component.sticky.StickyActivity
 import cc.abase.demo.component.update.CcUpdateService
@@ -46,7 +48,9 @@ class MineFragment : CommFragment() {
     Pair(StringUtils.getString(R.string.title_drag), DragActivity::class.java),
     Pair(StringUtils.getString(R.string.title_spedit), SpeditActivity::class.java),
     Pair(StringUtils.getString(R.string.coordinator_refresh), CoordinatorActivity::class.java),
-    Pair(StringUtils.getString(R.string.epoxy_expandable), EpoxyExpandActivity::class.java)
+    Pair(StringUtils.getString(R.string.epoxy_expandable), EpoxyExpandActivity::class.java),
+    Pair(StringUtils.getString(R.string.title_play_list), PlayListActivity::class.java),
+    Pair(StringUtils.getString(R.string.title_play_pager), PlayPagerActivity::class.java)
   )
   //item文字颜色
   private var typeColor = ColorUtils.getColor(R.color.style_Primary)
