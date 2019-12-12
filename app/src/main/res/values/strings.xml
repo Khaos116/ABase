@@ -50,6 +50,6 @@
   <string name="spedit_input_hint">在这里输入内容</string>
   <string name="coordinator_refresh">Coordinator嵌套下拉刷新</string>
   <string name="epoxy_expandable">Epoxy收缩展开效果</string>
-  <string name="title_play_list">列表中播放</string>
-  <string name="title_play_pager">仿抖音播放</string>
+  <string name="title_play_list">列表中视频播放</string>
+  <string name="title_play_pager">仿抖音视频播放</string>
 </resources>

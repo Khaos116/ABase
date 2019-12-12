@@ -133,7 +133,7 @@
     <!--列表中播放-->
     <activity
         android:name=".component.playlist.PlayListActivity"
-        android:configChanges="screenLayout|orientation"
+        android:configChanges="keyboardHidden|orientation|screenSize|screenLayout"
         android:launchMode="singleTop"
         android:screenOrientation="portrait"
         android:windowSoftInputMode="adjustPan|stateHidden"/>

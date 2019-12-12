@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    >
+
+  <TextView
+      android:id="@+id/itemVideoListTitle"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:paddingStart="12dp"
+      android:paddingTop="10dp"
+      android:paddingEnd="12dp"
+      android:paddingBottom="10dp"
+      android:textColor="@color/black"
+      android:textSize="16sp"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toTopOf="parent"
+      tools:text="这是第1个视频"
+      />
+
+  <FrameLayout
+      android:id="@+id/itemVideoContainer"
+      android:layout_width="match_parent"
+      android:layout_height="0dp"
+      android:background="#1a1a1a"
+      app:layout_constraintDimensionRatio="16:9"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toBottomOf="@id/itemVideoListTitle"
+      >
+
+    <com.dueeeke.videocontroller.component.PrepareView
+        android:id="@+id/itemVideoPrepareView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        />
+  </FrameLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
