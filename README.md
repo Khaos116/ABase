@@ -67,7 +67,7 @@ class HomeBannerHolderView(view: View?) : DiscreteHolder<BannerBean>(view) {
 
 ================================================================
 ##  所有效果
-![所有效果](https://github.com/caiyoufei/ABase/blob/master/image/all_effect.png)
+![所有效果](https://github.com/caiyoufei/ABase/blob/master/image/all_effect.jpg)
 
 ================================================================
 ##  聊天Emoji效果图
@@ -93,7 +93,10 @@ class HomeBannerHolderView(view: View?) : DiscreteHolder<BannerBean>(view) {
 ##  Coordinator嵌套刷新
 ![Coordinator嵌套刷新](https://github.com/caiyoufei/ABase/blob/master/image/coordinator_refresh.gif)
 
-
 ================================================================
 ##  Epoxy展开和收缩效果
 ![Epoxy展开和收缩效果](https://github.com/caiyoufei/ABase/blob/master/image/epoxy_expand.gif)
+
+================================================================
+##  列表视频播放
+![列表视频播放](https://github.com/caiyoufei/ABase/blob/master/image/video_list_play.gif)
