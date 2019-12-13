@@ -17,4 +17,9 @@ class PagerController(
   override fun getLayoutId() = 0
   //不显示移动网络播放警告
   override fun showNetWarning() = false
+
+  //不允许自动旋转
+  override fun setEnableOrientation(enableOrientation: Boolean) {
+    super.setEnableOrientation(false)
+  }
 }
