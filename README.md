@@ -100,3 +100,7 @@ class HomeBannerHolderView(view: View?) : DiscreteHolder<BannerBean>(view) {
 ================================================================
 ##  列表视频播放
 ![列表视频播放](https://github.com/caiyoufei/ABase/blob/master/image/video_list_play.gif)
+
+================================================================
+##  VerticalViewPager抖音播放效果
+![抖音播放效果](https://github.com/caiyoufei/ABase/blob/master/image/play_pager.gif)
