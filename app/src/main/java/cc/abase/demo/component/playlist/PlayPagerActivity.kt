@@ -127,10 +127,10 @@ class PlayPagerActivity : CommActivity() {
         mVideoView?.start()
         mCurPos = position
         break
-      } else if (position > 0 && viewHolder.mPosition == position - 1) {//预加载上一个数据，否则滑动可能出现复用的封面
+      } else if (position > 0 && viewHolder.mPosition == position - 1) {//预加载上一个数据，否则滑动可能出现复用的数据
         mPlayPagerAdapter?.fillData(mVideoList[viewHolder.mPosition], viewHolder)
 
-      } else if (position < mVideoList.size - 1 && viewHolder.mPosition == position + 1) {//预加载下一个数据，否则滑动可能出现复用的封面
+      } else if (position < mVideoList.size - 1 && viewHolder.mPosition == position + 1) {//预加载下一个数据，否则滑动可能出现复用的数据
         mPlayPagerAdapter?.fillData(mVideoList[viewHolder.mPosition], viewHolder)
         break
       }
