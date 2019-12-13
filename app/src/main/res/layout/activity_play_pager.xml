@@ -18,6 +18,7 @@
   <ImageView
       android:id="@+id/playPagerBack"
       android:layout_width="49dp"
+      android:fitsSystemWindows="true"
       android:layout_height="49dp"
       android:contentDescription="@null"
       android:padding="12dp"
