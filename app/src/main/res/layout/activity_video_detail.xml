@@ -21,7 +21,6 @@
       android:id="@+id/videoDetailVideoView"
       android:layout_width="match_parent"
       android:layout_height="0dp"
-      app:corner_radius="0dp"
       app:layout_constraintDimensionRatio="16:9"
       app:layout_constraintEnd_toEndOf="parent"
       app:layout_constraintStart_toStartOf="parent"
