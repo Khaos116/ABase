@@ -98,7 +98,7 @@ class HomeBannerHolderView(view: View?) : DiscreteHolder<BannerBean>(view) {
 ![Epoxy展开和收缩效果](https://github.com/caiyoufei/ABase/blob/master/image/epoxy_expand.gif)
 
 ================================================================
-##  列表视频播放
+##  Epoxy列表视频播放
 ![列表视频播放](https://github.com/caiyoufei/ABase/blob/master/image/video_list_play.gif)
 
 ================================================================
