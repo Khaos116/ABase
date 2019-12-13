@@ -5,8 +5,7 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.*
 import android.view.animation.Animation
-import android.widget.FrameLayout
-import android.widget.ImageView
+import android.widget.*
 import cc.ab.base.ext.*
 import cc.abase.demo.R
 import cc.abase.demo.R.string
@@ -15,8 +14,7 @@ import com.blankj.utilcode.util.StringUtils
 import com.dueeeke.videoplayer.controller.ControlWrapper
 import com.dueeeke.videoplayer.controller.IControlComponent
 import com.dueeeke.videoplayer.player.VideoView
-import kotlinx.android.synthetic.main.item_play_pager.view.itemPlayPagerBtn
-import kotlinx.android.synthetic.main.item_play_pager.view.itemPlayPagerThumb
+import kotlinx.android.synthetic.main.item_play_pager.view.*
 import me.panpf.sketch.SketchImageView
 import kotlin.math.abs
 
@@ -34,6 +32,7 @@ class PagerItemView @JvmOverloads constructor(
 
   private var thumb: SketchImageView? = null
   private var mPlayBtn: ImageView? = null
+  private var mLoadingView: View? = null
 
   private var mControlWrapper: ControlWrapper? = null
   private var mScaledTouchSlop = 0
@@ -45,7 +44,8 @@ class PagerItemView @JvmOverloads constructor(
         .inflate(R.layout.item_play_pager, this, true)
     thumb = itemPlayPagerThumb
     mPlayBtn = itemPlayPagerBtn
-    setOnClickListener { mControlWrapper?.togglePlay() }
+    mLoadingView = itemPlayPagerLoading
+    setOnClickListener { if (mLoadingView?.visibility != View.VISIBLE) mControlWrapper?.togglePlay() }
     mScaledTouchSlop = ViewConfiguration.get(getContext())
         .scaledTouchSlop
   }
@@ -71,25 +71,17 @@ class PagerItemView @JvmOverloads constructor(
 
   override fun onPlayStateChanged(playState: Int) {
     when (playState) {
-      VideoView.STATE_IDLE -> {
-        LogUtils.i("STATE_IDLE " + hashCode())
-        thumb?.visible()
-      }
+      VideoView.STATE_IDLE -> thumb?.visible()
       VideoView.STATE_PLAYING -> {
-        LogUtils.i("STATE_PLAYING " + hashCode())
         thumb?.gone()
         mPlayBtn?.gone()
+        mLoadingView?.gone()
       }
-      VideoView.STATE_PAUSED -> {
-        LogUtils.i("STATE_PAUSED " + hashCode())
-        thumb?.gone()
-        mPlayBtn?.visible()
-      }
+      VideoView.STATE_PAUSED -> mPlayBtn?.visible()
+      VideoView.STATE_BUFFERING -> if (mPlayBtn?.visibility != View.VISIBLE) mLoadingView?.visible()
+      VideoView.STATE_BUFFERED -> mLoadingView?.gone()
       VideoView.STATE_PREPARED -> LogUtils.i("STATE_PREPARED " + hashCode())
-      VideoView.STATE_ERROR -> {
-        LogUtils.i("STATE_ERROR " + hashCode())
-        context?.toast(StringUtils.getString(string.dkplayer_error_message))
-      }
+      VideoView.STATE_ERROR -> context?.toast(StringUtils.getString(string.dkplayer_error_message))
     }
   }
 

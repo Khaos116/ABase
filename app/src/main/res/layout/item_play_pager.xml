@@ -27,6 +27,17 @@
       android:visibility="gone"
       tools:visibility="visible"
       />
+·  <!--loading-->
+  <ProgressBar
+      android:id="@+id/itemPlayPagerLoading"
+      android:layout_width="@dimen/dkplayer_play_btn_size"
+      android:layout_height="@dimen/dkplayer_play_btn_size"
+      android:layout_gravity="center"
+      android:indeterminateDrawable="@drawable/dkplayer_progress_loading"
+      android:indeterminateDuration="2000"
+      android:visibility="gone"
+      tools:visibility="visible"
+      />
   <!--描述-->
   <TextView
       android:id="@+id/itemPlayPagerTitle"
