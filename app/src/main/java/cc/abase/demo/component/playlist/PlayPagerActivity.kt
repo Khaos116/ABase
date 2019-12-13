@@ -12,8 +12,10 @@ import cc.abase.demo.component.playlist.adapter.PlayPagerAdapter.PagerHolder
 import cc.abase.demo.component.playlist.view.PagerController
 import cc.abase.demo.component.playlist.viewmoel.PlayPagerViewModel
 import cc.abase.demo.repository.bean.local.VideoBean
+import cc.abase.demo.widget.video.controller.VodControlView
 import cc.abase.demo.widget.video.view.ExoVideoView
 import com.dueeeke.videoplayer.player.VideoView
+import com.gyf.immersionbar.ktx.immersionBar
 import kotlinx.android.synthetic.main.activity_play_pager.playPagerBack
 import kotlinx.android.synthetic.main.activity_play_pager.playPagerViewPager
 
@@ -47,6 +49,12 @@ class PlayPagerActivity : CommActivity() {
     PlayPagerViewModel()
   }
 
+  override fun fillStatus() = false
+
+  override fun initStatus() {
+    immersionBar { statusBarDarkFont(false) }
+  }
+
   override fun layoutResId() = R.layout.activity_play_pager
 
   override fun initView() {
@@ -59,25 +67,10 @@ class PlayPagerActivity : CommActivity() {
     mVideoView?.setScreenScaleType(VideoView.SCREEN_SCALE_DEFAULT)
     //控制器
     mController = PagerController(mContext)
+    mController?.addControlComponent(VodControlView(mContext))
     mVideoView?.setVideoController(mController)
     //列表
     playPagerViewPager.offscreenPageLimit = 4
-    playPagerViewPager.setOnPageChangeListener(object : ViewPager.OnPageChangeListener {
-      override fun onPageScrollStateChanged(state: Int) {
-      }
-
-      override fun onPageScrolled(
-        position: Int,
-        positionOffset: Float,
-        positionOffsetPixels: Int
-      ) {
-      }
-
-      override fun onPageSelected(position: Int) {
-        if (position == mCurPos) return
-        startPlay(position)
-      }
-    })
   }
 
   override fun initData() {
@@ -103,10 +96,25 @@ class PlayPagerActivity : CommActivity() {
       playPagerViewPager.adapter = mPlayPagerAdapter
       //随机从某一个开始播放
       val index = (Math.random() * datas.size).toInt()
-      if (index == 0) {
-        startPlay(0)
-      } else {
-        playPagerViewPager.currentItem = index
+      if (index != 0) playPagerViewPager.currentItem = index
+      playPagerViewPager.post {
+        startPlay(index)
+        playPagerViewPager.setOnPageChangeListener(object : ViewPager.OnPageChangeListener {
+          override fun onPageScrollStateChanged(state: Int) {
+          }
+
+          override fun onPageScrolled(
+            position: Int,
+            positionOffset: Float,
+            positionOffsetPixels: Int
+          ) {
+          }
+
+          override fun onPageSelected(position: Int) {
+            if (position == mCurPos) return
+            startPlay(position)
+          }
+        })
       }
     }
   }
@@ -114,6 +122,7 @@ class PlayPagerActivity : CommActivity() {
   //开始播放
   private fun startPlay(position: Int) {
     val count: Int = playPagerViewPager.childCount
+    var findCount = 0//由于复用id是混乱的，所以需要保证3个都找到才跳出循环(为了节约性能)
     for (i in 0 until count) {
       val itemView: View = playPagerViewPager.getChildAt(i)
       val viewHolder: PagerHolder = itemView.tag as PagerHolder
@@ -126,14 +135,15 @@ class PlayPagerActivity : CommActivity() {
         viewHolder.mPlayerContainer?.addView(mVideoView, 0)
         mVideoView?.start()
         mCurPos = position
-        break
+        findCount++
       } else if (position > 0 && viewHolder.mPosition == position - 1) {//预加载上一个数据，否则滑动可能出现复用的数据
         mPlayPagerAdapter?.fillData(mVideoList[viewHolder.mPosition], viewHolder)
-
+        findCount++
       } else if (position < mVideoList.size - 1 && viewHolder.mPosition == position + 1) {//预加载下一个数据，否则滑动可能出现复用的数据
         mPlayPagerAdapter?.fillData(mVideoList[viewHolder.mPosition], viewHolder)
-        break
+        findCount++
       }
+      if (findCount >= 3) break
     }
   }
 
