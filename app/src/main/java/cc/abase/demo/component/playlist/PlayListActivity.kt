@@ -114,7 +114,7 @@ class PlayListActivity : CommTitleActivity() {
       }
     }
     showLoadingView()
-    viewModel.loadVideoList()
+    viewModel.loadData()
   }
 
   //epoxy

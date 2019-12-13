@@ -23,7 +23,7 @@ class PlayListViewModel(
 ) : MvRxViewModel<PlayListState>(state) {
 
   //加载列表
-  fun loadVideoList() {
+  fun loadData() {
     Observable.just(VideoRandomUtils.instance.getVideoList())
       .compose(RxUtils.instance.rx2SchedulerHelperODelay())
       .execute {
