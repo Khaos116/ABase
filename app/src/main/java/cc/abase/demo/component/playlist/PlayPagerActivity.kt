@@ -14,6 +14,9 @@ import cc.abase.demo.component.playlist.viewmoel.PlayPagerViewModel
 import cc.abase.demo.repository.bean.local.VideoBean
 import cc.abase.demo.widget.video.controller.VodControlView
 import cc.abase.demo.widget.video.view.ExoVideoView
+import com.airbnb.mvrx.Success
+import com.billy.android.swipe.SmartSwipeRefresh
+import com.billy.android.swipe.SmartSwipeRefresh.SmartSwipeRefreshDataLoader
 import com.dueeeke.videoplayer.player.VideoView
 import com.gyf.immersionbar.ktx.immersionBar
 import kotlinx.android.synthetic.main.activity_play_pager.playPagerBack
@@ -43,6 +46,10 @@ class PlayPagerActivity : CommActivity() {
   private var mVideoView: ExoVideoView? = null
   //数据源
   private var mVideoList: MutableList<VideoBean> = mutableListOf()
+  //下拉刷新
+  var mSmartSwipeRefresh: SmartSwipeRefresh? = null
+  //是否可以加载更多
+  var hasMore: Boolean = true
 
   //数据层
   private val viewModel: PlayPagerViewModel by lazy {
@@ -71,6 +78,19 @@ class PlayPagerActivity : CommActivity() {
     mVideoView?.setVideoController(mController)
     //列表
     playPagerViewPager.offscreenPageLimit = 4
+    //下拉刷新
+    mSmartSwipeRefresh = SmartSwipeRefresh.translateMode(playPagerViewPager, false)
+    mSmartSwipeRefresh?.disableRefresh()
+    mSmartSwipeRefresh?.disableLoadMore()
+    mSmartSwipeRefresh?.isNoMoreData = !hasMore
+    mSmartSwipeRefresh?.dataLoader = object : SmartSwipeRefreshDataLoader {
+      override fun onLoadMore(ssr: SmartSwipeRefresh?) {
+        viewModel.loadMore()
+      }
+
+      override fun onRefresh(ssr: SmartSwipeRefresh?) {
+      }
+    }
   }
 
   override fun initData() {
@@ -78,6 +98,9 @@ class PlayPagerActivity : CommActivity() {
       if (it.request.complete) {
         dismissLoadingView()
         mVideoList = it.videoList
+        hasMore = it.hasMore
+        mSmartSwipeRefresh?.finished(it.request is Success)
+        mSmartSwipeRefresh?.isNoMoreData = !hasMore
         if (mPlayPagerAdapter == null) {
           initAdapter(it.videoList)
         } else {
@@ -96,7 +119,15 @@ class PlayPagerActivity : CommActivity() {
       playPagerViewPager.adapter = mPlayPagerAdapter
       //随机从某一个开始播放
       val index = (Math.random() * datas.size).toInt()
-      if (index != 0) playPagerViewPager.currentItem = index
+      if (index != 0) {
+        playPagerViewPager.currentItem = index
+        //如果直接到最后一条需要显示没有更多
+        if (index == mVideoList.size - 1) {
+          mSmartSwipeRefresh?.swipeConsumer?.enableBottom()
+          mSmartSwipeRefresh?.isNoMoreData = true
+        }
+      }
+      //第一次加载的时候设置currentItem会滚动刷新，所以播放需要延时
       playPagerViewPager.post {
         startPlay(index)
         playPagerViewPager.setOnPageChangeListener(object : ViewPager.OnPageChangeListener {
@@ -113,6 +144,12 @@ class PlayPagerActivity : CommActivity() {
           override fun onPageSelected(position: Int) {
             if (position == mCurPos) return
             startPlay(position)
+            if (position == (mVideoList.size - 1)) {
+              mSmartSwipeRefresh?.swipeConsumer?.enableBottom()
+              mSmartSwipeRefresh?.isNoMoreData = !hasMore
+            } else {
+              mSmartSwipeRefresh?.disableLoadMore()
+            }
           }
         })
       }
@@ -121,6 +158,9 @@ class PlayPagerActivity : CommActivity() {
 
   //开始播放
   private fun startPlay(position: Int) {
+    //预加载更多
+    if (position >= mVideoList.size - 5) viewModel.loadMore()
+    //遍历加载信息和播放
     val count: Int = playPagerViewPager.childCount
     var findCount = 0//由于复用id是混乱的，所以需要保证3个都找到才跳出循环(为了节约性能)
     for (i in 0 until count) {
