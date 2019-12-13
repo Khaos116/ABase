@@ -5,7 +5,8 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.*
 import android.view.animation.Animation
-import android.widget.*
+import android.widget.FrameLayout
+import android.widget.ImageView
 import cc.ab.base.ext.*
 import cc.abase.demo.R
 import cc.abase.demo.R.string
@@ -45,7 +46,7 @@ class PagerItemView @JvmOverloads constructor(
     thumb = itemPlayPagerThumb
     mPlayBtn = itemPlayPagerBtn
     mLoadingView = itemPlayPagerLoading
-    setOnClickListener { if (mLoadingView?.visibility != View.VISIBLE) mControlWrapper?.togglePlay() }
+    this.click { if (mLoadingView?.visibility != View.VISIBLE) mControlWrapper?.togglePlay() }
     mScaledTouchSlop = ViewConfiguration.get(getContext())
         .scaledTouchSlop
   }
