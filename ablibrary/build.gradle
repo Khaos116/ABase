@@ -57,6 +57,9 @@ dependencies {
   implementation 'com.squareup.okhttp3:okhttp:4.2.2'
   releaseImplementation 'com.didichuxing.doraemonkit:doraemonkit-no-op:2.0.2'
 
+  //协程(https://www.jianshu.com/p/2659bbe0df16) https://github.com/Kotlin/kotlinx.coroutines
+  api 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.3'
+
   //----------------------★★★框架★★★----------------------//
   //https://github.com/airbnb/MvRx
   api 'com.airbnb.android:mvrx:2.0.0-alpha1'
