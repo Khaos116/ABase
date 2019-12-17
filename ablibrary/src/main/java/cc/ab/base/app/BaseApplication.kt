@@ -7,6 +7,8 @@ import androidx.multidex.MultiDex
 import cc.ab.base.BuildConfig
 import cc.ab.base.utils.RxUtils
 import cc.ab.base.widget.sketch.VideoThumbnailUriModel
+import com.airbnb.mvrx.MvRx
+import com.airbnb.mvrx.MvRxViewModelConfigFactory
 import com.blankj.utilcode.util.LogUtils
 import com.blankj.utilcode.util.PermissionUtils
 import com.blankj.utilcode.util.ProcessUtils
@@ -74,6 +76,8 @@ abstract class BaseApplication : Application() {
     configuration.uriModelManager.add(
         VideoThumbnailUriModel()
     )
+    //MvRx2.0起需要配置 https://github.com/airbnb/MvRx/wiki/Integrating-MvRx-In-Your-App
+    MvRx.viewModelConfigFactory = MvRxViewModelConfigFactory(this)
   }
 
   //所有进程中的初始化
