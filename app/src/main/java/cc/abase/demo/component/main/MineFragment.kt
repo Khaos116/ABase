@@ -1,5 +1,6 @@
 package cc.abase.demo.component.main
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
 import android.util.Log
@@ -70,10 +71,11 @@ class MineFragment : CommFragment() {
     mineRecycler.setController(epoxyController)
   }
 
+  @SuppressLint("CheckResult")
   override fun initData() {
     showLoadingView()
     mineRoot.gone()
-    val dis = UserRepository.instance.myIntegral()
+    UserRepository.instance.myIntegral()
       .compose(lifecycleProvider.bindUntilEvent(Lifecycle.Event.ON_DESTROY))
       .subscribe { t1, t2 ->
         dismissLoadingView()
