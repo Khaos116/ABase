@@ -14,9 +14,9 @@ import io.reactivex.Observable
  */
 
 data class PlayPagerState(
-  var videoList: MutableList<VideoBean> = mutableListOf(),
-  var hasMore: Boolean = true,
-  var request: Async<Any> = Uninitialized
+  val videoList: MutableList<VideoBean> = mutableListOf(),
+  val hasMore: Boolean = true,
+  val request: Async<Any> = Uninitialized
 ) : MvRxState
 
 class PlayPagerViewModel(

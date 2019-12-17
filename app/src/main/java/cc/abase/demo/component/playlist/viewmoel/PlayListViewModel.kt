@@ -13,9 +13,9 @@ import io.reactivex.Observable
  * @date: 2019/12/12 11:37
  */
 data class PlayListState(
-  var videoList: MutableList<VideoBean> = mutableListOf(),
-  var hasMore: Boolean = false,
-  var request: Async<Any> = Uninitialized
+  val videoList: MutableList<VideoBean> = mutableListOf(),
+  val hasMore: Boolean = false,
+  val request: Async<Any> = Uninitialized
 ) : MvRxState
 
 class PlayListViewModel(
