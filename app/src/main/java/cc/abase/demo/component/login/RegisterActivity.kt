@@ -3,6 +3,7 @@ package cc.abase.demo.component.login
 import android.content.Context
 import android.content.Intent
 import android.text.TextUtils
+import androidx.lifecycle.Lifecycle
 import cc.ab.base.ext.*
 import cc.ab.base.utils.CcInputHelper
 import cc.abase.demo.R
@@ -45,6 +46,7 @@ class RegisterActivity : CommTitleActivity() {
           registerEditPassword1.text.toString(),
           registerEditPassword2.text.toString()
       )
+        .compose(lifecycleProvider.bindUntilEvent(Lifecycle.Event.ON_DESTROY))
           .subscribe { suc, error ->
             dismissActionLoading()
             if (suc == true) {

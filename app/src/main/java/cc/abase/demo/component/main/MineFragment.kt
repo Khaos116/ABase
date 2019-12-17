@@ -5,8 +5,11 @@ import android.content.Intent
 import android.util.Log
 import android.view.Gravity
 import android.view.View
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.Observer
-import cc.ab.base.ext.*
+import cc.ab.base.ext.gone
+import cc.ab.base.ext.toast
+import cc.ab.base.ext.visible
 import cc.abase.demo.R
 import cc.abase.demo.component.chat.ChatActivity
 import cc.abase.demo.component.comm.CommFragment
@@ -29,7 +32,7 @@ import com.blankj.utilcode.util.ColorUtils
 import com.blankj.utilcode.util.StringUtils
 import com.jeremyliao.liveeventbus.LiveEventBus
 import kotlinx.android.synthetic.main.fragment_mine.*
-import java.util.Locale
+import java.util.*
 
 /**
  * Description:
@@ -71,9 +74,10 @@ class MineFragment : CommFragment() {
     showLoadingView()
     mineRoot.gone()
     val dis = UserRepository.instance.myIntegral()
+      .compose(lifecycleProvider.bindUntilEvent(Lifecycle.Event.ON_DESTROY))
       .subscribe { t1, t2 ->
         dismissLoadingView()
-        mineRoot.visible()
+        mineRoot?.visible()
         if (t1 != null) {
           mineIntegral.text =
             String.format(StringUtils.getString(R.string.my_integral), t1.coinCount)
