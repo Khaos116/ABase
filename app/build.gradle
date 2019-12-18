@@ -146,7 +146,7 @@ configurations.all {
     force 'com.google.code.findbugs:jsr305:3.0.2'
     force 'com.google.android.material:material:1.2.0-alpha02'
     force 'com.squareup.okhttp3:okhttp:4.2.2'
-    force 'com.google.code.gson:gson:2.8.6'
+    force 'com.google.code.gson:gson:2.8.5'
 
     force 'io.reactivex.rxjava2:rxjava:2.2.10'
 
@@ -154,7 +154,7 @@ configurations.all {
     force "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     force "org.jetbrains.kotlin:kotlin-stdlib-common:$kotlin_version"
 
-    force 'com.squareup.okio:okio:1.17.4'
+    force 'com.squareup.okio:okio:2.2.2'
   }
 }
 
