@@ -286,3 +286,11 @@
 
 #FFmpegMediaMetadataRetriever
 -keep class wseemann.media** { *; }
+
+#协程
+#在安卓上，你可以使用协程解决两个常见问题：
+ #简化耗时任务的代码，例如网络请求，磁盘读写，甚至大量 JSON 的解析
+ #提供准确的主线程安全，在不会让代码更加臃肿的情况下保证不阻塞主线程
+-keepclassmembernames class kotlinx.** {
+    volatile <fields>;
+}
