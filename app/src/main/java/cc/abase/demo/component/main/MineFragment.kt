@@ -30,6 +30,7 @@ import cc.abase.demo.epoxy.item.simpleTextItem
 import cc.abase.demo.mvrx.MvRxEpoxyController
 import cc.abase.demo.repository.UserRepository
 import com.blankj.utilcode.util.ColorUtils
+import com.blankj.utilcode.util.SizeUtils
 import com.blankj.utilcode.util.StringUtils
 import com.jeremyliao.liveeventbus.LiveEventBus
 import kotlinx.android.synthetic.main.fragment_mine.*
@@ -45,6 +46,16 @@ class MineFragment : CommFragment() {
   private val apkUrk = "https://down8.xiazaidb.com/app/yingyongbianliang.apk"
   //菜单列表
   private val menuList = mutableListOf(
+    Pair(StringUtils.getString(R.string.chat_title), ChatActivity::class.java),
+    Pair(StringUtils.getString(R.string.ffmpeg_title), RxFFmpegActivity::class.java),
+    Pair(StringUtils.getString(R.string.update_app), CcUpdateService::class.java),
+    Pair(StringUtils.getString(R.string.title_sticky), StickyActivity::class.java),
+    Pair(StringUtils.getString(R.string.title_drag), DragActivity::class.java),
+    Pair(StringUtils.getString(R.string.title_spedit), SpeditActivity::class.java),
+    Pair(StringUtils.getString(R.string.coordinator_refresh), CoordinatorActivity::class.java),
+    Pair(StringUtils.getString(R.string.epoxy_expandable), EpoxyExpandActivity::class.java),
+    Pair(StringUtils.getString(R.string.title_play_list), PlayListActivity::class.java),
+    Pair(StringUtils.getString(R.string.title_play_pager), PlayPagerActivity::class.java),
     Pair(StringUtils.getString(R.string.chat_title), ChatActivity::class.java),
     Pair(StringUtils.getString(R.string.ffmpeg_title), RxFFmpegActivity::class.java),
     Pair(StringUtils.getString(R.string.update_app), CcUpdateService::class.java),
@@ -110,6 +121,9 @@ class MineFragment : CommFragment() {
           }
         }
       })
+    mineScrollView.post {
+      mineRecyclerParent.layoutParams.height = mineScrollView.height + SizeUtils.dp2px(70f)
+    }
   }
 
   //epoxy

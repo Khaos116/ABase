@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/mineRoot"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    >
+    android:orientation="vertical">
 
     <TextView
         android:id="@+id/mineIntegral"
@@ -17,17 +16,39 @@
         android:paddingEnd="12dp"
         android:paddingBottom="5dp"
         android:textSize="20sp"
-        tools:text="我的积分：20"
-        />
+        tools:text="我的积分：20" />
+
     <View
+        android:id="@+id/mineLine"
         android:layout_width="match_parent"
         android:layout_height="1px"
-        android:background="#ffebebeb"
-        />
+        android:background="#ffebebeb" />
 
-    <com.airbnb.epoxy.EpoxyRecyclerView
-        android:id="@+id/mineRecycler"
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/mineScrollView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        />
+        android:layout_height="match_parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/mineRecyclerParent"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="70dp"
+                android:background="#2200fff0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+            <com.airbnb.epoxy.EpoxyRecyclerView
+                android:id="@+id/mineRecycler"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.core.widget.NestedScrollView>
 </LinearLayout>
