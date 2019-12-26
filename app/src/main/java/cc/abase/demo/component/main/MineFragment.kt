@@ -55,16 +55,6 @@ class MineFragment : CommFragment() {
     Pair(StringUtils.getString(R.string.coordinator_refresh), CoordinatorActivity::class.java),
     Pair(StringUtils.getString(R.string.epoxy_expandable), EpoxyExpandActivity::class.java),
     Pair(StringUtils.getString(R.string.title_play_list), PlayListActivity::class.java),
-    Pair(StringUtils.getString(R.string.title_play_pager), PlayPagerActivity::class.java),
-    Pair(StringUtils.getString(R.string.chat_title), ChatActivity::class.java),
-    Pair(StringUtils.getString(R.string.ffmpeg_title), RxFFmpegActivity::class.java),
-    Pair(StringUtils.getString(R.string.update_app), CcUpdateService::class.java),
-    Pair(StringUtils.getString(R.string.title_sticky), StickyActivity::class.java),
-    Pair(StringUtils.getString(R.string.title_drag), DragActivity::class.java),
-    Pair(StringUtils.getString(R.string.title_spedit), SpeditActivity::class.java),
-    Pair(StringUtils.getString(R.string.coordinator_refresh), CoordinatorActivity::class.java),
-    Pair(StringUtils.getString(R.string.epoxy_expandable), EpoxyExpandActivity::class.java),
-    Pair(StringUtils.getString(R.string.title_play_list), PlayListActivity::class.java),
     Pair(StringUtils.getString(R.string.title_play_pager), PlayPagerActivity::class.java)
   )
   //item文字颜色
