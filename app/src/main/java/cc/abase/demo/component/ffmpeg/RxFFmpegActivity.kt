@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.media.MediaMetadataRetriever
 import android.provider.MediaStore
+import android.text.method.ScrollingMovementMethod
 import android.util.Log
 import cc.ab.base.ext.*
 import cc.ab.base.widget.engine.PicSelEngine
@@ -71,6 +72,8 @@ class RxFFmpegActivity : CommTitleActivity() {
 //      openAlbumIntent.putExtra("return-data", true)
 //      startActivityForResult(openAlbumIntent, INTENT_SEL_VIDEO)
     }
+    //内部可滚动 https://www.jianshu.com/p/7a02253cd23e
+    ffmpegResult.movementMethod = ScrollingMovementMethod.getInstance()
     ffmpegCompress.click {
       selVideoPath?.let { path ->
         ffmpegSel.alpha = UiConstants.disable_alpha

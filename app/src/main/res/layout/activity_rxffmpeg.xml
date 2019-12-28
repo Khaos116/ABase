@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/ffmpegPlayerParent"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true"
-    android:padding="12dp">
+    android:padding="12dp"
+    >
 
   <cc.abase.demo.widget.video.view.ExoVideoView
       android:id="@+id/ffmpegPlayer"
@@ -36,7 +38,8 @@
         android:paddingBottom="5dp"
         android:text="@string/play_compress_video"
         android:textColor="@color/white"
-        android:textSize="14sp" />
+        android:textSize="14sp"
+        />
 
     <TextView
         android:id="@+id/ffmpegSel"
@@ -68,29 +71,24 @@
         android:textSize="14sp"
         />
 
-    <ScrollView
+    <!--内部可滚动 https://www.jianshu.com/p/7a02253cd23e-->
+    <TextView
+        android:id="@+id/ffmpegResult"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        >
-
-      <TextView
-          android:id="@+id/ffmpegResult"
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:paddingStart="10dp"
-          android:paddingTop="5dp"
-          android:paddingEnd="10dp"
-          android:paddingBottom="5dp"
-          android:shadowColor="@color/black"
-          android:shadowDx="2"
-          android:shadowDy="2"
-          android:shadowRadius="4"
-          android:textColor="@color/style_Accent"
-          android:textSize="14sp"
-          tools:text="压缩进度35%"
-          />
-    </ScrollView>
+        android:paddingStart="10dp"
+        android:paddingTop="5dp"
+        android:paddingEnd="10dp"
+        android:paddingBottom="5dp"
+        android:scrollbars="vertical"
+        android:shadowColor="@color/black"
+        android:shadowDx="2"
+        android:shadowDy="2"
+        android:shadowRadius="4"
+        android:textColor="@color/style_Accent"
+        android:textSize="14sp"
+        tools:text="压缩进度35%"
+        />
   </LinearLayout>
 
   <!--  <me.panpf.sketch.SketchImageView-->
