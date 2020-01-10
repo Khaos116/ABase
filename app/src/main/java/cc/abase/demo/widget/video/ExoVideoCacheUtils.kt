@@ -41,7 +41,7 @@ class ExoVideoCacheUtils private constructor() {
     //当前播放地址的前半部分，用于缓存视频判断
     val videoPrefix: String
     //网络地址
-    if (originUrl.contains(appVideoTag) && originUrl.contains("${appVideoType}?")) {
+    if (originUrl.contains(appVideoTag) && originUrl.contains("${appVideoType}?", true)) {
       //APP内部播放地址
       videoPrefix = originUrl.split("${appVideoType}?")[0] + appVideoType
     } else {
