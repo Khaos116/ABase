@@ -3,7 +3,6 @@ package cc.abase.demo.component.spedit
 import android.content.Context
 import android.content.Intent
 import android.text.TextUtils
-import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.Observer
 import cc.ab.base.ext.*
 import cc.ab.base.utils.CcInputHelper
@@ -53,7 +52,7 @@ class SpeditActivity : CommTitleActivity() {
     speditResult.click { mContext.toast(speditResult.text.toString()) }
     //监听长度输入
     speditLen.text = String.format("0/%s", MAX_LENGTH)
-    speditInput.addTextChangedListener {
+    speditInput.addTextWatcher {
       speditLen.text = String.format(
           "%s/$MAX_LENGTH", CcInputHelper.getRealLength(it?.toString() ?: "")
       )
