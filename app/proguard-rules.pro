@@ -287,6 +287,9 @@
 #FFmpegMediaMetadataRetriever
 -keep class wseemann.media** { *; }
 
+#SpEditTool
+-keep class com.sunhapper.x.spedit.**{*;}
+
 #协程
 #在安卓上，你可以使用协程解决两个常见问题：
  #简化耗时任务的代码，例如网络请求，磁盘读写，甚至大量 JSON 的解析
