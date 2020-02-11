@@ -4,11 +4,15 @@ import android.content.Context
 import android.text.NoCopySpan
 import android.util.AttributeSet
 import android.view.KeyEvent
-import android.view.inputmethod.*
+import android.view.inputmethod.EditorInfo
+import android.view.inputmethod.InputConnection
+import android.view.inputmethod.InputConnectionWrapper
 import androidx.appcompat.widget.AppCompatEditText
 import com.sunhapper.x.spedit.gif.watcher.GifWatcher
-import com.sunhapper.x.spedit.view.*
-import java.util.ArrayList
+import com.sunhapper.x.spedit.view.DefaultKeyEventProxy
+import com.sunhapper.x.spedit.view.KeyEventProxy
+import com.sunhapper.x.spedit.view.SpXEditableFactory
+import java.util.*
 
 /**
  * Created by sunhapper on 2019/1/25 .
@@ -38,7 +42,8 @@ class SpXEditText : AppCompatEditText {
   }
 
   private fun handleKeyEvent(event: KeyEvent): Boolean {
-    return mKeyEventProxy.onKeyEvent(event, text)
+      val temp = text
+      return if (temp == null) false else mKeyEventProxy.onKeyEvent(event, temp)
   }
 
   override fun onCreateInputConnection(outAttrs: EditorInfo): InputConnection {
