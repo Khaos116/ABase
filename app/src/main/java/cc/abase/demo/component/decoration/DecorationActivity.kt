@@ -32,7 +32,7 @@ class DecorationActivity : CommTitleActivity() {
 
   override fun initContentView() {
     setTitleText(StringUtils.getString(R.string.title_decoration))
-    val spanCount = 3
+    val spanCount = if (System.currentTimeMillis() % 2 == 0L) 1 else 4
     val layoutManager = GridLayoutManager(this, spanCount)
     epoxyController.spanCount = spanCount
     layoutManager.spanSizeLookup = epoxyController.spanSizeLookup
