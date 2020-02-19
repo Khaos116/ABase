@@ -120,14 +120,14 @@ android.applicationVariants.all { variant ->
 //强制使用lib版本，解决个版本导致包重复无法混淆的问题 https://www.jianshu.com/p/c602e6c493ce
 configurations.all {
   resolutionStrategy {
-    force 'androidx.appcompat:appcompat:1.1.0'
-    force 'androidx.annotation:annotation:1.1.0'
-    force 'androidx.core:core:1.1.0'
-    force 'androidx.fragment:fragment:1.1.0'
-    force 'androidx.collection:collection:1.1.0'
-    force 'androidx.lifecycle:lifecycle-runtime:2.1.0'
-    force 'androidx.lifecycle:lifecycle-viewmodel:2.1.0'
-    force 'androidx.lifecycle:lifecycle-common:2.1.0'
+    force 'androidx.appcompat:appcompat:1.2.0-alpha02'
+    force 'androidx.annotation:annotation:1.1.0-rc01'
+    force 'androidx.core:core:1.3.0-alpha01'
+    force 'androidx.fragment:fragment:1.2.1'
+    force 'androidx.collection:collection:1.1.0-rc01'
+    force 'androidx.lifecycle:lifecycle-runtime:2.2.0'
+    force 'androidx.lifecycle:lifecycle-viewmodel:2.2.0'
+    force 'androidx.lifecycle:lifecycle-common:2.2.0'
     force 'androidx.arch.core:core-common:2.1.0'
     force 'androidx.recyclerview:recyclerview:1.0.0-rc01'
     force 'androidx.legacy:legacy-support-core-ui:1.0.0-rc01'
@@ -166,12 +166,7 @@ bugly {
 
 dependencies {
   implementation fileTree(dir: 'libs', include: ['*.jar'])
-  implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
   implementation project(':ablibrary')
-
-  implementation 'androidx.appcompat:appcompat:1.1.0'
-  implementation 'androidx.core:core-ktx:1.2.0'
-  implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
 
   //表情 https://github.com/vanniktech/Emoji
   implementation 'com.vanniktech:emoji-ios:0.6.0'
