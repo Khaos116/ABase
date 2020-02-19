@@ -17,6 +17,9 @@ import rxhttp.wrapper.param.RxHttp
 
 /**
  * Description:https://github.com/liujingxing/okhttp-RxHttp
+ * @see cc.abase.demo.app.MyApplication.initRxHttp 初始化
+ * @see cc.abase.demo.component.rxhttp.parser.ResponseWanParser 自定义解析
+ *
  * @author: caiyoufei
  * @date: 2020/2/19 16:39
  */
