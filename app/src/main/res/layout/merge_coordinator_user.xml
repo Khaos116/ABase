@@ -35,7 +35,7 @@
           app:layout_collapseMode="parallax"
           />
       <!--顶部占位高度-->
-      <com.google.android.material.appbar.MaterialToolbar
+      <androidx.appcompat.widget.Toolbar
           android:id="@+id/coordinatorUserToolbar"
           android:layout_width="match_parent"
           android:layout_height="49dp"
@@ -65,7 +65,7 @@
             android:textSize="18sp"
             android:textStyle="bold"
             />
-      </com.google.android.material.appbar.MaterialToolbar>
+      </androidx.appcompat.widget.Toolbar>
     </com.google.android.material.appbar.CollapsingToolbarLayout>
     <!--TAB导航-->
     <cc.abase.demo.widget.SimpleViewpagerIndicator
