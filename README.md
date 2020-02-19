@@ -13,7 +13,7 @@
 **[sketch](https://github.com/panpf/sketch)**|图片加载(兼容圆角、圆形、高斯模糊、图片按压效果，图片边框)
 **[AgentWeb](https://github.com/Justson/AgentWeb)**|简化WebView加载
 **[fuel](https://github.com/kittinunf/fuel)**|新一代网络请(pandora会导致带参数的post无法发出请求)
-**[RxHttp](https://github.com/liujingxing/okhttp-RxHttp)**|新一代OkHttp请求神器)
+**[RxHttp](https://github.com/liujingxing/okhttp-RxHttp)**|新一代OkHttp请求神器
 **[RxCache](https://github.com/VictorAlbertos/RxCache)**|接口数据缓存方案，自定义缓存时长
 **[MMKV](https://github.com/Tencent/MMKV)**|替代SharedPreferences的更高效方案
 **[leakcanary](https://github.com/square/leakcanary/releases)**|内存泄漏检测工具
