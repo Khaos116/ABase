@@ -46,9 +46,7 @@ class DecorationActivity : CommTitleActivity() {
 
   override fun initData() {
     val datas = mutableListOf<String>()
-    for (i in 1..30) {
-      datas.add("我是第${i}个元素")
-    }
+    for (i in 1..30) datas.add("我是第${i}个元素")
     epoxyController.data = datas
   }
 
