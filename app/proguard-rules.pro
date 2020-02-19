@@ -297,3 +297,6 @@
 -keepclassmembernames class kotlinx.** {
     volatile <fields>;
 }
+
+#RxHttp https://github.com/liujingxing/okhttp-RxHttp
+-keep class rxhttp.**{*;}
