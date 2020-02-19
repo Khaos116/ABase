@@ -2,19 +2,14 @@ package cc.abase.demo.component.main
 
 import android.content.Context
 import android.content.Intent
-import android.util.Log
 import androidx.annotation.IntRange
-import androidx.lifecycle.Observer
 import cc.ab.base.ext.toast
 import cc.abase.demo.R
 import cc.abase.demo.component.comm.CommActivity
 import cc.abase.demo.component.comm.CommFragment
-import cc.abase.demo.constants.EventKeys
 import com.blankj.utilcode.util.ActivityUtils
 import com.blankj.utilcode.util.FragmentUtils
-import com.jeremyliao.liveeventbus.LiveEventBus
-import kotlinx.android.synthetic.main.activity_main.mainContainer
-import kotlinx.android.synthetic.main.activity_main.mainNavigation
+import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : CommActivity() {
   //页面

@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
   <!--内容导航-->
-  <FrameLayout
+  <androidx.fragment.app.FragmentContainerView
       android:id="@+id/mainContainer"
       app:layout_constraintTop_toTopOf="parent"
       app:layout_constraintBottom_toTopOf="@id/mainNavigation"
