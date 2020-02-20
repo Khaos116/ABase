@@ -51,7 +51,7 @@
         android:layout_marginTop="10dp"
         android:layout_marginBottom="10dp"
         android:layout_weight="1"
-        android:background="@drawable/shape_stroken1_corners8_gray"
+        android:background="@drawable/shape_stroke1_corner8_gray"
         android:gravity="center_vertical"
         android:imeOptions="actionSend"
         android:inputType="textCapSentences|textMultiLine"

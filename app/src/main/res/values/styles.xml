@@ -15,4 +15,9 @@
         <item name="android:textSize">21sp</item>
         <item name="android:textColor">@color/black</item>
     </style>
+    <!-- 自定义Dialog动画 -->
+    <style name="BottomDialogAnimation">
+        <item name="android:windowEnterAnimation">@anim/anim_bottom_in</item>
+        <item name="android:windowExitAnimation">@anim/anim_bottom_out</item>
+    </style>
 </resources>

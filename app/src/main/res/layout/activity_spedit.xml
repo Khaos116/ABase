@@ -12,7 +12,7 @@
       android:id="@+id/speditInput"
       android:layout_width="match_parent"
       android:layout_height="260dp"
-      android:background="@drawable/shape_stroken1_corners8_gray"
+      android:background="@drawable/shape_stroke1_corner8_gray"
       android:gravity="start"
       android:hint="@string/spedit_input_hint"
       android:padding="8dp"

@@ -29,6 +29,7 @@ import cc.abase.demo.epoxy.base.dividerItem
 import cc.abase.demo.epoxy.item.simpleTextItem
 import cc.abase.demo.mvrx.MvRxEpoxyController
 import cc.abase.demo.repository.UserRepository
+import cc.abase.demo.widget.dialog.dateSelDialog
 import com.blankj.utilcode.util.*
 import com.jeremyliao.liveeventbus.LiveEventBus
 import kotlinx.android.synthetic.main.fragment_mine.*
@@ -113,6 +114,13 @@ class MineFragment : CommFragment() {
         })
     mineScrollView.post {
       mineRecyclerParent.layoutParams.height = mineScrollView.height + SizeUtils.dp2px(70f)
+    }
+    mineIntegral.click {
+      dateSelDialog(childFragmentManager) {
+        call = { r ->
+          mContext.toast(String.format("%d年%02d月%02d日", r.first, r.second, r.third))
+        }
+      }
     }
   }
 
