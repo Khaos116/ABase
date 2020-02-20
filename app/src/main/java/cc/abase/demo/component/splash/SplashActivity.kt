@@ -4,7 +4,6 @@ import android.Manifest
 import android.content.Intent
 import android.util.Log
 import cc.ab.base.ext.*
-import cc.ab.base.utils.RxUtils
 import cc.abase.demo.R
 import cc.abase.demo.component.comm.CommActivity
 import cc.abase.demo.component.login.LoginActivity
@@ -13,15 +12,13 @@ import cc.abase.demo.constants.ImageUrls
 import cc.abase.demo.repository.UserRepository
 import cc.abase.demo.utils.MMkvUtils
 import com.blankj.utilcode.constant.PermissionConstants
-import com.blankj.utilcode.util.*
+import com.blankj.utilcode.util.PermissionUtils
+import com.blankj.utilcode.util.TimeUtils
+import com.blankj.utilcode.util.Utils
 import com.gyf.immersionbar.ktx.immersionBar
-import io.reactivex.Flowable
-import io.reactivex.disposables.Disposable
-import kotlinx.android.synthetic.main.activity_splash.splashCover
-import kotlinx.android.synthetic.main.activity_splash.splashTime
+import kotlinx.android.synthetic.main.activity_splash.*
+import kotlinx.coroutines.*
 import me.panpf.sketch.Sketch
-import java.util.concurrent.TimeUnit
-import kotlin.math.max
 
 /**
  * Description:
@@ -35,7 +32,7 @@ class SplashActivity : CommActivity() {
   //倒计时3秒
   private val count = 3L
   //倒计时
-  private var disposable: Disposable? = null
+  private var launchJob: Job? = null
   //是否有SD卡读写权限
   private var hasSDPermission: Boolean? = null
   //倒计时是否结束
@@ -56,20 +53,20 @@ class SplashActivity : CommActivity() {
   override fun initView() {
     hasFinish = checkReOpenHome()
     if (hasFinish) return
-    disposable?.dispose()
+    launchJob?.cancel()
     //页面无缝过渡后重置背景，不然会导致页面显示出现问题。主要解决由于window背景设置后的一些问题
     window.setBackgroundDrawable(null)
     //有尺寸了才开始计时
     splashTime?.post {
-      disposable = Flowable.intervalRange(0, count + 1, 0, 1, TimeUnit.SECONDS)
-        .compose(RxUtils.instance.rx2SchedulerHelperF(lifecycleProvider))
-        .doOnNext { splashTime.text = String.format("%d", max(1, count - it)) }
-        .doOnComplete {
-          Log.e("CASE", "倒计时结束")
-          countDownFinish = true
-          goNextPage()
+      //使用协程进行倒计时
+      launchJob = GlobalScope.launch(Dispatchers.Main) {
+        for (i in count.toInt() downTo 1) {
+          splashTime?.text = i.toString()
+          delay(1000)
         }
-        .subscribe()
+        countDownFinish = true
+        goNextPage()
+      }
     }
   }
 
@@ -158,7 +155,7 @@ class SplashActivity : CommActivity() {
   }
 
   override fun finish() {
-    disposable?.dispose()
+    launchJob?.cancel()
     super.finish()
   }
 }
