@@ -7,12 +7,17 @@ import android.os.Build
 import android.widget.RemoteViews
 import androidx.core.app.NotificationCompat
 import cc.abase.demo.R
-import cc.abase.demo.constants.*
+import cc.abase.demo.constants.EventKeys
+import cc.abase.demo.constants.IntConstants
+import cc.abase.demo.constants.StringConstants
 import com.blankj.utilcode.util.*
 import com.github.kittinunf.fuel.Fuel
 import com.jeremyliao.liveeventbus.LiveEventBus
+import io.reactivex.android.schedulers.AndroidSchedulers
+import rxhttp.wrapper.param.RxHttp
 import java.io.File
-import java.util.Locale
+import java.util.*
+
 
 /**
  * Description:
@@ -89,9 +94,9 @@ open class CcUpdateService : IntentService("UpdateService") {
     if (isDownloading) return
     intent?.let {
       isDownloading = true
-      mApkUrl = it.getStringExtra(DOWNLOAD_PATH)
+      mApkUrl = it.getStringExtra(DOWNLOAD_PATH) ?: ""
       val downloadUrl: String = mApkUrl
-      mApkVersion = it.getStringExtra(DOWNLOAD_VERSION_NAME)
+      mApkVersion = it.getStringExtra(DOWNLOAD_VERSION_NAME) ?: ""
       val versionName = mApkVersion
       needShowNotification = it.getBooleanExtra(DOWNLOAD_SHOW_NOTIFICATION, false)
       val downLoadName = EncryptUtils.encryptMD5ToString(downloadUrl)
@@ -103,6 +108,7 @@ open class CcUpdateService : IntentService("UpdateService") {
         return
       }
       showNotification()
+      //Fuel下载
       Fuel.download(downloadUrl)
           .fileDestination { response, request ->
             File(mFileDir, downLoadName)
@@ -120,6 +126,28 @@ open class CcUpdateService : IntentService("UpdateService") {
               showFail(downloadUrl)
             }
           }
+      //RxHttp 下载
+//      val tempFile = File(mFileDir, downLoadName)
+//      RxHttp.get(downloadUrl)
+//        .setRangeHeader(if (tempFile.exists()) tempFile.length() else 0L)//设置开始下载位置，结束位置默认为文件末尾,如果需要衔接上次的下载进度，则需要传入上次已下载的字节数length
+//        .asDownload(tempFile.path, { progress ->
+//          //下载进度回调,0-100，仅在进度有更新时才会回调
+//          val currentProgress = progress.progress //当前进度 0-100
+//          val currentSize = progress.currentSize //当前已下载的字节大小
+//          val totalSize = progress.totalSize //要下载的总字节大小
+//          updateProgress(currentSize, totalSize)
+//        }, AndroidSchedulers.mainThread())//指定回调(进度/成功/失败)线程,不指定,默认在请求所在线程回调
+//        .subscribe({
+//          //下载成功，处理相关逻辑
+//          FileUtils.rename(tempFile, apkName)
+//          showSuccess(File(mFileDir, apkName).path)
+//          AppUtils.installApp(File(mFileDir, apkName).path)
+//        }, {
+//          //下载失败，处理相关逻辑
+//          showFail(downloadUrl)
+//        }, {
+//          isDownloading = false
+//        })
     }
   }
 
