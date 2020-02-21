@@ -27,12 +27,9 @@ import kotlinx.coroutines.*
  * @date: 2020/2/21 17:14
  */
 class NetSpeedUtils private constructor() : LifecycleObserver {
-  private object SingletonHolder {
-    val holder = NetSpeedUtils()
-  }
 
   companion object {
-    val instance = SingletonHolder.holder
+    fun newInstance() = NetSpeedUtils()
   }
 
   private var mJob: Job? = null
