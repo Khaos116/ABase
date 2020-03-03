@@ -155,7 +155,7 @@ dependencies {
   implementation 'com.github.D10NGYANG:DL10SideBar:1.0.0'
 
   //bugly https://bugly.qq.com/docs/user-guide/instruction-manual-android/?v=20190916214340
-  implementation 'com.tencent.bugly:crashreport:3.1.0'
+  implementation 'com.tencent.bugly:crashreport:3.1.8'
   implementation 'com.tencent.bugly:nativecrashreport:3.7.1'
 
   //中文转拼音 https://github.com/promeG/TinyPinyin
@@ -169,9 +169,9 @@ dependencies {
   kapt 'com.airbnb.android:epoxy-processor:3.9.0'
 
   //RxHttp https://github.com/liujingxing/okhttp-RxHttp
-  implementation 'com.rxjava.rxhttp:rxhttp:1.4.2' //必须
-  kapt 'com.rxjava.rxhttp:rxhttp-compiler:1.4.2' //注解处理器，生成RxHttp类,必须
-  implementation 'io.reactivex.rxjava2:rxandroid:2.1.1'  //切换主线程，Android工程必须
+  implementation 'com.rxjava.rxhttp:rxhttp:1.4.3' //必须
+  kapt 'com.rxjava.rxhttp:rxhttp-compiler:1.4.3' //注解处理器，生成RxHttp类,必须
+  //rxandroid在lib中已经存在，就不再次添加了
   implementation 'com.rxjava.rxlife:rxlife:1.1.0'  //页面销毁，关闭请求，非必须
 
   //日期选择 https://github.com/zyyoona7/WheelPicker
