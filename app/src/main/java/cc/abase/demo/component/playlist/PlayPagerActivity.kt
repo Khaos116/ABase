@@ -11,7 +11,7 @@ import cc.abase.demo.component.playlist.adapter.PlayPagerAdapter
 import cc.abase.demo.component.playlist.adapter.PlayPagerAdapter.PagerHolder
 import cc.abase.demo.component.playlist.view.PagerController
 import cc.abase.demo.component.playlist.viewmoel.PlayPagerViewModel
-import cc.abase.demo.repository.bean.local.VideoBean
+import cc.abase.demo.bean.local.VideoBean
 import cc.abase.demo.widget.video.controller.VodControlView
 import cc.abase.demo.widget.video.view.ExoVideoView
 import com.airbnb.mvrx.Success

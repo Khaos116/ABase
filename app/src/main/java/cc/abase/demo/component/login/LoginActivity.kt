@@ -10,7 +10,7 @@ import cc.abase.demo.component.comm.CommActivity
 import cc.abase.demo.component.main.MainActivity
 import cc.abase.demo.constants.LengthConstants
 import cc.abase.demo.constants.UiConstants
-import cc.abase.demo.repository.UserRepository
+import cc.abase.demo.fuel.repository.UserRepositoryFuel
 import cc.abase.demo.utils.AppInfoUtils
 import cc.abase.demo.utils.MMkvUtils
 import com.blankj.utilcode.util.ActivityUtils
@@ -48,7 +48,7 @@ class LoginActivity : CommActivity() {
     loginEditPassword.addTextWatcher { checkSubmit() }
     loginSubmit.click {
       showActionLoading()
-      UserRepository.instance.login(
+      UserRepositoryFuel.instance.login(
           loginEditAccount.text.toString(),
           loginEditPassword.text.toString()
       )
@@ -73,7 +73,7 @@ class LoginActivity : CommActivity() {
 
   override fun initData() {
     //来到登录页默认需要清除数据
-    UserRepository.instance.clearUserInfo()
+    UserRepositoryFuel.instance.clearUserInfo()
     //关闭其他所有页面
     ActivityUtils.finishOtherActivities(javaClass)
   }

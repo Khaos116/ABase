@@ -5,7 +5,7 @@ import cc.ab.base.ext.click
 import cc.ab.base.ui.holder.BaseEpoxyHolder
 import cc.abase.demo.R
 import cc.abase.demo.epoxy.base.BaseEpoxyModel
-import cc.abase.demo.repository.bean.local.ProvinceBean
+import cc.abase.demo.bean.local.ProvinceBean
 import com.airbnb.epoxy.EpoxyAttribute
 import com.airbnb.epoxy.EpoxyModelClass
 import kotlinx.android.synthetic.main.item_sticky_top.view.itemStickyTopText

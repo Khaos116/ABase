@@ -11,7 +11,7 @@ import cc.abase.demo.component.comm.CommTitleActivity
 import cc.abase.demo.component.main.MainActivity
 import cc.abase.demo.constants.LengthConstants
 import cc.abase.demo.constants.UiConstants
-import cc.abase.demo.repository.UserRepository
+import cc.abase.demo.fuel.repository.UserRepositoryFuel
 import com.blankj.utilcode.util.StringUtils
 import kotlinx.android.synthetic.main.activity_register.*
 
@@ -41,7 +41,7 @@ class RegisterActivity : CommTitleActivity() {
     registerEditPassword2.addTextWatcher { checkSubmit() }
     registerSubmit.click {
       showActionLoading()
-      UserRepository.instance.register(
+      UserRepositoryFuel.instance.register(
           registerEditAccount.text.toString(),
           registerEditPassword1.text.toString(),
           registerEditPassword2.text.toString()

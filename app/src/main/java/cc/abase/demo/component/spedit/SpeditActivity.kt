@@ -10,8 +10,8 @@ import cc.abase.demo.R
 import cc.abase.demo.component.comm.CommTitleActivity
 import cc.abase.demo.component.sticky.StickyActivity
 import cc.abase.demo.constants.EventKeys
-import cc.abase.demo.repository.bean.local.AtBean
-import cc.abase.demo.repository.bean.local.CityBean
+import cc.abase.demo.bean.local.AtBean
+import cc.abase.demo.bean.local.CityBean
 import cc.abase.demo.widget.spedit.MySelectDeleteKeyEventProxy
 import cc.abase.demo.widget.spedit.SpeditUtil
 import com.blankj.utilcode.util.GsonUtils

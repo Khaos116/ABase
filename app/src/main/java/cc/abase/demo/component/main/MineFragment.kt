@@ -28,7 +28,7 @@ import cc.abase.demo.constants.EventKeys
 import cc.abase.demo.epoxy.base.dividerItem
 import cc.abase.demo.epoxy.item.simpleTextItem
 import cc.abase.demo.mvrx.MvRxEpoxyController
-import cc.abase.demo.repository.UserRepository
+import cc.abase.demo.fuel.repository.UserRepositoryFuel
 import cc.abase.demo.widget.dialog.dateSelDialog
 import com.blankj.utilcode.util.*
 import com.jeremyliao.liveeventbus.LiveEventBus
@@ -77,7 +77,7 @@ class MineFragment : CommFragment() {
   override fun initData() {
     showLoadingView()
     mineRoot.gone()
-    UserRepository.instance.myIntegral()
+    UserRepositoryFuel.instance.myIntegral()
         .compose(lifecycleProvider.bindUntilEvent(Lifecycle.Event.ON_DESTROY))
         .subscribe { t1, t2 ->
           dismissLoadingView()

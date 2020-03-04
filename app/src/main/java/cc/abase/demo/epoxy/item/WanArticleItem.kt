@@ -6,7 +6,7 @@ import cc.ab.base.ext.pressEffectBgColor
 import cc.ab.base.ui.holder.BaseEpoxyHolder
 import cc.abase.demo.R
 import cc.abase.demo.epoxy.base.BaseEpoxyModel
-import cc.abase.demo.repository.bean.wan.ArticleBean
+import cc.abase.demo.bean.wan.ArticleBean
 import com.airbnb.epoxy.EpoxyAttribute
 import com.airbnb.epoxy.EpoxyModelClass
 import kotlinx.android.synthetic.main.item_wan_article.view.*

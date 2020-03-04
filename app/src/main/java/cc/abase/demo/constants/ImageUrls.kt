@@ -1,6 +1,6 @@
 package cc.abase.demo.constants
 
-import cc.abase.demo.repository.bean.local.PicEntity
+import cc.abase.demo.bean.local.PicEntity
 
 /**
  * Description:随时图片模拟地址

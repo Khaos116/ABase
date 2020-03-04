@@ -5,8 +5,8 @@ import cc.abase.demo.epoxy.base.DividerItem_
 import cc.abase.demo.epoxy.item.StickyNormalItem_
 import cc.abase.demo.epoxy.item.StickyTopItem
 import cc.abase.demo.epoxy.item.StickyTopItem_
-import cc.abase.demo.repository.bean.local.CityBean
-import cc.abase.demo.repository.bean.local.ProvinceBean
+import cc.abase.demo.bean.local.CityBean
+import cc.abase.demo.bean.local.ProvinceBean
 import com.airbnb.epoxy.EpoxyAdapter
 
 /**

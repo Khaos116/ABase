@@ -138,8 +138,8 @@
 #            项目中特殊处理部分               #
 #############################################
 -keep class cc.ab.base.net.http.response.** { *; }
--keep class cc.abase.demo.repository.** { *; }
 -keep class cc.ab.base.widget.engine.** { *; }
+-keep class cc.abase.demo.bean.** { *; }
 
 #内部成员和方法不混淆
 

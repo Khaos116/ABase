@@ -1,8 +1,8 @@
 package cc.abase.demo.component.main.viewmodel
 
 import cc.ab.base.mvrx.MvRxViewModel
-import cc.abase.demo.repository.GankRepository
-import cc.abase.demo.repository.bean.gank.GankAndroidBean
+import cc.abase.demo.fuel.repository.GankRepositoryFuel
+import cc.abase.demo.bean.gank.GankAndroidBean
 import com.airbnb.mvrx.*
 
 /**
@@ -35,7 +35,7 @@ class DynViewModel(
   private fun getAndroidList(refresh: Boolean) = withState { state ->
     if (state.request is Loading) return@withState
     val tempPage = if (refresh) 1 else page + 1
-    GankRepository.instance.androidList(tempPage, pageSize)
+    GankRepositoryFuel.instance.androidList(tempPage, pageSize)
         .execute {
           val result: MutableList<GankAndroidBean> = it.invoke() ?: mutableListOf()
           if (it is Success) page = tempPage

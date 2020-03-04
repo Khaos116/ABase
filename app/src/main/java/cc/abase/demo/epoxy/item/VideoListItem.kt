@@ -6,7 +6,7 @@ import cc.ab.base.ext.load
 import cc.ab.base.ui.holder.BaseEpoxyHolder
 import cc.abase.demo.R
 import cc.abase.demo.epoxy.base.BaseEpoxyModel
-import cc.abase.demo.repository.bean.local.VideoBean
+import cc.abase.demo.bean.local.VideoBean
 import com.airbnb.epoxy.EpoxyAttribute
 import com.airbnb.epoxy.EpoxyModelClass
 import kotlinx.android.synthetic.main.dkplayer_layout_prepare_view.view.thumb

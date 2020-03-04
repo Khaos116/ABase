@@ -1,8 +1,8 @@
 package cc.abase.demo.component.main.viewmodel
 
 import cc.ab.base.mvrx.MvRxViewModel
-import cc.abase.demo.repository.HomeRepository
-import cc.abase.demo.repository.bean.wan.*
+import cc.abase.demo.bean.wan.*
+import cc.abase.demo.fuel.repository.HomeRepositoryFuel
 import com.airbnb.mvrx.*
 import io.reactivex.functions.BiFunction
 
@@ -22,7 +22,7 @@ class HomeViewModel(
   state: HomeState = HomeState()
 ) : MvRxViewModel<HomeState>(state) {
   private var page = 0
-  private val api = HomeRepository.instance
+  private val api = HomeRepositoryFuel.instance
 
   //刷新数据
   fun refreshData() = withState { state ->

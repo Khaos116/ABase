@@ -9,7 +9,7 @@ import cc.ab.base.utils.CcInputHelper
 import cc.ab.base.widget.span.ClickPreventableTextView
 import cc.ab.base.widget.span.TouchableSpan
 import cc.abase.demo.R
-import cc.abase.demo.repository.bean.local.AtBean
+import cc.abase.demo.bean.local.AtBean
 import com.blankj.utilcode.util.ColorUtils
 import com.blankj.utilcode.util.Utils
 import java.util.ArrayList

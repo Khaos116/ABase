@@ -7,7 +7,7 @@ import androidx.viewpager.widget.PagerAdapter
 import cc.ab.base.ext.load
 import cc.abase.demo.R
 import cc.abase.demo.component.playlist.view.PagerItemView
-import cc.abase.demo.repository.bean.local.VideoBean
+import cc.abase.demo.bean.local.VideoBean
 import kotlinx.android.synthetic.main.item_play_pager.view.itemPlayPagerThumb
 import kotlinx.android.synthetic.main.item_play_pager.view.itemPlayPagerTitle
 import kotlinx.android.synthetic.main.item_play_pager_parent.view.itemPlayPagerContainer

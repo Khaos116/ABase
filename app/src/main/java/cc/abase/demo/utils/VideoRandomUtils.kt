@@ -1,7 +1,7 @@
 package cc.abase.demo.utils
 
 import androidx.annotation.IntRange
-import cc.abase.demo.repository.bean.local.VideoBean
+import cc.abase.demo.bean.local.VideoBean
 
 /**
  * Description:
@@ -85,12 +85,12 @@ class VideoRandomUtils private constructor() {
     for (i in 0 until count) {
       val pair = resourceList[(i + idStart).toInt() % resourceList.size]
       result.add(
-        VideoBean(
-          id = idStart + i,
-          thumb = pair.first,
-          url = pair.second,
-          title = "这是第${i + idStart}个视频"
-        )
+          VideoBean(
+              id = idStart + i,
+              thumb = pair.first,
+              url = pair.second,
+              title = "这是第${i + idStart}个视频"
+          )
       )
     }
     return result

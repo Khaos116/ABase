@@ -2,8 +2,8 @@ package cc.abase.demo.component.sticky.viewmodel
 
 import cc.ab.base.mvrx.MvRxViewModel
 import cc.ab.base.utils.RxUtils
-import cc.abase.demo.repository.bean.local.CityBean
-import cc.abase.demo.repository.bean.local.ProvinceBean
+import cc.abase.demo.bean.local.CityBean
+import cc.abase.demo.bean.local.ProvinceBean
 import cc.abase.demo.utils.CountryUtils
 import com.airbnb.mvrx.*
 import com.blankj.utilcode.util.GsonUtils

@@ -13,7 +13,7 @@ import cc.abase.demo.component.playlist.viewmoel.PlayListViewModel
 import cc.abase.demo.epoxy.base.loadMoreItem
 import cc.abase.demo.epoxy.item.videoListItem
 import cc.abase.demo.mvrx.MvRxEpoxyController
-import cc.abase.demo.repository.bean.local.VideoBean
+import cc.abase.demo.bean.local.VideoBean
 import cc.abase.demo.widget.video.controller.StandardVideoController
 import cc.abase.demo.widget.video.view.ExoVideoView
 import com.blankj.utilcode.util.StringUtils

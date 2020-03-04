@@ -7,7 +7,7 @@ import cc.ab.base.ext.*
 import cc.abase.demo.R
 import cc.abase.demo.component.comm.CommTitleActivity
 import cc.abase.demo.constants.WanUrls
-import cc.abase.demo.repository.bean.wan.IntegralBean
+import cc.abase.demo.bean.wan.IntegralBean
 import com.blankj.utilcode.util.StringUtils
 import com.rxjava.rxlife.life
 import io.reactivex.android.schedulers.AndroidSchedulers

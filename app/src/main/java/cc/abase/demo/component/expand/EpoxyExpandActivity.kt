@@ -11,7 +11,7 @@ import cc.abase.demo.epoxy.base.dividerItem
 import cc.abase.demo.epoxy.item.stickyNormalItem
 import cc.abase.demo.epoxy.item.stickyTopItem
 import cc.abase.demo.mvrx.MvRxEpoxyController
-import cc.abase.demo.repository.bean.local.ProvinceBean
+import cc.abase.demo.bean.local.ProvinceBean
 import com.blankj.utilcode.util.StringUtils
 import kotlinx.android.synthetic.main.activity_epoxy_expand.expandRecycler
 

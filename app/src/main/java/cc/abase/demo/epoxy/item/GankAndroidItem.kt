@@ -8,7 +8,7 @@ import cc.ab.base.widget.ninegridview.NineGridAdapter
 import cc.ab.base.widget.ninegridview.NineGridView
 import cc.abase.demo.R
 import cc.abase.demo.epoxy.base.BaseEpoxyModel
-import cc.abase.demo.repository.bean.gank.GankAndroidBean
+import cc.abase.demo.bean.gank.GankAndroidBean
 import cc.abase.demo.utils.BrowserUtils
 import com.airbnb.epoxy.EpoxyAttribute
 import com.airbnb.epoxy.EpoxyModelClass

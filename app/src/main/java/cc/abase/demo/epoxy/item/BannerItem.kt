@@ -11,7 +11,7 @@ import cc.ab.base.widget.discretescrollview.holder.DiscreteHolderCreator
 import cc.abase.demo.R
 import cc.abase.demo.component.web.WebActivity
 import cc.abase.demo.epoxy.base.BaseEpoxyModel
-import cc.abase.demo.repository.bean.wan.BannerBean
+import cc.abase.demo.bean.wan.BannerBean
 import com.airbnb.epoxy.EpoxyAttribute
 import com.airbnb.epoxy.EpoxyModelClass
 import kotlinx.android.synthetic.main.item_banner_child.view.itemBannerIV
