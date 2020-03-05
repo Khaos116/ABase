@@ -43,6 +43,7 @@ class FuelRequestInterceptor private constructor() {
                   request.appendHeader(pair)
                 }
               }
+          request.appendHeader(Pair("platform","Fuel"))
           next(request)
         }
       }

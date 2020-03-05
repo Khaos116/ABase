@@ -11,10 +11,7 @@ import rxhttp.wrapper.param.RxHttp
 import rxhttp.wrapper.ssl.SSLSocketFactoryImpl
 import rxhttp.wrapper.ssl.X509TrustManagerImpl
 import java.util.concurrent.TimeUnit
-import javax.net.ssl.HostnameVerifier
-import javax.net.ssl.SSLSession
-import javax.net.ssl.SSLSocketFactory
-import javax.net.ssl.X509TrustManager
+import javax.net.ssl.*
 
 /**
  * Description:
@@ -50,6 +47,7 @@ class RxHttpConfig private constructor() {
       p.addAll(HeaderManger.instance.getStaticHeaders())//添加公共参数
       HeaderManger.instance.getTokenPair()
           ?.let { p.addHeader(it.first, it.second) /*添加公共请求头*/ }
+      p.add("platform", "RxHttp")
         p
     }
   }
