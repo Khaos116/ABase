@@ -10,7 +10,9 @@
   <uses-permission android:name="android.permission.INTERNET" />
   <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
   <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-  <uses-permission android:name="android.permission.READ_LOGS" />
+  <uses-permission
+      android:name="android.permission.READ_LOGS"
+      tools:ignore="ProtectedPermissions" />
   <application
       android:name=".app.MyApplication"
       android:allowBackup="true"
@@ -24,7 +26,7 @@
         android:name=".component.splash.SplashActivity"
         android:configChanges="screenLayout|orientation"
         android:launchMode="singleTop"
-        android:screenOrientation="portrait"
+        android:screenOrientation="fullSensor"
         android:theme="@style/SplashTheme"
         android:windowSoftInputMode="adjustPan|stateHidden">
       <intent-filter>
@@ -38,125 +40,132 @@
         android:name=".component.splash.GuideActivity"
         android:configChanges="screenLayout|orientation"
         android:launchMode="singleTop"
-        android:screenOrientation="portrait"
+        android:screenOrientation="fullSensor"
         android:windowSoftInputMode="adjustPan|stateHidden"/>
     <!--登录页-->
     <activity
         android:name=".component.login.LoginActivity"
         android:configChanges="screenLayout|orientation"
         android:launchMode="singleTop"
-        android:screenOrientation="portrait"
+        android:screenOrientation="fullSensor"
         android:windowSoftInputMode="adjustPan|stateHidden"/>
     <!--注册页-->
     <activity
         android:name=".component.login.RegisterActivity"
         android:launchMode="singleTop"
-        android:screenOrientation="portrait"
+        android:screenOrientation="fullSensor"
         android:windowSoftInputMode="adjustPan|stateHidden"/>
     <!--主页-->
     <activity
         android:name=".component.main.MainActivity"
         android:configChanges="screenLayout|orientation"
         android:launchMode="singleTask"
-        android:screenOrientation="portrait"
+        android:screenOrientation="fullSensor"
         android:windowSoftInputMode="adjustPan|stateHidden"/>
     <!--web-->
     <activity
         android:name=".component.web.WebActivity"
         android:configChanges="screenLayout|orientation"
         android:launchMode="singleTop"
-        android:screenOrientation="portrait"
+        android:screenOrientation="fullSensor"
         android:windowSoftInputMode="adjustPan|stateHidden"/>
     <!--聊天页面模拟-->
     <activity
         android:name=".component.chat.ChatActivity"
         android:configChanges="screenLayout|orientation"
         android:launchMode="singleTop"
-        android:screenOrientation="portrait"
+        android:screenOrientation="fullSensor"
         android:windowSoftInputMode="adjustPan|stateHidden" />
     <!--视频封面获取和压缩-->
     <activity
         android:name=".component.ffmpeg.RxFFmpegActivity"
         android:configChanges="orientation|keyboardHidden|screenSize"
         android:launchMode="singleTop"
-        android:screenOrientation="portrait"
+        android:screenOrientation="fullSensor"
         android:windowSoftInputMode="adjustPan|stateHidden"/>
     <!--视频详情页-->
     <activity
         android:name=".component.ffmpeg.VideoDetailActivity"
         android:configChanges="orientation|keyboardHidden|screenSize"
         android:launchMode="singleTop"
-        android:screenOrientation="portrait"
+        android:screenOrientation="fullSensor"
         android:windowSoftInputMode="adjustPan|stateHidden"/>
     <!--图片预览-->
     <activity
         android:name=".component.gallery.GalleryActivity"
         android:configChanges="screenLayout|orientation"
         android:launchMode="singleTop"
-        android:screenOrientation="portrait"
+        android:screenOrientation="fullSensor"
         android:windowSoftInputMode="adjustPan|stateHidden"/>
     <!--Sticky效果页面-->
     <activity
         android:name=".component.sticky.StickyActivity"
         android:configChanges="screenLayout|orientation"
         android:launchMode="singleTop"
-        android:screenOrientation="portrait"
+        android:screenOrientation="fullSensor"
         android:windowSoftInputMode="adjustPan|stateHidden" />
     <!--item拖拽效果-->
     <activity
         android:name=".component.drag.DragActivity"
         android:configChanges="screenLayout|orientation"
         android:launchMode="singleTop"
-        android:screenOrientation="portrait"
+        android:screenOrientation="fullSensor"
         android:windowSoftInputMode="adjustPan|stateHidden"/>
     <!--@和#显示效果-->
     <activity
         android:name=".component.spedit.SpeditActivity"
         android:configChanges="screenLayout|orientation"
         android:launchMode="singleTop"
-        android:screenOrientation="portrait"
+        android:screenOrientation="fullSensor"
         android:windowSoftInputMode="adjustPan|stateHidden"/>
     <!--Coordinator嵌套刷新效果-->
     <activity
         android:name=".component.coordinator.CoordinatorActivity"
         android:configChanges="screenLayout|orientation"
         android:launchMode="singleTop"
-        android:screenOrientation="portrait"
+        android:screenOrientation="fullSensor"
         android:windowSoftInputMode="adjustPan|stateHidden"/>
     <!--Epoxy展开和收缩效果-->
     <activity
         android:name=".component.expand.EpoxyExpandActivity"
         android:configChanges="screenLayout|orientation"
         android:launchMode="singleTop"
-        android:screenOrientation="portrait"
+        android:screenOrientation="fullSensor"
         android:windowSoftInputMode="adjustPan|stateHidden"/>
     <!--列表中播放-->
     <activity
         android:name=".component.playlist.PlayListActivity"
         android:configChanges="keyboardHidden|orientation|screenSize|screenLayout"
         android:launchMode="singleTop"
-        android:screenOrientation="portrait"
+        android:screenOrientation="fullSensor"
         android:windowSoftInputMode="adjustPan|stateHidden"/>
     <!--分页播放-->
     <activity
         android:name=".component.playlist.PlayPagerActivity"
         android:configChanges="screenLayout|orientation"
         android:launchMode="singleTop"
-        android:screenOrientation="portrait"
+        android:screenOrientation="fullSensor"
         android:windowSoftInputMode="adjustPan|stateHidden"/>
     <!--分割线-->
     <activity
         android:name=".component.decoration.DecorationActivity"
         android:configChanges="screenLayout|orientation"
         android:launchMode="singleTop"
-        android:screenOrientation="portrait"
+        android:screenOrientation="fullSensor"
         android:windowSoftInputMode="adjustPan|stateHidden"/>
     <!--RxHttp-->
     <activity
         android:name=".component.rxhttp.RxHttpActivity"
         android:configChanges="screenLayout|orientation"
         android:launchMode="singleTop"
-        android:screenOrientation="portrait"
+        android:screenOrientation="fullSensor"
+        android:windowSoftInputMode="adjustPan|stateHidden" />
+    <!--设置页面-->
+    <activity
+        android:name=".component.set.SettingActivity"
+        android:configChanges="screenLayout|orientation"
+        android:launchMode="singleTop"
+        android:screenOrientation="fullSensor"
         android:windowSoftInputMode="adjustPan|stateHidden" />
     <!-- APK更新 -->
     <service android:name=".component.update.CcUpdateService"/>

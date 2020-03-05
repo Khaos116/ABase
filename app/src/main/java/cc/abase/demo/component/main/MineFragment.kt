@@ -20,18 +20,22 @@ import cc.abase.demo.component.ffmpeg.RxFFmpegActivity
 import cc.abase.demo.component.playlist.PlayListActivity
 import cc.abase.demo.component.playlist.PlayPagerActivity
 import cc.abase.demo.component.rxhttp.RxHttpActivity
+import cc.abase.demo.component.set.SettingActivity
 import cc.abase.demo.component.spedit.SpeditActivity
 import cc.abase.demo.component.sticky.StickyActivity
 import cc.abase.demo.component.update.CcUpdateService
 import cc.abase.demo.component.update.UpdateEnum
+import cc.abase.demo.config.NetConfig
 import cc.abase.demo.constants.EventKeys
 import cc.abase.demo.epoxy.base.dividerItem
 import cc.abase.demo.epoxy.item.simpleTextItem
-import cc.abase.demo.mvrx.MvRxEpoxyController
 import cc.abase.demo.fuel.repository.UserRepositoryFuel
+import cc.abase.demo.mvrx.MvRxEpoxyController
+import cc.abase.demo.rxhttp.repository.UserRepository
 import cc.abase.demo.widget.dialog.dateSelDialog
 import com.blankj.utilcode.util.*
 import com.jeremyliao.liveeventbus.LiveEventBus
+import com.rxjava.rxlife.life
 import kotlinx.android.synthetic.main.fragment_mine.*
 import java.util.Locale
 
@@ -77,7 +81,23 @@ class MineFragment : CommFragment() {
   override fun initData() {
     showLoadingView()
     mineRoot.gone()
-    UserRepositoryFuel.instance.myIntegral()
+    mineSetting.pressEffectAlpha()
+    mineSetting.click { SettingActivity.startActivity(mContext) }
+    if (NetConfig.USE_RXHTTP) UserRepository.instance.myIntegral()
+        .life(this)
+        .subscribe({
+          mineIntegral.text =
+            String.format(StringUtils.getString(R.string.my_integral), it.coinCount)
+        }, {
+          mineIntegral.text =
+            String.format(StringUtils.getString(R.string.my_integral), 0)
+          mContext.toast(it.message)
+        }, {
+          dismissLoadingView()
+          mineRoot?.visible()
+          epoxyController.data = menuList
+        })
+    else UserRepositoryFuel.instance.myIntegral()
         .compose(lifecycleProvider.bindUntilEvent(Lifecycle.Event.ON_DESTROY))
         .subscribe { t1, t2 ->
           dismissLoadingView()

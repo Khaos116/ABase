@@ -89,6 +89,7 @@ class LoginActivity : CommActivity() {
 
   override fun initData() {
     //来到登录页默认需要清除数据
+    UserRepository.instance.clearUserInfo()
     UserRepositoryFuel.instance.clearUserInfo()
     //关闭其他所有页面
     ActivityUtils.finishOtherActivities(javaClass)
