@@ -1,5 +1,6 @@
 package cc.abase.demo.config
 
+import cc.abase.demo.rxhttp.config.RxCookie
 import cc.abase.demo.utils.MMkvUtils
 import com.blankj.utilcode.util.AppUtils
 import com.blankj.utilcode.util.GsonUtils
@@ -23,14 +24,14 @@ class HeaderManger private constructor() {
   fun getStaticHeaders(): Map<String, String> {
     val headers = HashMap<String, String>()
     val map = HashMap<String, String>()
-    map["os"] = "0"  //1：ios    0:Android
+    map["os"] = "Android"  //1：ios    0:Android
     map["clientVersion"] = AppUtils.getAppVersionName()
     map["channel"] = "10000"//BuildConfigApp.getChannelId()
     headers["Connection"] = "close"
     headers["Accept"] = "*/*"
     headers["Content-Type"] = "application/x-www-form-urlencoded;charset=utf-8"
     headers["Charset"] = "UTF-8"
-    headers["aimy-drivers"] = GsonUtils.toJson(map)
+    headers["abase-info"] = GsonUtils.toJson(map)
     return headers
   }
 

@@ -8,13 +8,16 @@ import cc.ab.base.utils.PressEffectHelper
 import cc.abase.demo.R
 import cc.abase.demo.component.comm.CommActivity
 import cc.abase.demo.component.main.MainActivity
+import cc.abase.demo.config.NetConfig
 import cc.abase.demo.constants.LengthConstants
 import cc.abase.demo.constants.UiConstants
 import cc.abase.demo.fuel.repository.UserRepositoryFuel
+import cc.abase.demo.rxhttp.repository.UserRepository
 import cc.abase.demo.utils.AppInfoUtils
 import cc.abase.demo.utils.MMkvUtils
 import com.blankj.utilcode.util.ActivityUtils
 import com.blankj.utilcode.util.StringUtils
+import com.rxjava.rxlife.life
 import kotlinx.android.synthetic.main.activity_login.*
 
 /**
@@ -48,21 +51,34 @@ class LoginActivity : CommActivity() {
     loginEditPassword.addTextWatcher { checkSubmit() }
     loginSubmit.click {
       showActionLoading()
-      UserRepositoryFuel.instance.login(
-          loginEditAccount.text.toString(),
-          loginEditPassword.text.toString()
-      )
-        .subscribe({ suc ->
-          dismissActionLoading()
-          if (suc) {
-            MainActivity.startActivity(mContext)
-          } else {
-            mContext.toast(R.string.login_fail)
-          }
-        }, { error ->
-          dismissActionLoading()
-          mContext.toast(error.message)
-        })
+      if (NetConfig.USE_RXHTTP) {
+        UserRepository.instance.login(
+                loginEditAccount.text.toString(),
+                loginEditPassword.text.toString()
+            )
+            .life(this)
+            .subscribe({
+              dismissActionLoading()
+              MainActivity.startActivity(mContext)
+            }, {
+              dismissActionLoading()
+              mContext.toast(R.string.login_fail)
+            })
+      } else UserRepositoryFuel.instance.login(
+              loginEditAccount.text.toString(),
+              loginEditPassword.text.toString()
+          )
+          .subscribe({ suc ->
+            dismissActionLoading()
+            if (suc) {
+              MainActivity.startActivity(mContext)
+            } else {
+              mContext.toast(R.string.login_fail)
+            }
+          }, { error ->
+            dismissActionLoading()
+            mContext.toast(error.message)
+          })
     }
     loginRegister.click { RegisterActivity.startActivity(mContext) }
     extKeyBoard { statusHeight, navigationHeight, keyBoardHeight -> }

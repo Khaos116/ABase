@@ -9,10 +9,13 @@ import cc.ab.base.utils.CcInputHelper
 import cc.abase.demo.R
 import cc.abase.demo.component.comm.CommTitleActivity
 import cc.abase.demo.component.main.MainActivity
+import cc.abase.demo.config.NetConfig
 import cc.abase.demo.constants.LengthConstants
 import cc.abase.demo.constants.UiConstants
 import cc.abase.demo.fuel.repository.UserRepositoryFuel
+import cc.abase.demo.rxhttp.repository.UserRepository
 import com.blankj.utilcode.util.StringUtils
+import com.rxjava.rxlife.life
 import kotlinx.android.synthetic.main.activity_register.*
 
 /**
@@ -41,12 +44,24 @@ class RegisterActivity : CommTitleActivity() {
     registerEditPassword2.addTextWatcher { checkSubmit() }
     registerSubmit.click {
       showActionLoading()
-      UserRepositoryFuel.instance.register(
+      if (NetConfig.USE_RXHTTP) UserRepository.instance.register(
           registerEditAccount.text.toString(),
           registerEditPassword1.text.toString(),
           registerEditPassword2.text.toString()
       )
-        .compose(lifecycleProvider.bindUntilEvent(Lifecycle.Event.ON_DESTROY))
+          .life(this)
+          .subscribe({
+            dismissActionLoading()
+            MainActivity.startActivity(mContext)
+          }, {
+            mContext.toast(it.message)
+          })
+      else UserRepositoryFuel.instance.register(
+              registerEditAccount.text.toString(),
+              registerEditPassword1.text.toString(),
+              registerEditPassword2.text.toString()
+          )
+          .compose(lifecycleProvider.bindUntilEvent(Lifecycle.Event.ON_DESTROY))
           .subscribe { suc, error ->
             dismissActionLoading()
             if (suc == true) {

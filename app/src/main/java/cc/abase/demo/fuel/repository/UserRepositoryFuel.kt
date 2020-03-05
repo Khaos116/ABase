@@ -11,6 +11,7 @@ import cc.abase.demo.bean.wan.UserBean
 import cc.abase.demo.fuel.repository.request.WanRequest
 import cc.abase.demo.utils.MMkvUtils
 import com.blankj.utilcode.util.EncryptUtils
+import com.blankj.utilcode.util.LogUtils
 import com.github.kittinunf.fuel.httpGet
 import com.github.kittinunf.fuel.httpPost
 import com.github.kittinunf.fuel.rx.rxString
@@ -148,7 +149,7 @@ class UserRepositoryFuel private constructor() : BaseRepository() {
 
   internal fun setToken(token: String) {
     if (token.isNotBlank() && token != this.token) {
-      Log.e("CASE", "更新Token为:${token}")
+      LogUtils.e("CASE:更新Token为:${token}")
       this.token = token
       MMkvUtils.instance.setToken(token)
     }

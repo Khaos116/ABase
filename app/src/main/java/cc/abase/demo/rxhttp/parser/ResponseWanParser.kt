@@ -1,4 +1,4 @@
-package cc.abase.demo.component.rxhttp.parser
+package cc.abase.demo.rxhttp.parser
 
 import cc.ab.base.net.http.response.BaseResponse
 import rxhttp.wrapper.annotation.Parser
