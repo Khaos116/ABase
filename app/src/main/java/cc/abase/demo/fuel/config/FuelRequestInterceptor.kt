@@ -30,6 +30,7 @@ class FuelRequestInterceptor private constructor() {
     return object : FoldableRequestInterceptor {
       override fun invoke(next: RequestTransformer): RequestTransformer {
         return { request ->
+          request.appendHeader(Pair("platform","Fuel"))
           //为了防止原本的header被覆盖，所以判断没有的才添加(否则会出现文件上传失败的情况)
           val temp = request.headers
           HeaderManger.instance.getStaticHeaders()
@@ -43,7 +44,6 @@ class FuelRequestInterceptor private constructor() {
                   request.appendHeader(pair)
                 }
               }
-          request.appendHeader(Pair("platform","Fuel"))
           next(request)
         }
       }

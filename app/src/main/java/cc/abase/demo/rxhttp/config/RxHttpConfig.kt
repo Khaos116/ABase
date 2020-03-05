@@ -44,11 +44,11 @@ class RxHttpConfig private constructor() {
     RxHttp.init(getDefaultOkHttpClient())
     //添加公共参数 https://github.com/liujingxing/okhttp-RxHttp/blob/486c7bc9e4554b4604f29c726e3e58714e2de6ee/app/src/main/java/com/example/httpsender/RxHttpManager.java
     RxHttp.setOnParamAssembly { p: Param<*> ->
+      p.add("platform", "RxHttp")
       p.addAll(HeaderManger.instance.getStaticHeaders())//添加公共参数
       HeaderManger.instance.getTokenPair()
           ?.let { p.addHeader(it.first, it.second) /*添加公共请求头*/ }
-      p.add("platform", "RxHttp")
-        p
+      p
     }
   }
 
