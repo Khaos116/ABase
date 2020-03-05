@@ -12,11 +12,7 @@ import java.io.IOException
  * Response<T> 数据解析器,解析完成对Response对象做判断,如果ok,返回数据 T
  */
 @Parser(name = "ResponseWan")
-class ResponseWanParser<T> : AbstractParser<T> {
-
-  protected constructor() : super()
-
-  constructor(type: Class<T>) : super(type)
+class ResponseWanParser<T>(type: Class<T>) : AbstractParser<T>(type) {
 
   @Throws(IOException::class)
   override fun onParse(response: okhttp3.Response): T {

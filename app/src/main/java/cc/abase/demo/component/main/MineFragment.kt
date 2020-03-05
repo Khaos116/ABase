@@ -88,11 +88,13 @@ class MineFragment : CommFragment() {
         .subscribe({
           mineIntegral.text =
             String.format(StringUtils.getString(R.string.my_integral), it.coinCount)
+          dismissLoadingView()
+          mineRoot?.visible()
+          epoxyController.data = menuList
         }, {
           mineIntegral.text =
             String.format(StringUtils.getString(R.string.my_integral), 0)
           mContext.toast(it.message)
-        }, {
           dismissLoadingView()
           mineRoot?.visible()
           epoxyController.data = menuList

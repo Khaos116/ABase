@@ -5,9 +5,9 @@ import android.content.Intent
 import android.graphics.Color
 import cc.ab.base.ext.*
 import cc.abase.demo.R
+import cc.abase.demo.bean.wan.IntegralBean
 import cc.abase.demo.component.comm.CommTitleActivity
 import cc.abase.demo.constants.WanUrls
-import cc.abase.demo.bean.wan.IntegralBean
 import com.blankj.utilcode.util.StringUtils
 import com.rxjava.rxlife.life
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -57,13 +57,16 @@ class RxHttpActivity : CommTitleActivity() {
         .setAssemblyEnabled(true)//添加公共参数/头部
         .asResponseWan(IntegralBean::class.java)
         .observeOn(AndroidSchedulers.mainThread()) //指定在主线程回调
+        .doOnComplete { }
         .life(this)//自动销毁请求
-        .subscribe({ bean ->
+        .subscribe({
+          isRequesting = false
           dismissLoadingView()
-          rxhttpResult.text = bean.toString()
-        },
-            { e -> rxhttpResult.text = e.message },
-            { isRequesting = false })
+          rxhttpResult.text = it.toString()
+        }, {
+          isRequesting = false
+          rxhttpResult.text = it.message
+        })
   }
 
   override fun getLoadingViewHeight() = rxhttpScroll.height
