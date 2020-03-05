@@ -1,0 +1,55 @@
+package cc.abase.demo.rxhttp.parser;
+
+import cc.ab.base.net.http.response.GankResponse;
+import java.io.IOException;
+import java.lang.reflect.Type;
+import java.util.List;
+import rxhttp.wrapper.annotation.Parser;
+import rxhttp.wrapper.entity.ParameterizedTypeImpl;
+import rxhttp.wrapper.exception.ParseException;
+import rxhttp.wrapper.parse.AbstractParser;
+
+/**
+ * 改为kotlin代码会导致无法编译通过
+ * Description:https://github.com/liujingxing/okhttp-RxHttp/blob/e7bb610782/app/src/main/java/com/example/httpsender/parser/ResponseListParser.java
+ *
+ * @author: caiyoufei
+ * @date: 2020/3/5 20:36
+ */
+@Parser(name = "ResponseGankList")
+public class ResponseGankListParser<T> extends AbstractParser<List<T>> {
+  /**
+   * 此构造方法适用于任意Class对象，但更多用于带泛型的Class对象，如：List<Student>
+   * <p>
+   * 用法:
+   * Java: .asParser(new ResponseListParser<List<Student>>(){})
+   * Kotlin: .asParser(object : ResponseListParser<List<Student>>() {})
+   * <p>
+   * 注：此构造方法一定要用protected关键字修饰，否则调用此构造方法将拿不到泛型类型
+   */
+  protected ResponseGankListParser() {
+    super();
+  }
+
+  /**
+   * 此构造方法仅适用于解析不带泛型的Class对象，如: Student.class
+   * <p>
+   * 用法
+   * Java: .asParser(new ResponseListParser<>(Student.class))   或者  .asResponseList(Student.class)
+   * Kotlin: .asParser(ResponseListParser(Student::class.java)) 或者  .asResponseList(Student::class.java)
+   */
+  public ResponseGankListParser(Class<T> type) {
+    super(type);
+  }
+
+  @Override
+  public List<T> onParse(okhttp3.Response response) throws IOException {
+    final Type type = ParameterizedTypeImpl.get(GankResponse.class, List.class, mType); //获取泛型类型
+    GankResponse<List<T>> data = convert(response, type);
+    List<T> list = data.getResults(); //获取data字段
+    if (data.getError() || list == null) {  //code不等于0，说明数据不正确，抛出异常
+      throw new ParseException("-1", data.getError() ? "接口error" : "数据返回错误", response);
+    }
+    return list;
+  }
+}
