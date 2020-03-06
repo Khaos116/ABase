@@ -4,7 +4,9 @@ import androidx.annotation.IntRange
 import cc.ab.base.utils.RxUtils
 import cc.abase.demo.bean.gank.GankAndroidBean
 import cc.abase.demo.constants.GankUrls
+import cc.abase.demo.constants.TimeConstants
 import io.reactivex.Observable
+import rxhttp.wrapper.cahce.CacheMode
 import rxhttp.wrapper.param.RxHttp
 
 /**
@@ -29,6 +31,11 @@ class GankRepository private constructor() {
   ): Observable<MutableList<GankAndroidBean>> {
     return RxHttp.get(String.format(GankUrls.ANDROID, size, page))
         .setDomainToGankIfAbsent()
+        .setCacheValidTime(TimeConstants.DYN_CACHE)//设置缓存时长
+        .setCacheMode(
+            if (readCache) CacheMode.READ_CACHE_FAILED_REQUEST_NETWORK
+            else CacheMode.ONLY_NETWORK
+        )//先读取缓存，失败再请求数据
         .asResponseGankList(GankAndroidBean::class.java)
         .compose(RxUtils.instance.rx2SchedulerHelperODelay())
   }

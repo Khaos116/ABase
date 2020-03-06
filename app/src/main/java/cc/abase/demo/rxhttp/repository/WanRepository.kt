@@ -5,8 +5,10 @@ import cc.ab.base.net.http.response.BasePageList
 import cc.ab.base.utils.RxUtils
 import cc.abase.demo.bean.wan.ArticleBean
 import cc.abase.demo.bean.wan.BannerBean
+import cc.abase.demo.constants.TimeConstants
 import cc.abase.demo.constants.WanUrls
 import io.reactivex.Observable
+import rxhttp.wrapper.cahce.CacheMode
 import rxhttp.wrapper.param.RxHttp
 
 /**
@@ -27,6 +29,11 @@ class WanRepository private constructor() {
   fun banner(readCache: Boolean = true): Observable<MutableList<BannerBean>> {
     return RxHttp.get(WanUrls.Home.BANNER)
         .setDomainToWanIfAbsent()
+        .setCacheValidTime(TimeConstants.HOME_CACHE)//设置缓存时长
+        .setCacheMode(
+            if (readCache) CacheMode.READ_CACHE_FAILED_REQUEST_NETWORK
+            else CacheMode.ONLY_NETWORK
+        )//先读取缓存，失败再请求数据
         .asResponseWanList(BannerBean::class.java)
         .compose(RxUtils.instance.rx2SchedulerHelperODelay())
   }
@@ -38,6 +45,11 @@ class WanRepository private constructor() {
   ): Observable<BasePageList<ArticleBean>> {
     return RxHttp.get(String.format(WanUrls.Home.ARTICLE, page))
         .setDomainToWanIfAbsent()
+        .setCacheValidTime(TimeConstants.HOME_CACHE)//设置缓存时长
+        .setCacheMode(
+            if (readCache) CacheMode.READ_CACHE_FAILED_REQUEST_NETWORK
+            else CacheMode.ONLY_NETWORK
+        )//先读取缓存，失败再请求数据
         .asResponseWanPageList(ArticleBean::class.java)
         .compose(RxUtils.instance.rx2SchedulerHelperODelay())
   }

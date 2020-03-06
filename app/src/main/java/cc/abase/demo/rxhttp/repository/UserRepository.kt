@@ -11,6 +11,7 @@ import com.blankj.utilcode.util.EncryptUtils
 import com.blankj.utilcode.util.LogUtils
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
+import rxhttp.wrapper.cahce.CacheMode
 import rxhttp.wrapper.param.RxHttp
 
 /**
@@ -38,6 +39,7 @@ class UserRepository private constructor() {
             .add("username", username)
             .add("password", EncryptUtils.encryptMD5ToString(password))
             .add("repassword", EncryptUtils.encryptMD5ToString(repassword))
+            .setCacheMode(CacheMode.ONLY_NETWORK)//不使用缓存
             .asResponseWan(UserBean::class.java)
             .map {
                 setUid(it.id)
@@ -58,6 +60,7 @@ class UserRepository private constructor() {
             .add("password", EncryptUtils.encryptMD5ToString(password))
             .subscribeOnIo()
             .setAssemblyEnabled(true)//添加公共参数/头部
+            .setCacheMode(CacheMode.ONLY_NETWORK)//不使用缓存
             .asResponseWan(UserBean::class.java)
             .observeOn(AndroidSchedulers.mainThread()) //指定在主线程回调
             .map {
@@ -70,13 +73,14 @@ class UserRepository private constructor() {
                 }
                 it
             }
-        //.compose(RxUtils.instance.rx2SchedulerHelperODelay())
+            .compose(RxUtils.instance.rx2SchedulerHelperODelay())
     }
 
     //登出
     @SuppressLint("CheckResult")
     fun logOut() {
         RxHttp.get(WanUrls.User.LOGOUT)
+            .setCacheMode(CacheMode.ONLY_NETWORK)//不使用缓存
             .setDomainToWanIfAbsent()
             .asString()
             .map { LogUtils.e("退出成功:$it") }
