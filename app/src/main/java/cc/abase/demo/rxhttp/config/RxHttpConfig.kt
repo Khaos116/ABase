@@ -3,22 +3,19 @@ package cc.abase.demo.rxhttp.config
 import cc.ab.base.utils.CharlesUtils
 import cc.abase.demo.BuildConfig
 import cc.abase.demo.config.HeaderManger
+import cc.abase.demo.rxhttp.interceptor.TokenInterceptor
 import com.blankj.utilcode.util.Utils
 import okhttp3.OkHttpClient
 import okhttp3.OkHttpClient.Builder
 import rxhttp.RxHttpPlugins
 import rxhttp.wrapper.cahce.CacheMode
-import rxhttp.wrapper.cookie.CookieStore
 import rxhttp.wrapper.param.Param
 import rxhttp.wrapper.param.RxHttp
 import rxhttp.wrapper.ssl.SSLSocketFactoryImpl
 import rxhttp.wrapper.ssl.X509TrustManagerImpl
 import java.io.File
 import java.util.concurrent.TimeUnit
-import javax.net.ssl.HostnameVerifier
-import javax.net.ssl.SSLSession
-import javax.net.ssl.SSLSocketFactory
-import javax.net.ssl.X509TrustManager
+import javax.net.ssl.*
 
 /**
  * Description:
@@ -50,7 +47,8 @@ class RxHttpConfig private constructor() {
         "Connection",
         "Accept",
         "Content-Type",
-        "Charset"
+        "Charset",
+        "request_time"
     )
   }
 
@@ -64,8 +62,16 @@ class RxHttpConfig private constructor() {
     RxHttp.setOnParamAssembly { p: Param<*> ->
       p.add("platform", "RxHttp")
       p.addAll(HeaderManger.instance.getStaticHeaders())//添加公共参数
-      HeaderManger.instance.getTokenPair()
-          ?.let { p.addHeader(it.first, it.second) /*添加公共请求头*/ }
+      //添加Token
+      if (HeaderManger.instance.noTokenUrls.filter { u ->
+                p.httpUrl.toString()
+                    .contains(u, true)
+              }
+              .isNullOrEmpty()) {
+        HeaderManger.instance.getTokenPair()
+            ?.let { p.addHeader(it.first, it.second) }
+      }
+      p.add("request_time", System.currentTimeMillis())//添加请求时间，方便更新token
       p
     }
   }
@@ -75,7 +81,7 @@ class RxHttpConfig private constructor() {
     val trustAllCert: X509TrustManager = X509TrustManagerImpl()
     val sslSocketFactory: SSLSocketFactory = SSLSocketFactoryImpl(trustAllCert)
     val builder = Builder()
-        .cookieJar(CookieStore())
+        //.cookieJar(CookieStore())//如果启用自动管理，则不需要在TokenInterceptor中进行保存和initRxHttp()进行读取
         .connectTimeout(30, TimeUnit.SECONDS)
         .readTimeout(30, TimeUnit.SECONDS)
         .writeTimeout(30, TimeUnit.SECONDS)
@@ -85,6 +91,7 @@ class RxHttpConfig private constructor() {
         ) //忽略host验证
     val util = CharlesUtils.getInstance()
     util.setOkHttpCharlesSSL(builder, util.getCharlesInputStream("charles.pem"))
+    builder.addInterceptor(TokenInterceptor())
     return builder.build()
   }
 
