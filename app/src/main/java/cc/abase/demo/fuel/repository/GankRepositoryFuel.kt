@@ -2,9 +2,10 @@ package cc.abase.demo.fuel.repository
 
 import androidx.annotation.IntRange
 import cc.ab.base.utils.RxUtils
+import cc.abase.demo.bean.gank.GankAndroidBean
+import cc.abase.demo.constants.BaseUrl
 import cc.abase.demo.constants.GankUrls
 import cc.abase.demo.fuel.repository.base.BaseRepository
-import cc.abase.demo.bean.gank.GankAndroidBean
 import cc.abase.demo.fuel.repository.request.GankRequest
 import com.github.kittinunf.fuel.httpGet
 import io.reactivex.Single
@@ -29,7 +30,7 @@ class GankRepositoryFuel private constructor(): BaseRepository() {
     @IntRange(from = 1) page: Int, size: Int,
     readCache: Boolean = true
   ): Single<MutableList<GankAndroidBean>> {
-    val request = String.format(GankUrls.ANDROID, size, page)
+    val request = String.format(BaseUrl.gankUrl + GankUrls.ANDROID, size, page)
         .httpGet()
     return if (readCache) {
       GankRequest.instance.startRequestWithCacheList(request, page = page, size = size)
