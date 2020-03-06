@@ -24,26 +24,25 @@ class DynViewModel(
   private var page = 1
   private var pageSize = 20
 
-  //加载更多
+  //刷新
   fun refreshData() {
-    getAndroidList(true)
+    getAndroidList(1)
   }
 
   //加载更多
   fun loadMoreData() {
-    getAndroidList(false)
+    getAndroidList(page + 1)
   }
 
-  private fun getAndroidList(refresh: Boolean) = withState { state ->
+  private fun getAndroidList(tempPage: Int) = withState { state ->
     if (state.request is Loading) return@withState
-    val tempPage = if (refresh) 1 else page + 1
     if (NetConfig.USE_RXHTTP) GankRepository.instance.androidList(tempPage, pageSize)
         .execute {
           val result: MutableList<GankAndroidBean> = it.invoke() ?: mutableListOf()
           if (it is Success) page = tempPage
           copy(
               //只有刷新成功后才会清数据
-              androidList = if (refresh && it is Success) result//刷新成功
+              androidList = if (tempPage == 1 && it is Success) result//刷新成功
               else if (result.isNullOrEmpty()) state.androidList//请求失败
               else (state.androidList + result).toMutableList(),//加载更多
               hasMore = if (it is Success) result.size == pageSize else state.hasMore,
@@ -56,7 +55,7 @@ class DynViewModel(
           if (it is Success) page = tempPage
           copy(
               //只有刷新成功后才会清数据
-              androidList = if (refresh && it is Success) result//刷新成功
+              androidList = if (tempPage == 1 && it is Success) result//刷新成功
               else if (result.isNullOrEmpty()) state.androidList//请求失败
               else (state.androidList + result).toMutableList(),//加载更多
               hasMore = if (it is Success) result.size == pageSize else state.hasMore,
