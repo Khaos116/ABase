@@ -54,7 +54,10 @@ class TokenInterceptor : Interceptor {
       cookies.forEach { map ->
         for (value in map.value) {
           if (value.contains("JSESSIONID", true)) {
-            UserRepository.instance.setToken(value)
+            UserRepository.instance.setToken(
+                value, request.url()
+                .toString()
+            )
           }
         }
       }

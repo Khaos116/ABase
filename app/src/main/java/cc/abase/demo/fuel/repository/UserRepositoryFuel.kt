@@ -4,11 +4,13 @@ import android.annotation.SuppressLint
 import android.util.Log
 import cc.ab.base.net.http.response.ApiException
 import cc.ab.base.utils.RxUtils
-import cc.abase.demo.constants.WanUrls
-import cc.abase.demo.fuel.repository.base.BaseRepository
 import cc.abase.demo.bean.wan.IntegralBean
 import cc.abase.demo.bean.wan.UserBean
+import cc.abase.demo.constants.BaseUrl
+import cc.abase.demo.constants.WanUrls
+import cc.abase.demo.fuel.repository.base.BaseRepository
 import cc.abase.demo.fuel.repository.request.WanRequest
+import cc.abase.demo.rxhttp.config.RxCookie
 import cc.abase.demo.utils.MMkvUtils
 import com.blankj.utilcode.util.EncryptUtils
 import com.blankj.utilcode.util.LogUtils
@@ -99,7 +101,7 @@ class UserRepositoryFuel private constructor() : BaseRepository() {
     clearUserInfo()
     WanUrls.User.LOGOUT.httpGet()
         .rxString()
-        .map { Log.e("CASE", "退出成功:${it.component2() == null}") }
+        .map { LogUtils.e("CASE:退出成功:${it.component2() == null}") }
         .subscribe({}, {})
   }
 
@@ -147,11 +149,15 @@ class UserRepositoryFuel private constructor() : BaseRepository() {
     MMkvUtils.instance.setUid(uid)
   }
 
-  internal fun setToken(token: String) {
+  internal fun setToken(
+    token: String,
+    url: String = BaseUrl.gankUrl
+  ) {
     if (token.isNotBlank() && token != this.token) {
       LogUtils.e("CASE:更新Token为:${token}")
       this.token = token
       MMkvUtils.instance.setToken(token)
+      RxCookie.instance.setCookie(token, url)
     }
   }
 }

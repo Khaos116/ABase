@@ -28,7 +28,7 @@ class FuelResponseManager private constructor() {
               //更新cookie
             for (s in response.header("Set-Cookie")) {
               if (s.contains("SESSIONID", true)) {
-                UserRepositoryFuel.instance.setToken(s.split(";")[0])
+                UserRepositoryFuel.instance.setToken(s.split(";")[0],request.url.toString())
                 break
               }
             }

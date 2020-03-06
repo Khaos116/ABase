@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import cc.ab.base.utils.RxUtils
 import cc.abase.demo.bean.wan.IntegralBean
 import cc.abase.demo.bean.wan.UserBean
+import cc.abase.demo.constants.BaseUrl
 import cc.abase.demo.constants.WanUrls
 import cc.abase.demo.rxhttp.config.RxCookie
 import cc.abase.demo.utils.MMkvUtils
@@ -135,11 +136,15 @@ class UserRepository private constructor() {
         MMkvUtils.instance.setUid(uid)
     }
 
-    private fun setToken(token: String) {
+    fun setToken(
+        token: String,
+        url: String = BaseUrl.gankUrl
+    ) {
         if (token.isNotBlank() && token != this.token) {
             LogUtils.e("CASE:更新Token为:${token}")
             this.token = token
             MMkvUtils.instance.setToken(token)
+            RxCookie.instance.setCookie(token, url)
         }
     }
 }
