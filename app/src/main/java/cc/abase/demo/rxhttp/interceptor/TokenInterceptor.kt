@@ -1,5 +1,8 @@
 package cc.abase.demo.rxhttp.interceptor
 
+import cc.abase.demo.config.GlobalErrorHandle
+import cc.abase.demo.config.NetConfig
+import cc.abase.demo.constants.ErrorCode
 import cc.abase.demo.constants.WanUrls
 import cc.abase.demo.rxhttp.repository.UserRepository
 import cc.abase.demo.utils.MMkvUtils
@@ -41,9 +44,13 @@ class TokenInterceptor : Interceptor {
               .readString(Charset.forName("UTF-8"))
       )
       //需要的登录
-      if (jsonObject.has("errorCode") && jsonObject.optInt("errorCode") == -1001) {
-        originalResponse.close()
-        return handleTokenInvalid(chain, request)
+      if (jsonObject.has("errorCode") && jsonObject.optInt("errorCode") == ErrorCode.NO_LOGIN) {
+        if (NetConfig.NEE_AUTO_LOGIN) {
+          originalResponse.close()
+          return handleTokenInvalid(chain, request)
+        } else {
+          GlobalErrorHandle.instance.dealGlobalErrorCode(jsonObject.optInt("errorCode"))
+        }
       }
     }
     //登录接口保存cookie
