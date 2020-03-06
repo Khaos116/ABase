@@ -1,11 +1,13 @@
 package cc.abase.demo.rxhttp.parser
 
 import cc.ab.base.net.http.response.BaseResponse
+import com.blankj.utilcode.util.GsonUtils
 import rxhttp.wrapper.annotation.Parser
 import rxhttp.wrapper.entity.ParameterizedTypeImpl
 import rxhttp.wrapper.exception.ParseException
 import rxhttp.wrapper.parse.AbstractParser
 import java.io.IOException
+import java.nio.charset.Charset
 
 /**
  * https://github.com/liujingxing/okhttp-RxHttp/wiki/%E9%AB%98%E7%BA%A7%E5%8A%9F%E8%83%BD#%E8%87%AA%E5%AE%9A%E4%B9%89Parser
@@ -17,7 +19,16 @@ class ResponseWanParser<T>(type: Class<T>) : AbstractParser<T>(type) {
   @Throws(IOException::class)
   override fun onParse(response: okhttp3.Response): T {
     val type = ParameterizedTypeImpl.get(BaseResponse::class.java, mType) //获取泛型类型
-    val data = convert<BaseResponse<T>>(response, type)
+    var result: String? = null
+    response.body()
+        ?.source()
+        ?.apply { request(Long.MAX_VALUE) }
+        ?.buffer?.let { buffer ->
+      result = buffer.clone()
+          .readString(Charset.forName("UTF-8"))
+    }
+    if (result.isNullOrBlank()) throw ParseException("500", "服务器没有数据", response)
+    val data = GsonUtils.fromJson<BaseResponse<T>>(result, type)
     var t: T? = data.data //获取data字段
     if (t == null && mType === String::class.java) {
       /*

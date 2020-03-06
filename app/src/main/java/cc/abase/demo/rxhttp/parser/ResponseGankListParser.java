@@ -1,9 +1,13 @@
 package cc.abase.demo.rxhttp.parser;
 
 import cc.ab.base.net.http.response.GankResponse;
+import com.blankj.utilcode.util.GsonUtils;
 import java.io.IOException;
 import java.lang.reflect.Type;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
+import okhttp3.ResponseBody;
+import okio.BufferedSource;
 import rxhttp.wrapper.annotation.Parser;
 import rxhttp.wrapper.entity.ParameterizedTypeImpl;
 import rxhttp.wrapper.exception.ParseException;
@@ -45,7 +49,18 @@ public class ResponseGankListParser<T> extends AbstractParser<List<T>> {
   @Override
   public List<T> onParse(okhttp3.Response response) throws IOException {
     final Type type = ParameterizedTypeImpl.get(GankResponse.class, List.class, mType); //获取泛型类型
-    GankResponse<List<T>> data = convert(response, type);
+    String result = null;
+    ResponseBody body = response.body();
+    if (body != null) {
+      BufferedSource source = body.source();
+      source.request(Long.MAX_VALUE);
+      result = source.getBuffer().clone()
+          .readString(StandardCharsets.UTF_8);
+    }
+    if (result == null || result.isEmpty()) {
+      throw new ParseException("500", "服务器没有数据", response);
+    }
+    GankResponse<List<T>> data = GsonUtils.fromJson(result, type);
     List<T> list = data.getResults(); //获取data字段
     if (data.getError() || list == null) {  //code不等于0，说明数据不正确，抛出异常
       throw new ParseException("-1", data.getError() ? "接口error" : "数据返回错误", response);
