@@ -11,6 +11,6 @@ class NetConfig {
     val USE_RXHTTP: Boolean = System.currentTimeMillis() > 0L
 
     //是否需要自动登录
-    val NEE_AUTO_LOGIN: Boolean = !USE_RXHTTP
+    val NEE_AUTO_LOGIN: Boolean = USE_RXHTTP
   }
 }
