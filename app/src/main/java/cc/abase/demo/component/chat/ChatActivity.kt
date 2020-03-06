@@ -16,6 +16,7 @@ import cc.abase.demo.epoxy.base.dividerItem
 import cc.abase.demo.epoxy.item.simpleTextItem
 import cc.abase.demo.mvrx.MvRxEpoxyController
 import com.blankj.utilcode.util.KeyboardUtils
+import com.blankj.utilcode.util.LogUtils
 import com.vanniktech.emoji.EmojiPopup
 import kotlinx.android.synthetic.main.activity_chat.*
 import kotlinx.android.synthetic.main.layout_comm_title.commTitleBack
@@ -108,7 +109,7 @@ class ChatActivity : CommTitleActivity() {
 
   //epoxy
   private val epoxyController = MvRxEpoxyController<ChatState> { state ->
-    Log.e("CASE", "数据Size=${state.chatList.size}")
+    LogUtils.e("CASE:数据Size=${state.chatList.size}")
     state.chatList.forEachIndexed { index, s ->
       simpleTextItem {
         id(index)

@@ -16,6 +16,7 @@ import cc.abase.demo.widget.video.controller.StandardVideoController
 import cc.abase.demo.widget.video.controller.VodControlView
 import cc.abase.demo.widget.video.controller.VodControlView.VerticalFullListener
 import com.blankj.utilcode.util.FileUtils
+import com.blankj.utilcode.util.LogUtils
 import com.dueeeke.videocontroller.component.*
 import com.luck.picture.lib.PictureSelector
 import com.luck.picture.lib.config.PictureMimeType
@@ -251,7 +252,7 @@ class RxFFmpegActivity : CommTitleActivity() {
               }
             }
       } else {
-        Log.e("CASE", "onActivityResult:other")
+        LogUtils.e("CASE:onActivityResult:other")
       }
     }
   }

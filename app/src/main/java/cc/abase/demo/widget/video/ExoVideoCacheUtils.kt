@@ -1,7 +1,7 @@
 package cc.abase.demo.widget.video
 
 import android.net.Uri
-import android.util.Log
+import com.blankj.utilcode.util.LogUtils
 import com.blankj.utilcode.util.Utils
 import com.dueeeke.videoplayer.exo.ExoMediaSourceHelper
 import com.google.android.exoplayer2.upstream.cache.Cache
@@ -46,7 +46,7 @@ class ExoVideoCacheUtils private constructor() {
       videoPrefix = originUrl.split("${appVideoType}?")[0] + appVideoType
     } else {
       //非当前APP
-      Log.e("CASE", "无需判断缓存的播放地址:$originUrl")
+      LogUtils.e("CASE:无需判断缓存的播放地址:$originUrl")
       return originUrl
     }
     //判断是否缓存完成
@@ -64,18 +64,18 @@ class ExoVideoCacheUtils private constructor() {
             val len = mMetadata.get(appVideoLenKey, 0)
             //获取到缓存完成的地址
             if (len > 0L && cache.isCached(key, 0, len)) {
-              Log.e("CASE", "播放转换前的地址:$originUrl")
-              Log.e("CASE", "播放转换后的地址:$key")
+              LogUtils.e("CASE:播放转换前的地址:$originUrl")
+              LogUtils.e("CASE:播放转换后的地址:$key")
               return key
             }
           }
         } else {
-          Log.e("CASE", "边播边缓存的地址1:$originUrl")
+          LogUtils.e("CASE:边播边缓存的地址1:$originUrl")
           return originUrl
         }
       }
     }
-    Log.e("CASE", "边播边缓存的地址2:$originUrl")
+    LogUtils.e("CASE:边播边缓存的地址2:$originUrl")
     return originUrl
   }
 
@@ -121,7 +121,7 @@ class ExoVideoCacheUtils private constructor() {
       return result
     } else {
       val msg = "ExoMediaSourceHelper has no \"mCache\" member"
-      Log.e("CASE", msg)
+      LogUtils.e("CASE-ExoVideoCacheUtils:$msg")
       throw Throwable(msg)
     }
   }

@@ -35,9 +35,9 @@ class VideoUtils private constructor() {
         )
     ) {
       if (!File(outParentVideo).exists())
-        Log.e("CASE", "创建Video文件夹:${File(outParentVideo).mkdirs()}")
+        LogUtils.e("CASE:创建Video文件夹:${File(outParentVideo).mkdirs()}")
       if (!File(outParentImgs).exists())
-        Log.e("CASE", "创建Temp文件夹:${File(outParentImgs).mkdirs()}")
+        LogUtils.e("CASE:创建Temp文件夹:${File(outParentImgs).mkdirs()}")
     }
   }
 
@@ -60,21 +60,21 @@ class VideoUtils private constructor() {
       result?.invoke(true, outFile.path)
       return
     }
-    Log.e("CASE", "视频压缩前大小:${FileUtils.getSize(originFile)}")
+    LogUtils.e("CASE:视频压缩前大小:${FileUtils.getSize(originFile)}")
     val command = getCommandCompress(originFile.path, outFile.path)
     //码率太低不进行压缩，直接拷贝原文件并返回
     if (command == null) {
       FileUtils.copy(originFile, outFile,null)
-      Log.e("CASE", "视频码率太小，不用压缩，直接拷贝上传")
+      LogUtils.e("CASE:视频码率太小，不用压缩，直接拷贝上传")
       result?.invoke(true, outFile.path)
       return
     }
-    Log.e("CASE", "执行的压缩命令:$command")
+    LogUtils.e("CASE:执行的压缩命令:$command")
     RxFFmpegInvoke.getInstance()
         .runCommandRxJava(command)
         .subscribe(object : RxFFmpegSubscriber() {
           override fun onFinish() {
-            Log.e("CASE", "视频压缩成功后大小:${FileUtils.getSize(outFile)}")
+            LogUtils.e("CASE:视频压缩成功后大小:${FileUtils.getSize(outFile)}")
             result?.invoke(outFile.length() > 1024 * 1024, outFile.path)
           }
 
@@ -88,13 +88,13 @@ class VideoUtils private constructor() {
           ) {
             if (progress >= 0 && progress != compressPro) {
               compressPro = progress
-              Log.e("CASE", "视频压缩进度:$progress")
+              LogUtils.e("CASE:视频压缩进度:$progress")
               pro?.invoke(progress)
             }
           }
 
           override fun onError(message: String?) {
-            Log.e("CASE", "视频压缩失败")
+            LogUtils.e("CASE:视频压缩失败")
             result?.invoke(false, StringUtils.getString(R.string.compress_video_fail))
           }
         })

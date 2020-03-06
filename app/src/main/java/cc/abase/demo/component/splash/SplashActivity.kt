@@ -2,7 +2,6 @@ package cc.abase.demo.component.splash
 
 import android.Manifest
 import android.content.Intent
-import android.util.Log
 import cc.ab.base.ext.*
 import cc.abase.demo.R
 import cc.abase.demo.component.comm.CommActivity
@@ -12,11 +11,10 @@ import cc.abase.demo.constants.ImageUrls
 import cc.abase.demo.fuel.repository.UserRepositoryFuel
 import cc.abase.demo.utils.MMkvUtils
 import com.blankj.utilcode.constant.PermissionConstants
-import com.blankj.utilcode.util.PermissionUtils
-import com.blankj.utilcode.util.TimeUtils
-import com.blankj.utilcode.util.Utils
+import com.blankj.utilcode.util.*
 import com.gyf.immersionbar.ktx.immersionBar
-import kotlinx.android.synthetic.main.activity_splash.*
+import kotlinx.android.synthetic.main.activity_splash.splashCover
+import kotlinx.android.synthetic.main.activity_splash.splashTime
 import kotlinx.coroutines.*
 import me.panpf.sketch.Sketch
 
@@ -28,15 +26,20 @@ import me.panpf.sketch.Sketch
 class SplashActivity : CommActivity() {
   //一个小时变一张图
   private val randomImg = TimeUtils.millis2String(System.currentTimeMillis())
-    .split(" ")[1].split(":")[0].toInt()
+      .split(" ")[1].split(":")[0].toInt()
+
   //倒计时3秒
   private val count = 3L
+
   //倒计时
   private var launchJob: Job? = null
+
   //是否有SD卡读写权限
   private var hasSDPermission: Boolean? = null
+
   //倒计时是否结束
   private var countDownFinish: Boolean? = null
+
   //是否需要关闭页面
   private var hasFinish = false
 
@@ -74,30 +77,30 @@ class SplashActivity : CommActivity() {
     if (hasFinish) return
     loadData()
     if (PermissionUtils.isGranted(
-        Manifest.permission.WRITE_EXTERNAL_STORAGE,
-        Manifest.permission.READ_EXTERNAL_STORAGE
-      )
+            Manifest.permission.WRITE_EXTERNAL_STORAGE,
+            Manifest.permission.READ_EXTERNAL_STORAGE
+        )
     ) {
       hasSDPermission = true
       goNextPage()
     } else {
       PermissionUtils.permission(PermissionConstants.STORAGE)
-        .callback(object : PermissionUtils.SimpleCallback {
-          //权限允许
-          override fun onGranted() {
-            Log.e("CASE", "有SD卡读写权限:${PermissionUtils.isGranted(PermissionConstants.STORAGE)}")
-            hasSDPermission = true
-            goNextPage()
-          }
+          .callback(object : PermissionUtils.SimpleCallback {
+            //权限允许
+            override fun onGranted() {
+              LogUtils.e("CASE:有SD卡读写权限:${PermissionUtils.isGranted(PermissionConstants.STORAGE)}")
+              hasSDPermission = true
+              goNextPage()
+            }
 
-          //权限拒绝
-          override fun onDenied() {
-            mContext.toast("没有SD卡权限,不能使用APP")
-            hasSDPermission = false
-            goNextPage()
-          }
-        })
-        .request()
+            //权限拒绝
+            override fun onDenied() {
+              mContext.toast("没有SD卡权限,不能使用APP")
+              hasSDPermission = false
+              goNextPage()
+            }
+          })
+          .request()
     }
   }
 
@@ -105,8 +108,8 @@ class SplashActivity : CommActivity() {
   private fun checkReOpenHome(): Boolean {
     // 避免从桌面启动程序后，会重新实例化入口类的activity
     if (!this.isTaskRoot && intent != null // 判断当前activity是不是所在任务栈的根
-      && intent.hasCategory(Intent.CATEGORY_LAUNCHER)
-      && Intent.ACTION_MAIN == intent.action
+        && intent.hasCategory(Intent.CATEGORY_LAUNCHER)
+        && Intent.ACTION_MAIN == intent.action
     ) {
       finish()
       return true
@@ -149,8 +152,8 @@ class SplashActivity : CommActivity() {
     } else {//加载网络图片
       splashCover.gone()
       Sketch.with(Utils.getApp())
-        .download(url, null)
-        .commit()
+          .download(url, null)
+          .commit()
     }
   }
 

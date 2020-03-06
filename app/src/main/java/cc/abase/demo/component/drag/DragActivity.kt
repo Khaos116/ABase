@@ -20,8 +20,7 @@ import cc.abase.demo.mvrx.MvRxEpoxyController
 import cc.abase.demo.utils.BrowserUtils
 import com.airbnb.epoxy.EpoxyTouchHelper
 import com.airbnb.mvrx.withState
-import com.blankj.utilcode.util.SizeUtils
-import com.blankj.utilcode.util.StringUtils
+import com.blankj.utilcode.util.*
 import com.luck.picture.lib.PictureSelector
 import com.luck.picture.lib.config.PictureMimeType
 import com.luck.picture.lib.entity.LocalMedia
@@ -188,7 +187,7 @@ class DragActivity : CommTitleActivity() {
               }
             }
       } else {
-        Log.e("CASE", "onActivityResult:other")
+        LogUtils.e("CASE:onActivityResult:other")
       }
     }
   }

@@ -119,18 +119,18 @@ class MineFragment : CommFragment() {
         .observe(this, Observer {
           when {
             it.first == UpdateEnum.START -> {
-              Log.e("CASE", "APK开始下载")
+              LogUtils.e("CASE:APK开始下载")
             }
             it.first == UpdateEnum.DOWNLOADING -> {
-              Log.e(
-                  "CASE", "APK下载进度：${String.format(Locale.getDefault(), "%.1f", it.second) + "%"}"
+              LogUtils.e(
+                  "CASE:APK下载进度：${String.format(Locale.getDefault(), "%.1f", it.second) + "%"}"
               )
             }
             it.first == UpdateEnum.SUCCESS -> {
-              Log.e("CASE", "APK下载成功")
+              LogUtils.e("CASE:APK下载成功")
             }
             it.first == UpdateEnum.FAIL -> {
-              Log.e("CASE", "APK下载失败")
+              LogUtils.e("CASE:APK下载失败")
             }
           }
         })

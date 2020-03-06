@@ -11,6 +11,7 @@ import cc.abase.demo.utils.VideoUtils
 import cc.abase.demo.widget.video.controller.StandardVideoController
 import cc.abase.demo.widget.video.controller.VodControlView
 import cc.abase.demo.widget.video.controller.VodControlView.VerticalFullListener
+import com.blankj.utilcode.util.LogUtils
 import com.dueeeke.videocontroller.component.*
 import com.gyf.immersionbar.ktx.immersionBar
 import kotlinx.android.synthetic.main.activity_video_detail.*
@@ -129,10 +130,10 @@ class VideoDetailActivity : CommActivity() {
         if (MediaUtils.instance.isVideoFile(it)) {
           VideoUtils.instance.getFirstFrame(File(it)) { suc, info ->
             if (suc) controller?.thumb?.load(File(info))
-            else Log.e("CASE", "视频文件封面获取失败:$it")
+            else LogUtils.e("CASE:视频文件封面获取失败:$it")
           }
-        } else Log.e("CASE", "非视频文件:$it")
-      } else Log.e("CASE", "未知视频播放源:$it")
+        } else LogUtils.e("CASE:非视频文件:$it")
+      } else LogUtils.e("CASE:未知视频播放源:$it")
     }
   }
 
