@@ -54,7 +54,7 @@ dependencies {
     exclude module: 'utilcode'
   }
   //https://github.com/square/okhttp
-  implementation 'com.squareup.okhttp3:okhttp:4.4.0'
+  implementation 'com.squareup.okhttp3:okhttp:3.14.1'
   releaseImplementation 'com.didichuxing.doraemonkit:doraemonkit-no-op:2.2.2'
 
   //协程(https://www.jianshu.com/p/2659bbe0df16) https://github.com/Kotlin/kotlinx.coroutines

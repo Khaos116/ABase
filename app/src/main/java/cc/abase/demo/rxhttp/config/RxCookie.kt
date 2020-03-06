@@ -2,7 +2,7 @@ package cc.abase.demo.rxhttp.config
 
 import cc.abase.demo.constants.BaseUrl
 import okhttp3.Cookie
-import okhttp3.HttpUrl.Companion.toHttpUrlOrNull
+import okhttp3.HttpUrl
 import rxhttp.wrapper.cookie.ICookieJar
 import rxhttp.wrapper.param.RxHttp
 
@@ -25,12 +25,13 @@ class RxCookie private constructor() {
     cookie: String,
     url: String = BaseUrl.baseUrl
   ) {
-    url.toHttpUrlOrNull()
+      HttpUrl.parse(url)
+//    url.toHttpUrlOrNull()
         ?.let { http ->
           Cookie.parse(http, cookie)
               ?.let { cookie ->
                 RxHttp.getOkHttpClient()
-                    .cookieJar.saveFromResponse(http, mutableListOf(cookie))
+                    .cookieJar().saveFromResponse(http, mutableListOf(cookie))
               }
         }
   }
@@ -38,10 +39,11 @@ class RxCookie private constructor() {
   //读取cookie
   fun getCookie(url: String = BaseUrl.baseUrl): MutableList<Cookie>? {
     val cookieJar =
-      url.toHttpUrlOrNull()
+        HttpUrl.parse(url)
+//      url.toHttpUrlOrNull()
           ?.let {
             return RxHttp.getOkHttpClient()
-                .cookieJar.loadForRequest(it)
+                .cookieJar().loadForRequest(it)
                 .toMutableList()
           }
     return null
@@ -63,9 +65,10 @@ class RxCookie private constructor() {
     all: Boolean
   ) {
     (RxHttp.getOkHttpClient()
-        .cookieJar as ICookieJar).let {
+        .cookieJar() as ICookieJar).let {
       if (all) it.removeAllCookie()
-      else it.removeCookie(url.toHttpUrlOrNull())
+      else it.removeCookie(HttpUrl.parse(url))
+//      else it.removeCookie(url.toHttpUrlOrNull())
     }
   }
 }
