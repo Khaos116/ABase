@@ -65,6 +65,7 @@ class RxHttpActivity : CommTitleActivity() {
           rxhttpResult.text = it.toString()
         }, {
           isRequesting = false
+          dismissLoadingView()
           rxhttpResult.text = it.message
         })
   }
