@@ -1,9 +1,8 @@
 package cc.abase.demo.config
 
-import cc.abase.demo.rxhttp.config.RxCookie
+import cc.abase.demo.constants.*
 import cc.abase.demo.utils.MMkvUtils
-import com.blankj.utilcode.util.AppUtils
-import com.blankj.utilcode.util.GsonUtils
+import com.blankj.utilcode.util.*
 import java.util.HashMap
 
 /**
@@ -40,4 +39,13 @@ class HeaderManger private constructor() {
     val token = MMkvUtils.instance.getToken()
     return if (token.isNullOrBlank()) null else Pair("Cookie", token)
   }
+
+  //不需要Token的接口
+  val noTokenUrls = listOf(
+      BaseUrl.wanUrl + WanUrls.User.LOGIN,
+      BaseUrl.wanUrl + WanUrls.User.REGISTER,
+      BaseUrl.wanUrl + WanUrls.Home.BANNER,
+      BaseUrl.wanUrl + WanUrls.Home.ARTICLE,
+      BaseUrl.gankUrl + GankUrls.ANDROID
+  )
 }
