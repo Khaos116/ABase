@@ -19,11 +19,7 @@ class FuelRequestInterceptor private constructor() {
       SingletonHolder.holder
   }
 
-  //不需要Token的接口
-  private val noTokenUrls = listOf(
-      FuelManager.instance.basePath ?: "" + WanUrls.User.LOGIN,
-      FuelManager.instance.basePath ?: "" + WanUrls.User.REGISTER
-  )
+
 
   //获取fuel添加的header
   fun fuelHeader(): FoldableRequestInterceptor {
@@ -40,7 +36,7 @@ class FuelRequestInterceptor private constructor() {
           HeaderManger.instance.getTokenPair()
               ?.let { pair ->
                 //没有在去除token的接口就添加token
-                if (!noTokenUrls.contains(request.url.toString())) {
+                if (!HeaderManger.instance.noTokenUrls.contains(request.url.toString())) {
                   request.appendHeader(pair)
                 }
               }
