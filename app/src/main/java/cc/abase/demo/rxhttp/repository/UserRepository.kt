@@ -68,9 +68,13 @@ class UserRepository private constructor() {
                 MMkvUtils.instance.setAccount(username)
                 MMkvUtils.instance.setPassword(password)
                 this.user = it
-                RxCookie.instance.getCookie()?.forEach { cookie ->
-                    if (cookie.toString().contains("SESSIONID")) setToken(cookie.toString())
-                }
+                /**
+                 * 采用自动管理Cookie的方式可以采用下面的方式保存Token
+                 * @see cc.abase.demo.rxhttp.config.RxHttpConfig.getDefaultOkHttpClient
+                 */
+                //RxCookie.instance.getCookie()?.forEach { cookie ->
+                //    if (cookie.toString().contains("SESSIONID")) setToken(cookie.toString())
+                //}
                 it
             }
             .compose(RxUtils.instance.rx2SchedulerHelperODelay())
