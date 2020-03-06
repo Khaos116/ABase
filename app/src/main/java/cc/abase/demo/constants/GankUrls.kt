@@ -7,8 +7,8 @@ package cc.abase.demo.constants
  */
 interface GankUrls {
   companion object {
-    const val ANDROID = "https://gank.io/api/data/Android/%s/%s"//{pageSize}/{page}
-    const val FULI = "https://gank.io/api/data/福利/%s/%s"//{pageSize}/{page}"
-    const val TODAY = "https://gank.io/api/today"
+    const val ANDROID = "data/Android/%s/%s"//{pageSize}/{page}
+    const val FULI = "data/福利/%s/%s"//{pageSize}/{page}"
+    const val TODAY = "today"
   }
 }
