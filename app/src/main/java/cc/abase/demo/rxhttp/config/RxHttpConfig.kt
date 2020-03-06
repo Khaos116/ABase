@@ -99,7 +99,6 @@ class RxHttpConfig private constructor() {
   private fun initRxHttpCahce() {
     //设置缓存目录为：Android/data/{app包名目录}/cache/RxHttpCache
     val cacheDir = File(Utils.getApp().externalCacheDir, "RxHttpCache")
-    //if (!cacheDir.exists()) cacheDir.mkdirs()
     //设置最大缓存为10M，缓存有效时长为1小时
     RxHttpPlugins.setCache(
         cacheDir, 10 * 1024 * 1024L, CacheMode.REQUEST_NETWORK_FAILED_READ_CACHE,
