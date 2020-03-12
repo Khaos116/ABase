@@ -167,6 +167,13 @@
         android:launchMode="singleTop"
         android:screenOrientation="portrait"
         android:windowSoftInputMode="adjustPan|stateHidden" />
+    <!--Flexbox-->
+    <activity
+        android:name=".component.flexbox.FlexboxActivity"
+        android:configChanges="screenLayout|orientation"
+        android:launchMode="singleTop"
+        android:screenOrientation="portrait"
+        android:windowSoftInputMode="adjustPan|stateHidden" />
     <!-- APK更新 -->
     <service android:name=".component.update.CcUpdateService"/>
     <!-- 点击通知栏的操作 -->

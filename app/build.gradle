@@ -178,4 +178,7 @@ dependencies {
   //日期选择 https://github.com/zyyoona7/WheelPicker
   implementation 'com.github.zyyoona7:wheelview:1.0.7'
   implementation 'com.github.zyyoona7:pickerview:1.0.9'
+
+  //FlexboxLayout https://github.com/google/flexbox-layout
+  implementation 'com.google.android:flexbox:2.0.1'
 }

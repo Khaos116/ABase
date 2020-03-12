@@ -17,6 +17,7 @@ import cc.abase.demo.component.decoration.DecorationActivity
 import cc.abase.demo.component.drag.DragActivity
 import cc.abase.demo.component.expand.EpoxyExpandActivity
 import cc.abase.demo.component.ffmpeg.RxFFmpegActivity
+import cc.abase.demo.component.flexbox.FlexboxActivity
 import cc.abase.demo.component.playlist.PlayListActivity
 import cc.abase.demo.component.playlist.PlayPagerActivity
 import cc.abase.demo.component.rxhttp.RxHttpActivity
@@ -60,7 +61,8 @@ class MineFragment : CommFragment() {
       Pair(StringUtils.getString(R.string.title_play_list), PlayListActivity::class.java),
       Pair(StringUtils.getString(R.string.title_play_pager), PlayPagerActivity::class.java),
       Pair(StringUtils.getString(R.string.title_decoration), DecorationActivity::class.java),
-      Pair(StringUtils.getString(R.string.title_rxhttp), RxHttpActivity::class.java)
+      Pair(StringUtils.getString(R.string.title_rxhttp), RxHttpActivity::class.java),
+      Pair(StringUtils.getString(R.string.title_flexbox), FlexboxActivity::class.java)
   )
   //item文字颜色
   private var typeColor = ColorUtils.getColor(R.color.style_Primary)
