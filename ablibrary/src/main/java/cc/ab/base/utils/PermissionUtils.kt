@@ -30,9 +30,13 @@ class PermissionUtils private constructor() {
 
   //是否有SD卡读取权限
   @SuppressLint("MissingPermission")
+  @Synchronized
   fun hasSDPermission(): Boolean {
     val parent = File(PathUtils.getExternalAppDataPath())
-    val file: File = File(parent, System.currentTimeMillis().toString())
+    val file: File = File(
+        parent, System.currentTimeMillis()
+        .toString()
+    )
     return try {
       if (parent.exists()) {
         parent.mkdirs()
@@ -43,12 +47,14 @@ class PermissionUtils private constructor() {
       true
     } catch (e: Exception) {
       e.printStackTrace()
+      LogUtils.e("CASE:SD卡权限异常:${e.message}")
       false
     }
   }
 
   //是否有拍照权限
   @SuppressLint("MissingPermission")
+  @Synchronized
   fun hasCameraPermission(): Boolean {
     return try {
       //targetSdkVersion低于23，使用异常捕捉相机权限
@@ -61,27 +67,30 @@ class PermissionUtils private constructor() {
       true
     } catch (e: Exception) {
       e.printStackTrace()
+      LogUtils.e("CASE:拍照权限异常:${e.message}")
       false
     }
   }
 
   //是否有录音权限
   @SuppressLint("MissingPermission")
+  @Synchronized
   fun hasRecordPermission(): Boolean {
     val minBufferSize = AudioRecord.getMinBufferSize(
-      44100,
-      AudioFormat.CHANNEL_IN_STEREO,
-      AudioFormat.ENCODING_PCM_16BIT
+        44100,
+        AudioFormat.CHANNEL_IN_STEREO,
+        AudioFormat.ENCODING_PCM_16BIT
     )
     var audioRecord: AudioRecord? = null
     try {
       audioRecord = AudioRecord(
-        MediaRecorder.AudioSource.MIC, 44100,
-        AudioFormat.CHANNEL_IN_STEREO,
-        AudioFormat.ENCODING_PCM_16BIT, minBufferSize
+          MediaRecorder.AudioSource.MIC, 44100,
+          AudioFormat.CHANNEL_IN_STEREO,
+          AudioFormat.ENCODING_PCM_16BIT, minBufferSize
       )
     } catch (e: Exception) {
       e.printStackTrace()
+      LogUtils.e("CASE:录音权限异常:${e.message}")
     }
     if (audioRecord == null) {
       return false
@@ -90,9 +99,10 @@ class PermissionUtils private constructor() {
       // 开始录音
       audioRecord.startRecording()
     } catch (e: Exception) {
+      e.printStackTrace()
       //可能情况一
       audioRecord.release()
-      LogUtils.e("MMAudioRecorderPanel hasRecordPermission", e)
+      LogUtils.e("CASE:录音权限异常:${e.message}")
     }
 
     // 检测是否在录音中,6.0以下会返回此状态
@@ -102,7 +112,8 @@ class PermissionUtils private constructor() {
         audioRecord.stop()
         audioRecord.release()
       } catch (e: Exception) {
-        LogUtils.e("MMAudioRecorderPanel hasRecordPermission", e)
+        e.printStackTrace()
+        LogUtils.e("CASE:录音权限异常:${e.message}")
       }
       return false
     }
@@ -118,16 +129,19 @@ class PermissionUtils private constructor() {
       audioRecord.stop()
       audioRecord.release()
     } catch (e: Exception) {
-      LogUtils.e("MMAudioRecorderPanel hasRecordPermission", e)
+      e.printStackTrace()
+      LogUtils.e("CASE:录音权限异常:${e.message}")
     }
     return true
   }
 
   //是否有定位权限
   @SuppressLint("MissingPermission")
+  @Synchronized
   fun hasLocationPermission(): Boolean {
     val c = Utils.getApp()
-    val permission = ActivityCompat.checkSelfPermission(c, Manifest.permission.ACCESS_FINE_LOCATION)
+    val permission =
+      ActivityCompat.checkSelfPermission(c, Manifest.permission.ACCESS_FINE_LOCATION)
     if (permission < 0) {
       if (permission == -1) LogUtils.e("定位权限被拒绝")
       if (permission == -2) LogUtils.e("定位权限被永久拒绝")
@@ -136,20 +150,23 @@ class PermissionUtils private constructor() {
     val mLocationManager = c.getSystemService(Context.LOCATION_SERVICE) as LocationManager
     return try {
       mLocationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER)
-        ?.let {
-          LogUtils.e("getLastKnownLocation=$it")
-        }
+          ?.let {
+            LogUtils.e("getLastKnownLocation=$it")
+          }
       true
     } catch (e: Exception) {
-      LogUtils.e("LocationUtil:$e")
+      e.printStackTrace()
+      LogUtils.e("CASE:定位权限异常:${e.message}")
       false
     }
   }
 
   //定位是否可用
+  @SuppressLint("MissingPermission")
   fun locationEnable(): Boolean {
     val c = Utils.getApp()
-    val permission = ActivityCompat.checkSelfPermission(c, Manifest.permission.ACCESS_FINE_LOCATION)
+    val permission =
+      ActivityCompat.checkSelfPermission(c, Manifest.permission.ACCESS_FINE_LOCATION)
     if (permission < 0) {
       if (permission == -1) LogUtils.e("定位权限被拒绝")
       if (permission == -2) LogUtils.e("定位权限被永久拒绝")
@@ -169,12 +186,13 @@ class PermissionUtils private constructor() {
     if (provider.isNullOrBlank()) return false
     return try {
       mLocationManager.getLastKnownLocation(provider)
-        ?.let {
-          LogUtils.e("getLastKnownLocation=$it")
-        }
+          ?.let {
+            LogUtils.e("getLastKnownLocation=$it")
+          }
       true
     } catch (e: Exception) {
-      LogUtils.e("LocationUtil:$e")
+      e.printStackTrace()
+      LogUtils.e("CASE:定位权限异常:${e.message}")
       false
     }
   }
@@ -196,6 +214,7 @@ class PermissionUtils private constructor() {
       context.startActivity(intent)
     } catch (e: Exception) {
       e.printStackTrace()
+      LogUtils.e("CASE:打开定位设置异常:${e.message}")
     }
   }
 }
