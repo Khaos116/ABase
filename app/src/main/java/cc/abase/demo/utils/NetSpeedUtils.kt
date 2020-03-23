@@ -34,6 +34,8 @@ class NetSpeedUtils private constructor() : LifecycleObserver {
 
   private var mJob: Job? = null
   private var mLifecycle: Lifecycle? = null
+  private var mTv: TextView? = null
+  private var mReceive: Boolean = true
 
   //显示网速
   fun showNetSpeed(
@@ -45,11 +47,26 @@ class NetSpeedUtils private constructor() : LifecycleObserver {
     mLifecycle?.removeObserver(this)
     mLifecycle = owner.lifecycle
     mLifecycle?.addObserver(this)
+    startJob(tv, receive)
+  }
+
+  private fun startJob(
+    tv: TextView?,
+    receive: Boolean = true//接收速度还是发送速度
+  ) {
+    mTv = tv
+    mReceive = receive
+    mJob?.cancel()
     mJob = GlobalScope.launch(Dispatchers.Main) {
       getNetSpeed()
       while (isActive) {
-        tv?.text = getNetSpeed(receive = receive)
         delay(1000)
+        val speed = getNetSpeed(receive = receive)
+        tv?.text = if (speed > 1024) {
+          "${String.format("%.1f", speed / 1024f)} MB/s"
+        } else {
+          "$speed KB/s"
+        }
       }
     }
   }
@@ -57,7 +74,7 @@ class NetSpeedUtils private constructor() : LifecycleObserver {
   //添加的代码:12
   @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
   fun onResumeNetSpeed() {
-    mJob?.start()
+    startJob(mTv, mReceive)
   }
 
   //添加的代码:13
@@ -69,7 +86,7 @@ class NetSpeedUtils private constructor() : LifecycleObserver {
   //添加的代码:14
   @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
   fun onDestroyNetSpeed() {
-
+    mLifecycle?.removeObserver(this)
   }
 
   private var lastTotalRxBytes: Long = 0
@@ -78,18 +95,14 @@ class NetSpeedUtils private constructor() : LifecycleObserver {
   private suspend fun getNetSpeed(
     uid: Int = Utils.getApp().applicationInfo.uid,
     receive: Boolean = true
-  ): String {
+  ): Long {
     val nowTotalRxBytes = getTotalRxBytes(uid, receive)
     val nowTimeStamp = System.currentTimeMillis()
     val speed =
       (nowTotalRxBytes - lastTotalRxBytes) * 1000 / (nowTimeStamp - lastTimeStamp) //毫秒转换
     lastTimeStamp = nowTimeStamp
     lastTotalRxBytes = nowTotalRxBytes
-    return if (speed > 1024) {
-      "${String.format("%.1f", speed / 1024f)} MB/s"
-    } else {
-      "$speed KB/s"
-    }
+    return speed
   }
 
   //getApplicationInfo().uid
