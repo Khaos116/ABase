@@ -174,6 +174,13 @@
         android:launchMode="singleTop"
         android:screenOrientation="portrait"
         android:windowSoftInputMode="adjustPan|stateHidden" />
+    <!--跑马灯效果-->
+    <activity
+        android:name=".component.marquee.MarqueeActivity"
+        android:configChanges="screenLayout|orientation"
+        android:launchMode="singleTop"
+        android:screenOrientation="portrait"
+        android:windowSoftInputMode="adjustPan|stateHidden"/>
     <!-- APK更新 -->
     <service android:name=".component.update.CcUpdateService"/>
     <!-- 点击通知栏的操作 -->
