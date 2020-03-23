@@ -87,6 +87,10 @@ class NetSpeedUtils private constructor() : LifecycleObserver {
   @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
   fun onDestroyNetSpeed() {
     mLifecycle?.removeObserver(this)
+    mLifecycle = null
+    mJob = null
+    mTv = null
+    mReceive = true
   }
 
   private var lastTotalRxBytes: Long = 0
