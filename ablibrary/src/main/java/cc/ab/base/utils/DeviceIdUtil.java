@@ -1,10 +1,13 @@
 package cc.ab.base.utils;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Build;
 import android.provider.Settings;
 import android.telephony.TelephonyManager;
+
 import androidx.annotation.RequiresPermission;
+
 import java.security.MessageDigest;
 import java.util.Locale;
 import java.util.UUID;
@@ -78,12 +81,14 @@ public class DeviceIdUtil {
   }
 
   //需要获得READ_PHONE_STATE权限，>=6.0，默认返回null
+  @SuppressLint("HardwareIds")
   @RequiresPermission(READ_PHONE_STATE)
   private static String getIMEI(Context context) {
     try {
       TelephonyManager tm = (TelephonyManager)
           context.getSystemService(Context.TELEPHONY_SERVICE);
-      return tm.getDeviceId();
+      if (tm == null) return "";
+      else return tm.getDeviceId();
     } catch (Exception ex) {
       ex.printStackTrace();
     }
@@ -96,6 +101,7 @@ public class DeviceIdUtil {
    * @param context 上下文
    * @return 设备的AndroidId
    */
+  @SuppressLint("HardwareIds")
   private static String getAndroidId(Context context) {
     try {
       return Settings.Secure.getString(context.getContentResolver(),
@@ -111,6 +117,7 @@ public class DeviceIdUtil {
    *
    * @return 设备序列号
    */
+  @SuppressLint("HardwareIds")
   private static String getSERIAL() {
     try {
       return Build.SERIAL;
@@ -126,6 +133,7 @@ public class DeviceIdUtil {
    *
    * @return 设备硬件uuid
    */
+  @SuppressLint("HardwareIds")
   private static String getDeviceUUID() {
     try {
       String dev = "3883756" +
