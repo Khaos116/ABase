@@ -1,18 +1,18 @@
 package cc.ab.base.utils;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.os.Build;
 import android.provider.Settings;
 import android.telephony.TelephonyManager;
-
 import androidx.annotation.RequiresPermission;
-
+import androidx.core.content.ContextCompat;
+import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.util.Locale;
 import java.util.UUID;
-
-import static android.Manifest.permission.READ_PHONE_STATE;
 
 /**
  * Description:设备唯一id
@@ -22,18 +22,29 @@ import static android.Manifest.permission.READ_PHONE_STATE;
  * @date: 2019/12/7 16:49
  */
 public class DeviceIdUtil {
+  private DeviceIdUtil() {
+  }
+
+  public static DeviceIdUtil getInstance() {
+    return SingleTonHolder.INSTANCE;
+  }
+
   /**
    * 获得设备硬件标识
    *
    * @param context 上下文
    * @return 设备硬件标识
    */
-  @RequiresPermission(READ_PHONE_STATE)
-  public static String getDeviceId(Context context) {
+  @RequiresPermission(Manifest.permission.READ_PHONE_STATE)
+  public String getDeviceId(Context context) {
     StringBuilder sbDeviceId = new StringBuilder();
 
     //获得设备默认IMEI（>=6.0 需要ReadPhoneState权限）
-    String imei = getIMEI(context);
+    String imei = "";
+    if (ContextCompat.checkSelfPermission(context, Manifest.permission.READ_PHONE_STATE)
+        == PackageManager.PERMISSION_GRANTED) {
+      imei = getIMEI(context);
+    }
     //获得AndroidId（无需权限）
     String androidid = getAndroidId(context);
     //获得设备序列号（无需权限）
@@ -57,7 +68,7 @@ public class DeviceIdUtil {
       sbDeviceId.append("|");
     }
     //追加硬件uuid
-    if (uuid != null && uuid.length() > 0) {
+    if (uuid.length() > 0) {
       sbDeviceId.append(uuid);
     }
 
@@ -66,7 +77,7 @@ public class DeviceIdUtil {
       try {
         byte[] hash = getHashByString(sbDeviceId.toString());
         String sha1 = bytesToHex(hash);
-        if (sha1 != null && sha1.length() > 0) {
+        if (sha1.length() > 0) {
           //返回最终的DeviceId
           return sha1;
         }
@@ -82,13 +93,20 @@ public class DeviceIdUtil {
 
   //需要获得READ_PHONE_STATE权限，>=6.0，默认返回null
   @SuppressLint("HardwareIds")
-  @RequiresPermission(READ_PHONE_STATE)
-  private static String getIMEI(Context context) {
+  @RequiresPermission(Manifest.permission.READ_PHONE_STATE)
+  private String getIMEI(Context context) {
     try {
-      TelephonyManager tm = (TelephonyManager)
-          context.getSystemService(Context.TELEPHONY_SERVICE);
-      if (tm == null) return "";
-      else return tm.getDeviceId();
+      TelephonyManager tm = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
+      if (tm != null) {
+        if (ContextCompat.checkSelfPermission(context, Manifest.permission.READ_PHONE_STATE)
+            == PackageManager.PERMISSION_GRANTED) {
+          return tm.getDeviceId();
+        } else {
+          return "";
+        }
+      } else {
+        return "";
+      }
     } catch (Exception ex) {
       ex.printStackTrace();
     }
@@ -102,7 +120,7 @@ public class DeviceIdUtil {
    * @return 设备的AndroidId
    */
   @SuppressLint("HardwareIds")
-  private static String getAndroidId(Context context) {
+  private String getAndroidId(Context context) {
     try {
       return Settings.Secure.getString(context.getContentResolver(),
           Settings.Secure.ANDROID_ID);
@@ -118,7 +136,7 @@ public class DeviceIdUtil {
    * @return 设备序列号
    */
   @SuppressLint("HardwareIds")
-  private static String getSERIAL() {
+  private String getSERIAL() {
     try {
       return Build.SERIAL;
     } catch (Exception ex) {
@@ -134,7 +152,7 @@ public class DeviceIdUtil {
    * @return 设备硬件uuid
    */
   @SuppressLint("HardwareIds")
-  private static String getDeviceUUID() {
+  private String getDeviceUUID() {
     try {
       String dev = "3883756" +
           Build.BOARD.length() % 10 +
@@ -159,11 +177,11 @@ public class DeviceIdUtil {
    * @param data 数据
    * @return 对应的hash值
    */
-  private static byte[] getHashByString(String data) {
+  private byte[] getHashByString(String data) {
     try {
       MessageDigest messageDigest = MessageDigest.getInstance("SHA1");
       messageDigest.reset();
-      messageDigest.update(data.getBytes("UTF-8"));
+      messageDigest.update(data.getBytes(StandardCharsets.UTF_8));
       return messageDigest.digest();
     } catch (Exception e) {
       return "".getBytes();
@@ -176,7 +194,7 @@ public class DeviceIdUtil {
    * @param data 数据
    * @return 16进制字符串
    */
-  private static String bytesToHex(byte[] data) {
+  private String bytesToHex(byte[] data) {
     StringBuilder sb = new StringBuilder();
     String stmp;
     for (byte mDatum : data) {
@@ -187,5 +205,9 @@ public class DeviceIdUtil {
       sb.append(stmp);
     }
     return sb.toString().toUpperCase(Locale.CHINA);
+  }
+
+  private static class SingleTonHolder {
+    private static final DeviceIdUtil INSTANCE = new DeviceIdUtil();
   }
 }
