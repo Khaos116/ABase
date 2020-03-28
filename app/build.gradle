@@ -117,6 +117,7 @@ android.applicationVariants.all { variant ->
     outputFileName = "${appName}${typeName}${buildName}${buildTime}${computer}${suffix}"
   }
 }
+
 //强制使用lib版本，解决个版本导致包重复无法混淆的问题 https://www.jianshu.com/p/c602e6c493ce
 configurations.all {
   resolutionStrategy {
@@ -156,7 +157,7 @@ dependencies {
   implementation 'com.github.D10NGYANG:DL10SideBar:1.0.0'
 
   //bugly https://bugly.qq.com/docs/user-guide/instruction-manual-android/?v=20190916214340
-  implementation 'com.tencent.bugly:crashreport:3.1.8'
+  implementation 'com.tencent.bugly:crashreport:3.1.9'
   implementation 'com.tencent.bugly:nativecrashreport:3.7.1'
 
   //中文转拼音 https://github.com/promeG/TinyPinyin
@@ -170,8 +171,8 @@ dependencies {
   kapt 'com.airbnb.android:epoxy-processor:3.9.0'
 
   //RxHttp https://github.com/liujingxing/okhttp-RxHttp
-  implementation 'com.rxjava.rxhttp:rxhttp:1.4.4' //必须
-  kapt 'com.rxjava.rxhttp:rxhttp-compiler:1.4.4' //注解处理器，生成RxHttp类,必须
+  implementation 'com.rxjava.rxhttp:rxhttp:2.1.0' //必须
+  kapt 'com.rxjava.rxhttp:rxhttp-compiler:2.1.0' //注解处理器，生成RxHttp类,必须
   //rxandroid在lib中已经存在，就不再次添加了
   implementation 'com.rxjava.rxlife:rxlife:1.1.0'  //页面销毁，关闭请求，非必须
 

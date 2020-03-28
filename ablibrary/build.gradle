@@ -31,8 +31,8 @@ dependencies {
 
   //----------------------★★★基础★★★----------------------//
   api "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-  api 'androidx.appcompat:appcompat:1.2.0-alpha02'
-  api 'androidx.core:core-ktx:1.3.0-alpha01'
+  api 'androidx.appcompat:appcompat:1.2.0-alpha03'
+  api 'androidx.core:core-ktx:1.3.0-alpha02'
   api 'androidx.constraintlayout:constraintlayout:2.0.0-beta4'
   //分包(分包导致文件找不到解决方案:https://blog.csdn.net/Greathfs/article/details/80601362)
   api 'androidx.multidex:multidex:2.0.1'
@@ -50,16 +50,16 @@ dependencies {
   //debugImplementation 'com.github.whataa:pandora:androidx_v2.0.6'
   //releaseImplementation 'com.github.whataa:pandora-no-op:v2.0.3'
   //辅助工具 https://github.com/didi/DoraemonKit/blob/master/Doc/android_cn_guide.md
-  debugImplementation('com.didichuxing.doraemonkit:doraemonkit:2.2.2') {
+  debugImplementation('com.didichuxing.doraemonkit:doraemonkit:3.0_beta3') {
     exclude module: 'utilcode'
   }
   //https://github.com/square/okhttp
-  implementation 'com.squareup.okhttp3:okhttp:3.14.1'
-  releaseImplementation 'com.didichuxing.doraemonkit:doraemonkit-no-op:2.2.2'
+  implementation 'com.squareup.okhttp3:okhttp:4.4.0'
+  releaseImplementation 'com.didichuxing.doraemonkit:doraemonkit-no-op:3.0_beta3'
 
   //协程(https://www.jianshu.com/p/2659bbe0df16) https://github.com/Kotlin/kotlinx.coroutines
-  api 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.3'
-  api 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.3'
+  api 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.4'
+  api 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.4'
 
   //----------------------★★★框架★★★----------------------//
   //https://github.com/airbnb/MvRx
