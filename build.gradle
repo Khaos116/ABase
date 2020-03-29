@@ -14,6 +14,8 @@ buildscript {
     classpath 'com.tencent.mm:AndResGuard-gradle-plugin:1.2.17'
     //bugly的mapping上传
     classpath 'com.tencent.bugly:symtabfileuploader:2.2.1'
+    //更新R8版本，解决正式版无法打包的问题 https://github.com/square/okhttp/issues/4604
+    classpath 'com.android.tools:r8:1.6.84'
   }
 }
 
