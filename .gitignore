@@ -85,3 +85,5 @@ lint/tmp/
 ######################################################
 class_files.txt
 bugly/
+/app/mapping.txt
+/app/seeds.txt
