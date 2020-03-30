@@ -29,11 +29,13 @@ open class CcUpdateService : IntentService("UpdateService") {
     private const val DOWNLOAD_PATH = "download_path"
     private const val DOWNLOAD_VERSION_NAME = "download_version_name"
     private const val DOWNLOAD_SHOW_NOTIFICATION = "download_show_notification"
+    private var isDownloading = false//是否正在下载
     fun startIntent(
       path: String,
       version_name: String = "",
       showNotification: Boolean = false
     ) {
+      if (isDownloading) return
       val intent = Intent(Utils.getApp(), CcUpdateService::class.java)
       intent.putExtra(DOWNLOAD_PATH, path)
       intent.putExtra(DOWNLOAD_VERSION_NAME, version_name)
@@ -71,8 +73,6 @@ open class CcUpdateService : IntentService("UpdateService") {
   private var mApkVersion = ""
   //app名称
   private val appName = AppUtils.getAppName()
-  //是否正在下载
-  private var isDownloading = false
   //渠道id 安卓8.0 https://blog.csdn.net/MakerCloud/article/details/82079498
   private val UPDATE_CHANNEL_ID = AppUtils.getAppPackageName() + ".update.channel.id"
   private val UPDATE_CHANNEL_NAME = AppUtils.getAppPackageName() + ".update.channel.name"
