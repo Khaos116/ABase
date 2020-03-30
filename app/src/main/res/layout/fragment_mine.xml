@@ -40,7 +40,7 @@
         android:id="@+id/mineLine"
         android:layout_width="match_parent"
         android:layout_height="1px"
-        android:background="#ffebebeb" />
+        android:background="@color/lineGray" />
 
     <androidx.core.widget.NestedScrollView
         android:id="@+id/mineScrollView"

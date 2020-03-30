@@ -9,7 +9,9 @@ import cc.abase.demo.component.login.LoginActivity
 import cc.abase.demo.config.NetConfig
 import cc.abase.demo.fuel.repository.UserRepositoryFuel
 import cc.abase.demo.rxhttp.repository.UserRepository
-import kotlinx.android.synthetic.main.activity_setting.settingLogout
+import cc.abase.demo.utils.CacheUtils
+import kotlinx.android.synthetic.main.activity_setting.*
+import kotlinx.coroutines.*
 
 /**
  * Description:
@@ -29,13 +31,39 @@ class SettingActivity : CommTitleActivity() {
   override fun initContentView() {
     setTitleText("设置")
     settingLogout.pressEffectAlpha()
-    settingLogout.click {
-      if (NetConfig.USE_RXHTTP) UserRepository.instance.logOut()
-      else UserRepositoryFuel.instance.logOut()
-      LoginActivity.startActivity(mContext)
+    setCacheLayout.pressEffectBgColor()
+    setCacheLayout.click {
+      if (mJob2?.isCompleted == false) return@click
+      mJob2 = GlobalScope.launch(Dispatchers.Main) {
+        showActionLoading("缓存清理中")
+        val size = CacheUtils.instance.clearCache()
+        delay(1000)
+        if (isActive) {
+          setCacheSize.text = size
+          dismissActionLoading()
+        }
+      }
+      settingLogout.click {
+        if (NetConfig.USE_RXHTTP) UserRepository.instance.logOut()
+        else UserRepositoryFuel.instance.logOut()
+        LoginActivity.startActivity(mContext)
+      }
     }
   }
 
+  private var mJob1: Job? = null
+  private var mJob2: Job? = null
   override fun initData() {
+    //读取缓存大小
+    mJob1 = GlobalScope.launch(Dispatchers.Main) {
+      val size = CacheUtils.instance.getCacheSize()
+      if (isActive) setCacheSize.text = size
+    }
+  }
+
+  override fun finish() {
+    super.finish()
+    mJob1?.cancel()
+    mJob2?.cancel()
   }
 }
