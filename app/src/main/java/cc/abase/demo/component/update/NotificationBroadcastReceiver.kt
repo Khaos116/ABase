@@ -3,7 +3,6 @@ package cc.abase.demo.component.update
 import android.annotation.SuppressLint
 import android.app.NotificationManager
 import android.content.*
-import cc.abase.demo.constants.IntConstants
 import cc.abase.demo.constants.StringConstants
 import cc.abase.demo.utils.NetUtils
 import com.blankj.utilcode.util.AppUtils
@@ -26,7 +25,7 @@ class NotificationBroadcastReceiver : BroadcastReceiver() {
         StringConstants.Update.INTENT_KEY_INSTALL_APP -> {
           collapsingNotification(context)
           (context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager)
-              .cancel(IntConstants.Notification.UPDATE_ID)
+              .cancel(intent.getIntExtra(StringConstants.Update.INTENT_KEY_UPDATE_ID, 0))
           val path = intent.getStringExtra(StringConstants.Update.INTENT_KEY_INSTALL_PATH)
           AppUtils.installApp(path)
         }
@@ -34,7 +33,8 @@ class NotificationBroadcastReceiver : BroadcastReceiver() {
         StringConstants.Update.INTENT_KEY_APK_DOWNLOAD_ERROR -> if (NetUtils.instance.checkToast()) {
           val apkUrl = intent.getStringExtra(StringConstants.Update.INTENT_KEY_RETRY_PATH)
           val mApkVersion = intent.getStringExtra(StringConstants.Update.INTENT_KEY_RETRY_NAME)
-          CcUpdateService.startIntent(apkUrl ?: "", mApkVersion ?: "", true)
+          val appName = intent.getStringExtra(StringConstants.Update.INTENT_KEY_RETRY_NAME) ?: ""
+          CcUpdateService.startIntent(apkUrl ?: "", appName, mApkVersion ?: "", true)
         }
       }
     }

@@ -48,6 +48,7 @@ import java.util.Locale
 class MineFragment : CommFragment() {
   //APK下载地址
   private val apkUrk = "https://down8.xiazaidb.com/app/yingyongbianliang.apk"
+  private val apkUrk2 = "https://ftp.binance.com/pack/Binance.apk"
   //菜单列表
   private val menuList = mutableListOf(
       Pair(StringUtils.getString(R.string.chat_title), ChatActivity::class.java),
@@ -149,6 +150,7 @@ class MineFragment : CommFragment() {
     }
   }
 
+  private var clickCount = 0
   //epoxy
   private val epoxyController =
     MvRxEpoxyController<List<Pair<String, Class<out Any>>>> { list ->
@@ -164,7 +166,12 @@ class MineFragment : CommFragment() {
             if (second is Activity) {
               mActivity.startActivity(Intent(mContext, pair.second))
             } else if (second is CcUpdateService) {
-              CcUpdateService.startIntent(apkUrk, showNotification = true)
+              clickCount++
+              CcUpdateService.startIntent(
+                  path = if (clickCount % 2 == 0) apkUrk else apkUrk2,
+                  apk_name =if (clickCount % 2 == 0) "应用变量" else "币安",
+                  showNotification = true
+              )
             }
           }
         }

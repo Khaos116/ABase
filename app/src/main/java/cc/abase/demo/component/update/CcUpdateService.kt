@@ -8,16 +8,12 @@ import android.widget.RemoteViews
 import androidx.core.app.NotificationCompat
 import cc.abase.demo.R
 import cc.abase.demo.constants.EventKeys
-import cc.abase.demo.constants.IntConstants
 import cc.abase.demo.constants.StringConstants
 import com.blankj.utilcode.util.*
 import com.github.kittinunf.fuel.Fuel
 import com.jeremyliao.liveeventbus.LiveEventBus
-import io.reactivex.android.schedulers.AndroidSchedulers
-import rxhttp.wrapper.param.RxHttp
 import java.io.File
-import java.util.*
-
+import java.util.Locale
 
 /**
  * Description:
@@ -27,17 +23,19 @@ import java.util.*
 open class CcUpdateService : IntentService("UpdateService") {
   companion object {
     private const val DOWNLOAD_PATH = "download_path"
+    private const val DOWNLOAD_APK_NAME = "DOWNLOAD_APK_NAME"
     private const val DOWNLOAD_VERSION_NAME = "download_version_name"
     private const val DOWNLOAD_SHOW_NOTIFICATION = "download_show_notification"
-    private var isDownloading = false//是否正在下载
+    private var downIDs: MutableList<Int> = mutableListOf()//正在下载的通知id
     fun startIntent(
       path: String,
+      apk_name: String = "",
       version_name: String = "",
       showNotification: Boolean = false
     ) {
-      if (isDownloading) return
       val intent = Intent(Utils.getApp(), CcUpdateService::class.java)
       intent.putExtra(DOWNLOAD_PATH, path)
+      intent.putExtra(DOWNLOAD_APK_NAME, apk_name)
       intent.putExtra(DOWNLOAD_VERSION_NAME, version_name)
       intent.putExtra(DOWNLOAD_SHOW_NOTIFICATION, showNotification)
       Utils.getApp()
@@ -72,10 +70,13 @@ open class CcUpdateService : IntentService("UpdateService") {
   //apk下载的版本
   private var mApkVersion = ""
   //app名称
-  private val appName = AppUtils.getAppName()
+  private var appName = AppUtils.getAppName()
   //渠道id 安卓8.0 https://blog.csdn.net/MakerCloud/article/details/82079498
   private val UPDATE_CHANNEL_ID = AppUtils.getAppPackageName() + ".update.channel.id"
   private val UPDATE_CHANNEL_NAME = AppUtils.getAppPackageName() + ".update.channel.name"
+
+  //通知
+  private var notificationID = 0
 
   override fun onHandleIntent(intent: Intent?) {
     if (mNotificationManager == null) {
@@ -91,12 +92,15 @@ open class CcUpdateService : IntentService("UpdateService") {
         mNotificationManager?.createNotificationChannel(channel)
       }
     }
-    if (isDownloading) return
     intent?.let {
-      isDownloading = true
       mApkUrl = it.getStringExtra(DOWNLOAD_PATH) ?: ""
+      if (downIDs.contains(mApkUrl.hashCode())) return
+      notificationID = mApkUrl.hashCode()
+      downIDs.add(mApkUrl.hashCode())
       val downloadUrl: String = mApkUrl
       mApkVersion = it.getStringExtra(DOWNLOAD_VERSION_NAME) ?: ""
+      it.getStringExtra(DOWNLOAD_APK_NAME)
+          ?.let { name -> if (name.isNotBlank()) appName = name }
       val versionName = mApkVersion
       needShowNotification = it.getBooleanExtra(DOWNLOAD_SHOW_NOTIFICATION, false)
       val downLoadName = EncryptUtils.encryptMD5ToString(downloadUrl)
@@ -117,7 +121,7 @@ open class CcUpdateService : IntentService("UpdateService") {
             updateProgress(readBytes, totalBytes)
           }
           .response { req, res, result ->
-            isDownloading = false
+            downIDs.remove(mApkUrl.hashCode())
             if (result.component2() == null) {
               FileUtils.rename(File(mFileDir, downLoadName), apkName)
               showSuccess(File(mFileDir, apkName).path)
@@ -173,7 +177,7 @@ open class CcUpdateService : IntentService("UpdateService") {
         it.setTextViewText(R.id.notice_update_speed, "")
         it.setTextViewText(R.id.notice_update_size, "")
         initBuilder(it)
-        mNotificationManager?.notify(IntConstants.Notification.UPDATE_ID, mBuilder?.build())
+        mNotificationManager?.notify(notificationID, mBuilder?.build())
       }
     }
   }
@@ -215,7 +219,7 @@ open class CcUpdateService : IntentService("UpdateService") {
         val curSizeStr = byte2FitMemorySize(offsetSize)
         val totalSizeStr = byte2FitMemorySize(totalSize)
         it.setTextViewText(R.id.notice_update_size, "$curSizeStr/$totalSizeStr")
-        mNotificationManager?.notify(IntConstants.Notification.UPDATE_ID, mBuilder?.build())
+        mNotificationManager?.notify(notificationID, mBuilder?.build())
       }
     }
   }
@@ -249,6 +253,7 @@ open class CcUpdateService : IntentService("UpdateService") {
           Intent(Utils.getApp(), NotificationBroadcastReceiver::class.java)
         intentInstall.action = StringConstants.Update.INTENT_KEY_INSTALL_APP
         intentInstall.putExtra(StringConstants.Update.INTENT_KEY_INSTALL_PATH, filePath)
+        intentInstall.putExtra(StringConstants.Update.INTENT_KEY_UPDATE_ID, notificationID)
         it.setOnClickPendingIntent(
             R.id.notice_update_layout,
             PendingIntent.getBroadcast(
@@ -258,10 +263,7 @@ open class CcUpdateService : IntentService("UpdateService") {
         )
         initBuilder(it)
         mBuilder?.setOngoing(false)
-        mNotificationManager?.notify(
-            IntConstants.Notification.UPDATE_ID,
-            mBuilder?.build()
-        )
+        mNotificationManager?.notify(notificationID, mBuilder?.build())
       }
     }
   }
@@ -280,6 +282,7 @@ open class CcUpdateService : IntentService("UpdateService") {
         intentInstall.action = StringConstants.Update.INTENT_KEY_APK_DOWNLOAD_ERROR
         intentInstall.putExtra(StringConstants.Update.INTENT_KEY_RETRY_PATH, mApkUrl)
         intentInstall.putExtra(StringConstants.Update.INTENT_KEY_RETRY_NAME, mApkVersion)
+        intentInstall.putExtra(StringConstants.Update.INTENT_KEY_APP_NAME, appName)
         it.setOnClickPendingIntent(
             R.id.notice_update_layout,
             PendingIntent.getBroadcast(
@@ -289,7 +292,7 @@ open class CcUpdateService : IntentService("UpdateService") {
         )
         initBuilder(it)
         mBuilder?.setOngoing(false)
-        mNotificationManager?.notify(IntConstants.Notification.UPDATE_ID, mBuilder?.build())
+        mNotificationManager?.notify(notificationID, mBuilder?.build())
       }
     }
   }
