@@ -159,7 +159,7 @@ open class CcUpdateService : IntentService("UpdateService") {
   private fun showNotification() {
     //发送进度
     LiveEventBus.get(EventKeys.UPDATE_PROGRESS)
-        .post(Pair(UpdateEnum.START, 0f))
+        .post(Triple(UpdateEnum.START, 0f, mApkUrl))
     if (needShowNotification) {
       initRemoteViews()
       mRemoteViews?.let {
@@ -194,7 +194,7 @@ open class CcUpdateService : IntentService("UpdateService") {
     mPercent = offsetSize * 100f / totalSize
     //发送进度
     LiveEventBus.get(EventKeys.UPDATE_PROGRESS)
-        .post(Pair(UpdateEnum.DOWNLOADING, Math.min(99.9f, mPercent)))
+        .post(Triple(UpdateEnum.DOWNLOADING, Math.min(99.9f, mPercent), mApkUrl))
     if (mLastTime == 0L || mLastBytes == 0L) {
       mSpeed = offsetSize / 1000
       mLastTime = System.currentTimeMillis()
@@ -228,7 +228,7 @@ open class CcUpdateService : IntentService("UpdateService") {
   private fun showSuccess(filePath: String) {
     //发送进度
     LiveEventBus.get(EventKeys.UPDATE_PROGRESS)
-        .post(Pair(UpdateEnum.SUCCESS, 100f))
+        .post(Triple(UpdateEnum.SUCCESS, 100f, mApkUrl))
     if (needShowNotification) {
       initRemoteViews()
       mRemoteViews?.let {
@@ -272,7 +272,7 @@ open class CcUpdateService : IntentService("UpdateService") {
   private fun showFail(path: String) {
     //发送进度
     LiveEventBus.get(EventKeys.UPDATE_PROGRESS)
-        .post(Pair(UpdateEnum.FAIL, -1))
+        .post(Triple(UpdateEnum.FAIL, -1, mApkUrl))
     if (needShowNotification) {
       initRemoteViews()
       mRemoteViews?.let {

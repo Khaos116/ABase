@@ -118,22 +118,22 @@ class MineFragment : CommFragment() {
           }
           epoxyController.data = menuList
         }
-    val cls = Pair(UpdateEnum.START, 0f).javaClass
+    val cls = Triple(UpdateEnum.START, 0f, "").javaClass
     LiveEventBus.get(EventKeys.UPDATE_PROGRESS, cls)
         .observe(this, Observer {
-          when {
-            it.first == UpdateEnum.START -> {
+          when (it.first) {
+            UpdateEnum.START -> {
               LogUtils.e("CASE:APK开始下载")
             }
-            it.first == UpdateEnum.DOWNLOADING -> {
+            UpdateEnum.DOWNLOADING -> {
               LogUtils.e(
                   "CASE:APK下载进度：${String.format(Locale.getDefault(), "%.1f", it.second) + "%"}"
               )
             }
-            it.first == UpdateEnum.SUCCESS -> {
+            UpdateEnum.SUCCESS -> {
               LogUtils.e("CASE:APK下载成功")
             }
-            it.first == UpdateEnum.FAIL -> {
+            UpdateEnum.FAIL -> {
               LogUtils.e("CASE:APK下载失败")
             }
           }
