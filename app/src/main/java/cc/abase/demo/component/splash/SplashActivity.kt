@@ -12,6 +12,7 @@ import cc.abase.demo.fuel.repository.UserRepositoryFuel
 import cc.abase.demo.utils.MMkvUtils
 import com.blankj.utilcode.constant.PermissionConstants
 import com.blankj.utilcode.util.*
+import com.gyf.immersionbar.BarHide.FLAG_HIDE_NAVIGATION_BAR
 import com.gyf.immersionbar.ktx.immersionBar
 import kotlinx.android.synthetic.main.activity_splash.splashCover
 import kotlinx.android.synthetic.main.activity_splash.splashTime
@@ -48,7 +49,10 @@ class SplashActivity : CommActivity() {
 
   //状态栏透明
   override fun initStatus() {
-    immersionBar { statusBarDarkFont(false) }
+    immersionBar {
+      statusBarDarkFont(false)
+      fullScreen(true)
+    }
   }
 
   override fun layoutResId() = R.layout.activity_splash
