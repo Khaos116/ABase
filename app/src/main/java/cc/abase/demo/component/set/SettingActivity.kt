@@ -43,11 +43,11 @@ class SettingActivity : CommTitleActivity() {
           dismissActionLoading()
         }
       }
-      settingLogout.click {
-        if (NetConfig.USE_RXHTTP) UserRepository.instance.logOut()
-        else UserRepositoryFuel.instance.logOut()
-        LoginActivity.startActivity(mContext)
-      }
+    }
+    settingLogout.click {
+      if (NetConfig.USE_RXHTTP) UserRepository.instance.logOut()
+      else UserRepositoryFuel.instance.logOut()
+      LoginActivity.startActivity(mContext)
     }
   }
 
