@@ -197,24 +197,18 @@ class PermissionUtils private constructor() {
     }
   }
 
-  //打开定位设置
-  fun startLocationSetting(context: Context) {
-    val intent = Intent()
-    intent.action = Settings.ACTION_LOCATION_SOURCE_SETTINGS
-    context.startActivity(intent)
-  }
-
-  //打开权限设置
+  //打开APP权限页
   fun startPermissionSetting(context: Context) {
-    try {
-      val intent = Intent()
-      intent.action = Settings.ACTION_APPLICATION_DETAILS_SETTINGS
-      val uri = Uri.fromParts("package", AppUtils.getAppPackageName(), null)
-      intent.data = uri
-      context.startActivity(intent)
-    } catch (e: Exception) {
-      e.printStackTrace()
-      LogUtils.e("CASE:打开定位设置异常:${e.message}")
+    val intent = Intent()
+    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+    if (Build.VERSION.SDK_INT >= 9) {
+      intent.action = "android.settings.APPLICATION_DETAILS_SETTINGS"
+      intent.data = Uri.fromParts("package", context.packageName, null)
+    } else if (Build.VERSION.SDK_INT <= 8) {
+      intent.action = Intent.ACTION_VIEW
+      intent.setClassName("com.android.settings", "com.android.settings.InstalledAppDetails")
+      intent.putExtra("com.android.settings.ApplicationPkgName", context.packageName)
     }
+    context.startActivity(intent)
   }
 }
