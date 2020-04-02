@@ -41,7 +41,7 @@ public class SimpleViewpagerIndicator extends HorizontalScrollView {
    */
   private boolean showUnderline = false;//是否展示底线
   private int underlineColor;
-  private int underlineHeight;//dp
+  private float underlineHeight;//dp
   /*
    * tab之间的分割线
    */
@@ -90,10 +90,8 @@ public class SimpleViewpagerIndicator extends HorizontalScrollView {
   private int tabCount;
   private int lastScrollX = 0;
   private LeftRight textLocation = new LeftRight();
-  private float tabTransY = 0;//默认在最底部(负数往上)
-  private float textTransY = 0;//默认在中间(负数往上)
-
-  private OnPagerCanChangeListener canPagerCanChangeListener;//根据返回值判断是否实现page改变
+  private float tabTransY = 0;//dp 默认在最底部(负数往上)
+  private float textTransY = 0;//dp 默认在中间(负数往上)
 
   public SimpleViewpagerIndicator(Context context) {
     this(context, null);
@@ -123,14 +121,6 @@ public class SimpleViewpagerIndicator extends HorizontalScrollView {
     return this;
   }
 
-  public void release() {
-    if (viewPager != null) {
-      viewPager.removeOnPageChangeListener(pageListener);
-      userPageListener = null;
-      viewPager = null;
-    }
-  }
-
   public SimpleViewpagerIndicator setOnPageChangeListener(ViewPager.OnPageChangeListener listener) {
     this.userPageListener = listener;
     return this;
@@ -141,25 +131,25 @@ public class SimpleViewpagerIndicator extends HorizontalScrollView {
      * 将dp换算为px
      */
     float density = getContext().getResources().getDisplayMetrics().density;
-    indicatorHeight = (int) (indicatorHeight * density);
-    underlineHeight = (int) (underlineHeight * density);
-    dividerPadding = (int) (dividerPadding * density);
-    dividerWidth = (int) (dividerWidth * density);
-    tabTextSize = (int) (tabTextSize * density);
-    tabPadding = (int) (tabPadding * density);
-    selectedTabTextSize = (int) (selectedTabTextSize * density);
-    scrollOffset = (int) (scrollOffset * density);
-    tabWidth = (int) (tabWidth * density);
-    tabRound = (int) (tabRound * density);
-    tabTransY = (int) (tabTransY * density);
-    textTransY = (int) (textTransY * density);
+    indicatorHeight = dp2px(indicatorHeight);
+    underlineHeight = dp2px(underlineHeight);
+    dividerPadding =dp2px(dividerPadding);
+    dividerWidth = dp2px(dividerWidth);
+    tabTextSize =dp2px(tabTextSize);
+    tabPadding =dp2px(tabPadding);
+    selectedTabTextSize = dp2px(selectedTabTextSize);
+    scrollOffset = dp2px(scrollOffset);
+    tabWidth = dp2px(tabWidth);
+    tabRound = dp2px(tabRound);
+    tabTransY = dp2px(tabTransY);
+    textTransY = dp2px(textTransY);
     /*
      * 创建tab的容器（LinearLayout）
      */
     tabsContainer = new LinearLayout(getContext());
     tabsContainer.setOrientation(LinearLayout.HORIZONTAL);
     tabsContainer.setLayoutParams(
-        new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
+            new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
     addView(tabsContainer);
 
     /*
@@ -180,7 +170,7 @@ public class SimpleViewpagerIndicator extends HorizontalScrollView {
      * 创建两个Tab的LayoutParams，一个为宽度包裹内容，一个为宽度等分父控件剩余空间
      */
     wrapTabLayoutParams =
-        new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.MATCH_PARENT);//宽度包裹内容
+            new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.MATCH_PARENT);//宽度包裹内容
     expandTabLayoutParams = new LinearLayout.LayoutParams(0, LayoutParams.MATCH_PARENT, 1.0f);//宽度等分
   }
 
@@ -229,14 +219,7 @@ public class SimpleViewpagerIndicator extends HorizontalScrollView {
       tab.setBackgroundResource(tabBackgroundResId);
     }
     tab.setPadding(tabPadding, 0, tabPadding, 0);
-    tab.setOnClickListener(v -> {
-          if (canPagerCanChangeListener == null) {
-            viewPager.setCurrentItem(position);
-          } else if (canPagerCanChangeListener.canChange(tabsContainer.indexOfChild(tab))) {
-            viewPager.setCurrentItem(position);
-          }
-        }
-    );
+    tab.setOnClickListener(v -> viewPager.setCurrentItem(position));
     tab.setTranslationY(textTransY);
     tabsContainer.addView(tab, position, expand ? expandTabLayoutParams : wrapTabLayoutParams);
   }
@@ -297,18 +280,6 @@ public class SimpleViewpagerIndicator extends HorizontalScrollView {
     final int height = getHeight();
 
     /*
-     * 绘制divider
-     */
-    if (showDivider) {
-      dividerPaint.setColor(dividerColor);
-      for (int i = 0; i < tabCount - 1; i++) {
-        View tab = tabsContainer.getChildAt(i);
-        canvas.drawLine(tab.getRight(), dividerPadding, tab.getRight(), height - dividerPadding,
-            dividerPaint);
-      }
-    }
-
-    /*
      * 绘制underline(indicator的背景线)
      */
     if (showUnderline) {
@@ -324,16 +295,16 @@ public class SimpleViewpagerIndicator extends HorizontalScrollView {
       rectPaint.setColor(indicatorColor);
       View currentTab = tabsContainer.getChildAt(currentPosition);
       float tabCenter =
-          currentTab.getLeft() + (currentTab.getRight() - currentTab.getLeft()) / 2.0f;
+              currentTab.getLeft() + (currentTab.getRight() - currentTab.getLeft()) / 2.0f;
       if (currentPositionOffset > 0f && currentPosition < tabCount - 1) {
         View nextTab = tabsContainer.getChildAt(currentPosition + 1);
         final float nexCenter = nextTab.getLeft() + (nextTab.getRight() - nextTab.getLeft()) / 2.0f;
         tabCenter = tabCenter + (nexCenter - tabCenter) * currentPositionOffset;
       }
       canvas.drawRoundRect(tabCenter - tabWidth / 2.0f, height - indicatorHeight + tabTransY,
-          tabCenter + tabWidth / 2.0f,
-          height + tabTransY,
-          tabRound, tabRound, rectPaint);
+              tabCenter + tabWidth / 2.0f,
+              height + tabTransY,
+              tabRound, tabRound, rectPaint);
     } else {
       if (indicatorWrapText) {//indicator与文字等长
         rectPaint.setColor(indicatorColor);
@@ -349,7 +320,7 @@ public class SimpleViewpagerIndicator extends HorizontalScrollView {
           lineRight = lineRight + (nextRight - lineRight) * currentPositionOffset;
         }
         canvas.drawRoundRect(lineLeft, height - indicatorHeight + tabTransY, lineRight,
-            height + tabTransY, tabRound, tabRound, rectPaint);
+                height + tabTransY, tabRound, tabRound, rectPaint);
       } else {//indicator与tab等长
         rectPaint.setColor(indicatorColor);
         View currentTab = tabsContainer.getChildAt(currentPosition);
@@ -363,7 +334,19 @@ public class SimpleViewpagerIndicator extends HorizontalScrollView {
           lineRight = lineRight + (nextRight - lineRight) * currentPositionOffset;
         }
         canvas.drawRoundRect(lineLeft, height - indicatorHeight + tabTransY, lineRight,
-            height + tabTransY, tabRound, tabRound, rectPaint);
+                height + tabTransY, tabRound, tabRound, rectPaint);
+      }
+    }
+
+    /*
+     * 绘制divider
+     */
+    if (showDivider) {
+      dividerPaint.setColor(dividerColor);
+      for (int i = 0; i < tabCount - 1; i++) {
+        View tab = tabsContainer.getChildAt(i);
+        canvas.drawLine(tab.getRight(), dividerPadding, tab.getRight(), height - dividerPadding,
+                dividerPaint);
       }
     }
   }
@@ -410,7 +393,7 @@ public class SimpleViewpagerIndicator extends HorizontalScrollView {
   }
 
   public SimpleViewpagerIndicator setShowUnderline(boolean showUnderline, int underlineColor,
-      int underlineHeight) {
+                                                   float underlineHeight) {
     this.showUnderline = showUnderline;
     this.underlineColor = underlineColor;
     this.underlineHeight = underlineHeight;
@@ -418,7 +401,7 @@ public class SimpleViewpagerIndicator extends HorizontalScrollView {
   }
 
   public SimpleViewpagerIndicator setShowDivider(boolean showDivider, int dividerColor,
-      int dividerPadding, int dividerWidth) {
+                                                 int dividerPadding, int dividerWidth) {
     this.showDivider = showDivider;
     this.dividerColor = dividerColor;
     this.dividerPadding = dividerPadding;
@@ -496,7 +479,7 @@ public class SimpleViewpagerIndicator extends HorizontalScrollView {
     int left, right;
   }
 
-  private ArgbEvaluator mEvaluator = new ArgbEvaluator();
+  private android.animation.ArgbEvaluator mEvaluator = new ArgbEvaluator();
   private class PageListener implements ViewPager.OnPageChangeListener {
     @Override
     public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -517,7 +500,7 @@ public class SimpleViewpagerIndicator extends HorizontalScrollView {
       }
       //scrollView滚动
       scrollToChild(position,
-          (int) (positionOffset * tabsContainer.getChildAt(position).getWidth()));
+              (int) (positionOffset * tabsContainer.getChildAt(position).getWidth()));
 
       invalidate();//invalidate后onDraw会被调用,绘制indicator、divider等
 
@@ -549,13 +532,8 @@ public class SimpleViewpagerIndicator extends HorizontalScrollView {
     }
   }
 
-  public SimpleViewpagerIndicator setCanPagerCanChangeListener(
-      OnPagerCanChangeListener mCanPagerCanChangeListener) {
-    canPagerCanChangeListener = mCanPagerCanChangeListener;
-    return this;
-  }
-
-  public interface OnPagerCanChangeListener {
-    boolean canChange(int position);
+  private int dp2px(final float dpValue) {
+    final float scale = getContext().getResources().getDisplayMetrics().density;
+    return (int) (dpValue * scale + 0.5f);
   }
 }
