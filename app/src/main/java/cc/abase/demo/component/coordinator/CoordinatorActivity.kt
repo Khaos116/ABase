@@ -67,7 +67,7 @@ class CoordinatorActivity : CommActivity() {
         .setIndicatorColor(Color.parseColor("#AF2121"))//indicator颜色
         .setIndicatorHeight(2)//indicator高度
         .setShowUnderline(
-          true, Color.parseColor("#eeeeee"), 1
+          true, Color.parseColor("#eeeeee"), 1f
         )//设置是否展示underline，默认不展示
 //        .setShowDivider(false, getResColor(R.color.c_a28dff), 10, 1)//设置是否展示分隔线，默认不展示
         .setTabTextSize(15)//文字大小
