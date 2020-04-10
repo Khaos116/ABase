@@ -2,7 +2,9 @@ package cc.abase.demo.component.splash
 
 import android.Manifest
 import android.content.Intent
+import android.util.Log
 import cc.ab.base.ext.*
+import cc.ab.base.utils.RxUtils
 import cc.abase.demo.R
 import cc.abase.demo.component.comm.CommActivity
 import cc.abase.demo.component.login.LoginActivity
@@ -11,13 +13,17 @@ import cc.abase.demo.constants.ImageUrls
 import cc.abase.demo.fuel.repository.UserRepositoryFuel
 import cc.abase.demo.utils.MMkvUtils
 import com.blankj.utilcode.constant.PermissionConstants
-import com.blankj.utilcode.util.*
-import com.gyf.immersionbar.BarHide.FLAG_HIDE_NAVIGATION_BAR
+import com.blankj.utilcode.util.LogUtils
+import com.blankj.utilcode.util.PermissionUtils
+import com.blankj.utilcode.util.TimeUtils
+import com.blankj.utilcode.util.Utils
 import com.gyf.immersionbar.ktx.immersionBar
-import kotlinx.android.synthetic.main.activity_splash.splashCover
-import kotlinx.android.synthetic.main.activity_splash.splashTime
-import kotlinx.coroutines.*
+import io.reactivex.Flowable
+import io.reactivex.disposables.Disposable
+import kotlinx.android.synthetic.main.activity_splash.*
 import me.panpf.sketch.Sketch
+import java.util.concurrent.TimeUnit
+import kotlin.math.max
 
 /**
  * Description:
@@ -33,8 +39,7 @@ class SplashActivity : CommActivity() {
   private val count = 3L
 
   //倒计时
-  private var launchJob: Job? = null
-
+  private var disposable: Disposable? = null
   //是否有SD卡读写权限
   private var hasSDPermission: Boolean? = null
 
@@ -60,20 +65,20 @@ class SplashActivity : CommActivity() {
   override fun initView() {
     hasFinish = checkReOpenHome()
     if (hasFinish) return
-    launchJob?.cancel()
+    disposable?.dispose()
     //页面无缝过渡后重置背景，不然会导致页面显示出现问题。主要解决由于window背景设置后的一些问题
     window.setBackgroundDrawable(null)
     //有尺寸了才开始计时
     splashTime?.post {
-      //使用协程进行倒计时
-      launchJob = GlobalScope.launch(Dispatchers.Main) {
-        for (i in count.toInt() downTo 1) {
-          splashTime?.text = i.toString()
-          delay(1000)
+      disposable = Flowable.intervalRange(0, count + 1, 0, 1, TimeUnit.SECONDS)
+        .compose(RxUtils.instance.rx2SchedulerHelperF(lifecycleProvider))
+        .doOnNext { splashTime.text = String.format("%d", max(1, count - it)) }
+        .doOnComplete {
+          Log.e("CASE", "倒计时结束")
+          countDownFinish = true
+          goNextPage()
         }
-        countDownFinish = true
-        goNextPage()
-      }
+        .subscribe()
     }
   }
 
@@ -162,7 +167,7 @@ class SplashActivity : CommActivity() {
   }
 
   override fun finish() {
-    launchJob?.cancel()
+    disposable?.dispose()
     super.finish()
   }
 }
