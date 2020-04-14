@@ -11,8 +11,9 @@ import cc.abase.demo.epoxy.item.simpleTextItem
 import cc.abase.demo.mvrx.MvRxEpoxyController
 import cc.abase.demo.widget.ItemDecorationPowerful
 import com.airbnb.epoxy.EpoxyItemSpacingDecorator
+import com.blankj.utilcode.util.SizeUtils
 import com.blankj.utilcode.util.StringUtils
-import kotlinx.android.synthetic.main.activity_decoration.decorRecycler
+import kotlinx.android.synthetic.main.activity_decoration.*
 
 /**
  * Description:分割线展示
@@ -57,6 +58,7 @@ class DecorationActivity : CommTitleActivity() {
         gravity(Gravity.CENTER)
         bgColor(Color.parseColor("#550fff00"))
         heightDp(70f)
+        textSizePx(SizeUtils.dp2px(12f) * 1f)
         msg(s)
         spanCount = 1
       }
