@@ -26,7 +26,7 @@
   <!--透明-->
   <color name="transparent">#00000000</color>
   <!--分割线颜色-->
-  <color name="lineGray">#ebebeb</color>
+  <color name="dividerColor">#ebebeb</color>
 
   <!-- **************style颜色************** -->
   <color name="style_Primary">#008577</color>
