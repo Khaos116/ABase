@@ -1,8 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.airbnb.epoxy.EpoxyRecyclerView
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/decorRecycler"
-    android:layout_width="wrap_content"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    />
+    >
+
+  <cc.abase.demo.widget.SimpleViewpagerIndicator
+      android:id="@+id/decorationIndicator"
+      android:layout_width="match_parent"
+      android:layout_height="46dp"
+      />
+
+  <View
+      android:layout_width="match_parent"
+      android:layout_height="0.5dp"
+      android:background="@color/dividerColor"
+      />
+  <androidx.viewpager.widget.ViewPager
+      android:id="@+id/decorationPager"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:overScrollMode="never"
+      android:scrollbars="none"
+      />
+</LinearLayout>
