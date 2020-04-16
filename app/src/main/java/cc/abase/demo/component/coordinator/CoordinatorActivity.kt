@@ -46,7 +46,7 @@ class CoordinatorActivity : CommActivity() {
       SimpleFragment.newInstance(type),
       SimpleFragment.newInstance(type)
     )
-    coordinatorPager.adapter = object : FragmentPagerAdapter(supportFragmentManager) {
+    coordinatorPager.adapter = object : FragmentPagerAdapter(supportFragmentManager, 0) {
       override fun getItem(position: Int): Fragment {
         return fragments[position]
       }
