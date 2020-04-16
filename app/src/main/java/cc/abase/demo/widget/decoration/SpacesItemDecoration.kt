@@ -13,7 +13,8 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ItemDecoration
 import androidx.recyclerview.widget.RecyclerView.LayoutParams
 import androidx.recyclerview.widget.RecyclerView.State
-import com.blankj.utilcode.util.Utils
+import cc.abase.demo.R
+import com.blankj.utilcode.util.*
 
 /*
  * Copyright 2019. Bin Jing (https://github.com/youlookwhat)
@@ -68,6 +69,7 @@ class SpacesItemDecoration @JvmOverloads constructor(private val mOrientation: I
     val a = Utils.getApp().obtainStyledAttributes(attrs)
     mDivider = a.getDrawable(0)
     a.recycle()
+    if (mPaint == null) setParam(dividerColor = ColorUtils.getColor(R.color.dividerColor), dividerSpacing = SizeUtils.dp2px(0.5f))
   }
   //</editor-fold>
 
