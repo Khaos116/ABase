@@ -28,11 +28,11 @@ import cc.abase.demo.component.update.CcUpdateService
 import cc.abase.demo.component.update.UpdateEnum
 import cc.abase.demo.config.NetConfig
 import cc.abase.demo.constants.EventKeys
-import cc.abase.demo.epoxy.base.dividerItem
 import cc.abase.demo.epoxy.item.simpleTextItem
 import cc.abase.demo.fuel.repository.UserRepositoryFuel
 import cc.abase.demo.mvrx.MvRxEpoxyController
 import cc.abase.demo.rxhttp.repository.UserRepository
+import cc.abase.demo.widget.decoration.SpacesItemDecoration
 import cc.abase.demo.widget.dialog.dateSelDialog
 import com.blankj.utilcode.util.*
 import com.jeremyliao.liveeventbus.LiveEventBus
@@ -78,7 +78,12 @@ class MineFragment : CommFragment() {
   override val contentLayout = R.layout.fragment_mine
 
   override fun initView(root: View?) {
-    mineRecycler.setController(epoxyController)
+    if (mineRecycler.itemDecorationCount == 0) {
+      val decoration = SpacesItemDecoration()
+        .setParam(dividerColor = ColorUtils.getColor(R.color.dividerColor), dividerSpacing = SizeUtils.dp2px(0.5f))
+      mineRecycler.addItemDecoration(decoration)
+      mineRecycler.setController(epoxyController)
+    }
   }
 
   @SuppressLint("CheckResult")
@@ -152,8 +157,7 @@ class MineFragment : CommFragment() {
 
   private var clickCount = 0
   //epoxy
-  private val epoxyController =
-    MvRxEpoxyController<List<Pair<String, Class<out Any>>>> { list ->
+  private val epoxyController = MvRxEpoxyController<List<Pair<String, Class<out Any>>>> { list ->
       list.forEachIndexed { index, pair ->
         //内容
         simpleTextItem {
@@ -174,10 +178,6 @@ class MineFragment : CommFragment() {
               )
             }
           }
-        }
-        //分割线
-        dividerItem {
-          id("line_$index")
         }
       }
     }
