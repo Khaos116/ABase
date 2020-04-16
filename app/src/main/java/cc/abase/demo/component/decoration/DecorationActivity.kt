@@ -9,8 +9,7 @@ import androidx.fragment.app.FragmentPagerAdapter
 import cc.abase.demo.R
 import cc.abase.demo.component.comm.CommTitleActivity
 import com.blankj.utilcode.util.StringUtils
-import kotlinx.android.synthetic.main.activity_decoration.decorationIndicator
-import kotlinx.android.synthetic.main.activity_decoration.decorationPager
+import kotlinx.android.synthetic.main.activity_decoration.*
 
 /**
  * Description:分割线展示
@@ -28,7 +27,8 @@ class DecorationActivity : CommTitleActivity() {
 
   private var fragments: MutableList<DecorationFragment> = mutableListOf()
 
-  private var titles: MutableList<String> = mutableListOf("TAB1", "TAB2", "TAB3", "TAB4", "TAB5", "TAB6", "TAB7", "TAB8")
+  private var titles: MutableList<String> =
+    mutableListOf("TAB1", "TAB2", "TAB3", "TAB4", "TAB5", "TAB6", "TAB7", "TAB8", "TAB9")
 
   override fun layoutResContentId() = R.layout.activity_decoration
 
@@ -43,6 +43,7 @@ class DecorationActivity : CommTitleActivity() {
     fragments.add(DecorationFragment.newInstance(5))
     fragments.add(DecorationFragment.newInstance(6))
     fragments.add(DecorationFragment.newInstance(7))
+    fragments.add(DecorationFragment.newInstance(8))
     decorationPager.adapter = object : FragmentPagerAdapter(supportFragmentManager, 0) {
       override fun getItem(position: Int): Fragment {
         return fragments[position]
