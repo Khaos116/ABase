@@ -30,6 +30,7 @@ class GridSpaceItemDecoration @JvmOverloads constructor(
     private val mIncludeStartEnd: Boolean = false,/*距屏幕左右是否有间距*/
     private val mIncludeTop: Boolean = false,/*开始的第一排顶部是否有间距*/
     private val mIncludeBottom: Boolean = false/*结束的最后一排底部是否也有间距*/) : ItemDecoration() {
+  //<editor-fold defaultstate="collapsed" desc="变量区">
   //每行个数
   private var mSpanCount = 0
 
@@ -41,7 +42,9 @@ class GridSpaceItemDecoration @JvmOverloads constructor(
 
   //瀑布流 头部第一个整行的position
   private var fullPosition = -1
+  //</editor-fold>
 
+  //<editor-fold defaultstate="collapsed" desc="绘制分割线">
   override fun getItemOffsets(outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State) {
     val lastPosition = state.itemCount - 1
     var position = parent.getChildAdapterPosition(view)
@@ -180,7 +183,9 @@ class GridSpaceItemDecoration @JvmOverloads constructor(
       //=============修改代码End=============//
     }
   }
+  //</editor-fold>
 
+  //<editor-fold defaultstate="collapsed" desc="设置需要分割线的起始和结束位置">
   /**
    * 设置从哪个位置 开始设置间距
    *
@@ -212,4 +217,5 @@ class GridSpaceItemDecoration @JvmOverloads constructor(
     mEndFromSize = endFromSize
     return this
   }
+  //</editor-fold>
 }
