@@ -79,9 +79,7 @@ class MineFragment : CommFragment() {
 
   override fun initView(root: View?) {
     if (mineRecycler.itemDecorationCount == 0) {
-      val decoration = SpacesItemDecoration()
-        .setParam(dividerColor = ColorUtils.getColor(R.color.dividerColor), dividerSpacing = SizeUtils.dp2px(0.5f))
-      mineRecycler.addItemDecoration(decoration)
+      mineRecycler.addItemDecoration(SpacesItemDecoration())
       mineRecycler.setController(epoxyController)
     }
   }

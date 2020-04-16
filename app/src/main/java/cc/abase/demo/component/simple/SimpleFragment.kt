@@ -8,6 +8,7 @@ import cc.abase.demo.component.comm.CommFragment
 import cc.abase.demo.epoxy.base.dividerItem
 import cc.abase.demo.epoxy.item.simpleTextItem
 import cc.abase.demo.mvrx.MvRxEpoxyController
+import cc.abase.demo.widget.decoration.SpacesItemDecoration
 import com.billy.android.swipe.SmartSwipeRefresh
 import com.billy.android.swipe.consumer.SlidingConsumer
 import kotlinx.android.synthetic.main.fragment_simple.simpleRecycler
@@ -35,6 +36,7 @@ class SimpleFragment : CommFragment() {
   override val contentLayout: Int = R.layout.fragment_simple
 
   override fun initView(root: View?) {
+    simpleRecycler.addItemDecoration(SpacesItemDecoration())
     simpleRecycler.setController(epoxyController)
     val datas = mutableListOf<String>()
     for (i in 0 until 20) datas.add(
@@ -70,10 +72,6 @@ class SimpleFragment : CommFragment() {
           textColor(Color.BLACK)
           gravity(Gravity.CENTER_VERTICAL)
           onItemClick { }
-        }
-        //分割线
-        dividerItem {
-          id("line_$index")
         }
       }
     }
