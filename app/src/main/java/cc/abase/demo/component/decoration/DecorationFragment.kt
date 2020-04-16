@@ -9,10 +9,10 @@ import cc.abase.demo.R
 import cc.abase.demo.component.comm.CommFragment
 import cc.abase.demo.epoxy.item.simpleTextItem
 import cc.abase.demo.mvrx.MvRxEpoxyController
-import cc.abase.demo.widget.decoration.GridItemDecoration
-import com.airbnb.epoxy.EpoxyItemSpacingDecorator
+import cc.abase.demo.widget.decoration.GridSpaceItemDecoration
+import com.blankj.utilcode.util.KeyboardUtils
 import com.blankj.utilcode.util.SizeUtils
-import kotlinx.android.synthetic.main.fragment_decoration.*
+import kotlinx.android.synthetic.main.fragment_decoration.decorRecycler
 
 /**
  * Description:
@@ -40,18 +40,16 @@ class DecorationFragment : CommFragment() {
     //页面重建View不再重新设置
     if (decorRecycler.itemDecorationCount == 0) {
       val decorator = if (mType != 8) {
-        GridItemDecoration(
-          mSpanCount, 20,
-          //前4个没有，后4个有
-          includeStartEnd = mType >= 4,
-          //没有-没有-有-有；没有-没有-有-有；
-          includeTop = mType == 2 || mType == 3 || mType == 6 || mType == 7,
-          //没有-有-没有-有;没有-有-没有-有;
-          includeBottom = mType == 1 || mType == 3 || mType == 5 || mType == 7
-        )
+        GridSpaceItemDecoration(20,
+            //前4个没有，后4个有
+            mIncludeStartEnd = mType >= 4,
+            //没有-没有-有-有；没有-没有-有-有；
+            mIncludeTop = mType == 2 || mType == 3 || mType == 6 || mType == 7,
+            //没有-有-没有-有;没有-有-没有-有;
+            mIncludeBottom = mType == 1 || mType == 3 || mType == 5 || mType == 7)
       } else {
         mSpanCount = 6
-        EpoxyItemSpacingDecorator(20)
+        GridSpaceItemDecoration(20)
       }
       val layoutManager = GridLayoutManager(mContext, mSpanCount)
       epoxyController.spanCount = mSpanCount
@@ -93,5 +91,10 @@ class DecorationFragment : CommFragment() {
         }
       }
     }
+  }
+
+  override fun onDestroyView() {
+    super.onDestroyView()
+    KeyboardUtils.fixSoftInputLeaks(mActivity)
   }
 }

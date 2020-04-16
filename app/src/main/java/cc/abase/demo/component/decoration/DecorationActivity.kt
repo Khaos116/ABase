@@ -9,7 +9,8 @@ import androidx.fragment.app.FragmentPagerAdapter
 import cc.abase.demo.R
 import cc.abase.demo.component.comm.CommTitleActivity
 import com.blankj.utilcode.util.StringUtils
-import kotlinx.android.synthetic.main.activity_decoration.*
+import kotlinx.android.synthetic.main.activity_decoration.decorationIndicator
+import kotlinx.android.synthetic.main.activity_decoration.decorationPager
 
 /**
  * Description:分割线展示
@@ -57,7 +58,7 @@ class DecorationActivity : CommTitleActivity() {
         return titles[position]
       }
     }
-    decorationPager.offscreenPageLimit = 2
+    decorationPager.offscreenPageLimit = fragments.size
     decorationIndicator.setExpand(false)//设置tab宽度为包裹内容还是平分父控件剩余空间，默认值：false,包裹内容
 //        .setIndicatorWrapText(true)//设置indicator是与文字等宽还是与整个tab等宽，默认值：true,与文字等宽
       .setTabWidth(60, 12)//设置固定的指示器宽度和圆角
