@@ -13,13 +13,21 @@ import com.airbnb.epoxy.EpoxyAdapter
  */
 class StickyHeaderAdapter2(list: MutableList<UserStickyBean>) : EpoxyAdapter(), HasStickyHeader {
 
-  //记录位置和索引
-  private var sideList: MutableList<Pair<String, Int>> = mutableListOf()
+  var mData: MutableList<UserStickyBean> = list
+    set(value) {
+      val fresh = !field.isNullOrEmpty()
+      field = value
+      if (fresh) refresh()
+    }
 
   init {
     enableDiffing()
-    sideList.clear()
-    list.forEachIndexed { index, bean ->
+    refresh()
+  }
+
+  private fun refresh() {
+    removeAllModels()
+    mData.forEachIndexed { index, bean ->
       //标题
       if (bean.title) addModel(Sticky2TopItem_().apply { id("topTitle") })
       //成绩
@@ -40,10 +48,4 @@ class StickyHeaderAdapter2(list: MutableList<UserStickyBean>) : EpoxyAdapter(), 
   }
 
   override fun isStickyHeader(position: Int) = models[position] is Sticky2TopItem_
-
-  //如果没有返回负数
-  fun getTagPosition(barTag: String): Int {
-    val result = sideList.filter { it.first == barTag }
-    return if (result.isNullOrEmpty()) -1 else result.first().second
-  }
 }

@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/sticky2RootView"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:orientation="horizontal"
     >
 
@@ -20,18 +21,18 @@
         android:id="@+id/sticky2Recycler1"
         android:layout_width="80dp"
         android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
         android:overScrollMode="never"
         android:scrollbars="none"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         />
 
     <LinearLayout
         android:layout_width="80dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         >
 
       <cc.abase.demo.widget.LineView
@@ -48,8 +49,6 @@
     </LinearLayout>
 
     <TextView
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
         android:layout_width="80dp"
         android:layout_height="40dp"
         android:gravity="end"
@@ -57,11 +56,11 @@
         android:text="科目"
         android:textColor="@color/red"
         android:textSize="14sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         />
 
     <TextView
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
         android:layout_width="80dp"
         android:layout_height="40dp"
         android:gravity="bottom"
@@ -69,6 +68,8 @@
         android:text="姓名"
         android:textColor="@color/red"
         android:textSize="14sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         />
 
     <View
@@ -92,9 +93,9 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:overScrollMode="never"
+        android:scrollbars="none"
         android:visibility="invisible"
         tools:visibility="visible"
-        android:scrollbars="none"
         />
   </HorizontalScrollView>
 </LinearLayout>

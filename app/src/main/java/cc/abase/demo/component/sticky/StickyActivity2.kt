@@ -15,6 +15,8 @@ import cc.abase.demo.component.sticky.widget.StickyHeaderLinearLayoutManager
 import cc.abase.demo.epoxy.base.dividerItem
 import cc.abase.demo.epoxy.item.sticky2LeftItem
 import cc.abase.demo.mvrx.MvRxEpoxyController
+import com.billy.android.swipe.SmartSwipeRefresh
+import com.billy.android.swipe.SmartSwipeRefresh.SmartSwipeRefreshDataLoader
 import com.blankj.utilcode.util.StringUtils
 import kotlinx.android.synthetic.main.activity_sticky2.*
 
@@ -30,6 +32,9 @@ class StickyActivity2 : CommTitleActivity() {
       context.startActivity(intent)
     }
   }
+
+  //下拉刷新
+  private var mSmartSwipeRefresh: SmartSwipeRefresh? = null
 
   override fun layoutResContentId() = R.layout.activity_sticky2
 
@@ -58,20 +63,41 @@ class StickyActivity2 : CommTitleActivity() {
         sticky2Recycler2?.visible()
       }, 200)
     }
+    //加载更多
+    mSmartSwipeRefresh = SmartSwipeRefresh.translateMode(sticky2RootView, false)
+    mSmartSwipeRefresh?.disableRefresh()
+    //TODO 加载更多数据刷新会导致位置不对，暂时不开放
+    mSmartSwipeRefresh?.disableLoadMore()
+    mSmartSwipeRefresh?.dataLoader = object : SmartSwipeRefreshDataLoader {
+      override fun onLoadMore(ssr: SmartSwipeRefresh?) {
+        sticky2Recycler1?.stopScroll()
+        sticky2Recycler2?.stopScroll()
+        (sticky2Recycler2?.adapter as StickyHeaderAdapter2).mData = originDatas
+        leftController.data = originDatas
+        mSmartSwipeRefresh?.disableLoadMore()
+      }
+
+      override fun onRefresh(ssr: SmartSwipeRefresh?) {}
+    }
   }
+
+  //模拟数据
+  private var originDatas = mutableListOf<UserStickyBean>()
+
+  //标题数据
+  private var titleBean = UserStickyBean(name = "", title = true)
 
   override fun initData() {
     showLoadingView()
     sticky2Recycler2.postDelayed({
-      var users = mutableListOf<UserStickyBean>()
       //随机增加个学生成绩
-      for (i in 0..(Math.random() * 70).toInt()) users.add(UserStickyBean(score = UserScoreBean()))
+      for (i in 0..79) originDatas.add(UserStickyBean(score = UserScoreBean()))
       //按总成绩排序
-      users = users.sortedByDescending { it.score?.scores?.sum() }.toMutableList()
+      originDatas = originDatas.sortedByDescending { it.score?.scores?.sum() }.toMutableList()
       //添加标题
-      users.add(0, UserStickyBean(name = "", title = true))
-      sticky2Recycler2?.adapter = StickyHeaderAdapter2(users)
-      leftController.data = users
+      originDatas.add(0, titleBean)
+      sticky2Recycler2?.adapter = StickyHeaderAdapter2(originDatas.take(51).toMutableList())
+      leftController.data = originDatas.take(51).toMutableList()
     }, 1500)
   }
 
