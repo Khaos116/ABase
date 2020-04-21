@@ -6,13 +6,14 @@
   <!--APP安装权限-->
   <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES"/>
   <!--bugly-->
-  <uses-permission android:name="android.permission.READ_PHONE_STATE" />
-  <uses-permission android:name="android.permission.INTERNET" />
-  <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-  <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+  <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+  <uses-permission android:name="android.permission.INTERNET"/>
+  <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+  <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
   <uses-permission
       android:name="android.permission.READ_LOGS"
-      tools:ignore="ProtectedPermissions" />
+      tools:ignore="ProtectedPermissions"/>
+
   <application
       android:name=".app.MyApplication"
       android:allowBackup="true"
@@ -75,7 +76,7 @@
         android:configChanges="screenLayout|orientation"
         android:launchMode="singleTop"
         android:screenOrientation="portrait"
-        android:windowSoftInputMode="adjustPan|stateHidden" />
+        android:windowSoftInputMode="adjustPan|stateHidden"/>
     <!--视频封面获取和压缩-->
     <activity
         android:name=".component.ffmpeg.RxFFmpegActivity"
@@ -103,7 +104,13 @@
         android:configChanges="screenLayout|orientation"
         android:launchMode="singleTop"
         android:screenOrientation="portrait"
-        android:windowSoftInputMode="adjustPan|stateHidden" />
+        android:windowSoftInputMode="adjustPan|stateHidden"/>
+    <activity
+        android:name=".component.sticky.StickyActivity2"
+        android:configChanges="screenLayout|orientation"
+        android:launchMode="singleTop"
+        android:screenOrientation="portrait"
+        android:windowSoftInputMode="adjustPan|stateHidden"/>
     <!--item拖拽效果-->
     <activity
         android:name=".component.drag.DragActivity"
@@ -159,21 +166,21 @@
         android:configChanges="screenLayout|orientation"
         android:launchMode="singleTop"
         android:screenOrientation="portrait"
-        android:windowSoftInputMode="adjustPan|stateHidden" />
+        android:windowSoftInputMode="adjustPan|stateHidden"/>
     <!--设置页面-->
     <activity
         android:name=".component.set.SettingActivity"
         android:configChanges="screenLayout|orientation"
         android:launchMode="singleTop"
         android:screenOrientation="portrait"
-        android:windowSoftInputMode="adjustPan|stateHidden" />
+        android:windowSoftInputMode="adjustPan|stateHidden"/>
     <!--Flexbox-->
     <activity
         android:name=".component.flexbox.FlexboxActivity"
         android:configChanges="screenLayout|orientation"
         android:launchMode="singleTop"
         android:screenOrientation="portrait"
-        android:windowSoftInputMode="adjustPan|stateHidden" />
+        android:windowSoftInputMode="adjustPan|stateHidden"/>
     <!--跑马灯效果-->
     <activity
         android:name=".component.marquee.MarqueeActivity"

@@ -24,6 +24,7 @@ import cc.abase.demo.component.rxhttp.RxHttpActivity
 import cc.abase.demo.component.set.SettingActivity
 import cc.abase.demo.component.spedit.SpeditActivity
 import cc.abase.demo.component.sticky.StickyActivity
+import cc.abase.demo.component.sticky.StickyActivity2
 import cc.abase.demo.component.update.CcUpdateService
 import cc.abase.demo.component.update.UpdateEnum
 import cc.abase.demo.config.NetConfig
@@ -55,6 +56,7 @@ class MineFragment : CommFragment() {
       Pair(StringUtils.getString(R.string.ffmpeg_title), RxFFmpegActivity::class.java),
       Pair(StringUtils.getString(R.string.update_app), CcUpdateService::class.java),
       Pair(StringUtils.getString(R.string.title_sticky), StickyActivity::class.java),
+      Pair(StringUtils.getString(R.string.title_sticky2), StickyActivity2::class.java),
       Pair(StringUtils.getString(R.string.title_drag), DragActivity::class.java),
       Pair(StringUtils.getString(R.string.title_spedit), SpeditActivity::class.java),
       Pair(StringUtils.getString(R.string.coordinator_refresh), CoordinatorActivity::class.java),
@@ -162,6 +164,7 @@ class MineFragment : CommFragment() {
           id("type_$index")
           msg(pair.first)
           textColor(typeColor)
+          heightDp(50f)
           gravity(Gravity.CENTER_VERTICAL)
           onItemClick {
             val second = pair.second.newInstance()
