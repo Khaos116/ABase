@@ -164,8 +164,9 @@ class MineFragment : CommFragment() {
           id("type_$index")
           msg(pair.first)
           textColor(typeColor)
-          heightDp(50f)
           gravity(Gravity.CENTER_VERTICAL)
+          paddingBottomPx(SizeUtils.dp2px(15f))
+          paddingTopPx(SizeUtils.dp2px(15f))
           onItemClick {
             val second = pair.second.newInstance()
             if (second is Activity) {
