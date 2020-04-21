@@ -5,6 +5,7 @@ import android.content.Intent
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import cc.ab.base.ext.mContext
+import cc.ab.base.ext.visible
 import cc.abase.demo.R
 import cc.abase.demo.bean.local.UserScoreBean
 import cc.abase.demo.bean.local.UserStickyBean
@@ -15,8 +16,7 @@ import cc.abase.demo.epoxy.base.dividerItem
 import cc.abase.demo.epoxy.item.sticky2LeftItem
 import cc.abase.demo.mvrx.MvRxEpoxyController
 import com.blankj.utilcode.util.StringUtils
-import kotlinx.android.synthetic.main.activity_sticky2.sticky2Recycler1
-import kotlinx.android.synthetic.main.activity_sticky2.sticky2Recycler2
+import kotlinx.android.synthetic.main.activity_sticky2.*
 
 /**
  * Description:
@@ -51,18 +51,28 @@ class StickyActivity2 : CommTitleActivity() {
         if (sticky2Recycler2.scrollState != 0) sticky2Recycler1.scrollBy(dx, dy) //使左边边recyclerView进行联动
       }
     })
+    leftController.addModelBuildListener {
+      sticky2Recycler2?.postDelayed({
+        dismissLoadingView()
+        sticky2Recycler1Parent?.visible()
+        sticky2Recycler2?.visible()
+      }, 200)
+    }
   }
 
   override fun initData() {
-    var users = mutableListOf<UserStickyBean>()
-    //增加60个学生成绩
-    for (i in 0..59) users.add(UserStickyBean(score = UserScoreBean()))
-    //按总成绩排序
-    users = users.sortedByDescending { it.score?.scores?.sum() }.toMutableList()
-    //添加标题
-    users.add(0, UserStickyBean(name = "", title = true))
-    sticky2Recycler2.adapter = StickyHeaderAdapter2(users)
-    leftController.data = users
+    showLoadingView()
+    sticky2Recycler2.postDelayed({
+      var users = mutableListOf<UserStickyBean>()
+      //随机增加个学生成绩
+      for (i in 0..(Math.random() * 70).toInt()) users.add(UserStickyBean(score = UserScoreBean()))
+      //按总成绩排序
+      users = users.sortedByDescending { it.score?.scores?.sum() }.toMutableList()
+      //添加标题
+      users.add(0, UserStickyBean(name = "", title = true))
+      sticky2Recycler2?.adapter = StickyHeaderAdapter2(users)
+      leftController.data = users
+    }, 1500)
   }
 
   private val leftController = MvRxEpoxyController<MutableList<UserStickyBean>> { list ->
