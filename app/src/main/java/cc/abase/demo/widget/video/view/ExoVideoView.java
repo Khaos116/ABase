@@ -2,17 +2,15 @@ package cc.abase.demo.widget.video.view;
 
 import android.content.Context;
 import android.graphics.Canvas;
-import android.text.TextUtils;
 import android.util.AttributeSet;
-import android.util.Log;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.lifecycle.*;
-import cc.ab.base.widget.roundlayout.abs.GeneralRoundViewImpl;
-import cc.ab.base.widget.roundlayout.abs.IRoundView;
-import cc.abase.demo.R;
-import cc.abase.demo.widget.video.ExoVideoCacheUtils;
-import cc.abase.demo.widget.video.player.CustomExoMediaPlayer;
+import androidx.lifecycle.Lifecycle;
+import androidx.lifecycle.LifecycleObserver;
+import androidx.lifecycle.LifecycleOwner;
+import androidx.lifecycle.OnLifecycleEvent;
+
 import com.dueeeke.videoplayer.exo.ExoMediaSourceHelper;
 import com.dueeeke.videoplayer.player.PlayerFactory;
 import com.dueeeke.videoplayer.player.VideoView;
@@ -20,7 +18,14 @@ import com.google.android.exoplayer2.LoadControl;
 import com.google.android.exoplayer2.RenderersFactory;
 import com.google.android.exoplayer2.source.MediaSource;
 import com.google.android.exoplayer2.trackselection.TrackSelector;
+
 import java.util.Map;
+
+import cc.ab.base.widget.roundlayout.abs.GeneralRoundViewImpl;
+import cc.ab.base.widget.roundlayout.abs.IRoundView;
+import cc.abase.demo.R;
+import cc.abase.demo.widget.video.ExoVideoCacheUtils;
+import cc.abase.demo.widget.video.player.CustomExoMediaPlayer;
 
 /**
  * 新增圆角和生命周期监听
