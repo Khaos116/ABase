@@ -11,7 +11,7 @@ import cc.ab.base.ext.visibleGone
 import cc.ab.base.utils.MediaUtils
 import cc.ab.base.widget.sketch.VideoThumbnailUriModel
 import com.luck.picture.lib.engine.ImageEngine
-import com.luck.picture.lib.listener.ImageCompleteCallback
+import com.luck.picture.lib.listener.OnImageCompleteCallback
 import com.luck.picture.lib.widget.longimage.ImageSource
 import com.luck.picture.lib.widget.longimage.ImageViewState
 import com.luck.picture.lib.widget.longimage.SubsamplingScaleImageView
@@ -103,7 +103,7 @@ class PicSelEngine : ImageEngine {
     url: String,
     imageView: ImageView,
     longImageView: SubsamplingScaleImageView,
-    callback: ImageCompleteCallback?
+    callback: OnImageCompleteCallback?
   ) {
     imageView.visible()
     longImageView.gone()

@@ -140,14 +140,14 @@ dependencies {
   //表情 https://github.com/vanniktech/Emoji
   implementation 'com.vanniktech:emoji-ios:0.6.0'
   //封面获取，视频压缩 https://github.com/microshow/RxFFmpeg
-  implementation 'com.github.microshow:RxFFmpeg:2.2.0'
+  implementation 'com.github.microshow:RxFFmpeg:3.1.0-lite'
 
   //必选 https://github.com/dueeeke/DKVideoPlayer/wiki
-  implementation 'com.github.dueeeke.dkplayer:dkplayer-java:3.2.5'
+  implementation 'com.github.dueeeke.dkplayer:dkplayer-java:3.2.6'
   //可选，包含StandardVideoController的实现
-  implementation 'com.github.dueeeke.dkplayer:dkplayer-ui:3.2.5'
+  implementation 'com.github.dueeeke.dkplayer:dkplayer-ui:3.2.6'
   //可选，使用exoplayer进行解码（推荐）
-  implementation 'com.github.dueeeke.dkplayer:player-exo:3.2.5'
+  implementation 'com.github.dueeeke.dkplayer:player-exo:3.2.6'
 
   //弹幕 https://github.com/bilibili/DanmakuFlameMaster
   implementation 'com.github.ctiao:DanmakuFlameMaster:0.9.25'
