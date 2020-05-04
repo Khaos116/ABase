@@ -220,7 +220,7 @@ class VideoUtils private constructor() {
     //码率低于400不进行压缩
     if (bitrate.toInt() < 400 * 1000) return null
     val newBitrate = if (bitrate.toInt() > 3000 * 1000) {
-      3000
+      3000 * 1000
     } else {
       (bitrate.toInt() * 0.8f / 1000f).toInt()
     }
