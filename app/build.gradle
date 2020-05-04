@@ -31,6 +31,12 @@ android {
     //资源文件名冲突，引用包重复，文件名显示的格式与文件本身的格式不对应
 //    aaptOptions.cruncherEnabled = false
 //    aaptOptions.useNewCruncher = false
+    //RxHttp需要 https://github.com/liujingxing/okhttp-RxHttp
+    javaCompileOptions {
+      annotationProcessorOptions {
+        arguments = [rxhttp_rxjava: 'rxjava2']  //可传入rxjava2、rxjava3
+      }
+    }
   }
   compileOptions {
     sourceCompatibility JavaVersion.VERSION_1_8
@@ -171,10 +177,10 @@ dependencies {
   kapt 'com.airbnb.android:epoxy-processor:3.9.0'
 
   //RxHttp https://github.com/liujingxing/okhttp-RxHttp
-  implementation 'com.rxjava.rxhttp:rxhttp:2.1.0' //必须
-  kapt 'com.rxjava.rxhttp:rxhttp-compiler:2.1.0' //注解处理器，生成RxHttp类,必须
+  implementation 'com.ljx.rxhttp:rxhttp:2.2.0'
+  kapt 'com.ljx.rxhttp:rxhttp-compiler:2.2.0' //生成RxHttp类
   //rxandroid在lib中已经存在，就不再次添加了
-  implementation 'com.rxjava.rxlife:rxlife:1.1.0'  //页面销毁，关闭请求，非必须
+  implementation 'com.ljx.rxlife2:rxlife-rxjava:2.0.0'    //管理RxJava2生命周期，页面销毁，关闭请求
 
   //日期选择 https://github.com/zyyoona7/WheelPicker
   implementation 'com.github.zyyoona7:wheelview:1.0.7'
