@@ -22,7 +22,6 @@ import com.github.promeg.pinyinhelper.Pinyin
 import com.github.promeg.tinypinyin.lexicons.android.cncity.CnCityDict
 import com.vanniktech.emoji.EmojiManager
 import com.vanniktech.emoji.ios.IosEmojiProvider
-import io.microshow.rxffmpeg.RxFFmpegInvoke
 
 /**
  * Description:
@@ -38,9 +37,6 @@ open class MyApplication : BaseApplication() {
     initSmartSwipeBack()
     //表情
     EmojiManager.install(IosEmojiProvider())
-    //RxFFmpeg
-    RxFFmpegInvoke.getInstance()
-        .setDebug(true)
     //视频播放全局配置
     VideoViewManager.setConfig(
         VideoViewConfig.newBuilder()
@@ -94,7 +90,7 @@ open class MyApplication : BaseApplication() {
      */
     SmartSwipeBack.activitySlidingBack(
         this
-    ) { activity -> !list.contains(activity.javaClass.name) }
+                                      ) { activity -> !list.contains(activity.javaClass.name) }
   }
 
   //不需要侧滑的页面
@@ -105,5 +101,5 @@ open class MyApplication : BaseApplication() {
       LoginActivity::class.java.name,
       GalleryActivity::class.java.name,
       "com.didichuxing.doraemonkit.ui.UniversalActivity"
-  )
+                           )
 }

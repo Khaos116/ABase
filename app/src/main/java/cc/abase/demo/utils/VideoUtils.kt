@@ -29,6 +29,7 @@ class VideoUtils private constructor() {
 
   //创建文件夹
   init {
+    RxFFmpegInvoke.getInstance().setDebug(true)
     if (PermissionUtils.isGranted(
             Manifest.permission.WRITE_EXTERNAL_STORAGE,
             Manifest.permission.READ_EXTERNAL_STORAGE
