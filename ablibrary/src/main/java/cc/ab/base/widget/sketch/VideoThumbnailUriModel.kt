@@ -13,9 +13,7 @@ import wseemann.media.FFmpegMediaMetadataRetriever
 
 class VideoThumbnailUriModel : AbsBitmapDiskCacheUriModel() {
   override fun match(uri: String): Boolean {
-    return !TextUtils.isEmpty(uri) && uri.startsWith(
-        SCHEME
-    )
+    return !TextUtils.isEmpty(uri) && uri.startsWith(SCHEME)
   }
 
   /**
@@ -25,9 +23,7 @@ class VideoThumbnailUriModel : AbsBitmapDiskCacheUriModel() {
    * @return uri 所真正包含的内容部分，例如 "video.thumbnail:///sdcard/test.mp4"，就会返回 "/sdcard/test.mp4"
    */
   override fun getUriContent(uri: String): String {
-    return if (match(uri)) uri.substring(
-        SCHEME.length
-    ) else uri
+    return if (match(uri)) uri.substring(SCHEME.length) else uri
   }
 
   override fun getDiskCacheKey(uri: String): String {
@@ -35,10 +31,7 @@ class VideoThumbnailUriModel : AbsBitmapDiskCacheUriModel() {
   }
 
   @Throws(GetDataSourceException::class)
-  override fun getContent(
-    context: Context,
-    uri: String
-  ): Bitmap {
+  override fun getContent(context: Context, uri: String): Bitmap {
     val mediaMetadataRetriever = FFmpegMediaMetadataRetriever()
     mediaMetadataRetriever.setDataSource(getUriContent(uri))
     return try {
@@ -56,8 +49,7 @@ class VideoThumbnailUriModel : AbsBitmapDiskCacheUriModel() {
   ): Bitmap {
     val metadata = mmr.metadata
     val videoRotation =
-      mmr.extractMetadata(FFmpegMediaMetadataRetriever.METADATA_KEY_VIDEO_ROTATION)
-          .toInt()
+      mmr.extractMetadata(FFmpegMediaMetadataRetriever.METADATA_KEY_VIDEO_ROTATION).toInt()
     var videoWidth = metadata.getInt(FFmpegMediaMetadataRetriever.METADATA_KEY_VIDEO_WIDTH)
     var videoHeight = metadata.getInt(FFmpegMediaMetadataRetriever.METADATA_KEY_VIDEO_HEIGHT)
     if (videoRotation == 90 || videoRotation == 270) {
@@ -93,15 +85,11 @@ class VideoThumbnailUriModel : AbsBitmapDiskCacheUriModel() {
     // 偶尔会有读取中间帧失败的情况，这时候换到三分之一处再读一次
     if (frameBitmap == null && timeUs != -1L) {
       timeUs = duration / 3 * 1000
-      frameBitmap =
-        mmr.getScaledFrameAtTime(timeUs, finalWidth, finalHeight)
+      frameBitmap = mmr.getScaledFrameAtTime(timeUs, finalWidth, finalHeight)
     }
     if (frameBitmap == null || frameBitmap.isRecycled) {
-      val cause =
-        String.format("Video thumbnail bitmap invalid. %s", uri)
-      SLog.e(
-          NAME, cause
-      )
+      val cause = String.format("Video thumbnail bitmap invalid. %s", uri)
+      SLog.e(NAME, cause)
       throw GetDataSourceException(cause)
     }
     if (videoRotation == 90 || videoRotation == 270) {

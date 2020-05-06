@@ -72,9 +72,7 @@ abstract class BaseApplication : Application() {
         .isExcludeFontScale = true
     //Sketch配置视频封面加载
     val configuration: Configuration = Sketch.with(this).configuration
-    configuration.uriModelManager.add(
-        VideoThumbnailUriModel()
-    )
+    configuration.uriModelManager.add(VideoThumbnailUriModel())
     //MvRx2.0起需要配置 https://github.com/airbnb/MvRx/wiki/Integrating-MvRx-In-Your-App
     MvRxMocks.install(this)
   }
