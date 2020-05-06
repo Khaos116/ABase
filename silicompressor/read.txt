@@ -1,0 +1,7 @@
+1.需要删除build.gradle的上传lib信息
+2.修改FileProvider的引用为androidX的引用，即增加androidx.core:core-ktx
+3.视频输出宽度、高度为奇数时会存在问题，所以需要修改为偶数
+4.压缩进度回调参考https://github.com/fishwjy/VideoCompressor
+5.lib的下载地址https://github.com/Tourenathan-G5organisation/SiliCompressor
+6.在MediaController类中搜索"修改代码"适当修改
+注：2.2.3存在压缩视频无声音的情况，所以改用2.2.2版本
