@@ -6,7 +6,6 @@ import android.content.Intent
 import android.media.MediaMetadataRetriever
 import android.provider.MediaStore
 import android.text.method.ScrollingMovementMethod
-import android.util.Log
 import cc.ab.base.ext.*
 import cc.ab.base.widget.engine.PicSelEngine
 import cc.abase.demo.component.comm.CommTitleActivity

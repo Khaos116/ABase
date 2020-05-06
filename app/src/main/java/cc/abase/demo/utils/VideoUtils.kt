@@ -9,6 +9,7 @@ import cc.abase.demo.R
 import com.blankj.utilcode.util.*
 import com.iceteck.silicompressorr.CompressCall
 import com.iceteck.silicompressorr.SiliCompressor
+import io.reactivex.Flowable
 import io.reactivex.Observable
 import io.reactivex.disposables.Disposable
 import wseemann.media.FFmpegMediaMetadataRetriever
@@ -66,7 +67,12 @@ class VideoUtils private constructor() {
       return
     }
     disposableCompress?.dispose()
-    CompressCall.instance.progressCall = { path, progress -> if (originFile.path == path) pro?.invoke(progress) }
+    CompressCall.instance.progressCall = { path, progress ->
+      if (originFile.path == path) Flowable.just(progress)
+        .onBackpressureLatest()
+        .compose(RxUtils.instance.rx2SchedulerHelperF())
+        .subscribe { pro?.invoke(progress) }
+    }
     disposableCompress = Observable.just(originFile.path)
       .flatMap {
         val resultPath = SiliCompressor.with(Utils.getApp()).compressVideo(it, outParentVideo)
