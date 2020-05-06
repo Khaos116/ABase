@@ -149,13 +149,13 @@ public class MediaController {
     File resultFile = new File(destDir, filePrefix + ".mp4");
     //已经压缩成功并且大于100k，直接返回
     if (resultFile.exists() && resultFile.isFile() && resultFile.length() > 100 * 1024) {
-      Log.e("MediaController", "已经压缩过，直接返回");
+      Log.e("CASE", "已经压缩过，直接返回:" + resultFile.getPath());
       cachedFile = resultFile;
       return true;
     }
     //文件小于5M不进行压缩
     if (originFile.exists() && originFile.isFile() && originFile.length() < 5 * 1024 * 1024) {
-      Log.e("MediaController", "文件小于5M不进行压缩");
+      Log.e("CASE", "文件小于5M不进行压缩:" + resultFile.getPath());
       FileUtils.copy(originFile, resultFile);
       cachedFile = resultFile;
       return true;
@@ -216,7 +216,7 @@ public class MediaController {
         rotateRender = 90;
       }
     }
-    Log.e("MediaController", "resultHeight=" + resultHeight + ",resultWidth=" + resultWidth + ",bitrate=" + bitrate);
+    Log.e("CASE", "resultHeight=" + resultHeight + ",resultWidth=" + resultWidth + ",bitrate=" + bitrate);
     File inputFile = new File(path);
     if (!inputFile.canRead()) {
       didWriteData(true, true);
@@ -524,7 +524,7 @@ public class MediaController {
 
                             //=============================修改代码4-Start=============================//
                             float p = 100f * info.presentationTimeUs / originalDuration;
-                            //Log.e("MediaController", "压缩进度=" + p);
+                            //Log.e("CASE", "压缩进度=" + p);
                             CompressCall.Companion.getInstance().updateCompressProgress(sourcePath, p);
                             //=============================修改代码4-ENd===============================//
 
