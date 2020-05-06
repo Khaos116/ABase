@@ -1,2 +1,2 @@
-include ':app', ':ablibrary'
+include ':app', ':ablibrary',':silicompressor'
 rootProject.name='ABase'
