@@ -42,11 +42,11 @@ class TestViewModel(state: TestState = TestState()) : MvRxViewModel<TestState>(s
   }
 
   //外部调用withState(同时调用会导致time1的数据恢复到第一次获取到的状态)
-  private fun startTime2() {
+  private fun startTime2() = withState { state ->
     disposable2?.dispose()
     disposable2 = Flowable.intervalRange(0, count, 0, 300, TimeUnit.MILLISECONDS)
       .compose(RxUtils.instance.rx2SchedulerHelperF())
-      .doOnNext { setState { copy(time2 = it + 101) } }
+      .doOnNext { setState { copy(time2 = state.time2 + 100) } }
       .doOnComplete { }
       .subscribe()
   }
