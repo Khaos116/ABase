@@ -25,6 +25,7 @@ import cc.abase.demo.component.set.SettingActivity
 import cc.abase.demo.component.spedit.SpeditActivity
 import cc.abase.demo.component.sticky.StickyActivity
 import cc.abase.demo.component.sticky.StickyActivity2
+import cc.abase.demo.component.test.TestActivity
 import cc.abase.demo.component.update.CcUpdateService
 import cc.abase.demo.component.update.UpdateEnum
 import cc.abase.demo.config.NetConfig
@@ -66,7 +67,8 @@ class MineFragment : CommFragment() {
       Pair(StringUtils.getString(R.string.title_decoration), DecorationActivity::class.java),
       Pair(StringUtils.getString(R.string.title_rxhttp), RxHttpActivity::class.java),
       Pair(StringUtils.getString(R.string.title_flexbox), FlexboxActivity::class.java),
-      Pair(StringUtils.getString(R.string.title_marquee), MarqueeActivity::class.java)
+      Pair(StringUtils.getString(R.string.title_marquee), MarqueeActivity::class.java),
+      Pair(StringUtils.getString(R.string.title_test), TestActivity::class.java)
   )
   //item文字颜色
   private var typeColor = ColorUtils.getColor(R.color.style_Primary)
