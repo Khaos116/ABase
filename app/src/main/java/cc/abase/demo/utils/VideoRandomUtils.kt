@@ -79,7 +79,7 @@ class VideoRandomUtils private constructor() {
 
   //获取随机视频数量
   fun getVideoList(
-    @IntRange(from = 0) idStart: Long = 0, @IntRange(from = 10, to = 100) count: Int = 20
+    @IntRange(from = 0) idStart: Long = 0, @IntRange(from = 1, to = 100) count: Int = 10
   ): MutableList<VideoBean> {
     val result = mutableListOf<VideoBean>()
     for (i in 0 until count) {

@@ -38,7 +38,7 @@ class PlayPagerViewModel(
     Observable.just(
         VideoRandomUtils.instance.getVideoList(
             idStart = state.videoList.size.toLong(),
-            count = 14
+            count = 4
         )
     )
         .compose(RxUtils.instance.rx2SchedulerHelperO())
