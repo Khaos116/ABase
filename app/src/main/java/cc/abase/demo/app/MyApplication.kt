@@ -14,8 +14,6 @@ import cc.abase.demo.widget.CCRefreshHeader
 import cc.abase.demo.widget.video.ExoVideoCacheUtils
 import com.billy.android.swipe.SmartSwipeBack
 import com.billy.android.swipe.SmartSwipeRefresh
-import com.billy.android.swipe.refresh.ClassicFooter
-import com.billy.android.swipe.refresh.ClassicHeader
 import com.dueeeke.videoplayer.exo.ExoMediaPlayerFactory
 import com.dueeeke.videoplayer.player.*
 import com.github.promeg.pinyinhelper.Pinyin
@@ -63,12 +61,12 @@ open class MyApplication : BaseApplication() {
       //设置全局的Header构建器
       SmartSwipeRefresh.setDefaultRefreshViewCreator(object :
           SmartSwipeRefresh.SmartSwipeRefreshViewCreator {
-        override fun createRefreshHeader(context: Context?): SmartSwipeRefresh.SmartSwipeRefreshHeader {
-          return if (context == null) ClassicHeader(context) else CCRefreshHeader(context)
+        override fun createRefreshHeader(context: Context): SmartSwipeRefresh.SmartSwipeRefreshHeader {
+          return CCRefreshHeader(context)
         }
 
-        override fun createRefreshFooter(context: Context?): SmartSwipeRefresh.SmartSwipeRefreshFooter {
-          return ClassicFooter(context)
+        override fun createRefreshFooter(context: Context): SmartSwipeRefresh.SmartSwipeRefreshFooter {
+          return cc.abase.demo.widget.swipe.ClassicFooter(context)
         }
       })
     }
