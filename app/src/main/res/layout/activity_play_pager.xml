@@ -11,18 +11,24 @@
       android:id="@+id/playPagerViewPager"
       android:layout_width="match_parent"
       android:layout_height="match_parent"
-      android:overScrollMode="never"
       android:background="#1a1a1a"
+      android:overScrollMode="never"
       android:scrollbars="none"
       />
-
-  <ImageView
-      android:id="@+id/playPagerBack"
-      android:layout_width="49dp"
+  <!--兼容刘海屏-->
+  <FrameLayout
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
       android:fitsSystemWindows="true"
-      android:layout_height="49dp"
-      android:contentDescription="@null"
-      android:padding="12dp"
-      android:src="@drawable/svg_back_white"
-      />
+      >
+
+    <ImageView
+        android:id="@+id/playPagerBack"
+        android:layout_width="49dp"
+        android:layout_height="49dp"
+        android:contentDescription="@null"
+        android:padding="12dp"
+        android:src="@drawable/svg_back_white"
+        />
+  </FrameLayout>
 </FrameLayout>

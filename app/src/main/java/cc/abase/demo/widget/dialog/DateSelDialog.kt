@@ -2,7 +2,9 @@ package cc.abase.demo.widget.dialog
 
 import android.graphics.Color
 import android.os.Bundle
-import android.view.*
+import android.view.Gravity
+import android.view.View
+import android.view.ViewGroup
 import androidx.fragment.app.FragmentManager
 import cc.ab.base.ext.click
 import cc.ab.base.ui.dialog.BaseFragmentDialog
@@ -23,10 +25,7 @@ class DateSelDialog : BaseFragmentDialog() {
 
   override fun contentLayout() = R.layout.dialog_date_sel
 
-  override fun initView(
-    view: View,
-    savedInstanceState: Bundle?
-  ) {
+  override fun initView(view: View, savedInstanceState: Bundle?) {
     view.dialogDateView.let {
       it.setTextSize(24f, true)
       it.setShowLabel(false);
@@ -79,7 +78,6 @@ inline fun dateSelDialog(
   fragmentManager: FragmentManager,
   dsl: DateSelDialog.() -> Unit
 ) {
-  val dialog = DateSelDialog.newInstance()
-      .apply(dsl)
+  val dialog = DateSelDialog.newInstance().apply(dsl)
   dialog.show(fragmentManager)
 }
