@@ -6,12 +6,12 @@ import android.view.View
 import androidx.viewpager.widget.ViewPager
 import cc.ab.base.ext.*
 import cc.abase.demo.R
+import cc.abase.demo.bean.local.VideoBean
 import cc.abase.demo.component.comm.CommActivity
 import cc.abase.demo.component.playlist.adapter.PlayPagerAdapter
 import cc.abase.demo.component.playlist.adapter.PlayPagerAdapter.PagerHolder
 import cc.abase.demo.component.playlist.view.PagerController
 import cc.abase.demo.component.playlist.viewmoel.PlayPagerViewModel
-import cc.abase.demo.bean.local.VideoBean
 import cc.abase.demo.widget.video.controller.VodControlView
 import cc.abase.demo.widget.video.view.ExoVideoView
 import com.airbnb.mvrx.Success
@@ -38,16 +38,22 @@ class PlayPagerActivity : CommActivity() {
 
   //当前播放位置
   private var mCurPos = 0
+
   //适配器
   private var mPlayPagerAdapter: PlayPagerAdapter? = null
+
   //不显示移动网络播放
   private var mController: PagerController? = null
+
   //播放控件
   private var mVideoView: ExoVideoView? = null
+
   //数据源
   private var mVideoList: MutableList<VideoBean> = mutableListOf()
+
   //下拉刷新
   var mSmartSwipeRefresh: SmartSwipeRefresh? = null
+
   //是否可以加载更多
   var hasMore: Boolean = true
 
@@ -124,7 +130,7 @@ class PlayPagerActivity : CommActivity() {
         //如果直接到最后一条需要显示没有更多
         if (index == mVideoList.size - 1) {
           mSmartSwipeRefresh?.swipeConsumer?.enableBottom()
-          mSmartSwipeRefresh?.isNoMoreData = true
+          mSmartSwipeRefresh?.isNoMoreData = hasMore
         }
       }
       //第一次加载的时候设置currentItem会滚动刷新，所以播放需要延时
@@ -134,11 +140,7 @@ class PlayPagerActivity : CommActivity() {
           override fun onPageScrollStateChanged(state: Int) {
           }
 
-          override fun onPageScrolled(
-            position: Int,
-            positionOffset: Float,
-            positionOffsetPixels: Int
-          ) {
+          override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
           }
 
           override fun onPageSelected(position: Int) {
