@@ -1,12 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/vvpDSVParent"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     >
 
   <cc.ab.base.widget.discretescrollview.DiscreteScrollView
       android:id="@+id/vvpDSV"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      />
+  <!--添加这个View是为了能上拉加载更多-->
+  <View
       android:layout_width="match_parent"
       android:layout_height="match_parent"
       />
