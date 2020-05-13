@@ -188,6 +188,13 @@
         android:launchMode="singleTop"
         android:screenOrientation="portrait"
         android:windowSoftInputMode="adjustPan|stateHidden"/>
+    <!--竖向ViewPager-->
+    <activity
+        android:name=".component.verticalpage.VerticalPageActivity"
+        android:configChanges="screenLayout|orientation"
+        android:launchMode="singleTop"
+        android:screenOrientation="portrait"
+        android:windowSoftInputMode="adjustPan|stateHidden" />
     <!--测试专用页面-->
     <activity
         android:name=".component.test.TestActivity"

@@ -58,5 +58,6 @@
   <string name="title_rxhttp">RxHttp请求</string>
   <string name="title_flexbox">FlexboxLayout</string>
   <string name="title_marquee">跑马灯</string>
+  <string name="title_vertical_page">竖向ViewPager</string>
   <string name="title_test">测试专用页面</string>
 </resources>

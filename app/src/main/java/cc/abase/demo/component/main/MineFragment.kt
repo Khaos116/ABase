@@ -28,6 +28,7 @@ import cc.abase.demo.component.sticky.StickyActivity2
 import cc.abase.demo.component.test.TestActivity
 import cc.abase.demo.component.update.CcUpdateService
 import cc.abase.demo.component.update.UpdateEnum
+import cc.abase.demo.component.verticalpage.VerticalPageActivity
 import cc.abase.demo.config.NetConfig
 import cc.abase.demo.constants.EventKeys
 import cc.abase.demo.epoxy.item.simpleTextItem
@@ -68,6 +69,7 @@ class MineFragment : CommFragment() {
       Pair(StringUtils.getString(R.string.title_rxhttp), RxHttpActivity::class.java),
       Pair(StringUtils.getString(R.string.title_flexbox), FlexboxActivity::class.java),
       Pair(StringUtils.getString(R.string.title_marquee), MarqueeActivity::class.java),
+      Pair(StringUtils.getString(R.string.title_vertical_page), VerticalPageActivity::class.java),
       Pair(StringUtils.getString(R.string.title_test), TestActivity::class.java)
   )
   //item文字颜色
