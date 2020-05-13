@@ -3,14 +3,14 @@ package cc.abase.demo.widget.video.view;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.util.AttributeSet;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.lifecycle.Lifecycle;
-import androidx.lifecycle.LifecycleObserver;
-import androidx.lifecycle.LifecycleOwner;
-import androidx.lifecycle.OnLifecycleEvent;
-
+import androidx.lifecycle.*;
+import cc.ab.base.widget.roundlayout.abs.GeneralRoundViewImpl;
+import cc.ab.base.widget.roundlayout.abs.IRoundView;
+import cc.abase.demo.R;
+import cc.abase.demo.widget.video.ExoVideoCacheUtils;
+import cc.abase.demo.widget.video.player.CustomExoMediaPlayer;
 import com.dueeeke.videoplayer.exo.ExoMediaSourceHelper;
 import com.dueeeke.videoplayer.player.PlayerFactory;
 import com.dueeeke.videoplayer.player.VideoView;
@@ -18,14 +18,7 @@ import com.google.android.exoplayer2.LoadControl;
 import com.google.android.exoplayer2.RenderersFactory;
 import com.google.android.exoplayer2.source.MediaSource;
 import com.google.android.exoplayer2.trackselection.TrackSelector;
-
 import java.util.Map;
-
-import cc.ab.base.widget.roundlayout.abs.GeneralRoundViewImpl;
-import cc.ab.base.widget.roundlayout.abs.IRoundView;
-import cc.abase.demo.R;
-import cc.abase.demo.widget.video.ExoVideoCacheUtils;
-import cc.abase.demo.widget.video.player.CustomExoMediaPlayer;
 
 /**
  * 新增圆角和生命周期监听
@@ -145,10 +138,15 @@ public class ExoVideoView extends VideoView<CustomExoMediaPlayer>
   }
 
   //添加的代码:11
-  public void setLifecycleOwner(@NonNull LifecycleOwner owner) {
-    if (mLifecycle != null) mLifecycle.removeObserver(this);
-    mLifecycle = owner.getLifecycle();
-    mLifecycle.addObserver(this);
+  public void setLifecycleOwner(@Nullable LifecycleOwner owner) {
+    if (owner == null) {
+      if (mLifecycle != null) mLifecycle.removeObserver(this);
+      mLifecycle = null;
+    } else {
+      if (mLifecycle != null) mLifecycle.removeObserver(this);
+      mLifecycle = owner.getLifecycle();
+      mLifecycle.addObserver(this);
+    }
   }
 
   //添加的代码:12
