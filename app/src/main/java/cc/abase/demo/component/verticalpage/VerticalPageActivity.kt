@@ -72,21 +72,20 @@ class VerticalPageActivity : CommTitleActivity() {
     vvpDSV.addOnItemChangedListener { viewHolder, position, end ->
       //滑动过程中位置改变
       if (!end) {
-        //停止播放
-        mVideoView?.let { videoView -> if (videoView.parent != null) initVideoView() }
         //更新UI
         if (viewHolder is VerticalPageHolderView) viewHolder.updateUI(mDatas[position], position, mDatas.size)
         return@addOnItemChangedListener
       }
+      //防止还存在播放器
+      if (mVideoView?.parent != null) initVideoView()
       //滑动结束后的位置，添加播放器，开始播放
       mVideoView?.let { videoView ->
-        //防止还存在播放器
-        if (videoView.parent != null) initVideoView()
         //更新UI
         if (viewHolder is VerticalPageHolderView) {
           viewHolder.updateUI(mDatas[position], position, mDatas.size)
-          viewHolder.ivCover.animate().alpha(0f).start()
-          viewHolder.parentVideo.addView(videoView)
+          viewHolder.piv.removeParent()
+          mController?.addControlComponent(viewHolder.piv)
+          viewHolder.parentVideo.addView(videoView, 0)
         }
         //开始播放
         videoView.setUrl(mDatas[position].videoUrl)
@@ -133,11 +132,12 @@ class VerticalPageActivity : CommTitleActivity() {
       vvpDSV.post {
         vvpDSV.getViewHolder(0)?.let { viewHolder ->
           if (viewHolder is VerticalPageHolderView) {
+            //防止还存在播放器
+            if (mVideoView?.parent != null) initVideoView()
             mVideoView?.let { videoView ->
-              //防止还存在播放器
-              if (videoView.parent != null) initVideoView()
-              viewHolder.ivCover.animate().alpha(0f).start()
-              viewHolder.parentVideo.addView(videoView)
+              viewHolder.piv.removeParent()
+              mController?.addControlComponent(viewHolder.piv)
+              viewHolder.parentVideo.addView(videoView, 0)
               //开始播放
               videoView.setUrl(mDatas.first().videoUrl)
               videoView.start()
@@ -156,6 +156,7 @@ class VerticalPageActivity : CommTitleActivity() {
     mVideoView?.release()
     mVideoView?.removeParent()
     mController?.removeParent()
+    mController?.removeAllViews()
     mVideoView?.setVideoController(null)
     mVideoView?.setLifecycleOwner(null)
     //重置数据

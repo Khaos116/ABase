@@ -1,6 +1,5 @@
 package cc.abase.demo.component.verticalpage
 
-import android.graphics.Color
 import android.view.View
 import android.widget.FrameLayout
 import android.widget.TextView
@@ -9,7 +8,10 @@ import cc.ab.base.widget.discretescrollview.holder.DiscreteHolder
 import cc.ab.base.widget.discretescrollview.holder.DiscreteHolderCreator
 import cc.abase.demo.R
 import cc.abase.demo.bean.local.VerticalPageBean
-import kotlinx.android.synthetic.main.item_vertical_page.view.*
+import kotlinx.android.synthetic.main.item_vertical_page.view.itemVerticalThumb
+import kotlinx.android.synthetic.main.item_vertical_page.view.itemVerticalTitle
+import kotlinx.android.synthetic.main.item_vertical_page_parent.view.itemVerticalContainer
+import kotlinx.android.synthetic.main.item_vertical_page_parent.view.itemVerticalPIV
 import me.panpf.sketch.SketchImageView
 
 /**
@@ -20,7 +22,7 @@ import me.panpf.sketch.SketchImageView
 class VerticalPageHolderCreator : DiscreteHolderCreator {
   override fun createHolder(itemView: View) = VerticalPageHolderView(itemView)
 
-  override fun getLayoutId() = R.layout.item_vertical_page
+  override fun getLayoutId() = R.layout.item_vertical_page_parent
 }
 
 class VerticalPageHolderView(view: View) : DiscreteHolder<VerticalPageBean>(view) {
@@ -28,18 +30,19 @@ class VerticalPageHolderView(view: View) : DiscreteHolder<VerticalPageBean>(view
   lateinit var tvDes: TextView
   lateinit var ivCover: SketchImageView
   lateinit var parentVideo: FrameLayout
+  lateinit var piv: VerticalPagerItemView
 
   override fun updateUI(data: VerticalPageBean, position: Int, count: Int) {
-    tvDes.setBackgroundColor(if (position % 2 == 0) Color.MAGENTA else Color.CYAN)
     tvDes.text = data.description
     ivCover.load(data.cover)
     ivCover.clearAnimation()
-    ivCover.alpha = 1f
+    if (piv.parent == null) parentVideo.addView(piv)
   }
 
   override fun initView(view: View) {
-    this.tvDes = view.itemVerticalDes
-    this.ivCover = view.itemVerticalCover
-    this.parentVideo = view.itemVerticalVideoParent
+    this.tvDes = view.itemVerticalTitle
+    this.ivCover = view.itemVerticalThumb
+    this.parentVideo = view.itemVerticalContainer
+    this.piv = view.itemVerticalPIV
   }
 }
