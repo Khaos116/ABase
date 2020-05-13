@@ -7,5 +7,7 @@ package cc.abase.demo.bean.local
  */
 data class VerticalPageBean(
     val id: Long,
-    val description: String? = ""
+    val description: String? = "",
+    val cover: String? = null,
+    val videoUrl: String? = null
                            )

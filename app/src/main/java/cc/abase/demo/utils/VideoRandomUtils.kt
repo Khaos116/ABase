@@ -95,4 +95,9 @@ class VideoRandomUtils private constructor() {
     }
     return result
   }
+
+  //获取视频信息
+  fun getVideoPair(index: Int): Pair<String, String> {
+    return resourceList[index % resourceList.size]
+  }
 }
