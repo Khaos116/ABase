@@ -18,31 +18,41 @@ import com.blankj.utilcode.util.SizeUtils
  * @date: 2019/10/14 11:44
  */
 class DiscreteBanner<T> @JvmOverloads constructor(
-  context: Context,
-  attrs: AttributeSet? = null,
-  defStyleAttr: Int = 0,
-  defStyleRes: Int = 0
-) : FrameLayout(context, attrs, defStyleAttr, defStyleRes) {
+    context: Context,
+    attrs: AttributeSet? = null,
+    defStyleAttr: Int = 0,
+    defStyleRes: Int = 0
+                                                 ) : FrameLayout(context, attrs, defStyleAttr, defStyleRes) {
   //横向还是竖向
   private var orientation = DSVOrientation.HORIZONTAL.ordinal
+
   //数据源
   private var mData: List<T> = emptyList()
+
   //列表
   private lateinit var mPager: DiscreteScrollView
+
   //真正使用的adapter
   private var mPagerAdapter: DiscretePageAdapter<T>? = null
+
   //圆点
   private lateinit var mIndicator: DotsIndicator
+
   //是否无限循环
   private var looper: Boolean = false
+
   //无限循环adapter
   private var mLooperAdapter: InfiniteScrollAdapter<DiscreteHolder<T>>? = null
+
   //是否需要自动轮播
   private var needAutoPlay = false
+
   //默认间距
   val defaultOffset: Float = SizeUtils.dp2px(8f) * 1f
+
   //默认滚动时间
   val defaultScrollTime = 200
+
   //自动轮播时间间隔
   val defaultAutoPlayDuration = 5000L
 
@@ -51,7 +61,7 @@ class DiscreteBanner<T> @JvmOverloads constructor(
     if (attrs != null) {
       val ta = getContext().obtainStyledAttributes(attrs, R.styleable.DiscreteBanner)
       this.orientation =
-        ta.getInt(R.styleable.DiscreteBanner_dsv_orientation, DSVOrientation.HORIZONTAL.ordinal)
+          ta.getInt(R.styleable.DiscreteBanner_dsv_orientation, DSVOrientation.HORIZONTAL.ordinal)
       ta.recycle()
     }
     initPager()
@@ -61,9 +71,9 @@ class DiscreteBanner<T> @JvmOverloads constructor(
   //初始化banner
   private fun initPager() {
     mPager = DiscreteScrollView(context)
-    mPager.setBanner(true)
     mPager.setItemTransitionTimeMillis(defaultScrollTime)
-    mPager.addOnItemChangedListener { viewHolder, adapterPostion ->
+    mPager.addOnItemChangedListener { viewHolder, adapterPostion, end ->
+      if (end) return@addOnItemChangedListener
       val position = if (looper && mLooperAdapter != null) {
         mLooperAdapter?.getRealPosition(adapterPostion) ?: 0
       } else {
@@ -118,7 +128,7 @@ class DiscreteBanner<T> @JvmOverloads constructor(
     if (orientation == DSVOrientation.HORIZONTAL) {//横向
       mIndicator.orientation = LinearLayout.HORIZONTAL
       (mIndicator.layoutParams as LayoutParams).gravity =
-        Gravity.BOTTOM or Gravity.CENTER_HORIZONTAL
+          Gravity.BOTTOM or Gravity.CENTER_HORIZONTAL
       mIndicator.translationX = 0f
       mIndicator.translationY = -defaultOffset
     } else {//竖向
@@ -182,9 +192,9 @@ class DiscreteBanner<T> @JvmOverloads constructor(
   //设置数据
   @Suppress("UNCHECKED_CAST")
   fun setPages(
-    holderCreator: DiscreteHolderCreator,
-    datas: List<T>
-  ): DiscreteBanner<T> {
+      holderCreator: DiscreteHolderCreator,
+      datas: List<T>
+              ): DiscreteBanner<T> {
     stopPlay()
     this.mData = datas
     this.mPagerAdapter = DiscretePageAdapter(holderCreator, mData)
@@ -220,6 +230,7 @@ class DiscreteBanner<T> @JvmOverloads constructor(
 
   //自动轮播的Handler
   private val playHandler = Handler()
+
   //自动轮播的Runnable
   private val playRunnable = Runnable {
     kotlin.run {
