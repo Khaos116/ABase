@@ -26,20 +26,12 @@ public class DiscreteScrollView extends RecyclerView {
   private List<OnItemChangedListener> onItemChangedListeners;
 
   private boolean isOverScrollEnabled;
+  //上一次停留的View
+  private int endPosition = 0;
 
   public DiscreteScrollView(Context context) {
     super(context);
     init(null);
-  }
-
-  public DiscreteScrollView(Context context, AttributeSet attrs) {
-    super(context, attrs);
-    init(attrs);
-  }
-
-  public DiscreteScrollView(Context context, AttributeSet attrs, int defStyleAttr) {
-    super(context, attrs, defStyleAttr);
-    init(attrs);
   }
 
   private void init(AttributeSet attrs) {
@@ -54,15 +46,10 @@ public class DiscreteScrollView extends RecyclerView {
     setLayoutManager(layoutManager);
   }
 
-  @Override
-  public void setLayoutManager(LayoutManager layout) {
-    if (layout instanceof DiscreteScrollLayoutManager) {
-      super.setLayoutManager(layout);
-    } else {
-      throw new IllegalArgumentException("You should not set LayoutManager on DiscreteScrollView.class instance. Library uses a special one. Just don\\'t call the method.");
-    }
+  public DiscreteScrollView(Context context, AttributeSet attrs) {
+    super(context, attrs);
+    init(attrs);
   }
-
 
   @Override
   public boolean fling(int velocityX, int velocityY) {
@@ -75,10 +62,19 @@ public class DiscreteScrollView extends RecyclerView {
     return isFling;
   }
 
-  @Nullable
-  public ViewHolder getViewHolder(int position) {
-    View view = layoutManager.findViewByPosition(position);
-    return view != null ? getChildViewHolder(view) : null;
+  public DiscreteScrollView(Context context, AttributeSet attrs, int defStyleAttr) {
+    super(context, attrs, defStyleAttr);
+    init(attrs);
+  }
+
+  @Override
+  public void setLayoutManager(LayoutManager layout) {
+    if (layout instanceof DiscreteScrollLayoutManager) {
+      super.setLayoutManager(layout);
+    } else {
+      throw new IllegalArgumentException(
+          "You should not set LayoutManager on DiscreteScrollView.class instance. Library uses a special one. Just don\\'t call the method.");
+    }
   }
 
   /**
@@ -96,11 +92,11 @@ public class DiscreteScrollView extends RecyclerView {
     layoutManager.setTimeForItemSettle(millis);
   }
 
-  public void setSlideOnFling(boolean result){
+  public void setSlideOnFling(boolean result) {
     layoutManager.setShouldSlideOnFling(result);
   }
 
-  public void setSlideOnFlingThreshold(int threshold){
+  public void setSlideOnFlingThreshold(int threshold) {
     layoutManager.setSlideOnFlingThreshold(threshold);
   }
 
@@ -124,24 +120,24 @@ public class DiscreteScrollView extends RecyclerView {
     setOverScrollMode(OVER_SCROLL_NEVER);
   }
 
-  public void addScrollStateChangeListener(@NonNull ScrollStateChangeListener<?> scrollStateChangeListener) {
-    scrollStateChangeListeners.add(scrollStateChangeListener);
-  }
-
   public void addScrollListener(@NonNull ScrollListener<?> scrollListener) {
     addScrollStateChangeListener(new ScrollListenerAdapter(scrollListener));
+  }
+
+  public void addScrollStateChangeListener(@NonNull ScrollStateChangeListener<?> scrollStateChangeListener) {
+    scrollStateChangeListeners.add(scrollStateChangeListener);
   }
 
   public void addOnItemChangedListener(@NonNull OnItemChangedListener<?> onItemChangedListener) {
     onItemChangedListeners.add(onItemChangedListener);
   }
 
-  public void removeScrollStateChangeListener(@NonNull ScrollStateChangeListener<?> scrollStateChangeListener) {
-    scrollStateChangeListeners.remove(scrollStateChangeListener);
-  }
-
   public void removeScrollListener(@NonNull ScrollListener<?> scrollListener) {
     removeScrollStateChangeListener(new ScrollListenerAdapter<>(scrollListener));
+  }
+
+  public void removeScrollStateChangeListener(@NonNull ScrollStateChangeListener<?> scrollStateChangeListener) {
+    scrollStateChangeListeners.remove(scrollStateChangeListener);
   }
 
   public void removeItemChangedListener(@NonNull OnItemChangedListener<?> onItemChangedListener) {
@@ -170,32 +166,67 @@ public class DiscreteScrollView extends RecyclerView {
     }
   }
 
-  //因为预览和最后确定选中会回调2次，所以使用的时候进行判断
-  private int lastPosition = 0;
-  private void notifyCurrentItemChanged(ViewHolder holder, int current) {
-    if (lastPosition == current) return;
-    lastPosition = current;
-    for (OnItemChangedListener listener : onItemChangedListeners) {
-      listener.onCurrentItemChanged(holder, current);
-    }
-  }
-
   private void notifyCurrentItemChanged() {
     if (onItemChangedListeners.isEmpty()) {
       return;
     }
     int current = layoutManager.getCurrentPosition();
     ViewHolder currentHolder = getViewHolder(current);
-    notifyCurrentItemChanged(currentHolder, current);
+    notifyCurrentItemChanged(currentHolder, current, false);
   }
 
-  //banner才修正预览,否则正常显示的可能导致手指滑动回调一个，释放后回调一个
-  private boolean isBanner = false;
-
-  public void setBanner(boolean mBanner) {
-    isBanner = mBanner;
+  @Nullable
+  public ViewHolder getViewHolder(int position) {
+    View view = layoutManager.findViewByPosition(position);
+    return view != null ? getChildViewHolder(view) : null;
   }
+
+  /**
+   * 这个回调选中位置有2个情况：
+   * 1是滑动过程中,滑动距离超过屏幕一半执行回调(这个回调滑动过程中可能会触发多次)
+   * 2是滑动停止后执行回调(这个回调每次滑动释放后再执行)
+   */
+  private void notifyCurrentItemChanged(ViewHolder holder, int current, boolean end) {
+    if (end && endPosition == current) return;//轻微滑动结束为同一个位置，则不再进行回调
+    if (end) endPosition = current;//记录结束的位置
+    for (OnItemChangedListener listener : onItemChangedListeners) {
+      listener.onCurrentItemChanged(holder, current, end);
+    }
+  }
+
+  public interface OnItemChangedListener<T extends ViewHolder> {
+    /*
+     * This method will be also triggered when view appears on the screen for the first time.
+     * If data set is empty, viewHolder will be null and adapterPosition will be NO_POSITION
+     */
+    void onCurrentItemChanged(@Nullable T viewHolder, int adapterPosition, boolean endScroll);
+  }
+
+  public interface ScrollStateChangeListener<T extends ViewHolder> {
+
+    void onScrollStart(@NonNull T currentItemHolder, int adapterPosition);
+
+    void onScrollEnd(@NonNull T currentItemHolder, int adapterPosition);
+
+    void onScroll(float scrollPosition,
+        int currentPosition,
+        int newPosition,
+        @Nullable T currentHolder,
+        @Nullable T newCurrent);
+  }
+
+  public interface ScrollListener<T extends ViewHolder> {
+
+    void onScroll(float scrollPosition,
+        int currentPosition, int newPosition,
+        @Nullable T currentHolder,
+        @Nullable T newCurrent);
+  }
+
   private class ScrollStateListener implements DiscreteScrollLayoutManager.ScrollStateListener {
+
+    //是否执行预览
+    private boolean preview = false;
 
     @Override
     public void onIsBoundReachedFlagChange(boolean isBoundReached) {
@@ -225,32 +256,28 @@ public class DiscreteScrollView extends RecyclerView {
       ViewHolder holder = getViewHolder(current);
       if (holder != null) {
         notifyScrollEnd(holder, current);
-        notifyCurrentItemChanged(holder, current);
+        notifyCurrentItemChanged(holder, current, true);
       }
     }
 
-    //是否执行预览
-    private boolean preview = false;
     @Override
     public void onScroll(float currentViewPosition) {
-      if (isBanner) {
-        //==新增，手指不放，滑动到完全显示执行回调(★★这只是预览回调，手指放开才是真的回调★★)==//
-        if (currentViewPosition > 0.5f && !preview) {//上一页
-          preview = true;
-          int position = getCurrentItem() - 1;
-          ViewHolder holder = getViewHolder(position);
-          notifyCurrentItemChanged(holder, position);
-        } else if (currentViewPosition < -0.5f && !preview) {//下一页
-          preview = true;
-          int position = getCurrentItem() + 1;
-          ViewHolder holder = getViewHolder(position);
-          notifyCurrentItemChanged(holder, position);
-        } else if (currentViewPosition > -0.5f && currentViewPosition < 0.5f && preview) {//当前页
-          preview = false;
-          int position = getCurrentItem();
-          ViewHolder holder = getViewHolder(position);
-          notifyCurrentItemChanged(holder, position);
-        }
+      //==新增，手指不放，滑动到完全显示执行回调(★★这只是预览回调，手指放开才是真的回调★★)==//
+      if (currentViewPosition > 0.5f && !preview) {//上一页
+        preview = true;
+        int position = getCurrentItem() - 1;
+        ViewHolder holder = getViewHolder(position);
+        notifyCurrentItemChanged(holder, position, false);
+      } else if (currentViewPosition < -0.5f && !preview) {//下一页
+        preview = true;
+        int position = getCurrentItem() + 1;
+        ViewHolder holder = getViewHolder(position);
+        notifyCurrentItemChanged(holder, position, false);
+      } else if (currentViewPosition > -0.5f && currentViewPosition < 0.5f && preview) {//当前页
+        preview = false;
+        int position = getCurrentItem();
+        ViewHolder holder = getViewHolder(position);
+        notifyCurrentItemChanged(holder, position, false);
       }
       //===============================================================================//
 
@@ -281,34 +308,5 @@ public class DiscreteScrollView extends RecyclerView {
     public void onDataSetChangeChangedPosition() {
       notifyCurrentItemChanged();
     }
-  }
-
-  public interface ScrollStateChangeListener<T extends ViewHolder> {
-
-    void onScrollStart(@NonNull T currentItemHolder, int adapterPosition);
-
-    void onScrollEnd(@NonNull T currentItemHolder, int adapterPosition);
-
-    void onScroll(float scrollPosition,
-        int currentPosition,
-        int newPosition,
-        @Nullable T currentHolder,
-        @Nullable T newCurrent);
-  }
-
-  public interface ScrollListener<T extends ViewHolder> {
-
-    void onScroll(float scrollPosition,
-        int currentPosition, int newPosition,
-        @Nullable T currentHolder,
-        @Nullable T newCurrent);
-  }
-
-  public interface OnItemChangedListener<T extends ViewHolder> {
-    /*
-     * This method will be also triggered when view appears on the screen for the first time.
-     * If data set is empty, viewHolder will be null and adapterPosition will be NO_POSITION
-     */
-    void onCurrentItemChanged(@Nullable T viewHolder, int adapterPosition);
   }
 }
