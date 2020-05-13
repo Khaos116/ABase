@@ -60,8 +60,8 @@ class GalleryActivity : CommActivity() {
   override fun initView() {
     galleryBack.pressEffectAlpha()
     galleryBack.click { finish() }
-    galleryRecycler.addOnItemChangedListener { viewHolder, adapterPosition ->
-      galleryNumber.text = String.format("%1\$s/%2\$s", adapterPosition + 1, mDataList.size)
+    galleryRecycler.addOnItemChangedListener { viewHolder, adapterPosition, end ->
+      if (!end) galleryNumber.text = String.format("%1\$s/%2\$s", adapterPosition + 1, mDataList.size)
     }
   }
 
