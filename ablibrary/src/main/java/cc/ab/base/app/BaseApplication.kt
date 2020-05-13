@@ -9,7 +9,6 @@ import cc.ab.base.utils.RxUtils
 import cc.ab.base.widget.sketch.VideoThumbnailUriModel
 import com.airbnb.mvrx.mock.MvRxMocks
 import com.blankj.utilcode.util.LogUtils
-import com.blankj.utilcode.util.PermissionUtils
 import com.blankj.utilcode.util.ProcessUtils
 import com.blankj.utilcode.util.Utils
 import com.didichuxing.doraemonkit.DoraemonKit
@@ -19,7 +18,6 @@ import io.reactivex.ObservableOnSubscribe
 import me.jessyan.autosize.AutoSizeConfig
 import me.panpf.sketch.Configuration
 import me.panpf.sketch.Sketch
-
 
 /**
  * Description:
@@ -85,9 +83,7 @@ abstract class BaseApplication : Application() {
 
   //初始化调试工具
   private fun initDebugUtils() {
-    if (PermissionUtils.isGrantedDrawOverlays()) {
-      DoraemonKit.install(this)//可能log会打印异常，但不影响使用
-    }
+    DoraemonKit.install(this)
   }
 
   //主线程中的初始化(只在主进程中调用)

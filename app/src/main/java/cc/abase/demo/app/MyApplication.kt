@@ -15,7 +15,9 @@ import cc.abase.demo.widget.video.ExoVideoCacheUtils
 import com.billy.android.swipe.SmartSwipeBack
 import com.billy.android.swipe.SmartSwipeRefresh
 import com.dueeeke.videoplayer.exo.ExoMediaPlayerFactory
-import com.dueeeke.videoplayer.player.*
+import com.dueeeke.videoplayer.player.VideoView
+import com.dueeeke.videoplayer.player.VideoViewConfig
+import com.dueeeke.videoplayer.player.VideoViewManager
 import com.github.promeg.pinyinhelper.Pinyin
 import com.github.promeg.tinypinyin.lexicons.android.cncity.CnCityDict
 import com.vanniktech.emoji.EmojiManager
@@ -36,13 +38,11 @@ open class MyApplication : BaseApplication() {
     //表情
     EmojiManager.install(IosEmojiProvider())
     //视频播放全局配置
-    VideoViewManager.setConfig(
-        VideoViewConfig.newBuilder()
+    VideoViewManager.setConfig(VideoViewConfig.newBuilder()
             //使用ExoPlayer解码
             .setPlayerFactory(ExoMediaPlayerFactory.create())
             .setScreenScaleType(VideoView.SCREEN_SCALE_DEFAULT)
-            .build()
-    )
+      .build())
     //初始化Bugly
     BuglyManager.instance.initBugly(this)
     // 添加中文城市词典
@@ -86,9 +86,7 @@ open class MyApplication : BaseApplication() {
     //仿小米MIUI系统的贝塞尔曲线返回效果
     SmartSwipeBack.activityBezierBack(application, null);
      */
-    SmartSwipeBack.activitySlidingBack(
-        this
-                                      ) { activity -> !list.contains(activity.javaClass.name) }
+    SmartSwipeBack.activitySlidingBack(this) { activity -> !list.contains(activity.javaClass.name) }
   }
 
   //不需要侧滑的页面
@@ -98,6 +96,5 @@ open class MyApplication : BaseApplication() {
       GuideActivity::class.java.name,
       LoginActivity::class.java.name,
       GalleryActivity::class.java.name,
-      "com.didichuxing.doraemonkit.ui.UniversalActivity"
-                           )
+      "com.didichuxing.doraemonkit.ui.UniversalActivity")
 }
