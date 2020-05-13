@@ -65,11 +65,11 @@ class MineFragment : CommFragment() {
       Pair(StringUtils.getString(R.string.epoxy_expandable), EpoxyExpandActivity::class.java),
       Pair(StringUtils.getString(R.string.title_play_list), PlayListActivity::class.java),
       Pair(StringUtils.getString(R.string.title_play_pager), PlayPagerActivity::class.java),
+      Pair(StringUtils.getString(R.string.title_vertical_page), VerticalPageActivity::class.java),
       Pair(StringUtils.getString(R.string.title_decoration), DecorationActivity::class.java),
       Pair(StringUtils.getString(R.string.title_rxhttp), RxHttpActivity::class.java),
       Pair(StringUtils.getString(R.string.title_flexbox), FlexboxActivity::class.java),
       Pair(StringUtils.getString(R.string.title_marquee), MarqueeActivity::class.java),
-      Pair(StringUtils.getString(R.string.title_vertical_page), VerticalPageActivity::class.java),
       Pair(StringUtils.getString(R.string.title_test), TestActivity::class.java)
   )
   //item文字颜色
