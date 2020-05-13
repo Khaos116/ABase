@@ -99,6 +99,7 @@ class VerticalPageActivity : CommTitleActivity() {
         mSmartSwipeRefresh?.disableLoadMore()
       }
     }
+    vvpDSV.setItemTransitionTimeMillis(100)
     vvpDSV.adapter = pageAdapter
     //初始化播放器
     initVideoView()
