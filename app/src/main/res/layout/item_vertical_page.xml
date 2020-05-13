@@ -5,13 +5,28 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     >
-
+  <!--封面-->
+  <me.panpf.sketch.SketchImageView
+      android:id="@+id/itemVerticalCover"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:contentDescription="@null"
+      />
+  <!--视频播放父控件-->
+  <FrameLayout
+      android:id="@+id/itemVerticalVideoParent"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      />
+  <!--描述-->
   <TextView
       android:id="@+id/itemVerticalDes"
       android:layout_width="match_parent"
-      android:layout_height="match_parent"
-      android:gravity="center"
-      android:textSize="30sp"
+      android:layout_height="wrap_content"
+      android:layout_gravity="bottom"
+      android:gravity="start"
+      android:padding="12dp"
+      android:textSize="16sp"
       tools:text="1"
       />
 </FrameLayout>
