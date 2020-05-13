@@ -22,6 +22,7 @@ import com.dueeeke.videoplayer.player.VideoView
 import io.reactivex.Observable
 import io.reactivex.disposables.Disposable
 import kotlinx.android.synthetic.main.activty_verticalpage.vvpDSV
+import kotlinx.android.synthetic.main.activty_verticalpage.vvpDSVParent
 import java.util.concurrent.TimeUnit
 
 /**
@@ -102,13 +103,13 @@ class VerticalPageActivity : CommTitleActivity() {
     //初始化播放器
     initVideoView()
     //加载更多
-    mSmartSwipeRefresh = SmartSwipeRefresh.translateMode(vvpDSV, false)
+    mSmartSwipeRefresh = SmartSwipeRefresh.translateMode(vvpDSVParent, false)
     mSmartSwipeRefresh?.disableRefresh()
     mSmartSwipeRefresh?.disableLoadMore()
     mSmartSwipeRefresh?.isNoMoreData = false
     mSmartSwipeRefresh?.dataLoader = object : SmartSwipeRefreshDataLoader {
       override fun onLoadMore(ssr: SmartSwipeRefresh) {
-        loadData(mDatas.last().id) {
+        loadData(lastId = mDatas.last().id) {
           mSmartSwipeRefresh?.isNoMoreData = true
           mSmartSwipeRefresh?.finished(true)
           mDatas.addAll(it)
@@ -125,7 +126,7 @@ class VerticalPageActivity : CommTitleActivity() {
 
   //<editor-fold defaultstate="collapsed" desc="数据初始化">
   override fun initData() {
-    loadData {
+    loadData(time = 100) {
       mDatas.addAll(it)
       pageAdapter.notifyDataSetChanged()
       //默认进来第一个位置没有回调，所以手动进行播放
@@ -173,9 +174,9 @@ class VerticalPageActivity : CommTitleActivity() {
   //</editor-fold>
 
   //<editor-fold defaultstate="collapsed" desc="模拟数据获取">
-  private fun loadData(lastId: Long = 0, call: ((list: MutableList<VerticalPageBean>) -> Unit)? = null) {
+  private fun loadData(time: Long = 1500L, lastId: Long = 0, call: ((list: MutableList<VerticalPageBean>) -> Unit)? = null) {
     if (disposableRequest != null && disposableRequest?.isDisposed == false) return
-    disposableRequest = Observable.timer(1500, TimeUnit.MILLISECONDS).flatMap {
+    disposableRequest = Observable.timer(time, TimeUnit.MILLISECONDS).flatMap {
       val list = mutableListOf<VerticalPageBean>()
       for (i in lastId until lastId + 10) {
         val video = VideoRandomUtils.instance.getVideoPair(i.toInt())
