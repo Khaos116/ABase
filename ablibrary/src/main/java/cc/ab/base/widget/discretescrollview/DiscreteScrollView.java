@@ -26,8 +26,10 @@ public class DiscreteScrollView extends RecyclerView {
   private List<OnItemChangedListener> onItemChangedListeners;
 
   private boolean isOverScrollEnabled;
-  //上一次停留的View
+  //滑动停止后回调的位置
   private int endPosition = 0;
+  //滑动过程中回调的位置
+  private int scrollPosition = 0;
 
   public DiscreteScrollView(Context context) {
     super(context);
@@ -187,8 +189,10 @@ public class DiscreteScrollView extends RecyclerView {
    * 2是滑动停止后执行回调(这个回调每次滑动释放后再执行)
    */
   private void notifyCurrentItemChanged(ViewHolder holder, int current, boolean end) {
-    if (end && endPosition == current) return;//轻微滑动结束为同一个位置，则不再进行回调
-    if (end) endPosition = current;//记录结束的位置
+    if (end && endPosition == current) return;//如果滑动结束后回调位置和上次回调的一样，则不再进行回调
+    if (end) endPosition = current;//记录滑动结束的位置
+    if (!end && scrollPosition == current) return;//如果滑动过程中回调位置的位置和上次回调位置一样，则不再进行回调
+    if (!end) scrollPosition = current;//记录滑动过程中的位置
     for (OnItemChangedListener listener : onItemChangedListeners) {
       listener.onCurrentItemChanged(holder, current, end);
     }
