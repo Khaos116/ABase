@@ -27,7 +27,7 @@
       android:visibility="gone"
       tools:visibility="visible"
       />
-·  <!--loading-->
+  <!--loading-->
   <ProgressBar
       android:id="@+id/itemPlayPagerLoading"
       android:layout_width="@dimen/dkplayer_play_btn_size"
