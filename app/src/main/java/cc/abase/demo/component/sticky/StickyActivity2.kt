@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView.OnScrollListener
 import cc.ab.base.ext.mContext
 import cc.ab.base.ext.visible
 import cc.abase.demo.R
@@ -44,22 +45,7 @@ class StickyActivity2 : CommTitleActivity() {
     sticky2Recycler2.layoutManager = manager
     sticky2Recycler1.layoutManager = LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false)
     sticky2Recycler1.setController(leftController)
-    //两个竖向滑动列表位置同步
-    sticky2Recycler1.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-      override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-        super.onScrolled(recyclerView, dx, dy)
-        if (sticky2Recycler1.scrollState != 0) sticky2Recycler2.scrollBy(dx, dy) //使右边recyclerView进行联动
-      }
-    })
-    sticky2Recycler2.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-      override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-        super.onScrolled(recyclerView, dx, dy)
-        if (sticky2Recycler2.scrollState != 0) sticky2Recycler1.scrollBy(dx, dy) //使左边边recyclerView进行联动
-      }
-    })
-    //两个横向列表位置同步
-    sticky2TopHSV.setScrollViewListener { _, x, y, _, _ -> sticky2BottomHSV.scrollTo(x, y) }
-    sticky2BottomHSV.setScrollViewListener { _, x, y, _, _ -> sticky2TopHSV.scrollTo(x, y) }
+    initScrollListener()
     leftController.addModelBuildListener {
       sticky2Recycler2?.postDelayed({
         //如果不满一页，则不能加载更多了
@@ -89,6 +75,70 @@ class StickyActivity2 : CommTitleActivity() {
       override fun onRefresh(ssr: SmartSwipeRefresh?) {}
     }
   }
+
+  //<editor-fold defaultstate="collapsed" desc="连个列表同步滚动">
+
+  //左边监听
+  private lateinit var scrollListenerLeft: OnScrollListener
+
+  //右边监听
+  private lateinit var scrollListenerRight: OnScrollListener
+
+  //初始化列表滑动监听
+  private fun initScrollListener() {
+    //两个竖向滑动列表位置同步
+    scrollListenerLeft = object : OnScrollListener() {
+      override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+        super.onScrollStateChanged(recyclerView, newState)
+        if (newState == RecyclerView.SCROLL_STATE_IDLE) synRecyclerScroll(true)
+      }
+
+      override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+        super.onScrolled(recyclerView, dx, dy)
+        sticky2Recycler2.removeOnScrollListener(scrollListenerRight)
+        sticky2Recycler2.scrollBy(dx, dy)
+        sticky2Recycler2.addOnScrollListener(scrollListenerRight)
+      }
+    }
+    scrollListenerRight = object : OnScrollListener() {
+      override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+        super.onScrollStateChanged(recyclerView, newState)
+        if (newState == RecyclerView.SCROLL_STATE_IDLE) synRecyclerScroll(false)
+      }
+
+      override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+        super.onScrolled(recyclerView, dx, dy)
+        sticky2Recycler1.removeOnScrollListener(scrollListenerLeft)
+        sticky2Recycler1.scrollBy(dx, dy)
+        sticky2Recycler1.addOnScrollListener(scrollListenerLeft)
+      }
+    }
+    sticky2Recycler1.addOnScrollListener(scrollListenerLeft)
+    sticky2Recycler2.addOnScrollListener(scrollListenerRight)
+    //两个横向列表位置同步
+    sticky2TopHSV.setScrollViewListener { _, x, y, _, _ -> sticky2BottomHSV.scrollTo(x, y) }
+    sticky2BottomHSV.setScrollViewListener { _, x, y, _, _ -> sticky2TopHSV.scrollTo(x, y) }
+  }
+
+  //同步滚动距离
+  private fun synRecyclerScroll(baseLeft: Boolean) {
+    //没有控件不执行
+    if (sticky2Recycler1.childCount == 0 || sticky2Recycler2.childCount == 0) return
+    //参照方
+    val layout1 = (if (baseLeft) sticky2Recycler1 else sticky2Recycler2).layoutManager as LinearLayoutManager
+    //需要修改对齐的方
+    val layout2 = (if (baseLeft) sticky2Recycler2 else sticky2Recycler1).layoutManager as LinearLayoutManager
+    //找到位置
+    val position = layout1.findFirstVisibleItemPosition()
+    //偏移量
+    var offset = 0
+    //找到第一个View计算偏移量
+    (if (baseLeft) sticky2Recycler1 else sticky2Recycler2).findViewHolderForAdapterPosition(position)?.let {
+      offset = it.itemView.top
+    }
+    layout2.scrollToPositionWithOffset(position, offset)
+  }
+  //</editor-fold>
 
   //模拟数据
   private var originDatas = mutableListOf<UserStickyBean>()
