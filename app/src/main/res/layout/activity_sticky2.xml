@@ -1,214 +1,230 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
-    <!--标题布局-->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-        <!--左边科目+姓名-->
-        <FrameLayout
-            android:layout_width="80dp"
-            android:layout_height="40dp">
-            <!--背景+斜线-->
-            <cc.abase.demo.widget.LineView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@color/gray_CCCCCC" />
-            <!--科目-->
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="end"
-                android:padding="5dp"
-                android:text="科目"
-                android:textColor="@color/red"
-                android:textSize="14sp" />
-            <!--姓名-->
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="bottom"
-                android:padding="5dp"
-                android:text="姓名"
-                android:textColor="@color/red"
-                android:textSize="14sp" />
-        </FrameLayout>
-        <!--竖线-->
-        <View
-            android:layout_width="1px"
-            android:layout_height="match_parent"
-            android:background="@color/gray" />
-        <!--可滑动标题-->
-        <cc.abase.demo.widget.ObservableScrollView
-            android:id="@+id/sticky2TopHSV"
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:overScrollMode="never"
-            android:scrollbars="none">
-
-            <include layout="@layout/item_sticky2_top" />
-        </cc.abase.demo.widget.ObservableScrollView>
-    </LinearLayout>
-    <!--横线-->
+    android:orientation="vertical"
+    android:splitMotionEvents="false"
+    >
+  <!--标题布局-->
+  <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:orientation="horizontal"
+      >
+    <!--左边科目+姓名-->
+    <FrameLayout
+        android:layout_width="80dp"
+        android:layout_height="40dp"
+        >
+      <!--背景+斜线-->
+      <cc.abase.demo.widget.LineView
+          android:layout_width="match_parent"
+          android:layout_height="match_parent"
+          android:background="@color/gray_CCCCCC"
+          />
+      <!--科目-->
+      <TextView
+          android:layout_width="match_parent"
+          android:layout_height="match_parent"
+          android:gravity="end"
+          android:padding="5dp"
+          android:text="科目"
+          android:textColor="@color/red"
+          android:textSize="14sp"
+          />
+      <!--姓名-->
+      <TextView
+          android:layout_width="match_parent"
+          android:layout_height="match_parent"
+          android:gravity="bottom"
+          android:padding="5dp"
+          android:text="姓名"
+          android:textColor="@color/red"
+          android:textSize="14sp"
+          />
+    </FrameLayout>
+    <!--竖线-->
     <View
-        android:layout_width="match_parent"
-        android:layout_height="1px"
-        android:background="@color/gray" />
-    <!--标题下面的布局-->
-    <LinearLayout
-        android:id="@+id/sticky2RootView"
-        android:layout_width="match_parent"
+        android:layout_width="1px"
         android:layout_height="match_parent"
-        android:orientation="horizontal">
-        <!--左边列表+竖线-->
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/sticky2Recycler1Parent"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            tools:visibility="visible">
+        android:background="@color/gray"
+        />
+    <!--可滑动标题-->
+    <cc.abase.demo.widget.ObservableScrollView
+        android:id="@+id/sticky2TopHSV"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:overScrollMode="never"
+        android:scrollbars="none"
+        >
 
-            <com.airbnb.epoxy.EpoxyRecyclerView
-                android:id="@+id/sticky2Recycler1"
-                android:layout_width="80dp"
-                android:minHeight="40dp"
-                android:layout_height="wrap_content"
-                android:overScrollMode="never"
-                android:scrollbars="none"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+      <include layout="@layout/item_sticky2_top"/>
+    </cc.abase.demo.widget.ObservableScrollView>
+  </LinearLayout>
+  <!--横线-->
+  <View
+      android:layout_width="match_parent"
+      android:layout_height="1px"
+      android:background="@color/gray"
+      />
+  <!--标题下面的布局-->
+  <LinearLayout
+      android:id="@+id/sticky2RootView"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:orientation="horizontal"
+      >
+    <!--左边列表+竖线-->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/sticky2Recycler1Parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:visibility="visible"
+        >
 
-            <View
-                android:layout_width="1px"
-                android:layout_height="0dp"
-                android:background="@color/gray"
-                app:layout_constraintBottom_toBottomOf="@+id/sticky2Recycler1"
-                app:layout_constraintStart_toEndOf="@id/sticky2Recycler1"
-                app:layout_constraintTop_toTopOf="@id/sticky2Recycler1" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
+      <com.airbnb.epoxy.EpoxyRecyclerView
+          android:id="@+id/sticky2Recycler1"
+          android:layout_width="80dp"
+          android:layout_height="wrap_content"
+          android:minHeight="40dp"
+          android:overScrollMode="never"
+          android:scrollbars="none"
+          app:layout_constraintStart_toStartOf="parent"
+          app:layout_constraintTop_toTopOf="parent"
+          />
 
-        <!--横向滑动-->
-        <cc.abase.demo.widget.ObservableScrollView
-            android:id="@+id/sticky2BottomHSV"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:overScrollMode="never"
-            android:scrollbars="none">
-            <!--右边列表-->
-            <com.airbnb.epoxy.EpoxyRecyclerView
-                android:id="@+id/sticky2Recycler2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:minHeight="40dp"
-                android:overScrollMode="never"
-                android:scrollbars="none"
-                android:visibility="invisible"
-                tools:visibility="visible" />
-        </cc.abase.demo.widget.ObservableScrollView>
-    </LinearLayout>
-</LinearLayout>
-<!--旧版本的滑动效果1-->
-<!--<LinearLayout-->
-<!--    xmlns:android="http://schemas.android.com/apk/res/android"-->
-<!--    xmlns:app="http://schemas.android.com/apk/res-auto"-->
-<!--    xmlns:tools="http://schemas.android.com/tools"-->
-<!--    android:id="@+id/sticky2RootView"-->
-<!--    android:layout_width="match_parent"-->
-<!--    android:layout_height="match_parent"-->
-<!--    android:orientation="horizontal"-->
-<!--    >-->
+      <View
+          android:layout_width="1px"
+          android:layout_height="0dp"
+          android:background="@color/gray"
+          app:layout_constraintBottom_toBottomOf="@+id/sticky2Recycler1"
+          app:layout_constraintStart_toEndOf="@id/sticky2Recycler1"
+          app:layout_constraintTop_toTopOf="@id/sticky2Recycler1"
+          />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
-<!--  <androidx.constraintlayout.widget.ConstraintLayout-->
-<!--      android:id="@+id/sticky2Recycler1Parent"-->
-<!--      android:layout_width="wrap_content"-->
-<!--      android:layout_height="match_parent"-->
-<!--      android:visibility="invisible"-->
-<!--      tools:visibility="visible"-->
-<!--      >-->
+    <!--横向滑动-->
+    <cc.abase.demo.widget.ObservableScrollView
+        android:id="@+id/sticky2BottomHSV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:overScrollMode="never"
+        android:scrollbars="none"
+        >
+      <!--右边列表-->
+      <com.airbnb.epoxy.EpoxyRecyclerView
+          android:id="@+id/sticky2Recycler2"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:minHeight="40dp"
+          android:overScrollMode="never"
+          android:scrollbars="none"
+          android:visibility="invisible"
+          tools:visibility="visible"
+          />
+    </cc.abase.demo.widget.ObservableScrollView>
+  </LinearLayout>
+</LinearLayout><!--旧版本的滑动效果1-->
+    <!--<LinearLayout-->
+    <!--    xmlns:android="http://schemas.android.com/apk/res/android"-->
+    <!--    xmlns:app="http://schemas.android.com/apk/res-auto"-->
+    <!--    xmlns:tools="http://schemas.android.com/tools"-->
+    <!--    android:id="@+id/sticky2RootView"-->
+    <!--    android:layout_width="match_parent"-->
+    <!--    android:layout_height="match_parent"-->
+    <!--    android:orientation="horizontal"-->
+    <!--    >-->
 
-<!--    <com.airbnb.epoxy.EpoxyRecyclerView-->
-<!--        android:id="@+id/sticky2Recycler1"-->
-<!--        android:layout_width="80dp"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:overScrollMode="never"-->
-<!--        android:scrollbars="none"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintTop_toTopOf="parent"-->
-<!--        />-->
+    <!--  <androidx.constraintlayout.widget.ConstraintLayout-->
+    <!--      android:id="@+id/sticky2Recycler1Parent"-->
+    <!--      android:layout_width="wrap_content"-->
+    <!--      android:layout_height="match_parent"-->
+    <!--      android:visibility="invisible"-->
+    <!--      tools:visibility="visible"-->
+    <!--      >-->
 
-<!--    <LinearLayout-->
-<!--        android:layout_width="80dp"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:orientation="vertical"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintTop_toTopOf="parent"-->
-<!--        >-->
+    <!--    <com.airbnb.epoxy.EpoxyRecyclerView-->
+    <!--        android:id="@+id/sticky2Recycler1"-->
+    <!--        android:layout_width="80dp"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:overScrollMode="never"-->
+    <!--        android:scrollbars="none"-->
+    <!--        app:layout_constraintStart_toStartOf="parent"-->
+    <!--        app:layout_constraintTop_toTopOf="parent"-->
+    <!--        />-->
 
-<!--      <cc.abase.demo.widget.LineView-->
-<!--          android:layout_width="80dp"-->
-<!--          android:layout_height="40dp"-->
-<!--          android:background="@color/gray_CCCCCC"-->
-<!--          />-->
+    <!--    <LinearLayout-->
+    <!--        android:layout_width="80dp"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:orientation="vertical"-->
+    <!--        app:layout_constraintStart_toStartOf="parent"-->
+    <!--        app:layout_constraintTop_toTopOf="parent"-->
+    <!--        >-->
 
-<!--      <View-->
-<!--          android:layout_width="match_parent"-->
-<!--          android:layout_height="1px"-->
-<!--          android:background="@color/gray"-->
-<!--          />-->
-<!--    </LinearLayout>-->
+    <!--      <cc.abase.demo.widget.LineView-->
+    <!--          android:layout_width="80dp"-->
+    <!--          android:layout_height="40dp"-->
+    <!--          android:background="@color/gray_CCCCCC"-->
+    <!--          />-->
 
-<!--    <TextView-->
-<!--        android:layout_width="80dp"-->
-<!--        android:layout_height="40dp"-->
-<!--        android:gravity="end"-->
-<!--        android:padding="5dp"-->
-<!--        android:text="科目"-->
-<!--        android:textColor="@color/red"-->
-<!--        android:textSize="14sp"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintTop_toTopOf="parent"-->
-<!--        />-->
+    <!--      <View-->
+    <!--          android:layout_width="match_parent"-->
+    <!--          android:layout_height="1px"-->
+    <!--          android:background="@color/gray"-->
+    <!--          />-->
+    <!--    </LinearLayout>-->
 
-<!--    <TextView-->
-<!--        android:layout_width="80dp"-->
-<!--        android:layout_height="40dp"-->
-<!--        android:gravity="bottom"-->
-<!--        android:padding="5dp"-->
-<!--        android:text="姓名"-->
-<!--        android:textColor="@color/red"-->
-<!--        android:textSize="14sp"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintTop_toTopOf="parent"-->
-<!--        />-->
+    <!--    <TextView-->
+    <!--        android:layout_width="80dp"-->
+    <!--        android:layout_height="40dp"-->
+    <!--        android:gravity="end"-->
+    <!--        android:padding="5dp"-->
+    <!--        android:text="科目"-->
+    <!--        android:textColor="@color/red"-->
+    <!--        android:textSize="14sp"-->
+    <!--        app:layout_constraintStart_toStartOf="parent"-->
+    <!--        app:layout_constraintTop_toTopOf="parent"-->
+    <!--        />-->
 
-<!--    <View-->
-<!--        android:layout_width="1px"-->
-<!--        android:layout_height="0dp"-->
-<!--        android:background="@color/gray"-->
-<!--        app:layout_constraintBottom_toBottomOf="@+id/sticky2Recycler1"-->
-<!--        app:layout_constraintStart_toEndOf="@id/sticky2Recycler1"-->
-<!--        />-->
-<!--  </androidx.constraintlayout.widget.ConstraintLayout>-->
+    <!--    <TextView-->
+    <!--        android:layout_width="80dp"-->
+    <!--        android:layout_height="40dp"-->
+    <!--        android:gravity="bottom"-->
+    <!--        android:padding="5dp"-->
+    <!--        android:text="姓名"-->
+    <!--        android:textColor="@color/red"-->
+    <!--        android:textSize="14sp"-->
+    <!--        app:layout_constraintStart_toStartOf="parent"-->
+    <!--        app:layout_constraintTop_toTopOf="parent"-->
+    <!--        />-->
 
-<!--  <HorizontalScrollView-->
-<!--      android:layout_width="wrap_content"-->
-<!--      android:layout_height="match_parent"-->
-<!--      android:overScrollMode="never"-->
-<!--      android:scrollbars="none"-->
-<!--      >-->
+    <!--    <View-->
+    <!--        android:layout_width="1px"-->
+    <!--        android:layout_height="0dp"-->
+    <!--        android:background="@color/gray"-->
+    <!--        app:layout_constraintBottom_toBottomOf="@+id/sticky2Recycler1"-->
+    <!--        app:layout_constraintStart_toEndOf="@id/sticky2Recycler1"-->
+    <!--        />-->
+    <!--  </androidx.constraintlayout.widget.ConstraintLayout>-->
 
-<!--    <com.airbnb.epoxy.EpoxyRecyclerView-->
-<!--        android:id="@+id/sticky2Recycler2"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="match_parent"-->
-<!--        android:overScrollMode="never"-->
-<!--        android:scrollbars="none"-->
-<!--        android:visibility="invisible"-->
-<!--        tools:visibility="visible"-->
-<!--        />-->
-<!--  </HorizontalScrollView>-->
-<!--</LinearLayout>-->
+    <!--  <HorizontalScrollView-->
+    <!--      android:layout_width="wrap_content"-->
+    <!--      android:layout_height="match_parent"-->
+    <!--      android:overScrollMode="never"-->
+    <!--      android:scrollbars="none"-->
+    <!--      >-->
+
+    <!--    <com.airbnb.epoxy.EpoxyRecyclerView-->
+    <!--        android:id="@+id/sticky2Recycler2"-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="match_parent"-->
+    <!--        android:overScrollMode="never"-->
+    <!--        android:scrollbars="none"-->
+    <!--        android:visibility="invisible"-->
+    <!--        tools:visibility="visible"-->
+    <!--        />-->
+    <!--  </HorizontalScrollView>-->
+    <!--</LinearLayout>-->
