@@ -66,15 +66,18 @@ class StickyActivity2 : CommTitleActivity() {
     //加载更多
     mSmartSwipeRefresh = SmartSwipeRefresh.translateMode(sticky2RootView, false)
     mSmartSwipeRefresh?.disableRefresh()
-    //TODO 加载更多数据刷新会导致位置不对，暂时不开放
-    mSmartSwipeRefresh?.disableLoadMore()
     mSmartSwipeRefresh?.dataLoader = object : SmartSwipeRefreshDataLoader {
       override fun onLoadMore(ssr: SmartSwipeRefresh?) {
-        sticky2Recycler1?.stopScroll()
-        sticky2Recycler2?.stopScroll()
-        (sticky2Recycler2?.adapter as StickyHeaderAdapter2).mData = originDatas
-        leftController.data = originDatas
-        mSmartSwipeRefresh?.disableLoadMore()
+        //停止惯性滚动
+        sticky2Recycler1.stopScroll()
+        sticky2Recycler2.stopScroll()
+        sticky2Recycler2.postDelayed({
+          (sticky2Recycler2?.adapter as StickyHeaderAdapter2).addMoreData(originDatas.takeLast(40))
+          leftController.data?.addAll(originDatas.takeLast(40))
+          leftController.requestModelBuild()
+          mSmartSwipeRefresh?.finished(true)
+          mSmartSwipeRefresh?.isNoMoreData = true
+        }, 1000)
       }
 
       override fun onRefresh(ssr: SmartSwipeRefresh?) {}
@@ -96,9 +99,9 @@ class StickyActivity2 : CommTitleActivity() {
       originDatas = originDatas.sortedByDescending { it.score?.scores?.sum() }.toMutableList()
       //添加标题
       originDatas.add(0, titleBean)
-      sticky2Recycler2?.adapter = StickyHeaderAdapter2(originDatas.take(51).toMutableList())
+      sticky2Recycler2?.adapter = StickyHeaderAdapter2(originDatas.take(40).toMutableList())
       leftController.data = originDatas.take(51).toMutableList()
-    }, 1500)
+    }, 1000)
   }
 
   private val leftController = MvRxEpoxyController<MutableList<UserStickyBean>> { list ->
