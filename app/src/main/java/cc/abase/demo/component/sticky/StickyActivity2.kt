@@ -44,6 +44,7 @@ class StickyActivity2 : CommTitleActivity() {
     sticky2Recycler2.layoutManager = manager
     sticky2Recycler1.layoutManager = LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false)
     sticky2Recycler1.setController(leftController)
+    //两个竖向滑动列表位置同步
     sticky2Recycler1.addOnScrollListener(object : RecyclerView.OnScrollListener() {
       override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
         super.onScrolled(recyclerView, dx, dy)
@@ -56,6 +57,9 @@ class StickyActivity2 : CommTitleActivity() {
         if (sticky2Recycler2.scrollState != 0) sticky2Recycler1.scrollBy(dx, dy) //使左边边recyclerView进行联动
       }
     })
+    //两个横向列表位置同步
+    sticky2TopHSV.setScrollViewListener { _, x, y, _, _ -> sticky2BottomHSV.scrollTo(x, y) }
+    sticky2BottomHSV.setScrollViewListener { _, x, y, _, _ -> sticky2TopHSV.scrollTo(x, y) }
     leftController.addModelBuildListener {
       sticky2Recycler2?.postDelayed({
         dismissLoadingView()
@@ -98,9 +102,9 @@ class StickyActivity2 : CommTitleActivity() {
       //按总成绩排序
       originDatas = originDatas.sortedByDescending { it.score?.scores?.sum() }.toMutableList()
       //添加标题
-      originDatas.add(0, titleBean)
+      // originDatas.add(0, titleBean)//旧版本的滑动效果2
       sticky2Recycler2?.adapter = StickyHeaderAdapter2(originDatas.take(40).toMutableList())
-      leftController.data = originDatas.take(51).toMutableList()
+      leftController.data = originDatas.take(40).toMutableList()
     }, 1000)
   }
 

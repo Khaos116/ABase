@@ -5,7 +5,6 @@ import cc.abase.demo.bean.local.UserStickyBean
 import cc.abase.demo.component.sticky.widget.HasStickyHeader
 import cc.abase.demo.epoxy.base.DividerItem_
 import cc.abase.demo.epoxy.item.Sticky2BottomItem_
-import cc.abase.demo.epoxy.item.Sticky2TopItem_
 import com.airbnb.epoxy.EpoxyAdapter
 
 /**
@@ -41,9 +40,10 @@ class StickyHeaderAdapter2(list: MutableList<UserStickyBean>) : EpoxyAdapter(), 
     if (refresh) removeAllModels()
     data.forEachIndexed { index, bean ->
       //标题
-      if (bean.title) addModel(Sticky2TopItem_().apply { id("topTitle") })
+      // if (bean.title) addModel(Sticky2TopItem_().apply { id("topTitle") })//旧版本的滑动效果3
+      // else
       //成绩
-      else addModel(
+      addModel(
           Sticky2BottomItem_().apply {
             id(bean.name + index.toString())
             bean(bean.score)
@@ -68,6 +68,6 @@ class StickyHeaderAdapter2(list: MutableList<UserStickyBean>) : EpoxyAdapter(), 
   //</editor-fold>
 
   //<editor-fold defaultstate="collapsed" desc="固定在顶部的View">
-  override fun isStickyHeader(position: Int) = models[position] is Sticky2TopItem_
+  override fun isStickyHeader(position: Int) = false//models[position] is Sticky2TopItem_//旧版本的滑动效果4
   //</editor-fold>
 }
