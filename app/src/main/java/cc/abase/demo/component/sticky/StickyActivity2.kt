@@ -62,6 +62,8 @@ class StickyActivity2 : CommTitleActivity() {
     sticky2BottomHSV.setScrollViewListener { _, x, y, _, _ -> sticky2TopHSV.scrollTo(x, y) }
     leftController.addModelBuildListener {
       sticky2Recycler2?.postDelayed({
+        //如果不满一页，则不能加载更多了
+        if (!sticky2Recycler1.canScrollVertically(1)) mSmartSwipeRefresh?.disableLoadMore()
         dismissLoadingView()
         sticky2Recycler1Parent?.visible()
         sticky2Recycler2?.visible()
@@ -103,9 +105,11 @@ class StickyActivity2 : CommTitleActivity() {
       originDatas = originDatas.sortedByDescending { it.score?.scores?.sum() }.toMutableList()
       //添加标题
       // originDatas.add(0, titleBean)//旧版本的滑动效果2
-      sticky2Recycler2?.adapter = StickyHeaderAdapter2(originDatas.take(40).toMutableList())
-      leftController.data = originDatas.take(40).toMutableList()
-    }, 1000)
+      //第一页随机数量
+      val size = (Math.random() * 40).toInt() + 1
+      sticky2Recycler2?.adapter = StickyHeaderAdapter2(originDatas.take(size).toMutableList())
+      leftController.data = originDatas.take(size).toMutableList()
+    }, 100)
   }
 
   private val leftController = MvRxEpoxyController<MutableList<UserStickyBean>> { list ->
