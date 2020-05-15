@@ -42,19 +42,19 @@ abstract class GankAndroidItem : BaseEpoxyModel<BaseEpoxyHolder>() {
       //图片
       if (userAdapterNine) {
         itemView.itemGankAndroidNine2.gone()
-        itemView.itemGankAndroidNine.visibleGone(!it.images.isNullOrEmpty())
-        if (!it.images.isNullOrEmpty()) {
+        itemView.itemGankAndroidNine.visibleGone(!it.imagesNoNull().isNullOrEmpty())
+        if (!it.imagesNoNull().isNullOrEmpty()) {
           //多张图片，九宫格
           val nieView: NineGridView<PicBean> = itemView.findViewById(R.id.itemGankAndroidNine)
-          setMultiImages(it.images, it.urlImgs, nieView)
+          setMultiImages(it.imagesNoNull(), it.urlImgs, nieView)
         }
       } else {
         itemView.itemGankAndroidNine.gone()
-        itemView.itemGankAndroidNine2.visibleGone(!it.images.isNullOrEmpty())
-        if (!it.images.isNullOrEmpty()) {
+        itemView.itemGankAndroidNine2.visibleGone(!it.imagesNoNull().isNullOrEmpty())
+        if (!it.imagesNoNull().isNullOrEmpty()) {
           itemView.itemGankAndroidNine2.data = it.urlImgs2
           itemView.itemGankAndroidNine2.setOnItemClickListener { position, view ->
-            BrowserUtils.instance.show(it.images as ArrayList<String>, position)
+            BrowserUtils.instance.show(it.imagesNoNull() as ArrayList<String>, position)
           }
         }
       }

@@ -23,6 +23,12 @@ data class GankAndroidBean(
     val url: String? = null,//"https://github.com/MindorksOpenSource/Kotlin-Coroutines-Android-Examples",
     val views: String? = null//115
 ) {
+
+  //获取非空图片地址
+  fun imagesNoNull(): MutableList<String> {
+    return images?.filterNotNull()?.toMutableList() ?: mutableListOf()
+  }
+
   //获取图片地址
   var urlImgs = mutableListOf<PicBean>()
     get() {
