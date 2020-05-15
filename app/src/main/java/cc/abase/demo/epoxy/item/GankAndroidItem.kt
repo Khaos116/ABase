@@ -7,8 +7,8 @@ import cc.ab.base.ui.holder.BaseEpoxyHolder
 import cc.ab.base.widget.ninegridview.NineGridAdapter
 import cc.ab.base.widget.ninegridview.NineGridView
 import cc.abase.demo.R
-import cc.abase.demo.epoxy.base.BaseEpoxyModel
 import cc.abase.demo.bean.gank.GankAndroidBean
+import cc.abase.demo.epoxy.base.BaseEpoxyModel
 import cc.abase.demo.utils.BrowserUtils
 import com.airbnb.epoxy.EpoxyAttribute
 import com.airbnb.epoxy.EpoxyModelClass
@@ -34,9 +34,9 @@ abstract class GankAndroidItem : BaseEpoxyModel<BaseEpoxyHolder>() {
   override fun onBind(itemView: View) {
     dataBean?.let {
       //发布者
-      itemView.itemGankAndroidUser.text = it.who
+      itemView.itemGankAndroidUser.text = it.author
       //发布时间
-      itemView.itemGankAndroidTime.text = it.publishTime
+      itemView.itemGankAndroidTime.text = it.publishedAt
       //内容
       itemView.itemGankAndroidDes.text = it.desc
       //图片
@@ -46,7 +46,7 @@ abstract class GankAndroidItem : BaseEpoxyModel<BaseEpoxyHolder>() {
         if (!it.images.isNullOrEmpty()) {
           //多张图片，九宫格
           val nieView: NineGridView<PicBean> = itemView.findViewById(R.id.itemGankAndroidNine)
-          setMultiImages(it.images ?: emptyList(), it.urlImgs, nieView)
+          setMultiImages(it.images, it.urlImgs, nieView)
         }
       } else {
         itemView.itemGankAndroidNine.gone()
@@ -54,9 +54,7 @@ abstract class GankAndroidItem : BaseEpoxyModel<BaseEpoxyHolder>() {
         if (!it.images.isNullOrEmpty()) {
           itemView.itemGankAndroidNine2.data = it.urlImgs2
           itemView.itemGankAndroidNine2.setOnItemClickListener { position, view ->
-            BrowserUtils.instance.show(
-                (it.images ?: emptyList<String>()) as ArrayList<String>, position
-            )
+            BrowserUtils.instance.show(it.images as ArrayList<String>, position)
           }
         }
       }

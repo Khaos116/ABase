@@ -61,9 +61,9 @@ public class ResponseGankListParser<T> extends AbstractParser<List<T>> {
       throw new ParseException("500", "服务器没有数据", response);
     }
     GankResponse<List<T>> data = GsonUtils.fromJson(result, type);
-    List<T> list = data.getResults(); //获取data字段
-    if (data.getError() || list == null) {  //code不等于0，说明数据不正确，抛出异常
-      throw new ParseException("-1", data.getError() ? "接口error" : "数据返回错误", response);
+    List<T> list = data.getData(); //获取data字段
+    if (data.getStatus() != 100 || list == null) {  //code不等于0，说明数据不正确，抛出异常
+      throw new ParseException("-1", data.getStatus() != 100 ? "接口error" : "数据返回错误", response);
     }
     return list;
   }

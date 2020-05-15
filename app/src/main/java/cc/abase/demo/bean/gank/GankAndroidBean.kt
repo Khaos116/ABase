@@ -2,7 +2,6 @@ package cc.abase.demo.bean.gank
 
 import cc.ab.base.net.http.response.PicBean
 import cc.ab.base.widget.nineimageview.ImageData
-import cc.abase.demo.utils.TimeUtils
 
 /**
  * Description:
@@ -10,32 +9,26 @@ import cc.abase.demo.utils.TimeUtils
  * @date: 2019/9/30 20:28
  */
 data class GankAndroidBean(
-  var _id: String,// "5bbb01af9d21226111b86f0d",
-  var createdAt: String? = null,// "2018-10-08T07:05:19.297Z",
-  var desc: String? = null,// "适用于Android的灵活，强大且轻量级的插件框架【爱奇艺】",
-  var images: List<String?>? = null,
-  var publishedAt: String? = null,// "2019-04-10T00:00:00.0Z",
-  var source: String? = null,// "chrome",
-  var type: String? = null,// "Android",
-  var url: String? = null,// "https://github.com/iqiyi/Neptune",
-  var used: String? = null,// true,
-  var who: String? = null// "潇湘剑雨"
+    val _id: String = "",//"5e9e807b808d6d2fe6b56ee8",
+    val author: String? = null,//"Amit Shekhar",
+    val category: String? = null,//"GanHuo",
+    val createdAt: String? = null,//"2020-04-21 13:11:23",
+    val desc: String? = null,//"This project will help in getting started with Kotlin Coroutines for Android Development and mastering it.",
+    val images: MutableList<String?>? = null,//["https://gank.io/images/b4bdf5edd058417d8e78d1a2aa75fd95"],
+    val likeCounts: Int = 0,//0,
+    val publishedAt: String? = null,//"2020-04-21 13:11:23",
+    val stars: Int = 0,//1,
+    val title: String? = null,//"Kotlin-Coroutines-Android-Examples",
+    val type: String? = null,//"Android",
+    val url: String? = null,//"https://github.com/MindorksOpenSource/Kotlin-Coroutines-Android-Examples",
+    val views: String? = null//115
 ) {
-  //防止在列表中每次都要计算
-  var publishTime: String? = null
-    get() {
-      if (field.isNullOrBlank() && !publishedAt.isNullOrEmpty()) {
-        field = TimeUtils.instance.utc2Local(publishedAt ?: "")
-      }
-      return field
-    }
-
   //获取图片地址
   var urlImgs = mutableListOf<PicBean>()
     get() {
       if (field.isNullOrEmpty() && !images.isNullOrEmpty()) {
         field = mutableListOf()
-        images?.forEach { url ->
+        images.forEach { url ->
           if (!url.isNullOrBlank()) field.add(PicBean(url = url))
         }
       }
@@ -47,7 +40,7 @@ data class GankAndroidBean(
     get() {
       if (field.isNullOrEmpty() && !images.isNullOrEmpty()) {
         field = mutableListOf()
-        images?.forEach { url ->
+        images.forEach { url ->
           if (!url.isNullOrBlank()) field.add(ImageData(url))
         }
       }

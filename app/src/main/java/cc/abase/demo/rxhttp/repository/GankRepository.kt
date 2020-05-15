@@ -24,19 +24,13 @@ class GankRepository private constructor() {
   }
 
   //安卓列表
-  fun androidList(
-    @IntRange(from = 1) page: Int,
-    size: Int,
-    readCache: Boolean = true
-  ): Observable<MutableList<GankAndroidBean>> {
-    return RxHttp.get(String.format(GankUrls.ANDROID, size, page))
-        .setDomainToGankIfAbsent()
-        .setCacheValidTime(TimeConstants.DYN_CACHE)//设置缓存时长
-        .setCacheMode(
-            if (readCache) CacheMode.READ_CACHE_FAILED_REQUEST_NETWORK
-            else CacheMode.ONLY_NETWORK
-        )//先读取缓存，失败再请求数据
-        .asResponseGankList(GankAndroidBean::class.java)
-        .compose(RxUtils.instance.rx2SchedulerHelperODelay())
+  fun androidList(@IntRange(from = 1) page: Int, size: Int, readCache: Boolean = true): Observable<MutableList<GankAndroidBean>> {
+    return RxHttp.get(String.format(GankUrls.ANDROID, page, size))
+      .setDomainToGankIfAbsent()
+      .setCacheValidTime(TimeConstants.DYN_CACHE)//设置缓存时长
+      .setCacheMode(if (readCache) CacheMode.READ_CACHE_FAILED_REQUEST_NETWORK
+      else CacheMode.ONLY_NETWORK)//先读取缓存，失败再请求数据
+      .asResponseGankList(GankAndroidBean::class.java)
+      .compose(RxUtils.instance.rx2SchedulerHelperODelay())
   }
 }

@@ -16,7 +16,7 @@ import io.reactivex.Single
  * @author: caiyoufei
  * @date: 2019/10/8 17:58
  */
-class GankRepositoryFuel private constructor(): BaseRepository() {
+class GankRepositoryFuel private constructor() : BaseRepository() {
   private object SingletonHolder {
     val holder = GankRepositoryFuel()
   }
@@ -26,23 +26,19 @@ class GankRepositoryFuel private constructor(): BaseRepository() {
   }
 
   //获取安卓信息列表,返回Single<MutableList<...>>需要访问Request...List
-  fun androidList(
-    @IntRange(from = 1) page: Int, size: Int,
-    readCache: Boolean = true
-  ): Single<MutableList<GankAndroidBean>> {
-    val request = String.format(BaseUrl.gankUrl + GankUrls.ANDROID, size, page)
-        .httpGet()
+  fun androidList(@IntRange(from = 1) page: Int, size: Int,
+      readCache: Boolean = true): Single<MutableList<GankAndroidBean>> {
+    val request = String.format(BaseUrl.gankUrl + GankUrls.ANDROID, page, size)
+      .httpGet()
     return if (readCache) {
       GankRequest.instance.startRequestWithCacheList(request, page = page, size = size)
     } else {
       GankRequest.instance.startRequestList<GankAndroidBean>(request)
     }.flatMap { justRespons(it) }
-        .compose(
-            if (page <= 1) {//由于第一次加载的时候是loading，所以不能让接口请求的太快
-              RxUtils.instance.rx2SchedulerHelperSDelay()
-            } else {
-              RxUtils.instance.rx2SchedulerHelperS()
-            }
-        )
+      .compose(if (page <= 1) {//由于第一次加载的时候是loading，所以不能让接口请求的太快
+        RxUtils.instance.rx2SchedulerHelperSDelay()
+      } else {
+        RxUtils.instance.rx2SchedulerHelperS()
+      })
   }
 }

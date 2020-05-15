@@ -78,7 +78,7 @@ class DynFragment : CommFragment() {
         dismissLoadingView()
         epoxyController.data = state
         if (state.request is Fail) {//请求失败
-          LogUtils.e("CASE:失败原因:${(state.request as Fail<Any>).error.message ?: ""}")
+          LogUtils.e("CASE:失败原因:${state.request.error.message ?: ""}")
         }
       }
     }
