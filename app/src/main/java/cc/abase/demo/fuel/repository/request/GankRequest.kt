@@ -31,12 +31,12 @@ internal class GankRequest private constructor() : BaseRequest() {
 
   //直接请求数据，不走缓存-->结果非列表
   internal inline fun <reified T> startRequest(request: Request): Single<GankResponse<T>> {
-    return request.rxString().flatMap { flatMapSingle(it) }
+    return request.rxString().flatMap { flatMapSingle<T>(it) }
   }
 
   //直接请求数据，不走缓存-->结果列表
   internal inline fun <reified T> startRequestList(request: Request): Single<GankResponse<MutableList<T>>> {
-    return request.rxString().flatMap { flatMapSingleList(it) }
+    return request.rxString().flatMap { flatMapSingleList<T>(it) }
   }
 
   //请求数据，如果有缓存则返回缓存，没有则进行请求-->结果非列表
@@ -45,7 +45,7 @@ internal class GankRequest private constructor() : BaseRequest() {
     return CacheRepository.instance.getCacheData(request.rxString(),//请求结果以string返回
         DynamicKey("url=${request.url},page=${page},size=${size}"),//缓存相关的key
         update = EvictProvider(false))//false不强制清除缓存,true强制清除缓存
-      .flatMap { flatMapSingle(it) }
+      .flatMap { flatMapSingle<T>(it) }
   }
 
   //请求数据，如果有缓存则返回缓存，没有则进行请求-->结果列表
@@ -55,7 +55,7 @@ internal class GankRequest private constructor() : BaseRequest() {
         request.rxString(),//请求结果以string返回
         DynamicKey("url=${request.url},page=${page},size=${size}"),//缓存相关的key
         update = EvictProvider(false))//false不强制清除缓存,true强制清除缓存
-      .flatMap { flatMapSingleList(it) }
+      .flatMap { flatMapSingleList<T>(it) }
   }
 
   //======================================下面是统一处理======================================//
