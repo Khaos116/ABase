@@ -1,9 +1,7 @@
 package cc.abase.demo.fuel.repository.base
 
-import cc.ab.base.net.http.response.ApiException
-import cc.ab.base.net.http.response.BaseResponse
+import cc.ab.base.net.http.response.*
 import cc.abase.demo.R.string
-import cc.abase.demo.bean.gank.GankResponse
 import com.blankj.utilcode.util.StringUtils
 import io.reactivex.Single
 
@@ -20,9 +18,7 @@ abstract class BaseRepository {
     } else {
       Single.error(
           if (response.errorCode == 0 && response.data == null) {
-            ApiException(
-                msg = StringUtils.getString(string.service_no_data)
-            )
+            ApiException(msg = StringUtils.getString(string.service_no_data))
           } else {
             ApiException(code = response.errorCode, msg = response.errorMsg)
           }
@@ -32,14 +28,14 @@ abstract class BaseRepository {
 
   //统一处理base的数据
   fun <T> justRespons(response: GankResponse<T>): Single<T> {
-    return if (!response.error && response.results != null) {
-      Single.just(response.results)
+    return if (!response.error() && response.data != null) {
+      Single.just(response.data)
     } else {
       Single.error(
-          if (!response.error && response.results == null) {
+          if (!response.error() && response.data == null) {
             ApiException(msg = StringUtils.getString(string.service_no_data))
           } else {
-            ApiException(msg = response.message)
+            ApiException(msg = "status=${response.status}")
           }
       )
     }

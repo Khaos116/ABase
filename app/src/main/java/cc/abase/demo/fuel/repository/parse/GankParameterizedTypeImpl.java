@@ -1,6 +1,6 @@
 package cc.abase.demo.fuel.repository.parse;
 
-import cc.abase.demo.bean.gank.GankResponse;
+import cc.ab.base.net.http.response.GankResponse;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.List;
