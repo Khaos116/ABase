@@ -109,7 +109,7 @@
     <!--横向滑动-->
     <cc.abase.demo.widget.ObservableScrollView
         android:id="@+id/sticky2BottomHSV"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:overScrollMode="never"
         android:scrollbars="none"
