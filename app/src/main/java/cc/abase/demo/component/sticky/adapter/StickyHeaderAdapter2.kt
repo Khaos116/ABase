@@ -1,5 +1,6 @@
 package cc.abase.demo.component.sticky.adapter
 
+import android.view.View
 import cc.abase.demo.R
 import cc.abase.demo.bean.local.UserStickyBean
 import cc.abase.demo.component.sticky.widget.HasStickyHeader
@@ -70,4 +71,12 @@ class StickyHeaderAdapter2(list: MutableList<UserStickyBean>) : EpoxyAdapter(), 
   //<editor-fold defaultstate="collapsed" desc="固定在顶部的View">
   override fun isStickyHeader(position: Int) = false//models[position] is Sticky2TopItem_//旧版本的滑动效果4
   //</editor-fold>
+
+  override fun setupStickyHeaderView(stickyHeader: View) {
+    super<HasStickyHeader>.setupStickyHeaderView(stickyHeader)
+  }
+
+  override fun teardownStickyHeaderView(stickyHeader: View) {
+    super<HasStickyHeader>.teardownStickyHeaderView(stickyHeader)
+  }
 }

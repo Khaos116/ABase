@@ -25,24 +25,17 @@ class TokenInterceptor : Interceptor {
   //上次token刷新时间
   private var SESSION_KEY_REFRESH_TIME = 0L
 
-  override fun intercept(chain: Interceptor.Chain): Response? {
+  override fun intercept(chain: Interceptor.Chain): Response {
     //请求
     val request: Request = chain.request()
     //响应
     val originalResponse = chain.proceed(request)
     //Cookies
-    val cookies = originalResponse.headers()
-        .toMultimap()
+    val cookies = originalResponse.headers.toMultimap()
         .filter { it.key.contains("cookie", true) }
     //需要重新登录的判断
-    originalResponse.body()
-        ?.source()
-        ?.apply { request(Long.MAX_VALUE) }
-        ?.buffer?.let { buffer ->
-      val jsonObject = JSONObject(
-          buffer.clone()
-              .readString(Charset.forName("UTF-8"))
-      )
+    originalResponse.body?.source()?.apply { request(Long.MAX_VALUE) }?.buffer?.let { buffer ->
+      val jsonObject = JSONObject(buffer.clone().readString(Charset.forName("UTF-8")))
       //需要的登录
       if (jsonObject.has("errorCode") && jsonObject.optInt("errorCode") == ErrorCode.NO_LOGIN) {
         if (NetConfig.NEE_AUTO_LOGIN) {
@@ -54,17 +47,11 @@ class TokenInterceptor : Interceptor {
       }
     }
     //登录接口保存cookie
-    if (originalResponse.isSuccessful && request.url()
-            .toString()
-            .contains(WanUrls.User.LOGIN, true)
-    ) {
+    if (originalResponse.isSuccessful && request.url.toString().contains(WanUrls.User.LOGIN, true)) {
       cookies.forEach { map ->
         for (value in map.value) {
           if (value.contains("JSESSIONID", true)) {
-            UserRepository.instance.setToken(
-                value, request.url()
-                .toString()
-            )
+            UserRepository.instance.setToken(value, request.url.toString())
           }
         }
       }
@@ -74,24 +61,14 @@ class TokenInterceptor : Interceptor {
 
   //处理token失效问题
   @Throws(IOException::class)
-  private fun handleTokenInvalid(
-    chain: Interceptor.Chain,
-    request: Request
-  ): Response? {
-    val rxHttp1 = RxHttp.postForm(
-        request.url()
-            .toString()
-    )
-    val rxHttp2 = RxHttp.get(
-        request.url()
-            .toString()
-    )
-    val post = request.method()
-        .equals("POST", true)
+  private fun handleTokenInvalid(chain: Interceptor.Chain, request: Request): Response {
+    val rxHttp1 = RxHttp.postForm(request.url.toString())
+    val rxHttp2 = RxHttp.get(request.url.toString())
+    val post = request.method.equals("POST", true)
     //2、根据自己的业务修改
-    val body = request.body()
+    val body = request.body
     if (body is FormBody) {
-      for (i in 0 until body.size()) {
+      for (i in 0 until body.size) {
         if (post) rxHttp1.add(body.name(i), body.value(i))
         else rxHttp2.add(body.name(i), body.value(i))
       }
@@ -99,10 +76,7 @@ class TokenInterceptor : Interceptor {
     //同步刷新token
     //3、发请求前需要add("request_time",System.currentTimeMillis())
     val requestTime = if (post) rxHttp1.queryValue("request_time")
-    else rxHttp2.param.toString()
-        .split("&")
-        .first { it.contains("request_time") }
-        .split("=")[1]
+    else rxHttp2.param.toString().split("&").first { it.contains("request_time") }.split("=")[1]
     val success: Boolean = refreshToken(requestTime)
     val newRequest: Request
     newRequest = if (success) { //刷新成功，重新签名
@@ -126,8 +100,7 @@ class TokenInterceptor : Interceptor {
   private fun refreshToken(value: Any): Boolean {
     var requestTime: Long = 0
     try {
-      requestTime = value.toString()
-          .toLong()
+      requestTime = value.toString().toLong()
     } catch (ignore: Exception) {
       ignore.printStackTrace()
     }
