@@ -97,7 +97,7 @@ android {
 }
 
 android.applicationVariants.all { variant ->
-  variant.outputs.all {
+  variant.outputs.all { output ->
     //名称
     String appName = ""
     String path = getProjectDir().getPath() + "/src/main/res/values/strings.xml"
@@ -120,7 +120,20 @@ android.applicationVariants.all { variant ->
     //后缀名
     String suffix = ".apk"
     //生成输出文件名称
-    outputFileName = "${appName}${typeName}${buildName}${buildTime}${computer}${suffix}"
+    String fileName = "${appName}${typeName}${buildName}${buildTime}${computer}${suffix}"
+    //是否需要删除旧文件APK
+    boolean needDelOldApk = false
+    //输入文件设置
+    if (needDelOldApk) outputFileName = fileName
+    else assemble.doLast { //解决Android Studio3.6删除安卓包的问题
+      String buildEndTime = "_${new Date().format("yyyyMMdd_HHmm")}"
+      fileName = "${appName}${typeName}${buildName}${buildEndTime}${computer}${suffix}"
+      project.copy {
+        from("${output.outputFile}")
+        into("${output.outputFile.parent}")
+        rename("${output.outputFile.name}", "${fileName}")
+      }
+    }
   }
 }
 
