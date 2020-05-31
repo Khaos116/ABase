@@ -41,7 +41,7 @@ dependencies {
 
   //----------------------★★★工具★★★----------------------//
   //https://github.com/Blankj/AndroidUtilCode/blob/master/lib/utilcode/README-CN.md
-  api 'com.blankj:utilcodex:1.28.5'
+  api 'com.blankj:utilcodex:1.29.0'
   //https://github.com/JeremyLiao/LiveEventBus
   api 'com.jeremyliao:live-event-bus-x:1.6.1'
   //https://github.com/Kotlin/anko
@@ -98,7 +98,7 @@ dependencies {
 
   //----------------------★★★存储★★★----------------------//
   //https://github.com/Tencent/MMKV
-  api 'com.tencent:mmkv-static:1.1.1'
+  api 'com.tencent:mmkv-static:1.1.2'
   //https://github.com/VictorAlbertos/RxCache
   api "com.github.VictorAlbertos.RxCache:runtime:1.8.3-2.x"
   api('com.github.VictorAlbertos.Jolyglot:gson:0.0.4') {
