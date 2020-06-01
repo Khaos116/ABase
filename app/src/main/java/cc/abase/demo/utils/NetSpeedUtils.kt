@@ -3,10 +3,7 @@ package cc.abase.demo.utils
 import android.net.TrafficStats
 import android.widget.TextView
 import androidx.annotation.NonNull
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LifecycleObserver
-import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.OnLifecycleEvent
+import androidx.lifecycle.*
 import com.blankj.utilcode.util.Utils
 import kotlinx.coroutines.*
 
@@ -93,19 +90,18 @@ class NetSpeedUtils private constructor() : LifecycleObserver {
     mReceive = true
   }
 
-  private var lastTotalRxBytes: Long = 0
+  private var lastTotalBytes: Long = 0
   private var lastTimeStamp: Long = 0
 
   private suspend fun getNetSpeed(
     uid: Int = Utils.getApp().applicationInfo.uid,
     receive: Boolean = true
   ): Long {
-    val nowTotalRxBytes = getTotalRxBytes(uid, receive)
-    val nowTimeStamp = System.currentTimeMillis()
-    val speed =
-      (nowTotalRxBytes - lastTotalRxBytes) * 1000 / (nowTimeStamp - lastTimeStamp) //毫秒转换
-    lastTimeStamp = nowTimeStamp
-    lastTotalRxBytes = nowTotalRxBytes
+    val nowTotalBytes = Math.max(0, getTotalRxBytes(uid, receive))
+    val nowTime = System.currentTimeMillis()
+    val speed = Math.max(0, (nowTotalBytes - lastTotalBytes) * 1000 / (nowTime - lastTimeStamp)) //毫秒转换
+    lastTimeStamp = nowTime
+    lastTotalBytes = nowTotalBytes
     return speed
   }
 
