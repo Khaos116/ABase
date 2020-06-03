@@ -178,7 +178,7 @@ dependencies {
   implementation 'com.github.D10NGYANG:DL10SideBar:1.0.0'
 
   //bugly https://bugly.qq.com/docs/user-guide/instruction-manual-android/?v=20190916214340
-  implementation 'com.tencent.bugly:crashreport:3.2.1'
+  implementation 'com.tencent.bugly:crashreport:3.2.2'
   implementation 'com.tencent.bugly:nativecrashreport:3.7.1'
 
   //中文转拼音 https://github.com/promeG/TinyPinyin
