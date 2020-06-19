@@ -4,6 +4,8 @@ import cc.abase.demo.BuildConfig
 import cc.abase.demo.R
 import com.blankj.utilcode.util.AppUtils
 import com.blankj.utilcode.util.StringUtils
+import java.io.BufferedReader
+import java.io.InputStreamReader
 
 /**
  * Description:
@@ -36,5 +38,16 @@ class AppInfoUtils private constructor() {
         .append("VERSION_CODE：")
         .append(AppUtils.getAppVersionCode())
     return builder.toString()
+  }
+
+  //获取CPU架构
+  fun getDeviceCPU(): String {
+    return try {
+      BufferedReader(
+          InputStreamReader(Runtime.getRuntime().exec("getprop ro.product.cpu.abi").inputStream)
+      ).readLine()
+    } catch (e: Exception) {
+      ""
+    }
   }
 }
