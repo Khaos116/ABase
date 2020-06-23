@@ -37,6 +37,9 @@ class AppInfoUtils private constructor() {
         .append("\n")
         .append("VERSION_CODE：")
         .append(AppUtils.getAppVersionCode())
+        .append("\n")
+        .append("CPU：")
+        .append(getDeviceCPU())
     return builder.toString()
   }
 
@@ -44,7 +47,9 @@ class AppInfoUtils private constructor() {
   fun getDeviceCPU(): String {
     return try {
       BufferedReader(
-          InputStreamReader(Runtime.getRuntime().exec("getprop ro.product.cpu.abi").inputStream)
+          InputStreamReader(
+              Runtime.getRuntime().exec("getprop ro.product.cpu.abi").inputStream
+          )
       ).readLine()
     } catch (e: Exception) {
       ""
