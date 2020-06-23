@@ -22,19 +22,24 @@ android {
     versionName rootProject.ext.android.versionName
     resValue "string", "build_time", rootProject.ext.android.buildTime
     //允许使用SVG
-//    vectorDrawables.useSupportLibrary = true
+    //    vectorDrawables.useSupportLibrary = true
     multiDexEnabled true
     resConfigs "zh", "en" //保留中文和英文资源
     ndk {
       abiFilters 'armeabi-v7a' //, 'arm64-v8a'
     }
     //资源文件名冲突，引用包重复，文件名显示的格式与文件本身的格式不对应
-//    aaptOptions.cruncherEnabled = false
-//    aaptOptions.useNewCruncher = false
+    //    aaptOptions.cruncherEnabled = false
+    //    aaptOptions.useNewCruncher = false
     //RxHttp需要 https://github.com/liujingxing/okhttp-RxHttp
     javaCompileOptions {
       annotationProcessorOptions {
-        arguments = [rxhttp_rxjava: 'rxjava2']  //可传入rxjava2、rxjava3
+        arguments = [
+            ////必须，告知RxHttp你依赖的okhttp版本，目前已适配 v3.12.0 - v4.7.2版本
+            rxhttp_okhttp: '4.7.2',
+            //使用asXxx方法时必须，告知RxHttp你依赖的rxjava版本，可传入rxjava2、rxjava3
+            rxhttp_rxjava: 'rxjava2'
+        ]
       }
     }
   }
@@ -124,14 +129,18 @@ android.applicationVariants.all { variant ->
     //是否需要删除旧文件APK
     boolean needDelOldApk = false
     //输入文件设置
-    if (needDelOldApk) outputFileName = fileName
-    else assemble.doLast { //解决Android Studio3.6删除安卓包的问题
-      String buildEndTime = "_${new Date().format("yyyyMMdd_HHmm")}"
-      fileName = "${appName}${typeName}${buildName}${buildEndTime}${computer}${suffix}"
-      project.copy {
-        from("${output.outputFile}")
-        into("${output.outputFile.parent}")
-        rename("${output.outputFile.name}", "${fileName}")
+    if (needDelOldApk) {
+      outputFileName = fileName
+    } else {
+      assemble.doLast {
+        //解决Android Studio3.6删除安卓包的问题
+        String buildEndTime = "_${new Date().format("yyyyMMdd_HHmm")}"
+        fileName = "${appName}${typeName}${buildName}${buildEndTime}${computer}${suffix}"
+        project.copy {
+          from("${output.outputFile}")
+          into("${output.outputFile.parent}")
+          rename("${output.outputFile.name}", "${fileName}")
+        }
       }
     }
   }
@@ -178,8 +187,8 @@ dependencies {
   implementation 'com.github.D10NGYANG:DL10SideBar:1.0.0'
 
   //bugly https://bugly.qq.com/docs/user-guide/instruction-manual-android/?v=20190916214340
-  implementation 'com.tencent.bugly:crashreport:3.2.2'
-  implementation 'com.tencent.bugly:nativecrashreport:3.7.1'
+  implementation 'com.tencent.bugly:crashreport:3.2.32'
+  implementation 'com.tencent.bugly:nativecrashreport:3.7.3'
 
   //中文转拼音 https://github.com/promeG/TinyPinyin
   implementation 'com.github.promeg:tinypinyin:2.0.3' // TinyPinyin核心包，约80KB
@@ -189,13 +198,13 @@ dependencies {
   implementation 'com.github.sunhapper.SpEditTool:SpEditText:1.0.4'
 
   //https://github.com/airbnb/epoxy 放在lib中失败
-  kapt 'com.airbnb.android:epoxy-processor:4.0.0-beta1'
+  kapt 'com.airbnb.android:epoxy-processor:4.0.0-beta4'
 
   //RxHttp https://github.com/liujingxing/okhttp-RxHttp
   implementation 'com.ljx.rxhttp:rxhttp:2.2.4'
   kapt 'com.ljx.rxhttp:rxhttp-compiler:2.2.4' //生成RxHttp类
   //rxandroid在lib中已经存在，就不再次添加了
-  implementation 'com.ljx.rxlife2:rxlife-rxjava:2.0.0'    //管理RxJava2生命周期，页面销毁，关闭请求
+  implementation 'com.ljx.rxlife2:rxlife-rxjava:2.0.0' //管理RxJava2生命周期，页面销毁，关闭请求
 
   //日期选择 https://github.com/zyyoona7/WheelPicker
   implementation 'com.github.zyyoona7:wheelview:1.0.8'
