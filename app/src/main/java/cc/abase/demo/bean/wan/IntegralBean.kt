@@ -12,8 +12,9 @@ data class IntegralBean(
   var coinCount: Int = 0,
   var rank: Int = 0,
   var userId: Long = 0,
-  var username: String?
-){
+  var username: String?,
+  var level: String?
+) {
   //User Deserializer
   class Deserializer : ResponseDeserializable<IntegralBean> {
     override fun deserialize(content: String) = Gson().fromJson(content, IntegralBean::class.java)
