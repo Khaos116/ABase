@@ -50,7 +50,7 @@ class WanRepository private constructor() {
             if (readCache) CacheMode.READ_CACHE_FAILED_REQUEST_NETWORK
             else CacheMode.ONLY_NETWORK
         )//先读取缓存，失败再请求数据
-        .asResponseWanPageList(ArticleBean::class.java)
+        .asResponseWanBasePageList(ArticleBean::class.java)
         .compose(RxUtils.instance.rx2SchedulerHelperODelay())
   }
 }
