@@ -201,8 +201,8 @@ dependencies {
   kapt 'com.airbnb.android:epoxy-processor:4.0.0-beta4'
 
   //RxHttp https://github.com/liujingxing/okhttp-RxHttp
-  implementation 'com.ljx.rxhttp:rxhttp:2.2.4'
-  kapt 'com.ljx.rxhttp:rxhttp-compiler:2.2.4' //生成RxHttp类
+  implementation 'com.ljx.rxhttp:rxhttp:2.2.7'
+  kapt 'com.ljx.rxhttp:rxhttp-compiler:2.2.7' //生成RxHttp类
   //rxandroid在lib中已经存在，就不再次添加了
   implementation 'com.ljx.rxlife2:rxlife-rxjava:2.0.0' //管理RxJava2生命周期，页面销毁，关闭请求
 
