@@ -44,11 +44,11 @@ class RxHttpConfig private constructor() {
      * @see cc.abase.demo.config.HeaderManger.getStaticHeaders
      */
     deleteCacheParam(
-        "Connection",
-        "Accept",
-        "Content-Type",
-        "Charset",
-        "request_time"
+      "Connection",
+      "Accept",
+      "Content-Type",
+      "Charset",
+      "request_time"
     )
   }
 
@@ -61,17 +61,14 @@ class RxHttpConfig private constructor() {
     //添加公共参数 https://github.com/liujingxing/okhttp-RxHttp/blob/486c7bc9e4554b4604f29c726e3e58714e2de6ee/app/src/main/java/com/example/httpsender/RxHttpManager.java
     RxHttp.setOnParamAssembly { p: Param<*> ->
       p.add("platform", "RxHttp")
-      p.addAll(HeaderManger.instance.getStaticHeaders())//添加公共参数
+      p.addAll(HeaderManger.instance.getStaticHeaders()) //添加公共参数
       //添加Token
       if (HeaderManger.instance.noTokenUrls.filter { u ->
-                p.httpUrl.toString()
-                    .contains(u, true)
-              }
-              .isNullOrEmpty()) {
-        HeaderManger.instance.getTokenPair()
-            ?.let { p.addHeader(it.first, it.second) }
+          (p.getHttpUrl()).toString().contains(u, true)
+        }.isNullOrEmpty()) {
+        HeaderManger.instance.getTokenPair()?.let { p.addHeader(it.first, it.second) }
       }
-      p.add("request_time", System.currentTimeMillis())//添加请求时间，方便更新token
+      p.add("request_time", System.currentTimeMillis()) //添加请求时间，方便更新token
       p
     }
   }
@@ -81,14 +78,14 @@ class RxHttpConfig private constructor() {
     val trustAllCert: X509TrustManager = X509TrustManagerImpl()
     val sslSocketFactory: SSLSocketFactory = SSLSocketFactoryImpl(trustAllCert)
     val builder = Builder()
-        //.cookieJar(CookieStore())//如果启用自动管理，则不需要在TokenInterceptor中进行保存和initRxHttp()进行读取
-        .connectTimeout(30, TimeUnit.SECONDS)
-        .readTimeout(30, TimeUnit.SECONDS)
-        .writeTimeout(30, TimeUnit.SECONDS)
-        .sslSocketFactory(sslSocketFactory, trustAllCert) //添加信任证书
-        .hostnameVerifier(
-            HostnameVerifier { hostname: String?, session: SSLSession? -> true }
-        ) //忽略host验证
+      //.cookieJar(CookieStore())//如果启用自动管理，则不需要在TokenInterceptor中进行保存和initRxHttp()进行读取
+      .connectTimeout(30, TimeUnit.SECONDS)
+      .readTimeout(30, TimeUnit.SECONDS)
+      .writeTimeout(30, TimeUnit.SECONDS)
+      .sslSocketFactory(sslSocketFactory, trustAllCert) //添加信任证书
+      .hostnameVerifier(
+        HostnameVerifier { hostname: String?, session: SSLSession? -> true }
+      ) //忽略host验证
     val util = CharlesUtils.getInstance()
     util.setOkHttpCharlesSSL(builder, util.getCharlesInputStream("charles.pem"))
     builder.addInterceptor(TokenInterceptor())
@@ -101,8 +98,8 @@ class RxHttpConfig private constructor() {
     val cacheDir = File(Utils.getApp().externalCacheDir, "RxHttpCache")
     //设置最大缓存为10M，缓存有效时长为1小时
     RxHttpPlugins.setCache(
-        cacheDir, 10 * 1024 * 1024L, CacheMode.REQUEST_NETWORK_FAILED_READ_CACHE,
-        1 * 60 * 60 * 1000L
+      cacheDir, 10 * 1024 * 1024L, CacheMode.REQUEST_NETWORK_FAILED_READ_CACHE,
+      1 * 60 * 60 * 1000L
     )
   }
 
