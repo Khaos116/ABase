@@ -300,4 +300,8 @@
 }
 
 #RxHttp https://github.com/liujingxing/okhttp-RxHttp
+# RxHttp
 -keep class rxhttp.**{*;}
+# OkHttp
+-keep class okhttp3.**{*;}
+-keep class okio.**{*;}
