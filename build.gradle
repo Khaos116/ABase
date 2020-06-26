@@ -10,7 +10,7 @@ buildscript {
   dependencies {
     classpath 'com.android.tools.build:gradle:4.0.0'
     classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-    //https://github.com/shwenzhang/AndResGuard
+    //https://github.com/shwenzhang/AndResGuard/blob/master/README.zh-cn.md
     classpath 'com.tencent.mm:AndResGuard-gradle-plugin:1.2.18'
     //bugly的mapping上传
     classpath 'com.tencent.bugly:symtabfileuploader:2.2.1'
