@@ -6,7 +6,7 @@
     android:background="#f3f3f3"
     >
 
-  <com.airbnb.epoxy.EpoxyRecyclerView
+  <cc.ab.base.widget.epoxy.EpoxyRecyclerView
       android:id="@+id/simpleRecycler"
       android:layout_width="match_parent"
       android:layout_height="match_parent"

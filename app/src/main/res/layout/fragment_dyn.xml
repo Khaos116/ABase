@@ -7,7 +7,7 @@
     android:orientation="vertical"
     >
 
-  <com.airbnb.epoxy.EpoxyRecyclerView
+  <cc.ab.base.widget.epoxy.EpoxyRecyclerView
       android:id="@+id/dynEpoxyRecycler"
       android:background="@color/white"
       android:layout_width="match_parent"

@@ -16,7 +16,7 @@
       android:src="@drawable/splash_center"
       />
 
-  <com.airbnb.epoxy.EpoxyRecyclerView
+  <cc.ab.base.widget.epoxy.EpoxyRecyclerView
       android:id="@+id/chatRecycler"
       android:layout_width="match_parent"
       android:layout_height="240dp"

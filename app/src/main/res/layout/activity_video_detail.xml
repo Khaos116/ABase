@@ -39,7 +39,7 @@
       app:layout_constraintTop_toTopOf="@id/videoDetailVideoView"
       />
   <!--评论列表等-->
-  <com.airbnb.epoxy.EpoxyRecyclerView
+  <cc.ab.base.widget.epoxy.EpoxyRecyclerView
       android:id="@+id/videoDetailRecycler"
       android:layout_width="match_parent"
       android:layout_height="0dp"

@@ -85,7 +85,7 @@
         tools:visibility="visible"
         >
 
-      <com.airbnb.epoxy.EpoxyRecyclerView
+      <cc.ab.base.widget.epoxy.EpoxyRecyclerView
           android:id="@+id/sticky2Recycler1"
           android:layout_width="80dp"
           android:layout_height="wrap_content"
@@ -115,7 +115,7 @@
         android:scrollbars="none"
         >
       <!--右边列表-->
-      <com.airbnb.epoxy.EpoxyRecyclerView
+      <cc.ab.base.widget.epoxy.EpoxyRecyclerView
           android:id="@+id/sticky2Recycler2"
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
@@ -146,7 +146,7 @@
     <!--      tools:visibility="visible"-->
     <!--      >-->
 
-    <!--    <com.airbnb.epoxy.EpoxyRecyclerView-->
+    <!--    <cc.ab.base.widget.epoxy.EpoxyRecyclerView-->
     <!--        android:id="@+id/sticky2Recycler1"-->
     <!--        android:layout_width="80dp"-->
     <!--        android:layout_height="wrap_content"-->
@@ -217,7 +217,7 @@
     <!--      android:scrollbars="none"-->
     <!--      >-->
 
-    <!--    <com.airbnb.epoxy.EpoxyRecyclerView-->
+    <!--    <cc.ab.base.widget.epoxy.EpoxyRecyclerView-->
     <!--        android:id="@+id/sticky2Recycler2"-->
     <!--        android:layout_width="wrap_content"-->
     <!--        android:layout_height="match_parent"-->
