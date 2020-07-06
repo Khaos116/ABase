@@ -14,10 +14,8 @@ import android.webkit.WebView
  */
 class LollipopFixedWebView @JvmOverloads constructor(
     context: Context,
-    attrs: AttributeSet? = null,
-    defStyleAttr: Int = 0,
-    defStyleRes: Int = 0
-) : WebView(getFixedContext(context), attrs, defStyleAttr, defStyleRes) {
+    attrs: AttributeSet? = null
+) : WebView(getFixedContext(context), attrs) {
     companion object {
 
         private fun getFixedContext(context: Context): Context {
