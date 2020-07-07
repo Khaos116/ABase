@@ -6,8 +6,6 @@ import cc.ab.base.ext.*
 import cc.abase.demo.R
 import cc.abase.demo.component.comm.CommTitleActivity
 import cc.abase.demo.component.login.LoginActivity
-import cc.abase.demo.config.NetConfig
-import cc.abase.demo.fuel.repository.UserRepositoryFuel
 import cc.abase.demo.rxhttp.repository.UserRepository
 import cc.abase.demo.utils.CacheUtils
 import kotlinx.android.synthetic.main.activity_setting.*
@@ -45,8 +43,7 @@ class SettingActivity : CommTitleActivity() {
       }
     }
     settingLogout.click {
-      if (NetConfig.USE_RXHTTP) UserRepository.instance.logOut()
-      else UserRepositoryFuel.instance.logOut()
+      UserRepository.instance.logOut()
       LoginActivity.startActivity(mContext)
     }
   }

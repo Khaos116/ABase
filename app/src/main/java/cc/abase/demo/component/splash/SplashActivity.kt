@@ -10,7 +10,7 @@ import cc.abase.demo.component.comm.CommActivity
 import cc.abase.demo.component.login.LoginActivity
 import cc.abase.demo.component.main.MainActivity
 import cc.abase.demo.constants.ImageUrls
-import cc.abase.demo.fuel.repository.UserRepositoryFuel
+import cc.abase.demo.rxhttp.repository.UserRepository
 import cc.abase.demo.utils.MMkvUtils
 import com.blankj.utilcode.constant.PermissionConstants
 import com.blankj.utilcode.util.LogUtils
@@ -135,7 +135,7 @@ class SplashActivity : CommActivity() {
         //是否引导
         MMkvUtils.instance.getNeedGuide() -> GuideActivity.startActivity(mContext)
         //是否登录
-        UserRepositoryFuel.instance.isLogin() -> MainActivity.startActivity(mContext)
+        UserRepository.instance.isLogin() -> MainActivity.startActivity(mContext)
         //没有其他需要，进入主页
         else -> LoginActivity.startActivity(mContext)
       }

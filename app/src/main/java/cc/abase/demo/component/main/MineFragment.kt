@@ -5,7 +5,6 @@ import android.app.Activity
 import android.content.Intent
 import android.view.Gravity
 import android.view.View
-import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.Observer
 import cc.ab.base.ext.*
 import cc.abase.demo.R
@@ -29,10 +28,8 @@ import cc.abase.demo.component.test.TestActivity
 import cc.abase.demo.component.update.CcUpdateService
 import cc.abase.demo.component.update.UpdateEnum
 import cc.abase.demo.component.verticalpage.VerticalPageActivity
-import cc.abase.demo.config.NetConfig
 import cc.abase.demo.constants.EventKeys
 import cc.abase.demo.epoxy.item.simpleTextItem
-import cc.abase.demo.fuel.repository.UserRepositoryFuel
 import cc.abase.demo.mvrx.MvRxEpoxyController
 import cc.abase.demo.rxhttp.repository.UserRepository
 import cc.abase.demo.widget.decoration.SpacesItemDecoration
@@ -52,6 +49,7 @@ class MineFragment : CommFragment() {
   //APK下载地址
   private val apkUrk = "https://down8.xiazaidb.com/app/yingyongbianliang.apk"
   private val apkUrk2 = "https://ftp.binance.com/pack/Binance.apk"
+
   //菜单列表
   private val menuList = mutableListOf(
       Pair(StringUtils.getString(R.string.chat_title), ChatActivity::class.java),
@@ -72,6 +70,7 @@ class MineFragment : CommFragment() {
       Pair(StringUtils.getString(R.string.title_marquee), MarqueeActivity::class.java),
       Pair(StringUtils.getString(R.string.title_test), TestActivity::class.java)
   )
+
   //item文字颜色
   private var typeColor = ColorUtils.getColor(R.color.style_Primary)
 
@@ -96,37 +95,22 @@ class MineFragment : CommFragment() {
     mineRoot.gone()
     mineSetting.pressEffectAlpha()
     mineSetting.click { SettingActivity.startActivity(mContext) }
-    if (NetConfig.USE_RXHTTP) UserRepository.instance.myIntegral()
+    UserRepository.instance.myIntegral()
         .life(this)
         .subscribe({
           mineIntegral.text =
-            String.format(StringUtils.getString(R.string.my_integral), it.coinCount)
+              String.format(StringUtils.getString(R.string.my_integral), it.coinCount)
           dismissLoadingView()
           mineRoot?.visible()
           epoxyController.data = menuList
         }, {
           mineIntegral.text =
-            String.format(StringUtils.getString(R.string.my_integral), 0)
+              String.format(StringUtils.getString(R.string.my_integral), 0)
           mContext.toast(it.message)
           dismissLoadingView()
           mineRoot?.visible()
           epoxyController.data = menuList
         })
-    else UserRepositoryFuel.instance.myIntegral()
-        .compose(lifecycleProvider.bindUntilEvent(Lifecycle.Event.ON_DESTROY))
-        .subscribe { t1, t2 ->
-          dismissLoadingView()
-          mineRoot?.visible()
-          if (t1 != null) {
-            mineIntegral.text =
-              String.format(StringUtils.getString(R.string.my_integral), t1.coinCount)
-          } else if (t2 != null) {
-            mineIntegral.text =
-              String.format(StringUtils.getString(R.string.my_integral), 0)
-            mContext.toast(t2.message)
-          }
-          epoxyController.data = menuList
-        }
     val cls = Triple(UpdateEnum.START, 0f, "").javaClass
     LiveEventBus.get(EventKeys.UPDATE_PROGRESS, cls)
         .observe(this, Observer {
@@ -160,31 +144,32 @@ class MineFragment : CommFragment() {
   }
 
   private var clickCount = 0
+
   //epoxy
   private val epoxyController = MvRxEpoxyController<List<Pair<String, Class<out Any>>>> { list ->
-      list.forEachIndexed { index, pair ->
-        //内容
-        simpleTextItem {
-          id("type_$index")
-          msg(pair.first)
-          textColor(typeColor)
-          gravity(Gravity.CENTER_VERTICAL)
-          paddingBottomPx(SizeUtils.dp2px(15f))
-          paddingTopPx(SizeUtils.dp2px(15f))
-          onItemClick {
-            val second = pair.second.newInstance()
-            if (second is Activity) {
-              mActivity.startActivity(Intent(mContext, pair.second))
-            } else if (second is CcUpdateService) {
-              clickCount++
-              CcUpdateService.startIntent(
-                  path = if (clickCount % 2 == 0) apkUrk else apkUrk2,
-                  apk_name =if (clickCount % 2 == 0) "应用变量" else "币安",
-                  showNotification = true
-              )
-            }
+    list.forEachIndexed { index, pair ->
+      //内容
+      simpleTextItem {
+        id("type_$index")
+        msg(pair.first)
+        textColor(typeColor)
+        gravity(Gravity.CENTER_VERTICAL)
+        paddingBottomPx(SizeUtils.dp2px(15f))
+        paddingTopPx(SizeUtils.dp2px(15f))
+        onItemClick {
+          val second = pair.second.newInstance()
+          if (second is Activity) {
+            mActivity.startActivity(Intent(mContext, pair.second))
+          } else if (second is CcUpdateService) {
+            clickCount++
+            CcUpdateService.startIntent(
+                path = if (clickCount % 2 == 0) apkUrk else apkUrk2,
+                apk_name = if (clickCount % 2 == 0) "应用变量" else "币安",
+                showNotification = true
+            )
           }
         }
       }
     }
+  }
 }

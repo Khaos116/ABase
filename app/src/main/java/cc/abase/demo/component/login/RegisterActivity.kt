@@ -3,16 +3,13 @@ package cc.abase.demo.component.login
 import android.content.Context
 import android.content.Intent
 import android.text.TextUtils
-import androidx.lifecycle.Lifecycle
 import cc.ab.base.ext.*
 import cc.ab.base.utils.CcInputHelper
 import cc.abase.demo.R
 import cc.abase.demo.component.comm.CommTitleActivity
 import cc.abase.demo.component.main.MainActivity
-import cc.abase.demo.config.NetConfig
 import cc.abase.demo.constants.LengthConstants
 import cc.abase.demo.constants.UiConstants
-import cc.abase.demo.fuel.repository.UserRepositoryFuel
 import cc.abase.demo.rxhttp.repository.UserRepository
 import com.blankj.utilcode.util.StringUtils
 import com.rxjava.rxlife.life
@@ -44,7 +41,7 @@ class RegisterActivity : CommTitleActivity() {
     registerEditPassword2.addTextWatcher { checkSubmit() }
     registerSubmit.click {
       showActionLoading()
-      if (NetConfig.USE_RXHTTP) UserRepository.instance.register(
+      UserRepository.instance.register(
           registerEditAccount.text.toString(),
           registerEditPassword1.text.toString(),
           registerEditPassword2.text.toString()
@@ -56,20 +53,6 @@ class RegisterActivity : CommTitleActivity() {
           }, {
             mContext.toast(it.message)
           })
-      else UserRepositoryFuel.instance.register(
-              registerEditAccount.text.toString(),
-              registerEditPassword1.text.toString(),
-              registerEditPassword2.text.toString()
-          )
-          .compose(lifecycleProvider.bindUntilEvent(Lifecycle.Event.ON_DESTROY))
-          .subscribe { suc, error ->
-            dismissActionLoading()
-            if (suc == true) {
-              MainActivity.startActivity(mContext)
-            } else {
-              mContext.toast(error.message)
-            }
-          }
     }
     extKeyBoard { statusHeight, navigationHeight, keyBoardHeight -> }
   }

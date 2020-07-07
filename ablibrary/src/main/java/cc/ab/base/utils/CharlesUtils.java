@@ -116,30 +116,6 @@ public class CharlesUtils {
   }
 
   /**
-   * 获取Fuel请求需抓包需要的SSLSocketFactory
-   * @param certificate 自签名证书的输入流
-   */
-  @Nullable
-  public SSLSocketFactory getFuelCharlesSSL(InputStream certificate) {
-    try {
-      if (certificate == null) return null;
-      X509TrustManager trustManager = trustManagerForCertificates(certificate);
-      if (trustManager != null) {
-        SSLContext sslContext = SSLContext.getInstance("SSL");
-        //使用构建出的trustManger初始化SSLContext对象
-        sslContext.init(null, new TrustManager[] { new ChainTrust(), trustManager },
-            new SecureRandom());
-        //获得sslSocketFactory对象
-        return sslContext.getSocketFactory();
-      }
-      return null;
-    } catch (Exception e) {
-      e.printStackTrace();
-      return null;
-    }
-  }
-
-  /**
    * 获去信任自签证书的trustManager
    *
    * @param input 自签证书输入流

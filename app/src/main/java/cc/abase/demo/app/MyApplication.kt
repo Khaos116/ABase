@@ -7,7 +7,6 @@ import cc.abase.demo.component.login.LoginActivity
 import cc.abase.demo.component.main.MainActivity
 import cc.abase.demo.component.splash.GuideActivity
 import cc.abase.demo.component.splash.SplashActivity
-import cc.abase.demo.fuel.config.FuelConfig
 import cc.abase.demo.rxhttp.config.RxHttpConfig
 import cc.abase.demo.utils.BuglyManager
 import cc.abase.demo.widget.CCRefreshHeader
@@ -49,8 +48,6 @@ open class MyApplication : BaseApplication() {
     Pinyin.init(Pinyin.newConfig().with(CnCityDict.getInstance(this)))
     //清理没有缓存完成的视频
     ExoVideoCacheUtils.instance.openAappClearNoCacheComplete()
-    //初始化Fuel
-    FuelConfig.instance.init()
     //初始化RxHttp
     RxHttpConfig.instance.init()
   }

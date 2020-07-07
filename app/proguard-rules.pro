@@ -1,3 +1,4 @@
+#noinspection ShrinkerUnresolvedReference
 #-------1.基本指令-------
 # 设置混淆的压缩比率 0 ~ 7
 -optimizationpasses 5
@@ -111,6 +112,7 @@
 }
 #-------14.避免Parcelable混淆-------
 -keep class * implements android.os.Parcelable {
+  #noinspection ShrinkerUnresolvedReference
   public static final android.os.Parcelable$Creator *;
 }
 #-------15.Serializable接口的子类中指定的某些成员变量和方法混淆-------
@@ -132,6 +134,7 @@
     public boolean *(android.webkit.WebView, java.lang.String);
 }
 -keepclassmembers class * extends android.webkit.webViewClient {
+    #noinspection ShrinkerUnresolvedReference
     public void *(android.webkit.webView, jav.lang.String);
 }
 #############################################
@@ -161,12 +164,6 @@
 #......
 
 #-----------处理第三方依赖库---------
-#fuel
--keep class com.github.kittinunf.fuel.android.util.AndroidEnvironment
--keep class com.github.kittinunf.**
--keep public class com.github.kittinunf.** {
-  public protected *;
-}
 
 #----------retrofit--------------
 #-keepclassmembernames,allowobfuscation interface * {
@@ -185,12 +182,27 @@
 #-------------------------
 
 #-------------- okhttp3 -------------
+# OkHttp3
+# https://github.com/square/okhttp
+# okhttp
+-keepattributes Signature
+-keepattributes *Annotation*
+-keep class com.squareup.okhttp.* { *; }
+-keep interface com.squareup.okhttp.** { *; }
 -dontwarn com.squareup.okhttp.**
--keep class com.squareup.okhttp.{*;}
 
--dontwarn com.squareup.okhttp3.**
--keep class com.squareup.okhttp3.** { *;}
+# okhttp 3
+-keepattributes Signature
+-keepattributes *Annotation*
+-keep class okhttp3.** { *; }
+-keep interface okhttp3.** { *; }
+-dontwarn okhttp3.**
+
+# Okio
+-dontwarn com.squareup.**
 -dontwarn okio.**
+-keep public class org.codehaus.* { *; }
+-keep public class java.nio.* { *; }
 
 #------------------
 
@@ -201,9 +213,11 @@
     long consumerIndex;
 }
 -keepclassmembers class rx.internal.util.unsafe.BaseLinkedQueueProducerNodeRef {
+    #noinspection ShrinkerUnresolvedReference
     rx.internal.util.atomic.LinkedQueueNode producerNode;
 }
 -keepclassmembers class rx.internal.util.unsafe.BaseLinkedQueueConsumerNodeRef {
+    #noinspection ShrinkerUnresolvedReference
     rx.internal.util.atomic.LinkedQueueNode consumerNode;
 }
 -dontnote rx.internal.util.PlatformDependent

@@ -8,10 +8,8 @@ import cc.ab.base.utils.PressEffectHelper
 import cc.abase.demo.R
 import cc.abase.demo.component.comm.CommActivity
 import cc.abase.demo.component.main.MainActivity
-import cc.abase.demo.config.NetConfig
 import cc.abase.demo.constants.LengthConstants
 import cc.abase.demo.constants.UiConstants
-import cc.abase.demo.fuel.repository.UserRepositoryFuel
 import cc.abase.demo.rxhttp.repository.UserRepository
 import cc.abase.demo.utils.AppInfoUtils
 import cc.abase.demo.utils.MMkvUtils
@@ -51,33 +49,17 @@ class LoginActivity : CommActivity() {
     loginEditPassword.addTextWatcher { checkSubmit() }
     loginSubmit.click {
       showActionLoading()
-      if (NetConfig.USE_RXHTTP) {
-        UserRepository.instance.login(
-                loginEditAccount.text.toString(),
-                loginEditPassword.text.toString()
-            )
-            .life(this)
-            .subscribe({
-              dismissActionLoading()
-              MainActivity.startActivity(mContext)
-            }, {
-              dismissActionLoading()
-              mContext.toast(R.string.login_fail)
-            })
-      } else UserRepositoryFuel.instance.login(
-              loginEditAccount.text.toString(),
-              loginEditPassword.text.toString()
-          )
-          .subscribe({ suc ->
+      UserRepository.instance.login(
+          loginEditAccount.text.toString(),
+          loginEditPassword.text.toString()
+      )
+          .life(this)
+          .subscribe({
             dismissActionLoading()
-            if (suc) {
-              MainActivity.startActivity(mContext)
-            } else {
-              mContext.toast(R.string.login_fail)
-            }
-          }, { error ->
+            MainActivity.startActivity(mContext)
+          }, {
             dismissActionLoading()
-            mContext.toast(error.message)
+            mContext.toast(R.string.login_fail)
           })
     }
     loginRegister.click { RegisterActivity.startActivity(mContext) }
@@ -90,7 +72,6 @@ class LoginActivity : CommActivity() {
   override fun initData() {
     //来到登录页默认需要清除数据
     UserRepository.instance.clearUserInfo()
-    UserRepositoryFuel.instance.clearUserInfo()
     //关闭其他所有页面
     ActivityUtils.finishOtherActivities(javaClass)
   }

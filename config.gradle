@@ -1,5 +1,5 @@
 //★修改version后需要将versionCode重置为从1开始★
-def version_Name = "1.0.0"
+def version_Name = "1.1.0"
 //只能是X.X.X格式，X为数字
 //build版本从1开始：偶数测试版、奇数正式版
 def version_Build = 1
