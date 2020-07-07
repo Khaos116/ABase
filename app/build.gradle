@@ -187,7 +187,7 @@ dependencies {
   implementation 'com.github.D10NGYANG:DL10SideBar:1.0.0'
 
   //bugly https://bugly.qq.com/docs/user-guide/instruction-manual-android/?v=20190916214340
-  implementation 'com.tencent.bugly:crashreport:3.2.32'
+  implementation 'com.tencent.bugly:crashreport:3.2.33'
   implementation 'com.tencent.bugly:nativecrashreport:3.7.3'
 
   //中文转拼音 https://github.com/promeG/TinyPinyin
@@ -201,8 +201,8 @@ dependencies {
   kapt 'com.airbnb.android:epoxy-processor:4.0.0-beta4'
 
   //RxHttp https://github.com/liujingxing/okhttp-RxHttp
-  implementation 'com.ljx.rxhttp:rxhttp:2.2.7'
-  kapt 'com.ljx.rxhttp:rxhttp-compiler:2.2.7' //生成RxHttp类
+  implementation 'com.ljx.rxhttp:rxhttp:2.2.8'
+  kapt 'com.ljx.rxhttp:rxhttp-compiler:2.2.8' //生成RxHttp类
   //rxandroid在lib中已经存在，就不再次添加了
   implementation 'com.ljx.rxlife2:rxlife-rxjava:2.0.0' //管理RxJava2生命周期，页面销毁，关闭请求
 
