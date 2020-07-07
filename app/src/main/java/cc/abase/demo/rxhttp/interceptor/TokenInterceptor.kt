@@ -1,7 +1,7 @@
 package cc.abase.demo.rxhttp.interceptor
 
 import cc.abase.demo.config.GlobalErrorHandle
-import cc.abase.demo.config.NetConfig
+import cc.abase.demo.config.AppConfig
 import cc.abase.demo.constants.ErrorCode
 import cc.abase.demo.constants.WanUrls
 import cc.abase.demo.rxhttp.repository.UserRepository
@@ -38,7 +38,7 @@ class TokenInterceptor : Interceptor {
       val jsonObject = JSONObject(buffer.clone().readString(Charset.forName("UTF-8")))
       //需要的登录
       if (jsonObject.has("errorCode") && jsonObject.optInt("errorCode") == ErrorCode.NO_LOGIN) {
-        if (NetConfig.NEE_AUTO_LOGIN) {
+        if (AppConfig.NEE_AUTO_LOGIN) {
           originalResponse.close()
           return handleTokenInvalid(chain, request)
         } else {

@@ -11,15 +11,28 @@ def buglyAppIdDebug = 'c6e450ad19'
 def buglyAppKeyDebug = '54ece6d9-fcb0-4ce2-8dae-b86efb65617c'
 def buglyAppIdRelease = 'c6e450ad19'
 def buglyAppKeyRelease = '54ece6d9-fcb0-4ce2-8dae-b86efb65617c'
+//动态读取app名称
+def appName = ""
 
 android {
   compileSdkVersion 29
   defaultConfig {
+    //动态设置APP名称:https://www.jianshu.com/p/a7e8449b37e3
+    String path = getProjectDir().getPath() + "/src/main/java/cc/abase/demo/config/AppConfig.kt"
+    File file = new File(path)
+    file.find { line ->
+      if (line.toString().contains("defaultAppName") && line.toString().contains("=")) {
+        appName = line.toString().split("=")[1].toString().trim().replace("\"", "")
+        return true
+      }
+    }
+    //正常配置
     applicationId rootProject.ext.android.applicationId
     minSdkVersion 23
     targetSdkVersion 29
     versionCode rootProject.ext.android.versionCode
     versionName rootProject.ext.android.versionName
+    resValue "string", "app_name", appName //设置APP名称
     resValue "string", "build_time", rootProject.ext.android.buildTime
     //允许使用SVG
     //    vectorDrawables.useSupportLibrary = true
@@ -104,14 +117,14 @@ android {
 android.applicationVariants.all { variant ->
   variant.outputs.all { output ->
     //名称
-    String appName = ""
-    String path = getProjectDir().getPath() + "/src/main/res/values/strings.xml"
-    new XmlSlurper().parse(path)."string".find { name ->
-      if (name."@name" == "app_name") {
-        appName = name
-        return true
-      }
-    }
+    //String appName = ""
+    //String path = getProjectDir().getPath() + "/src/main/res/values/strings.xml"
+    //new XmlSlurper().parse(path)."string".find { name ->
+    //  if (name."@name" == "app_name") {
+    //    appName = name
+    //    return true
+    //  }
+    //}
     //正式版还是测试版
     String typeName = buildType.name
     typeName = typeName.substring(0, 1).toUpperCase() + typeName.substring(1).toLowerCase()
