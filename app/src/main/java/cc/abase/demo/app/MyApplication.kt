@@ -1,6 +1,7 @@
 package cc.abase.demo.app
 
 import android.content.Context
+import android.content.pm.PackageManager
 import cc.ab.base.app.BaseApplication
 import cc.abase.demo.component.gallery.GalleryActivity
 import cc.abase.demo.component.login.LoginActivity
@@ -14,9 +15,7 @@ import cc.abase.demo.widget.video.ExoVideoCacheUtils
 import com.billy.android.swipe.SmartSwipeBack
 import com.billy.android.swipe.SmartSwipeRefresh
 import com.dueeeke.videoplayer.exo.ExoMediaPlayerFactory
-import com.dueeeke.videoplayer.player.VideoView
-import com.dueeeke.videoplayer.player.VideoViewConfig
-import com.dueeeke.videoplayer.player.VideoViewManager
+import com.dueeeke.videoplayer.player.*
 import com.github.promeg.pinyinhelper.Pinyin
 import com.github.promeg.tinypinyin.lexicons.android.cncity.CnCityDict
 import com.vanniktech.emoji.EmojiManager
@@ -28,6 +27,17 @@ import com.vanniktech.emoji.ios.IosEmojiProvider
  * @date: 2019/10/8 10:02
  */
 open class MyApplication : BaseApplication() {
+  //是否需要走修改后的包信息(只能修改APP运行后的读取)
+  var needChangePackageManager = false
+  override fun getPackageManager(): PackageManager {
+    //根据需要修改PackageManager信息获取
+    if (needChangePackageManager) {
+      return MyPackageManager(super.getPackageManager())
+    } else {
+      return super.getPackageManager()
+    }
+  }
+
   override fun initInMainThread() {
   }
 
@@ -38,10 +48,10 @@ open class MyApplication : BaseApplication() {
     EmojiManager.install(IosEmojiProvider())
     //视频播放全局配置
     VideoViewManager.setConfig(VideoViewConfig.newBuilder()
-            //使用ExoPlayer解码
-            .setPlayerFactory(ExoMediaPlayerFactory.create())
-            .setScreenScaleType(VideoView.SCREEN_SCALE_DEFAULT)
-      .build())
+        //使用ExoPlayer解码
+        .setPlayerFactory(ExoMediaPlayerFactory.create())
+        .setScreenScaleType(VideoView.SCREEN_SCALE_DEFAULT)
+        .build())
     //初始化Bugly
     BuglyManager.instance.initBugly(this)
     // 添加中文城市词典
