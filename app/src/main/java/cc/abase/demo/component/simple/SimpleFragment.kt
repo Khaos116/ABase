@@ -5,11 +5,11 @@ import android.view.Gravity
 import android.view.View
 import cc.abase.demo.R
 import cc.abase.demo.component.comm.CommFragment
-import cc.abase.demo.epoxy.base.dividerItem
 import cc.abase.demo.epoxy.item.simpleTextItem
 import cc.abase.demo.mvrx.MvRxEpoxyController
 import cc.abase.demo.widget.decoration.SpacesItemDecoration
 import com.billy.android.swipe.SmartSwipeRefresh
+import com.billy.android.swipe.SmartSwipeRefresh.SmartSwipeRefreshDataLoader
 import com.billy.android.swipe.consumer.SlidingConsumer
 import kotlinx.android.synthetic.main.fragment_simple.simpleRecycler
 
@@ -56,6 +56,27 @@ class SimpleFragment : CommFragment() {
       }
     }
     mSmartSwipeRefresh?.disableLoadMore()
+    //下拉刷新
+    mSmartSwipeRefresh?.dataLoader = object : SmartSwipeRefreshDataLoader {
+      override fun onLoadMore(ssr: SmartSwipeRefresh?) {
+      }
+
+      override fun onRefresh(ssr: SmartSwipeRefresh?) {
+        val list = mutableListOf<String>()
+        val size = epoxyController.data?.size ?: 0
+        for (i in size until size + 10) list.add(
+          "这是${
+          when (mType) {
+            1 -> "Swipe"
+            else -> "Nomal"
+          }
+          }测试数据${i + 1}"
+        )
+        list.addAll(epoxyController.data ?: mutableListOf())
+        epoxyController.data = list
+        mSmartSwipeRefresh?.finished(true)
+      }
+    }
   }
 
   override fun initData() {
