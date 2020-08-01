@@ -30,7 +30,7 @@ class HeaderManger private constructor() {
     headers["Accept"] = "*/*"
     headers["Content-Type"] = "application/x-www-form-urlencoded;charset=utf-8"
     headers["Charset"] = "UTF-8"
-    headers["abase-info"] = GsonUtils.toJson(map)
+    headers["app-info"] = GsonUtils.toJson(map)
     return headers
   }
 
