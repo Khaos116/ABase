@@ -1,9 +1,9 @@
 package cc.ab.base.ext
 
 import android.app.Activity
-import android.graphics.Color
 import android.view.*
 import android.widget.FrameLayout
+import cc.ab.base.R
 
 /**
  * Description:
@@ -70,3 +70,17 @@ fun Activity.extKeyBoard(keyCall: (statusHeight: Int, navigationHeight: Int, key
     }
   })
 }
+
+//防止弹窗太快，记录弹窗时间
+@Suppress("UNCHECKED_CAST")
+val Activity.mDialogTimes: MutableList<Pair<String, Long>>
+  get() {
+    val result = mContentView.getTag(R.id.dialog_times)
+    return if (result is MutableList<*>) {
+      result as MutableList<Pair<String, Long>>
+    } else {
+      val temp = mutableListOf<Pair<String, Long>>()
+      mContentView.setTag(R.id.dialog_times, temp)
+      temp
+    }
+  }

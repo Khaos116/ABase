@@ -14,7 +14,7 @@ import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.view.WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentManager
-import cc.ab.base.ext.dp2px
+import cc.ab.base.ext.*
 
 /**
  *description: Dialog的基类.
@@ -87,20 +87,32 @@ abstract class BaseFragmentDialog : DialogFragment() {
     act.window.attributes = attributes
   }
 
-  //防止快速弹出多个
-  private var showTime = 0L
-
   /**
-   * 防止同时弹出两个dialog
+   * 防止同时弹出两个一样类型的dialog，如果需要弹2个类型一样的dialog但内容不同，请设置不同的tag
    */
   override fun show(
     manager: FragmentManager,
     tag: String?
   ) {
-    if (System.currentTimeMillis() - showTime < 500 || activity?.isFinishing == true) {
+    val ac = manager.getContext() ?: context
+    if (ac == null || (ac as Activity).isFinishing) {
       return
     }
-    showTime = System.currentTimeMillis()
+    //保存的key以 “页面名称 + 弹窗名字 + tag” 作为标识符
+    val keyStr = String.format("%s_%s_%s", ac.javaClass.simpleName, this.javaClass.simpleName, tag ?: "")
+    //防止相同页面500ms内重复弹出相同dialog
+    ac.mDialogTimes.let { list ->
+      var has = false
+      //找到上次弹窗时间并更新
+      list.firstOrNull { it.first == keyStr }?.let { p ->
+        has = true
+        if (System.currentTimeMillis() - p.second < 500) {
+          return
+        } else list[list.indexOf(p)] = Pair(keyStr, System.currentTimeMillis())
+      }
+      //第一次弹窗，添加弹窗时间
+      if (!has) list.add(Pair(keyStr, System.currentTimeMillis()))
+    }
     showListener?.invoke()
 //        super.show(manager, tag)
     setBooleanField("mDismissed", false)

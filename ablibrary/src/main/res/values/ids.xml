@@ -3,4 +3,5 @@
   <item name="id_tag_guide" type="id"/>
   <item name="id_tag_click" type="id"/>
   <item name="id_tag_sketch_suc" type="id"/>
+  <item name="dialog_times" type="id"/>
 </resources>
