@@ -1,11 +1,14 @@
 package cc.ab.base.ext
 
+import android.app.Activity
 import android.content.Context
 import android.graphics.drawable.Drawable
 import android.view.*
 import android.widget.Toast
 import androidx.annotation.*
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.FragmentHostCallback
+import androidx.fragment.app.FragmentManager
 import cc.ab.base.widget.toast.AmToast
 import com.blankj.utilcode.util.*
 
@@ -69,4 +72,17 @@ fun Context.inflate(
   attachToRoot: Boolean = false
 ): View {
   return LayoutInflater.from(this).inflate(layoutResource, parent, attachToRoot)
+}
+
+//通过FragmentManager获取Context
+fun FragmentManager.getContext(): Context? {
+  return try {
+    val field = this.javaClass.getDeclaredField("mHost")
+    field.isAccessible = true
+    val temp = field.get(this) as FragmentHostCallback<*>
+    temp.onGetLayoutInflater().context as Activity
+  } catch (e: Exception) {
+    e.printStackTrace()
+    null
+  }
 }
