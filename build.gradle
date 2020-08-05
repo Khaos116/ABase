@@ -8,7 +8,7 @@ buildscript {
     jcenter()
   }
   dependencies {
-    classpath 'com.android.tools.build:gradle:4.0.0'
+    classpath 'com.android.tools.build:gradle:4.0.1'
     classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
     //https://github.com/shwenzhang/AndResGuard/blob/master/README.zh-cn.md
     classpath 'com.tencent.mm:AndResGuard-gradle-plugin:1.2.18'

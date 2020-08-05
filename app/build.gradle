@@ -60,18 +60,22 @@ android {
     sourceCompatibility JavaVersion.VERSION_1_8
     targetCompatibility JavaVersion.VERSION_1_8
   }
-  //flavorDimensions "default"
-  ////公开发布商店渠道配置
-  //productFlavors {
-  //  //程序员本地跑的包(只直接在AS中跑，不打包给其他人)
-  //  Developer {
-  //    dimension "default"
-  //  }
-  //  //打包后★必须使用多渠道设置渠道★(不直接跑包，打包时使用)
-  //  Package {
-  //    dimension "default"
-  //  }
-  //}
+
+  //多维度 https://blog.csdn.net/chen_xi_hao/article/details/80526049
+  flavorDimensions   "default"
+  //公开发布商店渠道配置
+  productFlavors {
+    //渠道develop
+    flavors_dev {
+      dimension "default"
+      applicationId "com.abase.dev"
+    }
+    //渠道release
+    flavors_rel {
+      dimension "default"
+      applicationId "com.abase.rel"
+    }
+  }
 
   //配置不同版本的keystore
   signingConfigs {
