@@ -62,18 +62,32 @@ android {
   }
 
   //多维度 https://blog.csdn.net/chen_xi_hao/article/details/80526049
-  flavorDimensions   "default"
+  flavorDimensions "default"
   //公开发布商店渠道配置
   productFlavors {
     //渠道develop
     flavors_dev {
+      //内存泄漏检测 https://github.com/square/leakcanary/releases
+      dependencies { debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.4' }
+      //版本号
+      def version_Name = "1.1.0"
+      def version_Build = 1
+      def version_Code = (version_Name.replace(".", "")).toInteger() * 1000 + version_Build
       dimension "default"
       applicationId "com.abase.dev"
+      versionName version_Name
+      versionCode version_Code
     }
     //渠道release
     flavors_rel {
+      //版本号
+      def version_Name = "1.1.0"
+      def version_Build = 2
+      def version_Code = (version_Name.replace(".", "")).toInteger() * 1000 + version_Build
       dimension "default"
       applicationId "com.abase.rel"
+      versionName version_Name
+      versionCode version_Code
     }
   }
 
@@ -92,6 +106,8 @@ android {
       keyPassword KEY_PASSWORD_ABASE
     }
   }
+
+  //正式和测试配置
   buildTypes {
     debug {
       debuggable true
@@ -183,7 +199,6 @@ dependencies {
   implementation fileTree(dir: 'libs', include: ['*.jar'])
   implementation project(':ablibrary')
   implementation project(':silicompressor')
-
   //表情 https://github.com/vanniktech/Emoji
   implementation 'com.vanniktech:emoji-ios:0.6.0'
   //封面获取，视频压缩 https://github.com/microshow/RxFFmpeg
