@@ -67,8 +67,6 @@ android {
   productFlavors {
     //渠道develop
     flavors_dev {
-      //内存泄漏检测 https://github.com/square/leakcanary/releases
-      dependencies { debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.4' }
       //版本号
       def version_Name = "1.1.0"
       def version_Build = 1
@@ -199,6 +197,8 @@ dependencies {
   implementation fileTree(dir: 'libs', include: ['*.jar'])
   implementation project(':ablibrary')
   implementation project(':silicompressor')
+  //内存泄漏检测 https://github.com/square/leakcanary/releases
+  flavors_devImplementation 'com.squareup.leakcanary:leakcanary-android:2.4'
   //表情 https://github.com/vanniktech/Emoji
   implementation 'com.vanniktech:emoji-ios:0.6.0'
   //封面获取，视频压缩 https://github.com/microshow/RxFFmpeg
