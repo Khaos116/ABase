@@ -11,8 +11,7 @@ import rxhttp.RxHttpPlugins
 import rxhttp.wrapper.cahce.CacheMode
 import rxhttp.wrapper.param.Param
 import rxhttp.wrapper.param.RxHttp
-import rxhttp.wrapper.ssl.SSLSocketFactoryImpl
-import rxhttp.wrapper.ssl.X509TrustManagerImpl
+import rxhttp.wrapper.ssl.*
 import java.io.File
 import java.util.concurrent.TimeUnit
 import javax.net.ssl.*
@@ -75,14 +74,13 @@ class RxHttpConfig private constructor() {
 
   //OkHttpClient
   private fun getDefaultOkHttpClient(): OkHttpClient {
-    val trustAllCert: X509TrustManager = X509TrustManagerImpl()
-    val sslSocketFactory: SSLSocketFactory = SSLSocketFactoryImpl(trustAllCert)
+    val sslParams= HttpsUtils.getSslSocketFactory()
     val builder = Builder()
       //.cookieJar(CookieStore())//如果启用自动管理，则不需要在TokenInterceptor中进行保存和initRxHttp()进行读取
       .connectTimeout(30, TimeUnit.SECONDS)
       .readTimeout(30, TimeUnit.SECONDS)
       .writeTimeout(30, TimeUnit.SECONDS)
-      .sslSocketFactory(sslSocketFactory, trustAllCert) //添加信任证书
+      .sslSocketFactory(sslParams.sSLSocketFactory, sslParams.trustManager) //添加信任证书
       .hostnameVerifier(
         HostnameVerifier { hostname: String?, session: SSLSession? -> true }
       ) //忽略host验证
