@@ -34,7 +34,7 @@ class PermissionUtils private constructor() {
   fun hasSDPermission(): Boolean {
     val parent = File(PathUtils.getExternalAppDataPath())
     val file: File = File(
-        parent, System.currentTimeMillis()
+      parent, System.currentTimeMillis()
         .toString()
     )
     return try {
@@ -56,9 +56,10 @@ class PermissionUtils private constructor() {
   @SuppressLint("MissingPermission")
   @Synchronized
   fun hasCameraPermission(): Boolean {
+    var camera: Camera? = null
     return try {
       //targetSdkVersion低于23，使用异常捕捉相机权限
-      val camera = Camera.open()
+      camera = Camera.open()
       // setParameters 是针对魅族MX5 做的。MX5 通过Camera.open() 拿到的Camera
       // 对象不为null
       val mParameters = camera.parameters
@@ -66,6 +67,7 @@ class PermissionUtils private constructor() {
       camera.release()
       true
     } catch (e: Exception) {
+      if (camera != null) camera.release()
       e.printStackTrace()
       LogUtils.e("CASE:拍照权限异常:${e.message}")
       false
@@ -77,16 +79,16 @@ class PermissionUtils private constructor() {
   @Synchronized
   fun hasRecordPermission(): Boolean {
     val minBufferSize = AudioRecord.getMinBufferSize(
-        44100,
-        AudioFormat.CHANNEL_IN_STEREO,
-        AudioFormat.ENCODING_PCM_16BIT
+      44100,
+      AudioFormat.CHANNEL_IN_STEREO,
+      AudioFormat.ENCODING_PCM_16BIT
     )
     var audioRecord: AudioRecord? = null
     try {
       audioRecord = AudioRecord(
-          MediaRecorder.AudioSource.MIC, 44100,
-          AudioFormat.CHANNEL_IN_STEREO,
-          AudioFormat.ENCODING_PCM_16BIT, minBufferSize
+        MediaRecorder.AudioSource.MIC, 44100,
+        AudioFormat.CHANNEL_IN_STEREO,
+        AudioFormat.ENCODING_PCM_16BIT, minBufferSize
       )
     } catch (e: Exception) {
       e.printStackTrace()
@@ -150,9 +152,9 @@ class PermissionUtils private constructor() {
     val mLocationManager = c.getSystemService(Context.LOCATION_SERVICE) as LocationManager
     return try {
       mLocationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER)
-          ?.let {
-            LogUtils.e("getLastKnownLocation=$it")
-          }
+        ?.let {
+          LogUtils.e("getLastKnownLocation=$it")
+        }
       true
     } catch (e: Exception) {
       e.printStackTrace()
@@ -186,9 +188,9 @@ class PermissionUtils private constructor() {
     if (provider.isNullOrBlank()) return false
     return try {
       mLocationManager.getLastKnownLocation(provider)
-          ?.let {
-            LogUtils.e("getLastKnownLocation=$it")
-          }
+        ?.let {
+          LogUtils.e("getLastKnownLocation=$it")
+        }
       true
     } catch (e: Exception) {
       e.printStackTrace()
