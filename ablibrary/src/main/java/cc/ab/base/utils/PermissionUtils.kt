@@ -32,19 +32,12 @@ class PermissionUtils private constructor() {
   @SuppressLint("MissingPermission")
   @Synchronized
   fun hasSDPermission(): Boolean {
-    val parent = File(PathUtils.getExternalAppDataPath())
-    val file: File = File(
-      parent, System.currentTimeMillis()
-        .toString()
-    )
+    val parent = File(PathUtils.getExternalStoragePath())
+    val file = File(parent, "CASE_TEST.txt")
     return try {
-      if (parent.exists()) {
-        parent.mkdirs()
-      } else {
-        file.createNewFile()
-        FileUtils.delete(file)
-      }
-      true
+      if (!parent.exists()) parent.mkdirs()
+      if (!file.exists()) file.createNewFile()
+      FileUtils.delete(file)
     } catch (e: Exception) {
       e.printStackTrace()
       LogUtils.e("CASE:SD卡权限异常:${e.message}")
