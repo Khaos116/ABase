@@ -38,7 +38,6 @@ class ActionDialog : BaseFragmentDialog() {
   }
 
   fun show(fragmentManager: FragmentManager) {
-    dialogActionHint?.text = hintText
     show(fragmentManager, "ActionDialog")
   }
 }

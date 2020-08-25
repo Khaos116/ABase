@@ -15,6 +15,7 @@ import android.view.WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentManager
 import cc.ab.base.ext.*
+import com.blankj.utilcode.util.ActivityUtils
 
 /**
  *description: Dialog的基类.
@@ -94,7 +95,7 @@ abstract class BaseFragmentDialog : DialogFragment() {
     manager: FragmentManager,
     tag: String?
   ) {
-    val ac = manager.getContext() ?: context
+    val ac = ActivityUtils.getTopActivity()
     if (ac == null || (ac as Activity).isFinishing) {
       return
     }

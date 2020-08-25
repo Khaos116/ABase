@@ -73,16 +73,3 @@ fun Context.inflate(
 ): View {
   return LayoutInflater.from(this).inflate(layoutResource, parent, attachToRoot)
 }
-
-//通过FragmentManager获取Context
-fun FragmentManager.getContext(): Context? {
-  return try {
-    val field = this.javaClass.getDeclaredField("mHost")
-    field.isAccessible = true
-    val temp = field.get(this) as FragmentHostCallback<*>
-    temp.onGetLayoutInflater().context as Activity
-  } catch (e: Exception) {
-    e.printStackTrace()
-    null
-  }
-}
