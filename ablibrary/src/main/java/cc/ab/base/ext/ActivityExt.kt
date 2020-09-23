@@ -46,6 +46,7 @@ val Activity.mActivity: Activity
 //监听键盘高度
 fun Activity.extKeyBoard(keyCall: (statusHeight: Int, navigationHeight: Int, keyBoardHeight: Int) -> Unit) {
   mContentView.post { mContentView.layoutParams.height = mContentView.height }//防止键盘弹出导致整个布局高度变小
+  this.window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN or WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
   this.window.decorView.setOnApplyWindowInsetsListener(object : View.OnApplyWindowInsetsListener {
     var preKeyOffset: Int = 0//键盘高度改变才回调
     override fun onApplyWindowInsets(
