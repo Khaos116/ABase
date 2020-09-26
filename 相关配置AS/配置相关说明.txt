@@ -1,0 +1,18 @@
+1.安装AS必备插件:
+  A.CodeGlance 代码预览
+  B.Rainbow Brackets 括号颜色
+  C.Material Theme UI 不同风格的AS
+
+2.自动导包和删除的配置
+  Setting->Editor->General->Auto Import 勾选"Add unambiguous ..."(自动导包)和"Optimize imports ..."(自动删除多余的包)
+
+3.代码格式化:(☆★==本目录的SquareAndroid.xml文件是针对Square公司的文件做了优化修改的==★☆)
+  //Square公司的代码格式化：https://github.com/square/java-code-styles/blob/main/configs/codestyles/SquareAndroid.xml
+  A.将本目录下的config文件夹放到"C:\Users\Administrator\.AndroidStudio4.0"电脑系统的文件夹中
+  B.Setting->Editor->Code Style->Scheme右边三个点->Import Scheme...->导入本目录下的"SquareAndroid.xml"文件->OK保存
+  C.如果总发现使用了"SquareAndroid.xml"后重新打开变成了"Project"就点击右边三个点："SquareAndroid.xml"->"Copy to Project"
+  D."File Header.java"是给新创建文件添加自己需要显示的头部
+  E."templates"文件夹下是自己定义的快捷代码模板，自己可以根据需要去修改
+
+4.删除kotlin方法重新的TODO提示(主要造成不编写代码编译没问题，但是运行有问题)
+  Setting->Editor->Code Style->File and Code Templates->Code->删除"New Kotlin Function..."和"New Kotlin Property..."中的代码

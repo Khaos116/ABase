@@ -1,0 +1,40 @@
+<templateSet group="CASE-KOTLIN">
+  <template name="logk" value="android.util.Log.e(&quot;CASE&quot;, &quot;$content$&quot;)$END$" description="打印警告" toReformat="true" toShortenFQNames="true">
+    <variable name="content" expression="" defaultValue="" alwaysStopAt="true" />
+    <context>
+      <option name="KOTLIN_STATEMENT" value="true" />
+    </context>
+  </template>
+  <template name="kaseSingleton" value="private constructor() {&#10;private object SingletonHolder {&#10;  val holder= $class$()&#10;}&#10;companion object {&#10;  val instance = SingletonHolder.holder&#10;}" description="单利" toReformat="false" toShortenFQNames="true">
+    <variable name="class" expression="kotlinClassName()" defaultValue="" alwaysStopAt="true" />
+    <context>
+      <option name="KOTLIN" value="true" />
+    </context>
+  </template>
+  <template name="kaceTime" value="/** $DATE$ $TIME$ by case */" description="注释时间" toReformat="false" toShortenFQNames="true">
+    <variable name="DATE" expression="date()" defaultValue="" alwaysStopAt="true" />
+    <variable name="TIME" expression="time()" defaultValue="" alwaysStopAt="true" />
+    <context>
+      <option name="KOTLIN" value="true" />
+    </context>
+  </template>
+  <template name="kaseFile" value="/**&#10; * Author:caiyoufei&#10; * Date:$DATE$&#10; * Time:$TIME$&#10; */" description="类注释" toReformat="false" toShortenFQNames="true">
+    <variable name="DATE" expression="date()" defaultValue="" alwaysStopAt="true" />
+    <variable name="TIME" expression="time()" defaultValue="" alwaysStopAt="true" />
+    <context>
+      <option name="KOTLIN" value="true" />
+    </context>
+  </template>
+  <template name="kaceSign" value="cài yǒu fēi [̲̅C̲̅][̲̅A̲̅][̲̅S̲̅][̲̅E̲̅]" description="签名" toReformat="false" toShortenFQNames="true">
+    <context>
+      <option name="KOTLIN" value="true" />
+    </context>
+  </template>
+  <template name="logt" value="timber.log.Timber.e(&quot;CASE-$content$&quot;)$END$" description="Timber打印" toReformat="false" toShortenFQNames="true">
+    <variable name="content" expression="" defaultValue="" alwaysStopAt="true" />
+    <context>
+      <option name="JAVA_STATEMENT" value="true" />
+      <option name="KOTLIN_STATEMENT" value="true" />
+    </context>
+  </template>
+</templateSet>
