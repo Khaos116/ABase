@@ -181,8 +181,7 @@ class VerticalPageActivity : CommTitleActivity() {
       val list = mutableListOf<VerticalPageBean>()
       for (i in lastId until lastId + 10) {
         val video = VideoRandomUtils.instance.getVideoPair(i.toInt())
-        list.add(VerticalPageBean(id = i + 1, cover = video.first,
-            videoUrl = video.second, description = "测试数据${i + 1}"))
+        list.add(VerticalPageBean(id = i + 1, cover = video.second, videoUrl = video.second, description = video.first))
       }
       Observable.just(list)
     }.compose(RxUtils.instance.rx2SchedulerHelperO(lifecycleProvider)).subscribe { call?.invoke(it) }

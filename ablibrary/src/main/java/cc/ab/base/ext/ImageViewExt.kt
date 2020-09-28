@@ -1,13 +1,14 @@
 package cc.ab.base.ext
 
+import android.graphics.Bitmap
+import android.media.MediaMetadataRetriever
 import android.widget.ImageView
 import androidx.annotation.FloatRange
 import androidx.annotation.IntRange
 import cc.ab.base.R
 import cc.ab.base.utils.RandomPlaceholder
-import com.blankj.utilcode.util.ScreenUtils
-import com.blankj.utilcode.util.SizeUtils
-import com.blankj.utilcode.util.Utils
+import com.blankj.utilcode.util.*
+import kotlinx.coroutines.*
 import me.panpf.sketch.Sketch
 import me.panpf.sketch.SketchImageView
 import me.panpf.sketch.display.FadeInImageDisplayer
@@ -18,8 +19,8 @@ import java.io.File
 
 //加载正方形图片
 fun ImageView.loadSquare(
-  url: String?,
-  size: Int = ScreenUtils.getScreenWidth() / 2
+    url: String?,
+    size: Int = ScreenUtils.getScreenWidth() / 2
 ) {
   if (url.isNullOrBlank()) {
     setImageResource(R.drawable.place_holder_square_fail2)
@@ -36,26 +37,26 @@ fun ImageView.loadSquare(
       option.isThumbnailMode = true
     }
     Sketch.with(context)
-      .load(url, object : LoadListener {
-        override fun onStarted() {
-          setImageResource(R.drawable.place_holder_square_loading2)
-        }
+        .load(url, object : LoadListener {
+          override fun onStarted() {
+            setImageResource(R.drawable.place_holder_square_loading2)
+          }
 
-        override fun onCanceled(cause: CancelCause) {
-          setImageResource(R.drawable.place_holder_square_fail2)
-        }
+          override fun onCanceled(cause: CancelCause) {
+            setImageResource(R.drawable.place_holder_square_fail2)
+          }
 
-        override fun onError(cause: ErrorCause) {
-          setImageResource(R.drawable.place_holder_square_fail2)
-        }
+          override fun onError(cause: ErrorCause) {
+            setImageResource(R.drawable.place_holder_square_fail2)
+          }
 
-        override fun onCompleted(result: LoadResult) {
-          setImageBitmap(result.bitmap)
-          setTag(R.id.id_tag_sketch_suc, url)
-        }
-      })
-      .options(option)
-      .commit()
+          override fun onCompleted(result: LoadResult) {
+            setImageBitmap(result.bitmap)
+            setTag(R.id.id_tag_sketch_suc, url)
+          }
+        })
+        .options(option)
+        .commit()
   }
 }
 
@@ -80,40 +81,73 @@ fun SketchImageView.load(file: File?) {
 
 //普通加载
 fun SketchImageView.load(
-  url: String?,
-  holderRes: Int = 0,
-  errorRes: Int = 0
+    url: String?,
+    holderRes: Int = 0,
+    errorRes: Int = 0
 ) {
-  loadCornerBlur(url, holderRes, errorRes, 0f, 0)
+  if (!url.isNullOrBlank() && url.startsWith("http") && url.isVideoUrl()) {
+    loadNetVideoCover(url, holderRes, errorRes)
+  } else {
+    loadCornerBlur(url, holderRes, errorRes, 0f, 0)
+  }
+}
+
+private var VIDEO_OVER_CACHE_DIR = PathUtils.getExternalPicturesPath() + File.separator + "VideoCover"
+fun SketchImageView.loadNetVideoCover(
+    url: String,
+    holderRes: Int = 0,
+    errorRes: Int = 0) {
+  val cacheFile = File(VIDEO_OVER_CACHE_DIR, EncryptUtils.encryptMD5ToString(url))
+  if (cacheFile.exists()) {
+    this.load(cacheFile)
+  } else {
+    getTag(R.id.id_retriever)?.let { r -> (r as MediaMetadataRetriever).release() }
+    GlobalScope.launch(Dispatchers.Main) {
+      setImageResource(holderRes)
+      val retriever = MediaMetadataRetriever()
+      retriever.setDataSource(url, HashMap())
+      setTag(R.id.id_retriever, retriever)
+      //获得第10帧图片 这里的第一个参数 以微秒为单位
+      val bit = retriever.getFrameAtTime(0, MediaMetadataRetriever.OPTION_CLOSEST_SYNC)
+      retriever.release()
+      setTag(R.id.id_retriever, null)
+      if (bit != null) {
+        ImageUtils.save(bit, cacheFile, Bitmap.CompressFormat.PNG)
+        setImageBitmap(bit)
+      } else {
+        setImageResource(errorRes)
+      }
+    }
+  }
 }
 
 //加载圆角
 fun SketchImageView.loadCorner(
-  url: String?,
-  holderRes: Int = 0,
-  errorRes: Int = 0,
-  cornerDP: Float
+    url: String?,
+    holderRes: Int = 0,
+    errorRes: Int = 0,
+    cornerDP: Float
 ) {
   loadCornerBlur(url, holderRes, errorRes, cornerDP, 0)
 }
 
 //加载高斯模糊
 fun SketchImageView.loadBlur(
-  url: String?,
-  holderRes: Int = 0,
-  errorRes: Int = 0,
-  @IntRange(from = 0, to = 100) blur: Int
+    url: String?,
+    holderRes: Int = 0,
+    errorRes: Int = 0,
+    @IntRange(from = 0, to = 100) blur: Int
 ) {
   loadCornerBlur(url, holderRes, errorRes, 0f, blur)
 }
 
 //加载圆角图片
 fun SketchImageView.loadCornerBlur(
-  url: String?,
-  holderRes: Int = 0,
-  errorRes: Int = 0,
-  @FloatRange(from = 0.0) cornerDP: Float,
-  @IntRange(from = 0, to = 100) blur: Int
+    url: String?,
+    holderRes: Int = 0,
+    errorRes: Int = 0,
+    @FloatRange(from = 0.0) cornerDP: Float,
+    @IntRange(from = 0, to = 100) blur: Int
 ) {
   val displayOptions = DisplayOptions()
   if (holderRes >= 0 || errorRes >= 0) {
