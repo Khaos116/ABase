@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<cc.ab.base.widget.epoxy.EpoxyRecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
+<cc.ab.base.widget.epoxy.MyEpoxyRecyclerView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/decorRecycler"
     android:layout_width="match_parent"
     android:layout_height="match_parent" />

@@ -61,7 +61,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
 
-            <cc.ab.base.widget.epoxy.EpoxyRecyclerView
+            <cc.ab.base.widget.epoxy.MyEpoxyRecyclerView
                 android:id="@+id/mineRecycler"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"

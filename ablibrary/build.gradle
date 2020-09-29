@@ -29,6 +29,7 @@ dependencies {
   releaseImplementation Deps.doraemonkit_no
   api Deps.kotlin_stdlib
   api Deps.appcompat
+  api Deps.material
   api Deps.fragment
   api Deps.core_ktx
   api Deps.constraint

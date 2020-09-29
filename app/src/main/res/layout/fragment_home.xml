@@ -7,7 +7,7 @@
     android:orientation="vertical"
     >
 
-  <cc.ab.base.widget.epoxy.EpoxyRecyclerView
+  <cc.ab.base.widget.epoxy.MyEpoxyRecyclerView
       android:id="@+id/homeEpoxyRecycler"
       android:layout_width="match_parent"
       android:layout_height="match_parent"

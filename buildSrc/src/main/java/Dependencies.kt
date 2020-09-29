@@ -4,8 +4,9 @@ object Versions {
   internal const val kotlin = "1.4.10"
   internal const val okHttp = "4.8.1"
   internal const val rxHttp = "2.4.1"
-  internal const val doraemonkit = "3.1.8"
+  internal const val doraemonkit = "3.2.0"
   internal const val dkplayer = "3.2.6"
+  internal const val epoxy = "4.1.0"
 }
 
 object Deps {
@@ -87,13 +88,13 @@ object Deps {
   const val rxlife_android = "com.trello.rxlifecycle3:rxlifecycle-android-lifecycle:3.1.0"
 
   //https://github.com/airbnb/lottie-android
-  const val lottie = "com.airbnb.android:lottie:3.4.1"
+  const val lottie = "com.airbnb.android:lottie:3.4.2"
 
   //https://github.com/airbnb/epoxy
-  const val epoxy = "com.airbnb.android:epoxy:4.0.0-beta4"
-  const val epoxy_processor = "com.airbnb.android:epoxy-processor:4.0.0-beta4"
+  const val epoxy = "com.airbnb.android:epoxy:${Versions.epoxy}"
+  const val epoxy_processor = "com.airbnb.android:epoxy-processor:${Versions.epoxy}"
 
-  //图片加载 https://github.com/panpf/sketc
+  //图片加载 https://github.com/panpf/sketch
   const val sketch = "me.panpf:sketch:2.7.1"
 
   //封面加载 https://github.com/wseemann/FFmpegMediaMetadataRetriever
@@ -109,7 +110,7 @@ object Deps {
   const val rxcache_gson = "com.github.VictorAlbertos.Jolyglot:gson:0.0.4"
 
   //表情 https://github.com/vanniktech/Emoji
-  const val emoji = "com.vanniktech:emoji-ios:0.6.0"
+  const val emoji = "com.vanniktech:emoji-ios:0.7.0"
 
   //必选 https://github.com/dueeeke/DKVideoPlayer/wiki
   const val dkplayer_java = "com.github.dueeeke.dkplayer:dkplayer-java:${Versions.dkplayer}"
@@ -124,8 +125,8 @@ object Deps {
   const val side_bar = "com.github.D10NGYANG:DL10SideBar:1.0.0"
 
   //bugly https://bugly.qq.com/docs/user-guide/instruction-manual-android/?v=20190916214340
-  const val bugly_crash = "com.tencent.bugly:crashreport:3.2.33"
-  const val bugly_native = "com.tencent.bugly:nativecrashreport:3.7.3"
+  const val bugly_crash = "com.tencent.bugly:crashreport:3.2.422"
+  const val bugly_native = "com.tencent.bugly:nativecrashreport:3.7.5"
 
   //中文转拼音 https://github.com/promeG/TinyPinyin
   const val pinyin = "com.github.promeg:tinypinyin:2.0.3" // TinyPinyin核心包，约80KB
