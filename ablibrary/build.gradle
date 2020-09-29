@@ -4,18 +4,15 @@ apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 
 android {
-  compileSdkVersion 29
-
+  compileSdkVersion Versions.sdkTarget
   defaultConfig {
-    minSdkVersion 23
-    targetSdkVersion 29
+    minSdkVersion Versions.sdkMin
+    targetSdkVersion Versions.sdkTarget
     versionCode 1
     versionName "1.0"
     multiDexEnabled true
     resConfigs "zh", "en" //保留中文和英文资源
-    ndk {
-      abiFilters 'armeabi-v7a' //, 'arm64-v8a'
-    }
+    ndk { abiFilters 'armeabi-v7a' } //, 'arm64-v8a'
   }
 
   buildTypes {
@@ -28,78 +25,37 @@ android {
 
 dependencies {
   implementation fileTree(dir: 'libs', include: ['*.jar'])
-
-  //----------------------★★★基础★★★----------------------//
-  api "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-  api 'androidx.appcompat:appcompat:1.3.0-alpha01'
-  api 'androidx.fragment:fragment:1.3.0-alpha07'
-  api 'androidx.core:core-ktx:1.5.0-alpha01'
-  api 'androidx.constraintlayout:constraintlayout:2.0.0-rc1'
-  implementation 'androidx.lifecycle:lifecycle-viewmodel:2.3.0-alpha06'
-  //分包(分包导致文件找不到解决方案:https://blog.csdn.net/Greathfs/article/details/80601362)
-  api 'androidx.multidex:multidex:2.0.1'
-
-  //----------------------★★★工具★★★----------------------//
-  //https://github.com/Blankj/AndroidUtilCode/blob/master/lib/utilcode/README-CN.md
-  api 'com.blankj:utilcodex:1.29.0'
-  //https://github.com/JeremyLiao/LiveEventBus
-  api 'com.jeremyliao:live-event-bus-x:1.7.2'
-  //辅助工具 https://github.com/didi/DoraemonKit/blob/master/Doc/android_cn_guide.md
-  debugImplementation('com.didichuxing.doraemonkit:doraemonkit:3.1.8') {
-    exclude module: 'utilcode'
-  }
-  releaseImplementation 'com.didichuxing.doraemonkit:doraemonkit-no-op:3.1.8'
-
-  //协程(https://www.jianshu.com/p/2659bbe0df16) https://github.com/Kotlin/kotlinx.coroutines
-  api 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.7'
-  api 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.7'
-
-  //----------------------★★★框架★★★----------------------//
-  //https://github.com/airbnb/MvRx TODO 更新后没有BaseMvRxViewModel
-  api 'com.airbnb.android:mvrx:2.0.0-alpha2'
-  //https://github.com/trello/RxLifecycle  TODO 更新后RxUtils存在问题
-  //api 'com.trello.rxlifecycle4:rxlifecycle-android-lifecycle:4.0.0'
-  api 'com.trello.rxlifecycle3:rxlifecycle-android-lifecycle:3.1.0'
-
-  //----------------------★★★UI★★★----------------------//
-  //刘海屏适配 https://github.com/gyf-dev/ImmersionBar
-  api 'com.gyf.immersionbar:immersionbar:3.0.0'
-  api 'com.gyf.immersionbar:immersionbar-ktx:3.0.0'
-  //适配 https://github.com/JessYanCoding/AndroidAutoSize
-  implementation 'me.jessyan:autosize:1.2.1'
-  //https://github.com/airbnb/lottie-android
-  api 'com.airbnb.android:lottie:3.4.1'
-  //https://github.com/airbnb/epoxy
-  api 'com.airbnb.android:epoxy:4.0.0-beta4'
-  //web https://github.com/Justson/AgentWeb
-  api 'com.just.agentweb:agentweb:4.1.3'
-  //侧滑 https://github.com/luckybilly/SmartSwipe
-  api 'com.billy.android:smart-swipe:1.1.2'
-  api 'com.billy.android:smart-swipe-x:1.1.0'
-
-  //----------------------★★★网络★★★----------------------//
-  //https://github.com/square/okhttp
-  api 'com.squareup.okhttp3:okhttp:4.7.2'
-  //https://github.com/ReactiveX/RxAndroid
-  api 'io.reactivex.rxjava2:rxandroid:2.1.1'
-  //https://github.com/google/gson
-  api "com.google.code.gson:gson:2.8.6"
-
-  //----------------------★★★存储★★★----------------------//
-  //https://github.com/Tencent/MMKV
-  api 'com.tencent:mmkv-static:1.2.1'
-  //https://github.com/VictorAlbertos/RxCache
-  api "com.github.VictorAlbertos.RxCache:runtime:1.8.3-2.x"
-  api('com.github.VictorAlbertos.Jolyglot:gson:0.0.4') {
-    exclude group: 'com.squareup.retrofit2'
-  }
-
-  //----------------------★★★媒体★★★----------------------//
-  //图片加载 https://github.com/panpf/sketch
-  api 'me.panpf:sketch:2.7.1'
-  //图片选择 https://github.com/LuckSiege/PictureSelector
-  api 'com.github.LuckSiege.PictureSelector:picture_library:v2.5.8'
-  //封面加载 https://github.com/wseemann/FFmpegMediaMetadataRetriever
-  api 'com.github.wseemann:FFmpegMediaMetadataRetriever-core:1.0.15'
-  api 'com.github.wseemann:FFmpegMediaMetadataRetriever-native-armeabi-v7a:1.0.15'
+  debugImplementation(Deps.doraemonkit) { exclude module: 'utilcode' }
+  releaseImplementation Deps.doraemonkit_no
+  api Deps.kotlin_stdlib
+  api Deps.appcompat
+  api Deps.fragment
+  api Deps.core_ktx
+  api Deps.constraint
+  api Deps.viewmodel
+  api Deps.multidex
+  api Deps.utilcodex
+  api Deps.eventBus
+  api Deps.coroutine
+  api Deps.coroutine_android
+  api Deps.mvrx
+  api Deps.rxlife_android
+  api Deps.immersionbar
+  api Deps.immersionbar_ktx
+  api Deps.autosize
+  api Deps.lottie
+  api Deps.epoxy
+  api Deps.agentweb
+  api Deps.swipe
+  api Deps.swipex
+  api Deps.okhttp
+  api Deps.rxandroid
+  api Deps.gson
+  api Deps.mmkv
+  api Deps.pic_select
+  api Deps.sketch
+  api Deps.ffm_mmr_core
+  api Deps.ffm_mmr_native
+  api Deps.rxcache
+  api(Deps.rxcache_gson) { exclude group: 'com.squareup.retrofit2' }
 }

@@ -53,7 +53,6 @@ class RxHttpActivity : CommTitleActivity() {
     }
     isRequesting = true
     RxHttp.get(WanUrls.User.INTEGRAL)
-        .subscribeOnIo()
         .setAssemblyEnabled(true)//添加公共参数/头部
         .asResponseWan(IntegralBean::class.java)
         .observeOn(AndroidSchedulers.mainThread()) //指定在主线程回调

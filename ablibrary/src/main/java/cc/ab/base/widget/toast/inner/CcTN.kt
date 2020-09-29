@@ -210,7 +210,7 @@ class CcTN : Handler(Looper.getMainLooper()) {
 
   }
 
-  override fun handleMessage(message: Message?) {
+  override fun handleMessage(message: Message) {
     if (message == null) return
     when (message.what) {
       REMOVE -> {

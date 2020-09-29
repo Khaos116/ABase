@@ -40,10 +40,13 @@ class RxFFmpegActivity : CommTitleActivity() {
 
   //选中的视频
   private var selVideoPath: String? = null
+
   //控制器
   private var controller: StandardVideoController? = null
+
   //准备播放页
   private var prepareView: PrepareView? = null
+
   //每次设置资源后的第一次播放
   private var isFirstPlay = true
 
@@ -67,10 +70,10 @@ class RxFFmpegActivity : CommTitleActivity() {
           .loadImageEngine(PicSelEngine())
           .previewVideo(true)
           .forResult(INTENT_SEL_VIDEO2)
-//      val openAlbumIntent = Intent(Intent.ACTION_PICK)
-//      openAlbumIntent.setDataAndType(Media.EXTERNAL_CONTENT_URI, "video/*")
-//      openAlbumIntent.putExtra("return-data", true)
-//      startActivityForResult(openAlbumIntent, INTENT_SEL_VIDEO)
+      //      val openAlbumIntent = Intent(Intent.ACTION_PICK)
+      //      openAlbumIntent.setDataAndType(Media.EXTERNAL_CONTENT_URI, "video/*")
+      //      openAlbumIntent.putExtra("return-data", true)
+      //      startActivityForResult(openAlbumIntent, INTENT_SEL_VIDEO)
     }
     //内部可滚动 https://www.jianshu.com/p/7a02253cd23e
     ffmpegResult.movementMethod = ScrollingMovementMethod.getInstance()
@@ -103,7 +106,7 @@ class RxFFmpegActivity : CommTitleActivity() {
     controller = StandardVideoController(this)
     prepareView = PrepareView(mContext)
     controller?.let {
-      it.addControlComponent(prepareView)//播放前预览封面
+      it.addControlComponent(prepareView) //播放前预览封面
       it.addControlComponent(CompleteView(this)) //自动完成播放界面
       it.addControlComponent(ErrorView(this)) //错误界面
       val titleView = TitleView(this) //标题栏
@@ -115,7 +118,7 @@ class RxFFmpegActivity : CommTitleActivity() {
         override fun isVerticalVideo(): Boolean {
           val videoSize = ffmpegPlayer.videoSize
           return if (videoSize != null) {
-            videoSize[0] < videoSize[1]//纵向视频
+            videoSize[0] < videoSize[1] //纵向视频
           } else {
             false
           }
@@ -141,16 +144,16 @@ class RxFFmpegActivity : CommTitleActivity() {
 
   override fun initData() {
     //高斯模糊测试代码
-//    val url =
-//      PathUtils.getExternalStoragePath() + File.separator + "251C90F4C97303004ACF85BDE3164342.jpg"
-//    iv1.load(url)
-//    iv2.loadBlur(url, blur = 15)
-//    iv3.loadCornerBlur(url, cornerDP = 8f, blur = 25)
+    //    val url =
+    //      PathUtils.getExternalStoragePath() + File.separator + "251C90F4C97303004ACF85BDE3164342.jpg"
+    //    iv1.load(url)
+    //    iv2.loadBlur(url, blur = 15)
+    //    iv3.loadCornerBlur(url, cornerDP = 8f, blur = 25)
   }
 
   private fun initPlayer(
-    videoPath: String,
-    coverPath: String
+      videoPath: String,
+      coverPath: String
   ) {
     ffmpegPlayer?.let { videoView ->
       //设置尺寸
@@ -160,10 +163,10 @@ class RxFFmpegActivity : CommTitleActivity() {
       val height = parent.height - parent.paddingTop - parent.paddingBottom
       val ratioParent = width * 1f / height
       val ratioVideo = size.first * 1f / size.second
-      if (ratioParent > ratioVideo) {//高视频
+      if (ratioParent > ratioVideo) { //高视频
         videoView.layoutParams?.height = height
         videoView.layoutParams?.width = (height * 1f / size.second * size.first).toInt()
-      } else {//宽视频
+      } else { //宽视频
         videoView.layoutParams?.height = (width * 1f / size.first * size.second).toInt()
         videoView.layoutParams?.width = width
       }
@@ -209,15 +212,12 @@ class RxFFmpegActivity : CommTitleActivity() {
   private fun getVideoSize(originPath: String): Pair<Int, Int> {
     val mMetadataRetriever = MediaMetadataRetriever()
     mMetadataRetriever.setDataSource(originPath)
-    val videoRotation =
-      mMetadataRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_VIDEO_ROTATION)
-    val videoHeight =
-      mMetadataRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_VIDEO_HEIGHT)
-    val videoWidth =
-      mMetadataRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_VIDEO_WIDTH)
-    val bitrate = mMetadataRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_BITRATE)
+    val videoRotation = mMetadataRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_VIDEO_ROTATION) ?: "0"
+    val videoHeight = mMetadataRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_VIDEO_HEIGHT) ?: "0"
+    val videoWidth = mMetadataRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_VIDEO_WIDTH) ?: "0"
+    val bitrate = mMetadataRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_BITRATE) ?: "0"
     mMetadataRetriever.release()
-    ffmpegResult.append("\n原视频码率:${bitrate.toInt() / 1000}K")
+    ffmpegResult.append("\n原视频码率:${bitrate?.toInt() / 1000}K")
     val width: Int
     val height: Int
     if (Integer.parseInt(videoRotation) == 90 || Integer.parseInt(videoRotation) == 270) {
@@ -231,11 +231,7 @@ class RxFFmpegActivity : CommTitleActivity() {
     return Pair(width, height)
   }
 
-  override fun onActivityResult(
-    requestCode: Int,
-    resultCode: Int,
-    data: Intent?
-  ) {
+  override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
     super.onActivityResult(requestCode, resultCode, data)
     data?.let {
       if (requestCode == INTENT_SEL_VIDEO && resultCode == Activity.RESULT_OK) {
@@ -257,10 +253,7 @@ class RxFFmpegActivity : CommTitleActivity() {
   }
 
   //获取选择的视频地址
-  private fun selectVideo(
-    context: Context,
-    data: Intent
-  ): String? {
+  private fun selectVideo(context: Context, data: Intent): String? {
     val selectedVideo = data.data
     if (selectedVideo != null) {
       val uriStr = selectedVideo.toString()

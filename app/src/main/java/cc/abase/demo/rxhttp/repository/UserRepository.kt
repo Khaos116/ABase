@@ -59,7 +59,6 @@ class UserRepository private constructor() {
             .setDomainToWanIfAbsent()
             .add("username", username)
             .add("password", EncryptUtils.encryptMD5ToString(password))
-            .subscribeOnIo()
             .setAssemblyEnabled(true)//添加公共参数/头部
             .setCacheMode(CacheMode.ONLY_NETWORK)//不使用缓存
             .asResponseWan(UserBean::class.java)

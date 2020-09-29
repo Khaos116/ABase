@@ -15,7 +15,7 @@ def buglyAppKeyRelease = '54ece6d9-fcb0-4ce2-8dae-b86efb65617c'
 def appName = ""
 
 android {
-  compileSdkVersion 29
+  compileSdkVersion Versions.sdkTarget
   defaultConfig {
     //动态设置APP名称:https://www.jianshu.com/p/a7e8449b37e3
     String path = getProjectDir().getPath() + "/src/main/java/cc/abase/demo/config/AppConfig.kt"
@@ -28,8 +28,8 @@ android {
     }
     //正常配置
     applicationId rootProject.ext.android.applicationId
-    minSdkVersion 23
-    targetSdkVersion 29
+    minSdkVersion Versions.sdkMin
+    targetSdkVersion Versions.sdkTarget
     versionCode rootProject.ext.android.versionCode
     versionName rootProject.ext.android.versionName
     resValue "string", "app_name", appName //设置APP名称
@@ -49,7 +49,7 @@ android {
       annotationProcessorOptions {
         arguments = [
             ////必须，告知RxHttp你依赖的okhttp版本，目前已适配 v3.12.0 - v4.7.2版本
-            rxhttp_okhttp: '4.7.2',
+            rxhttp_okhttp: Versions.okHttp,
             //使用asXxx方法时必须，告知RxHttp你依赖的rxjava版本，可传入rxjava2、rxjava3
             rxhttp_rxjava: 'rxjava2'
         ]
@@ -187,16 +187,6 @@ android.applicationVariants.all { variant ->
   }
 }
 
-//强制使用lib版本，解决个版本导致包重复无法混淆的问题 https://www.jianshu.com/p/c602e6c493ce
-//configurations.all {
-//  resolutionStrategy {
-//    //https://maven.aliyun.com/mvn/search
-//    force 'androidx.fragment:fragment:1.3.0-alpha05'
-//    force 'com.google.code.gson:gson:2.8.6'
-//    force 'com.squareup.okhttp3:okhttp:4.7.2'
-//  }
-//}
-
 bugly {
   debug = true
   appId = buglyAppId
@@ -207,51 +197,24 @@ dependencies {
   implementation fileTree(dir: 'libs', include: ['*.jar'])
   implementation project(':ablibrary')
   implementation project(':silicompressor')
-  //内存泄漏检测 https://github.com/square/leakcanary/releases
-  flavors_devImplementation 'com.squareup.leakcanary:leakcanary-android:2.4'
-  //表情 https://github.com/vanniktech/Emoji
-  implementation 'com.vanniktech:emoji-ios:0.6.0'
-  //封面获取，视频压缩 https://github.com/microshow/RxFFmpeg
-  //implementation 'com.github.microshow:RxFFmpeg:4.2.0-lite'
-
-  //必选 https://github.com/dueeeke/DKVideoPlayer/wiki
-  implementation 'com.github.dueeeke.dkplayer:dkplayer-java:3.2.6'
-  //可选，包含StandardVideoController的实现
-  implementation 'com.github.dueeeke.dkplayer:dkplayer-ui:3.2.6'
-  //可选，使用exoplayer进行解码（推荐）
-  implementation 'com.github.dueeeke.dkplayer:player-exo:3.2.6'
-
-  //弹幕 https://github.com/bilibili/DanmakuFlameMaster
-  implementation 'com.github.ctiao:DanmakuFlameMaster:0.9.25'
-  implementation 'com.github.ctiao:ndkbitmap-armv7a:0.9.21'
-
-  //SideBar https://github.com/D10NGYANG/DL10SideBar
-  implementation 'com.github.D10NGYANG:DL10SideBar:1.0.0'
-
-  //bugly https://bugly.qq.com/docs/user-guide/instruction-manual-android/?v=20190916214340
-  implementation 'com.tencent.bugly:crashreport:3.2.33'
-  implementation 'com.tencent.bugly:nativecrashreport:3.7.3'
-
-  //中文转拼音 https://github.com/promeG/TinyPinyin
-  implementation 'com.github.promeg:tinypinyin:2.0.3' // TinyPinyin核心包，约80KB
-  implementation 'com.github.promeg:tinypinyin-lexicons-android-cncity:2.0.3' // 可选，适用于Android的中国地区词典
-
-  //@和#效果 https://github.com/sunhapper/SpEditTool
-  implementation 'com.github.sunhapper.SpEditTool:SpEditText:1.0.4'
-
-  //https://github.com/airbnb/epoxy 放在lib中失败
-  kapt 'com.airbnb.android:epoxy-processor:4.0.0-beta4'
-
-  //RxHttp https://github.com/liujingxing/okhttp-RxHttp
-  implementation 'com.ljx.rxhttp:rxhttp:2.2.8'
-  kapt 'com.ljx.rxhttp:rxhttp-compiler:2.2.8' //生成RxHttp类
-  //rxandroid在lib中已经存在，就不再次添加了
-  implementation 'com.ljx.rxlife2:rxlife-rxjava:2.0.0' //管理RxJava2生命周期，页面销毁，关闭请求
-
-  //日期选择 https://github.com/zyyoona7/WheelPicker
-  implementation 'com.github.zyyoona7:wheelview:1.0.8'
-  implementation 'com.github.zyyoona7:pickerview:1.1.0'
-
-  //FlexboxLayout https://github.com/google/flexbox-layout
-  implementation 'com.google.android:flexbox:2.0.1'
+  flavors_devImplementation Deps.leakcanary
+  implementation Deps.emoji
+  implementation Deps.dkplayer_java
+  implementation Deps.dkplayer_ui
+  implementation Deps.dkplayer_exo
+  implementation Deps.danma_master
+  implementation Deps.danma_bitmap
+  implementation Deps.side_bar
+  implementation Deps.bugly_crash
+  implementation Deps.bugly_native
+  implementation Deps.pinyin
+  implementation Deps.pinyin_android
+  implementation Deps.spedit_tool
+  kapt Deps.epoxy_processor
+  implementation Deps.rxhttp
+  kapt Deps.rxhttp_kapt
+  implementation Deps.rxlife_rxjava
+  implementation Deps.wheelview
+  implementation Deps.pickerview
+  implementation Deps.flexbox
 }
