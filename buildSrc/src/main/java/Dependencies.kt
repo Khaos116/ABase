@@ -12,20 +12,20 @@ object Deps {
   //根目录gradle https://maven.aliyun.com/mvn/search
   const val plugin_android_gradle = "com.android.tools.build:gradle:4.0.1"
   const val plugin_kotlin_gradle = "org.jetbrains.kotlin:kotlin-gradle-plugin:${Versions.kotlin}"
-  const val plugin_r8_gradle = "com.android.tools:r8:2.1.66" //更新R8版本，解决正式版无法打包的问题 https://github.com/square/okhttp/issues/4604
-  const val plugin_and_res = "com.tencent.mm:AndResGuard-gradle-plugin:1.2.18" //https://github.com/shwenzhang/AndResGuard/blob/master/README.zh-cn.md
+  const val plugin_r8_gradle = "com.android.tools:r8:2.1.67" //更新R8版本，解决正式版无法打包的问题 https://github.com/square/okhttp/issues/4604
+  const val plugin_and_res = "com.tencent.mm:AndResGuard-gradle-plugin:1.2.19" //https://github.com/shwenzhang/AndResGuard/blob/master/README.zh-cn.md
   const val plugin_bugly = "com.tencent.bugly:symtabfileuploader:2.2.1" //bugly的mapping上传
 
   //使用kotlin
   const val kotlin_stdlib = "org.jetbrains.kotlin:kotlin-stdlib:${Versions.kotlin}"
 
   //系统相关 https://maven.aliyun.com/mvn/search
-  const val core_ktx = "androidx.core:core-ktx:1.3.1"
-  const val activity_ktx = "androidx.activity:activity-ktx:1.2.0-alpha07"
-  const val appcompat = "androidx.appcompat:appcompat:1.3.0-alpha01"
-  const val fragment = "androidx.fragment:fragment:1.3.0-alpha07"
+  const val core_ktx = "androidx.core:core-ktx:1.5.0-alpha03"
+  const val activity_ktx = "androidx.activity:activity-ktx:1.2.0-alpha08"
+  const val appcompat = "androidx.appcompat:appcompat:1.3.0-alpha02"
+  const val fragment = "androidx.fragment:fragment:1.3.0-alpha08"
   const val material = "com.google.android.material:material:1.3.0-alpha02"
-  const val constraint = "androidx.constraintlayout:constraintlayout:1.1.3"
+  const val constraint = "androidx.constraintlayout:constraintlayout:2.0.1"
   const val viewmodel = "androidx.lifecycle:lifecycle-viewmodel:2.3.0-alpha07"
 
   //分包 https://developer.android.google.cn/studio/build/multidex?hl=zh_cn#mdex-gradle
