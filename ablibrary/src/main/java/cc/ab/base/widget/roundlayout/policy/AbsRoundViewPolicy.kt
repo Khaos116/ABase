@@ -3,7 +3,7 @@ package cc.ab.base.widget.roundlayout.policy
 import android.content.Context
 import android.util.AttributeSet
 import android.view.View
-import cc.ab.base.widget.roundlayout.dip2px
+import cc.ab.base.widget.roundlayout.SizeUtils
 
 /**
  * 圆角策略抽象类
@@ -36,7 +36,7 @@ abstract class AbsRoundViewPolicy(
     //get corner radius from xml file, default value is DEFAULT_CORNER_DP_SIZE
     mCornerRadius = typedArray.getDimension(
         attrIndex,
-        dip2px(context, DEFAULT_CORNER_DP_SIZE)
+        SizeUtils.dip2px(context, DEFAULT_CORNER_DP_SIZE)
     )
     typedArray.recycle()
   }

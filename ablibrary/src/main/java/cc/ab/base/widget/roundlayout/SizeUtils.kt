@@ -7,7 +7,11 @@ import android.content.Context
  * @param dipValue dp值
  * @return 像素
  */
-fun dip2px(context: Context, dipValue: Float): Float {
-    val displayMetrics = context.applicationContext.resources.displayMetrics
-    return dipValue * displayMetrics.density + 0.5f
+class SizeUtils {
+  companion object {
+    fun dip2px(context: Context, dipValue: Float): Float {
+      val displayMetrics = context.applicationContext.resources.displayMetrics
+      return dipValue * displayMetrics.density + 0.5f
+    }
+  }
 }
