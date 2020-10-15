@@ -11,10 +11,11 @@ import cc.ab.base.widget.discretescrollview.adapter.DiscretePageAdapter
 import cc.ab.base.widget.discretescrollview.holder.DiscreteHolder
 import cc.ab.base.widget.discretescrollview.holder.DiscreteHolderCreator
 import com.blankj.utilcode.util.SizeUtils
+import kotlin.math.abs
 
 /**
- * Description:参考https://github.com/saiwu-bigkoo/Android-ConvenientBanner/blob/master/convenientbanner/src/main/java/com/bigkoo/convenientbanner/ConvenientBanner.java
- * @author: caiyoufei
+ * Description:参考 https://github.com/saiwu-bigkoo/Android-ConvenientBanner/blob/master/convenientbanner/src/main/java/com/bigkoo/convenientbanner/ConvenientBanner.java
+ * @author: CASE
  * @date: 2019/10/14 11:44
  */
 class DiscreteBanner<T> @JvmOverloads constructor(
@@ -22,7 +23,7 @@ class DiscreteBanner<T> @JvmOverloads constructor(
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0,
     defStyleRes: Int = 0
-                                                 ) : FrameLayout(context, attrs, defStyleAttr, defStyleRes) {
+) : FrameLayout(context, attrs, defStyleAttr, defStyleRes) {
   //横向还是竖向
   private var orientation = DSVOrientation.HORIZONTAL.ordinal
 
@@ -47,6 +48,9 @@ class DiscreteBanner<T> @JvmOverloads constructor(
   //是否需要自动轮播
   private var needAutoPlay = false
 
+  //是否在ViewPager中
+  private var inPager = false
+
   //默认间距
   val defaultOffset: Float = SizeUtils.dp2px(8f) * 1f
 
@@ -60,8 +64,7 @@ class DiscreteBanner<T> @JvmOverloads constructor(
   init {
     if (attrs != null) {
       val ta = getContext().obtainStyledAttributes(attrs, R.styleable.DiscreteBanner)
-      this.orientation =
-          ta.getInt(R.styleable.DiscreteBanner_dsv_orientation, DSVOrientation.HORIZONTAL.ordinal)
+      this.orientation = ta.getInt(R.styleable.DiscreteBanner_dsv_orientation, DSVOrientation.HORIZONTAL.ordinal)
       ta.recycle()
     }
     initPager()
@@ -81,9 +84,9 @@ class DiscreteBanner<T> @JvmOverloads constructor(
       }
       mIndicator.setDotSelection(position)
     }
-    if (orientation == DSVOrientation.HORIZONTAL.ordinal) {//横向
+    if (orientation == DSVOrientation.HORIZONTAL.ordinal) { //横向
       mPager.setOrientation(DSVOrientation.HORIZONTAL)
-    } else {//竖向
+    } else { //竖向
       mPager.setOrientation(DSVOrientation.VERTICAL)
     }
     //添加View
@@ -109,11 +112,11 @@ class DiscreteBanner<T> @JvmOverloads constructor(
       }
     }
     val indicatorParam = LayoutParams(-2, -2)
-    if (orientation == DSVOrientation.HORIZONTAL.ordinal) {//横向
+    if (orientation == DSVOrientation.HORIZONTAL.ordinal) { //横向
       mIndicator.orientation = LinearLayout.HORIZONTAL
       indicatorParam.gravity = Gravity.BOTTOM or Gravity.CENTER_HORIZONTAL
       mIndicator.translationY = -defaultOffset
-    } else {//竖向
+    } else { //竖向
       mIndicator.orientation = LinearLayout.VERTICAL
       indicatorParam.gravity = Gravity.END or Gravity.CENTER_VERTICAL
       mIndicator.translationX = -defaultOffset
@@ -125,13 +128,13 @@ class DiscreteBanner<T> @JvmOverloads constructor(
   fun setOrientation(orientation: DSVOrientation): DiscreteBanner<T> {
     this.orientation = orientation.ordinal
     mPager.setOrientation(orientation)
-    if (orientation == DSVOrientation.HORIZONTAL) {//横向
+    if (orientation == DSVOrientation.HORIZONTAL) { //横向
       mIndicator.orientation = LinearLayout.HORIZONTAL
       (mIndicator.layoutParams as LayoutParams).gravity =
           Gravity.BOTTOM or Gravity.CENTER_HORIZONTAL
       mIndicator.translationX = 0f
       mIndicator.translationY = -defaultOffset
-    } else {//竖向
+    } else { //竖向
       mIndicator.orientation = LinearLayout.VERTICAL
       (mIndicator.layoutParams as LayoutParams).gravity = Gravity.END or Gravity.CENTER_VERTICAL
       mIndicator.translationX = -defaultOffset
@@ -170,6 +173,11 @@ class DiscreteBanner<T> @JvmOverloads constructor(
     return this
   }
 
+  fun setInViewPager(inPager: Boolean): DiscreteBanner<T> {
+    this.inPager = inPager
+    return this
+  }
+
   //设置点击事件
   fun setOnItemClick(click: (position: Int, t: T) -> Unit): DiscreteBanner<T> {
     itemClick = click
@@ -191,10 +199,7 @@ class DiscreteBanner<T> @JvmOverloads constructor(
 
   //设置数据
   @Suppress("UNCHECKED_CAST")
-  fun setPages(
-      holderCreator: DiscreteHolderCreator,
-      datas: List<T>
-              ): DiscreteBanner<T> {
+  fun setPages(holderCreator: DiscreteHolderCreator, datas: List<T>): DiscreteBanner<T> {
     stopPlay()
     this.mData = datas
     this.mPagerAdapter = DiscretePageAdapter(holderCreator, mData)
@@ -266,27 +271,63 @@ class DiscreteBanner<T> @JvmOverloads constructor(
     }
   }
 
+  //是否需要确定竖向滑动
+  private var needCheckVertical = false
+
+  //是否确定滑动方向
+  private var hasConfirmDirection = false
+
+  //需要正常滑动判断的最小距离
+  private var minMoveDistance = 25
+
+  //记录触摸位置
+  private var mPosX = 0f
+  private var mPosY = 0f
+  private var mCurPosX = 0f
+  private var mCurPosY = 0f
+
   //手指触摸打断自动轮播
   override fun dispatchTouchEvent(ev: MotionEvent?): Boolean {
-    if (needAutoPlay && mPagerAdapter?.itemCount ?: 0 > 1) {
+    if (mPagerAdapter?.itemCount ?: 0 > 1) {
       ev?.let { e ->
-        val action = e.action
+        val action = e.action and MotionEvent.ACTION_MASK
         if (action == MotionEvent.ACTION_DOWN) {
-          //如果需要竖向滑动，则请求父控件不拦截
-          if (this.orientation == DSVOrientation.VERTICAL.ordinal && mPagerAdapter?.itemCount ?: 0 > 1) {
-            mPager.parent.requestDisallowInterceptTouchEvent(true)
+          needCheckVertical = false
+          hasConfirmDirection = false
+          if (needAutoPlay) stopPlay()
+          if (!inPager && this.orientation == DSVOrientation.VERTICAL.ordinal) {
+            mPager.parent.requestDisallowInterceptTouchEvent(true) //竖向滑动，自己处理
+          } else if (inPager) {
+            mPager.parent.requestDisallowInterceptTouchEvent(true) //先让自己执行判断
+            needCheckVertical = true //在ViewPager中横向滑动，需要手动判断是否是竖向滑动。竖向滑动需要交给父控件处理
+            mPosX = e.rawX
+            mPosY = e.rawY
+            mCurPosX = mPosX
+            mCurPosY = mPosY
           }
-          stopPlay()
-        } else if (action == MotionEvent.ACTION_UP ||
-            action == MotionEvent.ACTION_CANCEL ||
-            action == MotionEvent.ACTION_OUTSIDE
-        ) {
-          startPlay()
-        } else {
-          return super.dispatchTouchEvent(ev)
-        }
+        } else if (action == MotionEvent.ACTION_MOVE && needCheckVertical && !hasConfirmDirection) {
+          mCurPosX = e.rawX
+          mCurPosY = e.rawY
+          if (mPosX == 0f) mPosX = mCurPosX
+          if (mPosY == 0f) mPosY = mCurPosY
+          //滑动的距离
+          val distanceX = abs(mCurPosX - mPosX)
+          val distanceY = abs(mCurPosY - mPosY)
+          if (distanceX >= minMoveDistance || distanceY >= minMoveDistance) { //确定方向
+            hasConfirmDirection = true
+            if (distanceX < distanceY && this.orientation == DSVOrientation.HORIZONTAL.ordinal) { //竖向滑动，横向ViewPager
+              parent.requestDisallowInterceptTouchEvent(false) //让父控件执行
+            } else if (distanceX > distanceY && this.orientation == DSVOrientation.VERTICAL.ordinal) { //横向滑动，竖向ViewPager
+              parent.requestDisallowInterceptTouchEvent(false) //让父控件执行
+            }
+          }
+        } else if (action == MotionEvent.ACTION_UP || action == MotionEvent.ACTION_CANCEL || action == MotionEvent.ACTION_OUTSIDE) {
+          if (needAutoPlay) startPlay()
+        } else return super.dispatchTouchEvent(ev)
       }
     }
     return super.dispatchTouchEvent(ev)
   }
+
+  fun getOrientation() = orientation
 }
