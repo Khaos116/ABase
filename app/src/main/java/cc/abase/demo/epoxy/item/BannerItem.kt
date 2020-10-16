@@ -39,7 +39,6 @@ abstract class BannerItem : BaseEpoxyModel<BaseEpoxyHolder>() {
       banner.setOrientation(if (vertical) DSVOrientation.VERTICAL else DSVOrientation.HORIZONTAL)
           .setLooper(true)
           .setAutoPlay(true)
-          .setInViewPager(true)
           .setOnItemClick { _, t -> WebActivity.startActivity(banner.context, t.url ?: "") }
           .also {
             if (!vertical) {
