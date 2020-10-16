@@ -6,6 +6,8 @@ import android.util.AttributeSet
 import android.view.*
 import android.widget.FrameLayout
 import android.widget.LinearLayout
+import androidx.viewpager.widget.ViewPager
+import androidx.viewpager2.widget.ViewPager2
 import cc.ab.base.R
 import cc.ab.base.widget.discretescrollview.adapter.DiscretePageAdapter
 import cc.ab.base.widget.discretescrollview.holder.DiscreteHolder
@@ -173,11 +175,6 @@ class DiscreteBanner<T> @JvmOverloads constructor(
     return this
   }
 
-  fun setInViewPager(inPager: Boolean): DiscreteBanner<T> {
-    this.inPager = inPager
-    return this
-  }
-
   //设置点击事件
   fun setOnItemClick(click: (position: Int, t: T) -> Unit): DiscreteBanner<T> {
     itemClick = click
@@ -253,12 +250,25 @@ class DiscreteBanner<T> @JvmOverloads constructor(
   override fun onAttachedToWindow() {
     super.onAttachedToWindow()
     startPlay()
+    checkInPager(parent)
+  }
+
+  //判断是否处于ViewPager中
+  private fun checkInPager(parent: ViewParent?): ViewParent? {
+    if (parent == null || parent.parent == null) return null
+    return if (parent.parent is ViewPager || parent.parent is ViewPager2) {
+      inPager = true
+      null
+    } else {
+      checkInPager(parent.parent)
+    }
   }
 
   //移除-停止
   override fun onDetachedFromWindow() {
     super.onDetachedFromWindow()
     stopPlay()
+    inPager = false
   }
 
   //显示播放，隐藏停止
@@ -271,10 +281,7 @@ class DiscreteBanner<T> @JvmOverloads constructor(
     }
   }
 
-  //是否需要确定竖向滑动
-  private var needCheckVertical = false
-
-  //是否确定滑动方向
+  //是否确定滑动方向，只有在ViewPager中才需要
   private var hasConfirmDirection = false
 
   //需要正常滑动判断的最小距离
@@ -292,24 +299,18 @@ class DiscreteBanner<T> @JvmOverloads constructor(
       ev?.let { e ->
         val action = e.action and MotionEvent.ACTION_MASK
         if (action == MotionEvent.ACTION_DOWN) {
-          needCheckVertical = false
           hasConfirmDirection = false
-          if (needAutoPlay) stopPlay()
+          stopPlay()
           if (!inPager && this.orientation == DSVOrientation.VERTICAL.ordinal) {
-            mPager.parent.requestDisallowInterceptTouchEvent(true) //竖向滑动，自己处理
+            this.requestDisallowInterceptTouchEvent(true) //没在ViewPager中，自己处理竖向滑动
           } else if (inPager) {
-            mPager.parent.requestDisallowInterceptTouchEvent(true) //先让自己执行判断
-            needCheckVertical = true //在ViewPager中横向滑动，需要手动判断是否是竖向滑动。竖向滑动需要交给父控件处理
-            mPosX = e.rawX
+            this.requestDisallowInterceptTouchEvent(true) //在ViewPager中，自己判断是横向还是纵向
+            mPosX = e.rawX//记录地址，方便判断方向
             mPosY = e.rawY
-            mCurPosX = mPosX
-            mCurPosY = mPosY
           }
-        } else if (action == MotionEvent.ACTION_MOVE && needCheckVertical && !hasConfirmDirection) {
+        } else if (action == MotionEvent.ACTION_MOVE && inPager && !hasConfirmDirection) {
           mCurPosX = e.rawX
           mCurPosY = e.rawY
-          if (mPosX == 0f) mPosX = mCurPosX
-          if (mPosY == 0f) mPosY = mCurPosY
           //滑动的距离
           val distanceX = abs(mCurPosX - mPosX)
           val distanceY = abs(mCurPosY - mPosY)
@@ -319,10 +320,10 @@ class DiscreteBanner<T> @JvmOverloads constructor(
               parent.requestDisallowInterceptTouchEvent(false) //让父控件执行
             } else if (distanceX > distanceY && this.orientation == DSVOrientation.VERTICAL.ordinal) { //横向滑动，竖向ViewPager
               parent.requestDisallowInterceptTouchEvent(false) //让父控件执行
-            }
+            }//其余情况自己处理即可(已在MotionEvent.ACTION_DOWN中自行处理)
           }
         } else if (action == MotionEvent.ACTION_UP || action == MotionEvent.ACTION_CANCEL || action == MotionEvent.ACTION_OUTSIDE) {
-          if (needAutoPlay) startPlay()
+          startPlay()
         } else return super.dispatchTouchEvent(ev)
       }
     }
