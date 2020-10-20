@@ -1,17 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-  <!-- QMUIRadiusImageView -->
-  <declare-styleable name="QMUIRadiusImageView">
-    <attr name="qmui_border_width" format="dimension"/>
-    <attr name="qmui_border_color" format="color"/>
-    <attr name="qmui_selected_mask_color" format="color"/>
-    <attr name="qmui_selected_border_color" format="color"/>
-    <attr name="qmui_selected_border_width" format="dimension"/>
-    <attr name="qmui_corner_radius" format="dimension"/>
-    <attr name="qmui_is_oval" format="boolean"/>
-    <attr name="qmui_is_circle" format="boolean"/>
-    <attr name="qmui_is_touch_select_mode_enabled" format="boolean"/>
-  </declare-styleable>
   <!--九宫格控件-->
   <declare-styleable name="NineGridView">
     <attr name="singleImgSize" format="dimension"/>
@@ -41,21 +29,38 @@
   </declare-styleable>
 
   <!--圆角控件-->
-  <attr name="corner_radius" format="dimension" />
+  <attr name="corner_radius" format="dimension"/>
   <declare-styleable name="GeneralRoundLinearLayout">
-    <attr name="corner_radius" />
+    <attr name="corner_radius"/>
   </declare-styleable>
   <declare-styleable name="GeneralRoundRelativeLayout">
-    <attr name="corner_radius" />
+    <attr name="corner_radius"/>
   </declare-styleable>
   <declare-styleable name="GeneralRoundFrameLayout">
-    <attr name="corner_radius" />
+    <attr name="corner_radius"/>
   </declare-styleable>
   <declare-styleable name="GeneralRoundConstraintLayout">
-    <attr name="corner_radius" />
+    <attr name="corner_radius"/>
+  </declare-styleable>
+  <declare-styleable name="GeneralRoundImageView">
+    <attr name="corner_radius"/>
+  </declare-styleable>
+  <declare-styleable name="GeneralCircleImageView">
+    <attr name="corner_radius"/>
   </declare-styleable>
 
   <declare-styleable name="DrawableTextView">
+    <attr name="drawableLeftWidth" format="dimension"/>
+    <attr name="drawableLeftHeight" format="dimension"/>
+    <attr name="drawableRightWidth" format="dimension"/>
+    <attr name="drawableRightHeight" format="dimension"/>
+    <attr name="drawableTopWidth" format="dimension"/>
+    <attr name="drawableTopHeight" format="dimension"/>
+    <attr name="drawableBottomWidth" format="dimension"/>
+    <attr name="drawableBottomHeight" format="dimension"/>
+  </declare-styleable>
+
+  <declare-styleable name="DrawableEditText">
     <attr name="drawableLeftWidth" format="dimension"/>
     <attr name="drawableLeftHeight" format="dimension"/>
     <attr name="drawableRightWidth" format="dimension"/>
