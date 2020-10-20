@@ -37,17 +37,17 @@ class DrawableEditText(context: Context, attributeSet: AttributeSet?) :
   init {
     val array = context.obtainStyledAttributes(attributeSet, R.styleable.DrawableTextView)
 
-    leftWidth = array.getDimensionPixelSize(R.styleable.DrawableEditText_drawableLeftWidth, -1)
-    leftHeight = array.getDimensionPixelSize(R.styleable.DrawableEditText_drawableLeftHeight, -1)
+    leftWidth = array.getDimensionPixelSize(R.styleable.DrawableEditText_drawableELeftWidth, -1)
+    leftHeight = array.getDimensionPixelSize(R.styleable.DrawableEditText_drawableELeftHeight, -1)
 
-    topWidth = array.getDimensionPixelSize(R.styleable.DrawableEditText_drawableTopWidth, -1)
-    topHeight = array.getDimensionPixelSize(R.styleable.DrawableEditText_drawableTopHeight, -1)
+    topWidth = array.getDimensionPixelSize(R.styleable.DrawableEditText_drawableETopWidth, -1)
+    topHeight = array.getDimensionPixelSize(R.styleable.DrawableEditText_drawableETopHeight, -1)
 
-    rightWidth = array.getDimensionPixelSize(R.styleable.DrawableEditText_drawableRightWidth, -1)
-    rightHeight = array.getDimensionPixelSize(R.styleable.DrawableEditText_drawableRightHeight, -1)
+    rightWidth = array.getDimensionPixelSize(R.styleable.DrawableEditText_drawableERightWidth, -1)
+    rightHeight = array.getDimensionPixelSize(R.styleable.DrawableEditText_drawableERightHeight, -1)
 
-    bottomWidth = array.getDimensionPixelSize(R.styleable.DrawableEditText_drawableBottomWidth, -1)
-    bottomHeight = array.getDimensionPixelSize(R.styleable.DrawableEditText_drawableBottomHeight, -1)
+    bottomWidth = array.getDimensionPixelSize(R.styleable.DrawableEditText_drawableEBottomWidth, -1)
+    bottomHeight = array.getDimensionPixelSize(R.styleable.DrawableEditText_drawableEBottomHeight, -1)
 
     array.recycle()
 

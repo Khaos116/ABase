@@ -50,24 +50,24 @@
   </declare-styleable>
 
   <declare-styleable name="DrawableTextView">
-    <attr name="drawableLeftWidth" format="dimension"/>
-    <attr name="drawableLeftHeight" format="dimension"/>
-    <attr name="drawableRightWidth" format="dimension"/>
-    <attr name="drawableRightHeight" format="dimension"/>
-    <attr name="drawableTopWidth" format="dimension"/>
-    <attr name="drawableTopHeight" format="dimension"/>
-    <attr name="drawableBottomWidth" format="dimension"/>
-    <attr name="drawableBottomHeight" format="dimension"/>
+    <attr name="drawableTLeftWidth" format="dimension"/>
+    <attr name="drawableTLeftHeight" format="dimension"/>
+    <attr name="drawableTRightWidth" format="dimension"/>
+    <attr name="drawableTRightHeight" format="dimension"/>
+    <attr name="drawableTTopWidth" format="dimension"/>
+    <attr name="drawableTTopHeight" format="dimension"/>
+    <attr name="drawableTBottomWidth" format="dimension"/>
+    <attr name="drawableTBottomHeight" format="dimension"/>
   </declare-styleable>
 
   <declare-styleable name="DrawableEditText">
-    <attr name="drawableLeftWidth" format="dimension"/>
-    <attr name="drawableLeftHeight" format="dimension"/>
-    <attr name="drawableRightWidth" format="dimension"/>
-    <attr name="drawableRightHeight" format="dimension"/>
-    <attr name="drawableTopWidth" format="dimension"/>
-    <attr name="drawableTopHeight" format="dimension"/>
-    <attr name="drawableBottomWidth" format="dimension"/>
-    <attr name="drawableBottomHeight" format="dimension"/>
+    <attr name="drawableELeftWidth" format="dimension"/>
+    <attr name="drawableELeftHeight" format="dimension"/>
+    <attr name="drawableERightWidth" format="dimension"/>
+    <attr name="drawableERightHeight" format="dimension"/>
+    <attr name="drawableETopWidth" format="dimension"/>
+    <attr name="drawableETopHeight" format="dimension"/>
+    <attr name="drawableEBottomWidth" format="dimension"/>
+    <attr name="drawableEBottomHeight" format="dimension"/>
   </declare-styleable>
 </resources>

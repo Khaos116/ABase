@@ -28,17 +28,17 @@ class DrawableTextView(context: Context, attributeSet: AttributeSet?) :
   init {
     val array = context.obtainStyledAttributes(attributeSet, R.styleable.DrawableTextView)
 
-    leftWidth = array.getDimensionPixelSize(R.styleable.DrawableTextView_drawableLeftWidth, -1)
-    leftHeight = array.getDimensionPixelSize(R.styleable.DrawableTextView_drawableLeftHeight, -1)
+    leftWidth = array.getDimensionPixelSize(R.styleable.DrawableTextView_drawableTLeftWidth, -1)
+    leftHeight = array.getDimensionPixelSize(R.styleable.DrawableTextView_drawableTLeftHeight, -1)
 
-    topWidth = array.getDimensionPixelSize(R.styleable.DrawableTextView_drawableTopWidth, -1)
-    topHeight = array.getDimensionPixelSize(R.styleable.DrawableTextView_drawableTopHeight, -1)
+    topWidth = array.getDimensionPixelSize(R.styleable.DrawableTextView_drawableTTopWidth, -1)
+    topHeight = array.getDimensionPixelSize(R.styleable.DrawableTextView_drawableTTopHeight, -1)
 
-    rightWidth = array.getDimensionPixelSize(R.styleable.DrawableTextView_drawableRightWidth, -1)
-    rightHeight = array.getDimensionPixelSize(R.styleable.DrawableTextView_drawableRightHeight, -1)
+    rightWidth = array.getDimensionPixelSize(R.styleable.DrawableTextView_drawableTRightWidth, -1)
+    rightHeight = array.getDimensionPixelSize(R.styleable.DrawableTextView_drawableTRightHeight, -1)
 
-    bottomWidth = array.getDimensionPixelSize(R.styleable.DrawableTextView_drawableBottomWidth, -1)
-    bottomHeight = array.getDimensionPixelSize(R.styleable.DrawableTextView_drawableBottomHeight, -1)
+    bottomWidth = array.getDimensionPixelSize(R.styleable.DrawableTextView_drawableTBottomWidth, -1)
+    bottomHeight = array.getDimensionPixelSize(R.styleable.DrawableTextView_drawableTBottomHeight, -1)
 
     array.recycle()
 
