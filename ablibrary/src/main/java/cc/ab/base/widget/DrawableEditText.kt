@@ -121,7 +121,7 @@ class DrawableEditText(context: Context, attributeSet: AttributeSet?) :
         val eventY = event.rawY.toInt()
         val rect = Rect()
         getGlobalVisibleRect(rect)
-        rect.left = rect.right - rightWidth
+        rect.left = rect.right - rightWidth - paddingEnd
         if (rect.contains(eventX, eventY)) {
           setText("")
           return true
