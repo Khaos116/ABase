@@ -35,7 +35,7 @@ class DrawableEditText(context: Context, attributeSet: AttributeSet?) :
   private var bottomD: Drawable? = null
 
   init {
-    val array = context.obtainStyledAttributes(attributeSet, R.styleable.DrawableTextView)
+    val array = context.obtainStyledAttributes(attributeSet, R.styleable.DrawableEditText)
 
     leftWidth = array.getDimensionPixelSize(R.styleable.DrawableEditText_drawableELeftWidth, -1)
     leftHeight = array.getDimensionPixelSize(R.styleable.DrawableEditText_drawableELeftHeight, -1)
