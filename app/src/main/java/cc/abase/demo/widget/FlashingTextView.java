@@ -66,8 +66,16 @@ public class FlashingTextView extends AppCompatTextView {
       matrix.setTranslate(deltaX, 0);
     }
     gradient.setLocalMatrix(matrix);
-    postInvalidateDelayed(120);
+    //postInvalidateDelayed(120)
+    removeCallbacks(runable);
+    postDelayed(runable, 120);
   }
+
+  private Runnable runable = new Runnable() {
+    @Override public void run() {
+      postInvalidate();
+    }
+  };
 
   public void setFlashColor(int flashColor) {
     this.flashColor = flashColor;
