@@ -220,7 +220,7 @@ class DiscreteBanner<T> @JvmOverloads constructor(
   //开始轮播
   fun startPlay() {
     stopPlay()
-    if (needAutoPlay && mPagerAdapter?.itemCount ?: 0 > 1) {
+    if (needAutoPlay) {
       playHandler.postDelayed(playRunnable, defaultAutoPlayDuration)
     }
   }
@@ -236,7 +236,7 @@ class DiscreteBanner<T> @JvmOverloads constructor(
   //自动轮播的Runnable
   private val playRunnable = Runnable {
     kotlin.run {
-      mPager.smoothScrollToPosition(mPager.currentItem + 1)
+      if (mPagerAdapter?.itemCount ?: 0 > 1) mPager.smoothScrollToPosition(mPager.currentItem + 1)
       next()
     }
   }
@@ -305,7 +305,7 @@ class DiscreteBanner<T> @JvmOverloads constructor(
             this.requestDisallowInterceptTouchEvent(true) //没在ViewPager中，自己处理竖向滑动
           } else if (inPager) {
             this.requestDisallowInterceptTouchEvent(true) //在ViewPager中，自己判断是横向还是纵向
-            mPosX = e.rawX//记录地址，方便判断方向
+            mPosX = e.rawX //记录地址，方便判断方向
             mPosY = e.rawY
           }
         } else if (action == MotionEvent.ACTION_MOVE && inPager && !hasConfirmDirection) {
@@ -320,7 +320,7 @@ class DiscreteBanner<T> @JvmOverloads constructor(
               parent.requestDisallowInterceptTouchEvent(false) //让父控件执行
             } else if (distanceX > distanceY && this.orientation == DSVOrientation.VERTICAL.ordinal) { //横向滑动，竖向ViewPager
               parent.requestDisallowInterceptTouchEvent(false) //让父控件执行
-            }//其余情况自己处理即可(已在MotionEvent.ACTION_DOWN中自行处理)
+            } //其余情况自己处理即可(已在MotionEvent.ACTION_DOWN中自行处理)
           }
         } else if (action == MotionEvent.ACTION_UP || action == MotionEvent.ACTION_CANCEL || action == MotionEvent.ACTION_OUTSIDE) {
           startPlay()
