@@ -1,5 +1,7 @@
 package cc.ab.base.utils
 
+import android.net.Uri
+import com.blankj.utilcode.util.UriUtils
 import java.io.File
 import java.net.FileNameMap
 import java.net.URLConnection
@@ -25,14 +27,31 @@ class MediaUtils private constructor() {
   }
 
   //判断文件是否是图片
-  fun isImageFile(filePath: String): Boolean {
-    if (!File(filePath).exists()) return false
-    return getMimeType(filePath).contains("image/")
+  fun isImageFile(filePath: String?): Boolean {
+    if (filePath.isNullOrBlank()) return false
+    return if (File(filePath).exists()) {
+      getMimeType(filePath).contains("image/")
+    } else {
+      val f = UriUtils.uri2File(Uri.parse(filePath))
+      if (f.exists()) getMimeType(f.path).contains("image/") else false
+    }
   }
 
   //判断文件是否是视频
-  fun isVideoFile(filePath: String): Boolean {
-    if (!File(filePath).exists()) return false
-    return getMimeType(filePath).contains("video/")
+  fun isVideoFile(filePath: String?): Boolean {
+    if (filePath.isNullOrBlank()) return false
+    return if (File(filePath).exists()) {
+      getMimeType(filePath).contains("video/")
+    } else {
+      val f = UriUtils.uri2File(Uri.parse(filePath))
+      if (f.exists()) getMimeType(f.path).contains("video/") else false
+    }
+  }
+
+  //是视频或者图片
+  fun isImgOrVideo(filePath: String?): Boolean {
+    if (filePath.isNullOrBlank()) return false
+    if (filePath.isNullOrBlank()) return false
+    return isImageFile(filePath) || isVideoFile(filePath)
   }
 }
