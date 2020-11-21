@@ -40,13 +40,13 @@ class DecorationFragment : CommFragment() {
     //页面重建View不再重新设置
     if (decorRecycler.itemDecorationCount == 0) {
       val decorator = if (mType != 8) {
-        GridSpaceItemDecoration(20,
+        GridSpaceItemDecoration(20).setNoDragGridEdge(
             //前4个没有，后4个有
-            mIncludeStartEnd = mType >= 4,
+            mType >= 4,
             //没有-没有-有-有；没有-没有-有-有；
-            mIncludeTop = mType == 2 || mType == 3 || mType == 6 || mType == 7,
+            mType == 2 || mType == 3 || mType == 6 || mType == 7,
             //没有-有-没有-有;没有-有-没有-有;
-            mIncludeBottom = mType == 1 || mType == 3 || mType == 5 || mType == 7)
+            mType == 1 || mType == 3 || mType == 5 || mType == 7)
       } else {
         mSpanCount = 6
         GridSpaceItemDecoration(20)
