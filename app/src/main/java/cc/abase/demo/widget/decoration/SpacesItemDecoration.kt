@@ -30,11 +30,11 @@ import com.blankj.utilcode.util.*
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */ /**
+ *
  * 给 LinearLayoutManager 增加分割线，可设置去除首尾分割线个数
  *
  * @author jingbin
- * https://github.com/youlookwhat/ByRecyclerView
+ * http://github.com/youlookwhat/ByRecyclerView
  */
 class SpacesItemDecoration @JvmOverloads constructor(private val mOrientation: Int = LinearLayoutManager.VERTICAL,
     private val mHeaderNoShowSize: Int = 0,/*头部 不显示分割线的item个数 headerViewSize + RefreshViewSize*/
