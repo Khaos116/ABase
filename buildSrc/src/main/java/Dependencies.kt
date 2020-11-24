@@ -11,7 +11,7 @@ object Versions {
 
 object Deps {
   //根目录gradle https://maven.aliyun.com/mvn/search
-  const val plugin_android_gradle = "com.android.tools.build:gradle:4.1.1"
+  const val plugin_android_gradle = "com.android.tools.build:gradle:3.5.4"
   const val plugin_kotlin_gradle = "org.jetbrains.kotlin:kotlin-gradle-plugin:${Versions.kotlin}"
   const val plugin_r8_gradle = "com.android.tools:r8:2.1.67" //更新R8版本，解决正式版无法打包的问题 https://github.com/square/okhttp/issues/4604
   const val plugin_and_res = "com.tencent.mm:AndResGuard-gradle-plugin:1.2.19" //https://github.com/shwenzhang/AndResGuard/blob/master/README.zh-cn.md
