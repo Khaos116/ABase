@@ -141,4 +141,7 @@ object Deps {
 
   //FlexboxLayout https://github.com/google/flexbox-layout
   const val flexbox = "com.google.android:flexbox:2.0.1"
+
+  //动态权限 https://github.com/getActivity/XXPermissions
+  const val xxpermissions = "com.hjq:xxpermissions:9.2"
 }
