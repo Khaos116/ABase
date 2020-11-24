@@ -4,6 +4,7 @@ import android.Manifest
 import android.graphics.Bitmap
 import android.media.MediaMetadataRetriever
 import android.util.Log
+import cc.ab.base.utils.PermissionUtils
 import cc.ab.base.utils.RxUtils
 import cc.abase.demo.R
 import com.blankj.utilcode.util.*
@@ -39,11 +40,7 @@ class VideoUtils private constructor() {
 
   //创建文件夹
   init {
-    if (PermissionUtils.isGranted(
-            Manifest.permission.WRITE_EXTERNAL_STORAGE,
-            Manifest.permission.READ_EXTERNAL_STORAGE
-        )
-    ) {
+    if (PermissionUtils.hasSDPermission()) {
       if (!File(outParentVideo).exists())
         LogUtils.e("CASE:创建Video文件夹:${File(outParentVideo).mkdirs()}")
       if (!File(outParentImgs).exists())
