@@ -19,15 +19,7 @@ import java.io.File
  * @author: caiyoufei
  * @date: 2019/11/11 21:40
  */
-class PermissionUtils private constructor() {
-  private object SingletonHolder {
-    val holder = PermissionUtils()
-  }
-
-  companion object {
-    val instance = SingletonHolder.holder
-  }
-
+object PermissionUtils {
   //是否有SD卡读取权限
   @SuppressLint("MissingPermission")
   @Synchronized
@@ -72,16 +64,16 @@ class PermissionUtils private constructor() {
   @Synchronized
   fun hasRecordPermission(): Boolean {
     val minBufferSize = AudioRecord.getMinBufferSize(
-      44100,
-      AudioFormat.CHANNEL_IN_STEREO,
-      AudioFormat.ENCODING_PCM_16BIT
+        44100,
+        AudioFormat.CHANNEL_IN_STEREO,
+        AudioFormat.ENCODING_PCM_16BIT
     )
     var audioRecord: AudioRecord? = null
     try {
       audioRecord = AudioRecord(
-        MediaRecorder.AudioSource.MIC, 44100,
-        AudioFormat.CHANNEL_IN_STEREO,
-        AudioFormat.ENCODING_PCM_16BIT, minBufferSize
+          MediaRecorder.AudioSource.MIC, 44100,
+          AudioFormat.CHANNEL_IN_STEREO,
+          AudioFormat.ENCODING_PCM_16BIT, minBufferSize
       )
     } catch (e: Exception) {
       e.printStackTrace()
@@ -136,7 +128,7 @@ class PermissionUtils private constructor() {
   fun hasLocationPermission(): Boolean {
     val c = Utils.getApp()
     val permission =
-      ActivityCompat.checkSelfPermission(c, Manifest.permission.ACCESS_FINE_LOCATION)
+        ActivityCompat.checkSelfPermission(c, Manifest.permission.ACCESS_FINE_LOCATION)
     if (permission < 0) {
       if (permission == -1) LogUtils.e("定位权限被拒绝")
       if (permission == -2) LogUtils.e("定位权限被永久拒绝")
@@ -145,9 +137,9 @@ class PermissionUtils private constructor() {
     val mLocationManager = c.getSystemService(Context.LOCATION_SERVICE) as LocationManager
     return try {
       mLocationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER)
-        ?.let {
-          LogUtils.e("getLastKnownLocation=$it")
-        }
+          ?.let {
+            LogUtils.e("getLastKnownLocation=$it")
+          }
       true
     } catch (e: Exception) {
       e.printStackTrace()
@@ -161,7 +153,7 @@ class PermissionUtils private constructor() {
   fun locationEnable(): Boolean {
     val c = Utils.getApp()
     val permission =
-      ActivityCompat.checkSelfPermission(c, Manifest.permission.ACCESS_FINE_LOCATION)
+        ActivityCompat.checkSelfPermission(c, Manifest.permission.ACCESS_FINE_LOCATION)
     if (permission < 0) {
       if (permission == -1) LogUtils.e("定位权限被拒绝")
       if (permission == -2) LogUtils.e("定位权限被永久拒绝")
@@ -181,9 +173,9 @@ class PermissionUtils private constructor() {
     if (provider.isNullOrBlank()) return false
     return try {
       mLocationManager.getLastKnownLocation(provider)
-        ?.let {
-          LogUtils.e("getLastKnownLocation=$it")
-        }
+          ?.let {
+            LogUtils.e("getLastKnownLocation=$it")
+          }
       true
     } catch (e: Exception) {
       e.printStackTrace()
