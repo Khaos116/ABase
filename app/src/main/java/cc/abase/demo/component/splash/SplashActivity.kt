@@ -1,9 +1,9 @@
 package cc.abase.demo.component.splash
 
-import android.Manifest
 import android.content.Intent
 import android.util.Log
 import cc.ab.base.ext.*
+import cc.ab.base.utils.PermissionUtils
 import cc.ab.base.utils.RxUtils
 import cc.abase.demo.R
 import cc.abase.demo.component.comm.CommActivity
@@ -12,15 +12,14 @@ import cc.abase.demo.component.main.MainActivity
 import cc.abase.demo.constants.ImageUrls
 import cc.abase.demo.rxhttp.repository.UserRepository
 import cc.abase.demo.utils.MMkvUtils
-import com.blankj.utilcode.constant.PermissionConstants
-import com.blankj.utilcode.util.LogUtils
-import com.blankj.utilcode.util.PermissionUtils
 import com.blankj.utilcode.util.TimeUtils
 import com.blankj.utilcode.util.Utils
 import com.gyf.immersionbar.ktx.immersionBar
+import com.hjq.permissions.*
 import io.reactivex.Flowable
 import io.reactivex.disposables.Disposable
-import kotlinx.android.synthetic.main.activity_splash.*
+import kotlinx.android.synthetic.main.activity_splash.splashCover
+import kotlinx.android.synthetic.main.activity_splash.splashTime
 import me.panpf.sketch.Sketch
 import java.util.concurrent.TimeUnit
 import kotlin.math.max
@@ -40,6 +39,7 @@ class SplashActivity : CommActivity() {
 
   //倒计时
   private var disposable: Disposable? = null
+
   //是否有SD卡读写权限
   private var hasSDPermission: Boolean? = null
 
@@ -69,47 +69,51 @@ class SplashActivity : CommActivity() {
     //页面无缝过渡后重置背景，不然会导致页面显示出现问题。主要解决由于window背景设置后的一些问题
     window.setBackgroundDrawable(null)
     //有尺寸了才开始计时
-    splashTime?.post {
+    mContentView.post {
       disposable = Flowable.intervalRange(0, count + 1, 0, 1, TimeUnit.SECONDS)
-        .compose(RxUtils.instance.rx2SchedulerHelperF(lifecycleProvider))
-        .doOnNext { splashTime.text = String.format("%d", max(1, count - it)) }
-        .doOnComplete {
-          Log.e("CASE", "倒计时结束")
-          countDownFinish = true
-          goNextPage()
-        }
-        .subscribe()
+          .compose(RxUtils.instance.rx2SchedulerHelperF(lifecycleProvider))
+          .doOnNext { splashTime.text = String.format("%d", max(1, count - it)) }
+          .doOnComplete {
+            Log.e("CASE", "倒计时结束")
+            countDownFinish = true
+            goNextPage()
+          }
+          .subscribe()
     }
   }
 
   override fun initData() {
     if (hasFinish) return
     loadData()
-    if (PermissionUtils.isGranted(
-            Manifest.permission.WRITE_EXTERNAL_STORAGE,
-            Manifest.permission.READ_EXTERNAL_STORAGE
-        )
-    ) {
-      hasSDPermission = true
-      goNextPage()
-    } else {
-      PermissionUtils.permission(PermissionConstants.STORAGE)
-          .callback(object : PermissionUtils.SimpleCallback {
-            //权限允许
-            override fun onGranted() {
-              LogUtils.e("CASE:有SD卡读写权限:${PermissionUtils.isGranted(PermissionConstants.STORAGE)}")
-              hasSDPermission = true
-              goNextPage()
-            }
+    //UI显示出来再执行倒计时和权限判断
+    mContentView.post {
+      val temp = PermissionUtils.hasSDPermission()
+      //请求SD卡权限
+      if (!temp) {
+        XXPermissions.with(this)
+            .permission(Permission.MANAGE_EXTERNAL_STORAGE)
+            .request(object : OnPermission {
+              override fun hasPermission(granted: MutableList<String>, all: Boolean) {
+                if (PermissionUtils.hasSDPermission()) {
+                  hasSDPermission = true
+                  goNextPage()
+                } else {
+                  mContext.toast("没有SD卡权限,不能使用APP")
+                  hasSDPermission = false
+                  goNextPage()
+                }
+              }
 
-            //权限拒绝
-            override fun onDenied() {
-              mContext.toast("没有SD卡权限,不能使用APP")
-              hasSDPermission = false
-              goNextPage()
-            }
-          })
-          .request()
+              override fun noPermission(denied: MutableList<String>, quick: Boolean) {
+                mContext.toast("没有SD卡权限,不能使用APP")
+                hasSDPermission = false
+                goNextPage()
+              }
+            })
+      } else {
+        hasSDPermission = true
+        goNextPage()
+      }
     }
   }
 
@@ -158,7 +162,7 @@ class SplashActivity : CommActivity() {
     //缓存图片存在
     if (cacheFile?.exists() == true) {
       splashCover.load(cacheFile)
-    } else {//加载网络图片
+    } else { //加载网络图片
       splashCover.gone()
       Sketch.with(Utils.getApp())
           .download(url, null)
