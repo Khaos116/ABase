@@ -1,9 +1,9 @@
 object Versions {
   internal const val sdkMin = 23
   internal const val sdkTarget = 30
-  internal const val kotlin = "1.4.10"
-  internal const val okHttp = "4.8.1"
-  internal const val rxHttp = "2.4.1"
+  internal const val kotlin = "1.4.20"
+  internal const val okHttp = "4.9.0"
+  internal const val rxHttp = "2.4.4"
   internal const val doraemonkit = "3.2.0"
   internal const val dkplayer = "3.2.6"
   internal const val epoxy = "4.1.0"
