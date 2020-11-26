@@ -59,6 +59,7 @@ dependencies {
   api Deps.swipe
   api Deps.swipex
   api Deps.okhttp
+  api Deps.okhttp_log
   api Deps.rxandroid
   api Deps.gson
   api Deps.mmkv
