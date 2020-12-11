@@ -1,9 +1,11 @@
-apply plugin: 'com.android.application'
-apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-android-extensions'
-apply plugin: 'kotlin-kapt'
+plugins {
+  id 'com.android.application'
+  id 'kotlin-android'
+  id 'kotlin-android-extensions'
+  id 'kotlin-kapt'
+  id 'bugly'
+}
 apply from: 'and_res_guard.gradle'
-apply plugin: 'bugly'
 
 def buglyAppId = 'c6e450ad19'
 def buglyAppKey = '54ece6d9-fcb0-4ce2-8dae-b86efb65617c'
