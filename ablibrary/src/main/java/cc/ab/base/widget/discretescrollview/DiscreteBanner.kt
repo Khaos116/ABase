@@ -236,7 +236,7 @@ class DiscreteBanner<T> @JvmOverloads constructor(
   //自动轮播的Runnable
   private val playRunnable = Runnable {
     kotlin.run {
-      if (mPagerAdapter?.itemCount ?: 0 > 1) mPager.smoothScrollToPosition(mPager.currentItem + 1)
+      if ((mPagerAdapter?.itemCount ?: 0) > 1 && (mPager.adapter?.itemCount ?: 0) > 1) mPager.smoothScrollToPosition(mPager.currentItem + 1)
       next()
     }
   }
