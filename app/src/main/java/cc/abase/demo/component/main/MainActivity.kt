@@ -3,6 +3,7 @@ package cc.abase.demo.component.main
 import android.content.Context
 import android.content.Intent
 import androidx.annotation.IntRange
+import androidx.lifecycle.Lifecycle
 import cc.ab.base.ext.toast
 import cc.abase.demo.R
 import cc.abase.demo.component.comm.CommActivity
@@ -16,8 +17,10 @@ class MainActivity : CommActivity() {
   private lateinit var homeFragment: CommFragment
   private lateinit var dynFragment: CommFragment
   private lateinit var mineFragment: CommFragment
+
   //当前页面
   private var currentFragment: CommFragment? = null
+
   //子列表合集，方便外部调用选中那个
   private var fragmentList = mutableListOf<CommFragment>()
 
@@ -47,7 +50,7 @@ class MainActivity : CommActivity() {
         R.id.menu_main_dyn -> selectFragment(1)
         R.id.menu_main_mine -> selectFragment(2)
       }
-      true//返回true让其默认选中点击的选项
+      true //返回true让其默认选中点击的选项
     }
   }
 
@@ -63,7 +66,10 @@ class MainActivity : CommActivity() {
     //和当前选中的一样，则不再处理
     if (currentFragment == fragment) return
     //先关闭之前显示的
-    currentFragment?.let { FragmentUtils.hide(it) }
+    currentFragment?.let {
+      FragmentUtils.hide(it)
+      supportFragmentManager.beginTransaction().setMaxLifecycle(it, Lifecycle.State.STARTED).commitAllowingStateLoss() //触发Fragment的onPause
+    }
     //设置现在需要显示的
     currentFragment = fragment
     if (!fragment.isAdded) { //没有添加，则添加并显示
@@ -73,6 +79,7 @@ class MainActivity : CommActivity() {
       )
     } else { //添加了就直接显示
       FragmentUtils.show(fragment)
+      supportFragmentManager.beginTransaction().setMaxLifecycle(fragment, Lifecycle.State.RESUMED).commitAllowingStateLoss() //触发Fragment的onResume
     }
   }
 
@@ -97,7 +104,7 @@ class MainActivity : CommActivity() {
       toast(R.string.double_exit)
       touchTime = currentTime
     } else {
-//      AppUtils.exitApp()
+      //      AppUtils.exitApp()
       super.onBackPressed()
     }
   }
