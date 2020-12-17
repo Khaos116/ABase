@@ -75,7 +75,8 @@ class TokenInterceptor : Interceptor {
     }
     //同步刷新token
     //3、发请求前需要add("request_time",System.currentTimeMillis())
-    val requestTime = if (post) rxHttp1.queryValue("request_time")
+    //val requestTime = if (post) rxHttp1.queryValue("request_time")
+    val requestTime = if (post) rxHttp1.param.bodyParam.first { p -> p.key == "request_time" }.value
     else rxHttp2.param.toString().split("&").first { it.contains("request_time") }.split("=")[1]
     val success: Boolean = refreshToken(requestTime)
     val newRequest: Request
@@ -113,7 +114,7 @@ class TokenInterceptor : Interceptor {
         RxHttp.postForm(WanUrls.User.LOGIN)
             .add("username", MMkvUtils.instance.getAccount())
             .add("password", EncryptUtils.encryptMD5ToString(MMkvUtils.instance.getPassword()))
-            .execute(SimpleParser.get(String::class.java))
+            .execute(SimpleParser[String::class.java])
         LogUtils.e("CASE:自动登录登录刷新Token")
         SESSION_KEY_REFRESH_TIME = System.currentTimeMillis()
         true
