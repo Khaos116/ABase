@@ -2,7 +2,7 @@ package cc.abase.demo.bean.local
 
 /**
  * Description:
- * @author: caiyoufei
+ * @author: CASE
  * @date: 2019/9/29 18:15
  */
 data class PicEntity(

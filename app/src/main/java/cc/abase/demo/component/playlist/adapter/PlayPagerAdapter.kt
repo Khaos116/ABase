@@ -16,7 +16,7 @@ import me.panpf.sketch.SketchImageView
 
 /**
  * Description:
- * @author: caiyoufei
+ * @author: CASE
  * @date: 2019/12/13 11:56
  */
 class PlayPagerAdapter(list: List<VideoBean>) : PagerAdapter() {

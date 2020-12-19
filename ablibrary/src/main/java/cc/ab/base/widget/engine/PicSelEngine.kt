@@ -22,7 +22,7 @@ import me.panpf.sketch.request.*
 
 /**
  * Description:
- * @author: caiyoufei
+ * @author: CASE
  * @date: 2019/11/30 17:16
  */
 class PicSelEngine : ImageEngine {

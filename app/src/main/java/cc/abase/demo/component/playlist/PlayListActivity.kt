@@ -25,7 +25,7 @@ import kotlinx.android.synthetic.main.item_list_video.view.itemVideoPrepareView
 
 /**
  * Description:https://github.com/dueeeke/DKVideoPlayer
- * @author: caiyoufei
+ * @author: CASE
  * @date: 2019/12/12 11:32
  */
 class PlayListActivity : CommTitleActivity() {

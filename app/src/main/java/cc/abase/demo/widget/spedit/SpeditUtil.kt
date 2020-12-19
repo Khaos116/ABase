@@ -16,7 +16,7 @@ import java.util.ArrayList
 
 /**
  * Description:
- * @author: caiyoufei
+ * @author: CASE
  * @date: 2019/10/4 13:30
  */
 class SpeditUtil private constructor() {

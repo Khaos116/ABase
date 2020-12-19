@@ -13,7 +13,7 @@ import kotlinx.coroutines.*
 
 /**
  * Description:
- * @author: caiyoufei
+ * @author: CASE
  * @date: 2020/3/5 17:04
  */
 class SettingActivity : CommTitleActivity() {

@@ -21,7 +21,7 @@ import kotlin.math.abs
 
 /**
  * Description:
- * @author: caiyoufei
+ * @author: CASE
  * @date: 2019/12/13 12:07
  */
 class PagerItemView @JvmOverloads constructor(

@@ -15,7 +15,7 @@ import kotlinx.android.synthetic.main.fragment_simple.simpleRecycler
 
 /**
  * Description:
- * @author: caiyoufei
+ * @author: CASE
  * @date: 2019/11/19 14:44
  */
 class SimpleFragment : CommFragment() {

@@ -17,7 +17,7 @@ import kotlinx.android.synthetic.main.activity_register.*
 
 /**
  * Description:
- * @author: caiyoufei
+ * @author: CASE
  * @date: 2019/10/10 21:03
  */
 class RegisterActivity : CommTitleActivity() {

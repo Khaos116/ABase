@@ -12,7 +12,7 @@ import java.nio.charset.StandardCharsets
 
 /**
  * Description:
- * @author: caiyoufei
+ * @author: CASE
  * @date: 2020/6/26 11:13
  */
 @Parser(name = "ResponseGank", wrappers = [MutableList::class])

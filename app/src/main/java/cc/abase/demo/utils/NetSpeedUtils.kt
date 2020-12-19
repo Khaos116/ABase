@@ -20,7 +20,7 @@ import kotlinx.coroutines.*
  * static long getUidTxBytes(int uid) //获取某个网络UID的发送字节数，某一个进程的总发送量
  *
  * Description:实时显示网速
- * @author: caiyoufei
+ * @author: CASE
  * @date: 2020/2/21 17:14
  */
 class NetSpeedUtils private constructor() : LifecycleObserver {

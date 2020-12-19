@@ -26,7 +26,7 @@ import kotlin.math.max
 
 /**
  * Description:
- * @author: caiyoufei
+ * @author: CASE
  * @date: 2019/10/8 10:03
  */
 class SplashActivity : CommActivity() {

@@ -4,7 +4,7 @@ import cc.abase.demo.bean.local.CityBean
 
 /**
  * Description:
- * @author: caiyoufei
+ * @author: CASE
  * @date: 2019/11/26 18:17
  */
 data class ProvinceBean(

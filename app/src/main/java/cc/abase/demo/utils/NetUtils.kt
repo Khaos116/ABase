@@ -7,7 +7,7 @@ import com.blankj.utilcode.util.Utils
 
 /**
  * Description:
- * @author: caiyoufei
+ * @author: CASE
  * @date: 2019/10/1 16:52
  */
 class NetUtils private constructor() {

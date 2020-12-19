@@ -22,7 +22,7 @@ import kotlinx.android.synthetic.main.activity_spedit.*
 
 /**
  * Description:@或者#变色效果
- * @author: caiyoufei
+ * @author: CASE
  * @date: 2019/11/30 20:49
  */
 class SpeditActivity : CommTitleActivity() {

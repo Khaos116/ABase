@@ -16,7 +16,7 @@ import kotlinx.android.synthetic.main.item_simple_text.view.itemSimpleTv
 
 /**
  * Description:简单的文字显示item
- * @author: caiyoufei
+ * @author: CASE
  * @date: 2019/10/17 16:59
  */
 @EpoxyModelClass(layout = R.layout.item_simple_text)

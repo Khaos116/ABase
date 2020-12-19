@@ -25,7 +25,7 @@ import java.io.File
 
 /**
  * Description:
- * @author: caiyoufei
+ * @author: CASE
  * @date: 2019/10/28 15:06
  */
 class RxFFmpegActivity : CommTitleActivity() {
