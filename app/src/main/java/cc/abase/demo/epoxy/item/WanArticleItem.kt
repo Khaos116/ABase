@@ -13,7 +13,7 @@ import kotlinx.android.synthetic.main.item_wan_article.view.*
 
 /**
  * Description:
- * @author: caiyoufei
+ * @author: CASE
  * @date: 2019/10/13 19:38
  */
 @EpoxyModelClass(layout = R.layout.item_wan_article)

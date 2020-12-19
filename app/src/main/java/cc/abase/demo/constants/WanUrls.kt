@@ -3,7 +3,7 @@ package cc.abase.demo.constants
 /**
  * Description:WanAndroid相关API接口
  * https://www.wanandroid.com/blog/show/2
- * @author: caiyoufei
+ * @author: CASE
  * @date: 2019/10/9 21:31
  */
 interface WanUrls {
