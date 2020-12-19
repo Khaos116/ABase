@@ -6,7 +6,7 @@ import android.widget.EditText
 
 /**
  * Description:
- * @author: caiyoufei
+ * @author: CASE
  * @date: 2019/10/10 22:35
  */
 fun EditText.addTextWatcher(after: (s: Editable?) -> Unit) {

@@ -6,7 +6,7 @@ import com.blankj.utilcode.util.Utils.getApp
 
 /**
  * Description:
- * @author: caiyoufei
+ * @author: CASE
  * @date: 2019/9/22 18:15
  */
 fun Utils.getApplication(): BaseApplication {

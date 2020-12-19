@@ -1,20 +1,17 @@
 package cc.ab.base.ext
 
-import android.app.Activity
 import android.content.Context
 import android.graphics.drawable.Drawable
 import android.view.*
 import android.widget.Toast
 import androidx.annotation.*
 import androidx.core.content.ContextCompat
-import androidx.fragment.app.FragmentHostCallback
-import androidx.fragment.app.FragmentManager
 import cc.ab.base.widget.toast.AmToast
 import com.blankj.utilcode.util.*
 
 /**
  * Description:
- * @author: caiyoufei
+ * @author: CASE
  * @date: 2019/9/24 9:44
  */
 //屏幕宽度
