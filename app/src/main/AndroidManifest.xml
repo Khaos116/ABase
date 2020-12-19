@@ -19,8 +19,8 @@
       android:allowBackup="true"
       android:icon="@mipmap/ic_launcher"
       android:label="@string/app_name"
-      android:supportsRtl="true"
       android:requestLegacyExternalStorage="true"
+      android:supportsRtl="true"
       android:theme="@style/AppTheme"
       tools:ignore="AllowBackup,GoogleAppIndexingWarning">
     <!--启动页-->
@@ -195,7 +195,7 @@
         android:configChanges="screenLayout|orientation"
         android:launchMode="singleTop"
         android:screenOrientation="portrait"
-        android:windowSoftInputMode="adjustPan|stateHidden" />
+        android:windowSoftInputMode="adjustPan|stateHidden"/>
     <!--测试专用页面-->
     <activity
         android:name=".component.test.TestActivity"
@@ -207,6 +207,16 @@
     <service android:name=".component.update.CcUpdateService"/>
     <!-- 点击通知栏的操作 -->
     <receiver android:name=".component.update.NotificationBroadcastReceiver"/>
+    <!--https://blog.csdn.net/qq_40909351/article/details/106726204-->
+    <provider
+        android:name="androidx.startup.InitializationProvider"
+        android:authorities="${applicationId}.androidx-startup"
+        android:exported="false"
+        tools:node="merge">
+      <meta-data
+          android:name="cc.abase.demo.startup.AppLastInit"
+          android:value="androidx.startup"/>
+    </provider>
   </application>
 
 </manifest>
