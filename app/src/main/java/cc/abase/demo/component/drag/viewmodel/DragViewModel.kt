@@ -6,7 +6,7 @@ import com.luck.picture.lib.entity.LocalMedia
 
 /**
  * Description:
- * @author: caiyoufei
+ * @author: CASE
  * @date: 2019/11/30 20:59
  */
 data class DragState(

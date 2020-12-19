@@ -16,7 +16,7 @@ import kotlinx.android.synthetic.main.fragment_decoration.decorRecycler
 
 /**
  * Description:
- * @author: caiyoufei
+ * @author: CASE
  * @date: 2020/4/16 9:54
  */
 class DecorationFragment : CommFragment() {

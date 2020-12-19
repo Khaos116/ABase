@@ -14,7 +14,7 @@ import kotlinx.android.synthetic.main.activity_decoration.decorationPager
 
 /**
  * Description:分割线展示
- * @author: caiyoufei
+ * @author: CASE
  * @date: 2020/2/19 14:20
  */
 class DecorationActivity : CommTitleActivity() {

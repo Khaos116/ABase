@@ -13,7 +13,7 @@ import kotlinx.android.synthetic.main.item_comm_error_empty.view.*
 
 /**
  * Description:
- * @author: caiyoufei
+ * @author: CASE
  * @date: 2019/10/1 16:34
  */
 @EpoxyModelClass(layout = R.layout.item_comm_error_empty)

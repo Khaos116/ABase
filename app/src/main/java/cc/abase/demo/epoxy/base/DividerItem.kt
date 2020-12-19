@@ -7,7 +7,7 @@ import com.airbnb.epoxy.EpoxyModelClass
 
 /**
  * Description:
- * @author: caiyoufei
+ * @author: CASE
  * @date: 2019/10/1 16:58
  */
 @EpoxyModelClass(layout = R.layout.item_comm_divider)

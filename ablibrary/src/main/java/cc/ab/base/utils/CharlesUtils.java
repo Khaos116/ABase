@@ -7,11 +7,9 @@ import android.os.Build;
 import android.os.Environment;
 import android.text.TextUtils;
 import android.util.Log;
-import androidx.annotation.Nullable;
 import com.blankj.utilcode.util.Utils;
 import java.io.*;
 import java.security.KeyStore;
-import java.security.SecureRandom;
 import java.security.cert.*;
 import java.util.Arrays;
 import java.util.Collection;
@@ -26,7 +24,7 @@ import okhttp3.OkHttpClient;
  * 3.尽量只对测试渠道的设置抓包
  * 4.如果OkHttpClient是单利，启动APP后才设置代理，则需要杀掉APP后重新打开
  * 5.如果打开了代理，又不能正确读取设置代理，则会出现无法访问的情况
- * Author:caiyoufei
+ * Author:CASE
  * Date:19-7-16
  * Time:下午4:49
  */

@@ -11,7 +11,7 @@ import org.jetbrains.annotations.NotNull;
 /**
  * Description:
  *
- * @author: caiyoufei
+ * @author: CASE
  * @date: 2019/10/14 12:09
  */
 public class DiscretePageAdapter<T> extends RecyclerView.Adapter<DiscreteHolder<T>> {

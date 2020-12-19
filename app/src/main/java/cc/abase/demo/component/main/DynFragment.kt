@@ -20,7 +20,7 @@ import kotlinx.android.synthetic.main.fragment_dyn.dynEpoxyRecycler
 
 /**
  * Description:
- * @author: caiyoufei
+ * @author: CASE
  * @date: 2019/9/30 18:12
  */
 class DynFragment : CommFragment() {

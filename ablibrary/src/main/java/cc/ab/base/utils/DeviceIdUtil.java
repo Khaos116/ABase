@@ -18,7 +18,7 @@ import java.util.UUID;
  * Description:设备唯一id
  * https://www.cnblogs.com/qixingchao/p/11652408.html
  *
- * @author: caiyoufei
+ * @author: CASE
  * @date: 2019/12/7 16:49
  */
 public class DeviceIdUtil {

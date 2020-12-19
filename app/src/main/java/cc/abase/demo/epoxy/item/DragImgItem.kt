@@ -14,7 +14,7 @@ import kotlinx.android.synthetic.main.item_drag.view.*
 
 /**
  * Description:
- * @author: caiyoufei
+ * @author: CASE
  * @date: 19-5-11 下午6:01
  */
 @EpoxyModelClass(layout = R.layout.item_drag)

@@ -18,7 +18,7 @@ import kotlinx.android.synthetic.main.activity_epoxy_expand.expandRecycler
 /**
  * Description: https://proandroiddev.com/expandable-recyclerview-with-epoxy-100515f5d026
  *
- * @author: caiyoufei
+ * @author: CASE
  * @date: 2019/12/6 21:24
  */
 class EpoxyExpandActivity : CommTitleActivity() {

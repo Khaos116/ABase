@@ -29,7 +29,7 @@ import kotlinx.android.synthetic.main.activity_drag.dragRoot
 
 /**
  * Description:item拖拽效果
- * @author: caiyoufei
+ * @author: CASE
  * @date: 2019/11/30 20:48
  */
 class DragActivity : CommTitleActivity() {

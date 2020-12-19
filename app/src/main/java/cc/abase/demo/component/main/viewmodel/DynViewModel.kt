@@ -7,7 +7,7 @@ import com.airbnb.mvrx.*
 
 /**
  * Description:
- * @author: caiyoufei
+ * @author: CASE
  * @date: 2019/9/30 20:14
  */
 data class DynState(

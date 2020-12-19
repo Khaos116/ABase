@@ -14,7 +14,7 @@ import kotlinx.android.synthetic.main.dialog_date_sel.view.*
 
 /**
  * Description:
- * @author: caiyoufei
+ * @author: CASE
  * @date: 2020/2/20 18:43
  */
 class DateSelDialog : BaseFragmentDialog() {
