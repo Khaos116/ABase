@@ -5,7 +5,6 @@ object Versions {
   internal const val okHttp = "4.9.0"
   internal const val rxHttp = "2.5.1"
   internal const val doraemonkit = "3.2.0"
-  internal const val dkplayer = "3.2.6"
   internal const val epoxy = "4.1.0"
 }
 
@@ -115,11 +114,6 @@ object Deps {
   //表情 https://github.com/vanniktech/Emoji
   const val emoji = "com.vanniktech:emoji-ios:0.7.0"
 
-  //必选 https://github.com/dueeeke/DKVideoPlayer/wiki
-  const val dkplayer_java = "com.github.dueeeke.dkplayer:dkplayer-java:${Versions.dkplayer}"
-  const val dkplayer_ui = "com.github.dueeeke.dkplayer:dkplayer-ui:${Versions.dkplayer}"
-  const val dkplayer_exo = "com.github.dueeeke.dkplayer:player-exo:${Versions.dkplayer}"
-
   //弹幕 https://github.com/bilibili/DanmakuFlameMaster
   const val danma_master = "com.github.ctiao:DanmakuFlameMaster:0.9.25"
   const val danma_bitmap = "com.github.ctiao:ndkbitmap-armv7a:0.9.21"
@@ -146,5 +140,9 @@ object Deps {
   const val flexbox = "com.google.android:flexbox:2.0.1"
 
   //动态权限 https://github.com/getActivity/XXPermissions
-  const val xxpermissions = "com.hjq:xxpermissions:9.2"
+  const val xxpermissions = "com.hjq:xxpermissions:9.6"
+
+  //三方播放lib https://github.com/CarGuo/GSYVideoPlayer
+  const val gsy_player_java = "com.shuyu:gsyVideoPlayer-java:8.0.0"
+  const val gsy_player_exo = "com.shuyu:GSYVideoPlayer-exo2:8.0.0"
 }
