@@ -7,7 +7,7 @@ import android.os.Parcelable.Creator
 
 /**
  * Description:
- * @author: caiyoufei
+ * @author: CASE
  * @date: 2019/10/25 20:30
  */
 data class ImageData(

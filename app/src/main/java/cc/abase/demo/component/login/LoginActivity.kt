@@ -20,7 +20,7 @@ import kotlinx.android.synthetic.main.activity_login.*
 
 /**
  * Description:
- * @author: caiyoufei
+ * @author: CASE
  * @date: 2019/10/10 14:58
  */
 class LoginActivity : CommActivity() {

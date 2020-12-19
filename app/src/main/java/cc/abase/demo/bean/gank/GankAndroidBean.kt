@@ -5,7 +5,7 @@ import cc.ab.base.widget.nineimageview.ImageData
 
 /**
  * Description:
- * @author: caiyoufei
+ * @author: CASE
  * @date: 2019/9/30 20:28
  */
 data class GankAndroidBean(

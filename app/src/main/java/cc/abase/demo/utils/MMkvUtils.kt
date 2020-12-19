@@ -4,7 +4,7 @@ import com.tencent.mmkv.MMKV
 
 /**
  * Description:
- * @author: caiyoufei
+ * @author: CASE
  * @date: 2019/10/10 15:14
  */
 class MMkvUtils private constructor() {

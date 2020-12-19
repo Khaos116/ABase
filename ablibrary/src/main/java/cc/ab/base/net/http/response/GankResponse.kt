@@ -2,7 +2,7 @@ package cc.ab.base.net.http.response
 
 /**
  * Description:
- * @author: caiyoufei
+ * @author: CASE
  * @date: 2020/3/5 19:27
  */
 data class GankResponse<T>(

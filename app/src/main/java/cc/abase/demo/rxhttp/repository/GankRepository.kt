@@ -11,7 +11,7 @@ import rxhttp.wrapper.param.RxHttp
 
 /**
  * Description:
- * @author: caiyoufei
+ * @author: CASE
  * @date: 2020/3/5 18:09
  */
 class GankRepository private constructor() {

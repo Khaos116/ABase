@@ -10,7 +10,7 @@ import androidx.appcompat.widget.AppCompatTextView;
  * Description:去除TextView设置lineSpacingExtra后，最后一行多出的空白
  * https://www.cnblogs.com/tangZH/p/11985745.html
  *
- * @author: caiyoufei
+ * @author: CASE
  * @date: 2019/12/7 16:37
  */
 public class LastLineNoSpaceTextView extends AppCompatTextView {

@@ -5,7 +5,7 @@ import android.util.AttributeSet
 
 /**
  * Description:
- * @author: caiyoufei
+ * @author: CASE
  * @date: 2020/7/4 10:10
  */
 class MyEpoxyRecyclerView @JvmOverloads constructor(

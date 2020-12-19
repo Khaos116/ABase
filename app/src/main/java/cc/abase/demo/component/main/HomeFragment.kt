@@ -21,7 +21,7 @@ import kotlinx.android.synthetic.main.fragment_home.homeEpoxyRecycler
 
 /**
  * Description:
- * @author: caiyoufei
+ * @author: CASE
  * @date: 2019/9/30 18:02
  */
 class HomeFragment : CommFragment() {

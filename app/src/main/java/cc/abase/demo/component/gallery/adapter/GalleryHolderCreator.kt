@@ -16,7 +16,7 @@ import me.panpf.sketch.request.*
 
 /**
  * Description:
- * @author: caiyoufei
+ * @author: CASE
  * @date: 2019/10/29 17:25
  */
 class GalleryHolderCreator : DiscreteHolderCreator {

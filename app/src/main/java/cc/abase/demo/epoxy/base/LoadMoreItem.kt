@@ -15,7 +15,7 @@ import kotlinx.android.synthetic.main.item_comm_loadmore.view.loadMoreTv
 
 /**
  * Description:由于EpoxyRecyclerView使用SmartRefresh的加载更多会导致数据越界，所以单独写
- * @author: caiyoufei
+ * @author: CASE
  * @date: 2019/10/1 18:36
  */
 @EpoxyModelClass(layout = R.layout.item_comm_loadmore)

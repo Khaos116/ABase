@@ -2,7 +2,7 @@ package cc.abase.demo.bean.wan
 
 /**
  * Description:积分
- * @author: caiyoufei
+ * @author: CASE
  * @date: 2019/10/12 20:06
  */
 data class IntegralBean(

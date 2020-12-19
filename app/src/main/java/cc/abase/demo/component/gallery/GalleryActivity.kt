@@ -13,7 +13,7 @@ import kotlinx.android.synthetic.main.activity_gallery.*
 
 /**
  * Description:
- * @author: caiyoufei
+ * @author: CASE
  * @date: 2019/10/29 17:07
  */
 class GalleryActivity : CommActivity() {

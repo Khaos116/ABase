@@ -8,7 +8,7 @@ import com.blankj.utilcode.util.ActivityUtils
 
 /**
  * Description:
- * @author: caiyoufei
+ * @author: CASE
  * @date: 2019/11/19 19:33
  */
 class GlobalErrorHandle private constructor() {

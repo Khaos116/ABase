@@ -10,7 +10,7 @@ import io.reactivex.functions.BiFunction
 
 /**
  * Description:
- * @author: caiyoufei
+ * @author: CASE
  * @date: 2019/9/30 16:36
  */
 data class HomeState(

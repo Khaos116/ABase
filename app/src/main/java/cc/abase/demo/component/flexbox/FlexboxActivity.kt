@@ -17,7 +17,7 @@ import kotlinx.android.synthetic.main.activity_flexbox.flexboxLayout
 
 /**
  * Description:https://www.jianshu.com/p/a8edc312fa3d
- * @author: caiyoufei
+ * @author: CASE
  * @date: 2020/3/12 17:53
  */
 class FlexboxActivity : CommTitleActivity() {

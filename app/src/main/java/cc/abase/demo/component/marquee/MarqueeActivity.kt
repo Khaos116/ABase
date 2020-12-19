@@ -10,7 +10,7 @@ import kotlinx.coroutines.*
 
 /**
  * Description:
- * @author: caiyoufei
+ * @author: CASE
  * @date: 2020/3/23 18:00
  */
 class MarqueeActivity : CommTitleActivity() {

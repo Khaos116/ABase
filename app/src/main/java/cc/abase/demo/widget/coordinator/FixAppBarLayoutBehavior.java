@@ -14,7 +14,7 @@ import org.jetbrains.annotations.NotNull;
 /**
  * Description:https://www.jianshu.com/p/7863310a4a6c
  *
- * @author: caiyoufei
+ * @author: CASE
  * @date: 2019/11/18 18:25
  */
 public class FixAppBarLayoutBehavior extends AppBarLayout.Behavior {

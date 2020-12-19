@@ -12,7 +12,7 @@ import com.gyf.immersionbar.ktx.immersionBar
 
 /**
  * Description:
- * @author: caiyoufei
+ * @author: CASE
  * @date: 2019/10/11 15:11
  */
 class GuideActivity : CommActivity() {

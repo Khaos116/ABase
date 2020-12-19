@@ -16,7 +16,7 @@ import kotlinx.android.synthetic.main.item_gank_android.view.*
 
 /**
  * Description:
- * @author: caiyoufei
+ * @author: CASE
  * @date: 2019/10/1 17:05
  */
 @EpoxyModelClass(layout = R.layout.item_gank_android)

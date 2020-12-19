@@ -42,7 +42,7 @@ import java.util.Locale
 
 /**
  * Description:
- * @author: caiyoufei
+ * @author: CASE
  * @date: 2019/9/30 18:13
  */
 class MineFragment : CommFragment() {
