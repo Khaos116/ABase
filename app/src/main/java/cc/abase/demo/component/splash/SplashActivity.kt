@@ -92,8 +92,8 @@ class SplashActivity : CommActivity() {
       if (!temp) {
         XXPermissions.with(this)
             .permission(Permission.MANAGE_EXTERNAL_STORAGE)
-            .request(object : OnPermission {
-              override fun hasPermission(granted: MutableList<String>, all: Boolean) {
+            .request(object : OnPermissionCallback {
+              override fun onGranted(granted: MutableList<String>, all: Boolean) {
                 if (PermissionUtils.hasSDPermission()) {
                   hasSDPermission = true
                   goNextPage()
@@ -104,7 +104,7 @@ class SplashActivity : CommActivity() {
                 }
               }
 
-              override fun noPermission(denied: MutableList<String>, quick: Boolean) {
+              override fun onDenied(denied: MutableList<String>, quick: Boolean) {
                 mContext.toast("没有SD卡权限,不能使用APP")
                 hasSDPermission = false
                 goNextPage()
