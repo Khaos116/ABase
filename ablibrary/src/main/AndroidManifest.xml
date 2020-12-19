@@ -55,7 +55,7 @@
         android:exported="false"
         tools:node="merge">
       <meta-data
-          android:name="cc.ab.base.startup.UtilsInit"
+          android:name="cc.ab.base.startup.DoraemonInit"
           android:value="androidx.startup"/>
     </provider>
   </application>
