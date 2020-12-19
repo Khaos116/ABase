@@ -13,12 +13,11 @@ import timber.log.Timber
  */
 class TimberInit : Initializer<Int> {
     override fun create(context: Context): Int {
-        if (BuildConfig.DEBUG) Timber.plant(Timber.DebugTree())
         "初始化完成".logI()
         return 0
     }
 
     override fun dependencies(): MutableList<Class<out Initializer<*>>> {
-        return mutableListOf()
+        return mutableListOf(AutoSizeInit::class.java)
     }
 }
