@@ -1,5 +1,12 @@
 package cc.ab.base.ext
 
+import android.net.Uri
+import android.view.Gravity
+import com.blankj.utilcode.util.AppUtils
+import com.blankj.utilcode.util.ToastUtils
+import com.blankj.utilcode.util.UriUtils
+import timber.log.Timber
+import java.io.File
 import java.util.Locale
 import java.util.regex.Pattern
 
@@ -8,8 +15,47 @@ import java.util.regex.Pattern
  * Date:2020-9-28
  * Time:19:01
  */
+fun String?.logE() {
+  if (!this.isNullOrBlank()) {
+    Timber.e("CASE-$this")
+  }
+}
 
-inline fun String?.isVideoUrl(): Boolean {
+fun String?.logW() {
+  if (!this.isNullOrBlank()) {
+    Timber.w("CASE-$this")
+  }
+}
+
+fun String?.logI() {
+  if (!this.isNullOrBlank()) {
+    Timber.i("CASE-$this")
+  }
+}
+
+fun String?.logD() {
+  if (!this.isNullOrBlank()) {
+    Timber.d("CASE-$this")
+  }
+}
+
+fun String?.toast() {
+  if (!this.isNullOrBlank() && AppUtils.isAppForeground()) {
+    ToastUtils.make().setGravity(Gravity.CENTER, 0, 0).show(this)
+  }
+}
+
+fun String?.isNetImageUrl(): Boolean {
+  return if (this.isNullOrEmpty()) {
+    false
+  } else if (!this.startsWith("http", true)) {
+    false
+  } else {
+    Pattern.compile(".*?(gif|jpeg|png|jpg|bmp)").matcher(this.toLowerCase(Locale.getDefault())).matches()
+  }
+}
+
+fun String?.isVideoUrl(): Boolean {
   return if (this.isNullOrEmpty()) {
     false
   } else if (!this.toLowerCase(Locale.getDefault()).startsWith("http", true)) {
@@ -20,7 +66,7 @@ inline fun String?.isVideoUrl(): Boolean {
   }
 }
 
-inline fun String?.isLiveUrl(): Boolean {
+fun String?.isLiveUrl(): Boolean {
   return if (this.isNullOrEmpty()) {
     false
   } else {
@@ -28,4 +74,15 @@ inline fun String?.isLiveUrl(): Boolean {
       startsWith("rtmp") || startsWith("rtsp")
     }
   }
+}
+
+//文件目录转file
+fun String?.toFile(): File? {
+  if (this != null) {
+    return if (this.startsWith("http", true)) null else {
+      val f = File(this)
+      if (f.exists()) f else UriUtils.uri2File(Uri.parse(this))
+    }
+  }
+  return null
 }
