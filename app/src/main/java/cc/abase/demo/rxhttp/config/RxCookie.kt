@@ -8,41 +8,33 @@ import rxhttp.wrapper.cookie.ICookieJar
 
 /**
  * Description:
- * @author: caiyoufei
+ * @author: CASE
  * @date: 2020/3/4 18:08
  */
-class RxCookie private constructor() {
-  private object SingletonHolder {
-    val holder = RxCookie()
-  }
-
-  companion object {
-    val instance = SingletonHolder.holder
-  }
-
+object RxCookie {
   //保存cookie
   fun setCookie(
-    cookie: String,
-    url: String = BaseUrl.baseUrl
+      cookie: String,
+      url: String = BaseUrl.baseUrl
   ) {
     // HttpUrl.parse(url)
     url.toHttpUrlOrNull()
-      ?.let { http ->
-        Cookie.parse(http, cookie)
-          ?.let { cookie ->
-            HttpSender.getOkHttpClient().cookieJar.saveFromResponse(http, mutableListOf(cookie))
-          }
-      }
+        ?.let { http ->
+          Cookie.parse(http, cookie)
+              ?.let { cookie ->
+                HttpSender.getOkHttpClient().cookieJar.saveFromResponse(http, mutableListOf(cookie))
+              }
+        }
   }
 
   //读取cookie
   fun getCookie(url: String = BaseUrl.baseUrl): MutableList<Cookie>? {
     // HttpUrl.parse(url)
     url.toHttpUrlOrNull()
-      ?.let {
-        return HttpSender.getOkHttpClient().cookieJar.loadForRequest(it)
-          .toMutableList()
-      }
+        ?.let {
+          return HttpSender.getOkHttpClient().cookieJar.loadForRequest(it)
+              .toMutableList()
+        }
     return null
   }
 
@@ -58,8 +50,8 @@ class RxCookie private constructor() {
 
   //移除cookie
   private fun removeCookie(
-    url: String = BaseUrl.baseUrl,
-    all: Boolean
+      url: String = BaseUrl.baseUrl,
+      all: Boolean
   ) {
     (HttpSender.getOkHttpClient().cookieJar as ICookieJar).let {
       if (all) it.removeAllCookie()

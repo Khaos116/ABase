@@ -17,18 +17,10 @@ import java.util.concurrent.TimeUnit
 
 /**
  * Description:
- * @author: caiyoufei
+ * @author: CASE
  * @date: 2020/3/4 15:13
  */
-class RxHttpConfig private constructor() {
-  private object SingletonHolder {
-    val holder = RxHttpConfig()
-  }
-
-  companion object {
-    val instance = SingletonHolder.holder
-  }
-
+object RxHttpConfig {
   private var hasInit = false
 
   fun init() {
