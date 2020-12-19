@@ -13,7 +13,9 @@
   <!--文件存储-->
   <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
   <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-  <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE"/>
+  <uses-permission
+      android:name="android.permission.MANAGE_EXTERNAL_STORAGE"
+      tools:ignore="ScopedStorage"/>
   <!--
    network_security_config 是7.0以上抓包需要的
    android:usesCleartextTraffic 是9.0以上WebView访问H5需要的
@@ -23,7 +25,8 @@
       android:maxAspectRatio="2.4"
       android:networkSecurityConfig="@xml/network_security_config"
       android:resizeableActivity="true"
-      android:usesCleartextTraffic="true">
+      android:usesCleartextTraffic="true"
+      tools:targetApi="o">
     <!--###################今日头条适配###################-->
     <meta-data
         android:name="design_width_in_dp"
@@ -45,6 +48,16 @@
         android:name="notch.config"
         android:value="portrait|landscape"/>
     <!--vivo和oppo没有找到相关配置信息-->
+    <!--https://blog.csdn.net/qq_40909351/article/details/106726204-->
+    <provider
+        android:name="androidx.startup.InitializationProvider"
+        android:authorities="${applicationId}.androidx-startup"
+        android:exported="false"
+        tools:node="merge">
+      <meta-data
+          android:name="cc.ab.base.startup.UtilsInit"
+          android:value="androidx.startup"/>
+    </provider>
   </application>
 </manifest>
 
