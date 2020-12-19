@@ -2,7 +2,7 @@ package com.iceteck.silicompressorr
 
 /**
  * Description:
- * @author: caiyoufei
+ * @author: CASE
  * @date: 2020/5/5 16:56
  */
 open class CompressCall private constructor() {
