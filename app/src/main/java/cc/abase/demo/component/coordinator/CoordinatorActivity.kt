@@ -17,7 +17,7 @@ import kotlinx.android.synthetic.main.activity_coordinator.coordinatorUserLayout
 
 /**
  * Description:
- * @author: caiyoufei
+ * @author: CASE
  * @date: 2019/12/6 10:16
  */
 class CoordinatorActivity : CommActivity() {

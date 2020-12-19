@@ -5,7 +5,7 @@ import android.util.AttributeSet
 
 /**
  * Description:
- * @author: caiyoufei
+ * @author: CASE
  * @date: 2020/5/12 21:03
  */
 class ClassicFooter(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0)

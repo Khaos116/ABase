@@ -18,7 +18,7 @@ import kotlinx.android.synthetic.main.merge_coordinator_user.view.coordinatorUse
 
 /**
  * Description:用户个人主页的CoordinatorLayout
- * @author: caiyoufei
+ * @author: CASE
  * @date: 2019/11/18 11:34
  */
 class CoordinatorUserLayout @JvmOverloads constructor(

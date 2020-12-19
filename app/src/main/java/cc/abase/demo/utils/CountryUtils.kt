@@ -5,7 +5,7 @@ import cc.abase.demo.bean.local.CountryEntity
 
 /**
  * Description:
- * @author: caiyoufei
+ * @author: CASE
  * @date: 2019/11/28 15:25
  */
 class CountryUtils private constructor() {

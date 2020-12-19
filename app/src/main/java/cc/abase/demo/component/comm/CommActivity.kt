@@ -11,7 +11,7 @@ import com.airbnb.lottie.*
 
 /**
  * Description:
- * @author: caiyoufei
+ * @author: CASE
  * @date: 2019/10/8 10:03
  */
 abstract class CommActivity : BaseActivity() {

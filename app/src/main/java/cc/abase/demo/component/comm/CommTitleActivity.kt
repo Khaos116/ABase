@@ -10,7 +10,7 @@ import kotlinx.android.synthetic.main.layout_comm_title.commTitleText
 
 /**
  * Description:
- * @author: caiyoufei
+ * @author: CASE
  * @date: 2019/10/8 10:48
  */
 abstract class CommTitleActivity : CommActivity() {

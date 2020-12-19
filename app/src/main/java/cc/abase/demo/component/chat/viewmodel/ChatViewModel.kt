@@ -5,7 +5,7 @@ import com.airbnb.mvrx.*
 
 /**
  * Description:
- * @author: caiyoufei
+ * @author: CASE
  * @date: 2019/10/17 16:42
  */
 data class ChatState(

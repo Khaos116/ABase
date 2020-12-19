@@ -2,7 +2,7 @@ package cc.abase.demo.bean.local
 
 /**
  * Description:
- * @author: caiyoufei
+ * @author: CASE
  * @date: 2019/11/28 15:26
  */
 data class CountryEntity(
