@@ -11,7 +11,7 @@ import com.blankj.utilcode.util.StringUtils
 
 /**
  * Description:https://qibilly.com/SmartSwipe-tutorial/pages/SmartSwipeRefresh.html
- * @author: caiyoufei
+ * @author: CASE
  * @date: 2019/10/1 20:48
  */
 class CCRefreshHeader(context: Context) : SmartSwipeRefreshHeader {

@@ -9,7 +9,7 @@ import android.webkit.WebView
 
 /**
  * Description:修复安卓5.x上webview的bug
- * @author: caiyoufei
+ * @author: CASE
  * @date: 2019/10/3 16:06
  */
 class LollipopFixedWebView @JvmOverloads constructor(

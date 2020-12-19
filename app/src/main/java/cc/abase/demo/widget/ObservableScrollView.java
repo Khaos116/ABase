@@ -7,7 +7,7 @@ import android.widget.HorizontalScrollView;
 /**
  * Description:https://www.jianshu.com/p/5304741dc64f
  *
- * @author: caiyoufei
+ * @author: CASE
  * @date: 2020/5/14 15:02
  */
 public class ObservableScrollView extends HorizontalScrollView {

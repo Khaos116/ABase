@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 
 /**
  * Description:监听列表滑动高度
- * @author: caiyoufei
+ * @author: CASE
  * @date: 2019/12/26 12:28
  */
 class OffsetLinearLayoutManager(
