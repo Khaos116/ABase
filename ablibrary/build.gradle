@@ -37,6 +37,8 @@ dependencies {
   debugImplementation(Deps.doraemonkit) { exclude module: 'utilcode' }
   releaseImplementation Deps.doraemonkit_no
   api Deps.kotlin_stdlib
+  api Deps.timber
+  api Deps.startup
   api Deps.appcompat
   api Deps.material
   api Deps.fragment
