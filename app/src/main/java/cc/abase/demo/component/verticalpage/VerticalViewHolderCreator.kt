@@ -16,7 +16,7 @@ import me.panpf.sketch.SketchImageView
 
 /**
  * Description:
- * @author: caiyoufei
+ * @author: CASE
  * @date: 2020/5/13 9:38
  */
 class VerticalPageHolderCreator : DiscreteHolderCreator {

@@ -7,7 +7,7 @@ import android.view.ViewGroup
 
 /**
  * Description:
- * @author: caiyoufei
+ * @author: CASE
  * @date: 2019/9/24 11:06
  */
 class ViewUtils private constructor() {

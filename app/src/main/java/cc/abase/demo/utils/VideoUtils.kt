@@ -18,7 +18,7 @@ import java.io.File
 
 /**
  * Description:
- * @author: caiyoufei
+ * @author: CASE
  * @date: 2019/10/28 11:24
  */
 class VideoUtils private constructor() {

@@ -18,7 +18,7 @@ import java.nio.charset.Charset
 /**
  * token 失效，自动刷新token，然后再次发送请求，用户无感知
  * Description: https://github.com/liujingxing/okhttp-RxHttp/blob/a7b311098e6c36bf5764db027cbb855b628b8d0a/app/src/main/java/com/example/httpsender/interceptor/TokenInterceptor.java
- * @author: caiyoufei
+ * @author: CASE
  * @date: 2020/3/6 13:31
  */
 class TokenInterceptor : Interceptor {

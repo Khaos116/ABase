@@ -11,7 +11,7 @@ import kotlinx.android.synthetic.main.item_sticky2_bottom.view.*
 
 /**
  * Description:
- * @author: caiyoufei
+ * @author: CASE
  * @date: 2020/4/21 14:51
  */
 @EpoxyModelClass(layout = R.layout.item_sticky2_bottom)

@@ -9,7 +9,7 @@ import kotlinx.android.synthetic.main.activity_test.testTv2
 
 /**
  * Description:
- * @author: caiyoufei
+ * @author: CASE
  * @date: 2020/5/7 9:41
  */
 class TestActivity : CommTitleActivity() {

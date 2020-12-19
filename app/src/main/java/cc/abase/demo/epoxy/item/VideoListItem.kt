@@ -14,7 +14,7 @@ import kotlinx.android.synthetic.main.item_list_video.view.*
 
 /**
  * Description:
- * @author: caiyoufei
+ * @author: CASE
  * @date: 2019/12/12 12:12
  */
 @EpoxyModelClass(layout = R.layout.item_list_video)

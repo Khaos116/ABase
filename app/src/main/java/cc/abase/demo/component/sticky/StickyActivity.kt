@@ -17,7 +17,7 @@ import kotlinx.android.synthetic.main.activity_sticky.stickyRecycler
 
 /**
  * Description:
- * @author: caiyoufei
+ * @author: CASE
  * @date: 2019/11/26 16:54
  */
 class StickyActivity : CommTitleActivity() {

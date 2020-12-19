@@ -23,7 +23,7 @@ import kotlinx.android.synthetic.main.activity_sticky2.*
 
 /**
  * Description:
- * @author: caiyoufei
+ * @author: CASE
  * @date: 2020/4/21 14:34
  */
 class StickyActivity2 : CommTitleActivity() {

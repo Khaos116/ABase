@@ -7,7 +7,7 @@ import com.airbnb.epoxy.EpoxyModelClass
 
 /**
  * Description:
- * @author: caiyoufei
+ * @author: CASE
  * @date: 2020/4/21 14:46
  */
 @EpoxyModelClass(layout = R.layout.item_sticky2_top)

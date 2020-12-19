@@ -14,7 +14,7 @@ import io.reactivex.Observable
 
 /**
  * Description:
- * @author: caiyoufei
+ * @author: CASE
  * @date: 2019/11/26 18:13
  */
 data class StickState(

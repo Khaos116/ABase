@@ -27,7 +27,7 @@ import java.util.concurrent.TimeUnit
 
 /**
  * Description:
- * @author: caiyoufei
+ * @author: CASE
  * @date: 2020/5/13 9:23
  */
 class VerticalPageActivity : CommTitleActivity() {

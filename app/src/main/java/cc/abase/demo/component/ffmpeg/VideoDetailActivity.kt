@@ -20,7 +20,7 @@ import java.io.File
 
 /**
  * Description:
- * @author: caiyoufei
+ * @author: CASE
  * @date: 2019/11/2 9:51
  */
 class VideoDetailActivity : CommActivity() {

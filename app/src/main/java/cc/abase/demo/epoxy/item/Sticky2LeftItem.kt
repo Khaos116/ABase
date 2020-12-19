@@ -10,7 +10,7 @@ import kotlinx.android.synthetic.main.item_sticky2_left.view.itemStickyUserName
 
 /**
  * Description:
- * @author: caiyoufei
+ * @author: CASE
  * @date: 2020/4/21 14:47
  */
 @EpoxyModelClass(layout = R.layout.item_sticky2_left)

@@ -2,7 +2,7 @@ package cc.abase.demo.constants
 
 /**
  * Description:
- * @author: caiyoufei
+ * @author: CASE
  * @date: 2020/3/6 10:09
  */
 class TimeConstants {
