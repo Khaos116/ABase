@@ -9,7 +9,7 @@ import java.io.InputStreamReader
 
 /**
  * Description:
- * @author: caiyoufei
+ * @author: CASE
  * @date: 2019/11/6 17:29
  */
 class AppInfoUtils private constructor() {

@@ -7,7 +7,7 @@ import kotlin.reflect.KProperty
 
 /**
  * Description:
- * @author: caiyoufei
+ * @author: CASE
  * @date: 2019/9/24 11:23
  */
 open class BaseEpoxyHolder : EpoxyHolder() {

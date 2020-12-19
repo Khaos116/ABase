@@ -19,7 +19,7 @@ import me.panpf.sketch.SketchImageView
 
 /**
  * Description:
- * @author: caiyoufei
+ * @author: CASE
  * @date: 2019/10/13 19:11
  */
 @EpoxyModelClass(layout = R.layout.item_banner)

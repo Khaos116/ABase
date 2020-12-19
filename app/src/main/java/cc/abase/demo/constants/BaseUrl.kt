@@ -9,7 +9,7 @@ import rxhttp.wrapper.annotation.Domain
 /**
  * Description:
  * 域名配置https://github.com/liujingxing/okhttp-RxHttp/wiki/%E9%85%8D%E7%BD%AEBaseUrl
- * @author: caiyoufei
+ * @author: CASE
  * @date: 2020/2/19 17:03
  */
 open class BaseUrl {

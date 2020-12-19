@@ -15,7 +15,7 @@ import com.trello.rxlifecycle3.LifecycleProvider
 
 /**
  * Description:
- * @author: caiyoufei
+ * @author: CASE
  * @date: 2019/9/24 11:24
  */
 abstract class BaseFragment : BaseMvRxFragment() {

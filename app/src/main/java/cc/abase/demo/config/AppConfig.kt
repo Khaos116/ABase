@@ -3,7 +3,7 @@ package cc.abase.demo.config
 /**
  * Description: 动态配置
  * @see AppConfig.defaultAppName 代码设置APP名称
- * @author: caiyoufei
+ * @author: CASE
  * @date: 2020/3/5 9:41
  */
 class AppConfig {

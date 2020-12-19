@@ -6,7 +6,7 @@ import com.blankj.utilcode.util.PathUtils
 
 /**
  * Description:
- * @author: caiyoufei
+ * @author: CASE
  * @date: 2020/3/30 10:25
  */
 class CacheUtils private constructor() {

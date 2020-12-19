@@ -12,7 +12,7 @@ import kotlinx.android.synthetic.main.dialog_action.dialogActionHint
 
 /**
  * Description:
- * @author: caiyoufei
+ * @author: CASE
  * @date: 2019/9/24 13:03
  */
 class ActionDialog : BaseFragmentDialog() {

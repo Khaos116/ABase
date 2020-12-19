@@ -2,7 +2,7 @@ package cc.ab.base.net.http.response
 
 /**
  * Description:网络请求返回的基类
- * @author: caiyoufei
+ * @author: CASE
  * @date: 2019/9/22 18:54
  */
 data class BaseResponse<out T>(

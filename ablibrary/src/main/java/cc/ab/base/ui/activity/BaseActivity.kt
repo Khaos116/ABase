@@ -17,7 +17,7 @@ import kotlinx.android.synthetic.main.base_activity.baseStatusView
 
 /**
  * Description:
- * @author: caiyoufei
+ * @author: CASE
  * @date: 2019/9/20 16:37
  */
 abstract class BaseActivity : AppCompatActivity(), MvRxView {

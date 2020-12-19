@@ -5,7 +5,7 @@ import com.blankj.utilcode.util.ActivityUtils
 
 /**
  * Description:
- * @author: caiyoufei
+ * @author: CASE
  * @date: 2019/10/28 12:06
  */
 class BrowserUtils private constructor() {

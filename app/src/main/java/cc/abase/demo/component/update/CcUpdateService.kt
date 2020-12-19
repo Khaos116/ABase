@@ -18,7 +18,7 @@ import java.util.Locale
 
 /**
  * Description:
- * @author: caiyoufei
+ * @author: CASE
  * @date: 2019/10/30 9:45
  */
 open class CcUpdateService : IntentService("UpdateService") {

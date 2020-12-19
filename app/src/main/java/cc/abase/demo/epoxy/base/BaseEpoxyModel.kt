@@ -12,7 +12,7 @@ import com.blankj.utilcode.util.*
 
 /**
  * Description:
- * @author: caiyoufei
+ * @author: CASE
  * @date: 2019/10/1 16:36
  */
 abstract class BaseEpoxyModel<T : BaseEpoxyHolder> :

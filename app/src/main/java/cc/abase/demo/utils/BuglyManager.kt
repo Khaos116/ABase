@@ -10,7 +10,7 @@ import com.tencent.bugly.crashreport.CrashReport
 
 /**
  * Description:
- * @author: caiyoufei
+ * @author: CASE
  * @date: 2019/11/6 17:41
  */
 class BuglyManager private constructor() {
