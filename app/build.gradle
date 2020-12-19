@@ -204,9 +204,9 @@ dependencies {
   implementation project(':silicompressor')
   flavors_devImplementation Deps.leakcanary
   implementation Deps.emoji
-  implementation Deps.dkplayer_java
-  implementation Deps.dkplayer_ui
-  implementation Deps.dkplayer_exo
+  implementation Deps.startup
+  implementation Deps.gsy_player_java
+  implementation Deps.gsy_player_exo
   implementation Deps.danma_master
   implementation Deps.danma_bitmap
   implementation Deps.side_bar
