@@ -63,8 +63,8 @@ object Deps {
   const val okhttp_log = "com.ayvytr:okhttploginterceptor:3.0.3"
 
   //协程 https://github.com/Kotlin/kotlinx.coroutines
-  const val coroutine = "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.9"
-  const val coroutine_android = "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.9"
+  const val coroutine = "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.4.2"
+  const val coroutine_android = "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.4.2"
 
   //RxHttp https://github.com/liujingxing/okhttp-RxHttp
   const val rxhttp = "com.ljx.rxhttp:rxhttp:${Versions.rxHttp}"
