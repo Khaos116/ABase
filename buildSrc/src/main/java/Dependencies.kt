@@ -28,6 +28,12 @@ object Deps {
   const val constraint = "androidx.constraintlayout:constraintlayout:2.0.1"
   const val viewmodel = "androidx.lifecycle:lifecycle-viewmodel:2.3.0-alpha07"
 
+  //启动初始化 https://developer.android.google.cn/topic/libraries/app-startup
+  const val startup = "androidx.startup:startup-runtime:1.0.0-rc01"
+
+  //log打印 https://github.com/JakeWharton/timber
+  const val timber = "com.jakewharton.timber:timber:4.7.1"
+
   //分包 https://developer.android.google.cn/studio/build/multidex?hl=zh_cn#mdex-gradle
   const val multidex = "androidx.multidex:multidex:2.0.1"
 
@@ -35,7 +41,7 @@ object Deps {
   const val leakcanary = "com.squareup.leakcanary:leakcanary-android:2.4"
 
   //工具类 https://github.com/Blankj/AndroidUtilCode/blob/master/lib/utilcode/README-CN.md
-  const val utilcodex = "com.blankj:utilcodex:1.29.0"
+  const val utilcodex = "com.blankj:utilcodex:1.30.5"
 
   //UI适配 https://github.com/JessYanCoding/AndroidAutoSize
   const val autosize = "me.jessyan:autosize:1.2.1"
