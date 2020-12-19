@@ -1,5 +1,5 @@
 <templateSet group="CASE-JAVA">
-  <template name="caseFile" value="/**&#10; * Author:caiyoufei&#10; * Date:$DATE$&#10; * Time:$TIME$&#10; */" description="类注释" toReformat="false" toShortenFQNames="true">
+  <template name="caseFile" value="/**&#10; * Author:CASE&#10; * Date:$DATE$&#10; * Time:$TIME$&#10; */" description="类注释" toReformat="false" toShortenFQNames="true">
     <variable name="DATE" expression="date()" defaultValue="" alwaysStopAt="true" />
     <variable name="TIME" expression="time()" defaultValue="" alwaysStopAt="true" />
     <context>
