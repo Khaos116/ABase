@@ -100,7 +100,7 @@ class MyVideoView : StandardGSYVideoPlayer, LifecycleObserver {
   //设置播放信息
   fun setPlayUrl(url: String, title: String = "", cover: String = "", autoPlay: Boolean = false): MyVideoView {
     //设置播放url和缓存地址
-    setUp(url, true, File(PathConstants.VIDEO_CACHE_DIR, EncryptUtils.encryptMD5ToString(url)), title)
+    setUp(url, true, File(PathConstants.VIDEO_CACHE_DIR, EncryptUtils.encryptMD5ToString(url)), if (title.isBlank()) url else title)
     //加载封面
     if (cover.isBlank()) {
       if (url.startsWith("http", true)) {
