@@ -1,10 +1,8 @@
 package cc.ab.base.widget.discretescrollview;
 
 import android.view.ViewGroup;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-import cc.ab.base.R;
 import java.util.Locale;
 
 /**
