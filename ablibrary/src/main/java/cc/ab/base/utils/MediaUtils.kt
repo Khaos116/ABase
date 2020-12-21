@@ -44,7 +44,7 @@ class MediaUtils private constructor() {
       getMimeType(filePath).contains("video/")
     } else {
       val f = UriUtils.uri2File(Uri.parse(filePath))
-      if (f.exists()) getMimeType(f.path).contains("video/") else false
+      if (f?.exists() == true) getMimeType(f.path).contains("video/") else false
     }
   }
 
