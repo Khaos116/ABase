@@ -10,14 +10,11 @@ import cc.abase.demo.bean.local.VideoBean
 import cc.abase.demo.component.comm.CommActivity
 import cc.abase.demo.component.playlist.adapter.PlayPagerAdapter
 import cc.abase.demo.component.playlist.adapter.PlayPagerAdapter.PagerHolder
-import cc.abase.demo.component.playlist.view.PagerController
 import cc.abase.demo.component.playlist.viewmoel.PlayPagerViewModel
-import cc.abase.demo.widget.video.controller.VodControlView
-import cc.abase.demo.widget.video.view.ExoVideoView
+import cc.abase.demo.widget.video.MyVideoView
 import com.airbnb.mvrx.Success
 import com.billy.android.swipe.SmartSwipeRefresh
 import com.billy.android.swipe.SmartSwipeRefresh.SmartSwipeRefreshDataLoader
-import com.dueeeke.videoplayer.player.VideoView
 import com.gyf.immersionbar.ktx.immersionBar
 import kotlinx.android.synthetic.main.activity_play_pager.playPagerBack
 import kotlinx.android.synthetic.main.activity_play_pager.playPagerViewPager
@@ -42,11 +39,8 @@ class PlayPagerActivity : CommActivity() {
   //适配器
   private var mPlayPagerAdapter: PlayPagerAdapter? = null
 
-  //不显示移动网络播放
-  private var mController: PagerController? = null
-
   //播放控件
-  private var mVideoView: ExoVideoView? = null
+  private var mVideoView: MyVideoView? = null
 
   //数据源
   private var mVideoList: MutableList<VideoBean> = mutableListOf()
@@ -75,13 +69,9 @@ class PlayPagerActivity : CommActivity() {
     playPagerBack.pressEffectAlpha()
     playPagerBack.click { onBackPressed() }
     //播放控件
-    mVideoView = ExoVideoView(mContext)
-    mVideoView?.setLooping(true)
-    mVideoView?.setScreenScaleType(VideoView.SCREEN_SCALE_DEFAULT)
-    //控制器
-    mController = PagerController(mContext)
-    mController?.addControlComponent(VodControlView(mContext))
-    mVideoView?.setVideoController(mController)
+    mVideoView = MyVideoView(mContext)
+    mVideoView?.setFitSystemWindow(true)
+    mVideoView?.backButton?.visibleInvisible(false)
     //列表
     playPagerViewPager.offscreenPageLimit = 4
     //下拉刷新
@@ -164,7 +154,7 @@ class PlayPagerActivity : CommActivity() {
     if (position >= mVideoList.size - 5) viewModel.loadMore()
     //遍历加载信息和播放
     val count: Int = playPagerViewPager.childCount
-    var findCount = 0//由于复用id是混乱的，所以需要保证3个都找到才跳出循环(为了节约性能)
+    var findCount = 0 //由于复用id是混乱的，所以需要保证3个都找到才跳出循环(为了节约性能)
     for (i in 0 until count) {
       val itemView: View = playPagerViewPager.getChildAt(i)
       val viewHolder: PagerHolder = itemView.tag as PagerHolder
@@ -172,16 +162,15 @@ class PlayPagerActivity : CommActivity() {
         mVideoView?.release()
         mVideoView?.removeParent()
         val videoBean: VideoBean = mVideoList[viewHolder.mPosition]
-        mVideoView?.setUrl(videoBean.url)
-        mController?.addControlComponent(viewHolder.mPagerItemView, true)
+        mVideoView?.setPlayUrl(videoBean.url ?: "", videoBean.title ?: "")
         viewHolder.mPlayerContainer?.addView(mVideoView, 0)
-        mVideoView?.start()
+        //mVideoView?.startPlayLogic()
         mCurPos = position
         findCount++
-      } else if (position > 0 && viewHolder.mPosition == position - 1) {//预加载上一个数据，否则滑动可能出现复用的数据
+      } else if (position > 0 && viewHolder.mPosition == position - 1) { //预加载上一个数据，否则滑动可能出现复用的数据
         mPlayPagerAdapter?.fillData(mVideoList[viewHolder.mPosition], viewHolder)
         findCount++
-      } else if (position < mVideoList.size - 1 && viewHolder.mPosition == position + 1) {//预加载下一个数据，否则滑动可能出现复用的数据
+      } else if (position < mVideoList.size - 1 && viewHolder.mPosition == position + 1) { //预加载下一个数据，否则滑动可能出现复用的数据
         mPlayPagerAdapter?.fillData(mVideoList[viewHolder.mPosition], viewHolder)
         findCount++
       }
@@ -189,24 +178,7 @@ class PlayPagerActivity : CommActivity() {
     }
   }
 
-  override fun onResume() {
-    super.onResume()
-    mVideoView?.resume()
-  }
-
-  override fun onPause() {
-    super.onPause()
-    mVideoView?.pause()
-  }
-
-  override fun onDestroy() {
-    super.onDestroy()
-    mVideoView?.release()
-  }
-
   override fun onBackPressed() {
-    if (mVideoView == null || mVideoView?.onBackPressed() == false) {
-      super.onBackPressed()
-    }
+    if (mVideoView?.onBackPress() != true) super.onBackPressed()
   }
 }

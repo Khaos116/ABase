@@ -24,10 +24,10 @@
 
     <ImageView
         android:id="@+id/playPagerBack"
-        android:layout_width="49dp"
-        android:layout_height="49dp"
+        android:layout_width="32dp"
+        android:layout_height="36dp"
         android:contentDescription="@null"
-        android:padding="12dp"
+        android:padding="3.5dp"
         android:src="@drawable/svg_back_white"
         />
   </FrameLayout>
