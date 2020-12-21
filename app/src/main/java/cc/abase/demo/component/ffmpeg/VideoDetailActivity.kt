@@ -26,7 +26,7 @@ class VideoDetailActivity : CommActivity() {
   }
   //</editor-fold>
 
-  //<editor-fold defaultstate="collapsed" desc="是否填充到状态栏">
+  //<editor-fold defaultstate="collapsed" desc="是否默认填充到状态栏">
   override fun fillStatus() = false
   //</editor-fold>
 
