@@ -13,8 +13,7 @@ import cc.ab.base.utils.MediaUtils
 import cc.abase.demo.R
 import cc.abase.demo.constants.PathConstants
 import cc.abase.demo.utils.VideoUtils
-import com.blankj.utilcode.util.EncryptUtils
-import com.blankj.utilcode.util.LogUtils
+import com.blankj.utilcode.util.*
 import com.shuyu.gsyvideoplayer.GSYVideoManager
 import com.shuyu.gsyvideoplayer.listener.GSYSampleCallBack
 import com.shuyu.gsyvideoplayer.utils.OrientationUtils
@@ -57,6 +56,9 @@ class MyVideoView : StandardGSYVideoPlayer, LifecycleObserver {
   //是否在列表中播放
   private var isInList = false
 
+  //是否要适配状态栏
+  private var fitSystemWindow = false
+
   //全屏工具
   private var orientationUtils: OrientationUtils? = null
   //</editor-fold>
@@ -96,6 +98,13 @@ class MyVideoView : StandardGSYVideoPlayer, LifecycleObserver {
   //设置是否处于列表中播放
   fun setInList(inList: Boolean): MyVideoView {
     isInList = inList
+    return this
+  }
+
+  //设置状态栏适配
+  fun setFitSystemWindow(fit: Boolean): MyVideoView {
+    fitSystemWindow = fit
+    (mTopContainer?.layoutParams as? MarginLayoutParams)?.topMargin = if (fitSystemWindow) BarUtils.getStatusBarHeight() else 0
     return this
   }
 
