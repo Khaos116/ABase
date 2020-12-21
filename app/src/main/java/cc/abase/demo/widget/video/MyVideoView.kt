@@ -75,6 +75,8 @@ class MyVideoView : StandardGSYVideoPlayer, LifecycleObserver {
     }
     //不要旋转动画
     isShowFullAnimation = false
+    //自动判断竖屏全屏还是横屏全屏
+    mAutoFullWithSize = true
     //设置全屏点击
     setVideoAllCallBack(object : GSYSampleCallBack() {
       override fun onQuitFullscreen(url: String, vararg objects: Any) {
