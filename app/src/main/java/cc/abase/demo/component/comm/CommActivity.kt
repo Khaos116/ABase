@@ -4,9 +4,11 @@ import android.graphics.Color
 import android.os.Bundle
 import android.view.Gravity
 import android.widget.FrameLayout
+import androidx.core.view.get
 import cc.ab.base.ext.*
 import cc.ab.base.ui.activity.BaseActivity
 import cc.abase.demo.widget.dialog.ActionDialog
+import cc.abase.demo.widget.video.MyVideoView
 import com.airbnb.lottie.*
 
 /**
@@ -49,10 +51,10 @@ abstract class CommActivity : BaseActivity() {
 
   //显示loadingView
   private fun startShowLoadingView(
-    transY: Float = getLoadingViewTransY(),
-    height: Int = getLoadingViewHeight(),
-    gravity: Int = getLoadingViewGravity(),
-    bgColor: Int = getLoadingViewBgColor()
+      transY: Float = getLoadingViewTransY(),
+      height: Int = getLoadingViewHeight(),
+      gravity: Int = getLoadingViewGravity(),
+      bgColor: Int = getLoadingViewBgColor()
   ) {
     if (loadingView.parent == null) {
       val parent = mContentView
@@ -110,5 +112,18 @@ abstract class CommActivity : BaseActivity() {
 
   fun dismissActionLoading() {
     mActionDialog?.dismissAllowingStateLoss()
+  }
+
+  //播放全屏的返回
+  override fun onBackPressed() {
+    (this.window.decorView as? FrameLayout)?.let { fl ->
+      val child = fl[fl.childCount - 1]
+      if (child is MyVideoView) {
+        child.removeParent()
+        child.onBackPress()
+        return
+      }
+    }
+    super.onBackPressed()
   }
 }
