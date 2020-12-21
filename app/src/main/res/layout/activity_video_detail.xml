@@ -2,6 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -17,35 +18,39 @@
       app:layout_constraintTop_toTopOf="parent"
       />
   <!--非全屏播放器-->
-  <cc.abase.demo.widget.video.view.ExoVideoView
-      android:id="@+id/videoDetailVideoView"
+  <FrameLayout
+      android:id="@+id/videoDetailVideoViewParent"
       android:layout_width="match_parent"
       android:layout_height="0dp"
       app:layout_constraintDimensionRatio="16:9"
-      app:layout_constraintEnd_toEndOf="parent"
-      app:layout_constraintStart_toStartOf="parent"
       app:layout_constraintTop_toBottomOf="@id/videoDetailStatus"
-      />
-  <!--返回按钮-->
+      >
+
+    <cc.abase.demo.widget.video.MyVideoView
+        android:id="@+id/videoDetailVideoView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        />
+  </FrameLayout>
+  <!--返回按钮和video_layout_standard.xml中的返回相同-->
   <ImageView
       android:id="@+id/videoDetailBack"
-      android:layout_width="@dimen/dkplayer_controller_height"
-      android:layout_height="@dimen/dkplayer_controller_height"
-      android:layout_gravity="center"
+      android:layout_width="32dp"
+      android:layout_height="36dp"
       android:contentDescription="@null"
-      android:padding="@dimen/dkplayer_controller_icon_padding"
-      android:src="@drawable/dkplayer_ic_action_arrow_back"
+      android:padding="3.5dp"
+      android:src="@drawable/svg_back_white"
       app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintTop_toTopOf="@id/videoDetailVideoView"
+      app:layout_constraintTop_toTopOf="@id/videoDetailVideoViewParent"
+      tools:background="@drawable/video_title_bg"
       />
   <!--评论列表等-->
-  <cc.ab.base.widget.epoxy.MyEpoxyRecyclerView
+  <View
       android:id="@+id/videoDetailRecycler"
       android:layout_width="match_parent"
       android:layout_height="0dp"
       app:layout_constraintBottom_toBottomOf="parent"
-      app:layout_constraintEnd_toEndOf="parent"
-      app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintTop_toBottomOf="@+id/videoDetailVideoView"
+      app:layout_constraintTop_toBottomOf="@id/videoDetailVideoViewParent"
+      tools:background="@color/cyan_40E0D0"
       />
 </androidx.constraintlayout.widget.ConstraintLayout>
