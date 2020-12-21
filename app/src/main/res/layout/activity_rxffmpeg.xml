@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/ffmpegPlayerParent"
     android:layout_width="match_parent"
@@ -10,13 +9,12 @@
     android:padding="12dp"
     >
 
-  <cc.abase.demo.widget.video.view.ExoVideoView
+  <cc.abase.demo.widget.video.MyVideoView
       android:id="@+id/ffmpegPlayer"
       android:layout_width="match_parent"
       android:layout_height="match_parent"
       android:layout_gravity="center_vertical|end"
       android:visibility="invisible"
-      app:corner_radius="8dp"
       />
 
   <LinearLayout

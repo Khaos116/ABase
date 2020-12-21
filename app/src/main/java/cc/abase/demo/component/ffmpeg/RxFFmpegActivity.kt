@@ -6,21 +6,17 @@ import android.content.Intent
 import android.media.MediaMetadataRetriever
 import android.provider.MediaStore
 import android.text.method.ScrollingMovementMethod
+import android.widget.ImageView
 import cc.ab.base.ext.*
 import cc.ab.base.widget.engine.PicSelEngine
 import cc.abase.demo.component.comm.CommTitleActivity
 import cc.abase.demo.constants.UiConstants
 import cc.abase.demo.utils.VideoUtils
-import cc.abase.demo.widget.video.controller.StandardVideoController
-import cc.abase.demo.widget.video.controller.VodControlView
-import cc.abase.demo.widget.video.controller.VodControlView.VerticalFullListener
 import com.blankj.utilcode.util.FileUtils
 import com.blankj.utilcode.util.LogUtils
-import com.dueeeke.videocontroller.component.*
 import com.luck.picture.lib.PictureSelector
 import com.luck.picture.lib.config.PictureMimeType
 import kotlinx.android.synthetic.main.activity_rxffmpeg.*
-import kotlinx.android.synthetic.main.dkplayer_layout_prepare_view.view.thumb
 import java.io.File
 
 /**
@@ -41,12 +37,6 @@ class RxFFmpegActivity : CommTitleActivity() {
   //选中的视频
   private var selVideoPath: String? = null
 
-  //控制器
-  private var controller: StandardVideoController? = null
-
-  //准备播放页
-  private var prepareView: PrepareView? = null
-
   //每次设置资源后的第一次播放
   private var isFirstPlay = true
 
@@ -61,7 +51,7 @@ class RxFFmpegActivity : CommTitleActivity() {
     ffmpegCompress.isEnabled = false
     ffmpegSel.click {
       ffmpegPlayer.release()
-      controller?.thumb?.setImageDrawable(null)
+      (ffmpegPlayer.thumbImageView as? ImageView)?.setImageDrawable(null)
       ffmpegPlayer.gone()
       PictureSelector.create(mActivity)
           .openGallery(PictureMimeType.ofVideo())
@@ -70,10 +60,10 @@ class RxFFmpegActivity : CommTitleActivity() {
           .loadImageEngine(PicSelEngine())
           .previewVideo(true)
           .forResult(INTENT_SEL_VIDEO2)
-      //      val openAlbumIntent = Intent(Intent.ACTION_PICK)
-      //      openAlbumIntent.setDataAndType(Media.EXTERNAL_CONTENT_URI, "video/*")
-      //      openAlbumIntent.putExtra("return-data", true)
-      //      startActivityForResult(openAlbumIntent, INTENT_SEL_VIDEO)
+      //val openAlbumIntent = Intent(Intent.ACTION_PICK)
+      //openAlbumIntent.setDataAndType(Media.EXTERNAL_CONTENT_URI, "video/*")
+      //openAlbumIntent.putExtra("return-data", true)
+      //startActivityForResult(openAlbumIntent, INTENT_SEL_VIDEO)
     }
     //内部可滚动 https://www.jianshu.com/p/7a02253cd23e
     ffmpegResult.movementMethod = ScrollingMovementMethod.getInstance()
@@ -102,53 +92,14 @@ class RxFFmpegActivity : CommTitleActivity() {
       }
     }
     ffmpegPlay.click { VideoDetailActivity.startActivity(mContext, compressVideoPath) }
-    //控制器
-    controller = StandardVideoController(this)
-    prepareView = PrepareView(mContext)
-    controller?.let {
-      it.addControlComponent(prepareView) //播放前预览封面
-      it.addControlComponent(CompleteView(this)) //自动完成播放界面
-      it.addControlComponent(ErrorView(this)) //错误界面
-      val titleView = TitleView(this) //标题栏
-      it.addControlComponent(titleView)
-      val vodControlView = VodControlView(this) //点播控制条
-      //是否显示底部进度条,默认显示
-      vodControlView.showBottomProgress(true)
-      vodControlView.setVerticalFullListener(object : VerticalFullListener {
-        override fun isVerticalVideo(): Boolean {
-          val videoSize = ffmpegPlayer.videoSize
-          return if (videoSize != null) {
-            videoSize[0] < videoSize[1] //纵向视频
-          } else {
-            false
-          }
-        }
-
-        override fun isStopOutFull(): Boolean {
-          return ffmpegPlayer.isFullScreen
-        }
-      })
-      it.addControlComponent(vodControlView)
-    }
-    controller?.setEnableOrientation(true)
-    ffmpegPlayer.setVideoSizeChangeListener { videoWidth, videoHeight ->
-      //全屏时跟随屏幕旋转
-      controller?.setEnableOrientation(videoWidth > videoHeight)
-    }
-    //设置控制器
-    ffmpegPlayer.setVideoController(controller)
-    ffmpegPlayer.setLooping(false)
-    //内部处理生命周期
-    ffmpegPlayer.setLifecycleOwner(this)
   }
 
   override fun initData() {
     //高斯模糊测试代码
-    //    val url =
-    //      PathUtils.getExternalStoragePath() + File.separator + "251C90F4C97303004ACF85BDE3164342.jpg"
-    //    iv1.load(url)
-    //    iv2.loadBlur(url, blur = 15)
-    //    iv3.loadCornerBlur(url, cornerDP = 8f, blur = 25)
+    //val url = PathUtils.getExternalStoragePath() + File.separator + "251C90F4C97303004ACF85BDE3164342.jpg"
+    //iv1.load(url)
+    //iv2.loadBlur(url, blur = 15)
+    //iv3.loadCornerBlur(url, cornerDP = 8f, blur = 25)
   }
 
   private fun initPlayer(
@@ -170,25 +121,12 @@ class RxFFmpegActivity : CommTitleActivity() {
         videoView.layoutParams?.height = (width * 1f / size.first * size.second).toInt()
         videoView.layoutParams?.width = width
       }
-      videoView.setUrl(videoPath)
+      videoView.backButton.gone()
+      videoView.titleTextView.gone()
+      videoView.setPlayUrl(videoPath, "", coverPath)
       videoView.visible()
       videoView.requestLayout()
       isFirstPlay = true
-      controller?.thumb?.load(coverPath)
-      controller?.thumb?.click {
-        when {
-          isFirstPlay -> {
-            videoView.start()
-            isFirstPlay = false
-          }
-          videoView.isPlaying -> {
-            videoView.pause()
-          }
-          else -> {
-            videoView.resume()
-          }
-        }
-      }
     }
   }
 
@@ -241,9 +179,9 @@ class RxFFmpegActivity : CommTitleActivity() {
         PictureSelector.obtainMultipleResult(data)
             ?.let { medias ->
               if (medias.isNotEmpty()) {
-                val path = medias.first()
-                    .path
-                if (File(path).exists()) parseVideo(path)
+                val path = medias.first().path
+                val file = path.toFile()
+                if (file?.exists() == true) parseVideo(file.path)
               }
             }
       } else {
@@ -262,11 +200,9 @@ class RxFFmpegActivity : CommTitleActivity() {
         return null
       }
       //file:///storage/emulated/0/ffmpeg2.mp4
-      val index = selectedVideo.toString()
-          .indexOf("/storage/emulated")
+      val index = selectedVideo.toString().indexOf("/storage/emulated")
       if (index > 0) {
-        return selectedVideo.toString()
-            .substring(index)
+        return selectedVideo.toString().substring(index)
       }
     } else {
       return null
@@ -284,6 +220,6 @@ class RxFFmpegActivity : CommTitleActivity() {
   }
 
   override fun onBackPressed() {
-    if (ffmpegPlayer?.onBackPressed() == false) super.onBackPressed()
+    if (!ffmpegPlayer.onBackPress()) super.onBackPressed()
   }
 }
