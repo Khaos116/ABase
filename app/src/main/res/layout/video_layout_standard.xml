@@ -84,7 +84,7 @@
         android:src="@drawable/video_enlarge"
         />
   </LinearLayout>
-
+  <!--底部播放进度-->
   <ProgressBar
       android:id="@+id/bottom_progressbar"
       style="?android:attr/progressBarStyleHorizontal"
@@ -103,8 +103,9 @@
       android:layout_marginTop="6dp"
       android:contentDescription="@null"
       android:visibility="gone"
+      tools:visibility="visible"
       />
-
+  <!--标题栏，根据APP修改了-->
   <LinearLayout
       android:id="@+id/layout_top"
       android:layout_width="match_parent"
