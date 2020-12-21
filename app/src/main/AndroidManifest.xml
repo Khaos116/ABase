@@ -88,7 +88,7 @@
     <!--视频详情页-->
     <activity
         android:name=".component.ffmpeg.VideoDetailActivity"
-        android:configChanges="orientation|keyboardHidden|screenSize"
+        android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|smallestScreenSize|uiMode"
         android:launchMode="singleTop"
         android:screenOrientation="portrait"
         android:windowSoftInputMode="adjustPan|stateHidden"/>
