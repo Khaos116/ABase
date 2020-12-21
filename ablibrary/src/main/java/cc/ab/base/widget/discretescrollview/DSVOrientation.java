@@ -1,7 +1,6 @@
 package cc.ab.base.widget.discretescrollview;
 
-
-import android.graphics.Point;
+import android.graphics.PointF;
 import android.view.View;
 
 /**
@@ -31,9 +30,9 @@ public enum DSVOrientation {
 
     int getDistanceToChangeCurrent(int childWidth, int childHeight);
 
-    void setCurrentViewCenter(Point recyclerCenter, int scrolled, Point outPoint);
+    void setCurrentViewCenter(PointF recyclerCenter, int scrolled, PointF outPoint);
 
-    void shiftViewCenter(Direction direction, int shiftAmount, Point outCenter);
+    void shiftViewCenter(Direction direction, int shiftAmount, PointF outCenter);
 
     int getFlingVelocity(int velocityX, int velocityY);
 
@@ -43,9 +42,9 @@ public enum DSVOrientation {
 
     void offsetChildren(int amount, RecyclerViewProxy lm);
 
-    float getDistanceFromCenter(Point center, int viewCenterX, int viewCenterY);
+    float getDistanceFromCenter(PointF center, float viewCenterX, float viewCenterY);
 
-    boolean isViewVisible(Point center, int halfWidth, int halfHeight, int endBound, int extraSpace);
+    boolean isViewVisible(PointF center, float halfWidth, float halfHeight, float endBound, float extraSpace);
 
     boolean hasNewBecomeVisible(DiscreteScrollLayoutManager lm);
 
@@ -67,23 +66,21 @@ public enum DSVOrientation {
     }
 
     @Override
-    public void setCurrentViewCenter(Point recyclerCenter, int scrolled, Point outPoint) {
-      int newX = recyclerCenter.x - scrolled;
+    public void setCurrentViewCenter(PointF recyclerCenter, int scrolled, PointF outPoint) {
+      float newX = recyclerCenter.x - scrolled;
       outPoint.set(newX, recyclerCenter.y);
     }
 
     @Override
-    public void shiftViewCenter(Direction direction, int shiftAmount, Point outCenter) {
-      int newX = outCenter.x + direction.applyTo(shiftAmount);
+    public void shiftViewCenter(Direction direction, int shiftAmount, PointF outCenter) {
+      float newX = outCenter.x + direction.applyTo(shiftAmount);
       outCenter.set(newX, outCenter.y);
     }
 
     @Override
-    public boolean isViewVisible(
-        Point viewCenter, int halfWidth, int halfHeight, int endBound,
-        int extraSpace) {
-      int viewLeft = viewCenter.x - halfWidth;
-      int viewRight = viewCenter.x + halfWidth;
+    public boolean isViewVisible(PointF viewCenter, float halfWidth, float halfHeight, float endBound, float extraSpace) {
+      float viewLeft = viewCenter.x - halfWidth;
+      float viewRight = viewCenter.x + halfWidth;
       return viewLeft < (endBound + extraSpace) && viewRight > -extraSpace;
     }
 
@@ -105,7 +102,7 @@ public enum DSVOrientation {
     }
 
     @Override
-    public float getDistanceFromCenter(Point center, int viewCenterX, int viewCenterY) {
+    public float getDistanceFromCenter(PointF center, float viewCenterX, float viewCenterY) {
       return viewCenterX - center.x;
     }
 
@@ -135,7 +132,6 @@ public enum DSVOrientation {
     }
   }
 
-
   protected static class VerticalHelper implements Helper {
 
     @Override
@@ -149,14 +145,14 @@ public enum DSVOrientation {
     }
 
     @Override
-    public void setCurrentViewCenter(Point recyclerCenter, int scrolled, Point outPoint) {
-      int newY = recyclerCenter.y - scrolled;
+    public void setCurrentViewCenter(PointF recyclerCenter, int scrolled, PointF outPoint) {
+      float newY = recyclerCenter.y - scrolled;
       outPoint.set(recyclerCenter.x, newY);
     }
 
     @Override
-    public void shiftViewCenter(Direction direction, int shiftAmount, Point outCenter) {
-      int newY = outCenter.y + direction.applyTo(shiftAmount);
+    public void shiftViewCenter(Direction direction, int shiftAmount, PointF outCenter) {
+      float newY = outCenter.y + direction.applyTo(shiftAmount);
       outCenter.set(outCenter.x, newY);
     }
 
@@ -166,16 +162,14 @@ public enum DSVOrientation {
     }
 
     @Override
-    public float getDistanceFromCenter(Point center, int viewCenterX, int viewCenterY) {
+    public float getDistanceFromCenter(PointF center, float viewCenterX, float viewCenterY) {
       return viewCenterY - center.y;
     }
 
     @Override
-    public boolean isViewVisible(
-        Point viewCenter, int halfWidth, int halfHeight, int endBound,
-        int extraSpace) {
-      int viewTop = viewCenter.y - halfHeight;
-      int viewBottom = viewCenter.y + halfHeight;
+    public boolean isViewVisible(PointF viewCenter, float halfWidth, float halfHeight, float endBound, float extraSpace) {
+      float viewTop = viewCenter.y - halfHeight;
+      float viewBottom = viewCenter.y + halfHeight;
       return viewTop < (endBound + extraSpace) && viewBottom > -extraSpace;
     }
 
@@ -216,5 +210,4 @@ public enum DSVOrientation {
       return pendingScroll;
     }
   }
-
 }

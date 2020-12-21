@@ -55,8 +55,21 @@ public class RecyclerViewProxy {
     return view;
   }
 
-  public void layoutDecoratedWithMargins(View v, int left, int top, int right, int bottom) {
-    layoutManager.layoutDecoratedWithMargins(v, left, top, right, bottom);
+  public void layoutDecoratedWithMargins(View v, float l, float t, float r, float b) {
+    float left = l;
+    float top = t;
+    float right = r;
+    float bottom = b;
+    //纠正1px
+    if (((int) top) * 1f != top) {
+      top = top + 0.5f;
+      bottom = bottom + 0.5f;
+    }
+    if (((int) left) * 1f != left) {
+      left = left + 0.5f;
+      right = right + 0.5f;
+    }
+    layoutManager.layoutDecoratedWithMargins(v, (int) left, (int) top, (int) right, (int) bottom);
   }
 
   public View getChildAt(int index) {

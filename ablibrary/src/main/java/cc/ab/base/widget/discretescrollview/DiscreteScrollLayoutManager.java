@@ -1,7 +1,6 @@
 package cc.ab.base.widget.discretescrollview;
 
 import android.content.Context;
-import android.graphics.Point;
 import android.graphics.PointF;
 import android.os.Bundle;
 import android.os.Parcelable;
@@ -35,10 +34,10 @@ class DiscreteScrollLayoutManager extends RecyclerView.LayoutManager {
   protected static final float SCROLL_TO_SNAP_TO_ANOTHER_ITEM = 0.6f;
 
   //This field will take value of all visible view's center points during the fill phase
-  protected Point viewCenterIterator;
-  protected Point recyclerCenter;
-  protected Point currentViewCenter;
-  protected int childHalfWidth, childHalfHeight;
+  protected PointF viewCenterIterator;
+  protected PointF recyclerCenter;
+  protected PointF currentViewCenter;
+  protected float childHalfWidth, childHalfHeight;
   protected int extraLayoutSpace;
 
   //Max possible distance a view can travel during one scroll phase
@@ -85,9 +84,9 @@ class DiscreteScrollLayoutManager extends RecyclerView.LayoutManager {
     this.currentPosition = NO_POSITION;
     this.flingThreshold = DEFAULT_FLING_THRESHOLD;
     this.shouldSlideOnFling = false;
-    this.recyclerCenter = new Point();
-    this.currentViewCenter = new Point();
-    this.viewCenterIterator = new Point();
+    this.recyclerCenter = new PointF();
+    this.currentViewCenter = new PointF();
+    this.viewCenterIterator = new PointF();
     this.detachedCache = new SparseArray<>();
     this.scrollStateListener = scrollStateListener;
     this.orientationHelper = orientation.createHelper();
@@ -150,8 +149,8 @@ class DiscreteScrollLayoutManager extends RecyclerView.LayoutManager {
     int childViewWidth = recyclerViewProxy.getMeasuredWidthWithMargin(viewToMeasure);
     int childViewHeight = recyclerViewProxy.getMeasuredHeightWithMargin(viewToMeasure);
 
-    childHalfWidth = childViewWidth / 2;
-    childHalfHeight = childViewHeight / 2;
+    childHalfWidth = childViewWidth / 2f;
+    childHalfHeight = childViewHeight / 2f;
 
     scrollToChangeCurrent = orientationHelper.getDistanceToChangeCurrent(
         childViewWidth,
@@ -220,7 +219,7 @@ class DiscreteScrollLayoutManager extends RecyclerView.LayoutManager {
     }
   }
 
-  protected void layoutView(RecyclerView.Recycler recycler, int position, Point viewCenter) {
+  protected void layoutView(RecyclerView.Recycler recycler, int position, PointF viewCenter) {
     if (position < 0) return;
     View v = detachedCache.get(position);
     if (v == null) {
@@ -713,7 +712,7 @@ class DiscreteScrollLayoutManager extends RecyclerView.LayoutManager {
     return itemPosition >= 0 && itemPosition < recyclerViewProxy.getItemCount();
   }
 
-  private boolean isViewVisible(Point viewCenter, int endBound) {
+  private boolean isViewVisible(PointF viewCenter, int endBound) {
     return orientationHelper.isViewVisible(
         viewCenter, childHalfWidth, childHalfHeight,
         endBound, extraLayoutSpace);
