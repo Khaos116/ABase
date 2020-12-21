@@ -31,12 +31,5 @@
       app:layout_constraintDimensionRatio="16:9"
       app:layout_constraintStart_toStartOf="parent"
       app:layout_constraintTop_toBottomOf="@id/itemVideoListTitle"
-      >
-
-    <com.dueeeke.videocontroller.component.PrepareView
-        android:id="@+id/itemVideoPrepareView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        />
-  </FrameLayout>
+      />
 </androidx.constraintlayout.widget.ConstraintLayout>
