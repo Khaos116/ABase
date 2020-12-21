@@ -71,7 +71,7 @@ class PlayPagerActivity : CommActivity() {
     //播放控件
     mVideoView = MyVideoView(mContext)
     mVideoView?.setFitSystemWindow(true)
-    mVideoView?.backButton?.visibleInvisible(false)
+    mVideoView?.backButton?.invisible()
     //列表
     playPagerViewPager.offscreenPageLimit = 4
     //下拉刷新
