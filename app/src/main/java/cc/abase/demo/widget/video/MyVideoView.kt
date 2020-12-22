@@ -75,10 +75,16 @@ class MyVideoView : StandardGSYVideoPlayer, LifecycleObserver {
       ou.releaseListener()
       ou.isEnable = false
     }
+    //关闭自动旋转
+    isRotateViewAuto = false
     //不要旋转动画
     isShowFullAnimation = false
     //自动判断竖屏全屏还是横屏全屏
     mAutoFullWithSize = true
+    //是否跟随系统设置
+    mRotateWithSystem = false
+    //旋转时仅处理横屏
+    isOnlyRotateLand = false
     //设置全屏点击
     setVideoAllCallBack(object : GSYSampleCallBack() {
       override fun onQuitFullscreen(url: String, vararg objects: Any) {
@@ -86,15 +92,16 @@ class MyVideoView : StandardGSYVideoPlayer, LifecycleObserver {
         orientationUtils?.backToProtVideo()
       }
     })
-    fullscreenButton.setOnClickListener { //直接横屏
-      orientationUtils?.resolveByClick()
+    fullscreenButton.setOnClickListener {
+      orientationUtils?.isLand = 0 //回复原来的值，因为全屏后内部采用的是GSYBaseVideoPlayer新建的mOrientationUtils
+      orientationUtils?.resolveByClick() //直接横屏
       //第一个true是否需要隐藏actionbar，第二个true是否需要隐藏statusbar
       startWindowFullscreen(activity, false, true)
     }
   }
   //</editor-fold>
 
-  //<editor-fold defaultstate="collapsed" desc="外部设置>
+  //<editor-fold defaultstate="collapsed" desc="外部设置">
   //设置是否处于列表中播放
   fun setInList(inList: Boolean): MyVideoView {
     isInList = inList
