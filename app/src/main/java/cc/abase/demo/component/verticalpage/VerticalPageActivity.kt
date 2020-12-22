@@ -81,7 +81,7 @@ class VerticalPageActivity : CommTitleActivity() {
         }
         //开始播放
         val bean = mDatas[position]
-        videoView.setPlayUrl(bean.videoUrl ?: "", bean.description ?: "")
+        videoView.setPlayUrl(bean.videoUrl ?: "", bean.description ?: "", autoPlay = true)
       }
       //判断是否可以上拉加载更多
       if (position == (mDatas.size - 1)) {
@@ -149,6 +149,7 @@ class VerticalPageActivity : CommTitleActivity() {
     mVideoView?.setLifecycleOwner(null)
     //重置数据
     mVideoView = MyVideoView(mContext)
+    mVideoView?.fullscreenButton?.gone()
     mVideoView?.backButton?.invisible()
     mVideoView?.layoutParams = ViewGroup.LayoutParams(-1, -1)
     mVideoView?.isLooping = true

@@ -72,6 +72,7 @@ class PlayPagerActivity : CommActivity() {
     mVideoView = MyVideoView(mContext)
     mVideoView?.setFitSystemWindow(true)
     mVideoView?.backButton?.invisible()
+    mVideoView?.fullscreenButton?.gone()
     //列表
     playPagerViewPager.offscreenPageLimit = 4
     //下拉刷新
@@ -162,9 +163,8 @@ class PlayPagerActivity : CommActivity() {
         mVideoView?.release()
         mVideoView?.removeParent()
         val videoBean: VideoBean = mVideoList[viewHolder.mPosition]
-        mVideoView?.setPlayUrl(videoBean.url ?: "", videoBean.title ?: "")
+        mVideoView?.setPlayUrl(videoBean.url ?: "", videoBean.title ?: "", autoPlay = true)
         viewHolder.mPlayerContainer?.addView(mVideoView, 0)
-        //mVideoView?.startPlayLogic()
         mCurPos = position
         findCount++
       } else if (position > 0 && viewHolder.mPosition == position - 1) { //预加载上一个数据，否则滑动可能出现复用的数据

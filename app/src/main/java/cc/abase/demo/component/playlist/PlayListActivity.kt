@@ -37,9 +37,6 @@ class PlayListActivity : CommTitleActivity() {
   //当前播放的位置
   private var mCurPos = -1
 
-  //上次播放的位置，用于页面切回来之后恢复播放
-  private var mLastPos: Int = mCurPos
-
   //数据
   private var mVideoList: MutableList<VideoBean> = mutableListOf()
 
@@ -64,7 +61,7 @@ class PlayListActivity : CommTitleActivity() {
     //列表相关
     playListRecycler.setController(epoxyController)
     playListRecycler.addOnChildAttachStateChangeListener(object : RecyclerView.OnChildAttachStateChangeListener {
-      override fun onChildViewDetachedFromWindow(view: View) {//视频全屏的时候view.parent为空，正常滑出屏幕时view.parent不为空
+      override fun onChildViewDetachedFromWindow(view: View) { //视频全屏的时候view.parent为空，正常滑出屏幕时view.parent不为空
         view.itemVideoContainer?.getChildAt(0)?.let { if (it == mVideoView) releaseVideoView(view.parent != null) }
       }
 
