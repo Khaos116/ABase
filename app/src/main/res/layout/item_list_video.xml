@@ -24,10 +24,37 @@
       />
 
   <FrameLayout
-      android:id="@+id/itemVideoContainer"
       android:layout_width="match_parent"
       android:layout_height="0dp"
       android:background="#1a1a1a"
+      app:layout_constraintDimensionRatio="16:9"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toBottomOf="@id/itemVideoListTitle"
+      >
+    <!--封面-->
+    <me.panpf.sketch.SketchImageView
+        android:id="@+id/itemPlayPagerThumb"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scaleType="fitCenter"
+        />
+    <!--播放按钮-->
+    <ImageView
+        android:id="@+id/itemPlayPagerBtn"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_gravity="center"
+        android:background="@drawable/circle_primary"
+        android:contentDescription="@null"
+        android:padding="8dp"
+        android:src="@drawable/exo_icon_play"
+        />
+  </FrameLayout>
+
+  <FrameLayout
+      android:id="@+id/itemVideoContainer"
+      android:layout_width="match_parent"
+      android:layout_height="0dp"
       app:layout_constraintDimensionRatio="16:9"
       app:layout_constraintStart_toStartOf="parent"
       app:layout_constraintTop_toBottomOf="@id/itemVideoListTitle"
