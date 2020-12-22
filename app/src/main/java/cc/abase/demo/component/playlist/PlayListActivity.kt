@@ -64,8 +64,8 @@ class PlayListActivity : CommTitleActivity() {
     //列表相关
     playListRecycler.setController(epoxyController)
     playListRecycler.addOnChildAttachStateChangeListener(object : RecyclerView.OnChildAttachStateChangeListener {
-      override fun onChildViewDetachedFromWindow(view: View) {
-        view.itemVideoContainer?.getChildAt(0)?.let { if (it == mVideoView) releaseVideoView() }
+      override fun onChildViewDetachedFromWindow(view: View) {//视频全屏的时候view.parent为空，正常滑出屏幕时view.parent不为空
+        view.itemVideoContainer?.getChildAt(0)?.let { if (it == mVideoView) releaseVideoView(view.parent != null) }
       }
 
       override fun onChildViewAttachedToWindow(view: View) {
@@ -109,7 +109,7 @@ class PlayListActivity : CommTitleActivity() {
   //开始播放
   private fun startPlay(position: Int) {
     if (mCurPos == position) return
-    if (mCurPos != -1) releaseVideoView()
+    if (mCurPos != -1) releaseVideoView(true)
     playListRecycler.layoutManager?.findViewByPosition(position)
         ?.let {
           mVideoView?.removeParent()
@@ -122,10 +122,10 @@ class PlayListActivity : CommTitleActivity() {
   }
 
   //释放播放
-  private fun releaseVideoView() {
+  private fun releaseVideoView(remove: Boolean) {
     mVideoView?.let {
       it.onVideoReset()
-      it.removeParent()
+      if (remove) it.removeParent()
       mCurPos = -1
     }
   }
