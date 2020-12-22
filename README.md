@@ -1,6 +1,6 @@
 # ABase(采用AndroidX)
 ##### 准备实践框架
-使用了[干货集中营开源API](http://gank.io/api)(2020年发现图片无法访问了)和[玩Android开源API](https://www.wanandroid.com/blog/show/2)  
+使用了[干货集中营开源API](http://gank.io/api)和[玩Android开源API](https://www.wanandroid.com/blog/show/2)  
 Build Scan分析情况:[https://scans.gradle.com/s/4fbw3ftizzorg](https://scans.gradle.com/s/4fbw3ftizzorg)
   
 三方库|描述
