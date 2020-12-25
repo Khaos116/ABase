@@ -74,9 +74,7 @@ class MainActivity : CommActivity() {
     currentFragment = fragment
     if (!fragment.isAdded) { //没有添加，则添加并显示
       val tag = fragment::class.java.simpleName
-      FragmentUtils.add(
-          supportFragmentManager, fragment, mainContainer.id, tag, false
-      )
+      FragmentUtils.add(supportFragmentManager, fragment, mainContainer.id, tag, false)
     } else { //添加了就直接显示
       FragmentUtils.show(fragment)
       if (fragment.isAdded) supportFragmentManager.beginTransaction().setMaxLifecycle(fragment, Lifecycle.State.RESUMED).commitAllowingStateLoss() //触发Fragment的onResume
