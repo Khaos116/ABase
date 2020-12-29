@@ -3,7 +3,6 @@ package cc.ab.base.utils
 import android.net.Uri
 import com.blankj.utilcode.util.UriUtils
 import java.io.File
-import java.net.FileNameMap
 import java.net.URLConnection
 
 /**
@@ -21,9 +20,9 @@ class MediaUtils private constructor() {
   }
 
   //获取文件类型
-  private fun getMimeType(fileName: String): String {
-    val fileNameMap: FileNameMap = URLConnection.getFileNameMap()
-    return fileNameMap.getContentTypeFor(fileName)
+  private fun getMimeType(fileName: String?): String {
+    if (fileName.isNullOrBlank()) return ""
+    return URLConnection.getFileNameMap()?.getContentTypeFor(fileName) ?: ""
   }
 
   //判断文件是否是图片
