@@ -146,6 +146,11 @@ class MyVideoView : VideoView<MyExoMediaPlayer>, LifecycleObserver {
     backIv.setImageResource(id)
   }
 
+  //清理封面
+  fun clearCover() {
+    coverIv.setImageDrawable(null)
+  }
+
   //外部获取控制器
   fun getMyController(): StandardVideoController {
     return controller
