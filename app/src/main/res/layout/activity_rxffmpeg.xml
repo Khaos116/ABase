@@ -9,7 +9,7 @@
     android:padding="12dp"
     >
 
-  <cc.abase.demo.widget.video.MyVideoView
+  <cc.abase.demo.widget.dkplayer.MyVideoView
       android:id="@+id/ffmpegPlayer"
       android:layout_width="match_parent"
       android:layout_height="match_parent"
