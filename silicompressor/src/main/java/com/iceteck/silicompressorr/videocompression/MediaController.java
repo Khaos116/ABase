@@ -19,6 +19,7 @@ import java.nio.channels.FileChannel;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
+import cc.ab.base.ext.StringExtKt;
 
 @SuppressLint("NewApi")
 public class MediaController {
@@ -149,13 +150,13 @@ public class MediaController {
     File resultFile = new File(destDir, filePrefix + ".mp4");
     //已经压缩成功并且大于100k，直接返回
     if (resultFile.exists() && resultFile.isFile() && resultFile.length() > 100 * 1024) {
-      Log.e("CASE", "已经压缩过，直接返回:" + resultFile.getPath());
+      StringExtKt.logE("已经压缩过，直接返回:" + resultFile.getPath());
       cachedFile = resultFile;
       return true;
     }
     //文件小于5M不进行压缩
     if (originFile.exists() && originFile.isFile() && originFile.length() < 5 * 1024 * 1024) {
-      Log.e("CASE", "文件小于5M不进行压缩:" + resultFile.getPath());
+      StringExtKt.logE("文件小于5M不进行压缩:" + resultFile.getPath());
       FileUtils.copy(originFile, resultFile);
       cachedFile = resultFile;
       return true;
@@ -216,7 +217,7 @@ public class MediaController {
         rotateRender = 90;
       }
     }
-    Log.e("CASE", "resultHeight=" + resultHeight + ",resultWidth=" + resultWidth + ",bitrate=" + bitrate);
+    StringExtKt.logE("resultHeight=" + resultHeight + ",resultWidth=" + resultWidth + ",bitrate=" + bitrate);
     File inputFile = new File(path);
     if (!inputFile.canRead()) {
       didWriteData(true, true);
@@ -524,7 +525,7 @@ public class MediaController {
 
                             //=============================修改代码4-Start=============================//
                             float p = 100f * info.presentationTimeUs / originalDuration;
-                            //Log.e("CASE", "压缩进度=" + p);
+                            //StringExtKt.logE("压缩进度=" + p);
                             CompressCall.Companion.getInstance().updateCompressProgress(sourcePath, p);
                             //=============================修改代码4-ENd===============================//
 

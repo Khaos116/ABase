@@ -27,7 +27,7 @@ open class CompressCall private constructor() {
     tempProgress = ((progress * 10).toInt()) / 10f//保留一位小数
     if (lastProgress != tempProgress) {
       lastProgress = tempProgress
-      // Log.e("CASE", "压缩进度=$lastProgress")
+      // StringExtKt.logE("压缩进度=$lastProgress")
       progressCall?.invoke(originFilePath, Math.min(lastProgress, 99.9f))
     }
   }

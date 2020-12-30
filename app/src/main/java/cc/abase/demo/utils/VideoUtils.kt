@@ -1,9 +1,8 @@
 package cc.abase.demo.utils
 
-import android.Manifest
 import android.graphics.Bitmap
 import android.media.MediaMetadataRetriever
-import android.util.Log
+import cc.ab.base.ext.logE
 import cc.ab.base.utils.PermissionUtils
 import cc.ab.base.utils.RxUtils
 import cc.abase.demo.R
@@ -97,7 +96,7 @@ class VideoUtils private constructor() {
     //已存在则直接返回
     if (destImg.exists()) {
       call?.invoke(true, destImg.path)
-      Log.e("CASE", "已存在封面，直接返回:${destImg.path}")
+      "已存在封面，直接返回:${destImg.path}".logE()
       return
     }
     //获取封面
@@ -126,8 +125,8 @@ class VideoUtils private constructor() {
           if (rotation != 0) bit = ImageUtils.rotate(bit, rotation, bit.width / 2f, bit.height / 2f)
           //保存到指定位置
           ImageUtils.save(bit, destImg, Bitmap.CompressFormat.JPEG)
-          Log.e("CASE", "\n修改前封面尺寸:width=${originWidth},height=${originHeight}")
-          Log.e("CASE", "\n修改后封面尺寸:width=${width},height=${height}\n")
+          "\n修改前封面尺寸:width=${originWidth},height=${originHeight}".logE()
+          "\n修改后封面尺寸:width=${width},height=${height}\n".logE()
           bit.recycle()
           Observable.just(destImg.path)
         }

@@ -1,7 +1,6 @@
 package cc.abase.demo.component.splash
 
 import android.content.Intent
-import android.util.Log
 import cc.ab.base.ext.*
 import cc.ab.base.utils.PermissionUtils
 import cc.ab.base.utils.RxUtils
@@ -15,11 +14,12 @@ import cc.abase.demo.utils.MMkvUtils
 import com.blankj.utilcode.util.TimeUtils
 import com.blankj.utilcode.util.Utils
 import com.gyf.immersionbar.ktx.immersionBar
-import com.hjq.permissions.*
+import com.hjq.permissions.OnPermissionCallback
+import com.hjq.permissions.Permission
+import com.hjq.permissions.XXPermissions
 import io.reactivex.Flowable
 import io.reactivex.disposables.Disposable
-import kotlinx.android.synthetic.main.activity_splash.splashCover
-import kotlinx.android.synthetic.main.activity_splash.splashTime
+import kotlinx.android.synthetic.main.activity_splash.*
 import me.panpf.sketch.Sketch
 import java.util.concurrent.TimeUnit
 import kotlin.math.max
@@ -74,7 +74,7 @@ class SplashActivity : CommActivity() {
           .compose(RxUtils.instance.rx2SchedulerHelperF(lifecycleProvider))
           .doOnNext { splashTime.text = String.format("%d", max(1, count - it)) }
           .doOnComplete {
-            Log.e("CASE", "倒计时结束")
+            "倒计时结束".logE()
             countDownFinish = true
             goNextPage()
           }
