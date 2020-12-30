@@ -26,7 +26,7 @@
       app:layout_constraintTop_toBottomOf="@id/videoDetailStatus"
       >
 
-    <cc.abase.demo.widget.video.MyVideoView
+    <cc.abase.demo.widget.dkplayer.MyVideoView
         android:id="@+id/videoDetailVideoView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -35,11 +35,11 @@
   <!--返回按钮和video_layout_standard.xml中的返回相同-->
   <ImageView
       android:id="@+id/videoDetailBack"
-      android:layout_width="32dp"
-      android:layout_height="36dp"
+      android:layout_width="@dimen/dkplayer_controller_height"
+      android:layout_height="@dimen/dkplayer_controller_height"
       android:contentDescription="@null"
-      android:padding="3.5dp"
-      android:src="@drawable/svg_back_white"
+      android:padding="@dimen/dkplayer_controller_icon_padding"
+      android:src="@drawable/dkplayer_ic_action_arrow_back"
       app:layout_constraintStart_toStartOf="parent"
       app:layout_constraintTop_toTopOf="@id/videoDetailVideoViewParent"
       tools:background="@drawable/video_title_bg"
