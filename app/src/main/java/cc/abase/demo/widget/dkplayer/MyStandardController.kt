@@ -73,9 +73,16 @@ class MyStandardController : StandardVideoController {
     if (mControlWrapper.isPlaying) {
       speedTv.removeParent()
       val params = FrameLayout.LayoutParams(-2, -2)
+      val w = mControlWrapper.videoSize[0]
+      val h = mControlWrapper.videoSize[1]
       params.gravity = Gravity.CENTER_HORIZONTAL
-      params.topMargin = if (isInList && !mControlWrapper.isFullScreen) 2.dp2Px() else 32.dp2Px()
-      //46是标题的高度
+      params.topMargin = if (mControlWrapper.isFullScreen) { //全屏
+        speedTv.textSize = 14f
+        32.dp2Px() + if (w < h) mControlWrapper.cutoutHeight else 0 //竖向全屏需要兼容状态栏
+      } else { //非全屏
+        speedTv.textSize = 12f
+        if (isInList) 2.dp2Px() else 32.dp2Px()
+      }
       addView(speedTv, params)
       if (!mControlWrapper.isShowing) mControlWrapper.show()
       mControlWrapper.stopFadeOut()
