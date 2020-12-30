@@ -16,6 +16,6 @@ class AppLastInit : Initializer<Int> {
   }
 
   override fun dependencies(): MutableList<Class<out Initializer<*>>> {
-    return mutableListOf(GysPlayerInit::class.java)
+    return mutableListOf(GysPlayerInit::class.java, DKPlayerInit::class.java)
   }
 }
