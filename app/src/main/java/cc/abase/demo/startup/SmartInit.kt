@@ -4,7 +4,7 @@ import android.app.Application
 import android.content.Context
 import androidx.startup.Initializer
 import cc.ab.base.ext.logI
-import cc.ab.base.startup.UtilsInit
+import cc.ab.base.startup.DoraemonInit
 import cc.abase.demo.component.gallery.GalleryActivity
 import cc.abase.demo.component.login.LoginActivity
 import cc.abase.demo.component.main.MainActivity
@@ -46,7 +46,7 @@ class SmartInit : Initializer<Int> {
   }
 
   override fun dependencies(): MutableList<Class<out Initializer<*>>> {
-    return mutableListOf(UtilsInit::class.java)
+    return mutableListOf(DoraemonInit::class.java)
   }
 
   //静态代码段可以防止内存泄露
