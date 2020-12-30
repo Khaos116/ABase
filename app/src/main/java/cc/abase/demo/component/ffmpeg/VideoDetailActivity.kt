@@ -16,10 +16,15 @@ import kotlinx.android.synthetic.main.activity_video_detail.*
 class VideoDetailActivity : CommActivity() {
   //<editor-fold defaultstate="collapsed" desc="外部跳转">
   companion object {
+    //视频地址
+    private val moveUrls = mutableListOf(
+        "http://vfx.mtime.cn/Video/2019/03/18/mp4/190318231014076505.mp4",
+        "https://meinv.jingyu-zuida.com/20200917/13581_c98cc8fd/1000k/hls/index.m3u8",
+    )
     private const val INTENT_KEY_VIDEO_URL = "INTENT_KEY_VIDEO_URL"
     fun startActivity(context: Context, videoUrl: String?) {
       val intent = Intent(context, VideoDetailActivity::class.java)
-      val defaultUrl = "http://vfx.mtime.cn/Video/2019/03/18/mp4/190318231014076505.mp4"
+      val defaultUrl = moveUrls[(System.currentTimeMillis() % moveUrls.size).toInt()]
       intent.putExtra(INTENT_KEY_VIDEO_URL, if (videoUrl.isNullOrBlank()) defaultUrl else videoUrl)
       context.startActivity(intent)
     }
