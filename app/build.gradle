@@ -206,7 +206,6 @@ dependencies {
   implementation Deps.emoji
   implementation Deps.startup
   implementation Deps.gsy_player_java
-  implementation Deps.gsy_player_exo
   implementation Deps.dk_java
   implementation Deps.dk_ui
   implementation Deps.dk_exo
