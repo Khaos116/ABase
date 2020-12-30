@@ -5,6 +5,7 @@ object Versions {
   internal const val okHttp = "4.9.0"
   internal const val rxHttp = "2.5.1"
   internal const val doraemonkit = "3.2.0"
+  internal const val coil = "1.1.0"
   internal const val epoxy = "4.1.0"
 }
 
@@ -151,4 +152,14 @@ object Deps {
   //三方播放lib https://github.com/CarGuo/GSYVideoPlayer
   const val gsy_player_java = "com.shuyu:gsyVideoPlayer-java:8.0.0"
   const val gsy_player_exo = "com.shuyu:GSYVideoPlayer-exo2:8.0.0"
+
+  //视频播放相关 https://github.com/Doikki/DKVideoPlayer/wiki
+  const val dk_java ="com.github.dueeeke.dkplayer:dkplayer-java:3.2.6"
+  const val dk_ui ="com.github.dueeeke.dkplayer:dkplayer-ui:3.2.6"
+  const val dk_exo= "com.github.dueeeke.dkplayer:player-exo:3.2.6"
+
+  //图片加载 https://github.com/coil-kt/coil
+  const val coil = "io.coil-kt:coil:${Versions.coil}"
+  const val coil_gif = "io.coil-kt:coil-gif:${Versions.coil}"
+  const val coil_video_file = "io.coil-kt:coil-video:${Versions.coil}"
 }
