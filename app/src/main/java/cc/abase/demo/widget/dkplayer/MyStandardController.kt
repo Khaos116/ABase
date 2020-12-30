@@ -62,7 +62,7 @@ class MyStandardController : StandardVideoController {
   //取消倍速
   private fun cancelSpeedShow(vibrate: Boolean = false) {
     if (mControlWrapper.isShowing) mControlWrapper.startFadeOut()
-    if (vibrate && mControlWrapper.speed > 1f) VibrateUtils.vibrate(80)
+    if (vibrate && mControlWrapper.speed > 1f) VibrateUtils.vibrate(50)
     mControlWrapper.speed = 1f
     removeCallbacks(runnable)
     speedTv.removeParent()
@@ -74,13 +74,13 @@ class MyStandardController : StandardVideoController {
       speedTv.removeParent()
       val params = FrameLayout.LayoutParams(-2, -2)
       params.gravity = Gravity.CENTER_HORIZONTAL
-      params.topMargin = if (isInList && !mControlWrapper.isFullScreen) 5.dp2Px() else 46.dp2Px()
+      params.topMargin = if (isInList && !mControlWrapper.isFullScreen) 2.dp2Px() else 32.dp2Px()
       //46是标题的高度
       addView(speedTv, params)
       if (!mControlWrapper.isShowing) mControlWrapper.show()
       mControlWrapper.stopFadeOut()
       mControlWrapper.speed = 3f
-      VibrateUtils.vibrate(80)
+      VibrateUtils.vibrate(50)
     }
   }
 
