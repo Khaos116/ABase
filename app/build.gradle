@@ -207,6 +207,9 @@ dependencies {
   implementation Deps.startup
   implementation Deps.gsy_player_java
   implementation Deps.gsy_player_exo
+  implementation Deps.dk_java
+  implementation Deps.dk_ui
+  implementation Deps.dk_exo
   implementation Deps.danma_master
   implementation Deps.danma_bitmap
   implementation Deps.side_bar
