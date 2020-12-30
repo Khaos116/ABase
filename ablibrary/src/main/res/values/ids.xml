@@ -5,4 +5,5 @@
   <item name="id_tag_sketch_suc" type="id"/>
   <item name="dialog_times" type="id"/>
   <item name="id_retriever" type="id"/>
+  <item name="suc_img" type="id"/>
 </resources>
