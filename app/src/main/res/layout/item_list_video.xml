@@ -47,7 +47,7 @@
         android:background="@drawable/circle_primary"
         android:contentDescription="@null"
         android:padding="8dp"
-        android:src="@drawable/exo_icon_play"
+        android:src="@drawable/dkplayer_ic_action_play_arrow"
         />
   </FrameLayout>
 
