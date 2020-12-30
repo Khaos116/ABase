@@ -32,13 +32,13 @@ class MyVideoView : VideoView<MyExoMediaPlayer>, LifecycleObserver {
   private val mCon = context
 
   //标准控制器
-  private var controller: StandardVideoController = MyStandardController(mCon)
+  private var controller: MyStandardController = MyStandardController(mCon)
 
   //直播控制条
   private var liveCV: LiveControlView = LiveControlView(mCon)
 
   //点播控制条
-  private var vodCV: VodControlView = MyVodControlView(mCon)
+  private var vodCV: MyVodControlView = MyVodControlView(mCon)
 
   //封面
   private var coverIv: ImageView
@@ -149,6 +149,11 @@ class MyVideoView : VideoView<MyExoMediaPlayer>, LifecycleObserver {
   //清理封面
   fun clearCover() {
     coverIv.setImageDrawable(null)
+  }
+
+  //设置全屏按钮的显示状态
+  fun setFullShow(visible: Int) {
+    vodCV.setFullShow(visible)
   }
 
   //外部获取控制器

@@ -3,6 +3,7 @@ package cc.abase.demo.widget.dkplayer
 import android.content.Context
 import android.util.AttributeSet
 import android.view.View
+import android.widget.ImageView
 import com.dueeeke.videocontroller.R
 import com.dueeeke.videocontroller.component.VodControlView
 import com.dueeeke.videoplayer.player.VideoView
@@ -45,6 +46,12 @@ class MyVodControlView(c: Context, a: AttributeSet? = null, d: Int = 0) : VodCon
     } else {
       mControlWrapper.toggleFullScreen()
     }
+  }
+  //</editor-fold>
+
+  //<editor-fold defaultstate="collapsed" desc="设置全屏按钮的显示状态">
+  fun setFullShow(visible: Int) {
+    findViewById<View>(R.id.fullscreen)?.visibility = visible
   }
   //</editor-fold>
 }
