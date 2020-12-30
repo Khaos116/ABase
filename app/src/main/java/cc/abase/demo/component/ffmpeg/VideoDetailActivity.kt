@@ -54,10 +54,4 @@ class VideoDetailActivity : CommActivity() {
     url?.let { videoDetailVideoView.setPlayUrl(it) }
   }
   //</editor-fold>
-
-  //<editor-fold defaultstate="collapsed" desc="退出全屏">
-  override fun onBackPressed() {
-    if (!videoDetailVideoView.onBackPress()) super.onBackPressed()
-  }
-  //</editor-fold>
 }
