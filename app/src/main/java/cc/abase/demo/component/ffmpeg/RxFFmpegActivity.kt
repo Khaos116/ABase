@@ -6,7 +6,6 @@ import android.content.Intent
 import android.media.MediaMetadataRetriever
 import android.provider.MediaStore
 import android.text.method.ScrollingMovementMethod
-import android.widget.ImageView
 import cc.ab.base.ext.*
 import cc.ab.base.widget.engine.PicSelEngine
 import cc.abase.demo.component.comm.CommTitleActivity
@@ -51,7 +50,7 @@ class RxFFmpegActivity : CommTitleActivity() {
     ffmpegCompress.isEnabled = false
     ffmpegSel.click {
       ffmpegPlayer.release()
-      (ffmpegPlayer.thumbImageView as? ImageView)?.setImageDrawable(null)
+      ffmpegPlayer.clearCover()
       ffmpegPlayer.gone()
       PictureSelector.create(mActivity)
           .openGallery(PictureMimeType.ofVideo())
@@ -121,9 +120,8 @@ class RxFFmpegActivity : CommTitleActivity() {
         videoView.layoutParams?.height = (width * 1f / size.first * size.second).toInt()
         videoView.layoutParams?.width = width
       }
-      videoView.backButton.gone()
-      videoView.titleTextView.gone()
-      videoView.setPlayUrl(videoPath, "", coverPath)
+      videoView.setInList(true)
+      videoView.setPlayUrl(videoPath, "", coverPath, ratio = ratioVideo)
       videoView.visible()
       videoView.requestLayout()
       isFirstPlay = true
@@ -217,9 +215,5 @@ class RxFFmpegActivity : CommTitleActivity() {
       cursor.close()
     }
     return picturePath
-  }
-
-  override fun onBackPressed() {
-    if (!ffmpegPlayer.onBackPress()) super.onBackPressed()
   }
 }
