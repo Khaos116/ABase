@@ -4,10 +4,12 @@ import android.graphics.Color
 import android.os.Bundle
 import android.view.Gravity
 import android.widget.FrameLayout
+import androidx.core.view.get
 import cc.ab.base.ext.*
 import cc.ab.base.ui.activity.BaseActivity
 import cc.abase.demo.widget.dialog.ActionDialog
 import com.airbnb.lottie.*
+import com.dueeeke.videocontroller.StandardVideoController
 
 /**
  * Description:
@@ -111,4 +113,21 @@ abstract class CommActivity : BaseActivity() {
   fun dismissActionLoading() {
     mActionDialog?.dismissAllowingStateLoss()
   }
+
+  //<editor-fold defaultstate="collapsed" desc="退出全屏">
+  override fun onBackPressed() {
+    (window.decorView as? FrameLayout)?.let { fl ->
+      if (fl.childCount > 0) {
+        val child = fl.getChildAt(fl.childCount - 1)
+        if (child is FrameLayout && child.childCount > 0) {
+          val cc = child[child.childCount - 1]
+          if (cc is StandardVideoController && cc.onBackPressed()) {
+            return
+          }
+        }
+      }
+    }
+    super.onBackPressed()
+  }
+  //</editor-fold>
 }
