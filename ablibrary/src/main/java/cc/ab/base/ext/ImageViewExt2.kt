@@ -143,7 +143,7 @@ fun ImageView.loadNetVideoCover(url: String?, holderRatio: Float = 16f / 9, hasH
       MediaMetadataRetrieverUtils.getNetVideoCover(retriever, cacheFile, url) { bit ->
         setTag(R.id.id_retriever, null)
         if (bit != null) {
-          this.load(bit) { if (!hasHolder) crossfade(false) }
+          if (hasHolder) this.load(bit) else this.setImageBitmap(bit)
         } else {
           if (hasHolder) this.load(PlaceHolderUtils.getErrorHolder(holderRatio))
         }
