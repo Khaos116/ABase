@@ -7,9 +7,7 @@ import android.widget.ImageView
 import androidx.annotation.DrawableRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.*
-import cc.ab.base.ext.loadImgHorizontal
-import cc.ab.base.ext.loadNetVideoCover
-import cc.abase.demo.component.comm.CommFragment
+import cc.ab.base.ext.*
 import com.dueeeke.videocontroller.R
 import com.dueeeke.videocontroller.StandardVideoController
 import com.dueeeke.videocontroller.component.*
@@ -53,15 +51,8 @@ class MyVideoView : VideoView<MyExoMediaPlayer>, LifecycleObserver {
 
   //<editor-fold defaultstate="collapsed" desc="初始化">
   init {
-    //自感应生命周期
-    (mCon as? AppCompatActivity)?.let { ac ->
-      val owner = ac.supportFragmentManager.fragments.lastOrNull { it.isAdded && it.isVisible && it is CommFragment } as? LifecycleOwner
-      if (owner != null) {
-        setLifecycleOwner(owner)
-      } else {
-        setLifecycleOwner(ac)
-      }
-    }
+    //方便判断
+    if (id <= 0) id = cc.ab.base.R.id.id_my_video_view
     //根据屏幕方向自动进入/退出全屏
     controller.setEnableOrientation(false)
     //1.准备播放界面
@@ -198,6 +189,23 @@ class MyVideoView : VideoView<MyExoMediaPlayer>, LifecycleObserver {
   override fun onVideoSizeChanged(videoWidth: Int, videoHeight: Int) {
     super.onVideoSizeChanged(videoWidth, videoHeight)
     callSize?.invoke(videoWidth, videoHeight)
+  }
+  //</editor-fold>
+
+  //<editor-fold defaultstate="collapsed" desc="自感应生命周期">
+  override fun onAttachedToWindow() {
+    super.onAttachedToWindow()
+    val owner = getParentFragment() as? LifecycleOwner
+    if (owner != null) {
+      setLifecycleOwner(owner)
+    } else {
+      (mCon as? AppCompatActivity)?.let { ac -> setLifecycleOwner(ac) }
+    }
+  }
+
+  override fun onDetachedFromWindow() {
+    super.onDetachedFromWindow()
+    setLifecycleOwner(null)
   }
   //</editor-fold>
 }
