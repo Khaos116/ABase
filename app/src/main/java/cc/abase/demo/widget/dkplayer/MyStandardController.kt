@@ -46,6 +46,23 @@ class MyStandardController : StandardVideoController {
   }
   //</editor-fold>
 
+  //<editor-fold defaultstate="collapsed" desc="触发手势操作就取消倍速">
+  override fun slideToChangePosition(deltaX: Float) {
+    super.slideToChangePosition(deltaX)
+    cancelSpeedShow()
+  }
+
+  override fun slideToChangeBrightness(deltaY: Float) {
+    super.slideToChangeBrightness(deltaY)
+    cancelSpeedShow()
+  }
+
+  override fun slideToChangeVolume(deltaY: Float) {
+    super.slideToChangeVolume(deltaY)
+    cancelSpeedShow()
+  }
+  //</editor-fold>
+
   //<editor-fold defaultstate="collapsed" desc="倍速播放">
   //按压和抬起监听
   override fun dispatchTouchEvent(ev: MotionEvent?): Boolean {
