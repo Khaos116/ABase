@@ -4,6 +4,8 @@ import android.annotation.SuppressLint
 import android.graphics.Color
 import android.view.View
 import android.view.ViewManager
+import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import cc.ab.base.R
 import cc.ab.base.utils.PressEffectHelper
 
@@ -77,4 +79,10 @@ fun View.pressEffectDisable() {
 fun View.removeParent() {
   val parentTemp = parent
   if (parentTemp is ViewManager) parentTemp.removeView(this)
+}
+
+//找到View所在的fragment，如果不在fragment中返回null【注：该View必须设置id】
+fun View?.getParentFragment(): Fragment? {
+  if (this == null || this.context !is AppCompatActivity || this.id <= 0) return null
+  return (this.context as AppCompatActivity).supportFragmentManager.fragments.lastOrNull { f -> (f.view?.findViewById<View>(this.id)) != null }
 }

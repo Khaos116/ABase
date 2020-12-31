@@ -6,4 +6,5 @@
   <item name="dialog_times" type="id"/>
   <item name="id_retriever" type="id"/>
   <item name="suc_img" type="id"/>
+  <item name="id_my_video_view" type="id"/>
 </resources>
