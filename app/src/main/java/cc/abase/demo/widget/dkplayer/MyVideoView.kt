@@ -160,16 +160,22 @@ class MyVideoView : VideoView<MyExoMediaPlayer>, LifecycleObserver {
   //标题适配状态栏(主要用于ViewPager全屏模式)
   fun titleFitWindow(fit: Boolean) {
     titleView.forceFitWindow(fit)
-    fitSpeedWindow(fit)
+    fitSpeedStatus(fit)
+    fitSpeedTitle(fit)
     //竖屏也开启手势操作，默认关闭
     controller.setEnableInNormal(false)
     //不显示全屏按钮
     vodCV.setFullShow(View.GONE)
   }
 
-  //倍速适配状态栏+标题
-  fun fitSpeedWindow(fit: Boolean) {
-    controller.fitSpeedWindow(fit)
+  //倍速适配状态栏
+  fun fitSpeedStatus(fit: Boolean) {
+    controller.fitSpeedStatus(fit)
+  }
+
+  //倍速适配标题栏
+  fun fitSpeedTitle(fit: Boolean) {
+    controller.fitSpeedTitle(fit)
   }
 
   //外部获取控制器
