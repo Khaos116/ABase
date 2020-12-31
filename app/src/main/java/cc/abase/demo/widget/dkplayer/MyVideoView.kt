@@ -116,11 +116,12 @@ class MyVideoView : VideoView<MyExoMediaPlayer>, LifecycleObserver {
 
   //<editor-fold defaultstate="collapsed" desc="外部调用">
   //设置播放地址
-  fun setPlayUrl(url: String, title: String? = null, cover: String? = null, autoPlay: Boolean = false, isLive: Boolean = false, ratio: Float = 16f / 9) {
+  fun setPlayUrl(url: String, title: String? = null, cover: String? = null, autoPlay: Boolean = false,
+      isLive: Boolean = false, ratio: Float = 16f / 9, needHolder: Boolean = true) {
     setUrl(url) //设置播放地址
     titleView.setTitle(if (title.isNullOrBlank()) url else title) //设置标题
-    if (cover.isNullOrBlank()) coverIv.loadNetVideoCover(url, ratio)
-    else coverIv.loadImgHorizontal(cover, ratio) //加载封面
+    if (cover.isNullOrBlank()) coverIv.loadNetVideoCover(url, ratio, needHolder)
+    else coverIv.loadImgHorizontal(cover, ratio, needHolder) //加载封面
     if (autoPlay) start() //开始播放
     //修改控制器
     controller.removeControlComponent(liveCV)
@@ -135,7 +136,7 @@ class MyVideoView : VideoView<MyExoMediaPlayer>, LifecycleObserver {
     titleView.setInList(inList)
   }
 
-  //设置返回按钮的显示状态
+  //设置返回按钮的显示状态(比如视频详情页要显示自己的返回按钮就隐藏默认返回)
   fun setBackShow(visible: Int) {
     backIv.visibility = visible
     titleView.noFullBackVisibility = visible
@@ -146,7 +147,7 @@ class MyVideoView : VideoView<MyExoMediaPlayer>, LifecycleObserver {
     backIv.setImageResource(id)
   }
 
-  //清理封面
+  //清理封面(清理复用前的封面)
   fun clearCover() {
     coverIv.setImageDrawable(null)
   }
@@ -154,6 +155,15 @@ class MyVideoView : VideoView<MyExoMediaPlayer>, LifecycleObserver {
   //设置全屏按钮的显示状态
   fun setFullShow(visible: Int) {
     vodCV.setFullShow(visible)
+  }
+
+  //标题适配状态栏(主要用于ViewPager全屏模式)
+  fun titleFitWindow(fit: Boolean) {
+    titleView.forceFitWindow(fit)
+    //竖屏也开启手势操作，默认关闭
+    controller.setEnableInNormal(false)
+    //不显示全屏按钮
+    vodCV.setFullShow(View.GONE)
   }
 
   //外部获取控制器
