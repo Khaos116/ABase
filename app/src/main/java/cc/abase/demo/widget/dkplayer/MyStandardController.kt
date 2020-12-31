@@ -10,6 +10,7 @@ import android.widget.FrameLayout
 import android.widget.TextView
 import cc.ab.base.ext.dp2Px
 import cc.ab.base.ext.removeParent
+import com.blankj.utilcode.util.BarUtils
 import com.blankj.utilcode.util.VibrateUtils
 import com.dueeeke.videocontroller.StandardVideoController
 import com.dueeeke.videoplayer.player.VideoView
@@ -81,7 +82,7 @@ class MyStandardController : StandardVideoController {
         32.dp2Px() + if (w < h) mControlWrapper.cutoutHeight else 0 //竖向全屏需要兼容状态栏
       } else { //非全屏
         speedTv.textSize = 12f
-        if (isInList) 2.dp2Px() else 32.dp2Px()
+        if (fitWindow) (BarUtils.getStatusBarHeight() + 32.dp2Px()) else if (isInList) 2.dp2Px() else 32.dp2Px()
       }
       addView(speedTv, params)
       if (!mControlWrapper.isShowing) mControlWrapper.show()
@@ -100,6 +101,13 @@ class MyStandardController : StandardVideoController {
       else -> {
       }
     }
+  }
+
+  private var fitWindow = false
+
+  //倍速显示位置是否要适配状态栏
+  fun fitSpeedWindow(fit: Boolean) {
+    fitWindow = fit
   }
   //</editor-fold>
 
