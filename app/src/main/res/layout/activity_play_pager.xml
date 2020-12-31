@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#eeeeee"
@@ -24,11 +25,12 @@
 
     <ImageView
         android:id="@+id/playPagerBack"
-        android:layout_width="32dp"
-        android:layout_height="36dp"
+        android:layout_width="@dimen/dkplayer_controller_height"
+        android:layout_height="@dimen/dkplayer_controller_height"
         android:contentDescription="@null"
-        android:padding="3.5dp"
-        android:src="@drawable/svg_back_white"
+        android:padding="@dimen/dkplayer_controller_icon_padding"
+        android:src="@drawable/dkplayer_ic_action_arrow_back"
+        tools:background="@drawable/video_title_bg"
         />
   </FrameLayout>
 </FrameLayout>
