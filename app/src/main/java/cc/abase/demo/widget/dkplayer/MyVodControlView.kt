@@ -3,7 +3,7 @@ package cc.abase.demo.widget.dkplayer
 import android.content.Context
 import android.util.AttributeSet
 import android.view.View
-import android.widget.ImageView
+import cc.ab.base.ext.dp2Px
 import com.dueeeke.videocontroller.R
 import com.dueeeke.videocontroller.component.VodControlView
 import com.dueeeke.videoplayer.player.VideoView
@@ -51,7 +51,12 @@ class MyVodControlView(c: Context, a: AttributeSet? = null, d: Int = 0) : VodCon
 
   //<editor-fold defaultstate="collapsed" desc="设置全屏按钮的显示状态">
   fun setFullShow(visible: Int) {
-    findViewById<View>(R.id.fullscreen)?.visibility = visible
+    findViewById<View>(R.id.fullscreen)?.let { iv ->//全屏按钮处理
+      iv.visibility = visible
+      findViewById<View>(R.id.total_time)?.let { tv ->//时间间距处理
+        (tv.layoutParams as? MarginLayoutParams)?.marginEnd = if (visible == View.GONE) 10.dp2Px() else 0
+      }
+    }
   }
   //</editor-fold>
 }
