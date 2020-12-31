@@ -136,14 +136,16 @@ fun ImageView.loadNetVideoCover(url: String?, holderRatio: Float = 16f / 9, hasH
     if (hasHolder) this.load(PlaceHolderUtils.getErrorHolder(holderRatio))
   } else {
     val cacheFile = File(PathConfig.VIDEO_OVER_CACHE_DIR, EncryptUtils.encryptMD5ToString(url))
-    if (cacheFile.exists()) load(cacheFile) else {
+    if (cacheFile.exists()) {
+      this.load(cacheFile) { if (!hasHolder) crossfade(false) }
+    } else {
       if (hasHolder) this.load(PlaceHolderUtils.getLoadingHolder(holderRatio))
       val retriever = MediaMetadataRetriever()
       setTag(R.id.id_retriever, retriever)
       MediaMetadataRetrieverUtils.getNetVideoCover(retriever, cacheFile, url) { bit ->
         setTag(R.id.id_retriever, null)
         if (bit != null) {
-          if (hasHolder) this.load(bit) else this.setImageBitmap(bit)
+          this.load(bit) { if (!hasHolder) crossfade(false) }
         } else {
           if (hasHolder) this.load(PlaceHolderUtils.getErrorHolder(holderRatio))
         }
