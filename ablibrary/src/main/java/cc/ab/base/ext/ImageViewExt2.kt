@@ -37,10 +37,12 @@ fun ImageView.loadImgSquare(url: String?, hasHolder: Boolean = true) {
     if (getTag(R.id.suc_img) == url) return
     val iv = this
     val build = fun ImageRequest.Builder.() {
-      crossfade(duration)
       if (hasHolder) {
+        crossfade(duration)
         placeholder(PlaceHolderUtils.getLoadingHolder())
         error(PlaceHolderUtils.getErrorHolder())
+      } else {
+        crossfade(false)
       }
       listener(onError = { r, e -> "方形图片加载失败:${r.data},e=${e.message ?: "null"}".logE() }) { _, _ -> iv.setTag(R.id.suc_img, url) }
     }
@@ -60,10 +62,12 @@ fun ImageView.loadImgHorizontal(url: String?, holderRatio: Float = 720f / 400, h
     }
     val iv = this
     val build = fun ImageRequest.Builder.() {
-      crossfade(duration)
       if (hasHolder) {
+        crossfade(duration)
         placeholder(PlaceHolderUtils.getLoadingHolder(holderRatio))
         error(PlaceHolderUtils.getErrorHolder(holderRatio))
+      } else {
+        crossfade(false)
       }
       listener(onError = { r, e -> "横向图片加载失败:${r.data},e=${e.message ?: "null"}".logE() }) { _, _ -> iv.setTag(R.id.suc_img, url) }
     }
@@ -83,10 +87,12 @@ fun ImageView.loadImgVertical(url: String?, holderRatio: Float = 720f / 1280, ha
     }
     val iv = this
     val build = fun ImageRequest.Builder.() {
-      crossfade(duration)
       if (hasHolder) {
+        crossfade(duration)
         placeholder(PlaceHolderUtils.getLoadingHolder(holderRatio))
         error(PlaceHolderUtils.getErrorHolder(holderRatio))
+      } else {
+        crossfade(false)
       }
       listener(onError = { r, e -> "竖向图片加载失败:${r.data},e=${e.message ?: "null"}".logE() }) { _, _ -> iv.setTag(R.id.suc_img, url) }
     }
@@ -125,7 +131,7 @@ fun ImageView.loadCacheFileFullScreen(url: String?, holderRatio: Float = 720f / 
 
 //加载视频网络封面
 fun ImageView.loadNetVideoCover(url: String?, holderRatio: Float = 16f / 9, hasHolder: Boolean = true) {
-  (getTag(R.id.id_retriever) as? MediaMetadataRetriever)?.release() //防止之前的图还没完成
+  (getTag(R.id.id_retriever) as? MediaMetadataRetriever)?.release() //防止之前的图还没完成.
   if (url.isNullOrBlank()) { //有封面复用为无封面
     if (hasHolder) this.load(PlaceHolderUtils.getErrorHolder(holderRatio))
   } else {
