@@ -199,7 +199,7 @@ class MyVideoView : VideoView<MyExoMediaPlayer>, LifecycleObserver {
     if (owner != null) {
       setLifecycleOwner(owner)
     } else {
-      (mCon as? AppCompatActivity)?.let { ac -> setLifecycleOwner(ac) }
+      (context as? AppCompatActivity)?.let { ac -> setLifecycleOwner(ac) }
     }
   }
 

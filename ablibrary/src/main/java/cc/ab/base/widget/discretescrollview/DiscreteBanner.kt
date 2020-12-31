@@ -6,9 +6,12 @@ import android.util.AttributeSet
 import android.view.*
 import android.widget.FrameLayout
 import android.widget.LinearLayout
+import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.*
 import androidx.viewpager.widget.ViewPager
 import androidx.viewpager2.widget.ViewPager2
 import cc.ab.base.R
+import cc.ab.base.ext.getParentFragment
 import cc.ab.base.widget.discretescrollview.adapter.DiscretePageAdapter
 import cc.ab.base.widget.discretescrollview.holder.DiscreteHolder
 import cc.ab.base.widget.discretescrollview.holder.DiscreteHolderCreator
@@ -25,7 +28,7 @@ class DiscreteBanner<T> @JvmOverloads constructor(
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0,
     defStyleRes: Int = 0
-) : FrameLayout(context, attrs, defStyleAttr, defStyleRes) {
+) : FrameLayout(context, attrs, defStyleAttr, defStyleRes), LifecycleObserver {
   //横向还是竖向
   private var orientation = DSVOrientation.HORIZONTAL.ordinal
 
@@ -249,6 +252,7 @@ class DiscreteBanner<T> @JvmOverloads constructor(
   //添加-播放
   override fun onAttachedToWindow() {
     super.onAttachedToWindow()
+    onAttachedToWindowLifecycle()
     startPlay()
     checkInPager(parent)
   }
@@ -267,6 +271,7 @@ class DiscreteBanner<T> @JvmOverloads constructor(
   //移除-停止
   override fun onDetachedFromWindow() {
     super.onDetachedFromWindow()
+    onDetachedFromWindowLifecycle()
     stopPlay()
     inPager = false
   }
@@ -331,4 +336,45 @@ class DiscreteBanner<T> @JvmOverloads constructor(
   }
 
   fun getOrientation() = orientation
+
+  //<editor-fold defaultstate="collapsed" desc="自感应生命周期">
+  private fun onAttachedToWindowLifecycle() {
+    val owner = getParentFragment() as? LifecycleOwner
+    if (owner != null) {
+      setLifecycleOwner(owner)
+    } else {
+      (context as? AppCompatActivity)?.let { ac -> setLifecycleOwner(ac) }
+    }
+  }
+
+  private fun onDetachedFromWindowLifecycle() {
+    setLifecycleOwner(null)
+  }
+  //</editor-fold>
+
+  //<editor-fold defaultstate="collapsed" desc="Lifecycle生命周期">
+  private var mLifecycle: Lifecycle? = null
+
+  //通过Lifecycle内部自动管理暂停和播放(如果不需要后台播放)
+  private fun setLifecycleOwner(owner: LifecycleOwner?) {
+    if (owner == null) {
+      mLifecycle?.removeObserver(this)
+      mLifecycle = null
+    } else {
+      mLifecycle?.removeObserver(this)
+      mLifecycle = owner.lifecycle
+      mLifecycle?.addObserver(this)
+    }
+  }
+
+  @OnLifecycleEvent(Lifecycle.Event.ON_PAUSE)
+  private fun onPauseBanner() {
+    stopPlay()
+  }
+
+  @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
+  private fun onResumeBanner() {
+    if (visibility == View.VISIBLE) startPlay()
+  }
+  //</editor-fold>
 }
