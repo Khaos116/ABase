@@ -6,6 +6,7 @@ import android.util.AttributeSet
 import android.view.View
 import android.view.animation.Animation
 import android.widget.*
+import com.blankj.utilcode.util.BarUtils
 import com.dueeeke.videocontroller.R
 import com.dueeeke.videocontroller.component.TitleView
 import com.dueeeke.videoplayer.controller.ControlWrapper
@@ -108,9 +109,15 @@ class MyTitleView(c: Context, a: AttributeSet? = null, d: Int = 0) : TitleView(c
   //</editor-fold>
 
   //<editor-fold defaultstate="collapsed" desc="外部设置">
+  //设置是否在列表中
   fun setInList(inList: Boolean) {
     isInList = inList
     if (isInList) visibility = GONE //在列表中直接不显示
+  }
+
+  //强制适配状态栏
+  fun forceFitWindow(fit: Boolean) {
+    (mTitleContainer.layoutParams as? MarginLayoutParams)?.topMargin = if (fit) BarUtils.getStatusBarHeight() else 0
   }
   //</editor-fold>
 }
