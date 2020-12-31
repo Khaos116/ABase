@@ -79,10 +79,14 @@ class MyStandardController : StandardVideoController {
       params.gravity = Gravity.CENTER_HORIZONTAL
       params.topMargin = if (mControlWrapper.isFullScreen) { //全屏
         speedTv.textSize = 14f
-        32.dp2Px() + if (w < h) mControlWrapper.cutoutHeight else 0 //竖向全屏需要兼容状态栏
+        35.dp2Px() + if (w < h) mControlWrapper.cutoutHeight else 0 //竖向全屏需要兼容状态栏
       } else { //非全屏
         speedTv.textSize = 12f
-        if (fitWindow) (BarUtils.getStatusBarHeight() + 32.dp2Px()) else if (isInList) 2.dp2Px() else 32.dp2Px()
+        if (fitStatus && fitTitle) (BarUtils.getStatusBarHeight() + 35.dp2Px())
+        else if (fitStatus) (BarUtils.getStatusBarHeight() + 5.dp2Px())
+        else if (fitTitle) 35.dp2Px()
+        else if (isInList) 5.dp2Px()
+        else 35.dp2Px()
       }
       addView(speedTv, params)
       if (!mControlWrapper.isShowing) mControlWrapper.show()
@@ -103,11 +107,17 @@ class MyStandardController : StandardVideoController {
     }
   }
 
-  private var fitWindow = false
+  private var fitStatus = false
+  private var fitTitle = false
 
   //倍速显示位置是否要适配状态栏
-  fun fitSpeedWindow(fit: Boolean) {
-    fitWindow = fit
+  fun fitSpeedStatus(fit: Boolean) {
+    fitStatus = fit
+  }
+
+  //倍速显示位置是否要适配标题栏
+  fun fitSpeedTitle(fit: Boolean) {
+    fitTitle = fit
   }
   //</editor-fold>
 
