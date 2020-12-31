@@ -1,7 +1,8 @@
-package cc.abase.demo.component.verticalpage
+package cc.abase.demo.component.recyclerpage
 
 import android.content.Context
 import android.content.Intent
+import android.view.View
 import android.view.ViewGroup
 import cc.ab.base.ext.*
 import cc.ab.base.utils.RxUtils
@@ -11,7 +12,7 @@ import cc.abase.demo.R
 import cc.abase.demo.bean.local.VerticalPageBean
 import cc.abase.demo.component.comm.CommTitleActivity
 import cc.abase.demo.utils.VideoRandomUtils
-import cc.abase.demo.widget.video.MyVideoView
+import cc.abase.demo.widget.dkplayer.MyVideoView
 import com.billy.android.swipe.SmartSwipeRefresh
 import com.billy.android.swipe.SmartSwipeRefresh.SmartSwipeRefreshDataLoader
 import com.blankj.utilcode.util.StringUtils
@@ -26,11 +27,11 @@ import java.util.concurrent.TimeUnit
  * @author: CASE
  * @date: 2020/5/13 9:23
  */
-class VerticalPageActivity : CommTitleActivity() {
+class RecyclerPagerActivity : CommTitleActivity() {
   //<editor-fold defaultstate="collapsed" desc="外部跳转">
   companion object {
     fun startActivity(context: Context) {
-      val intent = Intent(context, VerticalPageActivity::class.java)
+      val intent = Intent(context, RecyclerPagerActivity::class.java)
       context.startActivity(intent)
     }
   }
@@ -41,7 +42,7 @@ class VerticalPageActivity : CommTitleActivity() {
   private var mDatas = mutableListOf<VerticalPageBean>()
 
   //适配器
-  private var pageAdapter: DiscretePageAdapter<VerticalPageBean> = DiscretePageAdapter(VerticalPageHolderCreator(), mDatas)
+  private var recyclerPagerAdapter: DiscretePageAdapter<VerticalPageBean> = DiscretePageAdapter(RecyclerPagerHolderCreator(), mDatas)
 
   //请求
   private var disposableRequest: Disposable? = null
@@ -77,11 +78,11 @@ class VerticalPageActivity : CommTitleActivity() {
         //更新UI
         if (viewHolder is VerticalPageHolderView) {
           viewHolder.updateUI(mDatas[position], position, mDatas.size)
-          viewHolder.container?.addView(videoView, 0)
+          viewHolder.container?.addView(videoView)
         }
         //开始播放
         val bean = mDatas[position]
-        videoView.setPlayUrl(bean.videoUrl ?: "", bean.description ?: "", autoPlay = true)
+        videoView.setPlayUrl(bean.videoUrl ?: "", bean.description ?: "", autoPlay = true, needHolder = false)
       }
       //判断是否可以上拉加载更多
       if (position == (mDatas.size - 1)) {
@@ -91,7 +92,7 @@ class VerticalPageActivity : CommTitleActivity() {
       }
     }
     vvpDSV.setItemTransitionTimeMillis(100)
-    vvpDSV.adapter = pageAdapter
+    vvpDSV.adapter = recyclerPagerAdapter
     //初始化播放器
     initVideoView()
     //加载更多
@@ -105,7 +106,7 @@ class VerticalPageActivity : CommTitleActivity() {
           mSmartSwipeRefresh?.isNoMoreData = true
           mSmartSwipeRefresh?.finished(true)
           mDatas.addAll(it)
-          pageAdapter.notifyDataSetChanged()
+          recyclerPagerAdapter.notifyDataSetChanged()
         }
       }
 
@@ -120,7 +121,7 @@ class VerticalPageActivity : CommTitleActivity() {
   override fun initData() {
     loadData(time = 100) {
       mDatas.addAll(it)
-      pageAdapter.notifyDataSetChanged()
+      recyclerPagerAdapter.notifyDataSetChanged()
       //默认进来第一个位置没有回调，所以手动进行播放
       vvpDSV.post {
         vvpDSV.getViewHolder(0)?.let { viewHolder ->
@@ -128,10 +129,10 @@ class VerticalPageActivity : CommTitleActivity() {
             //防止还存在播放器
             if (mVideoView?.parent != null) initVideoView()
             mVideoView?.let { videoView ->
-              viewHolder.container?.addView(videoView, 0)
+              viewHolder.container?.addView(videoView)
               //开始播放
               val bean = mDatas.first()
-              videoView.setPlayUrl(bean.videoUrl ?: "", bean.description ?: "")
+              videoView.setPlayUrl(bean.videoUrl ?: "", bean.description ?: "", autoPlay = true, needHolder = false)
             }
           }
         }
@@ -146,14 +147,13 @@ class VerticalPageActivity : CommTitleActivity() {
     //清除数据
     mVideoView?.release()
     mVideoView?.removeParent()
-    mVideoView?.setLifecycleOwner(null)
     //重置数据
     mVideoView = MyVideoView(mContext)
-    mVideoView?.fullscreenButton?.gone()
-    mVideoView?.backButton?.invisible()
+    mVideoView?.getMyController()?.setEnableInNormal(false) //禁止手势
+    mVideoView?.setFullShow(View.GONE) //隐藏全屏
+    mVideoView?.setBackShow(View.GONE) //隐藏返回
+    mVideoView?.setLooping(true)
     mVideoView?.layoutParams = ViewGroup.LayoutParams(-1, -1)
-    mVideoView?.isLooping = true
-    mVideoView?.setLifecycleOwner(this)
   }
   //</editor-fold>
 
