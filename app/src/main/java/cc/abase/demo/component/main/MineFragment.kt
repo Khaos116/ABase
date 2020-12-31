@@ -18,7 +18,8 @@ import cc.abase.demo.component.ffmpeg.RxFFmpegActivity
 import cc.abase.demo.component.flexbox.FlexboxActivity
 import cc.abase.demo.component.marquee.MarqueeActivity
 import cc.abase.demo.component.playlist.PlayListActivity
-import cc.abase.demo.component.playlist.PlayPagerActivity
+import cc.abase.demo.component.playlist.VerticalPagerActivity
+import cc.abase.demo.component.recyclerpage.RecyclerPagerActivity
 import cc.abase.demo.component.rxhttp.RxHttpActivity
 import cc.abase.demo.component.set.SettingActivity
 import cc.abase.demo.component.spedit.SpeditActivity
@@ -27,7 +28,6 @@ import cc.abase.demo.component.sticky.StickyActivity2
 import cc.abase.demo.component.test.TestActivity
 import cc.abase.demo.component.update.CcUpdateService
 import cc.abase.demo.component.update.UpdateEnum
-import cc.abase.demo.component.verticalpage.VerticalPageActivity
 import cc.abase.demo.constants.EventKeys
 import cc.abase.demo.epoxy.item.simpleTextItem
 import cc.abase.demo.mvrx.MvRxEpoxyController
@@ -62,8 +62,8 @@ class MineFragment : CommFragment() {
       Pair(StringUtils.getString(R.string.coordinator_refresh), CoordinatorActivity::class.java),
       Pair(StringUtils.getString(R.string.epoxy_expandable), EpoxyExpandActivity::class.java),
       Pair(StringUtils.getString(R.string.title_play_list), PlayListActivity::class.java),
-      Pair(StringUtils.getString(R.string.title_play_pager), PlayPagerActivity::class.java),
-      Pair(StringUtils.getString(R.string.title_vertical_page), VerticalPageActivity::class.java),
+      Pair(StringUtils.getString(R.string.title_play_pager), VerticalPagerActivity::class.java),
+      Pair(StringUtils.getString(R.string.title_vertical_page), RecyclerPagerActivity::class.java),
       Pair(StringUtils.getString(R.string.title_decoration), DecorationActivity::class.java),
       Pair(StringUtils.getString(R.string.title_rxhttp), RxHttpActivity::class.java),
       Pair(StringUtils.getString(R.string.title_flexbox), FlexboxActivity::class.java),

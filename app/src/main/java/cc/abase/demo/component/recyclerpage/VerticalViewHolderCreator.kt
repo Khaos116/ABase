@@ -1,4 +1,4 @@
-package cc.abase.demo.component.verticalpage
+package cc.abase.demo.component.recyclerpage
 
 import android.view.View
 import android.widget.FrameLayout

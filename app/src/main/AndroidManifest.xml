@@ -151,7 +151,7 @@
         android:windowSoftInputMode="adjustPan|stateHidden"/>
     <!--分页播放-->
     <activity
-        android:name=".component.playlist.PlayPagerActivity"
+        android:name=".component.playlist.VerticalPagerActivity"
         android:configChanges="screenLayout|orientation"
         android:launchMode="singleTop"
         android:screenOrientation="portrait"
@@ -193,7 +193,7 @@
         android:windowSoftInputMode="adjustPan|stateHidden"/>
     <!--竖向ViewPager-->
     <activity
-        android:name=".component.verticalpage.VerticalPageActivity"
+        android:name=".component.recyclerpage.RecyclerPagerActivity"
         android:configChanges="screenLayout|orientation"
         android:launchMode="singleTop"
         android:screenOrientation="portrait"
