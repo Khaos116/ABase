@@ -1,8 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/itemVerticalContainer"
+    android:id="@+id/itemRecyclePagerContainer"
     android:layout_width="match_parent"
-    android:background="@color/black"
     android:layout_height="match_parent"
-    />
+    android:background="@color/black"
+    >
+
+  <ImageView
+      android:id="@+id/itemRecyclePagerCover"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:contentDescription="@null"
+      android:scaleType="fitCenter"
+      />
+</FrameLayout>
