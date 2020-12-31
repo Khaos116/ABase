@@ -33,9 +33,9 @@ class VerticalPageHolderView(view: View) : DiscreteHolder<VerticalPageBean>(view
     val height = h - BarUtils.getStatusBarHeight() - 49.dp2Px()
     data.cover?.let {
       if (it.isVideoUrl()) {
-        cover?.loadNetVideoCover(it, ScreenUtils.getScreenWidth() * 1f / height)
+        cover?.loadNetVideoCover(it, ScreenUtils.getScreenWidth() * 1f / height, hasHolder = false)
       } else {
-        cover?.loadImgVertical(it, ScreenUtils.getScreenWidth() * 1f / height)
+        cover?.loadImgVertical(it, ScreenUtils.getScreenWidth() * 1f / height, hasHolder = false)
       }
     }
   }

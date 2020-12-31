@@ -64,9 +64,9 @@ class VerticalPagerAdapter(list: List<VideoBean>) : PagerAdapter() {
     val height = (viewHolder.mPlayerContainer?.context as? Activity)?.mContentView?.height ?: ScreenUtils.getScreenHeight()
     videoBean.thumb?.let {
       if (it.isVideoUrl()) {
-        viewHolder.mPlayerCover?.loadNetVideoCover(it, ScreenUtils.getScreenWidth() * 1f / height)
+        viewHolder.mPlayerCover?.loadNetVideoCover(it, ScreenUtils.getScreenWidth() * 1f / height, hasHolder = false)
       } else {
-        viewHolder.mPlayerCover?.loadImgVertical(it, ScreenUtils.getScreenWidth() * 1f / height)
+        viewHolder.mPlayerCover?.loadImgVertical(it, ScreenUtils.getScreenWidth() * 1f / height, hasHolder = false)
       }
     }
   }
