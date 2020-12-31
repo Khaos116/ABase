@@ -55,7 +55,7 @@ class MyVideoView : VideoView<MyExoMediaPlayer>, LifecycleObserver {
   init {
     //自感应生命周期
     (mCon as? AppCompatActivity)?.let { ac ->
-      val owner = ac.supportFragmentManager.fragments.firstOrNull { it.isAdded && it.isVisible && it is CommFragment } as? LifecycleOwner
+      val owner = ac.supportFragmentManager.fragments.lastOrNull { it.isAdded && it.isVisible && it is CommFragment } as? LifecycleOwner
       if (owner != null) {
         setLifecycleOwner(owner)
       } else {
