@@ -1,5 +1,6 @@
 package cc.abase.demo.component.playlist.adapter
 
+import android.app.Activity
 import android.view.*
 import android.widget.FrameLayout
 import android.widget.ImageView
@@ -60,11 +61,12 @@ class VerticalPagerAdapter(list: List<VideoBean>) : PagerAdapter() {
 
   //填充数据
   fun fillData(videoBean: VideoBean, viewHolder: PagerHolder) {
+    val height = (viewHolder.mPlayerContainer?.context as? Activity)?.mContentView?.height ?: ScreenUtils.getScreenHeight()
     videoBean.thumb?.let {
       if (it.isVideoUrl()) {
-        viewHolder.mPlayerCover?.loadNetVideoCover(it, ScreenUtils.getScreenWidth() * 1f / ScreenUtils.getScreenHeight())
+        viewHolder.mPlayerCover?.loadNetVideoCover(it, ScreenUtils.getScreenWidth() * 1f / height)
       } else {
-        viewHolder.mPlayerCover?.loadImgVertical(it, ScreenUtils.getScreenWidth() * 1f / ScreenUtils.getScreenHeight())
+        viewHolder.mPlayerCover?.loadImgVertical(it, ScreenUtils.getScreenWidth() * 1f / height)
       }
     }
   }
