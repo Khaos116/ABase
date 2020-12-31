@@ -9,7 +9,7 @@
     >
 
   <cc.abase.demo.widget.VerticalViewPager
-      android:id="@+id/playPagerViewPager"
+      android:id="@+id/verticalPagerViewPager"
       android:layout_width="match_parent"
       android:layout_height="match_parent"
       android:background="#1a1a1a"
@@ -24,7 +24,7 @@
       >
 
     <ImageView
-        android:id="@+id/playPagerBack"
+        android:id="@+id/verticalPagerBack"
         android:layout_width="@dimen/dkplayer_controller_height"
         android:layout_height="@dimen/dkplayer_controller_height"
         android:contentDescription="@null"

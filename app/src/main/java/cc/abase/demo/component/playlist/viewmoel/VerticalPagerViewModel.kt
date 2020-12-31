@@ -13,15 +13,15 @@ import io.reactivex.Observable
  * @date: 2019/12/12 11:37
  */
 
-data class PlayPagerState(
+data class VerticalPagerState(
   val videoList: MutableList<VideoBean> = mutableListOf(),
   val hasMore: Boolean = true,
   val request: Async<Any> = Uninitialized
 ) : MvRxState
 
-class PlayPagerViewModel(
-  state: PlayPagerState = PlayPagerState()
-) : MvRxViewModel<PlayPagerState>(state) {
+class VerticalPagerViewModel(
+  state: VerticalPagerState = VerticalPagerState()
+) : MvRxViewModel<VerticalPagerState>(state) {
 
   //加载数据
   fun loadData(){

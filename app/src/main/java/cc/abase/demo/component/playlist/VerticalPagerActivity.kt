@@ -8,27 +8,27 @@ import cc.ab.base.ext.*
 import cc.abase.demo.R
 import cc.abase.demo.bean.local.VideoBean
 import cc.abase.demo.component.comm.CommActivity
-import cc.abase.demo.component.playlist.adapter.PlayPagerAdapter
-import cc.abase.demo.component.playlist.adapter.PlayPagerAdapter.PagerHolder
-import cc.abase.demo.component.playlist.viewmoel.PlayPagerViewModel
-import cc.abase.demo.widget.video.MyVideoView
+import cc.abase.demo.component.playlist.adapter.VerticalPagerAdapter
+import cc.abase.demo.component.playlist.adapter.VerticalPagerAdapter.PagerHolder
+import cc.abase.demo.component.playlist.viewmoel.VerticalPagerViewModel
+import cc.abase.demo.widget.dkplayer.MyVideoView
 import com.airbnb.mvrx.Success
 import com.billy.android.swipe.SmartSwipeRefresh
 import com.billy.android.swipe.SmartSwipeRefresh.SmartSwipeRefreshDataLoader
 import com.gyf.immersionbar.ktx.immersionBar
-import kotlinx.android.synthetic.main.activity_play_pager.playPagerBack
-import kotlinx.android.synthetic.main.activity_play_pager.playPagerViewPager
+import kotlinx.android.synthetic.main.activity_play_pager.verticalPagerBack
+import kotlinx.android.synthetic.main.activity_play_pager.verticalPagerViewPager
 
 /**
  * Description:
  * @author: CASE
  * @date: 2019/12/12 11:33
  */
-class PlayPagerActivity : CommActivity() {
+class VerticalPagerActivity : CommActivity() {
 
   companion object {
     fun startActivity(context: Context) {
-      val intent = Intent(context, PlayPagerActivity::class.java)
+      val intent = Intent(context, VerticalPagerActivity::class.java)
       context.startActivity(intent)
     }
   }
@@ -37,7 +37,7 @@ class PlayPagerActivity : CommActivity() {
   private var mCurPos = 0
 
   //适配器
-  private var mPlayPagerAdapter: PlayPagerAdapter? = null
+  private var mVerticalPagerAdapter: VerticalPagerAdapter? = null
 
   //播放控件
   private var mVideoView: MyVideoView? = null
@@ -52,8 +52,8 @@ class PlayPagerActivity : CommActivity() {
   var hasMore: Boolean = true
 
   //数据层
-  private val viewModel: PlayPagerViewModel by lazy {
-    PlayPagerViewModel()
+  private val viewModel: VerticalPagerViewModel by lazy {
+    VerticalPagerViewModel()
   }
 
   override fun fillStatus() = false
@@ -66,17 +66,17 @@ class PlayPagerActivity : CommActivity() {
 
   override fun initView() {
     //返回按钮
-    playPagerBack.pressEffectAlpha()
-    playPagerBack.click { onBackPressed() }
+    verticalPagerBack.pressEffectAlpha()
+    verticalPagerBack.click { onBackPressed() }
     //播放控件
     mVideoView = MyVideoView(mContext)
-    mVideoView?.setFitSystemWindow(true)
-    mVideoView?.backButton?.invisible()
-    mVideoView?.fullscreenButton?.gone()
+    mVideoView?.titleFitWindow(true)
+    mVideoView?.setBackShow(View.INVISIBLE)
+    mVideoView?.setLooping(true)
     //列表
-    playPagerViewPager.offscreenPageLimit = 4
+    verticalPagerViewPager.offscreenPageLimit = 4
     //下拉刷新
-    mSmartSwipeRefresh = SmartSwipeRefresh.translateMode(playPagerViewPager, false)
+    mSmartSwipeRefresh = SmartSwipeRefresh.translateMode(verticalPagerViewPager, false)
     mSmartSwipeRefresh?.disableRefresh()
     mSmartSwipeRefresh?.disableLoadMore()
     mSmartSwipeRefresh?.isNoMoreData = !hasMore
@@ -98,10 +98,10 @@ class PlayPagerActivity : CommActivity() {
         hasMore = it.hasMore
         mSmartSwipeRefresh?.finished(it.request is Success)
         mSmartSwipeRefresh?.isNoMoreData = !hasMore
-        if (mPlayPagerAdapter == null) {
+        if (mVerticalPagerAdapter == null) {
           initAdapter(it.videoList)
         } else {
-          mPlayPagerAdapter?.setNewData(it.videoList)
+          mVerticalPagerAdapter?.setNewData(it.videoList)
         }
       }
     }
@@ -111,13 +111,13 @@ class PlayPagerActivity : CommActivity() {
 
   //初始化adapter
   private fun initAdapter(datas: MutableList<VideoBean>) {
-    if (mPlayPagerAdapter == null && playPagerViewPager != null) {
-      mPlayPagerAdapter = PlayPagerAdapter(datas)
-      playPagerViewPager.adapter = mPlayPagerAdapter
+    if (mVerticalPagerAdapter == null && verticalPagerViewPager != null) {
+      mVerticalPagerAdapter = VerticalPagerAdapter(datas)
+      verticalPagerViewPager.adapter = mVerticalPagerAdapter
       //随机从某一个开始播放
       val index = (Math.random() * datas.size).toInt()
       if (index != 0) {
-        playPagerViewPager.currentItem = index
+        verticalPagerViewPager.currentItem = index
         //如果直接到最后一条需要显示没有更多
         if (index == mVideoList.size - 1) {
           mSmartSwipeRefresh?.swipeConsumer?.enableBottom()
@@ -125,9 +125,9 @@ class PlayPagerActivity : CommActivity() {
         }
       }
       //第一次加载的时候设置currentItem会滚动刷新，所以播放需要延时
-      playPagerViewPager.post {
+      verticalPagerViewPager.post {
         startPlay(index)
-        playPagerViewPager.setOnPageChangeListener(object : ViewPager.OnPageChangeListener {
+        verticalPagerViewPager.setOnPageChangeListener(object : ViewPager.OnPageChangeListener {
           override fun onPageScrollStateChanged(state: Int) {
           }
 
@@ -154,31 +154,27 @@ class PlayPagerActivity : CommActivity() {
     //预加载更多
     if (position >= mVideoList.size - 5) viewModel.loadMore()
     //遍历加载信息和播放
-    val count: Int = playPagerViewPager.childCount
+    val count: Int = verticalPagerViewPager.childCount
     var findCount = 0 //由于复用id是混乱的，所以需要保证3个都找到才跳出循环(为了节约性能)
     for (i in 0 until count) {
-      val itemView: View = playPagerViewPager.getChildAt(i)
+      val itemView: View = verticalPagerViewPager.getChildAt(i)
       val viewHolder: PagerHolder = itemView.tag as PagerHolder
       if (viewHolder.mPosition == position) {
         mVideoView?.release()
         mVideoView?.removeParent()
         val videoBean: VideoBean = mVideoList[viewHolder.mPosition]
-        mVideoView?.setPlayUrl(videoBean.url ?: "", videoBean.title ?: "", autoPlay = true)
-        viewHolder.mPlayerContainer?.addView(mVideoView, 0)
+        mVideoView?.setPlayUrl(videoBean.url ?: "", videoBean.title ?: "", autoPlay = true, needHolder = false)
+        viewHolder.mPlayerContainer?.addView(mVideoView)
         mCurPos = position
         findCount++
       } else if (position > 0 && viewHolder.mPosition == position - 1) { //预加载上一个数据，否则滑动可能出现复用的数据
-        mPlayPagerAdapter?.fillData(mVideoList[viewHolder.mPosition], viewHolder)
+        mVerticalPagerAdapter?.fillData(mVideoList[viewHolder.mPosition], viewHolder)
         findCount++
       } else if (position < mVideoList.size - 1 && viewHolder.mPosition == position + 1) { //预加载下一个数据，否则滑动可能出现复用的数据
-        mPlayPagerAdapter?.fillData(mVideoList[viewHolder.mPosition], viewHolder)
+        mVerticalPagerAdapter?.fillData(mVideoList[viewHolder.mPosition], viewHolder)
         findCount++
       }
       if (findCount >= 3) break
     }
-  }
-
-  override fun onBackPressed() {
-    if (mVideoView?.onBackPress() != true) super.onBackPressed()
   }
 }

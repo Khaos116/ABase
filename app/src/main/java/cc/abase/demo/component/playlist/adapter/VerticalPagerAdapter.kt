@@ -2,17 +2,21 @@ package cc.abase.demo.component.playlist.adapter
 
 import android.view.*
 import android.widget.FrameLayout
+import android.widget.ImageView
 import androidx.viewpager.widget.PagerAdapter
+import cc.ab.base.ext.*
 import cc.abase.demo.R
 import cc.abase.demo.bean.local.VideoBean
-import kotlinx.android.synthetic.main.item_play_pager_parent.view.itemPlayPagerContainer
+import com.blankj.utilcode.util.ScreenUtils
+import kotlinx.android.synthetic.main.item_play_pager_parent.view.itemVerticalPagerContainer
+import kotlinx.android.synthetic.main.item_play_pager_parent.view.itemVerticalPagerCover
 
 /**
  * Description:
  * @author: CASE
  * @date: 2019/12/13 11:56
  */
-class PlayPagerAdapter(list: List<VideoBean>) : PagerAdapter() {
+class VerticalPagerAdapter(list: List<VideoBean>) : PagerAdapter() {
   //View缓存池，从ViewPager中移除的item将会存到这里面，用来复用
   private val mViewPool: MutableList<View> = mutableListOf()
 
@@ -56,6 +60,13 @@ class PlayPagerAdapter(list: List<VideoBean>) : PagerAdapter() {
 
   //填充数据
   fun fillData(videoBean: VideoBean, viewHolder: PagerHolder) {
+    videoBean.thumb?.let {
+      if (it.isVideoUrl()) {
+        viewHolder.mPlayerCover?.loadNetVideoCover(it, ScreenUtils.getScreenWidth() * 1f / ScreenUtils.getScreenHeight())
+      } else {
+        viewHolder.mPlayerCover?.loadImgVertical(it, ScreenUtils.getScreenWidth() * 1f / ScreenUtils.getScreenHeight())
+      }
+    }
   }
 
   override fun destroyItem(container: ViewGroup, position: Int, o: Any) {
@@ -68,9 +79,11 @@ class PlayPagerAdapter(list: List<VideoBean>) : PagerAdapter() {
   class PagerHolder(view: View) {
     var mPosition = 0
     var mPlayerContainer: FrameLayout? = null
+    var mPlayerCover: ImageView? = null
 
     init {
-      mPlayerContainer = view.itemPlayPagerContainer
+      mPlayerContainer = view.itemVerticalPagerContainer
+      mPlayerCover = view.itemVerticalPagerCover
       view.tag = this
     }
   }
