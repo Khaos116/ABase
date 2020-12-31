@@ -149,10 +149,6 @@ object Deps {
   //动态权限 https://github.com/getActivity/XXPermissions
   const val xxpermissions = "com.hjq:xxpermissions:9.6"
 
-  //三方播放lib https://github.com/CarGuo/GSYVideoPlayer
-  const val gsy_player_java = "com.shuyu:gsyVideoPlayer-java:8.0.0"
-  //const val gsy_player_exo = "com.shuyu:GSYVideoPlayer-exo2:8.0.0"
-
   //视频播放相关 https://github.com/Doikki/DKVideoPlayer/wiki
   const val dk_java ="com.github.dueeeke.dkplayer:dkplayer-java:3.2.6"
   const val dk_ui ="com.github.dueeeke.dkplayer:dkplayer-ui:3.2.6"

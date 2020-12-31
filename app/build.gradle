@@ -205,7 +205,6 @@ dependencies {
   flavors_devImplementation Deps.leakcanary
   implementation Deps.emoji
   implementation Deps.startup
-  implementation Deps.gsy_player_java
   implementation Deps.dk_java
   implementation Deps.dk_ui
   implementation Deps.dk_exo
