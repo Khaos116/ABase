@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.*
 import cc.ab.base.ext.loadImgHorizontal
 import cc.ab.base.ext.loadNetVideoCover
+import cc.abase.demo.component.comm.CommFragment
 import com.dueeeke.videocontroller.R
 import com.dueeeke.videocontroller.StandardVideoController
 import com.dueeeke.videocontroller.component.*
@@ -53,7 +54,14 @@ class MyVideoView : VideoView<MyExoMediaPlayer>, LifecycleObserver {
   //<editor-fold defaultstate="collapsed" desc="初始化">
   init {
     //自感应生命周期
-    (mCon as? AppCompatActivity)?.let { ac -> setLifecycleOwner(ac) }
+    (mCon as? AppCompatActivity)?.let { ac ->
+      val owner = ac.supportFragmentManager.fragments.firstOrNull { it.isAdded && it.isVisible && it is CommFragment } as? LifecycleOwner
+      if (owner != null) {
+        setLifecycleOwner(owner)
+      } else {
+        setLifecycleOwner(ac)
+      }
+    }
     //根据屏幕方向自动进入/退出全屏
     controller.setEnableOrientation(false)
     //1.准备播放界面
