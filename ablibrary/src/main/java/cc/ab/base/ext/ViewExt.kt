@@ -81,8 +81,19 @@ fun View.removeParent() {
   if (parentTemp is ViewManager) parentTemp.removeView(this)
 }
 
-//找到View所在的fragment，如果不在fragment中返回null【注：该View必须设置id】
+//找到View所在的fragment，如果不在fragment中返回null【注：该View必须设置id,只寻找到第二层fragment】
 fun View?.getParentFragment(): Fragment? {
-  if (this == null || this.context !is AppCompatActivity || this.id <= 0) return null
-  return (this.context as AppCompatActivity).supportFragmentManager.fragments.lastOrNull { f -> (f.view?.findViewById<View>(this.id)) != null }
+  if (this == null || this.id <= 0) return null
+  val c = this.context
+  if (c !is AppCompatActivity) return null
+  for (f in c.supportFragmentManager.fragments) {
+    if ((f.view?.findViewById<View>(this.id)) != null) { //当前fragment处于activity中
+      return f
+    } else {
+      for (child in f.childFragmentManager.fragments) {
+        if ((child.view?.findViewById<View>(this.id)) != null) return child //当前fragment处于fragment中
+      }
+    }
+  }
+  return null
 }
