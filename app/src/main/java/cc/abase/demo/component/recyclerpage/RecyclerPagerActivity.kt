@@ -152,6 +152,7 @@ class RecyclerPagerActivity : CommTitleActivity() {
     mVideoView?.getMyController()?.setEnableInNormal(false) //禁止手势
     mVideoView?.setFullShow(View.GONE) //隐藏全屏
     mVideoView?.setBackShow(View.GONE) //隐藏返回
+    mVideoView?.fitSpeedWindow(true) //适配倍速位置
     mVideoView?.setLooping(true)
     mVideoView?.layoutParams = ViewGroup.LayoutParams(-1, -1)
   }
