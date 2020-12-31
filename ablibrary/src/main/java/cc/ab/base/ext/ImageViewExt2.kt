@@ -28,18 +28,20 @@ fun ImageView.clearLoad() {
 }
 
 //正方形图片加载s
-fun ImageView.loadImgSquare(url: String?) {
+fun ImageView.loadImgSquare(url: String?, hasHolder: Boolean = true) {
   this.scaleType = ImageView.ScaleType.CENTER_CROP
   if (url.isNullOrBlank()) {
     this.clearLoad()
-    this.load(PlaceHolderUtils.getErrorHolder())
+    if (hasHolder) this.load(PlaceHolderUtils.getErrorHolder())
   } else {
     if (getTag(R.id.suc_img) == url) return
     val iv = this
     val build = fun ImageRequest.Builder.() {
       crossfade(duration)
-      placeholder(PlaceHolderUtils.getLoadingHolder())
-      error(PlaceHolderUtils.getErrorHolder())
+      if (hasHolder) {
+        placeholder(PlaceHolderUtils.getLoadingHolder())
+        error(PlaceHolderUtils.getErrorHolder())
+      }
       listener(onError = { r, e -> "方形图片加载失败:${r.data},e=${e.message ?: "null"}".logE() }) { _, _ -> iv.setTag(R.id.suc_img, url) }
     }
     val f = url.toFile()
@@ -48,10 +50,10 @@ fun ImageView.loadImgSquare(url: String?) {
 }
 
 //横向图片加载
-fun ImageView.loadImgHorizontal(url: String?, holderRatio: Float = 720f / 400) {
+fun ImageView.loadImgHorizontal(url: String?, holderRatio: Float = 720f / 400, hasHolder: Boolean = true) {
   if (url.isNullOrBlank()) {
     this.clearLoad()
-    this.load(PlaceHolderUtils.getErrorHolder(holderRatio))
+    if (hasHolder) this.load(PlaceHolderUtils.getErrorHolder(holderRatio))
   } else {
     if (getTag(R.id.suc_img) == url) {
       return
@@ -59,8 +61,10 @@ fun ImageView.loadImgHorizontal(url: String?, holderRatio: Float = 720f / 400) {
     val iv = this
     val build = fun ImageRequest.Builder.() {
       crossfade(duration)
-      placeholder(PlaceHolderUtils.getLoadingHolder(holderRatio))
-      error(PlaceHolderUtils.getErrorHolder(holderRatio))
+      if (hasHolder) {
+        placeholder(PlaceHolderUtils.getLoadingHolder(holderRatio))
+        error(PlaceHolderUtils.getErrorHolder(holderRatio))
+      }
       listener(onError = { r, e -> "横向图片加载失败:${r.data},e=${e.message ?: "null"}".logE() }) { _, _ -> iv.setTag(R.id.suc_img, url) }
     }
     val f = url.toFile()
@@ -69,10 +73,10 @@ fun ImageView.loadImgHorizontal(url: String?, holderRatio: Float = 720f / 400) {
 }
 
 //竖向图片加载
-fun ImageView.loadImgVertical(url: String?, holderRatio: Float = 720f / 1280) {
+fun ImageView.loadImgVertical(url: String?, holderRatio: Float = 720f / 1280, hasHolder: Boolean = true) {
   if (url.isNullOrBlank()) {
     this.clearLoad()
-    this.load(PlaceHolderUtils.getErrorHolder(holderRatio))
+    if (hasHolder) this.load(PlaceHolderUtils.getErrorHolder(holderRatio))
   } else {
     if (getTag(R.id.suc_img) == url) {
       return
@@ -80,8 +84,10 @@ fun ImageView.loadImgVertical(url: String?, holderRatio: Float = 720f / 1280) {
     val iv = this
     val build = fun ImageRequest.Builder.() {
       crossfade(duration)
-      placeholder(PlaceHolderUtils.getLoadingHolder(holderRatio))
-      error(PlaceHolderUtils.getErrorHolder(holderRatio))
+      if (hasHolder) {
+        placeholder(PlaceHolderUtils.getLoadingHolder(holderRatio))
+        error(PlaceHolderUtils.getErrorHolder(holderRatio))
+      }
       listener(onError = { r, e -> "竖向图片加载失败:${r.data},e=${e.message ?: "null"}".logE() }) { _, _ -> iv.setTag(R.id.suc_img, url) }
     }
     val f = url.toFile()
@@ -118,20 +124,20 @@ fun ImageView.loadCacheFileFullScreen(url: String?, holderRatio: Float = 720f / 
 }
 
 //加载视频网络封面
-fun ImageView.loadNetVideoCover(url: String?, holderRatio: Float = 16f / 9) {
+fun ImageView.loadNetVideoCover(url: String?, holderRatio: Float = 16f / 9, hasHolder: Boolean = true) {
   (getTag(R.id.id_retriever) as? MediaMetadataRetriever)?.release() //防止之前的图还没完成
   if (url.isNullOrBlank()) { //有封面复用为无封面
-    this.load(PlaceHolderUtils.getErrorHolder(holderRatio))
+    if (hasHolder) this.load(PlaceHolderUtils.getErrorHolder(holderRatio))
   } else {
     val cacheFile = File(PathConfig.VIDEO_OVER_CACHE_DIR, EncryptUtils.encryptMD5ToString(url))
     if (cacheFile.exists()) load(cacheFile) else {
-      this.load(PlaceHolderUtils.getLoadingHolder(holderRatio))
+      if (hasHolder) this.load(PlaceHolderUtils.getLoadingHolder(holderRatio))
       val retriever = MediaMetadataRetriever()
       setTag(R.id.id_retriever, retriever)
       MediaMetadataRetrieverUtils.getNetVideoCover(retriever, cacheFile, url) { bit ->
         setTag(R.id.id_retriever, null)
         if (bit != null) this.load(bit) else {
-          this.load(PlaceHolderUtils.getErrorHolder(holderRatio))
+          if (hasHolder) this.load(PlaceHolderUtils.getErrorHolder(holderRatio))
         }
       }
     }
