@@ -1,6 +1,7 @@
 package cc.ab.base.ext
 
 import android.graphics.Color
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.coroutines.*
 import kotlin.coroutines.CoroutineContext
@@ -53,4 +54,15 @@ inline fun GlobalScope.launchError(
 //打印异常
 fun Throwable?.logE() {
   this?.message?.logE()
+}
+
+//找到所有子fragment
+fun Fragment.getAllChildFragments(): MutableList<Fragment> {
+  val list = mutableListOf<Fragment>()
+  val fragments = this.childFragmentManager.fragments
+  if (fragments.isNotEmpty()) {
+    list.addAll(fragments)
+    fragments.forEach { f -> list.addAll(f.getAllChildFragments()) }
+  }
+  return list
 }
