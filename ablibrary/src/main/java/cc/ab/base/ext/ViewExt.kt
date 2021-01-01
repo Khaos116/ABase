@@ -4,8 +4,8 @@ import android.annotation.SuppressLint
 import android.graphics.Color
 import android.view.View
 import android.view.ViewManager
-import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentActivity
 import cc.ab.base.R
 import cc.ab.base.utils.PressEffectHelper
 
@@ -54,11 +54,11 @@ fun View.pressEffectAlpha(pressAlpha: Float = 0.7f) {
 
 //设置按下效果为改变背景色
 fun View.pressEffectBgColor(
-  bgColor: Int = Color.parseColor("#f7f7f7"),
-  topLeftRadiusDp: Float = 0f,
-  topRightRadiusDp: Float = 0f,
-  bottomRightRadiusDp: Float = 0f,
-  bottomLeftRadiusDp: Float = 0f
+    bgColor: Int = Color.parseColor("#f7f7f7"),
+    topLeftRadiusDp: Float = 0f,
+    topRightRadiusDp: Float = 0f,
+    bottomRightRadiusDp: Float = 0f,
+    bottomLeftRadiusDp: Float = 0f
 ) {
   PressEffectHelper.bgColorEffect(
       this,
@@ -81,18 +81,23 @@ fun View.removeParent() {
   if (parentTemp is ViewManager) parentTemp.removeView(this)
 }
 
-//找到View所在的fragment，如果不在fragment中返回null【注：该View必须设置id,只寻找到第二层fragment】
+//找到View所在的fragment，如果不在fragment中返回null【注：该View必须设置id,只寻找到第二层fragment】(也可以遍历查询不判断id，需要注意复用，可以为View设置tag进行判断)
 fun View?.getParentFragment(): Fragment? {
-  if (this == null || this.id <= 0) return null
+  if (this == null || this.id <= 0) return null //没有id
   val c = this.context
-  if (c !is AppCompatActivity) return null
+  if (c !is FragmentActivity) return null //不是支持Fragment的Activity
   for (f in c.supportFragmentManager.fragments) {
-    if ((f.view?.findViewById<View>(this.id)) != null) { //当前fragment处于activity中
-      return f
-    } else {
-      for (child in f.childFragmentManager.fragments) {
-        if ((child.view?.findViewById<View>(this.id)) != null) return child //当前fragment处于fragment中
+    //优先查找子fragment
+    for (child in f.childFragmentManager.fragments) {
+      val temp1 = (child.view?.findViewById<View>(this.id))
+      if (temp1 != null) { //当前fragment处于fragment中
+        return child //如果有复用，在根据tag判断
       }
+    }
+    //在查找父fragment
+    val temp2 = (f.view?.findViewById<View>(this.id))
+    if (temp2 != null) { //当前fragment处于activity中
+      return f //如果有复用，在根据tag判断
     }
   }
   return null
