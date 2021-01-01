@@ -5,7 +5,7 @@ import android.util.AttributeSet
 import android.view.View
 import android.widget.ImageView
 import androidx.annotation.DrawableRes
-import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.*
 import cc.ab.base.ext.*
 import com.dueeeke.videocontroller.R
@@ -199,7 +199,7 @@ class MyVideoView : VideoView<MyExoMediaPlayer>, LifecycleObserver {
     if (owner != null) {
       setLifecycleOwner(owner)
     } else {
-      (context as? AppCompatActivity)?.let { ac -> setLifecycleOwner(ac) }
+      (context as? FragmentActivity)?.let { ac -> setLifecycleOwner(ac) }
     }
   }
 

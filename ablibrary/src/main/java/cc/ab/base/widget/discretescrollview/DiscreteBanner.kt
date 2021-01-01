@@ -6,7 +6,7 @@ import android.util.AttributeSet
 import android.view.*
 import android.widget.FrameLayout
 import android.widget.LinearLayout
-import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.*
 import androidx.viewpager.widget.ViewPager
 import androidx.viewpager2.widget.ViewPager2
@@ -343,7 +343,7 @@ class DiscreteBanner<T> @JvmOverloads constructor(
     if (owner != null) {
       setLifecycleOwner(owner)
     } else {
-      (context as? AppCompatActivity)?.let { ac -> setLifecycleOwner(ac) }
+      (context as? FragmentActivity)?.let { ac -> setLifecycleOwner(ac) }
     }
   }
 
