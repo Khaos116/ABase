@@ -10,7 +10,8 @@ import cc.abase.demo.component.comm.CommActivity
 import cc.abase.demo.component.comm.CommFragment
 import com.blankj.utilcode.util.ActivityUtils
 import com.blankj.utilcode.util.FragmentUtils
-import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.activity_main.mainContainer
+import kotlinx.android.synthetic.main.activity_main.mainNavigation
 
 class MainActivity : CommActivity() {
   //页面
@@ -67,8 +68,8 @@ class MainActivity : CommActivity() {
     if (currentFragment == fragment) return
     //先关闭之前显示的
     currentFragment?.let {
-      FragmentUtils.hide(it)
       if (it.isAdded) supportFragmentManager.beginTransaction().setMaxLifecycle(it, Lifecycle.State.STARTED).commitAllowingStateLoss() //触发Fragment的onPause
+      FragmentUtils.hide(it)
     }
     //设置现在需要显示的
     currentFragment = fragment
