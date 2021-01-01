@@ -6,12 +6,11 @@ import android.util.AttributeSet
 import android.view.*
 import android.widget.FrameLayout
 import android.widget.LinearLayout
-import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.*
 import androidx.viewpager.widget.ViewPager
 import androidx.viewpager2.widget.ViewPager2
 import cc.ab.base.R
-import cc.ab.base.ext.getParentFragment
+import cc.ab.base.ext.getMyLifecycleOwner
 import cc.ab.base.widget.discretescrollview.adapter.DiscretePageAdapter
 import cc.ab.base.widget.discretescrollview.holder.DiscreteHolder
 import cc.ab.base.widget.discretescrollview.holder.DiscreteHolderCreator
@@ -339,12 +338,7 @@ class DiscreteBanner<T> @JvmOverloads constructor(
 
   //<editor-fold defaultstate="collapsed" desc="自感应生命周期">
   private fun onAttachedToWindowLifecycle() {
-    val owner = getParentFragment() as? LifecycleOwner
-    if (owner != null) {
-      setLifecycleOwner(owner)
-    } else {
-      (context as? FragmentActivity)?.let { ac -> setLifecycleOwner(ac) }
-    }
+    setLifecycleOwner(getMyLifecycleOwner())
   }
 
   private fun onDetachedFromWindowLifecycle() {

@@ -5,7 +5,6 @@ import android.util.AttributeSet
 import android.view.View
 import android.widget.ImageView
 import androidx.annotation.DrawableRes
-import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.*
 import cc.ab.base.ext.*
 import com.dueeeke.videocontroller.R
@@ -198,12 +197,7 @@ class MyVideoView : VideoView<MyExoMediaPlayer>, LifecycleObserver {
   //<editor-fold defaultstate="collapsed" desc="自感应生命周期">
   override fun onAttachedToWindow() {
     super.onAttachedToWindow()
-    val owner = getParentFragment() as? LifecycleOwner
-    if (owner != null) {
-      setLifecycleOwner(owner)
-    } else {
-      (context as? FragmentActivity)?.let { ac -> setLifecycleOwner(ac) }
-    }
+    setLifecycleOwner(getMyLifecycleOwner())
   }
 
   override fun onDetachedFromWindow() {
