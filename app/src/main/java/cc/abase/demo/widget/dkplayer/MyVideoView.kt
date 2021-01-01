@@ -84,6 +84,7 @@ class MyVideoView : VideoView<MyExoMediaPlayer>, LifecycleObserver {
 
   //<editor-fold defaultstate="collapsed" desc="Lifecycle生命周期">
   private var mLifecycle: Lifecycle? = null
+  private var pauseIsPlaying = false
 
   //通过Lifecycle内部自动管理暂停和播放(如果不需要后台播放)
   private fun setLifecycleOwner(owner: LifecycleOwner?) {
@@ -99,12 +100,14 @@ class MyVideoView : VideoView<MyExoMediaPlayer>, LifecycleObserver {
 
   @OnLifecycleEvent(Lifecycle.Event.ON_PAUSE)
   private fun onPauseVideo() {
+    pauseIsPlaying = isPlaying
     pause()
   }
 
   @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
   private fun onResumeVideo() {
-    resume()
+    if (pauseIsPlaying) resume()
+    pauseIsPlaying = false
   }
 
   @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
