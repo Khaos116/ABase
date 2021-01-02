@@ -1,13 +1,13 @@
 package cc.abase.demo.component.main
 
-import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
 import android.view.Gravity
 import android.view.View
-import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.LinearLayoutManager
 import cc.ab.base.ext.*
 import cc.abase.demo.R
+import cc.abase.demo.bean.local.SimpleTxtBean
 import cc.abase.demo.component.chat.ChatActivity
 import cc.abase.demo.component.comm.CommFragment
 import cc.abase.demo.component.coordinator.CoordinatorActivity
@@ -29,12 +29,12 @@ import cc.abase.demo.component.test.TestActivity
 import cc.abase.demo.component.update.CcUpdateService
 import cc.abase.demo.component.update.UpdateEnum
 import cc.abase.demo.constants.EventKeys
-import cc.abase.demo.epoxy.item.simpleTextItem
-import cc.abase.demo.mvrx.MvRxEpoxyController
+import cc.abase.demo.item.SimpleTxtItem
 import cc.abase.demo.rxhttp.repository.UserRepository
 import cc.abase.demo.widget.decoration.SpacesItemDecoration
 import cc.abase.demo.widget.dialog.dateSelDialog
-import com.blankj.utilcode.util.*
+import com.blankj.utilcode.util.ColorUtils
+import com.drakeet.multitype.MultiTypeAdapter
 import com.jeremyliao.liveeventbus.LiveEventBus
 import com.rxjava.rxlife.life
 import kotlinx.android.synthetic.main.fragment_mine.*
@@ -46,130 +46,124 @@ import java.util.Locale
  * @date: 2019/9/30 18:13
  */
 class MineFragment : CommFragment() {
+  //<editor-fold defaultstate="collapsed" desc="外部获取实例">
+  companion object {
+    fun newInstance() = MineFragment()
+  }
+  //</editor-fold>
+
+  //<editor-fold defaultstate="collapsed" desc="变量">
   //APK下载地址
   private val apkUrk = "https://down8.xiazaidb.com/app/yingyongbianliang.apk"
   private val apkUrk2 = "https://ftp.binance.com/pack/Binance.apk"
 
+  //点击更新次数
+  private var clickCount = 0
+
+  //多类型适配器
+  private val multiTypeAdapter = MultiTypeAdapter()
+
   //菜单列表
   private val menuList = mutableListOf(
-      Pair(StringUtils.getString(R.string.chat_title), ChatActivity::class.java),
-      Pair(StringUtils.getString(R.string.ffmpeg_title), RxFFmpegActivity::class.java),
-      Pair(StringUtils.getString(R.string.update_app), CcUpdateService::class.java),
-      Pair(StringUtils.getString(R.string.title_sticky), StickyActivity::class.java),
-      Pair(StringUtils.getString(R.string.title_sticky2), StickyActivity2::class.java),
-      Pair(StringUtils.getString(R.string.title_drag), DragActivity::class.java),
-      Pair(StringUtils.getString(R.string.title_spedit), SpeditActivity::class.java),
-      Pair(StringUtils.getString(R.string.coordinator_refresh), CoordinatorActivity::class.java),
-      Pair(StringUtils.getString(R.string.epoxy_expandable), EpoxyExpandActivity::class.java),
-      Pair(StringUtils.getString(R.string.title_play_list), PlayListActivity::class.java),
-      Pair(StringUtils.getString(R.string.title_play_pager), VerticalPagerActivity::class.java),
-      Pair(StringUtils.getString(R.string.title_vertical_page), RecyclerPagerActivity::class.java),
-      Pair(StringUtils.getString(R.string.title_decoration), DecorationActivity::class.java),
-      Pair(StringUtils.getString(R.string.title_rxhttp), RxHttpActivity::class.java),
-      Pair(StringUtils.getString(R.string.title_flexbox), FlexboxActivity::class.java),
-      Pair(StringUtils.getString(R.string.title_marquee), MarqueeActivity::class.java),
-      Pair(StringUtils.getString(R.string.title_test), TestActivity::class.java)
+      Pair(R.string.chat_title.xmlToString(), ChatActivity::class.java),
+      Pair(R.string.ffmpeg_title.xmlToString(), RxFFmpegActivity::class.java),
+      Pair(R.string.update_app.xmlToString(), CcUpdateService::class.java),
+      Pair(R.string.title_sticky.xmlToString(), StickyActivity::class.java),
+      Pair(R.string.title_sticky2.xmlToString(), StickyActivity2::class.java),
+      Pair(R.string.title_drag.xmlToString(), DragActivity::class.java),
+      Pair(R.string.title_spedit.xmlToString(), SpeditActivity::class.java),
+      Pair(R.string.coordinator_refresh.xmlToString(), CoordinatorActivity::class.java),
+      Pair(R.string.epoxy_expandable.xmlToString(), EpoxyExpandActivity::class.java),
+      Pair(R.string.title_play_list.xmlToString(), PlayListActivity::class.java),
+      Pair(R.string.title_play_pager.xmlToString(), VerticalPagerActivity::class.java),
+      Pair(R.string.title_vertical_page.xmlToString(), RecyclerPagerActivity::class.java),
+      Pair(R.string.title_decoration.xmlToString(), DecorationActivity::class.java),
+      Pair(R.string.title_rxhttp.xmlToString(), RxHttpActivity::class.java),
+      Pair(R.string.title_flexbox.xmlToString(), FlexboxActivity::class.java),
+      Pair(R.string.title_marquee.xmlToString(), MarqueeActivity::class.java),
+      Pair(R.string.title_test.xmlToString(), TestActivity::class.java)
   )
+  //</editor-fold>
 
-  //item文字颜色
-  private var typeColor = ColorUtils.getColor(R.color.style_Primary)
-
-  companion object {
-    fun newInstance(): MineFragment {
-      return MineFragment()
-    }
-  }
-
+  //<editor-fold defaultstate="collapsed" desc="XML">
   override val contentLayout = R.layout.fragment_mine
+  //</editor-fold>
 
+  //<editor-fold defaultstate="collapsed" desc="初始化View">
   override fun initView(root: View?) {
-    if (mineRecycler.itemDecorationCount == 0) {
-      mineRecycler.addItemDecoration(SpacesItemDecoration())
-      mineRecycler.setController(epoxyController)
-    }
+    //分割线
+    if (mineRecycler.itemDecorationCount == 0) mineRecycler.addItemDecoration(SpacesItemDecoration())
+    //注册多类型
+    multiTypeAdapter.register(SimpleTxtItem() { stb ->
+      stb.cls?.let { cls ->
+        val second = cls.newInstance()
+        if (second is Activity) {
+          mActivity.startActivity(Intent(mContext, cls))
+        } else if (second is CcUpdateService) {
+          clickCount++
+          CcUpdateService.startIntent(
+              path = if (clickCount % 2 == 0) apkUrk else apkUrk2,
+              apk_name = if (clickCount % 2 == 0) "应用变量" else "币安",
+              showNotification = true
+          )
+        }
+      }
+    })
+    //设置适配器
+    mineRecycler.layoutManager = LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false)
+    mineRecycler.adapter = multiTypeAdapter
   }
+  //</editor-fold>
 
-  @SuppressLint("CheckResult")
+  //<editor-fold defaultstate="collapsed" desc="初始化Data">
   override fun initData() {
     showLoadingView()
     mineRoot.gone()
     mineSetting.pressEffectAlpha()
     mineSetting.click { SettingActivity.startActivity(mContext) }
+    //item文字颜色
+    val typeColor = ColorUtils.getColor(R.color.style_Primary)
+    //转化为item需要的数据
+    val items = mutableListOf<SimpleTxtBean>()
+    menuList.forEach { p ->
+      items.add(SimpleTxtBean(txt = p.first).also { stb ->
+        stb.cls = p.second
+        stb.textColor = typeColor
+        stb.gravity = Gravity.CENTER_VERTICAL
+        stb.paddingBottomPx = 15.dp2Px()
+        stb.paddingTopPx = 15.dp2Px()
+      })
+    }
+    //获取积分
     UserRepository.instance.myIntegral()
         .life(this)
         .subscribe({
-          mineIntegral.text =
-              String.format(StringUtils.getString(R.string.my_integral), it.coinCount)
+          mineIntegral.text = String.format(R.string.my_integral.xmlToString(), it.coinCount)
           dismissLoadingView()
           mineRoot?.visible()
-          epoxyController.data = menuList
+          multiTypeAdapter.items = items
+          multiTypeAdapter.notifyDataSetChanged()
         }, {
-          mineIntegral.text =
-              String.format(StringUtils.getString(R.string.my_integral), 0)
+          mineIntegral.text = String.format(R.string.my_integral.xmlToString(), 0)
           mContext.toast(it.message)
           dismissLoadingView()
           mineRoot?.visible()
-          epoxyController.data = menuList
+          multiTypeAdapter.items = items
+          multiTypeAdapter.notifyDataSetChanged()
         })
-    val cls = Triple(UpdateEnum.START, 0f, "").javaClass
-    LiveEventBus.get(EventKeys.UPDATE_PROGRESS, cls)
-        .observe(this, Observer {
-          when (it.first) {
-            UpdateEnum.START -> {
-              LogUtils.e("CASE:APK开始下载")
-            }
-            UpdateEnum.DOWNLOADING -> {
-              LogUtils.e(
-                  "CASE:APK下载进度：${String.format(Locale.getDefault(), "%.1f", it.second) + "%"}"
-              )
-            }
-            UpdateEnum.SUCCESS -> {
-              LogUtils.e("CASE:APK下载成功")
-            }
-            UpdateEnum.FAIL -> {
-              LogUtils.e("CASE:APK下载失败")
-            }
-          }
-        })
-    mineScrollView.post {
-      mineRecyclerParent.layoutParams.height = mineScrollView.height + SizeUtils.dp2px(70f)
-    }
-    mineIntegral.click {
-      dateSelDialog(childFragmentManager) {
-        call = { r ->
-          mContext.toast(String.format("%d年%02d月%02d日", r.first, r.second, r.third))
-        }
+    //监听加载进度
+    LiveEventBus.get(EventKeys.UPDATE_PROGRESS, Triple(UpdateEnum.START, 0f, "").javaClass).observe(this) {
+      when (it.first) {
+        UpdateEnum.START -> "APK开始下载".logE()
+        UpdateEnum.DOWNLOADING -> "APK下载进度：${String.format(Locale.getDefault(), "%.1f", it.second) + "%"}"
+        UpdateEnum.SUCCESS -> "APK下载成功".logE()
+        UpdateEnum.FAIL -> "APK下载失败".logE()
       }
     }
+    //高度比ScrollView高一个背景的高度
+    mineScrollView.post { mineRecyclerParent.layoutParams.height = mineScrollView.height + 70.dp2Px() }
+    //点击积分打开日期
+    mineIntegral.click { dateSelDialog(childFragmentManager) { call = { r -> "${r.first}年 ${r.second}月${r.third}日".toast() } } }
   }
-
-  private var clickCount = 0
-
-  //epoxy
-  private val epoxyController = MvRxEpoxyController<List<Pair<String, Class<out Any>>>> { list ->
-    list.forEachIndexed { index, pair ->
-      //内容
-      simpleTextItem {
-        id("type_$index")
-        msg(pair.first)
-        textColor(typeColor)
-        gravity(Gravity.CENTER_VERTICAL)
-        paddingBottomPx(SizeUtils.dp2px(15f))
-        paddingTopPx(SizeUtils.dp2px(15f))
-        onItemClick {
-          val second = pair.second.newInstance()
-          if (second is Activity) {
-            mActivity.startActivity(Intent(mContext, pair.second))
-          } else if (second is CcUpdateService) {
-            clickCount++
-            CcUpdateService.startIntent(
-                path = if (clickCount % 2 == 0) apkUrk else apkUrk2,
-                apk_name = if (clickCount % 2 == 0) "应用变量" else "币安",
-                showNotification = true
-            )
-          }
-        }
-      }
-    }
-  }
+  //</editor-fold>
 }

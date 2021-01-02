@@ -1,72 +1,82 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mineRoot"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    >
+  <!--积分和设置-->
+  <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:orientation="horizontal"
+      tools:ignore="UseCompoundDrawables"
+      >
 
-    <LinearLayout
+    <TextView
+        android:id="@+id/mineIntegral"
+        android:layout_width="0dp"
+        android:layout_height="40dp"
+        android:layout_weight="1"
+        android:gravity="center_vertical"
+        android:paddingStart="12dp"
+        android:paddingTop="5dp"
+        android:paddingEnd="12dp"
+        android:paddingBottom="5dp"
+        android:textSize="20sp"
+        tools:text="我的积分：20"
+        />
+
+    <ImageView
+        android:id="@+id/mineSetting"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:contentDescription="@null"
+        android:padding="8dp"
+        android:src="@drawable/setting"
+        />
+  </LinearLayout>
+  <!--分割线-->
+  <View
+      android:id="@+id/mineLine"
+      android:layout_width="match_parent"
+      android:layout_height="1px"
+      android:background="@color/dividerColor"
+      />
+  <!--ScrollView-->
+  <androidx.core.widget.NestedScrollView
+      android:id="@+id/mineScrollView"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:fillViewport="true"
+      >
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/mineRecyclerParent"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
         >
+      <!--顶部背景-->
+      <View
+          android:layout_width="match_parent"
+          android:layout_height="70dp"
+          android:background="#2200fff0"
+          app:layout_constraintStart_toStartOf="parent"
+          app:layout_constraintTop_toTopOf="parent"
+          />
 
-        <TextView
-            android:id="@+id/mineIntegral"
-            android:layout_width="0dp"
-            android:layout_height="40dp"
-            android:layout_weight="1"
-            android:gravity="center_vertical"
-            android:paddingStart="12dp"
-            android:paddingTop="5dp"
-            android:paddingEnd="12dp"
-            android:paddingBottom="5dp"
-            android:textSize="20sp"
-            tools:text="我的积分：20"
-            />
-
-        <ImageView
-            android:id="@+id/mineSetting"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:contentDescription="@null"
-            android:padding="8dp"
-            android:src="@drawable/setting"
-            />
-    </LinearLayout>
-    <View
-        android:id="@+id/mineLine"
-        android:layout_width="match_parent"
-        android:layout_height="1px"
-        android:background="@color/dividerColor" />
-
-    <androidx.core.widget.NestedScrollView
-        android:id="@+id/mineScrollView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/mineRecyclerParent"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="70dp"
-                android:background="#2200fff0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-
-            <cc.ab.base.widget.epoxy.MyEpoxyRecyclerView
-                android:id="@+id/mineRecycler"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </androidx.core.widget.NestedScrollView>
+      <!--RecyclerView-->
+      <androidx.recyclerview.widget.RecyclerView
+          android:id="@+id/mineRecycler"
+          android:layout_width="match_parent"
+          android:layout_height="match_parent"
+          app:layout_constraintStart_toStartOf="parent"
+          app:layout_constraintTop_toTopOf="parent"
+          />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+  </androidx.core.widget.NestedScrollView>
 </LinearLayout>
