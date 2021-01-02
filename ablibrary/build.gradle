@@ -51,6 +51,7 @@ dependencies {
   api Deps.coroutine
   api Deps.coroutine_android
   api Deps.mvrx
+  api Deps.multitype
   api Deps.rxlife_android
   api Deps.immersionbar
   api Deps.immersionbar_ktx

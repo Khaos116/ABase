@@ -103,6 +103,9 @@ object Deps {
   const val epoxy = "com.airbnb.android:epoxy:${Versions.epoxy}"
   const val epoxy_processor = "com.airbnb.android:epoxy-processor:${Versions.epoxy}"
 
+  //多类型适配器 https://github.com/drakeet/MultiType
+  const val multitype = "com.drakeet.multitype:multitype:4.2.0"
+
   //图片加载 https://github.com/panpf/sketch
   const val sketch = "me.panpf:sketch:2.7.1"
 
