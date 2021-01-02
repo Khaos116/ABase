@@ -42,7 +42,7 @@ abstract class ErrorEmptyItem : BaseEpoxyModel<BaseEpoxyHolder>() {
     itemView.errorEmptyIv.visibleGone(imageResource != null)
     itemView.errorEmptyTips.visibleGone(!tipsText.isNullOrBlank())
     itemView.errorEmptyRoot.click {
-      if (NetUtils.instance.checkToast()) {
+      if (NetUtils.checkNetToast()) {
         onRetryClick?.invoke()
       }
     }

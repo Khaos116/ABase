@@ -30,7 +30,7 @@ class NotificationBroadcastReceiver : BroadcastReceiver() {
           AppUtils.installApp(path)
         }
         //重试
-        StringConstants.Update.INTENT_KEY_APK_DOWNLOAD_ERROR -> if (NetUtils.instance.checkToast()) {
+        StringConstants.Update.INTENT_KEY_APK_DOWNLOAD_ERROR -> if (NetUtils.checkNetToast()) {
           val apkUrl = intent.getStringExtra(StringConstants.Update.INTENT_KEY_RETRY_PATH)
           val mApkVersion = intent.getStringExtra(StringConstants.Update.INTENT_KEY_RETRY_NAME)
           val appName = intent.getStringExtra(StringConstants.Update.INTENT_KEY_RETRY_NAME) ?: ""

@@ -51,7 +51,7 @@ abstract class LoadMoreItem : BaseEpoxyModel<BaseEpoxyHolder>() {
     }
     setLoadState(itemView)
     itemView.click {
-      if (fail && onLoadMore != null && NetUtils.instance.checkToast()) {
+      if (fail && onLoadMore != null && NetUtils.checkNetToast()) {
         fail = false
         setLoadState(itemView)
         onLoadMore?.invoke()
