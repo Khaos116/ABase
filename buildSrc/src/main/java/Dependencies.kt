@@ -158,12 +158,15 @@ object Deps {
   const val xxpermissions = "com.hjq:xxpermissions:9.6"
 
   //视频播放相关 https://github.com/Doikki/DKVideoPlayer/wiki
-  const val dk_java ="com.github.dueeeke.dkplayer:dkplayer-java:3.2.6"
-  const val dk_ui ="com.github.dueeeke.dkplayer:dkplayer-ui:3.2.6"
-  const val dk_exo= "com.github.dueeeke.dkplayer:player-exo:3.2.6"
+  const val dk_java = "com.github.dueeeke.dkplayer:dkplayer-java:3.2.6"
+  const val dk_ui = "com.github.dueeeke.dkplayer:dkplayer-ui:3.2.6"
+  const val dk_exo = "com.github.dueeeke.dkplayer:player-exo:3.2.6"
 
   //图片加载 https://github.com/coil-kt/coil
   const val coil = "io.coil-kt:coil:${Versions.coil}"
   const val coil_gif = "io.coil-kt:coil-gif:${Versions.coil}"
   const val coil_video_file = "io.coil-kt:coil-video:${Versions.coil}"
+
+  //https://github.com/wasabeef/recyclerview-animators
+  const val rv_anim = "com.mikepenz:itemanimators:1.1.0"
 }
