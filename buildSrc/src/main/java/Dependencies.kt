@@ -86,6 +86,11 @@ object Deps {
   const val swipe = "com.billy.android:smart-swipe:1.1.2"
   const val swipex = "com.billy.android:smart-swipe-x:1.1.0"
 
+  //下拉刷新 https://github.com/scwang90/SmartRefreshLayout
+  const val smart_refresh = "com.scwang.smart:refresh-layout-kernel:2.0.1"
+  const val smart_header = "com.scwang.smart:refresh-header-classics:2.0.1"
+  const val smart_footer = "com.scwang.smart:refresh-footer-classics:2.0.1"
+
   //图片选择器 https://github.com/LuckSiege/PictureSelector
   const val pic_select = "com.github.LuckSiege.PictureSelector:picture_library:v2.5.9"
 
