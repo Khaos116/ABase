@@ -219,6 +219,7 @@ dependencies {
   kapt Deps.epoxy_processor
   implementation Deps.rxhttp
   kapt Deps.rxhttp_kapt
+  implementation Deps.rxlife_coroutine
   implementation Deps.rxlife_rxjava
   implementation Deps.wheelview
   implementation Deps.pickerview
