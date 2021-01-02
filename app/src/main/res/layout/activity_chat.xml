@@ -16,7 +16,7 @@
       android:src="@drawable/splash_center"
       />
 
-  <cc.ab.base.widget.epoxy.MyEpoxyRecyclerView
+  <androidx.recyclerview.widget.RecyclerView
       android:id="@+id/chatRecycler"
       android:layout_width="match_parent"
       android:layout_height="240dp"
