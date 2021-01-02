@@ -85,11 +85,11 @@ class ChatActivity : CommTitleActivity() {
         val items = multiTypeAdapter.items.toMutableList()
         val size1 = items.size
         it.newData?.forEach { d ->
-          if (items.isNotEmpty()) items.add(DividerBean(heightPx = 1))
           items.add(SimpleTxtBean(txt = d).also { stb ->
             stb.gravity = Gravity.CENTER_VERTICAL
             stb.textColor = Color.WHITE
           })
+          items.add(DividerBean(heightPx = 1))
           multiTypeAdapter.items = items
           val size2 = items.size
           multiTypeAdapter.notifyItemRangeChanged(size1, size2 - size1)
