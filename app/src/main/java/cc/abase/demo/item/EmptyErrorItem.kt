@@ -28,7 +28,7 @@ class EmptyErrorItem(
     itemView.itemEmptyErrorTv.text = if (!item.msg.isNullOrBlank()) {
       item.msg
     } else if (!item.isError) {
-      StringUtils.getString(R.string.page_empty)
+      StringUtils.getString(R.string.no_data)
     } else {
       if (NetworkUtils.isConnected()) {
         StringUtils.getString(R.string.net_fail_retry)
