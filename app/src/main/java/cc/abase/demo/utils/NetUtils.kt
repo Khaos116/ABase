@@ -1,29 +1,19 @@
 package cc.abase.demo.utils
 
-import cc.ab.base.ext.toast
+import cc.ab.base.ext.xmlToast
 import cc.abase.demo.R
 import com.blankj.utilcode.util.NetworkUtils
-import com.blankj.utilcode.util.Utils
 
 /**
  * Description:
  * @author: CASE
  * @date: 2019/10/1 16:52
  */
-class NetUtils private constructor() {
-  private object SingletonHolder {
-    val holder = NetUtils()
-  }
-
-  companion object {
-    val instance = SingletonHolder.holder
-  }
-
+object NetUtils {
   //无网络则吐司
-  fun checkToast(): Boolean {
+  fun checkNetToast(): Boolean {
     if (!NetworkUtils.isConnected()) {
-      Utils.getApp()
-          .toast(R.string.no_network)
+      R.string.no_network.xmlToast()
       return false
     }
     return true
