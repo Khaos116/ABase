@@ -4,11 +4,15 @@ import android.graphics.Color
 import android.os.Bundle
 import android.view.Gravity
 import android.widget.FrameLayout
+import android.widget.TextView
 import androidx.core.view.get
 import cc.ab.base.ext.*
 import cc.ab.base.ui.activity.BaseActivity
+import cc.abase.demo.R
+import cc.abase.demo.utils.NetUtils
 import cc.abase.demo.widget.dialog.ActionDialog
 import com.airbnb.lottie.*
+import com.blankj.utilcode.util.NetworkUtils
 import com.dueeeke.videocontroller.StandardVideoController
 
 /**
@@ -17,84 +21,151 @@ import com.dueeeke.videocontroller.StandardVideoController
  * @date: 2019/10/8 10:03
  */
 abstract class CommActivity : BaseActivity() {
-  //lottie的加载动画
-  lateinit var loadingView: LottieAnimationView
-
+  //<editor-fold defaultstate="collapsed" desc="清理奔溃前的fragment">
   override fun onCreate(savedInstanceState: Bundle?) {
-    //清理奔溃前的fragment
     for (fragment in supportFragmentManager.fragments) {
       supportFragmentManager.beginTransaction()
           .remove(fragment)
           .commitAllowingStateLoss()
     }
-    initLottie()
     super.onCreate(savedInstanceState)
   }
+  //</editor-fold>
 
-  //#################################镶嵌在页面中的loading->Start#################################//
-  //初始化loading
-  private fun initLottie() {
-    loadingView = LottieAnimationView(mContext)
-    loadingView.setAnimation("loading.json")
-    loadingView.imageAssetsFolder = "images/"
-    loadingView.setRenderMode(RenderMode.HARDWARE)
-    loadingView.repeatCount = LottieDrawable.INFINITE
-    loadingView.repeatMode = LottieDrawable.RESTART
-    loadingView.setOnClickListener { }
+  //<editor-fold defaultstate="collapsed" desc="loading和重试外部调用">
+  //private var loadingView: FlashingTextView? = null
+  private var loadingView: LottieAnimationView? = null
+  private var errorView: TextView? = null
+
+  protected fun showLoadingView(msg: String = "") {
+    removeAllCallbacks()
+    runShowLoading = Runnable { startLoadingView(msg) }
+    mContentView.post(runShowLoading)
   }
 
-  //显示json动画的loading
-  fun showLoadingView() {
-    //防止获取不到高度
-    mContentView.post { startShowLoadingView() }
+  protected fun showNoDataView() = showErrorView(R.string.no_data.xmlToString())
+
+  protected fun showErrorView(msg: String? = "", reTry: (() -> Unit)? = null) {
+    removeAllCallbacks()
+    runShowError = Runnable { startErrorView(msg, retry = reTry) }
+    mContentView.post(runShowError)
   }
 
-  //显示loadingView
-  private fun startShowLoadingView(
-      transY: Float = getLoadingViewTransY(),
-      height: Int = getLoadingViewHeight(),
-      gravity: Int = getLoadingViewGravity(),
-      bgColor: Int = getLoadingViewBgColor()
+  protected fun dismissLoadingView() {
+    removeAllCallbacks()
+    runDismissLoading = Runnable { loadingView?.removeParent() }
+    mContentView.post(runDismissLoading)
+  }
+
+  protected fun dismissErrorView() {
+    removeAllCallbacks()
+    runDismissError = Runnable { errorView?.removeParent() }
+    mContentView.post(runDismissError)
+  }
+
+  protected fun dismissLoadingAndErrorView() {
+    removeAllCallbacks()
+    runDismissLoading = Runnable { loadingView?.removeParent() }
+    mContentView.post(runDismissLoading)
+    runDismissError = Runnable { errorView?.removeParent() }
+    mContentView.post(runDismissError)
+  }
+
+  //移除所有监听
+  private fun removeAllCallbacks() {
+    mContentView.removeCallbacks(runShowLoading)
+    mContentView.removeCallbacks(runShowError)
+    mContentView.removeCallbacks(runDismissLoading)
+    mContentView.removeCallbacks(runDismissError)
+  }
+
+  private var runShowLoading: Runnable? = null
+  private var runShowError: Runnable? = null
+  private var runDismissLoading: Runnable? = null
+  private var runDismissError: Runnable? = null
+  //</editor-fold>
+
+  //<editor-fold defaultstate="collapsed" desc="loading和重试内部调用">
+  private fun startLoadingView(
+      msg: String = "",
+      transY: Float = getHoldViewTransY(),
+      height: Int = getHoldViewHeight(),
+      gravity: Int = getHoldViewGravity(),
+      bgColor: Int = getHoldViewBgColor()
   ) {
-    if (loadingView.parent == null) {
-      val parent = mContentView
+    dismissErrorView()
+    if (loadingView == null) {
+      loadingView = LottieAnimationView(mContext)
+      loadingView?.let { lav ->
+        lav.setAnimation("loading.json")
+        lav.imageAssetsFolder = "images/"
+        lav.setRenderMode(RenderMode.HARDWARE)
+        lav.repeatCount = LottieDrawable.INFINITE
+        lav.repeatMode = LottieDrawable.RESTART
+        lav.setOnClickListener { }
+      }
+    }
+    //if (msg.isNotBlank()) loadingView?.text = msg
+    if (loadingView?.parent == null) {
       val prams = FrameLayout.LayoutParams(-1, height)
       prams.gravity = gravity
-      loadingView.translationY = transY
-      loadingView.setBackgroundColor(bgColor)
-      parent.addView(loadingView, prams)
+      loadingView?.translationY = transY
+      loadingView?.setBackgroundColor(bgColor)
+      mContentView.addView(loadingView, prams)
     }
-    loadingView.playAnimation()
   }
 
-  //关闭loadingView
-  fun dismissLoadingView() {
-    loadingView.pauseAnimation()
-    loadingView.cancelAnimation()
-    loadingView.removeParent()
+  private fun startErrorView(msg: String? = "",
+      transY: Float = getHoldViewTransY(),
+      height: Int = getHoldViewHeight(),
+      gravity: Int = getHoldViewGravity(),
+      bgColor: Int = getHoldViewBgColor(),
+      retry: (() -> Unit)? = null) {
+    dismissLoadingView()
+    if (errorView == null) {
+      errorView = TextView(mContext)
+      errorView?.run {
+        this.isClickable = true
+        this.text = if (NetworkUtils.isConnected()) R.string.net_fail_retry.xmlToString() else R.string.net_error_retry.xmlToString()
+        this.gravity = Gravity.CENTER
+        this.setTextColor(R.color.gray.xmlToColor())
+      }
+    }
+    if (!msg.isNullOrBlank()) errorView?.text = msg
+    if (retry != null) errorView?.click { if (NetUtils.checkNetToast()) retry.invoke() } else errorView?.setOnClickListener(null)
+    if (errorView?.parent == null) {
+      val prams = FrameLayout.LayoutParams(-1, height)
+      prams.gravity = gravity
+      errorView?.translationY = transY
+      errorView?.setBackgroundColor(bgColor)
+      mContentView.addView(errorView, prams)
+    }
   }
+  //</editor-fold>
 
-  //设置偏移量
-  open fun getLoadingViewTransY(): Float {
+  //<editor-fold defaultstate="collapsed" desc="loading偏移量相关">
+  //设置Loading和Error偏移量
+  open fun getHoldViewTransY(): Float {
     return 0f
   }
 
-  //设置动画高度
-  open fun getLoadingViewHeight(): Int {
-    return mScreenWidth
+  //设置Loading和Error高度
+  open fun getHoldViewHeight(): Int {
+    return mContentView.width
   }
 
-  //设置动画的位置，默认居中
-  open fun getLoadingViewGravity(): Int {
+  //设置Loading和Error的位置，默认居中
+  open fun getHoldViewGravity(): Int {
     return Gravity.CENTER
   }
 
-  //设置动画背景
-  open fun getLoadingViewBgColor(): Int {
-    return Color.TRANSPARENT
+  //设置Loading和Error的背景色
+  open fun getHoldViewBgColor(): Int {
+    return Color.WHITE
   }
-  //#################################镶嵌在页面中的loading<-END#################################//
+  //</editor-fold>
 
+  //<editor-fold defaultstate="collapsed" desc="执行动作的Dialog弹窗">
   private var mActionDialog: ActionDialog? = null
 
   fun showActionLoading(text: String? = null) {
@@ -113,6 +184,7 @@ abstract class CommActivity : BaseActivity() {
   fun dismissActionLoading() {
     mActionDialog?.dismissAllowingStateLoss()
   }
+  //</editor-fold>
 
   //<editor-fold defaultstate="collapsed" desc="退出全屏">
   override fun onBackPressed() {
