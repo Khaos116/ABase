@@ -24,26 +24,35 @@ import rxhttp.wrapper.param.RxHttp
  * @date: 2020/2/19 16:39
  */
 class RxHttpActivity : CommTitleActivity() {
-
+  //<editor-fold defaultstate="collapsed" desc="外部跳转">
   companion object {
     fun startActivity(context: Context) {
       val intent = Intent(context, RxHttpActivity::class.java)
       context.startActivity(intent)
     }
   }
+  //</editor-fold>
 
+  //<editor-fold defaultstate="collapsed" desc="XML">
   override fun layoutResContentId() = R.layout.activity_rxhttp
+  //</editor-fold>
 
+  //<editor-fold defaultstate="collapsed" desc="初始化View">
   override fun initContentView() {
     setTitleText(StringUtils.getString(R.string.title_rxhttp))
     rxhttpRequest.pressEffectAlpha()
     rxhttpRequest.click { requestData() }
   }
+  //</editor-fold>
 
+  //<editor-fold defaultstate="collapsed" desc="初始化Data">
   override fun initData() {
   }
+  //</editor-fold>
 
+  //<editor-fold defaultstate="collapsed" desc="请求测试">
   var isRequesting = false
+
   //执行请求
   private fun requestData() {
     showLoadingView()
@@ -53,11 +62,11 @@ class RxHttpActivity : CommTitleActivity() {
     }
     isRequesting = true
     RxHttp.get(WanUrls.User.INTEGRAL)
-        .setAssemblyEnabled(true)//添加公共参数/头部
+        .setAssemblyEnabled(true) //添加公共参数/头部
         .asResponseWan(IntegralBean::class.java)
         .observeOn(AndroidSchedulers.mainThread()) //指定在主线程回调
         .doOnComplete { }
-        .life(this)//自动销毁请求
+        .life(this) //自动销毁请求
         .subscribe({
           isRequesting = false
           dismissLoadingView()
@@ -68,11 +77,13 @@ class RxHttpActivity : CommTitleActivity() {
           rxhttpResult.text = it.message
         })
   }
+  //</editor-fold>
 
-  override fun getLoadingViewHeight() = rxhttpScroll.height
+  //<editor-fold defaultstate="collapsed" desc="重写loading相关位置和大小">
+  override fun getHoldViewHeight() = rxhttpScroll.height
 
-  override fun getLoadingViewTransY() =
-    (commTitleText.height + rxhttpRequest.height + mStatusBarHeight) / 2f
+  override fun getHoldViewTransY() = (commTitleText.height + rxhttpRequest.height + mStatusBarHeight) / 2f
 
-  override fun getLoadingViewBgColor() = Color.WHITE
+  override fun getHoldViewBgColor() = Color.WHITE
+  //</editor-fold>
 }
