@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    >
+
+  <ImageView
+      android:id="@+id/itemNineImgIv"
+      android:layout_width="match_parent"
+      android:layout_height="0dp"
+      android:contentDescription="@null"
+      android:scaleType="fitCenter"
+      app:layout_constraintDimensionRatio="1:1"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toTopOf="parent"
+      />
+
+  <ImageView
+      android:id="@+id/itemNineImgDel"
+      android:layout_width="22dp"
+      android:layout_height="22dp"
+      android:contentDescription="@null"
+      android:padding="4dp"
+      android:src="@drawable/del_img"
+      android:visibility="gone"
+      app:layout_constraintEnd_toEndOf="@id/itemNineImgIv"
+      app:layout_constraintTop_toTopOf="@id/itemNineImgIv"
+      tools:visibility="visible"
+      />
+
+  <!--上-->
+  <View
+      android:layout_width="0dp"
+      android:layout_height="1px"
+      android:background="@color/blue_6A5ACD"
+      app:layout_constraintEnd_toEndOf="@id/itemNineImgIv"
+      app:layout_constraintStart_toStartOf="@id/itemNineImgIv"
+      app:layout_constraintTop_toTopOf="@id/itemNineImgIv"
+      />
+  <!--下-->
+  <View
+      android:layout_width="0dp"
+      android:layout_height="1px"
+      android:background="@color/blue_6A5ACD"
+      app:layout_constraintBottom_toBottomOf="@id/itemNineImgIv"
+      app:layout_constraintEnd_toEndOf="@id/itemNineImgIv"
+      app:layout_constraintStart_toStartOf="@id/itemNineImgIv"
+      />
+  <!--左-->
+  <View
+      android:layout_width="1px"
+      android:layout_height="0dp"
+      android:background="@color/blue_6A5ACD"
+      app:layout_constraintBottom_toBottomOf="@id/itemNineImgIv"
+      app:layout_constraintStart_toStartOf="@id/itemNineImgIv"
+      app:layout_constraintTop_toTopOf="@id/itemNineImgIv"
+      />
+  <!--右-->
+  <View
+      android:layout_width="1px"
+      android:layout_height="0dp"
+      android:background="@color/blue_6A5ACD"
+      app:layout_constraintBottom_toBottomOf="@id/itemNineImgIv"
+      app:layout_constraintEnd_toEndOf="@id/itemNineImgIv"
+      app:layout_constraintTop_toTopOf="@id/itemNineImgIv"
+      />
+
+  <ImageView
+      android:id="@+id/itemNineImgAdd"
+      android:layout_width="match_parent"
+      android:layout_height="0dp"
+      android:background="@color/white"
+      android:contentDescription="@null"
+      android:scaleType="fitCenter"
+      android:src="@drawable/add_img"
+      android:visibility="gone"
+      app:layout_constraintDimensionRatio="1:1"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toTopOf="parent"
+      tools:visibility="visible"
+      />
+</androidx.constraintlayout.widget.ConstraintLayout>
