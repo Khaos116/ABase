@@ -2,24 +2,22 @@ package cc.abase.demo.component.sticky
 
 import android.content.Context
 import android.content.Intent
+import androidx.lifecycle.rxLifeScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.OnScrollListener
-import cc.ab.base.ext.mContext
-import cc.ab.base.ext.visible
+import cc.ab.base.ext.*
 import cc.abase.demo.R
-import cc.abase.demo.bean.local.UserScoreBean
-import cc.abase.demo.bean.local.UserStickyBean
+import cc.abase.demo.R.color
+import cc.abase.demo.bean.local.*
 import cc.abase.demo.component.comm.CommTitleActivity
-import cc.abase.demo.component.sticky.adapter.StickyHeaderAdapter2
-import cc.abase.demo.component.sticky.widget.StickyHeaderLinearLayoutManager
-import cc.abase.demo.epoxy.base.dividerItem
-import cc.abase.demo.epoxy.item.sticky2LeftItem
-import cc.abase.demo.mvrx.MvRxEpoxyController
+import cc.abase.demo.item.*
 import com.billy.android.swipe.SmartSwipeRefresh
 import com.billy.android.swipe.SmartSwipeRefresh.SmartSwipeRefreshDataLoader
 import com.blankj.utilcode.util.StringUtils
+import com.drakeet.multitype.MultiTypeAdapter
 import kotlinx.android.synthetic.main.activity_sticky2.*
+import kotlinx.coroutines.*
 
 /**
  * Description:
@@ -27,57 +25,71 @@ import kotlinx.android.synthetic.main.activity_sticky2.*
  * @date: 2020/4/21 14:34
  */
 class StickyActivity2 : CommTitleActivity() {
+  //<editor-fold defaultstate="collapsed" desc="外部跳转">
   companion object {
     fun startActivity(context: Context) {
       val intent = Intent(context, StickyActivity2::class.java)
       context.startActivity(intent)
     }
   }
+  //</editor-fold>
+
+  //<editor-fold defaultstate="collapsed" desc="变量">
+  //模拟数据
+  private val originDatas = mutableListOf<UserStickyBean>()
 
   //下拉刷新
   private var mSmartSwipeRefresh: SmartSwipeRefresh? = null
 
-  override fun layoutResContentId() = R.layout.activity_sticky2
+  //左边适配器
+  private var leftAdapter = MultiTypeAdapter()
 
+  //右边适配器
+  private var rightAdapter = MultiTypeAdapter()
+  //</editor-fold>
+
+  //<editor-fold defaultstate="collapsed" desc="XML">
+  override fun layoutResContentId() = R.layout.activity_sticky2
+  //</editor-fold>
+
+  //<editor-fold defaultstate="collapsed" desc="初始化View">
   override fun initContentView() {
     setTitleText(StringUtils.getString(R.string.title_sticky2))
-    val manager = StickyHeaderLinearLayoutManager<StickyHeaderAdapter2>(this)
-    sticky2Recycler2.layoutManager = manager
-    sticky2Recycler1.layoutManager = LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false)
-    sticky2Recycler1.setController(leftController)
+    //同步两个列表
     initScrollListener()
-    leftController.addModelBuildListener {
-      sticky2Recycler2?.postDelayed({
-        //如果不满一页，则不能加载更多了
-        if (!sticky2Recycler1.canScrollVertically(1)) mSmartSwipeRefresh?.disableLoadMore()
-        dismissLoadingView()
-        sticky2Recycler1Parent?.visible()
-        sticky2Recycler2?.visible()
-      }, 200)
-    }
     //加载更多
     mSmartSwipeRefresh = SmartSwipeRefresh.translateMode(sticky2RootView, false)
     mSmartSwipeRefresh?.disableRefresh()
     mSmartSwipeRefresh?.dataLoader = object : SmartSwipeRefreshDataLoader {
       override fun onLoadMore(ssr: SmartSwipeRefresh?) {
         //停止惯性滚动
-        sticky2Recycler1.stopScroll()
-        sticky2Recycler2.stopScroll()
-        sticky2Recycler2.postDelayed({
-          (sticky2Recycler2?.adapter as StickyHeaderAdapter2).addMoreData(originDatas.takeLast(40))
-          leftController.data?.addAll(originDatas.takeLast(40))
-          leftController.requestModelBuild()
-          mSmartSwipeRefresh?.finished(true)
-          mSmartSwipeRefresh?.isNoMoreData = true
-        }, 1000)
+        sticky2Recycler1.stopInertiaRolling()
+        sticky2Recycler2.stopInertiaRolling()
+        rxLifeScope.launch {
+          withContext(Dispatchers.IO) { delay(500) }.let {
+            fillData(originDatas.takeLast(40).toMutableList(), true)
+            mSmartSwipeRefresh?.finished(true)
+            mSmartSwipeRefresh?.isNoMoreData = true
+          }
+        }
       }
 
       override fun onRefresh(ssr: SmartSwipeRefresh?) {}
     }
+    //注册多类型
+    leftAdapter.register(Sticky2LeftItem())
+    leftAdapter.register(DividerItem())
+    rightAdapter.register(Sticky2RightItem())
+    rightAdapter.register(DividerItem())
+    //设置适配器
+    sticky2Recycler1.layoutManager = LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false)
+    sticky2Recycler2.layoutManager = LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false)
+    sticky2Recycler1.adapter = leftAdapter
+    sticky2Recycler2.adapter = rightAdapter
   }
+  //</editor-fold>
 
-  //<editor-fold defaultstate="collapsed" desc="连个列表同步滚动">
-
+  //<editor-fold defaultstate="collapsed" desc="两个列表同步滚动">
   //左边监听
   private lateinit var scrollListenerLeft: OnScrollListener
 
@@ -140,39 +152,63 @@ class StickyActivity2 : CommTitleActivity() {
   }
   //</editor-fold>
 
-  //模拟数据
-  private var originDatas = mutableListOf<UserStickyBean>()
-
-  //标题数据
-  private var titleBean = UserStickyBean(name = "", title = true)
-
+  //<editor-fold defaultstate="collapsed" desc="初始化Data">
   override fun initData() {
     showLoadingView()
-    sticky2Recycler2.postDelayed({
-      //随机增加个学生成绩
-      for (i in 0..79) originDatas.add(UserStickyBean(score = UserScoreBean()))
-      //按总成绩排序
-      originDatas = originDatas.sortedByDescending { it.score?.scores?.sum() }.toMutableList()
-      //添加标题
-      // originDatas.add(0, titleBean)//旧版本的滑动效果2
-      //第一页随机数量
-      val size = (Math.random() * 40).toInt() + 1
-      sticky2Recycler2?.adapter = StickyHeaderAdapter2(originDatas.take(size).toMutableList())
-      leftController.data = originDatas.take(size).toMutableList()
-    }, 100)
-  }
-
-  private val leftController = MvRxEpoxyController<MutableList<UserStickyBean>> { list ->
-    list.forEachIndexed { index, bean ->
-      sticky2LeftItem {
-        id(bean.name + index.toString())
-        name(bean.name)
-      }
-      dividerItem {
-        id(if (bean.title) "title_line" else "${bean.name + index.toString()}_line")
-        bgColorRes(R.color.gray)
-        heightPx(1)
+    rxLifeScope.launch {
+      withContext(Dispatchers.IO) {
+        delay(500)
+        val temp = mutableListOf<UserStickyBean>()
+        //随机增加个学生成绩
+        for (i in 0..79) temp.add(UserStickyBean(score = UserScoreBean()))
+        //按总成绩排序
+        temp.sortedByDescending { it.score?.scores?.sum() }.toMutableList()
+      }.let {
+        originDatas.addAll(it)
+        //第一页随机数量
+        val size = (Math.random() * 40).toInt() + 1
+        fillData(originDatas.take(size).toMutableList(), false)
+        dismissLoadingView()
       }
     }
   }
+  //</editor-fold>
+
+  //<editor-fold defaultstate="collapsed" desc="填充列表数据">
+  private fun fillData(list: MutableList<UserStickyBean>, more: Boolean) {
+    if (sticky2Recycler2 == null) return
+    val items1 = mutableListOf<Any>()
+    val items2 = mutableListOf<Any>()
+    if (more) { //加载更多需要旧数据
+      items1.addAll(leftAdapter.items)
+      items2.addAll(rightAdapter.items)
+    }
+    //添加新数据
+    list.forEach { userStickyBean ->
+      userStickyBean.score?.let { score ->
+        items1.add(userStickyBean.name)
+        items1.add(DividerBean(heightPx = 1, bgColor = color.gray.xmlToColor()))
+        items2.add(score)
+        items2.add(DividerBean(heightPx = 1, bgColor = color.gray.xmlToColor()))
+      }
+    }
+    leftAdapter.items = items1
+    rightAdapter.items = items2
+    leftAdapter.notifyDataSetChanged()
+    rightAdapter.notifyDataSetChanged()
+    //如果是第一次加载，判断是否可以加载更多
+    if (!more) {
+      sticky2Recycler1Parent?.visible()
+      sticky2Recycler2?.visible()
+      rxLifeScope.launch {
+        withContext(Dispatchers.IO) { delay(100) }.let {
+          //如果不满一页，则不能加载更多了
+          if (sticky2Recycler1?.canScrollVertically(1) == false) {
+            mSmartSwipeRefresh?.disableLoadMore()
+          }
+        }
+      }
+    }
+  }
+  //</editor-fold>
 }
