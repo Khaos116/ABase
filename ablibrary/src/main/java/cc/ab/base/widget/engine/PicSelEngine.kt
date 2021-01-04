@@ -32,7 +32,7 @@ class PicSelEngine : ImageEngine {
   //文件夹对应图片
   override fun loadFolderImage(context: Context, path: String, imageView: ImageView) {
     val url =
-        if (MediaUtils.instance.isVideoFile(path)) {
+        if (MediaUtils.isVideoFile(path)) {
           VideoThumbnailUriModel.makeUri(path.toFile()?.path ?: path)
         } else path
     imageView.scaleType = ImageView.ScaleType.CENTER_CROP
@@ -160,7 +160,7 @@ class PicSelEngine : ImageEngine {
   //列表预览图片的加载
   override fun loadGridImage(context: Context, path: String, imageView: ImageView) {
     val url =
-        if (MediaUtils.instance.isVideoFile(path)) {
+        if (MediaUtils.isVideoFile(path)) {
           VideoThumbnailUriModel.makeUri(path.toFile()?.path ?: path)
         } else path
     imageView.scaleType = ImageView.ScaleType.CENTER_CROP

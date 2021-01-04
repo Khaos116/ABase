@@ -10,14 +10,7 @@ import java.net.URLConnection
  * @author: CASE
  * @date: 2019/11/2 18:09
  */
-class MediaUtils private constructor() {
-  private object SingletonHolder {
-    val holder = MediaUtils()
-  }
-
-  companion object {
-    val instance = SingletonHolder.holder
-  }
+object MediaUtils {
 
   //获取文件类型
   private fun getMimeType(fileName: String?): String {
