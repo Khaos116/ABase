@@ -2,21 +2,12 @@ package cc.abase.demo.utils
 
 import cc.abase.demo.bean.local.CountryEntity
 
-
 /**
  * Description:
  * @author: CASE
  * @date: 2019/11/28 15:25
  */
-class CountryUtils private constructor() {
-  private object SingletonHolder {
-    val holder = CountryUtils()
-  }
-
-  companion object {
-    val instance = SingletonHolder.holder
-  }
-
+object CountryUtils {
   //全球国家信息
   val countries = mutableListOf(
       CountryEntity(
