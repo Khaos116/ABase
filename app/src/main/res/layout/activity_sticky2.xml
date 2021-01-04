@@ -82,10 +82,11 @@
         android:id="@+id/sticky2Recycler1Parent"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:visibility="invisible"
         tools:visibility="visible"
         >
 
-      <cc.ab.base.widget.epoxy.MyEpoxyRecyclerView
+      <androidx.recyclerview.widget.RecyclerView
           android:id="@+id/sticky2Recycler1"
           android:layout_width="80dp"
           android:layout_height="wrap_content"
@@ -115,7 +116,7 @@
         android:scrollbars="none"
         >
       <!--右边列表-->
-      <cc.ab.base.widget.epoxy.MyEpoxyRecyclerView
+      <androidx.recyclerview.widget.RecyclerView
           android:id="@+id/sticky2Recycler2"
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
@@ -127,104 +128,4 @@
           />
     </cc.abase.demo.widget.ObservableScrollView>
   </LinearLayout>
-</LinearLayout><!--旧版本的滑动效果1-->
-    <!--<LinearLayout-->
-    <!--    xmlns:android="http://schemas.android.com/apk/res/android"-->
-    <!--    xmlns:app="http://schemas.android.com/apk/res-auto"-->
-    <!--    xmlns:tools="http://schemas.android.com/tools"-->
-    <!--    android:id="@+id/sticky2RootView"-->
-    <!--    android:layout_width="match_parent"-->
-    <!--    android:layout_height="match_parent"-->
-    <!--    android:orientation="horizontal"-->
-    <!--    >-->
-
-    <!--  <androidx.constraintlayout.widget.ConstraintLayout-->
-    <!--      android:id="@+id/sticky2Recycler1Parent"-->
-    <!--      android:layout_width="wrap_content"-->
-    <!--      android:layout_height="match_parent"-->
-    <!--      android:visibility="invisible"-->
-    <!--      tools:visibility="visible"-->
-    <!--      >-->
-
-    <!--    <cc.ab.base.widget.epoxy.EpoxyRecyclerView-->
-    <!--        android:id="@+id/sticky2Recycler1"-->
-    <!--        android:layout_width="80dp"-->
-    <!--        android:layout_height="wrap_content"-->
-    <!--        android:overScrollMode="never"-->
-    <!--        android:scrollbars="none"-->
-    <!--        app:layout_constraintStart_toStartOf="parent"-->
-    <!--        app:layout_constraintTop_toTopOf="parent"-->
-    <!--        />-->
-
-    <!--    <LinearLayout-->
-    <!--        android:layout_width="80dp"-->
-    <!--        android:layout_height="wrap_content"-->
-    <!--        android:orientation="vertical"-->
-    <!--        app:layout_constraintStart_toStartOf="parent"-->
-    <!--        app:layout_constraintTop_toTopOf="parent"-->
-    <!--        >-->
-
-    <!--      <cc.abase.demo.widget.LineView-->
-    <!--          android:layout_width="80dp"-->
-    <!--          android:layout_height="40dp"-->
-    <!--          android:background="@color/gray_CCCCCC"-->
-    <!--          />-->
-
-    <!--      <View-->
-    <!--          android:layout_width="match_parent"-->
-    <!--          android:layout_height="1px"-->
-    <!--          android:background="@color/gray"-->
-    <!--          />-->
-    <!--    </LinearLayout>-->
-
-    <!--    <TextView-->
-    <!--        android:layout_width="80dp"-->
-    <!--        android:layout_height="40dp"-->
-    <!--        android:gravity="end"-->
-    <!--        android:padding="5dp"-->
-    <!--        android:text="科目"-->
-    <!--        android:textColor="@color/red"-->
-    <!--        android:textSize="14sp"-->
-    <!--        app:layout_constraintStart_toStartOf="parent"-->
-    <!--        app:layout_constraintTop_toTopOf="parent"-->
-    <!--        />-->
-
-    <!--    <TextView-->
-    <!--        android:layout_width="80dp"-->
-    <!--        android:layout_height="40dp"-->
-    <!--        android:gravity="bottom"-->
-    <!--        android:padding="5dp"-->
-    <!--        android:text="姓名"-->
-    <!--        android:textColor="@color/red"-->
-    <!--        android:textSize="14sp"-->
-    <!--        app:layout_constraintStart_toStartOf="parent"-->
-    <!--        app:layout_constraintTop_toTopOf="parent"-->
-    <!--        />-->
-
-    <!--    <View-->
-    <!--        android:layout_width="1px"-->
-    <!--        android:layout_height="0dp"-->
-    <!--        android:background="@color/gray"-->
-    <!--        app:layout_constraintBottom_toBottomOf="@+id/sticky2Recycler1"-->
-    <!--        app:layout_constraintStart_toEndOf="@id/sticky2Recycler1"-->
-    <!--        />-->
-    <!--  </androidx.constraintlayout.widget.ConstraintLayout>-->
-
-    <!--  <HorizontalScrollView-->
-    <!--      android:layout_width="wrap_content"-->
-    <!--      android:layout_height="match_parent"-->
-    <!--      android:overScrollMode="never"-->
-    <!--      android:scrollbars="none"-->
-    <!--      >-->
-
-    <!--    <cc.ab.base.widget.epoxy.EpoxyRecyclerView-->
-    <!--        android:id="@+id/sticky2Recycler2"-->
-    <!--        android:layout_width="wrap_content"-->
-    <!--        android:layout_height="match_parent"-->
-    <!--        android:overScrollMode="never"-->
-    <!--        android:scrollbars="none"-->
-    <!--        android:visibility="invisible"-->
-    <!--        tools:visibility="visible"-->
-    <!--        />-->
-    <!--  </HorizontalScrollView>-->
-    <!--</LinearLayout>-->
+</LinearLayout>
