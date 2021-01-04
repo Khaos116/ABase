@@ -9,5 +9,4 @@ import cc.abase.demo.utils.RandomName
  */
 data class UserStickyBean(
     val name: String = RandomName.randomName(Math.random() > 0.5, if (Math.random() > 0.5) 4 else 3),
-    val title: Boolean = false,
     val score: UserScoreBean? = null)
