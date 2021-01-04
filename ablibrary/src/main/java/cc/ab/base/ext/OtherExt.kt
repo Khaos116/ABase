@@ -14,6 +14,7 @@ import kotlin.coroutines.CoroutineContext
 //停止惯性滚动(SmartRefresh下拉会自动停止滚动，所以不需要调用；如果使用Swipe下拉刷新，请一定在请求接口前调用)
 fun RecyclerView.stopInertiaRolling() {
   try {
+    this.stopScroll()
     //如果是Support的RecyclerView则需要使用"cancelTouch"
     val field = this.javaClass.getDeclaredMethod("cancelScroll")
     field.isAccessible = true
