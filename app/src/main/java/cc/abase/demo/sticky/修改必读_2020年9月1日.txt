@@ -1,0 +1,3 @@
+参考：https://github.com/airbnb/epoxy/blob/master/epoxy-adapter/src/main/java/com/airbnb/epoxy/stickyheader/StickyHeaderLinearLayoutManager.kt
+主要修改内容：
+    StickyHeaderLinearLayoutManager中的变量adapter类型为泛型，由外部传入类型判断
