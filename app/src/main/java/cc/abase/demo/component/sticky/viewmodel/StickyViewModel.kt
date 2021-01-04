@@ -50,7 +50,7 @@ class StickyViewModel(
   //加载国家
   fun loadCountry() {
     Observable.just(
-        CountryUtils.instance.countries.filter {
+        CountryUtils.countries.filter {
           !it.country_phone_code.startsWith("-")
         }.toMutableList()
     )
