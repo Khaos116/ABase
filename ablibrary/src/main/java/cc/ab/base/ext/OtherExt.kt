@@ -1,9 +1,19 @@
 package cc.ab.base.ext
 
+import android.content.Intent
 import android.graphics.Color
+import android.os.Parcelable
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
+import cc.ab.base.R
+import com.blankj.utilcode.util.ActivityUtils
+import com.luck.picture.lib.PictureExternalPreviewActivity
+import com.luck.picture.lib.PictureSelectionModel
+import com.luck.picture.lib.config.PictureConfig
+import com.luck.picture.lib.entity.LocalMedia
+import com.luck.picture.lib.tools.DoubleUtils
 import kotlinx.coroutines.*
+import java.util.ArrayList
 import kotlin.coroutines.CoroutineContext
 
 /**
@@ -66,4 +76,21 @@ fun Fragment.getAllChildFragments(): MutableList<Fragment> {
     fragments.forEach { f -> list.addAll(f.getAllChildFragments()) }
   }
   return list
+}
+
+//查看大图
+fun PictureSelectionModel.openExternalPreview2(position: Int, medias: List<LocalMedia>) {
+  if (!DoubleUtils.isFastDoubleClick()) {
+    val ac = ActivityUtils.getTopActivity()
+    if (ac != null) {
+      val intent = Intent(ac, PictureExternalPreviewActivity::class.java)
+      intent.putParcelableArrayListExtra(PictureConfig.EXTRA_PREVIEW_SELECT_LIST,
+          medias as ArrayList<out Parcelable?>)
+      intent.putExtra(PictureConfig.EXTRA_POSITION, position)
+      ac.startActivity(intent)
+      ac.overridePendingTransition(R.anim.picture_anim_enter, R.anim.picture_anim_fade_in)
+    } else {
+      throw NullPointerException("Starting the PictureSelector Activity cannot be empty ")
+    }
+  }
 }
