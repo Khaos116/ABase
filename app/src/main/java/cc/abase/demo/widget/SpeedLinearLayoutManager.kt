@@ -16,7 +16,7 @@ import androidx.recyclerview.widget.RecyclerView.State
 @SuppressLint("WrongConstant")
 class SpeedLinearLayoutManager(c: Context, o: Int = VERTICAL, r: Boolean = false) : LinearLayoutManager(c, o, r) {
   /** Default value in [LinearSmoothScroller] is 25f  */
-  val MILLISECONDS_PER_INCH = 100f
+  var MILLISECONDS_PER_INCH = 100f
 
   private val linearSmoothScroller: LinearSmoothScroller = object : LinearSmoothScroller(c) {
     override fun calculateSpeedPerPixel(displayMetrics: DisplayMetrics): Float {
