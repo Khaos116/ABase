@@ -40,8 +40,8 @@ class CoordinatorActivity : CommActivity() {
     val type = (System.currentTimeMillis() % 2).toInt()
     titles.clear()
     fragments.clear()
-    titles.add(if (type == 0) "Normal1" else "Swipe1")
-    titles.add(if (type == 0) "Normal2" else "Swipe2")
+    titles.add(if (type == 0) "Normal1" else "Smart1")
+    titles.add(if (type == 0) "Normal2" else "Smart2")
     fragments = mutableListOf(
       SimpleFragment.newInstance(type),
       SimpleFragment.newInstance(type)
