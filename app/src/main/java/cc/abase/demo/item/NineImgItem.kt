@@ -27,13 +27,11 @@ class NineImgItem(
       holder.itemView.itemNineImgIv.invisible()
       holder.itemView.itemNineImgAdd.visible()
       holder.itemView.itemNineImgDel.gone()
-      holder.itemView.isLongClickable = false
     } else {
       holder.itemView.itemNineImgIv.visible()
       holder.itemView.itemNineImgAdd.gone()
       holder.itemView.itemNineImgDel.visible()
       holder.itemView.itemNineImgIv.loadSquare(item)
-      holder.itemView.isLongClickable = true
     }
     if (onDelClick != null) {
       itemView.itemNineImgDel.pressEffectAlpha(0.9f)
