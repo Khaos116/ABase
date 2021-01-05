@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/dragRoot"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/dragRoot"
     android:orientation="vertical"
     >
   <!--图片选择-->
@@ -15,5 +15,12 @@
       android:overScrollMode="never"
       android:paddingTop="174dp"
       android:scrollbars="none"
+      />
+  <!--上面一层，为了测试拖拽改变层级-->
+  <View
+      android:layout_width="match_parent"
+      android:layout_height="300dp"
+      android:layout_marginTop="150dp"
+      android:background="#55fff000"
       />
 </FrameLayout>
