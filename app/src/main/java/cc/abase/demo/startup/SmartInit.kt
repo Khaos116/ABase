@@ -2,11 +2,10 @@ package cc.abase.demo.startup
 
 import android.app.Application
 import android.content.Context
+import android.graphics.Color
 import androidx.startup.Initializer
 import cc.ab.base.ext.logI
-import cc.ab.base.ext.xmlToColor
 import cc.ab.base.startup.DoraemonInit
-import cc.abase.demo.R
 import cc.abase.demo.component.gallery.GalleryActivity
 import cc.abase.demo.component.login.LoginActivity
 import cc.abase.demo.component.main.MainActivity
@@ -69,7 +68,7 @@ class SmartInit : Initializer<Int> {
       })
       //设置全局默认配置（优先级最低，会被其他设置覆盖）
       SmartRefreshLayout.setDefaultRefreshInitializer { _, layout -> //开始设置全局的基本参数（可以被下面的DefaultRefreshHeaderCreator覆盖）
-        layout.setPrimaryColors(R.color.gray_CCCCCC.xmlToColor()) //header和footer的背景色(多传一个参数代表文字的颜色)
+        layout.setPrimaryColors(Color.parseColor("#f3f3f3")) //header和footer的背景色(多传一个参数代表文字的颜色)
         layout.setEnableLoadMoreWhenContentNotFull(false) //是否在列表不满一页时候开启上拉加载功能
         layout.setEnableScrollContentWhenLoaded(true) //是否在加载完成时滚动列表显示新的内容(false相当于加载更多是一个item)
         layout.setEnableRefresh(false) //默认不可下拉
