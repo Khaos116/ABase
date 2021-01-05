@@ -4,15 +4,19 @@ import android.app.Application
 import android.content.Context
 import androidx.startup.Initializer
 import cc.ab.base.ext.logI
+import cc.ab.base.ext.xmlToColor
 import cc.ab.base.startup.DoraemonInit
+import cc.abase.demo.R
 import cc.abase.demo.component.gallery.GalleryActivity
 import cc.abase.demo.component.login.LoginActivity
 import cc.abase.demo.component.main.MainActivity
 import cc.abase.demo.component.splash.GuideActivity
 import cc.abase.demo.component.splash.SplashActivity
 import cc.abase.demo.widget.CCRefreshHeader
+import cc.abase.demo.widget.smart.MidaMusicHeader
 import com.billy.android.swipe.SmartSwipeBack
 import com.billy.android.swipe.SmartSwipeRefresh
+import com.scwang.smart.refresh.layout.SmartRefreshLayout
 
 /**
  * Author:CASE
@@ -63,6 +67,20 @@ class SmartInit : Initializer<Int> {
           return cc.abase.demo.widget.swipe.ClassicFooter(context)
         }
       })
+      //设置全局默认配置（优先级最低，会被其他设置覆盖）
+      SmartRefreshLayout.setDefaultRefreshInitializer { _, layout -> //开始设置全局的基本参数（可以被下面的DefaultRefreshHeaderCreator覆盖）
+        layout.setPrimaryColors(R.color.gray_CCCCCC.xmlToColor()) //header和footer的背景色(多传一个参数代表文字的颜色)
+        layout.setEnableLoadMoreWhenContentNotFull(false) //是否在列表不满一页时候开启上拉加载功能
+        layout.setEnableScrollContentWhenLoaded(true) //是否在加载完成时滚动列表显示新的内容(false相当于加载更多是一个item)
+        layout.setEnableRefresh(false) //默认不可下拉
+        layout.setEnableLoadMore(false) //默认不可上拉
+        layout.setNoMoreData(true) //默认没有更多数据
+        layout.setEnableFooterFollowWhenNoMoreData(true) //是否在全部加载结束之后Footer跟随内容
+      }
+      //设置全局的Header构建器
+      SmartRefreshLayout.setDefaultRefreshHeaderCreator { context, _ -> MidaMusicHeader(context) }
+      //设置全局的Footer构建器
+      SmartRefreshLayout.setDefaultRefreshFooterCreator { context, _ -> cc.abase.demo.widget.smart.ClassicsFooter(context) }
     }
   }
 }
