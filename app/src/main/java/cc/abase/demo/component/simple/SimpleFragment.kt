@@ -4,14 +4,16 @@ import android.graphics.Color
 import android.view.Gravity
 import android.view.View
 import androidx.lifecycle.rxLifeScope
-import androidx.recyclerview.widget.LinearLayoutManager
 import cc.abase.demo.R
 import cc.abase.demo.bean.local.DividerBean
 import cc.abase.demo.bean.local.SimpleTxtBean
 import cc.abase.demo.component.comm.CommFragment
 import cc.abase.demo.item.DividerItem
 import cc.abase.demo.item.SimpleTxtItem
+import cc.abase.demo.widget.SpeedLinearLayoutManager
+import cc.abase.demo.widget.smart.MidaMusicHeader
 import com.drakeet.multitype.MultiTypeAdapter
+import com.scwang.smart.refresh.layout.api.RefreshLayout
 import kotlinx.android.synthetic.main.fragment_simple.simpleRecycler
 import kotlinx.android.synthetic.main.fragment_simple.simpleRefresh
 import kotlinx.coroutines.*
@@ -48,13 +50,15 @@ class SimpleFragment : CommFragment() {
 
   //<editor-fold defaultstate="collapsed" desc="初始化View">
   override fun initView(root: View?) {
-    simpleRecycler.layoutManager = LinearLayoutManager(mContext)
+    simpleRecycler.layoutManager = SpeedLinearLayoutManager(mContext).also { it.MILLISECONDS_PER_INCH = 50f }
     multiTypeAdapter.register(SimpleTxtItem())
     multiTypeAdapter.register(DividerItem())
     simpleRecycler.adapter = multiTypeAdapter
     simpleRefresh.setEnableLoadMore(false)
     simpleRefresh.setEnableRefresh(mType != 0)
-    //simpleRefresh.setRefreshHeader(if (System.currentTimeMillis() % 2 == 0L) BlackLoadingHeader(mContext) else MidaMusicHeader(mContext))
+    simpleRefresh.setRefreshHeader(object : MidaMusicHeader(mContext) {
+      override fun onFinish(refreshLayout: RefreshLayout, success: Boolean) = 0
+    })
     simpleRefresh.setOnRefreshListener {
       rxLifeScope.launch {
         withContext(Dispatchers.IO) { delay(2000) }.let {
@@ -75,9 +79,9 @@ class SimpleFragment : CommFragment() {
           }
           items.addAll(multiTypeAdapter.items)
           multiTypeAdapter.items = items
-          multiTypeAdapter.notifyItemRangeInserted(0, 10)
+          multiTypeAdapter.notifyItemRangeInserted(0, 20)
+          simpleRefresh.finishRefresh(0)
           simpleRecycler.smoothScrollToPosition(0)
-          simpleRefresh.finishRefresh()
         }
       }
     }
