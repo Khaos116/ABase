@@ -1,2 +1,0 @@
-参考：https://github.com/LidongWen/MultiTypeAdapter
-    基本没改什么代码，删除了多余的注释代码，MyItemTouchHelperCallback增加了私有无参构造
