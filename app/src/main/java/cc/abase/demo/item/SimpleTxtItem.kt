@@ -16,11 +16,15 @@ import kotlinx.android.synthetic.main.item_simple_text.view.itemSimpleTv
  * Time:15:22
  */
 class SimpleTxtItem(
-    private val onItemClick: ((item: SimpleTxtBean) -> Unit)? = null
+    private val height: Int = -2,
+    private val bgColor: Int = 0,
+    private val onItemClick: ((item: SimpleTxtBean) -> Unit)? = null,
 ) : BaseItemView<SimpleTxtBean>() {
   override fun layoutResId() = R.layout.item_simple_text
 
   override fun fillData(holder: ViewHolder, itemView: View, item: SimpleTxtBean) {
+    itemView.itemSimpleTv.layoutParams.height = height
+    if (bgColor != 0) itemView.itemSimpleTv.setBackgroundColor(bgColor)
     itemView.itemSimpleTv.setTextColor(item.textColor)
     itemView.itemSimpleTv.gravity = item.gravity
     itemView.itemSimpleTv.setTextSize(TypedValue.COMPLEX_UNIT_PX, item.textSizePx)

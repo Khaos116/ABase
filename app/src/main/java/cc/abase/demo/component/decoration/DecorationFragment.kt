@@ -4,14 +4,16 @@ import android.graphics.Color
 import android.view.Gravity
 import android.view.View
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.GridLayoutManager.SpanSizeLookup
+import cc.ab.base.ext.dp2Px
 import cc.ab.base.ext.toast
 import cc.abase.demo.R
+import cc.abase.demo.bean.local.SimpleTxtBean
 import cc.abase.demo.component.comm.CommFragment
-import cc.abase.demo.epoxy.item.simpleTextItem
-import cc.abase.demo.mvrx.MvRxEpoxyController
+import cc.abase.demo.item.SimpleTxtItem
 import cc.abase.demo.widget.decoration.GridSpaceItemDecoration
 import com.blankj.utilcode.util.KeyboardUtils
-import com.blankj.utilcode.util.SizeUtils
+import com.drakeet.multitype.MultiTypeAdapter
 import kotlinx.android.synthetic.main.fragment_decoration.decorRecycler
 
 /**
@@ -20,7 +22,7 @@ import kotlinx.android.synthetic.main.fragment_decoration.decorRecycler
  * @date: 2020/4/16 9:54
  */
 class DecorationFragment : CommFragment() {
-
+  //<editor-fold defaultstate="collapsed" desc="外部获取实例">
   companion object {
     fun newInstance(type: Int): DecorationFragment {
       val fragment = DecorationFragment()
@@ -28,15 +30,25 @@ class DecorationFragment : CommFragment() {
       return fragment
     }
   }
+  //</editor-fold>
 
+  //<editor-fold defaultstate="collapsed" desc="变量">
   private var mType: Int = 0
 
   //因为奇数个数的Grid容易计算出错，所以我们采用奇数个数演示
   private var mSpanCount = 3
 
-  override val contentLayout = R.layout.fragment_decoration
+  //适配器
+  private var multiTypeAdapter = MultiTypeAdapter()
+  //</editor-fold>
 
+  //<editor-fold defaultstate="collapsed" desc="XML">
+  override val contentLayout = R.layout.fragment_decoration
+  //</editor-fold>
+
+  //<editor-fold defaultstate="collapsed" desc="初始化View">
   override fun initView(root: View?) {
+    multiTypeAdapter.register(SimpleTxtItem(height = 70.dp2Px(), bgColor = Color.CYAN) { it.txt.toast() })
     //页面重建View不再重新设置
     if (decorRecycler.itemDecorationCount == 0) {
       val decorator = if (mType != 8) {
@@ -52,35 +64,9 @@ class DecorationFragment : CommFragment() {
         GridSpaceItemDecoration(20)
       }
       val layoutManager = GridLayoutManager(mContext, mSpanCount)
-      epoxyController.spanCount = mSpanCount
-      layoutManager.spanSizeLookup = epoxyController.spanSizeLookup
-      decorRecycler.layoutManager = layoutManager
-      decorRecycler.adapter = epoxyController.adapter
-      decorRecycler.addItemDecoration(decorator)
-    }
-  }
-
-  override fun initData() {
-    val datas = mutableListOf<String>()
-    for (i in 1..30) datas.add("我是第${i}个元素")
-    epoxyController.data = datas
-  }
-
-  private val epoxyController = MvRxEpoxyController<MutableList<String>> { list ->
-    list.forEachIndexed { index, s ->
-      simpleTextItem {
-        id(index)
-        gravity(Gravity.CENTER)
-        bgColor(Color.parseColor("#550fff00"))
-        heightDp(70f)
-        textSizePx(SizeUtils.dp2px(12f) * 1f)
-        bgColor(Color.CYAN)
-        bgColorRes(null)
-        msg(s)
-        spanCount = mSpanCount
-        onItemClick { mActivity.toast(s) }
-        spanSizeOverride { _, _, _ ->
-          if (mType != 8) 1 else when (index % 6) {
+      val spanSizeLookup = object : SpanSizeLookup() {
+        override fun getSpanSize(position: Int): Int {
+          return if (mType != 8) 1 else when (position % 6) {
             0 -> 6
             1 -> 3
             2 -> 3
@@ -90,11 +76,32 @@ class DecorationFragment : CommFragment() {
           }
         }
       }
+      layoutManager.spanSizeLookup = spanSizeLookup
+      decorRecycler.layoutManager = layoutManager
+      decorRecycler.adapter = multiTypeAdapter
+      decorRecycler.addItemDecoration(decorator)
     }
   }
+  //</editor-fold>
 
+  //<editor-fold defaultstate="collapsed" desc="初始化数据">
+  override fun initData() {
+    val items = mutableListOf<Any>()
+    for (i in 1..30) {
+      items.add(SimpleTxtBean(txt = "我是第${i}个元素").also { stb ->
+        stb.textSizePx = 12.dp2Px() * 1f
+        stb.gravity = Gravity.CENTER
+      })
+    }
+    multiTypeAdapter.items = items
+    multiTypeAdapter.notifyDataSetChanged()
+  }
+  //</editor-fold>
+
+  //<editor-fold defaultstate="collapsed" desc="键盘内存释放">
   override fun onDestroyView() {
     super.onDestroyView()
     KeyboardUtils.fixSoftInputLeaks(mActivity)
   }
+  //</editor-fold>
 }
