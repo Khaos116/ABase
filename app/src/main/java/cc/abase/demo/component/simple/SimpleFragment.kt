@@ -36,7 +36,6 @@ class SimpleFragment : CommFragment() {
   //</editor-fold>
 
   //<editor-fold defaultstate="collapsed" desc="变量">
-
   //类型
   private var mType = 0
 
@@ -50,7 +49,7 @@ class SimpleFragment : CommFragment() {
 
   //<editor-fold defaultstate="collapsed" desc="初始化View">
   override fun initView(root: View?) {
-    simpleRecycler.layoutManager = SpeedLinearLayoutManager(mContext).also { it.MILLISECONDS_PER_INCH = 50f }
+    simpleRecycler.layoutManager = SpeedLinearLayoutManager(mContext).also { it.MILLISECONDS_PER_INCH = 100f }
     multiTypeAdapter.register(SimpleTxtItem())
     multiTypeAdapter.register(DividerItem())
     simpleRecycler.adapter = multiTypeAdapter
