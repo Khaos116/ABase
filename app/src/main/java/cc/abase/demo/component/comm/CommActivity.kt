@@ -53,7 +53,11 @@ abstract class CommActivity : BaseActivity() {
 
   protected fun dismissLoadingView() {
     removeAllCallbacks()
-    runDismissLoading = Runnable { loadingView?.removeParent() }
+    runDismissLoading = Runnable {
+      loadingView?.pauseAnimation()
+      loadingView?.cancelAnimation()
+      loadingView?.removeParent()
+    }
     mContentView.post(runDismissLoading)
   }
 
@@ -65,7 +69,11 @@ abstract class CommActivity : BaseActivity() {
 
   protected fun dismissLoadingAndErrorView() {
     removeAllCallbacks()
-    runDismissLoading = Runnable { loadingView?.removeParent() }
+    runDismissLoading = Runnable {
+      loadingView?.pauseAnimation()
+      loadingView?.pauseAnimation()
+      loadingView?.removeParent()
+    }
     mContentView.post(runDismissLoading)
     runDismissError = Runnable { errorView?.removeParent() }
     mContentView.post(runDismissError)
@@ -113,6 +121,7 @@ abstract class CommActivity : BaseActivity() {
       loadingView?.setBackgroundColor(bgColor)
       mContentView.addView(loadingView, prams)
     }
+    loadingView?.playAnimation()
   }
 
   private fun startErrorView(msg: String? = "",
