@@ -48,7 +48,7 @@ class DragActivity : CommTitleActivity() {
   private val spaceItem = SizeUtils.dp2px(6f)
 
   //适配器
-  val multiTypeAdapter = MultiTypeAdapter()
+  private val multiTypeAdapter = MultiTypeAdapter()
   //</editor-fold>
 
   //<editor-fold defaultstate="collapsed" desc="XML">
