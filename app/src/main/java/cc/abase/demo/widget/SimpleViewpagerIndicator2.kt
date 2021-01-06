@@ -12,6 +12,7 @@ import android.widget.*
 import android.widget.LinearLayout.LayoutParams
 import androidx.viewpager.widget.ViewPager
 import androidx.viewpager.widget.ViewPager.OnPageChangeListener
+import cc.ab.base.ext.logE
 import kotlin.math.abs
 
 /**
@@ -222,6 +223,7 @@ class SimpleViewpagerIndicator2 @JvmOverloads constructor(
    * 遍历tab，设置tab文字大小和样式
    */
   private fun updateTextStyle() {
+    "selectedPosition=$selectedPosition".logE()
     for (i in 0 until tabCount) {
       val tvTab = tabsContainer.getChildAt(i) as TextView
       if (i == selectedPosition) { //被选中的tab
@@ -508,18 +510,17 @@ class SimpleViewpagerIndicator2 @JvmOverloads constructor(
           tv.setTypeface(selectedTabTypeface, tabTypefaceStyle)
         } else {
           val offset = if (positionOffset > 0.5) 2 - 2 * positionOffset else 2 * positionOffset
+          "offset=$offset".logE()
           val color = mEvaluator.evaluate(offset, selectedTabTextColor, tabTextColor) as Int
           tv.setTextColor(color)
           tv.setTypeface(selectedTabTypeface, selectedTabTypefaceStyle)
           val size = selectedTabTextSize - abs(selectedTabTextSize - tabTextSize) * offset
           tv.setTextSize(TypedValue.COMPLEX_UNIT_PX, size)
+          if (offset == 0f) selectedPosition = sel
         }
       }
       //scrollView滚动
-      scrollToChild(
-          position,
-          (positionOffset * tabsContainer.getChildAt(position).width).toInt()
-      )
+      scrollToChild(position, (positionOffset * tabsContainer.getChildAt(position).width).toInt())
       invalidate() //invalidate后onDraw会被调用,绘制indicator、divider等
       if (userPageListener != null) {
         userPageListener?.onPageScrolled(position, positionOffset, positionOffsetPixels)
@@ -531,9 +532,7 @@ class SimpleViewpagerIndicator2 @JvmOverloads constructor(
         scrollToChild(viewPager.currentItem, 0) //scrollView滚动
         updateTextStyle() //更新tab文字大小和样式
       }
-      if (userPageListener != null) {
-        userPageListener?.onPageScrollStateChanged(state)
-      }
+      if (userPageListener != null) userPageListener?.onPageScrollStateChanged(state)
     }
 
     override fun onPageSelected(position: Int) {
