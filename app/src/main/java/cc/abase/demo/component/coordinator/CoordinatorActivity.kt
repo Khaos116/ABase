@@ -71,9 +71,6 @@ class CoordinatorActivity : CommActivity() {
       titles.add((if (type == 0) "Normal" else "Smart") + i)
       fragments.add(SimpleFragment.newInstance(type))
     }
-    titles.add(if (type == 0) "Normal1" else "Smart1")
-    titles.add(if (type == 0) "Normal2" else "Smart2")
-    fragments = mutableListOf(SimpleFragment.newInstance(type), SimpleFragment.newInstance(type))
     coordinatorPager.adapter = object : FragmentPagerAdapter(supportFragmentManager, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
       override fun getItem(position: Int) = fragments[position]
 
