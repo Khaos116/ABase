@@ -211,4 +211,11 @@ abstract class CommActivity : BaseActivity() {
     super.onBackPressed()
   }
   //</editor-fold>
+
+  //<editor-fold defaultstate="collapsed" desc="防止内存泄漏">
+  override fun onDestroy() {
+    removeAllCallbacks()
+    super.onDestroy()
+  }
+  //</editor-fold>
 }
