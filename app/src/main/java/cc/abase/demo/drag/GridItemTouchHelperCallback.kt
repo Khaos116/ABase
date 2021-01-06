@@ -15,7 +15,7 @@ import java.util.Collections
 class GridItemTouchHelperCallback(
     private val mAdapter: MultiTypeAdapter,
     private val normalBgColor: Int = 0,
-    private val dragBgColor: Int = 0,
+    private val dragBgColor: Int = Color.parseColor("#f7f7f7"),
     private val dragStart: (() -> Unit)? = null,
     private val dragEnd: (() -> Unit)? = null,
     //特定位置是否可以交换和拖动(默认全部可以拖拽)
