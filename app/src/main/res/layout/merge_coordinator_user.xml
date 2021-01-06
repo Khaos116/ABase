@@ -2,6 +2,7 @@
 <merge
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -11,27 +12,31 @@
       android:id="@+id/coordinatorUserAppBar"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
-      android:background="#323333"
+      android:background="@color/transparent"
       app:elevation="0dp"
       app:layout_behavior="cc.abase.demo.widget.coordinator.FixAppBarLayoutBehavior"
       >
     <!--需要滑动隐藏的部分-->
+    <!--TAB导航-->
     <com.google.android.material.appbar.CollapsingToolbarLayout
+        android:id="@+id/coordinatorUserCTL"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:collapsedTitleGravity="center"
-        app:collapsedTitleTextAppearance="@style/CollapsingTextAppearance"
-        app:contentScrim="#eeeeee"
-        app:expandedTitleMarginBottom="28dp"
-        app:expandedTitleMarginStart="21dp"
-        app:expandedTitleTextAppearance="@style/CollapsingTextAppearance.Inverse"
+        app:collapsedTitleGravity="center_vertical"
+        app:collapsedTitleTextAppearance="@style/CollapsingTextAppearance.Black17"
+        app:contentScrim="@color/transparent"
+        app:expandedTitleGravity="top|start"
+        app:expandedTitleMarginEnd="70dp"
+        app:expandedTitleMarginStart="99dp"
+        app:expandedTitleMarginTop="129dp"
+        app:expandedTitleTextAppearance="@style/CollapsingTextAppearance.White21"
         app:layout_scrollFlags="scroll|exitUntilCollapsed|snap"
         >
       <!--整个头部-->
       <include
-          layout="@layout/layout_user_info_head"
+          layout="@layout/layout_user_head"
           android:layout_width="match_parent"
-          android:layout_height="180dp"
+          android:layout_height="wrap_content"
           app:layout_collapseMode="parallax"
           />
       <!--顶部占位高度-->
@@ -39,40 +44,19 @@
           android:id="@+id/coordinatorUserToolbar"
           android:layout_width="match_parent"
           android:layout_height="49dp"
-          android:fitsSystemWindows="true"
+          android:gravity="center_vertical|start"
           app:contentInsetStart="0dp"
           app:layout_collapseMode="pin"
-          >
-
-        <ImageView
-            android:id="@+id/coordinatorUserTitleBack"
-            android:layout_width="49dp"
-            android:layout_height="49dp"
-            android:contentDescription="@null"
-            android:padding="12dp"
-            android:src="@drawable/svg_back_black"
-            />
-
-        <TextView
-            android:id="@+id/coordinatorUserTitleName"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginEnd="49dp"
-            android:gravity="center_vertical"
-            android:singleLine="true"
-            android:text="Mr.Sandiag"
-            android:textColor="#333333"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            />
-      </androidx.appcompat.widget.Toolbar>
+          app:titleMarginStart="49dp"
+          tools:title="这是用户的名字"
+          />
     </com.google.android.material.appbar.CollapsingToolbarLayout>
-    <!--TAB导航-->
-    <cc.abase.demo.widget.SimpleViewpagerIndicator
+
+    <cc.abase.demo.widget.SimpleViewpagerIndicator2
         android:id="@+id/coordinatorUserIndicator"
         android:layout_width="match_parent"
         android:layout_height="42dp"
-        android:background="#eeeeee"
+        android:background="#F7F8FA"
         />
   </com.google.android.material.appbar.AppBarLayout>
 </merge>
