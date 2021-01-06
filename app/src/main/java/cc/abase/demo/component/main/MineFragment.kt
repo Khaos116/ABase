@@ -13,7 +13,7 @@ import cc.abase.demo.component.comm.CommFragment
 import cc.abase.demo.component.coordinator.CoordinatorActivity
 import cc.abase.demo.component.decoration.DecorationActivity
 import cc.abase.demo.component.drag.DragActivity
-import cc.abase.demo.component.expand.EpoxyExpandActivity
+import cc.abase.demo.component.expand.ExpandActivity
 import cc.abase.demo.component.ffmpeg.RxFFmpegActivity
 import cc.abase.demo.component.flexbox.FlexboxActivity
 import cc.abase.demo.component.marquee.MarqueeActivity
@@ -73,7 +73,7 @@ class MineFragment : CommFragment() {
       Pair(R.string.title_drag.xmlToString(), DragActivity::class.java),
       Pair(R.string.title_spedit.xmlToString(), SpeditActivity::class.java),
       Pair(R.string.coordinator_refresh.xmlToString(), CoordinatorActivity::class.java),
-      Pair(R.string.epoxy_expandable.xmlToString(), EpoxyExpandActivity::class.java),
+      Pair(R.string.expandable.xmlToString(), ExpandActivity::class.java),
       Pair(R.string.title_play_list.xmlToString(), PlayListActivity::class.java),
       Pair(R.string.title_play_pager.xmlToString(), VerticalPagerActivity::class.java),
       Pair(R.string.title_vertical_page.xmlToString(), RecyclerPagerActivity::class.java),

@@ -50,7 +50,7 @@
   <string name="already_at">你已经@过Ta啦！</string>
   <string name="spedit_input_hint">在这里输入内容</string>
   <string name="coordinator_refresh">Coordinator嵌套下拉刷新</string>
-  <string name="epoxy_expandable">Epoxy收缩展开效果</string>
+  <string name="expandable">列表收缩展开效果</string>
   <string name="title_play_list">列表中视频播放</string>
   <string name="title_play_pager">VerticalViewPager仿抖音</string>
   <string name="title_vertical_page">RecyclerView仿抖音</string>

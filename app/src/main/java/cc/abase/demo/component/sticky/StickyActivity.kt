@@ -11,7 +11,7 @@ import cc.abase.demo.R
 import cc.abase.demo.bean.local.DividerBean
 import cc.abase.demo.bean.local.ProvinceBean
 import cc.abase.demo.component.comm.CommTitleActivity
-import cc.abase.demo.component.sticky.viewmodel.StickyViewModel2
+import cc.abase.demo.component.sticky.viewmodel.StickyViewModel
 import cc.abase.demo.constants.EventKeys
 import cc.abase.demo.item.*
 import cc.abase.demo.sticky.StickyAnyAdapter
@@ -42,7 +42,7 @@ class StickyActivity : CommTitleActivity() {
 
   //<editor-fold defaultstate="collapsed" desc="变量">
   //数据层
-  private val viewModel: StickyViewModel2 by lazy { StickyViewModel2() }
+  private val viewModel: StickyViewModel by lazy { StickyViewModel() }
 
   //是否需要选择
   private var needChoose = false
