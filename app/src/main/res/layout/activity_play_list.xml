@@ -4,7 +4,7 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-  <cc.ab.base.widget.epoxy.MyEpoxyRecyclerView
+  <androidx.recyclerview.widget.RecyclerView
       android:id="@+id/playListRecycler"
       android:layout_width="match_parent"
       android:layout_height="match_parent"
