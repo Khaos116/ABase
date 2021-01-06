@@ -47,7 +47,7 @@ class ExpandActivity : CommTitleActivity() {
 
   //<editor-fold defaultstate="collapsed" desc="初始化View">
   override fun initContentView() {
-    setTitleText(StringUtils.getString(R.string.epoxy_expandable))
+    setTitleText(StringUtils.getString(R.string.expandable))
     multiTypeAdapter.register(StickyTopItem { pb ->
       val items = multiTypeAdapter.items.toMutableList()
       val index = items.indexOf(pb)
