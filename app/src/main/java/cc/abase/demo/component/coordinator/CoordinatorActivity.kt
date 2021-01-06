@@ -66,7 +66,7 @@ class CoordinatorActivity : CommActivity() {
     val type = (System.currentTimeMillis() % 2).toInt()
     titles.clear()
     fragments.clear()
-    val size = 2 + (Math.random() * 6).toInt()
+    val size = 2 + (Math.random() * 4).toInt()
     for (i in 1..size) {
       titles.add((if (type == 0) "Normal" else "Smart") + i)
       fragments.add(SimpleFragment.newInstance(type))
