@@ -2,15 +2,17 @@
 <FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
+    tools:context=".component.coordinator.CoordinatorActivity"
     >
 
   <cc.abase.demo.widget.coordinator.CoordinatorUserLayout
-      android:id="@+id/coordinatorUserLayout"
+      android:id="@+id/coordinatorCoordinator"
       android:layout_width="match_parent"
       android:layout_height="match_parent"
+      android:background="@color/transparent"
       >
 
     <androidx.viewpager.widget.ViewPager
@@ -22,4 +24,13 @@
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         />
   </cc.abase.demo.widget.coordinator.CoordinatorUserLayout>
+
+  <ImageView
+      android:id="@+id/coordinatorBack"
+      android:layout_width="49dp"
+      android:layout_height="49dp"
+      android:contentDescription="@null"
+      android:padding="12dp"
+      android:src="@drawable/svg_back_black"
+      />
 </FrameLayout>
