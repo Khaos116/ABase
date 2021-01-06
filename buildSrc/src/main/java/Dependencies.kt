@@ -169,4 +169,7 @@ object Deps {
 
   //https://github.com/wasabeef/recyclerview-animators
   const val rv_anim = "com.mikepenz:itemanimators:1.1.0"
+
+  //指示器 https://github.com/hackware1993/MagicIndicator/tree/androidx
+  const val indicator = "com.github.hackware1993:MagicIndicator:1.7.0"
 }

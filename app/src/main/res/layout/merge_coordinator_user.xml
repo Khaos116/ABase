@@ -52,7 +52,7 @@
           />
     </com.google.android.material.appbar.CollapsingToolbarLayout>
 
-    <cc.abase.demo.widget.SimpleViewpagerIndicator2
+    <net.lucode.hackware.magicindicator.MagicIndicator
         android:id="@+id/coordinatorUserIndicator"
         android:layout_width="match_parent"
         android:layout_height="42dp"
