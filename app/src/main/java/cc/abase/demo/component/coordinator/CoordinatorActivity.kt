@@ -6,6 +6,8 @@ import android.content.Intent
 import android.graphics.Color
 import android.graphics.Typeface
 import android.view.ViewGroup.MarginLayoutParams
+import android.view.animation.AccelerateInterpolator
+import android.view.animation.DecelerateInterpolator
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentPagerAdapter
@@ -14,11 +16,16 @@ import cc.abase.demo.R
 import cc.abase.demo.component.comm.CommActivity
 import cc.abase.demo.component.simple.SimpleFragment
 import cc.abase.demo.utils.RandomName
+import cc.abase.demo.widget.indicator.ScaleTransitionPagerTitleView
 import com.google.android.material.appbar.AppBarLayout
 import kotlinx.android.synthetic.main.activity_coordinator.*
 import kotlinx.android.synthetic.main.layout_user_head.view.*
 import kotlinx.android.synthetic.main.merge_coordinator_user.view.coordinatorUserCTL
 import kotlinx.android.synthetic.main.merge_coordinator_user.view.coordinatorUserToolbar
+import net.lucode.hackware.magicindicator.ViewPagerHelper
+import net.lucode.hackware.magicindicator.buildins.commonnavigator.CommonNavigator
+import net.lucode.hackware.magicindicator.buildins.commonnavigator.abs.*
+import net.lucode.hackware.magicindicator.buildins.commonnavigator.indicators.LinePagerIndicator
 import kotlin.math.abs
 import kotlin.math.min
 
@@ -59,6 +66,11 @@ class CoordinatorActivity : CommActivity() {
     val type = (System.currentTimeMillis() % 2).toInt()
     titles.clear()
     fragments.clear()
+    val size = 2 + (Math.random() * 6).toInt()
+    for (i in 1..size) {
+      titles.add((if (type == 0) "Normal" else "Smart") + i)
+      fragments.add(SimpleFragment.newInstance(type))
+    }
     titles.add(if (type == 0) "Normal1" else "Smart1")
     titles.add(if (type == 0) "Normal2" else "Smart2")
     fragments = mutableListOf(SimpleFragment.newInstance(type), SimpleFragment.newInstance(type))
@@ -69,28 +81,49 @@ class CoordinatorActivity : CommActivity() {
 
       override fun getPageTitle(position: Int) = titles[position]
     }
+    coordinatorPager.offscreenPageLimit = fragments.size
     //加载页面
     coordinatorCoordinator.indicator?.let {
-      it.setExpand(true) //设置tab宽度为包裹内容还是平分父控件剩余空间，默认值：false,包裹内容
-          .setIndicatorWrapText(true) //设置indicator是与文字等宽还是与整个tab等宽，默认值：true,与文字等宽
-          .setIndicatorHeight(4)
-          .setTabRound(2) //设置固定的指示器圆角
-          .setIndicatorColor(R.color.yellow_FF6100.xmlToColor()) //indicator颜色
-          .setTabTextSize(15) //文字大小
-          .setTabTextColor(Color.parseColor("#87827D")) //文字颜色
-          .setTabTypeface(null) //字体
-          .setTabTypefaceStyle(Typeface.NORMAL) //字体样式：粗体、斜体等
-          .setTabBackgroundResId(0) //设置tab的背景
-          .setTabPadding(12) //设置tab的左右padding
-          .setParentPadding(4)
-          .setSelectedTabTextSize(17) //被选中的文字大小
-          .setSelectedTabTextColor(Color.parseColor("#08080D")) //被选中的文字颜色
-          .setSelectedTabTypeface(null)
-          .setSelectedTabTypefaceStyle(Typeface.BOLD)
-          .setTabTransY(-4f) //导航器偏移量
-          .setTextTransY(0f) //tab文字偏移量
-          .setScrollOffset(120) //滚动偏移量
-      it.setViewPager(coordinatorPager)
+      val commonNavigator = CommonNavigator(mContext)
+      commonNavigator.isAdjustMode = titles.size <= 3 //设置是否等分
+      commonNavigator.adapter = object : CommonNavigatorAdapter() {
+        override fun getCount() = titles.size
+
+        override fun getTitleView(context: Context, index: Int): IPagerTitleView {
+          val simplePagerTitleView: ScaleTransitionPagerTitleView = object : ScaleTransitionPagerTitleView(context) {
+            override fun onSelected(index: Int, totalCount: Int) {
+              super.onSelected(index, totalCount)
+              setTypeface(Typeface.DEFAULT, Typeface.BOLD)
+            }
+
+            override fun onDeselected(index: Int, totalCount: Int) {
+              super.onDeselected(index, totalCount)
+              setTypeface(Typeface.DEFAULT, Typeface.NORMAL)
+            }
+          }
+          simplePagerTitleView.text = titles[index]
+          simplePagerTitleView.textSize = 18f
+          simplePagerTitleView.minScale = 0.8f
+          simplePagerTitleView.normalColor = R.color.gray_808A87.xmlToColor()
+          simplePagerTitleView.selectedColor = R.color.yellow_FF6100.xmlToColor()
+          simplePagerTitleView.setOnClickListener { coordinatorPager.currentItem = index }
+          return simplePagerTitleView
+        }
+
+        override fun getIndicator(context: Context): IPagerIndicator {
+          val indicator = LinePagerIndicator(context)
+          indicator.mode = LinePagerIndicator.MODE_WRAP_CONTENT
+          indicator.startInterpolator = AccelerateInterpolator()
+          indicator.endInterpolator = DecelerateInterpolator(1.6f)
+          indicator.yOffset = 8.dp2Px() * 1f
+          indicator.lineHeight = 2.dp2Px() * 1f
+          indicator.roundRadius = indicator.lineHeight / 2f
+          indicator.setColors(R.color.yellow_FF6100.xmlToColor())
+          return indicator
+        }
+      }
+      it.navigator = commonNavigator
+      ViewPagerHelper.bind(it, coordinatorPager)
     }
     //滑动变化
     coordinatorCoordinator.appBar?.let { bar ->
