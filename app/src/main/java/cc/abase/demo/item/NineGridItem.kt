@@ -22,6 +22,7 @@ import kotlinx.android.synthetic.main.item_nine_grid.view.itemNineGridRecycler
  */
 class NineGridItem(
     private val onItemImgClick: ((url: String, position: Int, iv: ImageView, list: MutableList<String>) -> Unit)? = null,
+    private val onItemClick: ((url: String) -> Unit)? = null,
 ) : BaseItemView<GridImageBean>() {
   //<editor-fold defaultstate="collapsed" desc="变量">
   //Item间距
@@ -50,6 +51,8 @@ class NineGridItem(
     recyclerView.adapter = multiTypeAdapter
     multiTypeAdapter.items = list
     multiTypeAdapter.notifyDataSetChanged()
+    //点击事件会导致拖拽无法触发
+    //itemView.click { onItemClick?.invoke(item.url) }
     //拖拽开始---->>>先置空，防止复用的时候一样的RecyclerView导致不执行attachToRecyclerView
     mapHelper[recyclerView.hashCode()]?.attachToRecyclerView(null)
     ItemTouchHelper(GridItemTouchHelperCallback(multiTypeAdapter))
