@@ -3,6 +3,7 @@ package cc.abase.demo.component.simple
 import android.graphics.Color
 import android.view.Gravity
 import androidx.lifecycle.rxLifeScope
+import cc.ab.base.ext.noMoreData
 import cc.abase.demo.R
 import cc.abase.demo.bean.local.DividerBean
 import cc.abase.demo.bean.local.SimpleTxtBean
@@ -52,7 +53,6 @@ class SimpleFragment : CommFragment() {
     multiTypeAdapter.register(SimpleTxtItem())
     multiTypeAdapter.register(DividerItem())
     simpleRecycler.adapter = multiTypeAdapter
-    simpleRefresh.setEnableLoadMore(false)
     simpleRefresh.setEnableRefresh(mType != 0)
     simpleRefresh.setRefreshHeader(object : MidaMusicHeader(mContext) {
       override fun onFinish(refreshLayout: RefreshLayout, success: Boolean) = 0
@@ -80,6 +80,7 @@ class SimpleFragment : CommFragment() {
           multiTypeAdapter.notifyItemRangeInserted(0, 20)
           simpleRefresh.finishRefresh(0)
           simpleRecycler.smoothScrollToPosition(0)
+          simpleRefresh.noMoreData()
         }
       }
     }
@@ -99,6 +100,7 @@ class SimpleFragment : CommFragment() {
     }
     multiTypeAdapter.items = items
     multiTypeAdapter.notifyDataSetChanged()
+    simpleRefresh.noMoreData()
   }
   //</editor-fold>
 }
