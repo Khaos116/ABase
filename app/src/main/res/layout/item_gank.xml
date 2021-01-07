@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingTop="5dp"
+    android:paddingBottom="5dp"
+    >
+
+  <TextView
+      android:id="@+id/itemGankTime"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:paddingStart="12dp"
+      android:paddingEnd="12dp"
+      android:paddingBottom="5dp"
+      android:textColor="@color/colorAccent"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toTopOf="parent"
+      tools:text="2020-07-16 13:29:11"
+      />
+
+  <TextView
+      android:id="@+id/itemGankTitle"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:paddingStart="12dp"
+      android:paddingEnd="12dp"
+      android:paddingBottom="5dp"
+      android:textColor="@color/black"
+      android:textSize="14sp"
+      android:textStyle="bold"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toBottomOf="@id/itemGankTime"
+      tools:text="LiveData 数据倒灌：别问，问就是不可预期"
+      />
+
+  <TextView
+      android:id="@+id/itemGankDes"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:paddingStart="12dp"
+      android:paddingEnd="12dp"
+      android:paddingBottom="5dp"
+      android:textColor="@color/gray_444444"
+      android:textSize="12sp"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toBottomOf="@id/itemGankTitle"
+      tools:text="介绍 LiveData 数据倒灌现象，以及 SingleLiveEvent 的完美替代解决方案"
+      />
+
+  <TextView
+      android:id="@+id/itemGankSeeHint"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:paddingStart="12sp"
+      android:paddingEnd="5dp"
+      android:text="@string/gank_see_counts"
+      android:textColor="@color/gray_808A87"
+      android:textSize="10sp"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toBottomOf="@id/itemGankDes"
+      />
+
+  <TextView
+      android:id="@+id/itemGankSeeCounts"
+      android:layout_width="wrap_content"
+      android:layout_height="0dp"
+      android:textColor="@color/gray_808A87"
+      android:textSize="10sp"
+      app:layout_constraintBottom_toBottomOf="@id/itemGankSeeHint"
+      app:layout_constraintStart_toEndOf="@id/itemGankSeeHint"
+      app:layout_constraintTop_toTopOf="@id/itemGankSeeHint"
+      tools:text="12"
+      />
+
+  <TextView
+      android:id="@+id/itemGankStoreHint"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginEnd="20dp"
+      android:paddingStart="12sp"
+      android:paddingEnd="5dp"
+      android:text="@string/gank_store_counts"
+      android:textColor="@color/gray_808A87"
+      android:textSize="10sp"
+      app:layout_constraintBottom_toBottomOf="@id/itemGankSeeHint"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toTopOf="@id/itemGankSeeHint"
+      />
+
+  <TextView
+      android:id="@+id/itemGankStoreCounts"
+      android:layout_width="wrap_content"
+      android:layout_height="0dp"
+      android:textColor="@color/gray_808A87"
+      android:textSize="10sp"
+      app:layout_constraintBottom_toBottomOf="@id/itemGankStoreHint"
+      app:layout_constraintStart_toEndOf="@id/itemGankStoreHint"
+      app:layout_constraintTop_toTopOf="@id/itemGankStoreHint"
+      tools:text="122"
+      />
+
+  <TextView
+      android:id="@+id/itemGankPraiseHint"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:text="@string/gank_praise_counts"
+      android:textColor="@color/gray_808A87"
+      android:textSize="10sp"
+      app:layout_constraintBottom_toBottomOf="@id/itemGankSeeHint"
+      app:layout_constraintEnd_toStartOf="@id/itemGankPraiseCounts"
+      app:layout_constraintTop_toTopOf="@id/itemGankSeeHint"
+      />
+
+  <TextView
+      android:id="@+id/itemGankPraiseCounts"
+      android:layout_width="wrap_content"
+      android:layout_height="0dp"
+      android:paddingStart="5dp"
+      android:paddingEnd="12dp"
+      android:textColor="@color/gray_808A87"
+      android:textSize="10sp"
+      app:layout_constraintBottom_toBottomOf="@id/itemGankPraiseHint"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintTop_toTopOf="@id/itemGankPraiseHint"
+      tools:text="1222"
+      />
+</androidx.constraintlayout.widget.ConstraintLayout>
