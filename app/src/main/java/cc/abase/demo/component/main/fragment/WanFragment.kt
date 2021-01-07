@@ -1,5 +1,6 @@
 package cc.abase.demo.component.main.fragment
 
+import android.graphics.Color
 import androidx.recyclerview.widget.LinearLayoutManager
 import cc.ab.base.ui.viewmodel.DataState
 import cc.abase.demo.R
@@ -39,7 +40,7 @@ class WanFragment private constructor() : CommFragment() {
   private val mViewModel: WanViewModel by lazy { WanViewModel() }
 
   //多类型适配器
-  private val stickyAdapter = object : StickyAnyAdapter() {
+  private val stickyAdapter = object : StickyAnyAdapter(bgColor = Color.CYAN) {
     override fun isStickyHeader(position: Int): Boolean {
       return position == 1
     }
