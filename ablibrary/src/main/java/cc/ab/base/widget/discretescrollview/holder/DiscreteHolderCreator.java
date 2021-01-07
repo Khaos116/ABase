@@ -10,7 +10,7 @@ import org.jetbrains.annotations.NotNull;
  * @date: 2019/10/14 11:37
  */
 public interface DiscreteHolderCreator {
-  DiscreteHolder createHolder(@NotNull View itemView);
-
   int getLayoutId();
+
+  DiscreteHolder createHolder(@NotNull View itemView);
 }
