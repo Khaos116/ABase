@@ -21,7 +21,7 @@ data class GankAndroidBean(
     val title: String? = null,//"Kotlin-Coroutines-Android-Examples",
     val type: String? = null,//"Android",
     val url: String? = null,//"https://github.com/MindorksOpenSource/Kotlin-Coroutines-Android-Examples",
-    val views: String? = null//115
+    val views: Int = 0//115
 ) {
 
   //获取非空图片地址
