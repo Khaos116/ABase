@@ -67,6 +67,11 @@ fun Throwable?.logE() {
   this?.message?.logE()
 }
 
+//吐司异常
+fun Throwable?.toast() {
+  this?.message?.toast()
+}
+
 //找到所有子fragment
 fun Fragment.getAllChildFragments(): MutableList<Fragment> {
   val list = mutableListOf<Fragment>()
