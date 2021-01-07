@@ -15,11 +15,9 @@ import cc.abase.demo.item.*
 import cc.abase.demo.widget.SpeedLinearLayoutManager
 import com.blankj.utilcode.util.StringUtils
 import com.drakeet.multitype.MultiTypeAdapter
-import kotlinx.android.synthetic.main.activity_epoxy_expand.expandRecycler
+import kotlinx.android.synthetic.main.activity_expand.expandRecycler
 
 /**
- * Description: https://proandroiddev.com/expandable-recyclerview-with-epoxy-100515f5d026
- *
  * @author: CASE
  * @date: 2019/12/6 21:24
  */
@@ -41,8 +39,8 @@ class ExpandActivity : CommTitleActivity() {
   private val multiTypeAdapter = MultiTypeAdapter()
   //</editor-fold>
 
-  //<editor-fold defaultstate="collapsed" desc="注释">
-  override fun layoutResContentId() = R.layout.activity_epoxy_expand
+  //<editor-fold defaultstate="collapsed" desc="XML">
+  override fun layoutResContentId() = R.layout.activity_expand
   //</editor-fold>
 
   //<editor-fold defaultstate="collapsed" desc="初始化View">
