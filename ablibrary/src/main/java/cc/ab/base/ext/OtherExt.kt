@@ -104,6 +104,13 @@ fun PictureSelectionModel.openExternalPreview2(position: Int, medias: List<Local
 //设置没有更多的显示
 fun SmartRefreshLayout?.noMoreData() {
   this?.setEnableLoadMore(true)
-  this?.resetNoMoreData() //防止下一个设置无效，所以先重置
+  this?.setNoMoreData(false) //防止下一个设置无效，所以先重置
   this?.setNoMoreData(true)
+}
+
+//设置还有更多的显示
+fun SmartRefreshLayout?.hasMoreData() {
+  this?.setEnableLoadMore(true)
+  this?.setNoMoreData(true) //防止下一个设置无效，所以先重置
+  this?.setNoMoreData(false)
 }
