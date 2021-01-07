@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingTop="5dp"
+    >
+
+  <TextView
+      android:id="@+id/itemArticleCapterName"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:paddingStart="12dp"
+      android:paddingEnd="12dp"
+      android:paddingBottom="5dp"
+      android:textColor="@color/colorPrimary"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toTopOf="parent"
+      tools:text="项目基础功能"
+      />
+
+  <TextView
+      android:id="@+id/itemArticleTime"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:paddingStart="12dp"
+      android:paddingEnd="12dp"
+      android:paddingBottom="5dp"
+      android:textColor="@color/colorAccent"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintTop_toTopOf="@id/itemArticleTime"
+      tools:text="2020-07-16 13:29:11"
+      />
+
+
+  <TextView
+      android:id="@+id/itemArticleTitle"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:paddingStart="12dp"
+      android:paddingEnd="12dp"
+      android:paddingBottom="5dp"
+      android:textColor="@color/black"
+      android:textSize="14sp"
+      android:textStyle="bold"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toBottomOf="@id/itemArticleTime"
+      tools:text="自定义控件通用库 WidgetCase"
+      />
+
+  <TextView
+      android:id="@+id/itemArticleDes"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:paddingStart="12dp"
+      android:paddingEnd="12dp"
+      android:paddingBottom="5dp"
+      android:textColor="@color/gray_444444"
+      android:textSize="12sp"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toBottomOf="@id/itemArticleTitle"
+      tools:text="自定义控件通用库：拿来就用，API文档详细，持续集成，长期维护"
+      />
+
+  <View
+      android:id="@+id/itemArticleLine"
+      android:layout_width="match_parent"
+      android:layout_height="1px"
+      android:layout_marginTop="5dp"
+      android:background="@color/blue"
+      app:layout_constraintTop_toBottomOf="@id/itemArticleDes"
+      />
+</androidx.constraintlayout.widget.ConstraintLayout>
