@@ -2,6 +2,7 @@ package cc.abase.demo.component.playlist
 
 import android.content.Context
 import android.content.Intent
+import android.view.MotionEvent
 import android.view.View
 import androidx.viewpager.widget.ViewPager
 import cc.ab.base.ext.*
@@ -23,14 +24,16 @@ import kotlinx.android.synthetic.main.activity_play_pager.*
  * @date: 2019/12/12 11:33
  */
 class VerticalPagerActivity : CommActivity() {
-
+  //<editor-fold defaultstate="collapsed" desc="外部跳转">
   companion object {
     fun startActivity(context: Context) {
       val intent = Intent(context, VerticalPagerActivity::class.java)
       context.startActivity(intent)
     }
   }
+  //</editor-fold>
 
+  //<editor-fold defaultstate="collapsed" desc="变量">
   //当前播放位置
   private var mCurPos = 0
 
@@ -48,15 +51,21 @@ class VerticalPagerActivity : CommActivity() {
 
   //数据层
   private val viewModel: VerticalPagerViewModel by lazy { VerticalPagerViewModel() }
+  //</editor-fold>
 
+  //<editor-fold defaultstate="collapsed" desc="状态栏操作">
   override fun fillStatus() = false
 
   override fun initStatus() {
     immersionBar { statusBarDarkFont(false) }
   }
+  //</editor-fold>
 
+  //<editor-fold defaultstate="collapsed" desc="XML">
   override fun layoutResId() = R.layout.activity_play_pager
+  //</editor-fold>
 
+  //<editor-fold defaultstate="collapsed" desc="初始化View">
   override fun initView() {
     //返回按钮
     verticalPagerBack.pressEffectAlpha()
@@ -76,7 +85,9 @@ class VerticalPagerActivity : CommActivity() {
     verticalPagerRefresh.setEnableLoadMore(false) //暂时禁止上拉加载
     verticalPagerRefresh.setOnLoadMoreListener { viewModel.loadMore() }
   }
+  //</editor-fold>
 
+  //<editor-fold defaultstate="collapsed" desc="初始化Data">
   override fun initData() {
     viewModel.videoLiveData.observe(this) {
       when (it) {
@@ -110,7 +121,9 @@ class VerticalPagerActivity : CommActivity() {
     }
     viewModel.loadData()
   }
+  //</editor-fold>
 
+  //<editor-fold defaultstate="collapsed" desc="拿到数据第一次初始化Adapter">
   //初始化adapter
   private fun initAdapter(datas: MutableList<VideoBean>) {
     if (mVerticalPagerAdapter == null && verticalPagerViewPager != null) {
@@ -142,7 +155,9 @@ class VerticalPagerActivity : CommActivity() {
       }
     }
   }
+  //</editor-fold>
 
+  //<editor-fold defaultstate="collapsed" desc="播放视频">
   //开始播放
   private fun startPlay(position: Int) {
     //预加载更多
@@ -171,4 +186,19 @@ class VerticalPagerActivity : CommActivity() {
       if (findCount >= 3) break
     }
   }
+  //</editor-fold>
+
+  //<editor-fold defaultstate="collapsed" desc="防止闪退">
+  override fun dispatchTouchEvent(ev: MotionEvent?): Boolean {
+    return try {
+      super.dispatchTouchEvent(ev)
+    } catch (e: Exception) {
+      e.printStackTrace()
+      if (ev != null && (ev.action and MotionEvent.ACTION_MASK) == MotionEvent.ACTION_UP) {
+        verticalPagerViewPager.scrollBy(1, 0)
+      }
+      false
+    }
+  }
+  //</editor-fold>
 }
