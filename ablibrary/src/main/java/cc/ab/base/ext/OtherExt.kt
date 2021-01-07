@@ -12,6 +12,7 @@ import com.luck.picture.lib.PictureSelectionModel
 import com.luck.picture.lib.config.PictureConfig
 import com.luck.picture.lib.entity.LocalMedia
 import com.luck.picture.lib.tools.DoubleUtils
+import com.scwang.smart.refresh.layout.SmartRefreshLayout
 import kotlinx.coroutines.*
 import java.util.ArrayList
 import kotlin.coroutines.CoroutineContext
@@ -98,4 +99,11 @@ fun PictureSelectionModel.openExternalPreview2(position: Int, medias: List<Local
       throw NullPointerException("Starting the PictureSelector Activity cannot be empty ")
     }
   }
+}
+
+//设置没有更多的显示
+fun SmartRefreshLayout?.noMoreData() {
+  this?.setEnableLoadMore(true)
+  this?.resetNoMoreData() //防止下一个设置无效，所以先重置
+  this?.setNoMoreData(true)
 }
