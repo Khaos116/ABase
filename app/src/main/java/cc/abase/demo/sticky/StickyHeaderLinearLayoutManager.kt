@@ -15,15 +15,6 @@ import kotlinx.android.parcel.Parcelize
  * Adds sticky headers capabilities to your [RecyclerView.Adapter].
  * The adapter / controller must override [StickyHeaderCallbacks.isStickyHeader] to
  * indicate which items are sticky.
- *
- * Example usage:
- * ```
- *  class StickyHeaderController() : EpoxyController() {
- *      override fun isStickyHeader(position: Int) {
- *          // Write your logic to tell which item is sticky.
- *      }
- *  }
- * ```
  */
 class StickyHeaderLinearLayoutManager<T>
 @JvmOverloads constructor(
