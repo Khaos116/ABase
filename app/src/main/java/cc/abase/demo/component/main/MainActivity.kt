@@ -8,6 +8,8 @@ import cc.ab.base.ext.toast
 import cc.abase.demo.R
 import cc.abase.demo.component.comm.CommActivity
 import cc.abase.demo.component.comm.CommFragment
+import cc.abase.demo.component.main.fragment.GankFragment
+import cc.abase.demo.component.main.fragment.WanFragment
 import com.blankj.utilcode.util.ActivityUtils
 import com.blankj.utilcode.util.FragmentUtils
 import kotlinx.android.synthetic.main.activity_main.mainContainer
@@ -36,8 +38,8 @@ class MainActivity : CommActivity() {
 
   override fun initView() {
     //初始化
-    homeFragment = HomeFragment.newInstance()
-    dynFragment = DynFragment.newInstance()
+    homeFragment = WanFragment.newInstance()
+    dynFragment = GankFragment.newInstance()
     mineFragment = MineFragment.newInstance()
     //添加
     fragmentList = mutableListOf(homeFragment, dynFragment, mineFragment)
