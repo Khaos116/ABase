@@ -42,7 +42,7 @@
       android:src="@drawable/dkplayer_ic_action_arrow_back"
       app:layout_constraintStart_toStartOf="parent"
       app:layout_constraintTop_toTopOf="@id/videoDetailVideoViewParent"
-      tools:background="@drawable/video_title_bg"
+      tools:background="@drawable/dkplayer_shape_standard_controller_top_bg"
       />
   <!--评论列表等-->
   <View
