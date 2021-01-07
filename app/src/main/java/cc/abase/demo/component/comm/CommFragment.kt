@@ -14,10 +14,6 @@ import com.airbnb.lottie.*
  * @date: 2019/10/8 10:47
  */
 abstract class CommFragment : BaseFragment() {
-  //<editor-fold defaultstate="collapsed" desc="MVRX相关">
-  override fun invalidate() {}
-  //</editor-fold>
-
   //<editor-fold defaultstate="collapsed" desc="变量">
   //lottie的加载动画
   lateinit var loadingView: LottieAnimationView
@@ -42,7 +38,7 @@ abstract class CommFragment : BaseFragment() {
     removeAllCallbacks()
     runShowLoading = Runnable { startShowLoadingView() }
     //防止获取不到高度
-    rootView?.post(runShowLoading)
+    mRootView?.post(runShowLoading)
   }
 
   //显示loadingView
@@ -52,7 +48,7 @@ abstract class CommFragment : BaseFragment() {
       gravity: Int = getLoadingViewGravity(),
       bgColor: Int = getLoadingViewBgColor()
   ) {
-    val parent = rootView
+    val parent = mRootView
     if (loadingView.parent == null && parent != null) {
       val prams = FrameLayout.LayoutParams(-1, height)
       prams.gravity = gravity
@@ -72,7 +68,7 @@ abstract class CommFragment : BaseFragment() {
       loadingView.removeParent()
     }
     //防止获取不到高度
-    rootView?.post(runDismissLoading)
+    mRootView?.post(runDismissLoading)
   }
   //</editor-fold>
 
@@ -82,8 +78,8 @@ abstract class CommFragment : BaseFragment() {
 
   //移除所有监听
   private fun removeAllCallbacks() {
-    rootView?.removeCallbacks(runShowLoading)
-    rootView?.removeCallbacks(runDismissLoading)
+    mRootView?.removeCallbacks(runShowLoading)
+    mRootView?.removeCallbacks(runDismissLoading)
   }
   //</editor-fold>
 
@@ -96,7 +92,7 @@ abstract class CommFragment : BaseFragment() {
 
   //设置动画高度
   open fun getLoadingViewHeight(): Int {
-    return rootView?.width ?: 680
+    return mRootView?.width ?: 680
   }
 
   //设置动画的位置，默认居中
