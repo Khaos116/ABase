@@ -1,56 +1,66 @@
 package cc.abase.demo.component.playlist.viewmoel
 
-import cc.ab.base.mvrx.MvRxViewModel
-import cc.ab.base.utils.RxUtils
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.rxLifeScope
+import cc.ab.base.ui.viewmodel.DataState
+import cc.ab.base.ui.viewmodel.DataState.Complete
+import cc.ab.base.ui.viewmodel.DataState.FailMore
+import cc.ab.base.ui.viewmodel.DataState.FailRefresh
+import cc.ab.base.ui.viewmodel.DataState.Start
+import cc.ab.base.ui.viewmodel.DataState.SuccessMore
+import cc.ab.base.ui.viewmodel.DataState.SuccessRefresh
 import cc.abase.demo.bean.local.VideoBean
+import cc.abase.demo.component.comm.CommViewModel
 import cc.abase.demo.utils.VideoRandomUtils
-import com.airbnb.mvrx.*
-import io.reactivex.Observable
+import kotlinx.coroutines.delay
 
 /**
  * Description:
  * @author: CASE
  * @date: 2019/12/12 11:37
  */
-
-data class VerticalPagerState(
-  val videoList: MutableList<VideoBean> = mutableListOf(),
-  val hasMore: Boolean = true,
-  val request: Async<Any> = Uninitialized
-) : MvRxState
-
-class VerticalPagerViewModel(
-  state: VerticalPagerState = VerticalPagerState()
-) : MvRxViewModel<VerticalPagerState>(state) {
+class VerticalPagerViewModel : CommViewModel() {
+  val videoLiveData = MutableLiveData<DataState<MutableList<VideoBean>>?>()
 
   //加载数据
-  fun loadData(){
-    Observable.just(VideoRandomUtils.instance.getVideoList())
-        .compose(RxUtils.instance.rx2SchedulerHelperODelay())
-        .execute {
-          copy(videoList = it.invoke() ?: mutableListOf(), request = it)
-        }
+  fun loadData() {
+    if (videoLiveData.value is Start) return
+    val old = videoLiveData.value?.data //加载前的旧数据
+    rxLifeScope.launch({
+      delay(2000)
+      //协程代码块
+      val result = VideoRandomUtils.instance.getVideoList()
+      //可以直接更新UI
+      videoLiveData.value = SuccessRefresh(newData = result)
+    }, { e -> //异常回调，这里可以拿到Throwable对象
+      videoLiveData.value = FailRefresh(oldData = old, exc = e)
+    }, { //开始回调，可以开启等待弹窗
+      videoLiveData.value = Start(oldData = old)
+    }, { //结束回调，可以销毁等待弹窗
+      val data = videoLiveData.value?.data
+      videoLiveData.value = Complete(totalData = data, hasMore = (data?.size ?: 0) > 0)
+    })
   }
 
   //加载更多
-  fun loadMore() = withState { state ->
-    if (state.request is Loading || !state.hasMore) return@withState
-    Observable.just(
-        VideoRandomUtils.instance.getVideoList(
-            idStart = state.videoList.size.toLong(),
-            count = 4
-        )
-    )
-        .compose(RxUtils.instance.rx2SchedulerHelperO())
-        .execute {
-          val suc = it is Success
-          copy(
-              videoList = if (suc) (state.videoList + (it.invoke()
-                  ?: mutableListOf())).toMutableList()
-              else state.videoList,
-              hasMore = if (suc) false else state.hasMore,
-              request = it
-          )
-        }
+  fun loadMore() {
+    val value = videoLiveData.value
+    if (value is Complete && !value.hasMore) return //没有更多
+    if (value is Start) return //正在请求
+    val old = videoLiveData.value?.data //加载前的旧数据
+    rxLifeScope.launch({
+      delay(1000)
+      //协程代码块
+      val result = VideoRandomUtils.instance.getVideoList(idStart = videoLiveData.value?.data?.size?.toLong() ?: 0L, count = 4)
+      //可以直接更新UI
+      videoLiveData.value = SuccessMore(newData = result, totalData = if (old.isNullOrEmpty()) result else (old + result).toMutableList())
+    }, { e -> //异常回调，这里可以拿到Throwable对象
+      videoLiveData.value = FailMore(oldData = old, exc = e)
+    }, { //开始回调，可以开启等待弹窗
+      videoLiveData.value = Start(oldData = old)
+    }, { //结束回调，可以销毁等待弹窗
+      val data = videoLiveData.value?.data
+      videoLiveData.value = Complete(totalData = data, hasMore = (old?.size ?: 0) == (data?.size ?: 0))
+    })
   }
 }
