@@ -8,14 +8,21 @@
     android:orientation="vertical"
     >
 
-  <cc.abase.demo.widget.VerticalViewPager
-      android:id="@+id/verticalPagerViewPager"
+  <com.scwang.smart.refresh.layout.SmartRefreshLayout
+      android:id="@+id/verticalPagerRefresh"
       android:layout_width="match_parent"
       android:layout_height="match_parent"
-      android:background="#1a1a1a"
-      android:overScrollMode="never"
-      android:scrollbars="none"
-      />
+      >
+
+    <cc.abase.demo.widget.VerticalViewPager
+        android:id="@+id/verticalPagerViewPager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#1a1a1a"
+        android:overScrollMode="never"
+        android:scrollbars="none"
+        />
+  </com.scwang.smart.refresh.layout.SmartRefreshLayout>
   <!--兼容刘海屏-->
   <FrameLayout
       android:layout_width="wrap_content"
@@ -30,7 +37,7 @@
         android:contentDescription="@null"
         android:padding="@dimen/dkplayer_controller_icon_padding"
         android:src="@drawable/dkplayer_ic_action_arrow_back"
-        tools:background="@drawable/video_title_bg"
+        tools:background="@drawable/dkplayer_shape_standard_controller_top_bg"
         />
   </FrameLayout>
 </FrameLayout>
