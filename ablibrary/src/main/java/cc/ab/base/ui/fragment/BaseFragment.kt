@@ -3,111 +3,96 @@ package cc.ab.base.ui.fragment
 import android.app.Activity
 import android.content.Context
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.FrameLayout
-import androidx.lifecycle.Lifecycle
+import androidx.fragment.app.Fragment
+import cc.ab.base.ext.logI
 import cc.ab.base.ext.removeParent
-import com.airbnb.mvrx.BaseMvRxFragment
-import com.trello.lifecycle2.android.lifecycle.AndroidLifecycle
-import com.trello.rxlifecycle3.LifecycleProvider
+import cc.ab.base.utils.CleanLeakUtils
 
 /**
- * Description:
- * @author: CASE
- * @date: 2019/9/24 11:24
+ * Author:case
+ * Date:2020/8/11
+ * Time:18:01
  */
-abstract class BaseFragment : BaseMvRxFragment() {
-  //懒加载相关
-  private var isFragmentVisible = true
-  private var isPrepared = false
-  private var isFirst = true
-  private var isInViewPager = false
+abstract class BaseFragment : Fragment() {
+  //<editor-fold defaultstate="collapsed" desc="变量">
+  //是否已经懒加载
+  private var isLoaded = false
+
   //页面基础信息
   lateinit var mContext: Activity
   lateinit var mActivity: Activity
-  protected var rootView: FrameLayout? = null
-  //防止内存泄漏
-  lateinit var lifecycleProvider: LifecycleProvider<Lifecycle.Event>
+  protected var mRootView: FrameLayout? = null
 
+  //</editor-fold>
+
+  //<editor-fold defaultstate="collapsed" desc="上下文">
   override fun onAttach(context: Context) {
     super.onAttach(context)
     mContext = context as Activity
     mActivity = context
   }
+  //</editor-fold>
 
-  override fun onCreate(savedInstanceState: Bundle?) {
-    super.onCreate(savedInstanceState)
-    lifecycleProvider = AndroidLifecycle.createLifecycleProvider(this);
-  }
-
-  override fun onCreateView(
-    inflater: LayoutInflater,
-    container: ViewGroup?,
-    savedInstanceState: Bundle?
-  ): View? {
-    initBeforeCreateView(savedInstanceState)
+  //<editor-fold defaultstate="collapsed" desc="创建View(重用)">
+  override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
     //第一次的时候加载xml
-    if (contentLayout > 0 && rootView == null) {
-      val contentView = inflater.inflate(contentLayout, null)
+    if (contentXmlId > 0 && mRootView == null) {
+      val contentView = inflater.inflate(contentXmlId, null)
       if (contentView is FrameLayout) {
         contentView.layoutParams = ViewGroup.LayoutParams(-1, -1)
-        rootView = contentView
+        mRootView = contentView
       } else {
-        rootView = FrameLayout(mContext)
-        rootView?.layoutParams = ViewGroup.LayoutParams(-1, -1)
-        rootView?.addView(contentView, ViewGroup.LayoutParams(-1, -1))
+        mRootView = FrameLayout(mContext)
+        mRootView?.layoutParams = ViewGroup.LayoutParams(-1, -1)
+        mRootView?.addView(contentView, ViewGroup.LayoutParams(-1, -1))
       }
     } else {
       //防止重新create时还存在
-      rootView?.removeParent()
+      mRootView?.removeParent()
     }
-    return rootView
+    return mRootView
   }
+  //</editor-fold>
 
-  //处理懒加载
-  override fun onViewCreated(
-    view: View,
-    savedInstanceState: Bundle?
-  ) {
-    super.onViewCreated(view, savedInstanceState)
-    initView(view)
-    isPrepared = true
-    lazyLoad()
-  }
-
-  override fun setUserVisibleHint(isVisibleToUser: Boolean) {
-    super.setUserVisibleHint(isVisibleToUser)
-    isFragmentVisible = isVisibleToUser
-    isInViewPager = true
-    lazyLoad()
-  }
-
-  //懒加载
-  private fun lazyLoad() {
-    if (!isInViewPager) {
-      isFirst = false
-      initData()
-      return
+  //<editor-fold defaultstate="collapsed" desc="懒加载核心">
+  override fun onResume() {
+    super.onResume()
+    if (!isLoaded && !isHidden) {
+      lazyInit()
+      "Fragment:懒加载：${this.javaClass.simpleName}${this.hashCode()}".logI()
+      isLoaded = true
     }
-    if (!isPrepared || !isFragmentVisible || !isFirst) {
-      return
-    }
-    isFirst = false
-    initData()
+  }
+  //</editor-fold>
+
+  //<editor-fold defaultstate="collapsed" desc="UI销毁-重置懒加载">
+  override fun onDestroyView() {
+    super.onDestroyView()
+    //isLoaded = false
+    "Fragment:UI销毁：${this.javaClass.simpleName}${this.hashCode()}".logI()
   }
 
-  //初始化前的处理
-  protected open fun initBeforeCreateView(savedInstanceState: Bundle?) {}
+  //</editor-fold>
 
-  //-----------------------需要重写-----------------------//
+  //<editor-fold defaultstate="collapsed" desc="页面销毁释放输入法">
+  override fun onDestroy() {
+    CleanLeakUtils.instance.fixInputMethodManagerLeak(mActivity)
+    "Fragment完全销毁，释放输入法：${this.javaClass.simpleName}${this.hashCode()}".logI()
+    super.onDestroy()
+  }
+  //</editor-fold>
+
+  //<editor-fold defaultstate="collapsed" desc="子类需要重新的方法">
   //xml布局
-  protected abstract val contentLayout: Int
+  protected abstract val contentXmlId: Int
 
-  //初始化View
-  protected abstract fun initView(root: View?)
+  //懒加载初始化
+  protected abstract fun lazyInit()
+  //</editor-fold>
 
-  //初始化数据
-  protected abstract fun initData()
+  //<editor-fold defaultstate="collapsed" desc="子类公共方法">
+  open fun scroll2Top() {}
+  //</editor-fold>
 }
