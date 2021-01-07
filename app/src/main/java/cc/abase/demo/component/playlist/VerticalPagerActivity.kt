@@ -5,6 +5,7 @@ import android.content.Intent
 import android.view.View
 import androidx.viewpager.widget.ViewPager
 import cc.ab.base.ext.*
+import cc.ab.base.ui.viewmodel.DataState
 import cc.abase.demo.R
 import cc.abase.demo.bean.local.VideoBean
 import cc.abase.demo.component.comm.CommActivity
@@ -12,12 +13,9 @@ import cc.abase.demo.component.playlist.adapter.VerticalPagerAdapter
 import cc.abase.demo.component.playlist.adapter.VerticalPagerAdapter.PagerHolder
 import cc.abase.demo.component.playlist.viewmoel.VerticalPagerViewModel
 import cc.abase.demo.widget.dkplayer.MyVideoView
-import com.airbnb.mvrx.Success
-import com.billy.android.swipe.SmartSwipeRefresh
-import com.billy.android.swipe.SmartSwipeRefresh.SmartSwipeRefreshDataLoader
 import com.gyf.immersionbar.ktx.immersionBar
-import kotlinx.android.synthetic.main.activity_play_pager.verticalPagerBack
-import kotlinx.android.synthetic.main.activity_play_pager.verticalPagerViewPager
+import com.scwang.smart.refresh.layout.wrapper.RefreshHeaderWrapper
+import kotlinx.android.synthetic.main.activity_play_pager.*
 
 /**
  * Description:
@@ -45,16 +43,11 @@ class VerticalPagerActivity : CommActivity() {
   //数据源
   private var mVideoList: MutableList<VideoBean> = mutableListOf()
 
-  //下拉刷新
-  var mSmartSwipeRefresh: SmartSwipeRefresh? = null
-
   //是否可以加载更多
   var hasMore: Boolean = true
 
   //数据层
-  private val viewModel: VerticalPagerViewModel by lazy {
-    VerticalPagerViewModel()
-  }
+  private val viewModel: VerticalPagerViewModel by lazy { VerticalPagerViewModel() }
 
   override fun fillStatus() = false
 
@@ -76,36 +69,45 @@ class VerticalPagerActivity : CommActivity() {
     //列表
     verticalPagerViewPager.offscreenPageLimit = 4
     //下拉刷新
-    mSmartSwipeRefresh = SmartSwipeRefresh.translateMode(verticalPagerViewPager, false)
-    mSmartSwipeRefresh?.disableRefresh()
-    mSmartSwipeRefresh?.disableLoadMore()
-    mSmartSwipeRefresh?.isNoMoreData = !hasMore
-    mSmartSwipeRefresh?.dataLoader = object : SmartSwipeRefreshDataLoader {
-      override fun onLoadMore(ssr: SmartSwipeRefresh?) {
-        viewModel.loadMore()
-      }
-
-      override fun onRefresh(ssr: SmartSwipeRefresh?) {
-      }
-    }
+    verticalPagerRefresh.setEnableLoadMoreWhenContentNotFull(true) //解决不能上拉问题
+    verticalPagerRefresh.setEnableFooterFollowWhenNoMoreData(false) //没有更多不固定显示，只有上拉才能看到
+    verticalPagerRefresh.setEnableRefresh(false) //不要下拉刷新
+    verticalPagerRefresh.setRefreshHeader(RefreshHeaderWrapper(View(mContext))) //使用简单的header以节约内存
+    verticalPagerRefresh.setEnableLoadMore(false) //暂时禁止上拉加载
+    verticalPagerRefresh.setOnLoadMoreListener { viewModel.loadMore() }
   }
 
   override fun initData() {
-    viewModel.subscribe(this) {
-      if (it.request.complete) {
-        dismissLoadingView()
-        mVideoList = it.videoList
-        hasMore = it.hasMore
-        mSmartSwipeRefresh?.finished(it.request is Success)
-        mSmartSwipeRefresh?.isNoMoreData = !hasMore
-        if (mVerticalPagerAdapter == null) {
-          initAdapter(it.videoList)
-        } else {
-          mVerticalPagerAdapter?.setNewData(it.videoList)
+    viewModel.videoLiveData.observe(this) {
+      when (it) {
+        is DataState.SuccessRefresh -> {
+          mVideoList = it.data ?: mutableListOf()
+          if (mVerticalPagerAdapter == null) {
+            initAdapter(mVideoList)
+          } else {
+            mVerticalPagerAdapter?.setNewData(mVideoList)
+          }
+        }
+        is DataState.SuccessMore -> {
+          verticalPagerRefresh?.finishLoadMore()
+          mVideoList = it.data ?: mutableListOf()
+          if (mVerticalPagerAdapter == null) {
+            initAdapter(mVideoList)
+          } else {
+            mVerticalPagerAdapter?.setNewData(mVideoList)
+          }
+        }
+        is DataState.Start -> {
+          if (it.data.isNullOrEmpty()) showLoadingView()
+        }
+        is DataState.Complete -> {
+          dismissLoadingView()
+          hasMore = it.hasMore
+        }
+        else -> {
         }
       }
     }
-    showLoadingView()
     viewModel.loadData()
   }
 
@@ -118,30 +120,22 @@ class VerticalPagerActivity : CommActivity() {
       val index = (Math.random() * datas.size).toInt()
       if (index != 0) {
         verticalPagerViewPager.currentItem = index
-        //如果直接到最后一条需要显示没有更多
-        if (index == mVideoList.size - 1) {
-          mSmartSwipeRefresh?.swipeConsumer?.enableBottom()
-          mSmartSwipeRefresh?.isNoMoreData = hasMore
-        }
+        //如果直接到最后一条需要显示可以加载更多
+        if (index == mVideoList.size - 1) verticalPagerRefresh?.hasMoreData()
       }
       //第一次加载的时候设置currentItem会滚动刷新，所以播放需要延时
       verticalPagerViewPager.post {
         startPlay(index)
-        verticalPagerViewPager.setOnPageChangeListener(object : ViewPager.OnPageChangeListener {
-          override fun onPageScrollStateChanged(state: Int) {
-          }
-
-          override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
-          }
-
+        verticalPagerViewPager.setOnPageChangeListener(object : ViewPager.SimpleOnPageChangeListener() {
           override fun onPageSelected(position: Int) {
             if (position == mCurPos) return
             startPlay(position)
             if (position == (mVideoList.size - 1)) {
-              mSmartSwipeRefresh?.swipeConsumer?.enableBottom()
-              mSmartSwipeRefresh?.isNoMoreData = !hasMore
-            } else {
-              mSmartSwipeRefresh?.disableLoadMore()
+              if (hasMore) {
+                verticalPagerRefresh?.hasMoreData()
+              } else {
+                verticalPagerRefresh?.noMoreData()
+              }
             }
           }
         })
