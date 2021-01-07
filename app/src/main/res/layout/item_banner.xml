@@ -1,7 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<cc.ab.base.widget.discretescrollview.DiscreteBanner
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/itemBanner"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="200dp"
-    />
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    >
+
+  <cc.ab.base.widget.discretescrollview.DiscreteBanner
+      android:id="@+id/itemBanner"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      app:layout_constraintTop_toTopOf="parent"
+      tools:background="@color/cyan_40E0D0"
+      tools:layout_height="200dp"
+      />
+
+  <View
+      android:id="@+id/itemArticleLine"
+      android:layout_width="match_parent"
+      android:layout_height="1px"
+      android:background="@color/blue"
+      app:layout_constraintTop_toBottomOf="@id/itemBanner"
+      />
+</LinearLayout>
