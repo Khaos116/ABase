@@ -2,7 +2,6 @@ package cc.abase.demo.component.simple
 
 import android.graphics.Color
 import android.view.Gravity
-import android.view.View
 import androidx.lifecycle.rxLifeScope
 import cc.abase.demo.R
 import cc.abase.demo.bean.local.DividerBean
@@ -44,11 +43,11 @@ class SimpleFragment : CommFragment() {
   //</editor-fold>
 
   //<editor-fold defaultstate="collapsed" desc="XML">
-  override val contentLayout: Int = R.layout.fragment_simple
+  override val contentXmlId: Int = R.layout.fragment_simple
   //</editor-fold>
 
-  //<editor-fold defaultstate="collapsed" desc="初始化View">
-  override fun initView(root: View?) {
+  //<editor-fold defaultstate="collapsed" desc="懒加载">
+  override fun lazyInit() {
     simpleRecycler.layoutManager = SpeedLinearLayoutManager(mContext).also { it.MILLISECONDS_PER_INCH = 100f }
     multiTypeAdapter.register(SimpleTxtItem())
     multiTypeAdapter.register(DividerItem())
@@ -84,11 +83,6 @@ class SimpleFragment : CommFragment() {
         }
       }
     }
-  }
-  //</editor-fold>
-
-  //<editor-fold defaultstate="collapsed" desc="初始化Data">
-  override fun initData() {
     val datas = mutableListOf<String>()
     for (i in 20 downTo 1) datas.add(
         "这是${

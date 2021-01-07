@@ -3,7 +3,6 @@ package cc.abase.demo.component.main
 import android.app.Activity
 import android.content.Intent
 import android.view.Gravity
-import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import cc.ab.base.ext.*
 import cc.abase.demo.R
@@ -86,11 +85,11 @@ class MineFragment : CommFragment() {
   //</editor-fold>
 
   //<editor-fold defaultstate="collapsed" desc="XML">
-  override val contentLayout = R.layout.fragment_mine
+  override val contentXmlId = R.layout.fragment_mine
   //</editor-fold>
 
-  //<editor-fold defaultstate="collapsed" desc="初始化View">
-  override fun initView(root: View?) {
+  //<editor-fold defaultstate="collapsed" desc="懒加载">
+  override fun lazyInit() {
     //分割线
     if (mineRecycler.itemDecorationCount == 0) mineRecycler.addItemDecoration(SpacesItemDecoration())
     //注册多类型
@@ -112,11 +111,6 @@ class MineFragment : CommFragment() {
     //设置适配器
     mineRecycler.layoutManager = LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false)
     mineRecycler.adapter = multiTypeAdapter
-  }
-  //</editor-fold>
-
-  //<editor-fold defaultstate="collapsed" desc="初始化Data">
-  override fun initData() {
     showLoadingView()
     mineRoot.gone()
     mineSetting.pressEffectAlpha()

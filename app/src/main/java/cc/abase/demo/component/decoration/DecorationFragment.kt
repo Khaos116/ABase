@@ -2,7 +2,6 @@ package cc.abase.demo.component.decoration
 
 import android.graphics.Color
 import android.view.Gravity
-import android.view.View
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.GridLayoutManager.SpanSizeLookup
 import cc.ab.base.ext.dp2Px
@@ -43,11 +42,11 @@ class DecorationFragment : CommFragment() {
   //</editor-fold>
 
   //<editor-fold defaultstate="collapsed" desc="XML">
-  override val contentLayout = R.layout.fragment_decoration
+  override val contentXmlId = R.layout.fragment_decoration
   //</editor-fold>
 
-  //<editor-fold defaultstate="collapsed" desc="初始化View">
-  override fun initView(root: View?) {
+  //<editor-fold defaultstate="collapsed" desc="懒加载">
+  override fun lazyInit() {
     multiTypeAdapter.register(SimpleTxtItem(height = 70.dp2Px(), bgColor = Color.CYAN) { it.txt.toast() })
     //页面重建View不再重新设置
     if (decorRecycler.itemDecorationCount == 0) {
@@ -81,11 +80,6 @@ class DecorationFragment : CommFragment() {
       decorRecycler.adapter = multiTypeAdapter
       decorRecycler.addItemDecoration(decorator)
     }
-  }
-  //</editor-fold>
-
-  //<editor-fold defaultstate="collapsed" desc="初始化数据">
-  override fun initData() {
     val items = mutableListOf<Any>()
     for (i in 1..30) {
       items.add(SimpleTxtBean(txt = "我是第${i}个元素").also { stb ->
