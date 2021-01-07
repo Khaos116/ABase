@@ -8,6 +8,7 @@ import cc.ab.base.ext.*
 import cc.ab.base.utils.RxUtils
 import cc.ab.base.widget.discretescrollview.DSVOrientation
 import cc.ab.base.widget.discretescrollview.adapter.DiscretePageAdapter
+import cc.ab.base.widget.discretescrollview.holder.DiscreteHolder
 import cc.abase.demo.R
 import cc.abase.demo.bean.local.VerticalPageBean
 import cc.abase.demo.component.comm.CommTitleActivity
@@ -20,6 +21,7 @@ import io.reactivex.Observable
 import io.reactivex.disposables.Disposable
 import kotlinx.android.synthetic.main.activty_verticalpage.vvpDSV
 import kotlinx.android.synthetic.main.activty_verticalpage.vvpDSVParent
+import kotlinx.android.synthetic.main.item_vertical_page_parent.view.itemRecyclePagerContainer
 import java.util.concurrent.TimeUnit
 
 /**
@@ -27,6 +29,7 @@ import java.util.concurrent.TimeUnit
  * @author: CASE
  * @date: 2020/5/13 9:23
  */
+@Suppress("UNCHECKED_CAST")
 class RecyclerPagerActivity : CommTitleActivity() {
   //<editor-fold defaultstate="collapsed" desc="外部跳转">
   companion object {
@@ -68,7 +71,7 @@ class RecyclerPagerActivity : CommTitleActivity() {
       //滑动过程中位置改变
       if (!end) {
         //更新UI
-        if (viewHolder is VerticalPageHolderView) viewHolder.updateUI(mDatas[position], position, mDatas.size)
+        (viewHolder as? DiscreteHolder<VerticalPageBean>)?.updateUI(mDatas[position], position, mDatas.size)
         return@addOnItemChangedListener
       }
       //防止还存在播放器
@@ -76,9 +79,9 @@ class RecyclerPagerActivity : CommTitleActivity() {
       //滑动结束后的位置，添加播放器，开始播放
       mVideoView?.let { videoView ->
         //更新UI
-        if (viewHolder is VerticalPageHolderView) {
-          viewHolder.updateUI(mDatas[position], position, mDatas.size)
-          viewHolder.container?.addView(videoView)
+        (viewHolder as? DiscreteHolder<VerticalPageBean>)?.let { dh ->
+          dh.updateUI(mDatas[position], position, mDatas.size)
+          dh.itemView.itemRecyclePagerContainer?.addView(videoView)
         }
         //开始播放
         val bean = mDatas[position]
@@ -125,11 +128,11 @@ class RecyclerPagerActivity : CommTitleActivity() {
       //默认进来第一个位置没有回调，所以手动进行播放
       vvpDSV.post {
         vvpDSV.getViewHolder(0)?.let { viewHolder ->
-          if (viewHolder is VerticalPageHolderView) {
+          if (viewHolder is DiscreteHolder<*>) {
             //防止还存在播放器
             if (mVideoView?.parent != null) initVideoView()
             mVideoView?.let { videoView ->
-              viewHolder.container?.addView(videoView)
+              viewHolder.itemView.itemRecyclePagerContainer?.addView(videoView)
               //开始播放
               val bean = mDatas.first()
               videoView.setPlayUrl(bean.videoUrl ?: "", bean.description ?: "", autoPlay = true, needHolder = false)
