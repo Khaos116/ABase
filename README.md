@@ -5,8 +5,7 @@ Build Scan分析情况:[https://scans.gradle.com/s/4fbw3ftizzorg](https://scans.
   
 三方库|描述
 :-:|:-:
-**[MvRx](https://github.com/airbnb/MvRx)**|[真响应式架构](https://www.jianshu.com/p/53240a44ec49)
-**[epoxy](https://github.com/airbnb/epoxy)**|[积木堆的方式加载RecyclerView](https://www.jianshu.com/p/d62ade6077c9)
+**[MultiType](https://github.com/drakeet/MultiType)**|多类型适配器与Epoxy类似
 **[ImmersionBar](https://github.com/gyf-dev/ImmersionBar)**|状态栏和虚拟导航栏、全面屏+刘海屏适配、键盘监听
 **[AndroidAutoSize](https://github.com/JessYanCoding/AndroidAutoSize)**|今日头条UI适配方案
 **[SmartSwipe](https://qibilly.com/SmartSwipe-tutorial/)**|仿微信、小米侧滑返回、替代SmartRefresh下拉刷新
@@ -24,8 +23,8 @@ Build Scan分析情况:[https://scans.gradle.com/s/4fbw3ftizzorg](https://scans.
 **[LiveEventBus](https://github.com/JeremyLiao/LiveEventBus)**|跨进程通信、跨APP通信、自动取消订阅
 **[DiscreteScrollView](https://github.com/yarolegovich/DiscreteScrollView)**|实现无限轮播Banner、ViewPager横竖屏滑动等
 **[Emoji](https://github.com/vanniktech/Emoji)**|聊天Emoji表情选择面板
-  
-================================================================     
+
+================================================================
 ##  Banner效果图  
 ![横向Banner](https://github.com/caiyoufei/ABase/blob/master/image/horizontal_banner.gif)![纵向Banner](https://github.com/caiyoufei/ABase/blob/master/image/vertical_banner.gif)  
 
@@ -83,7 +82,7 @@ class HomeBannerHolderView(view: View?) : DiscreteHolder<BannerBean>(view) {
 ![高斯模糊](https://github.com/caiyoufei/ABase/blob/master/image/blur.png)
 
 ================================================================
-##  Epoxy吸顶效果
+##  Sticky吸顶效果
 ![吸顶效果](https://github.com/caiyoufei/ABase/blob/master/image/sticky.gif)![吸顶效果](https://github.com/caiyoufei/ABase/blob/master/image/sticky2.gif)
 
 ================================================================
@@ -99,11 +98,11 @@ class HomeBannerHolderView(view: View?) : DiscreteHolder<BannerBean>(view) {
 ![Coordinator嵌套刷新](https://github.com/caiyoufei/ABase/blob/master/image/coordinator_refresh.gif)
 
 ================================================================
-##  Epoxy展开和收缩效果
-![Epoxy展开和收缩效果](https://github.com/caiyoufei/ABase/blob/master/image/epoxy_expand.gif)
+##  MultiType展开和收缩效果
+![MultiType展开和收缩效果](https://github.com/caiyoufei/ABase/blob/master/image/epoxy_expand.gif)
 
 ================================================================
-##  Epoxy列表视频播放
+##  MultiType列表视频播放
 ![列表视频播放](https://github.com/caiyoufei/ABase/blob/master/image/video_list_play.gif)
 
 ================================================================
