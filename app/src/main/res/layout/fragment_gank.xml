@@ -1,16 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
+<com.scwang.smart.refresh.layout.SmartRefreshLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/gankRefreshLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#f3f3f3"
-    android:orientation="vertical"
     >
 
-  <cc.ab.base.widget.epoxy.MyEpoxyRecyclerView
-      android:id="@+id/homeEpoxyRecycler"
+  <androidx.recyclerview.widget.RecyclerView
+      android:id="@+id/gankRecycler"
       android:layout_width="match_parent"
       android:layout_height="match_parent"
-      android:background="@color/white"
       />
-</FrameLayout>
+</com.scwang.smart.refresh.layout.SmartRefreshLayout>
