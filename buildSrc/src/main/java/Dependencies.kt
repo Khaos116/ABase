@@ -6,7 +6,6 @@ object Versions {
   internal const val rxHttp = "2.5.1"
   internal const val doraemonkit = "3.2.0"
   internal const val coil = "1.1.0"
-  internal const val epoxy = "4.1.0"
 }
 
 object Deps {
@@ -94,19 +93,12 @@ object Deps {
   //图片选择器 https://github.com/LuckSiege/PictureSelector
   const val pic_select = "com.github.LuckSiege.PictureSelector:picture_library:v2.5.9"
 
-  //https://github.com/airbnb/MvRx TODO 更新后没有BaseMvRxViewModel
-  const val mvrx = "com.airbnb.android:mvrx:2.0.0-alpha2"
-
   //https://github.com/trello/RxLifecycle  TODO 更新后RxUtils存在问题
   //api 'com.trello.rxlifecycle4:rxlifecycle-android-lifecycle:4.0.0'
   const val rxlife_android = "com.trello.rxlifecycle3:rxlifecycle-android-lifecycle:3.1.0"
 
   //https://github.com/airbnb/lottie-android
   const val lottie = "com.airbnb.android:lottie:3.4.2"
-
-  //https://github.com/airbnb/epoxy
-  const val epoxy = "com.airbnb.android:epoxy:${Versions.epoxy}"
-  const val epoxy_processor = "com.airbnb.android:epoxy-processor:${Versions.epoxy}"
 
   //多类型适配器 https://github.com/drakeet/MultiType
   const val multitype = "com.drakeet.multitype:multitype:4.2.0"
