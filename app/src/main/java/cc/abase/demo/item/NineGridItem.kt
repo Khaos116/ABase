@@ -47,7 +47,7 @@ class NineGridItem(
     if (recyclerView.itemDecorationCount > 0) recyclerView.removeItemDecorationAt(0)
     recyclerView.addItemDecoration(GridSpaceItemDecoration(spaceItem).setDragGridEdge(false))
     val multiTypeAdapter = MultiTypeAdapter()
-    multiTypeAdapter.register(NineImgItem { url, position, iv -> onItemImgClick?.invoke(url, position, iv, list) })
+    multiTypeAdapter.register(NineImgItem(onItemClick = { url, position, iv -> onItemImgClick?.invoke(url, position, iv, list) }))
     recyclerView.adapter = multiTypeAdapter
     multiTypeAdapter.items = list
     multiTypeAdapter.notifyDataSetChanged()
