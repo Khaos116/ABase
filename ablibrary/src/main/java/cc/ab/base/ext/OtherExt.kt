@@ -58,7 +58,6 @@ inline fun RecyclerView.click(crossinline function: (view: View) -> Unit) {
 inline fun RecyclerView.click2Parent(parentView: View? = null) {
   val recyclerView = this
   (parentView ?: (recyclerView.parent as? View))?.let { p ->
-    recyclerView.isNestedScrollingEnabled = false
     recyclerView.setOnTouchListener { _, event -> p.onTouchEvent(event) }
   }
 }
