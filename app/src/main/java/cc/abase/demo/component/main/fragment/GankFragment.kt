@@ -54,19 +54,21 @@ class GankFragment private constructor() : CommFragment() {
     multiTypeAdapter.register(LoadingItem())
     multiTypeAdapter.register(DividerItem())
     multiTypeAdapter.register(EmptyErrorItem() { mViewModel.refresh() })
-    multiTypeAdapter.register(GankItem() { bean ->
-      bean.url?.let { u -> WebActivity.startActivity(mActivity, u) }
-    })
-    multiTypeAdapter.register(NineGridItem(onItemImgClick = { _, p, _, list ->
-      val tempList = mutableListOf<LocalMedia>()
-      list.forEach { s -> tempList.add(LocalMedia().also { it.path = s }) }
-      //开始预览
-      PictureSelector.create(this)
-          .themeStyle(R.style.picture_default_style)
-          .isNotPreviewDownload(true)
-          .imageEngine(ImageEngine2())
-          .openExternalPreview(p, tempList)
-    }, onItemClick = { url -> if (url.isNotBlank()) WebActivity.startActivity(mActivity, url) }))
+    multiTypeAdapter.register(GankParentItem(
+        onItemClick = { bean ->
+          bean.url?.let { u -> WebActivity.startActivity(mActivity, u) }
+        },
+        onImgClick = { _, p, _, list ->
+          val tempList = mutableListOf<LocalMedia>()
+          list.forEach { s -> tempList.add(LocalMedia().also { it.path = s }) }
+          //开始预览
+          PictureSelector.create(this)
+              .themeStyle(R.style.picture_default_style)
+              .isNotPreviewDownload(true)
+              .imageEngine(ImageEngine2())
+              .openExternalPreview(p, tempList)
+        }
+    ))
     //监听加载结果
     mViewModel.androidLiveData.observe(this) {
       mViewModel.handleRefresh(gankRefreshLayout, it)
@@ -83,7 +85,6 @@ class GankFragment private constructor() : CommFragment() {
           if (it.data.isNullOrEmpty()) items.add(EmptyErrorBean(isEmpty = true, isError = false)) //如果请求成功没有数据
           else it.data?.forEachIndexed { index, androidBean ->
             items.add(androidBean) //文章
-            if (androidBean.imagesNoNull().isNotEmpty()) items.add(GridImageBean(androidBean.url ?: "", androidBean.imagesNoNull())) //图片
             if (index < (it.data?.size ?: 0) - 1) items.add(DividerBean(heightPx = 1, bgColor = Color.GREEN)) //分割线
           }
         }
@@ -93,7 +94,6 @@ class GankFragment private constructor() : CommFragment() {
           it.newData?.forEach { androidBean ->
             items.add(DividerBean(heightPx = 1, bgColor = Color.GREEN)) //分割线
             items.add(androidBean) //文章
-            if (androidBean.imagesNoNull().isNotEmpty()) items.add(GridImageBean(androidBean.url ?: "", androidBean.imagesNoNull())) //图片
           }
         }
         //刷新失败
