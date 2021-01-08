@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/itemGankParentRoot"
+    android:layout_width="match_parent"
+    android:background="@drawable/selector_trans_f7f7f7"
+    android:layout_height="wrap_content"
+    >
+  <!--写父控件是为了传递点击事件-->
+  <androidx.recyclerview.widget.RecyclerView
+      android:id="@+id/itemGankParentRecycler"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      />
+</FrameLayout>
