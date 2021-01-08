@@ -14,8 +14,8 @@ import kotlinx.android.synthetic.main.item_nine_img.view.*
  * Time:15:44
  */
 class NineImgItem(
-    private val onItemClick: ((item: String, position: Int, iv: ImageView) -> Unit)? = null,
     private val onDelClick: ((item: String, position: Int, iv: ImageView) -> Unit)? = null,
+    private val onItemClick: ((item: String, position: Int, iv: ImageView) -> Unit)? = null,
 ) : BaseItemView<String>() {
   //<editor-fold defaultstate="collapsed" desc="XML">
   override fun layoutResId() = R.layout.item_nine_img

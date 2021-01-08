@@ -64,8 +64,8 @@ class DragActivity : CommTitleActivity() {
     dragRecycler.addItemDecoration(GridSpaceItemDecoration(spaceItem).setDragGridEdge(false))
     //适配器注册
     multiTypeAdapter.register(NineImgItem(
+        onDelClick = { url, p, v -> removeSelect(url) },
         onItemClick = { url, p, v -> if (url.isBlank()) go2ImgSel() else showPic(url) }, //为空代表点击选择添加
-        onDelClick = { url, p, v -> removeSelect(url) }
     ))
     //默认+
     val items = mutableListOf<Any>()
