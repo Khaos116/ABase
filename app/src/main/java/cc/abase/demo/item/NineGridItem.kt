@@ -6,6 +6,7 @@ import android.widget.ImageView
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
+import cc.ab.base.ext.click2Parent
 import cc.ab.base.ui.item.BaseItemView
 import cc.abase.demo.R
 import cc.abase.demo.bean.local.GridImageBean
@@ -21,6 +22,8 @@ import kotlinx.android.synthetic.main.item_nine_grid.view.itemNineGridRecycler
  * Time:15:46
  */
 class NineGridItem(
+    private var canDrag: Boolean = false,
+    private var parentView: View? = null,
     private val onItemImgClick: ((url: String, position: Int, iv: ImageView, list: MutableList<String>) -> Unit)? = null,
 ) : BaseItemView<GridImageBean>() {
   //<editor-fold defaultstate="collapsed" desc="变量">
@@ -39,7 +42,8 @@ class NineGridItem(
   @SuppressLint("ClickableViewAccessibility")
   override fun fillData(holder: ViewHolder, itemView: View, item: GridImageBean) {
     val recyclerView = itemView.itemNineGridRecycler
-    recyclerView.setOnTouchListener { _, event -> itemView.onTouchEvent(event) }
+    //拖动和外部点击不能兼容，所以只能适配一个
+    if (!canDrag) recyclerView.click2Parent(parentView)
     val list = item.list
     val count = if (list.size == 1) 1 else if (list.size == 2 || list.size == 4) 2 else 3
     recyclerView.layoutManager = GridLayoutManager(itemView.context, count)
@@ -50,12 +54,14 @@ class NineGridItem(
     recyclerView.adapter = multiTypeAdapter
     multiTypeAdapter.items = list
     multiTypeAdapter.notifyDataSetChanged()
-    //拖拽开始---->>>先置空，防止复用的时候一样的RecyclerView导致不执行attachToRecyclerView
-    mapHelper[recyclerView.hashCode()]?.attachToRecyclerView(null)
-    ItemTouchHelper(GridItemTouchHelperCallback(multiTypeAdapter))
-        .apply { attachToRecyclerView(recyclerView) }
-        .let { mapHelper[recyclerView.hashCode()] = it }
-    //拖拽结束---<<<
+    if (canDrag) {
+      //拖拽开始---->>>先置空，防止复用的时候一样的RecyclerView导致不执行attachToRecyclerView
+      mapHelper[recyclerView.hashCode()]?.attachToRecyclerView(null)
+      ItemTouchHelper(GridItemTouchHelperCallback(multiTypeAdapter))
+          .apply { attachToRecyclerView(recyclerView) }
+          .let { mapHelper[recyclerView.hashCode()] = it }
+      //拖拽结束---<<<
+    }
   }
   //</editor-fold>
 }

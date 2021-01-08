@@ -31,17 +31,19 @@ class GankParentItem(
   @SuppressLint("ClickableViewAccessibility")
   override fun fillData(holder: ViewHolder, itemView: View, item: GankAndroidBean) {
     itemView.click { onItemClick?.invoke(item) }
+    val items = mutableListOf<Any>()
+    items.add(item)
+    if (item.imagesNoNull().isNotEmpty()) items.add(GridImageBean(url = item.url ?: "", list = item.imagesNoNull()))
     val recyclerView = itemView.itemGankParentRecycler
-    recyclerView.click2Parent()
+    recyclerView.click2Parent(itemView)
     recyclerView.adapter = null
     recyclerView.layoutManager = LinearLayoutManager(recyclerView.context)
     val multiTypeAdapter = MultiTypeAdapter()
     multiTypeAdapter.register(GankItem())
-    multiTypeAdapter.register(NineGridItem { url, p, iv, list -> onImgClick?.invoke(url, p, iv, list) })
+    multiTypeAdapter.register(NineGridItem(canDrag = items.size != 5 && items.size != 7 && items.size != 8,
+        parentView = itemView) { url, p, iv, list -> onImgClick?.invoke(url, p, iv, list) })
     recyclerView.adapter = multiTypeAdapter
-    val items = mutableListOf<Any>()
-    items.add(item)
-    if (item.imagesNoNull().isNotEmpty()) items.add(GridImageBean(url = item.url ?: "", list = item.imagesNoNull()))
+
     multiTypeAdapter.items = items
     multiTypeAdapter.notifyDataSetChanged()
   }
