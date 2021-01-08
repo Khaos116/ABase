@@ -41,7 +41,7 @@ fun RecyclerView.stopInertiaRolling() {
 
 //RecyclerView点击事件
 @SuppressLint("ClickableViewAccessibility")
-inline fun RecyclerView.click(crossinline function: (view: View) -> Unit) {
+inline fun RecyclerView.onClick(crossinline function: (view: View) -> Unit) {
   val recyclerView = this
   recyclerView.setOnTouchListener { _, event ->
     GestureDetector(context, object : SimpleOnGestureListener() {
