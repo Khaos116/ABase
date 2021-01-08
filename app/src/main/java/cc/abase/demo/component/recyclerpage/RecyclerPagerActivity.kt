@@ -14,13 +14,10 @@ import cc.abase.demo.bean.local.VerticalPageBean
 import cc.abase.demo.component.comm.CommTitleActivity
 import cc.abase.demo.utils.VideoRandomUtils
 import cc.abase.demo.widget.dkplayer.MyVideoView
-import com.billy.android.swipe.SmartSwipeRefresh
-import com.billy.android.swipe.SmartSwipeRefresh.SmartSwipeRefreshDataLoader
 import com.blankj.utilcode.util.StringUtils
 import io.reactivex.Observable
 import io.reactivex.disposables.Disposable
-import kotlinx.android.synthetic.main.activty_verticalpage.vvpDSV
-import kotlinx.android.synthetic.main.activty_verticalpage.vvpDSVParent
+import kotlinx.android.synthetic.main.activty_verticalpage.*
 import kotlinx.android.synthetic.main.item_vertical_page_parent.view.itemRecyclePagerContainer
 import java.util.concurrent.TimeUnit
 
@@ -52,9 +49,6 @@ class RecyclerPagerActivity : CommTitleActivity() {
 
   //播放器控件
   private var mVideoView: MyVideoView? = null
-
-  //加载更多
-  var mSmartSwipeRefresh: SmartSwipeRefresh? = null
   //</editor-fold>
 
   //<editor-fold defaultstate="collapsed" desc="XML">
@@ -89,9 +83,9 @@ class RecyclerPagerActivity : CommTitleActivity() {
       }
       //判断是否可以上拉加载更多
       if (position == (mDatas.size - 1)) {
-        mSmartSwipeRefresh?.swipeConsumer?.enableBottom()
+        vvpRefreshLayout.setEnableLoadMore(true)
       } else {
-        mSmartSwipeRefresh?.disableLoadMore()
+        vvpRefreshLayout.setEnableLoadMore(false)
       }
     }
     vvpDSV.setItemTransitionTimeMillis(100)
@@ -99,22 +93,17 @@ class RecyclerPagerActivity : CommTitleActivity() {
     //初始化播放器
     initVideoView()
     //加载更多
-    mSmartSwipeRefresh = SmartSwipeRefresh.translateMode(vvpDSVParent, false)
-    mSmartSwipeRefresh?.disableRefresh()
-    mSmartSwipeRefresh?.disableLoadMore()
-    mSmartSwipeRefresh?.isNoMoreData = false
-    mSmartSwipeRefresh?.dataLoader = object : SmartSwipeRefreshDataLoader {
-      override fun onLoadMore(ssr: SmartSwipeRefresh) {
-        loadData(lastId = mDatas.last().id) {
-          mSmartSwipeRefresh?.isNoMoreData = true
-          mSmartSwipeRefresh?.finished(true)
-          mDatas.addAll(it)
-          recyclerPagerAdapter.notifyDataSetChanged()
-        }
-      }
-
-      override fun onRefresh(ssr: SmartSwipeRefresh) {
-        vvpDSV.postDelayed({ ssr.finished(true) }, 1000)
+    vvpRefreshLayout.setEnableLoadMoreWhenContentNotFull(true) //解决不能上拉问题
+    vvpRefreshLayout.setEnableScrollContentWhenLoaded(false)  //是否在加载完成时滚动列表显示新的内容(false相当于加载更多是一个item)
+    vvpRefreshLayout.setEnableFooterFollowWhenNoMoreData(false) //没有更多不固定显示，只有上拉才能看到
+    vvpRefreshLayout.setEnableRefresh(false)
+    vvpRefreshLayout.setEnableLoadMore(false)
+    vvpRefreshLayout.setOnLoadMoreListener {
+      loadData(lastId = mDatas.last().id) {
+        vvpRefreshLayout?.finishLoadMore(true)
+        vvpRefreshLayout?.noMoreData()
+        mDatas.addAll(it)
+        recyclerPagerAdapter.notifyDataSetChanged()
       }
     }
   }
@@ -125,6 +114,7 @@ class RecyclerPagerActivity : CommTitleActivity() {
     loadData(time = 100) {
       mDatas.addAll(it)
       recyclerPagerAdapter.notifyDataSetChanged()
+      vvpRefreshLayout?.hasMoreData()
       //默认进来第一个位置没有回调，所以手动进行播放
       vvpDSV.post {
         vvpDSV.getViewHolder(0)?.let { viewHolder ->
