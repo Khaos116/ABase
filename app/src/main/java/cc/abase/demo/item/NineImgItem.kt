@@ -30,7 +30,7 @@ class NineImgItem(
     } else {
       holder.itemView.itemNineImgIv.visible()
       holder.itemView.itemNineImgAdd.gone()
-      holder.itemView.itemNineImgDel.visible()
+      holder.itemView.itemNineImgDel.visibleGone(onDelClick != null)
       holder.itemView.itemNineImgIv.loadImgSquare(item)
     }
     if (onDelClick != null) {
