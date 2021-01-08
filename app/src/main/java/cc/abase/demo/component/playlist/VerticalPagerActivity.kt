@@ -114,6 +114,15 @@ class VerticalPagerActivity : CommActivity() {
         is DataState.Complete -> {
           dismissLoadingView()
           hasMore = it.hasMore
+          if (verticalPagerViewPager.currentItem == mVideoList.size - 1) {
+            if (hasMore) {
+              verticalPagerRefresh?.hasMoreData()
+            } else {
+              verticalPagerRefresh?.noMoreData()
+            }
+          } else {
+            verticalPagerRefresh?.setEnableLoadMore(false)
+          }
         }
         else -> {
         }
@@ -161,7 +170,7 @@ class VerticalPagerActivity : CommActivity() {
   //开始播放
   private fun startPlay(position: Int) {
     //预加载更多
-    if (position >= mVideoList.size - 5) viewModel.loadMore()
+    //if (position >= mVideoList.size - 5) viewModel.loadMore()
     //遍历加载信息和播放
     val count: Int = verticalPagerViewPager.childCount
     var findCount = 0 //由于复用id是混乱的，所以需要保证3个都找到才跳出循环(为了节约性能)
