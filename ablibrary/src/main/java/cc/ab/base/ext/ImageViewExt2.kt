@@ -27,7 +27,7 @@ fun ImageView.clearLoad() {
   setTag(R.id.suc_img, null)
 }
 
-//正方形图片加载s
+//正方形图片加载
 fun ImageView.loadImgSquare(url: String?, hasHolder: Boolean = true) {
   this.scaleType = ImageView.ScaleType.CENTER_CROP
   if (url.isNullOrBlank()) {
