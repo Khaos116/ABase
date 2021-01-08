@@ -3,10 +3,13 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/sticky2RootViewParent"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:splitMotionEvents="false"
+    android:visibility="gone"
+    tools:visibility="visible"
     >
   <!--标题布局-->
   <LinearLayout
@@ -88,8 +91,6 @@
           android:id="@+id/sticky2Recycler1Parent"
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
-          android:visibility="invisible"
-          tools:visibility="visible"
           >
 
         <androidx.recyclerview.widget.RecyclerView
@@ -129,8 +130,6 @@
             android:minHeight="40dp"
             android:overScrollMode="never"
             android:scrollbars="none"
-            android:visibility="invisible"
-            tools:visibility="visible"
             />
       </cc.abase.demo.widget.ObservableScrollView>
     </LinearLayout>

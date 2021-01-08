@@ -189,8 +189,7 @@ class StickyActivity2 : CommTitleActivity() {
     rightAdapter.notifyDataSetChanged()
     //如果是第一次加载，判断是否可以加载更多
     if (!more) {
-      sticky2Recycler1Parent?.visible()
-      sticky2Recycler2?.visible()
+      sticky2RootViewParent?.visible()
       sticky2RefreshLayout?.hasMoreData()
     }
   }
