@@ -11,10 +11,8 @@ import cc.abase.demo.component.login.LoginActivity
 import cc.abase.demo.component.main.MainActivity
 import cc.abase.demo.component.splash.GuideActivity
 import cc.abase.demo.component.splash.SplashActivity
-import cc.abase.demo.widget.CCRefreshHeader
 import cc.abase.demo.widget.smart.MidaMusicHeader
 import com.billy.android.swipe.SmartSwipeBack
-import com.billy.android.swipe.SmartSwipeRefresh
 import com.scwang.smart.refresh.layout.SmartRefreshLayout
 
 /**
@@ -55,17 +53,6 @@ class SmartInit : Initializer<Int> {
   //静态代码段可以防止内存泄露
   companion object {
     init {
-      //设置全局的Header构建器
-      SmartSwipeRefresh.setDefaultRefreshViewCreator(object :
-          SmartSwipeRefresh.SmartSwipeRefreshViewCreator {
-        override fun createRefreshHeader(context: Context): SmartSwipeRefresh.SmartSwipeRefreshHeader {
-          return CCRefreshHeader(context)
-        }
-
-        override fun createRefreshFooter(context: Context): SmartSwipeRefresh.SmartSwipeRefreshFooter {
-          return cc.abase.demo.widget.swipe.ClassicFooter(context)
-        }
-      })
       //设置全局默认配置（优先级最低，会被其他设置覆盖）
       SmartRefreshLayout.setDefaultRefreshInitializer { _, layout -> //开始设置全局的基本参数（可以被下面的DefaultRefreshHeaderCreator覆盖）
         layout.setPrimaryColors(Color.parseColor("#f3f3f3")) //header和footer的背景色(多传一个参数代表文字的颜色)

@@ -1,4 +1,4 @@
-package cc.abase.demo.widget
+package cc.abase.demo.widget.swipe
 
 import android.content.Context
 import android.view.LayoutInflater
