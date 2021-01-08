@@ -12,8 +12,6 @@ import cc.abase.demo.R.color
 import cc.abase.demo.bean.local.*
 import cc.abase.demo.component.comm.CommTitleActivity
 import cc.abase.demo.item.*
-import com.billy.android.swipe.SmartSwipeRefresh
-import com.billy.android.swipe.SmartSwipeRefresh.SmartSwipeRefreshDataLoader
 import com.blankj.utilcode.util.StringUtils
 import com.drakeet.multitype.MultiTypeAdapter
 import kotlinx.android.synthetic.main.activity_sticky2.*
@@ -38,9 +36,6 @@ class StickyActivity2 : CommTitleActivity() {
   //模拟数据
   private val originDatas = mutableListOf<UserStickyBean>()
 
-  //下拉刷新
-  private var mSmartSwipeRefresh: SmartSwipeRefresh? = null
-
   //左边适配器
   private var leftAdapter = MultiTypeAdapter()
 
@@ -58,23 +53,19 @@ class StickyActivity2 : CommTitleActivity() {
     //同步两个列表
     initScrollListener()
     //加载更多
-    mSmartSwipeRefresh = SmartSwipeRefresh.translateMode(sticky2RootView, false)
-    mSmartSwipeRefresh?.disableRefresh()
-    mSmartSwipeRefresh?.dataLoader = object : SmartSwipeRefreshDataLoader {
-      override fun onLoadMore(ssr: SmartSwipeRefresh?) {
-        //停止惯性滚动
-        sticky2Recycler1.stopInertiaRolling()
-        sticky2Recycler2.stopInertiaRolling()
-        rxLifeScope.launch {
-          withContext(Dispatchers.IO) { delay(500) }.let {
-            fillData(originDatas.takeLast(40).toMutableList(), true)
-            mSmartSwipeRefresh?.finished(true)
-            mSmartSwipeRefresh?.isNoMoreData = true
-          }
+    sticky2RefreshLayout.setEnableRefresh(false)
+    sticky2RefreshLayout.setEnableLoadMore(true)
+    sticky2RefreshLayout.setOnLoadMoreListener {
+      //停止惯性滚动
+      sticky2Recycler1.stopInertiaRolling()
+      sticky2Recycler2.stopInertiaRolling()
+      rxLifeScope.launch {
+        withContext(Dispatchers.IO) { delay(2000) }.let {
+          fillData(originDatas.takeLast(40).toMutableList(), true)
+          sticky2RefreshLayout?.finishLoadMore(true)
+          sticky2RefreshLayout?.noMoreData()
         }
       }
-
-      override fun onRefresh(ssr: SmartSwipeRefresh?) {}
     }
     //注册多类型
     leftAdapter.register(Sticky2LeftItem())
@@ -157,7 +148,7 @@ class StickyActivity2 : CommTitleActivity() {
     showLoadingView()
     rxLifeScope.launch {
       withContext(Dispatchers.IO) {
-        delay(500)
+        delay(2000)
         val temp = mutableListOf<UserStickyBean>()
         //随机增加个学生成绩
         for (i in 0..79) temp.add(UserStickyBean(score = UserScoreBean()))
@@ -200,14 +191,7 @@ class StickyActivity2 : CommTitleActivity() {
     if (!more) {
       sticky2Recycler1Parent?.visible()
       sticky2Recycler2?.visible()
-      rxLifeScope.launch {
-        withContext(Dispatchers.IO) { delay(100) }.let {
-          //如果不满一页，则不能加载更多了
-          if (sticky2Recycler1?.canScrollVertically(1) == false) {
-            mSmartSwipeRefresh?.disableLoadMore()
-          }
-        }
-      }
+      sticky2RefreshLayout?.hasMoreData()
     }
   }
   //</editor-fold>
