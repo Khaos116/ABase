@@ -22,7 +22,6 @@ import kotlinx.android.synthetic.main.item_nine_grid.view.itemNineGridRecycler
  * Time:15:46
  */
 class NineGridItem(
-    private var canDrag: Boolean = false,
     private var parentView: View? = null,
     private val onItemImgClick: ((url: String, position: Int, iv: ImageView, list: MutableList<String>) -> Unit)? = null,
 ) : BaseItemView<GridImageBean>() {
@@ -31,7 +30,8 @@ class NineGridItem(
   private val spaceItem = SizeUtils.dp2px(6f)
 
   //拖拽效果
-  private var mapHelper: MutableMap<Int, ItemTouchHelper> = hashMapOf()
+  private var helper: ItemTouchHelper? = null
+  private var helperCallback: GridItemTouchHelperCallback? = null
   //</editor-fold>
 
   //<editor-fold defaultstate="collapsed" desc="XML">
@@ -42,6 +42,8 @@ class NineGridItem(
   @SuppressLint("ClickableViewAccessibility")
   override fun fillData(holder: ViewHolder, itemView: View, item: GridImageBean) {
     val recyclerView = itemView.itemNineGridRecycler
+    val urlSize = item.list.size
+    val canDrag = urlSize != 5 && urlSize != 7 && urlSize != 8
     //拖动和外部点击不能兼容，所以只能适配一个
     if (!canDrag) recyclerView.click2Parent(parentView)
     val list = item.list
@@ -50,18 +52,28 @@ class NineGridItem(
     if (recyclerView.itemDecorationCount > 0) recyclerView.removeItemDecorationAt(0)
     recyclerView.addItemDecoration(GridSpaceItemDecoration(spaceItem).setDragGridEdge(false))
     val multiTypeAdapter = MultiTypeAdapter()
-    multiTypeAdapter.register(NineImgItem(onItemClick = { url, position, iv -> onItemImgClick?.invoke(url, position, iv, list) }))
+    multiTypeAdapter.register(NineImgItem { url, position, iv -> onItemImgClick?.invoke(url, position, iv, list) })
     recyclerView.adapter = multiTypeAdapter
     multiTypeAdapter.items = list
     multiTypeAdapter.notifyDataSetChanged()
+    helper = null
+    helperCallback = null
     if (canDrag) {
       //拖拽开始---->>>先置空，防止复用的时候一样的RecyclerView导致不执行attachToRecyclerView
-      mapHelper[recyclerView.hashCode()]?.attachToRecyclerView(null)
-      ItemTouchHelper(GridItemTouchHelperCallback(multiTypeAdapter))
+      ItemTouchHelper(GridItemTouchHelperCallback(multiTypeAdapter).also { call -> helperCallback = call })
           .apply { attachToRecyclerView(recyclerView) }
-          .let { mapHelper[recyclerView.hashCode()] = it }
+          .let { helper = it }
       //拖拽结束---<<<
     }
+  }
+  //</editor-fold>
+
+  //<editor-fold defaultstate="collapsed" desc="移出去后解除拖拽">
+  override fun onViewDetachedFromWindow(holder: ViewHolder) {
+    super.onViewDetachedFromWindow(holder)
+    helper?.attachToRecyclerView(null)
+    helper = null
+    helperCallback = null
   }
   //</editor-fold>
 }
