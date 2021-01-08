@@ -1,8 +1,11 @@
 package cc.ab.base.ext
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.graphics.Color
 import android.os.Parcelable
+import android.view.*
+import android.view.GestureDetector.SimpleOnGestureListener
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import cc.ab.base.R
@@ -33,6 +36,30 @@ fun RecyclerView.stopInertiaRolling() {
   } catch (e: Exception) {
     e.printStackTrace()
     "RecyclerView惯性滚动停止失败:${e.message}".logI()
+  }
+}
+
+//RecyclerView点击事件
+@SuppressLint("ClickableViewAccessibility")
+inline fun RecyclerView.click(crossinline function: (view: View) -> Unit) {
+  val recyclerView = this
+  recyclerView.setOnTouchListener { _, event ->
+    GestureDetector(context, object : SimpleOnGestureListener() {
+      override fun onSingleTapUp(e: MotionEvent?): Boolean {
+        function.invoke(recyclerView)
+        return true
+      }
+    }).onTouchEvent(event)
+  }
+}
+
+//RecyclerView点击事件传递给父控件
+@SuppressLint("ClickableViewAccessibility")
+inline fun RecyclerView.click2Parent() {
+  val recyclerView = this
+  (recyclerView.parent as? View)?.let { p ->
+    recyclerView.isNestedScrollingEnabled = false
+    recyclerView.setOnTouchListener { _, event -> p.onTouchEvent(event) }
   }
 }
 
