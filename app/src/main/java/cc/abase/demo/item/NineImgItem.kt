@@ -23,7 +23,7 @@ class NineImgItem(
 
   //<editor-fold defaultstate="collapsed" desc="数据填充">
   override fun fillData(holder: ViewHolder, itemView: View, item: String) {
-    if (item.isBlank()) {
+    if (item.isBlank() && onDelClick != null) {
       holder.itemView.itemNineImgIv.invisible()
       holder.itemView.itemNineImgAdd.visible()
       holder.itemView.itemNineImgDel.gone()
