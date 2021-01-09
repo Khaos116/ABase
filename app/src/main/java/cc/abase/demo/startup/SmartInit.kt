@@ -57,7 +57,7 @@ class SmartInit : Initializer<Int> {
       SmartRefreshLayout.setDefaultRefreshInitializer { _, layout -> //开始设置全局的基本参数（可以被下面的DefaultRefreshHeaderCreator覆盖）
         layout.setPrimaryColors(Color.parseColor("#f3f3f3")) //header和footer的背景色(多传一个参数代表文字的颜色)
         layout.setEnableLoadMoreWhenContentNotFull(false) //是否在列表不满一页时候开启上拉加载功能
-        layout.setEnableScrollContentWhenLoaded(true) //是否在加载完成时滚动列表显示新的内容(false相当于加载更多是一个item)
+        layout.setEnableScrollContentWhenLoaded(true) //true时数据在加载更多位置,加载更多隐藏；false时加载成功整体下移，手动上滑显示更多内容
         layout.setEnableRefresh(false) //默认不可下拉
         layout.setEnableLoadMore(false) //默认不可上拉
         layout.setNoMoreData(true) //默认没有更多数据
