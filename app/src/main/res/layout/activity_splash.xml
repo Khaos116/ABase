@@ -41,7 +41,7 @@
       />
 
   <!--封面-->
-  <me.panpf.sketch.SketchImageView
+  <ImageView
       android:id="@+id/splashCover"
       android:layout_width="match_parent"
       android:layout_height="match_parent"

@@ -11,6 +11,9 @@ import cc.abase.demo.component.main.MainActivity
 import cc.abase.demo.constants.ImageUrls
 import cc.abase.demo.rxhttp.repository.UserRepository
 import cc.abase.demo.utils.MMkvUtils
+import coil.imageLoader
+import coil.load
+import coil.request.ImageRequest
 import com.blankj.utilcode.util.TimeUtils
 import com.blankj.utilcode.util.Utils
 import com.gyf.immersionbar.ktx.immersionBar
@@ -19,7 +22,6 @@ import io.reactivex.Flowable
 import io.reactivex.disposables.Disposable
 import kotlinx.android.synthetic.main.activity_splash.splashCover
 import kotlinx.android.synthetic.main.activity_splash.splashTime
-import me.panpf.sketch.Sketch
 import java.util.concurrent.TimeUnit
 import kotlin.math.max
 
@@ -160,12 +162,22 @@ class SplashActivity : CommActivity() {
     val cacheFile = splashCover.getCacheFile(url)
     //缓存图片存在
     if (cacheFile?.exists() == true) {
-      splashCover.load(cacheFile)
+      splashCover.load(cacheFile, Utils.getApp().imageLoader)
     } else { //加载网络图片
       splashCover.gone()
-      Sketch.with(Utils.getApp())
-          .download(url, null)
-          .commit()
+      Utils.getApp().imageLoader.enqueue(
+          ImageRequest.Builder(Utils.getApp()).data(url).target(
+              onStart = {
+                "闪屏页图片开始下载".logE()
+              },
+              onSuccess = {
+                "闪屏页图片下载成功".logE()
+              },
+              onError = {
+                "闪屏页图片下载失败:${url}".logE()
+              }
+          ).build()
+      )
     }
   }
 

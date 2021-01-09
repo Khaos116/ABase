@@ -127,6 +127,24 @@ fun ImageView.loadImgVerticalBlur(url: String?, holderRatio: Float = 720f / 1280
   }
 }
 
+//获取缓存文件
+fun ImageView.getCacheFile(url: String?): File? {
+  url?.let { u ->
+    var f = u.toFile()
+    if (f != null) {
+      return f
+    } else {
+      url.toHttpUrlOrNull()?.let { h ->
+        f = CoilUtils.createDefaultCache(Utils.getApp()).directory.listFiles()?.firstOrNull { v -> v.name.contains(Cache.key(h)) }
+        if (f?.exists() == true) {
+          return f
+        }
+      }
+    }
+  }
+  return null
+}
+
 //加载缓存文件
 fun ImageView.loadCacheFileFullScreen(url: String?, holderRatio: Float = 720f / 1280) {
   if (url.isNullOrBlank()) {
