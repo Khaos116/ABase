@@ -8,7 +8,7 @@ import android.graphics.Color
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.ItemTouchHelper
 import cc.ab.base.ext.*
-import cc.ab.base.widget.engine.ImageEngine2
+import cc.ab.base.widget.engine.ImageEngine
 import cc.abase.demo.R
 import cc.abase.demo.component.comm.CommTitleActivity
 import cc.abase.demo.drag.GridItemTouchHelperCallback
@@ -102,7 +102,7 @@ class DragActivity : CommTitleActivity() {
     //https://github.com/LuckSiege/PictureSelector/wiki/PictureSelector-Api%E8%AF%B4%E6%98%8E
     PictureSelector.create(this)
         .openGallery(PictureMimeType.ofImage())
-        .imageEngine(ImageEngine2())
+        .imageEngine(ImageEngine())
         .isGif(false)
         .isPageStrategy(true, PictureConfig.MAX_PAGE_SIZE, true) //过滤掉已损坏的图片
         .selectionData(list) //过滤掉添加操作的图片
@@ -170,7 +170,7 @@ class DragActivity : CommTitleActivity() {
     PictureSelector.create(this)
         .themeStyle(R.style.picture_default_style)
         .isNotPreviewDownload(true)
-        .imageEngine(ImageEngine2())
+        .imageEngine(ImageEngine())
         .openExternalPreview2(0.coerceAtLeast(index), list)
   }
   //</editor-fold>

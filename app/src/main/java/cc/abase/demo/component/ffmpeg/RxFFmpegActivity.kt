@@ -8,7 +8,7 @@ import android.media.MediaMetadataRetriever
 import android.provider.MediaStore
 import android.text.method.ScrollingMovementMethod
 import cc.ab.base.ext.*
-import cc.ab.base.widget.engine.ImageEngine2
+import cc.ab.base.widget.engine.ImageEngine
 import cc.abase.demo.component.comm.CommTitleActivity
 import cc.abase.demo.constants.UiConstants
 import cc.abase.demo.utils.VideoUtils
@@ -54,7 +54,7 @@ class RxFFmpegActivity : CommTitleActivity() {
       ffmpegPlayer.gone()
       PictureSelector.create(this)
           .openGallery(PictureMimeType.ofVideo())
-          .imageEngine(ImageEngine2())
+          .imageEngine(ImageEngine())
           .maxSelectNum(1)
           .isCamera(false)
           .isPageStrategy(true, PictureConfig.MAX_PAGE_SIZE, true) //过滤掉已损坏的

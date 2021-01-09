@@ -26,7 +26,7 @@ import java.lang.ref.WeakReference
  * Date:2020/8/28
  * Time:15:32
  */
-class ImageEngine2 : com.luck.picture.lib.engine.ImageEngine {
+class ImageEngine : com.luck.picture.lib.engine.ImageEngine {
   //预览图片的加载图片
   override fun loadImage(context: Context, url: String, imageView: ImageView) {
     val weak = WeakReference(imageView)

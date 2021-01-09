@@ -3,7 +3,7 @@ package cc.abase.demo.component.main.fragment
 import android.graphics.Color
 import androidx.recyclerview.widget.LinearLayoutManager
 import cc.ab.base.ui.viewmodel.DataState
-import cc.ab.base.widget.engine.ImageEngine2
+import cc.ab.base.widget.engine.ImageEngine
 import cc.abase.demo.R
 import cc.abase.demo.bean.local.*
 import cc.abase.demo.component.comm.CommFragment
@@ -65,7 +65,7 @@ class GankFragment private constructor() : CommFragment() {
           PictureSelector.create(this)
               .themeStyle(R.style.picture_default_style)
               .isNotPreviewDownload(true)
-              .imageEngine(ImageEngine2())
+              .imageEngine(ImageEngine())
               .openExternalPreview(p, tempList)
         }
     ))
