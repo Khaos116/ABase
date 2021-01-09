@@ -198,6 +198,13 @@
         android:launchMode="singleTop"
         android:screenOrientation="portrait"
         android:windowSoftInputMode="adjustPan|stateHidden"/>
+    <!--高斯模糊-->
+    <activity
+        android:name=".component.blur.BlurActivity"
+        android:configChanges="screenLayout|orientation"
+        android:launchMode="singleTop"
+        android:screenOrientation="portrait"
+        android:windowSoftInputMode="adjustPan|stateHidden"/>
     <!--测试专用页面-->
     <activity
         android:name=".component.test.TestActivity"

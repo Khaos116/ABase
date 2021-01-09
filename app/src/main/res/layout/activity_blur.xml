@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    >
+
+  <androidx.constraintlayout.widget.ConstraintLayout
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:padding="20dp"
+      >
+
+    <ImageView
+        android:id="@+id/blurIv1"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:contentDescription="@null"
+        android:scaleType="fitXY"
+        app:layout_constraintDimensionRatio="1125:642 "
+        app:layout_constraintTop_toTopOf="parent"
+        tools:background="@color/cyan_40E0D0"
+        />
+
+    <ImageView
+        android:id="@+id/blurIv2"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="5dp"
+        android:contentDescription="@null"
+        android:scaleType="fitXY"
+        app:layout_constraintDimensionRatio="1125:642"
+        app:layout_constraintTop_toBottomOf="@id/blurIv1"
+        tools:background="@color/cyan_40E0D0"
+        />
+
+    <cc.ab.base.widget.roundlayout.widget.GeneralRoundImageView
+        android:id="@+id/blurIv3"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="5dp"
+        android:contentDescription="@null"
+        android:scaleType="fitXY"
+        app:corner_radius="12dp"
+        app:layout_constraintDimensionRatio="1125:642"
+        app:layout_constraintTop_toBottomOf="@id/blurIv2"
+        tools:background="@color/cyan_40E0D0"
+        />
+  </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.core.widget.NestedScrollView>

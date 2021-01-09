@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import cc.ab.base.ext.*
 import cc.abase.demo.R
 import cc.abase.demo.bean.local.SimpleTxtBean
+import cc.abase.demo.component.blur.BlurActivity
 import cc.abase.demo.component.chat.ChatActivity
 import cc.abase.demo.component.comm.CommFragment
 import cc.abase.demo.component.coordinator.CoordinatorActivity
@@ -80,7 +81,8 @@ class MineFragment : CommFragment() {
       Pair(R.string.title_rxhttp.xmlToString(), RxHttpActivity::class.java),
       Pair(R.string.title_flexbox.xmlToString(), FlexboxActivity::class.java),
       Pair(R.string.title_marquee.xmlToString(), MarqueeActivity::class.java),
-      Pair(R.string.title_test.xmlToString(), TestActivity::class.java)
+      Pair(R.string.title_blur.xmlToString(), BlurActivity::class.java),
+      Pair(R.string.title_test.xmlToString(), TestActivity::class.java),
   )
   //</editor-fold>
 
