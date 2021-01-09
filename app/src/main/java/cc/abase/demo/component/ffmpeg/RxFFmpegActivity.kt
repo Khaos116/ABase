@@ -3,17 +3,19 @@ package cc.abase.demo.component.ffmpeg
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.content.pm.ActivityInfo
 import android.media.MediaMetadataRetriever
 import android.provider.MediaStore
 import android.text.method.ScrollingMovementMethod
 import cc.ab.base.ext.*
-import cc.ab.base.widget.engine.PicSelEngine
+import cc.ab.base.widget.engine.ImageEngine2
 import cc.abase.demo.component.comm.CommTitleActivity
 import cc.abase.demo.constants.UiConstants
 import cc.abase.demo.utils.VideoUtils
 import com.blankj.utilcode.util.FileUtils
 import com.blankj.utilcode.util.LogUtils
 import com.luck.picture.lib.PictureSelector
+import com.luck.picture.lib.config.PictureConfig
 import com.luck.picture.lib.config.PictureMimeType
 import kotlinx.android.synthetic.main.activity_rxffmpeg.*
 import java.io.File
@@ -25,8 +27,6 @@ import java.io.File
  */
 class RxFFmpegActivity : CommTitleActivity() {
   companion object {
-    private const val INTENT_SEL_VIDEO = 0x0101
-    private const val INTENT_SEL_VIDEO2 = 0x0201
     fun startActivity(context: Context) {
       val intent = Intent(context, RxFFmpegActivity::class.java)
       context.startActivity(intent)
@@ -52,17 +52,17 @@ class RxFFmpegActivity : CommTitleActivity() {
       ffmpegPlayer.release()
       ffmpegPlayer.clearCover()
       ffmpegPlayer.gone()
-      PictureSelector.create(mActivity)
+      PictureSelector.create(this)
           .openGallery(PictureMimeType.ofVideo())
+          .imageEngine(ImageEngine2())
           .maxSelectNum(1)
           .isCamera(false)
-          .loadImageEngine(PicSelEngine())
-          .previewVideo(true)
-          .forResult(INTENT_SEL_VIDEO2)
-      //val openAlbumIntent = Intent(Intent.ACTION_PICK)
-      //openAlbumIntent.setDataAndType(Media.EXTERNAL_CONTENT_URI, "video/*")
-      //openAlbumIntent.putExtra("return-data", true)
-      //startActivityForResult(openAlbumIntent, INTENT_SEL_VIDEO)
+          .isPageStrategy(true, PictureConfig.MAX_PAGE_SIZE, true) //过滤掉已损坏的
+          .maxSelectNum(1)
+          .queryMaxFileSize(1024f)
+          .isPreviewVideo(true)
+          .setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
+          .forResult(PictureConfig.CHOOSE_REQUEST)
     }
     //内部可滚动 https://www.jianshu.com/p/7a02253cd23e
     ffmpegResult.movementMethod = ScrollingMovementMethod.getInstance()
@@ -161,9 +161,7 @@ class RxFFmpegActivity : CommTitleActivity() {
   override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
     super.onActivityResult(requestCode, resultCode, data)
     data?.let {
-      if (requestCode == INTENT_SEL_VIDEO && resultCode == Activity.RESULT_OK) {
-        selectVideo(mContext, it)?.let { path -> if (File(path).exists()) parseVideo(path) }
-      } else if (requestCode == INTENT_SEL_VIDEO2 && resultCode == Activity.RESULT_OK) {
+      if (requestCode == PictureConfig.CHOOSE_REQUEST && resultCode == Activity.RESULT_OK) {
         // 图片、视频、音频选择结果回调
         PictureSelector.obtainMultipleResult(data)
             ?.let { medias ->
