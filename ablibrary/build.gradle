@@ -71,8 +71,6 @@ dependencies {
   api Deps.coil
   api Deps.coil_gif
   api Deps.coil_video_file
-  api Deps.ffm_mmr_core
-  api Deps.ffm_mmr_native
   api Deps.xxpermissions
   api Deps.rv_anim
 }

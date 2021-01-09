@@ -103,10 +103,6 @@ object Deps {
   //多类型适配器 https://github.com/drakeet/MultiType
   const val multitype = "com.drakeet.multitype:multitype:4.2.0"
 
-  //封面加载 https://github.com/wseemann/FFmpegMediaMetadataRetriever
-  const val ffm_mmr_core = "com.github.wseemann:FFmpegMediaMetadataRetriever-core:1.0.15"
-  const val ffm_mmr_native = "com.github.wseemann:FFmpegMediaMetadataRetriever-native-armeabi-v7a:1.0.15"
-
   //辅助工具 https://github.com/didi/DoraemonKit/blob/master/Doc/android_cn_guide.md
   const val doraemonkit = "com.didichuxing.doraemonkit:dokitx:${Versions.doraemonkit}"
   const val doraemonkit_no = "com.didichuxing.doraemonkit:dokitx-no-op:${Versions.doraemonkit}"
