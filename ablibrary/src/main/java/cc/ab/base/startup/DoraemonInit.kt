@@ -19,6 +19,6 @@ class DoraemonInit : Initializer<Int> {
   }
 
   override fun dependencies(): MutableList<Class<out Initializer<*>>> {
-    return mutableListOf(SketchInit::class.java)
+    return mutableListOf(MmkvInit::class.java)
   }
 }

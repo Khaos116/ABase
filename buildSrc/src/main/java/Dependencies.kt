@@ -103,9 +103,6 @@ object Deps {
   //多类型适配器 https://github.com/drakeet/MultiType
   const val multitype = "com.drakeet.multitype:multitype:4.2.0"
 
-  //图片加载 https://github.com/panpf/sketch
-  const val sketch = "me.panpf:sketch:2.7.1"
-
   //封面加载 https://github.com/wseemann/FFmpegMediaMetadataRetriever
   const val ffm_mmr_core = "com.github.wseemann:FFmpegMediaMetadataRetriever-core:1.0.15"
   const val ffm_mmr_native = "com.github.wseemann:FFmpegMediaMetadataRetriever-native-armeabi-v7a:1.0.15"

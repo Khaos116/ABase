@@ -10,7 +10,7 @@ Build Scan分析情况:[https://scans.gradle.com/s/4fbw3ftizzorg](https://scans.
 **[AndroidAutoSize](https://github.com/JessYanCoding/AndroidAutoSize)**|今日头条UI适配方案
 **[SmartSwipe](https://qibilly.com/SmartSwipe-tutorial/)**|仿微信、小米侧滑返回、替代SmartRefresh下拉刷新
 **[lottie-android](https://github.com/airbnb/lottie-android)**|AE动画库
-**[sketch](https://github.com/panpf/sketch)**|图片加载(兼容圆角、圆形、高斯模糊、图片按压效果，图片边框)
+**[Coil](https://github.com/coil-kt/coil)**|Kotlin版本的图片加载(内置高斯模糊和黑白化功能)
 **[AgentWeb](https://github.com/Justson/AgentWeb)**|简化WebView加载
 **[RxHttp](https://github.com/liujingxing/okhttp-RxHttp)**|新一代OkHttp请求神器
 **[RxCache](https://github.com/VictorAlbertos/RxCache)**|接口数据缓存方案，自定义缓存时长
@@ -50,13 +50,13 @@ banner.setOrientation(if (vertical) DSVOrientation.VERTICAL else DSVOrientation.
     
 //需要自定义ViewHolder  
 class HomeBannerHolderView(view: View?) : DiscreteHolder<BannerBean>(view) {
-  private var imageView: SketchImageView? = null
+  private var imageView: ImageView? = null
   override fun updateUI(
     data: BannerBean,
     position: Int,
     count: Int
   ) {
-    imageView?.load(data.imagePath)
+    imageView?.loadImgHorizontal(data.imagePath)
   }
 
   override fun initView(view: View) {
