@@ -32,10 +32,11 @@
       app:layout_constraintTop_toBottomOf="@id/itemVideoListTitle"
       >
     <!--封面-->
-    <me.panpf.sketch.SketchImageView
+    <ImageView
         android:id="@+id/itemPlayPagerThumb"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:contentDescription="@null"
         android:scaleType="fitCenter"
         />
     <!--播放按钮-->
