@@ -111,10 +111,6 @@ object Deps {
   const val doraemonkit = "com.didichuxing.doraemonkit:dokitx:${Versions.doraemonkit}"
   const val doraemonkit_no = "com.didichuxing.doraemonkit:dokitx-no-op:${Versions.doraemonkit}"
 
-  //https://github.com/VictorAlbertos/RxCache
-  const val rxcache = "com.github.VictorAlbertos.RxCache:runtime:1.8.3-2.x"
-  const val rxcache_gson = "com.github.VictorAlbertos.Jolyglot:gson:0.0.4"
-
   //表情 https://github.com/vanniktech/Emoji
   const val emoji = "com.vanniktech:emoji-ios:0.7.0"
 

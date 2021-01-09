@@ -73,8 +73,6 @@ dependencies {
   api Deps.coil_video_file
   api Deps.ffm_mmr_core
   api Deps.ffm_mmr_native
-  api Deps.rxcache
   api Deps.xxpermissions
-  api(Deps.rxcache_gson) { exclude group: 'com.squareup.retrofit2' }
   api Deps.rv_anim
 }
