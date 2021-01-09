@@ -16,16 +16,21 @@ import com.gyf.immersionbar.ktx.immersionBar
  * @date: 2019/10/11 15:11
  */
 class GuideActivity : CommActivity() {
-  //引导页图片，如果需要，可以在启动页进行预加载
-  private val mList = ImageUrls.imgs.take(4)
-
+  //<editor-fold defaultstate="collapsed" desc="外部跳转">
   companion object {
     fun startActivity(context: Context) {
       val intent = Intent(context, GuideActivity::class.java)
       context.startActivity(intent)
     }
   }
+  //</editor-fold>
 
+  //<editor-fold defaultstate="collapsed" desc="变量">
+  //引导页图片，如果需要，可以在启动页进行预加载
+  private val mList = ImageUrls.imgs.take(4)
+  //</editor-fold>
+
+  //<editor-fold defaultstate="collapsed" desc="状态栏">
   //不默认填充状态栏
   override fun fillStatus() = false
 
@@ -33,16 +38,23 @@ class GuideActivity : CommActivity() {
   override fun initStatus() {
     immersionBar { statusBarDarkFont(false) }
   }
+  //</editor-fold>
 
+  //<editor-fold defaultstate="collapsed" desc="XML">
   override fun layoutResId() = R.layout.activity_guide
+  //</editor-fold>
 
+  //<editor-fold defaultstate="collapsed" desc="初始化View">
   override fun initView() {
     findViewById<DiscreteBanner<String>>(R.id.guideBanner)
         .setOrientation(DSVOrientation.VERTICAL)
         .apply { getIndicator()?.needSpecial = true }
         .setPages(GuideHolderCreator(), mList)
   }
+  //</editor-fold>
 
+  //<editor-fold defaultstate="collapsed" desc="初始化Data">
   override fun initData() {
   }
+  //</editor-fold>
 }
