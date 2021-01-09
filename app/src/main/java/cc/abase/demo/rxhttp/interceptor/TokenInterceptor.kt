@@ -10,7 +10,7 @@ import com.blankj.utilcode.util.EncryptUtils
 import com.blankj.utilcode.util.LogUtils
 import okhttp3.*
 import org.json.JSONObject
-import rxhttp.wrapper.param.RxHttp
+import rxhttp.RxHttp
 import rxhttp.wrapper.parse.SimpleParser
 import java.io.IOException
 import java.nio.charset.Charset

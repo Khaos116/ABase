@@ -4,9 +4,9 @@ import androidx.annotation.IntRange
 import cc.abase.demo.bean.gank.GankAndroidBean
 import cc.abase.demo.constants.GankUrls
 import cc.abase.demo.constants.TimeConstants
+import rxhttp.RxHttp
 import rxhttp.wrapper.cahce.CacheMode
-import rxhttp.wrapper.param.RxHttp
-import rxhttp.wrapper.param.toResponseGank
+import rxhttp.toResponseGank
 
 /**
  * Description:

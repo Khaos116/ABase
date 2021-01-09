@@ -6,9 +6,9 @@ import cc.abase.demo.bean.wan.ArticleBean
 import cc.abase.demo.bean.wan.BannerBean
 import cc.abase.demo.constants.TimeConstants
 import cc.abase.demo.constants.WanUrls
+import rxhttp.RxHttp
+import rxhttp.toResponseWan
 import rxhttp.wrapper.cahce.CacheMode
-import rxhttp.wrapper.param.RxHttp
-import rxhttp.wrapper.param.toResponseWan
 
 /**
  * Description:

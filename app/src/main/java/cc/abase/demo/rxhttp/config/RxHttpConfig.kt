@@ -10,7 +10,7 @@ import okhttp3.OkHttpClient.Builder
 import rxhttp.RxHttpPlugins
 import rxhttp.wrapper.cahce.CacheMode
 import rxhttp.wrapper.param.Param
-import rxhttp.wrapper.param.RxHttp
+import rxhttp.RxHttp
 import rxhttp.wrapper.ssl.HttpsUtils
 import java.io.File
 import java.util.concurrent.TimeUnit

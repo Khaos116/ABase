@@ -13,7 +13,7 @@ import com.blankj.utilcode.util.LogUtils
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import rxhttp.wrapper.cahce.CacheMode
-import rxhttp.wrapper.param.RxHttp
+import rxhttp.RxHttp
 
 /**
  * Description:

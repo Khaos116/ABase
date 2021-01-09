@@ -12,7 +12,7 @@ import cc.abase.demo.constants.StringConstants
 import com.blankj.utilcode.util.*
 import com.jeremyliao.liveeventbus.LiveEventBus
 import io.reactivex.android.schedulers.AndroidSchedulers
-import rxhttp.wrapper.param.RxHttp
+import rxhttp.RxHttp
 import java.io.File
 import java.util.Locale
 

@@ -13,7 +13,7 @@ import com.rxjava.rxlife.life
 import io.reactivex.android.schedulers.AndroidSchedulers
 import kotlinx.android.synthetic.main.activity_rxhttp.*
 import kotlinx.android.synthetic.main.layout_comm_title.commTitleText
-import rxhttp.wrapper.param.RxHttp
+import rxhttp.RxHttp
 
 /**
  * Description:https://github.com/liujingxing/okhttp-RxHttp
