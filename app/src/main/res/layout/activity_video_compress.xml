@@ -2,7 +2,7 @@
 <FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/ffmpegPlayerParent"
+    android:id="@+id/videoCompressPlayerParent"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true"
@@ -10,7 +10,7 @@
     >
 
   <cc.abase.demo.widget.dkplayer.MyVideoView
-      android:id="@+id/ffmpegPlayer"
+      android:id="@+id/videoCompressPlayer"
       android:layout_width="match_parent"
       android:layout_height="match_parent"
       android:layout_gravity="center"
@@ -25,7 +25,7 @@
       >
 
     <TextView
-        android:id="@+id/ffmpegPlay"
+        android:id="@+id/videoCompressPlay"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
@@ -40,7 +40,7 @@
         />
 
     <TextView
-        android:id="@+id/ffmpegSel"
+        android:id="@+id/videoCompressSel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
@@ -55,7 +55,7 @@
         />
 
     <TextView
-        android:id="@+id/ffmpegCompress"
+        android:id="@+id/videoCompressCompress"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
@@ -71,7 +71,7 @@
 
     <!--内部可滚动 https://www.jianshu.com/p/7a02253cd23e-->
     <TextView
-        android:id="@+id/ffmpegResult"
+        android:id="@+id/videoCompressResult"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:maxWidth="180dp"

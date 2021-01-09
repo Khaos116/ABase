@@ -82,14 +82,14 @@
         android:windowSoftInputMode="adjustPan|stateHidden"/>
     <!--视频封面获取和压缩-->
     <activity
-        android:name=".component.ffmpeg.RxFFmpegActivity"
+        android:name=".component.video.VideoCompressActivity"
         android:configChanges="orientation|keyboardHidden|screenSize"
         android:launchMode="singleTop"
         android:screenOrientation="portrait"
         android:windowSoftInputMode="adjustPan|stateHidden"/>
     <!--视频详情页-->
     <activity
-        android:name=".component.ffmpeg.VideoDetailActivity"
+        android:name=".component.video.VideoDetailActivity"
         android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|smallestScreenSize|uiMode"
         android:launchMode="singleTop"
         android:screenOrientation="portrait"

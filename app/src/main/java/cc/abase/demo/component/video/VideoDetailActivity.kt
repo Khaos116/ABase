@@ -1,4 +1,4 @@
-package cc.abase.demo.component.ffmpeg
+package cc.abase.demo.component.video
 
 import android.content.Context
 import android.content.Intent

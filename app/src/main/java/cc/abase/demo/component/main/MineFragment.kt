@@ -14,7 +14,6 @@ import cc.abase.demo.component.coordinator.CoordinatorActivity
 import cc.abase.demo.component.decoration.DecorationActivity
 import cc.abase.demo.component.drag.DragActivity
 import cc.abase.demo.component.expand.ExpandActivity
-import cc.abase.demo.component.ffmpeg.RxFFmpegActivity
 import cc.abase.demo.component.flexbox.FlexboxActivity
 import cc.abase.demo.component.marquee.MarqueeActivity
 import cc.abase.demo.component.playlist.PlayListActivity
@@ -28,6 +27,7 @@ import cc.abase.demo.component.sticky.StickyActivity2
 import cc.abase.demo.component.test.TestActivity
 import cc.abase.demo.component.update.CcUpdateService
 import cc.abase.demo.component.update.UpdateEnum
+import cc.abase.demo.component.video.VideoCompressActivity
 import cc.abase.demo.constants.EventKeys
 import cc.abase.demo.item.SimpleTxtItem
 import cc.abase.demo.rxhttp.repository.UserRepository
@@ -38,7 +38,7 @@ import com.drakeet.multitype.MultiTypeAdapter
 import com.jeremyliao.liveeventbus.LiveEventBus
 import com.rxjava.rxlife.life
 import kotlinx.android.synthetic.main.fragment_mine.*
-import java.util.Locale
+import java.util.*
 
 /**
  * Description:
@@ -66,7 +66,7 @@ class MineFragment : CommFragment() {
   //菜单列表
   private val menuList = mutableListOf(
       Pair(R.string.chat_title.xmlToString(), ChatActivity::class.java),
-      Pair(R.string.ffmpeg_title.xmlToString(), RxFFmpegActivity::class.java),
+      Pair(R.string.video_compress_title.xmlToString(), VideoCompressActivity::class.java),
       Pair(R.string.update_app.xmlToString(), CcUpdateService::class.java),
       Pair(R.string.title_sticky.xmlToString(), StickyActivity::class.java),
       Pair(R.string.title_sticky2.xmlToString(), StickyActivity2::class.java),
