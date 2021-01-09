@@ -2,11 +2,13 @@ package cc.ab.base.ext
 
 import android.media.MediaMetadataRetriever
 import android.widget.ImageView
+import androidx.annotation.FloatRange
 import cc.ab.base.R
 import cc.ab.base.config.PathConfig
 import cc.ab.base.utils.MediaMetadataRetrieverUtils
 import coil.*
 import coil.request.ImageRequest
+import coil.transform.BlurTransformation
 import coil.util.CoilUtils
 import com.blankj.utilcode.util.EncryptUtils
 import com.blankj.utilcode.util.Utils
@@ -53,6 +55,12 @@ fun ImageView.loadImgSquare(url: String?, hasHolder: Boolean = true) {
 
 //横向图片加载
 fun ImageView.loadImgHorizontal(url: String?, holderRatio: Float = 720f / 400, hasHolder: Boolean = true) {
+  this.loadImgHorizontalBlur(url, holderRatio, hasHolder)
+}
+
+//横向高斯模糊图片加载
+fun ImageView.loadImgHorizontalBlur(url: String?, holderRatio: Float = 720f / 400, hasHolder: Boolean = true,
+    @FloatRange(from = 0.0, to = 25.0) blurRadius: Float = 0f) {
   if (url.isNullOrBlank()) {
     this.clearLoad()
     if (hasHolder) this.load(PlaceHolderUtils.getErrorHolder(holderRatio))
@@ -69,6 +77,7 @@ fun ImageView.loadImgHorizontal(url: String?, holderRatio: Float = 720f / 400, h
       } else {
         crossfade(false)
       }
+      if (blurRadius > 0) transformations(BlurTransformation(context, blurRadius))
       listener(onError = { r, e -> "横向图片加载失败:${r.data},e=${e.message ?: "null"}".logE() }) { _, _ -> iv.setTag(R.id.suc_img, url) }
     }
     val f = url.toFile()
@@ -78,6 +87,12 @@ fun ImageView.loadImgHorizontal(url: String?, holderRatio: Float = 720f / 400, h
 
 //竖向图片加载
 fun ImageView.loadImgVertical(url: String?, holderRatio: Float = 720f / 1280, hasHolder: Boolean = true) {
+  this.loadImgVerticalBlur(url, holderRatio, hasHolder)
+}
+
+//竖向高斯模糊图片加载
+fun ImageView.loadImgVerticalBlur(url: String?, holderRatio: Float = 720f / 1280, hasHolder: Boolean = true,
+    @FloatRange(from = 0.0, to = 25.0) blurRadius: Float = 0f) {
   if (url.isNullOrBlank()) {
     this.clearLoad()
     if (hasHolder) this.load(PlaceHolderUtils.getErrorHolder(holderRatio))
@@ -94,6 +109,7 @@ fun ImageView.loadImgVertical(url: String?, holderRatio: Float = 720f / 1280, ha
       } else {
         crossfade(false)
       }
+      if (blurRadius > 0) transformations(BlurTransformation(context, blurRadius))
       listener(onError = { r, e -> "竖向图片加载失败:${r.data},e=${e.message ?: "null"}".logE() }) { _, _ -> iv.setTag(R.id.suc_img, url) }
     }
     val f = url.toFile()
