@@ -8,6 +8,7 @@ package cc.abase.demo.constants
 interface GankUrls {
   companion object {
     const val ANDROID = "v2/data/category/GanHuo/type/Android/page/%s/count/%s"//{page}/{pageSize}
+    //https://gank.io/api/v2/data/category/Girl/type/Girl/page/1/count/10
     const val GIRL = "v2/data/category/Girl/type/Girl/page/%s/count/%s"//{page}/{pageSize}
   }
 }
