@@ -14,47 +14,47 @@ object MMkvUtils {
   private const val USER_ACCOUNT = "USER_ACCOUNT"
   private const val USER_PWD = "USER_PWD"
   fun setNeedGuide(need: Boolean = true) {
-    MMKV.defaultMMKV().encode(GUIDE_SPLASH, need)
+    MMKV.defaultMMKV()?.encode(GUIDE_SPLASH, need)
   }
 
   fun getNeedGuide(): Boolean {
-    return MMKV.defaultMMKV().decodeBool(GUIDE_SPLASH, true)
+    return MMKV.defaultMMKV()?.decodeBool(GUIDE_SPLASH, true) ?: true
   }
 
   fun getUid(): Long {
-    return MMKV.defaultMMKV().decodeLong(USER_UID, 0L)
+    return MMKV.defaultMMKV()?.decodeLong(USER_UID, 0L) ?: 0L
   }
 
   fun setAccount(account: String) {
-    MMKV.defaultMMKV().encode(USER_ACCOUNT, account)
+    MMKV.defaultMMKV()?.encode(USER_ACCOUNT, account)
   }
 
   fun setPassword(pwd: String) {
-    MMKV.defaultMMKV().encode(USER_PWD, pwd)
+    MMKV.defaultMMKV()?.encode(USER_PWD, pwd)
   }
 
   fun getAccount(): String {
-    return MMKV.defaultMMKV().decodeString(USER_ACCOUNT, "")
+    return MMKV.defaultMMKV()?.decodeString(USER_ACCOUNT, "") ?: ""
   }
 
   fun getPassword(): String {
-    return MMKV.defaultMMKV().decodeString(USER_PWD, "")
+    return MMKV.defaultMMKV()?.decodeString(USER_PWD, "") ?: ""
   }
 
   fun setUid(uid: Long) {
-    MMKV.defaultMMKV().encode(USER_UID, uid)
+    MMKV.defaultMMKV()?.encode(USER_UID, uid)
   }
 
   fun getToken(): String? {
-    return MMKV.defaultMMKV().decodeString(USER_TOKEN)
+    return MMKV.defaultMMKV()?.decodeString(USER_TOKEN)
   }
 
   fun setToken(token: String) {
-    MMKV.defaultMMKV().encode(USER_TOKEN, token)
+    MMKV.defaultMMKV()?.encode(USER_TOKEN, token)
   }
 
   fun clearUserInfo() {
-    MMKV.defaultMMKV().removeValueForKey(USER_UID)
-    MMKV.defaultMMKV().removeValueForKey(USER_TOKEN)
+    MMKV.defaultMMKV()?.removeValueForKey(USER_UID)
+    MMKV.defaultMMKV()?.removeValueForKey(USER_TOKEN)
   }
 }
