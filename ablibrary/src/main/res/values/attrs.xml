@@ -1,15 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-  <!--九宫格控件-->
-  <declare-styleable name="NineGridView">
-    <attr name="singleImgSize" format="dimension"/>
-    <attr name="imgGap" format="dimension"/>
-    <attr name="maxSize" format="integer"/>
-    <attr name="showStyle" format="enum">
-      <enum name="grid" value="0"/>
-      <enum name="fill" value="1"/>
-    </attr>
-  </declare-styleable>
   <declare-styleable name="DiscreteBanner">
     <attr name="dsv_orientation" format="enum">
       <enum name="horizontal" value="0"/>
