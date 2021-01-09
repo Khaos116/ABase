@@ -8,7 +8,7 @@ import cc.ab.base.config.PathConfig
 import cc.ab.base.utils.MediaMetadataRetrieverUtils
 import coil.*
 import coil.request.ImageRequest
-import coil.transform.BlurTransformation
+import coil.transform.*
 import coil.util.CoilUtils
 import com.blankj.utilcode.util.EncryptUtils
 import com.blankj.utilcode.util.Utils
@@ -58,9 +58,9 @@ fun ImageView.loadImgHorizontal(url: String?, holderRatio: Float = 720f / 400, h
   this.loadImgHorizontalBlur(url, holderRatio, hasHolder)
 }
 
-//横向高斯模糊图片加载
+//横向高斯模糊+黑白图片加载
 fun ImageView.loadImgHorizontalBlur(url: String?, holderRatio: Float = 720f / 400, hasHolder: Boolean = true,
-    @FloatRange(from = 0.0, to = 25.0) blurRadius: Float = 0f) {
+    @FloatRange(from = 0.0, to = 25.0) blurRadius: Float = 0f, blackWhite: Boolean = false) {
   if (url.isNullOrBlank()) {
     this.clearLoad()
     if (hasHolder) this.load(PlaceHolderUtils.getErrorHolder(holderRatio))
@@ -77,7 +77,12 @@ fun ImageView.loadImgHorizontalBlur(url: String?, holderRatio: Float = 720f / 40
       } else {
         crossfade(false)
       }
-      if (blurRadius > 0) transformations(BlurTransformation(context, blurRadius))
+      if (blurRadius > 0 || blackWhite) {
+        val list = mutableListOf<Transformation>()
+        if (blurRadius > 0) list.add(BlurTransformation(context, blurRadius))
+        if (blackWhite) list.add(GrayscaleTransformation())
+        transformations(list)
+      }
       listener(onError = { r, e -> "横向图片加载失败:${r.data},e=${e.message ?: "null"}".logE() }) { _, _ -> iv.setTag(R.id.suc_img, url) }
     }
     val f = url.toFile()
@@ -90,9 +95,9 @@ fun ImageView.loadImgVertical(url: String?, holderRatio: Float = 720f / 1280, ha
   this.loadImgVerticalBlur(url, holderRatio, hasHolder)
 }
 
-//竖向高斯模糊图片加载
+//竖向高斯模糊+黑白图片加载
 fun ImageView.loadImgVerticalBlur(url: String?, holderRatio: Float = 720f / 1280, hasHolder: Boolean = true,
-    @FloatRange(from = 0.0, to = 25.0) blurRadius: Float = 0f) {
+    @FloatRange(from = 0.0, to = 25.0) blurRadius: Float = 0f, blackWhite: Boolean = false) {
   if (url.isNullOrBlank()) {
     this.clearLoad()
     if (hasHolder) this.load(PlaceHolderUtils.getErrorHolder(holderRatio))
@@ -109,7 +114,12 @@ fun ImageView.loadImgVerticalBlur(url: String?, holderRatio: Float = 720f / 1280
       } else {
         crossfade(false)
       }
-      if (blurRadius > 0) transformations(BlurTransformation(context, blurRadius))
+      if (blurRadius > 0 || blackWhite) {
+        val list = mutableListOf<Transformation>()
+        if (blurRadius > 0) list.add(BlurTransformation(context, blurRadius))
+        if (blackWhite) list.add(GrayscaleTransformation())
+        transformations(list)
+      }
       listener(onError = { r, e -> "竖向图片加载失败:${r.data},e=${e.message ?: "null"}".logE() }) { _, _ -> iv.setTag(R.id.suc_img, url) }
     }
     val f = url.toFile()
