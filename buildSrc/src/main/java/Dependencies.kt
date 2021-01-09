@@ -3,8 +3,8 @@ object Versions {
   internal const val sdkTarget = 30
   internal const val kotlin = "1.4.21"
   internal const val okHttp = "4.9.0"
-  internal const val rxHttp = "2.5.1"
-  internal const val doraemonkit = "3.2.0"
+  internal const val rxHttp = "2.5.3"
+  internal const val doraemonkit = "3.3.5"
   internal const val coil = "1.1.0"
 }
 
@@ -20,16 +20,16 @@ object Deps {
   const val kotlin_stdlib = "org.jetbrains.kotlin:kotlin-stdlib:${Versions.kotlin}"
 
   //系统相关 https://maven.aliyun.com/mvn/search
-  const val core_ktx = "androidx.core:core-ktx:1.5.0-alpha03"
-  const val activity_ktx = "androidx.activity:activity-ktx:1.2.0-alpha08"
+  const val core_ktx = "androidx.core:core-ktx:1.5.0-alpha05"
+  const val activity_ktx = "androidx.activity:activity-ktx:1.2.0-rc01"
   const val appcompat = "androidx.appcompat:appcompat:1.3.0-alpha02"
-  const val fragment = "androidx.fragment:fragment:1.3.0-alpha08"
-  const val material = "com.google.android.material:material:1.3.0-alpha02"
-  const val constraint = "androidx.constraintlayout:constraintlayout:2.0.1"
-  const val viewmodel = "androidx.lifecycle:lifecycle-viewmodel:2.3.0-alpha07"
+  const val fragment = "androidx.fragment:fragment:1.3.0-rc01"
+  const val material = "com.google.android.material:material:1.3.0-beta01"
+  const val constraint = "androidx.constraintlayout:constraintlayout:2.1.0-alpha2"
+  const val viewmodel = "androidx.lifecycle:lifecycle-viewmodel:2.3.0-rc01"
 
   //启动初始化 https://developer.android.google.cn/topic/libraries/app-startup
-  const val startup = "androidx.startup:startup-runtime:1.0.0-rc01"
+  const val startup = "androidx.startup:startup-runtime:1.0.0"
 
   //log打印 https://github.com/JakeWharton/timber
   const val timber = "com.jakewharton.timber:timber:4.7.1"
@@ -38,7 +38,7 @@ object Deps {
   const val multidex = "androidx.multidex:multidex:2.0.1"
 
   //内存泄漏检测 https://square.github.io/leakcanary/getting_started/
-  const val leakcanary = "com.squareup.leakcanary:leakcanary-android:2.4"
+  const val leakcanary = "com.squareup.leakcanary:leakcanary-android:2.6"
 
   //工具类 https://github.com/Blankj/AndroidUtilCode/blob/master/lib/utilcode/README-CN.md
   const val utilcodex = "com.blankj:utilcodex:1.30.5"
@@ -51,13 +51,10 @@ object Deps {
   const val immersionbar_ktx = "com.gyf.immersionbar:immersionbar-ktx:3.0.0"
 
   //数据存储 https://github.com/Tencent/MMKV
-  const val mmkv = "com.tencent:mmkv-static:1.2.2"
+  const val mmkv = "com.tencent:mmkv-static:1.2.7"
 
   //数据解析 https://github.com/google/gson
   const val gson = "com.google.code.gson:gson:2.8.6"
-
-  //网络请求 https://github.com/square/okhttp
-  const val okhttp = "com.squareup.okhttp3:okhttp:${Versions.okHttp}"
 
   //日志json打印 https://github.com/Ayvytr/OKHttpLogInterceptor
   const val okhttp_log = "com.ayvytr:okhttploginterceptor:3.0.4"
@@ -66,9 +63,12 @@ object Deps {
   const val coroutine = "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.4.2"
   const val coroutine_android = "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.4.2"
 
+  //网络请求 https://github.com/square/okhttp
+  const val okhttp = "com.squareup.okhttp3:okhttp:${Versions.okHttp}"
+
   //RxHttp https://github.com/liujingxing/okhttp-RxHttp
   const val rxhttp = "com.ljx.rxhttp:rxhttp:${Versions.rxHttp}"
-  const val rxhttp_kapt = "com.ljx.rxhttp:rxhttp-compiler:${Versions.rxHttp}" //生成RxHttp类
+  const val rxhttp_kapt = "com.ljx.rxhttp:rxhttp-compiler:${Versions.rxHttp}"
   const val rxlife_coroutine = "com.ljx.rxlife:rxlife-coroutine:2.0.1" //管理协程生命周期，页面销毁，关闭请求
   const val rxlife_rxjava = "com.ljx.rxlife2:rxlife-rxjava:2.0.0" //管理RxJava2生命周期，页面销毁，关闭请求
 
@@ -76,7 +76,7 @@ object Deps {
   const val rxandroid = "io.reactivex.rxjava2:rxandroid:2.1.1"
 
   //EventBus https://github.com/JeremyLiao/LiveEventBus
-  const val eventBus = "com.jeremyliao:live-event-bus-x:1.7.2"
+  const val eventBus = "com.jeremyliao:live-event-bus-x:1.7.3"
 
   //WebView https://github.com/Justson/AgentWeb
   const val agentweb = "com.just.agentweb:agentweb:4.1.4"
@@ -86,19 +86,19 @@ object Deps {
   const val swipex = "com.billy.android:smart-swipe-x:1.1.0"
 
   //下拉刷新 https://github.com/scwang90/SmartRefreshLayout
-  const val smart_refresh = "com.scwang.smart:refresh-layout-kernel:2.0.1"
-  const val smart_header = "com.scwang.smart:refresh-header-classics:2.0.1"
-  const val smart_footer = "com.scwang.smart:refresh-footer-classics:2.0.1"
+  const val smart_refresh = "com.scwang.smart:refresh-layout-kernel:2.0.3"
+  const val smart_header = "com.scwang.smart:refresh-header-classics:2.0.3"
+  const val smart_footer = "com.scwang.smart:refresh-footer-classics:2.0.3"
 
   //图片选择器 https://github.com/LuckSiege/PictureSelector
-  const val pic_select = "com.github.LuckSiege.PictureSelector:picture_library:v2.5.9"
+  const val pic_select = "com.github.LuckSiege.PictureSelector:picture_library:v2.6.0"
 
-  //https://github.com/trello/RxLifecycle  TODO 更新后RxUtils存在问题
+  //https://github.com/trello/RxLifecycle   更新后RxUtils存在问题
   //api 'com.trello.rxlifecycle4:rxlifecycle-android-lifecycle:4.0.0'
   const val rxlife_android = "com.trello.rxlifecycle3:rxlifecycle-android-lifecycle:3.1.0"
 
   //https://github.com/airbnb/lottie-android
-  const val lottie = "com.airbnb.android:lottie:3.4.2"
+  const val lottie = "com.airbnb.android:lottie:3.6.0"
 
   //多类型适配器 https://github.com/drakeet/MultiType
   const val multitype = "com.drakeet.multitype:multitype:4.2.0"
@@ -108,8 +108,8 @@ object Deps {
   const val ffm_mmr_native = "com.github.wseemann:FFmpegMediaMetadataRetriever-native-armeabi-v7a:1.0.15"
 
   //辅助工具 https://github.com/didi/DoraemonKit/blob/master/Doc/android_cn_guide.md
-  const val doraemonkit = "com.didichuxing.doraemonkit:doraemonkit:${Versions.doraemonkit}"
-  const val doraemonkit_no = "com.didichuxing.doraemonkit:doraemonkit-no-op:${Versions.doraemonkit}"
+  const val doraemonkit = "com.didichuxing.doraemonkit:dokitx:${Versions.doraemonkit}"
+  const val doraemonkit_no = "com.didichuxing.doraemonkit:dokitx-no-op:${Versions.doraemonkit}"
 
   //https://github.com/VictorAlbertos/RxCache
   const val rxcache = "com.github.VictorAlbertos.RxCache:runtime:1.8.3-2.x"
@@ -137,8 +137,8 @@ object Deps {
   const val spedit_tool = "com.github.sunhapper.SpEditTool:SpEditText:1.0.4"
 
   //日期选择 https://github.com/zyyoona7/WheelPicker
-  const val wheelview = "com.github.zyyoona7:wheelview:1.0.8"
-  const val pickerview = "com.github.zyyoona7:pickerview:1.1.0"
+  const val wheelview = "com.github.zyyoona7:wheelview:1.0.9"
+  const val pickerview = "com.github.zyyoona7:pickerview:1.1.1"
 
   //FlexboxLayout https://github.com/google/flexbox-layout
   const val flexbox = "com.google.android:flexbox:2.0.1"
@@ -156,7 +156,7 @@ object Deps {
   const val coil_gif = "io.coil-kt:coil-gif:${Versions.coil}"
   const val coil_video_file = "io.coil-kt:coil-video:${Versions.coil}"
 
-  //https://github.com/wasabeef/recyclerview-animators
+  //RecyclerView动画 https://github.com/mikepenz/ItemAnimators
   const val rv_anim = "com.mikepenz:itemanimators:1.1.0"
 
   //指示器 https://github.com/hackware1993/MagicIndicator/tree/androidx
