@@ -93,18 +93,9 @@ class RxFFmpegActivity : CommTitleActivity() {
     ffmpegPlay.click { VideoDetailActivity.startActivity(mContext, compressVideoPath) }
   }
 
-  override fun initData() {
-    //高斯模糊测试代码
-    //val url = PathUtils.getExternalStoragePath() + File.separator + "251C90F4C97303004ACF85BDE3164342.jpg"
-    //iv1.load(url)
-    //iv2.loadBlur(url, blur = 15)
-    //iv3.loadCornerBlur(url, cornerDP = 8f, blur = 25)
-  }
+  override fun initData() {}
 
-  private fun initPlayer(
-      videoPath: String,
-      coverPath: String
-  ) {
+  private fun initPlayer(videoPath: String, coverPath: String) {
     ffmpegPlayer?.let { videoView ->
       //设置尺寸
       val size = getVideoSize(videoPath)
