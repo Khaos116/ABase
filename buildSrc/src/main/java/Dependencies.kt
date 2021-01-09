@@ -114,10 +114,6 @@ object Deps {
   //表情 https://github.com/vanniktech/Emoji
   const val emoji = "com.vanniktech:emoji-ios:0.7.0"
 
-  //弹幕 https://github.com/bilibili/DanmakuFlameMaster
-  const val danma_master = "com.github.ctiao:DanmakuFlameMaster:0.9.25"
-  const val danma_bitmap = "com.github.ctiao:ndkbitmap-armv7a:0.9.21"
-
   //SideBar https://github.com/D10NGYANG/DL10SideBar
   const val side_bar = "com.github.D10NGYANG:DL10SideBar:1.0.0"
 

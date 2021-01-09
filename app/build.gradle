@@ -207,8 +207,6 @@ dependencies {
   implementation Deps.dk_java
   implementation Deps.dk_ui
   implementation Deps.dk_exo
-  implementation Deps.danma_master
-  implementation Deps.danma_bitmap
   implementation Deps.side_bar
   implementation Deps.bugly_crash
   implementation Deps.bugly_native
