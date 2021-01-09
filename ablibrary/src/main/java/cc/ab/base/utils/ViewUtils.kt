@@ -10,22 +10,14 @@ import android.view.ViewGroup
  * @author: CASE
  * @date: 2019/9/24 11:06
  */
-class ViewUtils private constructor() {
-  private object SingletonHolder {
-    val holder = ViewUtils()
-  }
-
-  companion object {
-    val instance = SingletonHolder.holder
-  }
-
+object ViewUtils {
   //测量这个view，最后通过getMeasuredWidth()、getMeasuredHeight()获取宽度和高度
   fun measureView(v: View) {
     var params = v.layoutParams
     if (params == null) {
       params = ViewGroup.LayoutParams(
-        ViewGroup.LayoutParams.MATCH_PARENT,
-        ViewGroup.LayoutParams.WRAP_CONTENT
+          ViewGroup.LayoutParams.MATCH_PARENT,
+          ViewGroup.LayoutParams.WRAP_CONTENT
       )
     }
     val childWidthSpec = ViewGroup.getChildMeasureSpec(0, 0 + 0, params.width)
@@ -33,13 +25,13 @@ class ViewUtils private constructor() {
     val childHeightSpec: Int
     childHeightSpec = if (lpHeight > 0) {
       View.MeasureSpec.makeMeasureSpec(
-        lpHeight,
-        View.MeasureSpec.EXACTLY
+          lpHeight,
+          View.MeasureSpec.EXACTLY
       )
     } else {
       View.MeasureSpec.makeMeasureSpec(
-        0,
-        View.MeasureSpec.UNSPECIFIED
+          0,
+          View.MeasureSpec.UNSPECIFIED
       )
     }
     v.measure(childWidthSpec, childHeightSpec)

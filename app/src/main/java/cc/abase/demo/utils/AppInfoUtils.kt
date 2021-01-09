@@ -12,15 +12,7 @@ import java.io.InputStreamReader
  * @author: CASE
  * @date: 2019/11/6 17:29
  */
-class AppInfoUtils private constructor() {
-  private object SingletonHolder {
-    val holder = AppInfoUtils()
-  }
-
-  companion object {
-    val instance = SingletonHolder.holder
-  }
-
+object AppInfoUtils {
   //获取APP版本信息
   fun getAppInfo(): String {
     val builder: StringBuilder = StringBuilder()

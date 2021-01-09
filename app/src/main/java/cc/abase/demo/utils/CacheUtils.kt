@@ -9,15 +9,7 @@ import com.blankj.utilcode.util.PathUtils
  * @author: CASE
  * @date: 2020/3/30 10:25
  */
-class CacheUtils private constructor() {
-  private object SingletonHolder {
-    val holder = CacheUtils()
-  }
-
-  companion object {
-    val instance = SingletonHolder.holder
-  }
-
+object CacheUtils {
   //获取缓存大小，需要在异步线程执行
   fun getCacheSize(): String {
     //APP下载目录

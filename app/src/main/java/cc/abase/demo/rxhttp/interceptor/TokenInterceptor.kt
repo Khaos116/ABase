@@ -1,7 +1,7 @@
 package cc.abase.demo.rxhttp.interceptor
 
-import cc.abase.demo.config.GlobalErrorHandle
 import cc.abase.demo.config.AppConfig
+import cc.abase.demo.config.GlobalErrorHandle
 import cc.abase.demo.constants.ErrorCode
 import cc.abase.demo.constants.WanUrls
 import cc.abase.demo.rxhttp.repository.UserRepository
@@ -42,7 +42,7 @@ class TokenInterceptor : Interceptor {
           originalResponse.close()
           return handleTokenInvalid(chain, request)
         } else {
-          GlobalErrorHandle.instance.dealGlobalErrorCode(jsonObject.optInt("errorCode"))
+          GlobalErrorHandle.dealGlobalErrorCode(jsonObject.optInt("errorCode"))
         }
       }
     }
@@ -51,7 +51,7 @@ class TokenInterceptor : Interceptor {
       cookies.forEach { map ->
         for (value in map.value) {
           if (value.contains("JSESSIONID", true)) {
-            UserRepository.instance.setToken(value, request.url.toString())
+            UserRepository.setToken(value, request.url.toString())
           }
         }
       }
@@ -84,11 +84,11 @@ class TokenInterceptor : Interceptor {
       //拿到最新的token,重新发起请求 4、根据自己的业务修改
       if (post) {
         rxHttp1.removeAllHeader("Cookie")
-        rxHttp1.addHeader("Cookie", UserRepository.instance.getToken())
+        rxHttp1.addHeader("Cookie", UserRepository.getToken())
         rxHttp1.buildRequest()
       } else {
         rxHttp2.removeAllHeader("Cookie")
-        rxHttp2.addHeader("Cookie", UserRepository.instance.getToken())
+        rxHttp2.addHeader("Cookie", UserRepository.getToken())
         rxHttp2.buildRequest()
       }
     } else {
@@ -112,8 +112,8 @@ class TokenInterceptor : Interceptor {
       return if (requestTime <= SESSION_KEY_REFRESH_TIME) true else try {
         //获取到最新的token，这里需要同步请求token,千万不能异步  5、根据自己的业务修改
         RxHttp.postForm(WanUrls.User.LOGIN)
-            .add("username", MMkvUtils.instance.getAccount())
-            .add("password", EncryptUtils.encryptMD5ToString(MMkvUtils.instance.getPassword()))
+            .add("username", MMkvUtils.getAccount())
+            .add("password", EncryptUtils.encryptMD5ToString(MMkvUtils.getPassword()))
             .execute(SimpleParser[String::class.java])
         LogUtils.e("CASE:自动登录登录刷新Token")
         SESSION_KEY_REFRESH_TIME = System.currentTimeMillis()

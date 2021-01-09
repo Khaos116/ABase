@@ -151,7 +151,7 @@ fun SketchImageView.loadCornerBlur(
 ) {
   val displayOptions = DisplayOptions()
   if (holderRes >= 0 || errorRes >= 0) {
-    val holder = RandomPlaceholder.instance.getPlaceHolder(url)
+    val holder = RandomPlaceholder.getPlaceHolder(url)
     val fail = R.drawable.svg_placeholder_fail
     if (holderRes >= 0) displayOptions.setLoadingImage(if (holderRes == 0) holder else holderRes)
     if (errorRes >= 0) displayOptions.setErrorImage(if (errorRes == 0) fail else errorRes)

@@ -46,7 +46,7 @@ public class ImageCell extends SketchImageView {
 
   public void load(final String url, final DisplayOptions options, int w, int h) {
     if (options == null) {
-      int holder = RandomPlaceholder.Companion.getInstance().getPlaceHolder(url);
+      int holder = RandomPlaceholder.INSTANCE.getPlaceHolder(url);
       displayOptions.setLoadingImage(holder);
       //圆角
       RoundRectImageShaper shaper = new RoundRectImageShaper(SizeUtils.dp2px(5f));

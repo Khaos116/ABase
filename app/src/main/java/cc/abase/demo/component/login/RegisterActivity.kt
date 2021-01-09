@@ -41,7 +41,7 @@ class RegisterActivity : CommTitleActivity() {
     registerEditPassword2.addTextWatcher { checkSubmit() }
     registerSubmit.click {
       showActionLoading()
-      UserRepository.instance.register(
+      UserRepository.register(
           registerEditAccount.text.toString(),
           registerEditPassword1.text.toString(),
           registerEditPassword2.text.toString()

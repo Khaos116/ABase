@@ -33,8 +33,7 @@ class SystemToast(var mContext: Context) : IToast, Cloneable {
 
   //外部调用
   override fun show() {
-    SystemTN.instance()
-        .add(this)
+    SystemTN.add(this)
   }
 
   fun showLong() {
@@ -43,8 +42,7 @@ class SystemToast(var mContext: Context) : IToast, Cloneable {
   }
 
   override fun cancel() {
-    SystemTN.instance()
-        .cancelAll()
+    SystemTN.cancelAll()
   }
 
   //不允许被外部调用
@@ -210,8 +208,7 @@ class SystemToast(var mContext: Context) : IToast, Cloneable {
 
   companion object {
     fun cancelAll() {
-      SystemTN.instance()
-          .cancelAll()
+      SystemTN.cancelAll()
     }
   }
 }

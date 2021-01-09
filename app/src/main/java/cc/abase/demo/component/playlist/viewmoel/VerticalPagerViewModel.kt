@@ -29,7 +29,7 @@ class VerticalPagerViewModel : CommViewModel() {
     rxLifeScope.launch({
       delay(2000)
       //协程代码块
-      val result = VideoRandomUtils.instance.getVideoList()
+      val result = VideoRandomUtils.getVideoList()
       //可以直接更新UI
       videoLiveData.value = SuccessRefresh(newData = result)
     }, { e -> //异常回调，这里可以拿到Throwable对象
@@ -51,7 +51,7 @@ class VerticalPagerViewModel : CommViewModel() {
     rxLifeScope.launch({
       delay(1000)
       //协程代码块
-      val result = VideoRandomUtils.instance.getVideoList(idStart = videoLiveData.value?.data?.size?.toLong() ?: 0L, count = 4)
+      val result = VideoRandomUtils.getVideoList(idStart = videoLiveData.value?.data?.size?.toLong() ?: 0L, count = 4)
       //可以直接更新UI
       videoLiveData.value = SuccessMore(newData = result, totalData = if (old.isNullOrEmpty()) result else (old + result).toMutableList())
     }, { e -> //异常回调，这里可以拿到Throwable对象

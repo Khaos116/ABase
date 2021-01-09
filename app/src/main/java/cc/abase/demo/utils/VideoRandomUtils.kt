@@ -8,15 +8,7 @@ import cc.abase.demo.bean.local.VideoBean
  * @author: CASE
  * @date: 2019/12/12 11:49
  */
-class VideoRandomUtils private constructor() {
-  private object SingletonHolder {
-    val holder = VideoRandomUtils()
-  }
-
-  companion object {
-    val instance = SingletonHolder.holder
-  }
-
+object VideoRandomUtils {
   //视频资源封面和播放地址
   private var resourceList = mutableListOf(
       Pair(

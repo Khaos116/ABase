@@ -158,11 +158,11 @@ class RecyclerPagerActivity : CommTitleActivity() {
     disposableRequest = Observable.timer(time, TimeUnit.MILLISECONDS).flatMap {
       val list = mutableListOf<VerticalPageBean>()
       for (i in lastId until lastId + 10) {
-        val video = VideoRandomUtils.instance.getVideoPair(i.toInt())
+        val video = VideoRandomUtils.getVideoPair(i.toInt())
         list.add(VerticalPageBean(id = i + 1, cover = video.second, videoUrl = video.second, description = video.first))
       }
       Observable.just(list)
-    }.compose(RxUtils.instance.rx2SchedulerHelperO(lifecycleProvider)).subscribe { call?.invoke(it) }
+    }.compose(RxUtils.rx2SchedulerHelperO(lifecycleProvider)).subscribe { call?.invoke(it) }
   }
   //</editor-fold>
 

@@ -526,7 +526,7 @@ public class MediaController {
                             //=============================修改代码4-Start=============================//
                             float p = 100f * info.presentationTimeUs / originalDuration;
                             //StringExtKt.logE("压缩进度=" + p);
-                            CompressCall.Companion.getInstance().updateCompressProgress(sourcePath, p);
+                            CompressCall.INSTANCE.updateCompressProgress(sourcePath, p);
                             //=============================修改代码4-ENd===============================//
 
                             inputSurface.swapBuffers();

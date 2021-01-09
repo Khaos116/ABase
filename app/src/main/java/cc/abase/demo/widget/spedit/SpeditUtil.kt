@@ -19,24 +19,11 @@ import java.util.ArrayList
  * @author: CASE
  * @date: 2019/10/4 13:30
  */
-class SpeditUtil private constructor() {
-  private object SingletonHolder {
-    val holder = SpeditUtil()
-  }
-
-  companion object {
-    val instance = SingletonHolder.holder
-  }
-
+object SpeditUtil {
   /**
    * 插入@用户的信息
    */
-  fun insertUser(
-    editText: SpXEditText,
-    userName: String,
-    uid: Long,
-    maxLen: Int
-  ) {
+  fun insertUser(editText: SpXEditText, userName: String, uid: Long, maxLen: Int) {
     editText.text?.let { ed ->
       val insertUser = AtBean(uid, userName)
       if (maxLen - CcInputHelper.getRealLength(ed.toString()) <
@@ -83,8 +70,8 @@ class SpeditUtil private constructor() {
 
   /**使用AimyInputHelper会导致输入2个英文字母无法输入，删除@的时候还出现@效果消失的情况，所以单独写一个*/
   fun setInputFilter(
-    edit: SpXEditText,
-    maxLen: Int
+      edit: SpXEditText,
+      maxLen: Int
   ) {
     edit.filters = arrayOf(
         SpeditFilter(
@@ -96,10 +83,7 @@ class SpeditUtil private constructor() {
   /**
    * 获取at的列表(文字处理后的)，需要配合getEditTextEnter1或getEditTextEnter2使用
    */
-  private fun getAtList(
-    editText: SpXEditText,
-    oneEnter: Boolean
-  ): List<AtBean> {
+  private fun getAtList(editText: SpXEditText, oneEnter: Boolean): List<AtBean> {
     val list = ArrayList<AtBean>()
     val result = if (oneEnter) getEditTextEnter1(editText) else getEditTextEnter2(editText)
     val dataSpans = result.getSpans(0, result.length, AtBean::class.java)
@@ -117,10 +101,7 @@ class SpeditUtil private constructor() {
   /**
    * 判断输入框中是否已经存在@的用户
    */
-  private fun hasIn(
-    editText: SpXEditText,
-    uid: Long
-  ): Boolean {
+  private fun hasIn(editText: SpXEditText, uid: Long): Boolean {
     val has = false
     editText.text?.let { ed ->
       val dataSpans = ed.getSpans(0, editText.length(), AtBean::class.java)
@@ -136,10 +117,7 @@ class SpeditUtil private constructor() {
   /**
    * 插入@的用户
    */
-  private fun insertUserSpan(
-    editable: Editable,
-    text: CharSequence
-  ) {
+  private fun insertUserSpan(editable: Editable, text: CharSequence) {
     var start = Selection.getSelectionStart(editable)
     var end = Selection.getSelectionEnd(editable)
     if (end < start) {
@@ -156,12 +134,12 @@ class SpeditUtil private constructor() {
   private class SpeditFilter(max: Int) : InputFilter {
     private val maxLen: Int = max
     override fun filter(
-      source: CharSequence?,
-      start: Int,
-      end: Int,
-      dest: Spanned?,
-      dstart: Int,
-      dend: Int
+        source: CharSequence?,
+        start: Int,
+        end: Int,
+        dest: Spanned?,
+        dstart: Int,
+        dend: Int
     ): CharSequence {
       source?.let {
         if (CcInputHelper.getRealLength(source) +
@@ -173,7 +151,7 @@ class SpeditUtil private constructor() {
         }
       }
       return if (dstart == 0 && !source.isNullOrEmpty()) {
-        delStartEmptyChar(source)//禁止在开头输入空格和换行
+        delStartEmptyChar(source) //禁止在开头输入空格和换行
       } else {
         source ?: ""
       }
@@ -195,10 +173,7 @@ class SpeditUtil private constructor() {
    * 获取输入框中的字符串,
    * @param oneEnter true多个回车合并成一个，false多个回车合并成2个
    */
-  private fun getEditText(
-    editText: EditText,
-    oneEnter: Boolean
-  ): Editable {
+  private fun getEditText(editText: EditText, oneEnter: Boolean): Editable {
     //①去掉前面的空字符
     val cs1 = delStartEmptyChar(editText.editableText)
     //②去掉后面的空字符
@@ -216,7 +191,7 @@ class SpeditUtil private constructor() {
    * 多行回车变成1个回车
    */
   private fun multiEnterTo1(cs: Editable): Editable {
-    return if (cs.contains("\n\n")) {//包含多个回车都处理掉
+    return if (cs.contains("\n\n")) { //包含多个回车都处理掉
       val index = cs.indexOf("\n\n")
       return multiEnterTo1(cs.replace(index, index + 2, "\n"))
     } else {
@@ -228,7 +203,7 @@ class SpeditUtil private constructor() {
    * 多行回车变成2个回车(中间空一行)
    */
   private fun multiEnterTo2(cs: Editable): Editable {
-    return if (cs.contains("\n\n\n")) {//包含多个回车都处理掉
+    return if (cs.contains("\n\n\n")) { //包含多个回车都处理掉
       val index = cs.indexOf("\n\n\n")
       return multiEnterTo2(cs.replace(index, index + 3, "\n\n"))
     } else {
@@ -300,11 +275,11 @@ class SpeditUtil private constructor() {
    * 转换需要展示的@效果
    */
   fun getAtSpan(
-    content: String,
-    atList: MutableList<AtBean>? = null,
-    spanColorNormal: Int = ColorUtils.getColor(R.color.style_Primary),
-    spanColorPress: Int = ColorUtils.getColor(R.color.style_PrimaryDark),
-    click: ((at: AtBean) -> Unit)? = null
+      content: String,
+      atList: MutableList<AtBean>? = null,
+      spanColorNormal: Int = ColorUtils.getColor(R.color.style_Primary),
+      spanColorPress: Int = ColorUtils.getColor(R.color.style_PrimaryDark),
+      click: ((at: AtBean) -> Unit)? = null
   ): SpannableStringBuilder {
     val result = SpannableStringBuilder()
     result.append(content)

@@ -78,7 +78,7 @@ abstract class BaseFragment : Fragment() {
 
   //<editor-fold defaultstate="collapsed" desc="页面销毁释放输入法">
   override fun onDestroy() {
-    CleanLeakUtils.instance.fixInputMethodManagerLeak(mActivity)
+    CleanLeakUtils.fixInputMethodManagerLeak(mActivity)
     "Fragment完全销毁，释放输入法：${this.javaClass.simpleName}${this.hashCode()}".logI()
     super.onDestroy()
   }

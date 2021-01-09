@@ -20,7 +20,7 @@ import java.io.File
  * @author: CASE
  * @date: 2019/10/28 11:24
  */
-class VideoUtils private constructor() {
+object VideoUtils {
   //<editor-fold defaultstate="collapsed" desc="变量区">
 
   //输出文件目录
@@ -32,11 +32,6 @@ class VideoUtils private constructor() {
   //</editor-fold>
 
   //<editor-fold defaultstate="collapsed" desc="初始化">
-
-  private object SingletonHolder {
-    val holder = VideoUtils()
-  }
-
   //创建文件夹
   init {
     if (PermissionUtils.hasSDPermission()) {
@@ -46,11 +41,6 @@ class VideoUtils private constructor() {
         LogUtils.e("CASE:创建Temp文件夹:${File(outParentImgs).mkdirs()}")
     }
   }
-
-  companion object {
-    val instance = SingletonHolder.holder
-  }
-
   //</editor-fold>
 
   //<editor-fold defaultstate="collapsed" desc="外部调用">
@@ -58,15 +48,15 @@ class VideoUtils private constructor() {
   fun startCompressed(originFile: File,
       result: ((suc: Boolean, info: String) -> Unit)? = null,
       pro: ((progress: Float) -> Unit)? = null) {
-    if (CompressCall.instance.progressCall != null) {
+    if (CompressCall.progressCall != null) {
       LogUtils.e("CASE:正在压缩中")
       return
     }
     disposableCompress?.dispose()
-    CompressCall.instance.progressCall = { path, progress ->
+    CompressCall.progressCall = { path, progress ->
       if (originFile.path == path) Flowable.just(progress)
           .onBackpressureLatest()
-          .compose(RxUtils.instance.rx2SchedulerHelperF())
+          .compose(RxUtils.rx2SchedulerHelperF())
           .subscribe { pro?.invoke(progress) }
     }
     disposableCompress = Observable.just(originFile.path)
@@ -78,14 +68,14 @@ class VideoUtils private constructor() {
             Observable.error(Throwable("压缩失败"))
           }
         }
-        .compose(RxUtils.instance.rx2SchedulerHelperO())
+        .compose(RxUtils.rx2SchedulerHelperO())
         .subscribe({
-          CompressCall.instance.release()
+          CompressCall.release()
           result?.invoke(true, it)
           LogUtils.e("\nCASE:视频压缩前大小:${FileUtils.getSize(originFile)}")
           LogUtils.e("\nCASE:视频压缩后大小:${FileUtils.getSize(it)}\n")
         }, {
-          CompressCall.instance.release()
+          CompressCall.release()
           result?.invoke(false, "压缩失败")
         })
   }
@@ -130,7 +120,7 @@ class VideoUtils private constructor() {
           bit.recycle()
           Observable.just(destImg.path)
         }
-        .compose(RxUtils.instance.rx2SchedulerHelperO())
+        .compose(RxUtils.rx2SchedulerHelperO())
         .subscribe({
           mmr.release()
           call?.invoke(true, it)
@@ -172,7 +162,7 @@ class VideoUtils private constructor() {
                 })
           }
         }
-        .compose(RxUtils.instance.rx2SchedulerHelperO())
+        .compose(RxUtils.rx2SchedulerHelperO())
         .subscribe({ bit ->
           call.invoke(bit)
         }, { call.invoke(null) })
@@ -292,7 +282,7 @@ class VideoUtils private constructor() {
     disposableCompress?.dispose()
     disposableCover?.dispose()
     disposableNet?.dispose()
-    CompressCall.instance.release()
+    CompressCall.release()
   }
 
   //清理封面

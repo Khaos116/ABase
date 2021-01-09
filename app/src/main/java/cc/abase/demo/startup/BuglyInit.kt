@@ -14,7 +14,7 @@ import cc.abase.demo.utils.BuglyManager
 class BuglyInit : Initializer<Int> {
   override fun create(context: Context): Int {
     //初始化Bugly
-    BuglyManager.instance.initBugly(context.applicationContext as Application)
+    BuglyManager.initBugly(context.applicationContext as Application)
     "初始化完成".logI()
     return 0
   }

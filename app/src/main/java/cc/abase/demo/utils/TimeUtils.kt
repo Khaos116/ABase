@@ -17,17 +17,10 @@ import kotlin.math.min
  * @author: CASE
  * @date: 2019/10/3 18:20
  */
-class TimeUtils private constructor() {
-  private object SingletonHolder {
-    val holder = TimeUtils()
-  }
-
-  companion object {
-    val instance = SingletonHolder.holder
-  }
-
+object TimeUtils {
   //UTC时间格式
   private val UTC_FORMAT = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"
+
   //本地时间格式
   private val LOCAL_FORMAT = "yyyy-MM-dd HH:mm:ss"
 
@@ -44,14 +37,14 @@ class TimeUtils private constructor() {
    * @param utcTime  UTC时间
    */
   fun utc2Local(
-    utcTime: String,
-    offSet: Int? = null//当前时区偏移，如:北京+8，纽约-5，默认为手机自带时区
+      utcTime: String,
+      offSet: Int? = null //当前时区偏移，如:北京+8，纽约-5，默认为手机自带时区
   ): String {
-    val utcFormatter = SimpleDateFormat(UTC_FORMAT, Locale.getDefault())//UTC时间格式
+    val utcFormatter = SimpleDateFormat(UTC_FORMAT, Locale.getDefault()) //UTC时间格式
     utcFormatter.timeZone = TimeZone.getTimeZone("UTC")
     try {
       val utcDate = utcFormatter.parse(utcTime)
-      val localFormatter = SimpleDateFormat(LOCAL_FORMAT, Locale.getDefault())//当地时间格式
+      val localFormatter = SimpleDateFormat(LOCAL_FORMAT, Locale.getDefault()) //当地时间格式
       if (offSet != null && offSet >= 0) {
         localFormatter.timeZone = TimeZone.getTimeZone("GMT+${min(offSet, 11)}")
       } else if (offSet != null && offSet < 0) {

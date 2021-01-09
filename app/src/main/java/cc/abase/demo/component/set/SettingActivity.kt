@@ -34,7 +34,7 @@ class SettingActivity : CommTitleActivity() {
       if (mJob2?.isCompleted == false) return@click
       mJob2 = GlobalScope.launch(Dispatchers.Main) {
         showActionLoading("缓存清理中")
-        val size = CacheUtils.instance.clearCache()
+        val size = CacheUtils.clearCache()
         delay(1000)
         if (isActive) {
           setCacheSize.text = size
@@ -43,7 +43,7 @@ class SettingActivity : CommTitleActivity() {
       }
     }
     settingLogout.click {
-      UserRepository.instance.logOut()
+      UserRepository.logOut()
       LoginActivity.startActivity(mContext)
     }
   }
@@ -53,7 +53,7 @@ class SettingActivity : CommTitleActivity() {
   override fun initData() {
     //读取缓存大小
     mJob1 = GlobalScope.launch(Dispatchers.Main) {
-      val size = CacheUtils.instance.getCacheSize()
+      val size = CacheUtils.getCacheSize()
       if (isActive) setCacheSize.text = size
     }
   }

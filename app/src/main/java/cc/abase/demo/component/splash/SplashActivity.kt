@@ -72,7 +72,7 @@ class SplashActivity : CommActivity() {
     //有尺寸了才开始计时
     mContentView.post {
       disposable = Flowable.intervalRange(0, count + 1, 0, 1, TimeUnit.SECONDS)
-          .compose(RxUtils.instance.rx2SchedulerHelperF(lifecycleProvider))
+          .compose(RxUtils.rx2SchedulerHelperF(lifecycleProvider))
           .doOnNext { splashTime.text = String.format("%d", max(1, count - it)) }
           .doOnComplete {
             "倒计时结束".logE()
@@ -138,9 +138,9 @@ class SplashActivity : CommActivity() {
     if (hasSDPermission == true) {
       when {
         //是否引导
-        MMkvUtils.instance.getNeedGuide() -> GuideActivity.startActivity(mContext)
+        MMkvUtils.getNeedGuide() -> GuideActivity.startActivity(mContext)
         //是否登录
-        UserRepository.instance.isLogin() -> MainActivity.startActivity(mContext)
+        UserRepository.isLogin() -> MainActivity.startActivity(mContext)
         //没有其他需要，进入主页
         else -> LoginActivity.startActivity(mContext)
       }

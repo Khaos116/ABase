@@ -1,9 +1,7 @@
 package cc.ab.base.utils
 
 import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
-import android.graphics.drawable.Drawable
-import android.graphics.drawable.GradientDrawable
+import android.graphics.drawable.*
 import android.view.MotionEvent
 import android.view.View
 import com.blankj.utilcode.util.SizeUtils
@@ -241,7 +239,7 @@ class PressEffectHelper private constructor() {
             cancelLongClick()
             longPressDisposable = Observable.just(view)
                 .delay(LONGPRESS_TIME, TimeUnit.MILLISECONDS)
-                .compose(RxUtils.instance.rx2SchedulerHelperO())
+                .compose(RxUtils.rx2SchedulerHelperO())
                 .subscribe({
                     isLongClick = true
                     view.performLongClick()

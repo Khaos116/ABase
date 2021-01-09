@@ -34,7 +34,7 @@ class TestViewModel : CommViewModel() {
   private fun startTime1() {
     disposable1?.dispose()
     disposable1 = Flowable.intervalRange(1, count, 0, 500, TimeUnit.MILLISECONDS)
-        .compose(RxUtils.instance.rx2SchedulerHelperF())
+        .compose(RxUtils.rx2SchedulerHelperF())
         .doOnNext { timeLiveData1.value = DataState.SuccessRefresh(newData = it.toString()) }
         .doOnComplete { }
         .subscribe()

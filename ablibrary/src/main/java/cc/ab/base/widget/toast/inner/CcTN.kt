@@ -10,10 +10,10 @@ import cc.ab.base.ext.removeParent
  *@date 2018/12/21 17:39.
  *@author: YangYang.
  */
-class CcTN : Handler(Looper.getMainLooper()) {
+object CcTN : Handler(Looper.getMainLooper()) {
 
   private val REMOVE = 2
-  private var toastQueue: DPriorityQueue<CcToast>//列表中成员要求非空
+  private var toastQueue: DPriorityQueue<CcToast> //列表中成员要求非空
 
   init {
     toastQueue = DPriorityQueue(Comparator<CcToast> { x, y ->
@@ -21,7 +21,7 @@ class CcTN : Handler(Looper.getMainLooper()) {
       // skip showing DToast
       if (y.isShowing()) return@Comparator 1
       if (x.getTimestamp() == y.getTimestamp()) return@Comparator 0
-      if (x.getTimestamp() < y.getTimestamp()) -1 else 1//值小的排队首
+      if (x.getTimestamp() < y.getTimestamp()) -1 else 1 //值小的排队首
     })
   }
 
@@ -183,8 +183,8 @@ class CcTN : Handler(Looper.getMainLooper()) {
           //尝试使用ActivityToast
           if (toast.getContext() is Activity) {
             //因为AimyToast未展示成功，需要主动移除,然后再尝试使用ActivityToast
-            toastQueue.remove(toast)//从队列移除
-            removeMessages(REMOVE)//清除已发送的延时消息
+            toastQueue.remove(toast) //从队列移除
+            removeMessages(REMOVE) //清除已发送的延时消息
             toast.setShowing(false) //更新toast状态
             try {
               //尝试从窗口移除toastView，虽然windowManager.addView()抛出异常，但toastView仍然可能已经被添加到窗口父容器中(具体看ROM实现)，所以需要主动移除
@@ -222,15 +222,5 @@ class CcTN : Handler(Looper.getMainLooper()) {
       else -> {
       }
     }
-  }
-
-  companion object {
-    fun instance(): CcTN {
-      return SingletonHolder.mTn
-    }
-  }
-
-  private object SingletonHolder {
-    val mTn = CcTN()
   }
 }

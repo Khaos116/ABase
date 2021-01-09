@@ -39,7 +39,7 @@ class LoginActivity : CommActivity() {
   override fun initView() {
     loginAppInfo.setPadding(0, mStatusBarHeight, 0, 0)
     loginAppInfo.setOnClickListener {
-      if ((++count) == 10) loginAppInfo.text = AppInfoUtils.instance.getAppInfo()
+      if ((++count) == 10) loginAppInfo.text = AppInfoUtils.getAppInfo()
     }
     checkSubmit()
     PressEffectHelper.alphaEffect(loginRegister)
@@ -49,7 +49,7 @@ class LoginActivity : CommActivity() {
     loginEditPassword.addTextWatcher { checkSubmit() }
     loginSubmit.click {
       showActionLoading()
-      UserRepository.instance.login(
+      UserRepository.login(
           loginEditAccount.text.toString(),
           loginEditPassword.text.toString()
       )
@@ -65,13 +65,13 @@ class LoginActivity : CommActivity() {
     loginRegister.click { RegisterActivity.startActivity(mContext) }
     extKeyBoard { statusHeight, navigationHeight, keyBoardHeight -> }
     //读取上次的数据
-    loginEditAccount.setText(MMkvUtils.instance.getAccount())
-    loginEditPassword.setText(MMkvUtils.instance.getPassword())
+    loginEditAccount.setText(MMkvUtils.getAccount())
+    loginEditPassword.setText(MMkvUtils.getPassword())
   }
 
   override fun initData() {
     //来到登录页默认需要清除数据
-    UserRepository.instance.clearUserInfo()
+    UserRepository.clearUserInfo()
     //关闭其他所有页面
     ActivityUtils.finishOtherActivities(javaClass)
   }

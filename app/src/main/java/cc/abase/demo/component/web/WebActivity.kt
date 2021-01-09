@@ -107,7 +107,7 @@ class WebActivity : CommTitleActivity() {
       .setOpenOtherPageWays(DefaultWebClient.OpenOtherPageWays.ASK) //打开其他应用时，弹窗咨询用户是否前往其他应用
       .interceptUnkownUrl() //拦截找不到相关页面的Scheme
     //给WebView添加Header
-    val headers = HeaderManger.instance.getStaticHeaders()
+    val headers = HeaderManger.getStaticHeaders()
     agentBuilder?.additionalHttpHeader(webUrl, headers)
   }
 

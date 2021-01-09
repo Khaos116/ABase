@@ -24,7 +24,7 @@ class PlayListViewModel : CommViewModel() {
     rxLifeScope.launch({
       delay(2000)
       //协程代码块
-      val result = VideoRandomUtils.instance.getVideoList()
+      val result = VideoRandomUtils.getVideoList()
       //可以直接更新UI
       videoLiveData.value = DataState.SuccessRefresh(newData = result)
     }, { e -> //异常回调，这里可以拿到Throwable对象

@@ -11,17 +11,9 @@ import com.blankj.utilcode.util.ActivityUtils
  * @author: CASE
  * @date: 2019/11/19 19:33
  */
-class GlobalErrorHandle private constructor() {
-  private object SingletonHolder {
-    val holder = GlobalErrorHandle()
-  }
-
-  companion object {
-    val instance = SingletonHolder.holder
-  }
-
+object GlobalErrorHandle {
   var globalErrorCodes = mutableListOf(
-      ErrorCode.NO_LOGIN//未登录
+      ErrorCode.NO_LOGIN //未登录
   )
 
   fun dealGlobalErrorCode(errorCode: Int) {

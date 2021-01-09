@@ -64,8 +64,7 @@ open class CcToast(var mContext: Context) : IToast, Cloneable {
 
   //展示Toast
   override fun show() {
-    CcTN.instance()
-        .add(this)
+    CcTN.add(this)
   }
 
   /**
@@ -73,8 +72,7 @@ open class CcToast(var mContext: Context) : IToast, Cloneable {
    * 因为TN中使用的是[this.clone]，外部没有Toast队列中单个任务的引用，所以外部无法单独取消一个Toast任务
    */
   override fun cancel() {
-    CcTN.instance()
-        .cancelAll()
+    CcTN.cancelAll()
   }
 
   fun getContext(): Context? {
@@ -186,13 +184,11 @@ open class CcToast(var mContext: Context) : IToast, Cloneable {
     var Count4BadTokenException: Long = 0//记录AimyToast连续抛出token null is not valid异常的次数
 
     fun cancelAll() {
-      CcTN.instance()
-          .cancelAll()
+      CcTN.cancelAll()
     }
 
     fun cancelActivityToast(mActivity: Activity) {
-      CcTN.instance()
-          .cancelActivityToast(mActivity)
+      CcTN.cancelActivityToast(mActivity)
     }
 
     //当AimyToast连续出现token null is not valid异常时，不再推荐使用AimyToast

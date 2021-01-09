@@ -7,11 +7,11 @@ import androidx.lifecycle.Observer
 import cc.ab.base.ext.*
 import cc.ab.base.utils.CcInputHelper
 import cc.abase.demo.R
+import cc.abase.demo.bean.local.AtBean
+import cc.abase.demo.bean.local.CityBean
 import cc.abase.demo.component.comm.CommTitleActivity
 import cc.abase.demo.component.sticky.StickyActivity
 import cc.abase.demo.constants.EventKeys
-import cc.abase.demo.bean.local.AtBean
-import cc.abase.demo.bean.local.CityBean
 import cc.abase.demo.widget.spedit.MySelectDeleteKeyEventProxy
 import cc.abase.demo.widget.spedit.SpeditUtil
 import com.blankj.utilcode.util.GsonUtils
@@ -45,7 +45,7 @@ class SpeditActivity : CommTitleActivity() {
     //删除效果
     speditInput.setKeyEventProxy(MySelectDeleteKeyEventProxy())
     //最大输入长度
-    SpeditUtil.instance.setInputFilter(speditInput, MAX_LENGTH)
+    SpeditUtil.setInputFilter(speditInput, MAX_LENGTH)
     //点击事件
     speditChoose.click { StickyActivity.startActivity(mContext, true) }
     speditShow.click { getSubmitInfo() }
@@ -63,15 +63,15 @@ class SpeditActivity : CommTitleActivity() {
     LiveEventBus.get(EventKeys.CHOOSE_STICKY, CityBean::class.java)
         .observe(this, Observer {
           if (TextUtils.equals(mContext::class.java.name, it.fromTag)) {
-            SpeditUtil.instance.insertUser(speditInput, it.regionFullName ?: "", it.id, MAX_LENGTH)
+            SpeditUtil.insertUser(speditInput, it.regionFullName ?: "", it.id, MAX_LENGTH)
           }
         })
   }
 
   //获取需要提交的信息
   private fun getSubmitInfo() {
-    val result = SpeditUtil.instance.getEditTextEnter1(speditInput)
-    val atList = SpeditUtil.instance.getAtList1Enter(speditInput)
+    val result = SpeditUtil.getEditTextEnter1(speditInput)
+    val atList = SpeditUtil.getAtList1Enter(speditInput)
     val atJson = GsonUtils.toJson(atList)
     showSubmitInfo(result.toString(), atJson)
   }
@@ -86,7 +86,7 @@ class SpeditActivity : CommTitleActivity() {
         atJson, object : TypeToken<MutableList<AtBean>>() {}.type
     )
     //处理span点击效果
-    val span = SpeditUtil.instance.getAtSpan(content, atList, click = {
+    val span = SpeditUtil.getAtSpan(content, atList, click = {
       mContext.toast(it.name)
     })
     //设置展示

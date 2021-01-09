@@ -8,10 +8,10 @@ import java.util.LinkedList
  *@date 2018/12/21 17:25.
  *@author: YangYang.
  */
-class SystemTN private constructor() : Handler(Looper.getMainLooper()) {
-
+object SystemTN : Handler(Looper.getMainLooper()) {
   private val REMOVE = 2
-  private var toastQueue: LinkedList<SystemToast> = LinkedList()//列表中成员要求非空
+  private var toastQueue: LinkedList<SystemToast> = LinkedList() //列表中成员要求非空
+
   /**
    * 新增Toast任务加入队列
    */
@@ -122,15 +122,5 @@ class SystemTN private constructor() : Handler(Looper.getMainLooper()) {
       else -> {
       }
     }
-  }
-
-  companion object {
-    fun instance(): SystemTN {
-      return SingletonHolder.mTn
-    }
-  }
-
-  private object SingletonHolder {
-    val mTn = SystemTN()
   }
 }

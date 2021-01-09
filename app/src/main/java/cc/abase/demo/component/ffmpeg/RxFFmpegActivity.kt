@@ -72,7 +72,7 @@ class RxFFmpegActivity : CommTitleActivity() {
         ffmpegSel.isEnabled = false
         ffmpegCompress.alpha = UiConstants.disable_alpha
         ffmpegCompress.isEnabled = false
-        VideoUtils.instance.startCompressed(File(path),
+        VideoUtils.startCompressed(File(path),
             result = { suc, info ->
               ffmpegSel.alpha = 1f
               ffmpegSel.isEnabled = true
@@ -126,7 +126,7 @@ class RxFFmpegActivity : CommTitleActivity() {
     ffmpegResult.append("\n原视频大小:${FileUtils.getSize(videoPath)}")
     ffmpegCompress.alpha = 1f
     ffmpegCompress.isEnabled = true
-    VideoUtils.instance.getFirstFrame(File(videoPath)) { suc, info ->
+    VideoUtils.getFirstFrame(File(videoPath)) { suc, info ->
       if (suc) {
         initPlayer(videoPath, info)
       } else {

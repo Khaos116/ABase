@@ -7,62 +7,54 @@ import com.tencent.mmkv.MMKV
  * @author: CASE
  * @date: 2019/10/10 15:14
  */
-class MMkvUtils private constructor() {
-    private object SingletonHolder {
-        val holder = MMkvUtils()
-    }
+object MMkvUtils {
+  private const val GUIDE_SPLASH = "KKMV_KEY_GUIDE_SPLASH"
+  private const val USER_UID = "KKMV_KEY_USER_UID"
+  private const val USER_TOKEN = "KKMV_KEY_USER_TOKEN"
+  private const val USER_ACCOUNT = "USER_ACCOUNT"
+  private const val USER_PWD = "USER_PWD"
+  fun setNeedGuide(need: Boolean = true) {
+    MMKV.defaultMMKV().encode(GUIDE_SPLASH, need)
+  }
 
-    companion object {
-        val instance = SingletonHolder.holder
-    }
+  fun getNeedGuide(): Boolean {
+    return MMKV.defaultMMKV().decodeBool(GUIDE_SPLASH, true)
+  }
 
-    private val GUIDE_SPLASH = "KKMV_KEY_GUIDE_SPLASH"
-    private val USER_UID = "KKMV_KEY_USER_UID"
-    private val USER_TOKEN = "KKMV_KEY_USER_TOKEN"
-    private val USER_ACCOUNT = "USER_ACCOUNT"
-    private val USER_PWD = "USER_PWD"
-    fun setNeedGuide(need: Boolean = true) {
-        MMKV.defaultMMKV().encode(GUIDE_SPLASH, need)
-    }
+  fun getUid(): Long {
+    return MMKV.defaultMMKV().decodeLong(USER_UID, 0L)
+  }
 
-    fun getNeedGuide(): Boolean {
-        return MMKV.defaultMMKV().decodeBool(GUIDE_SPLASH, true)
-    }
+  fun setAccount(account: String) {
+    MMKV.defaultMMKV().encode(USER_ACCOUNT, account)
+  }
 
-    fun getUid(): Long {
-        return MMKV.defaultMMKV().decodeLong(USER_UID, 0L)
-    }
+  fun setPassword(pwd: String) {
+    MMKV.defaultMMKV().encode(USER_PWD, pwd)
+  }
 
-    fun setAccount(account: String) {
-        MMKV.defaultMMKV().encode(USER_ACCOUNT, account)
-    }
+  fun getAccount(): String {
+    return MMKV.defaultMMKV().decodeString(USER_ACCOUNT, "")
+  }
 
-    fun setPassword(pwd: String) {
-        MMKV.defaultMMKV().encode(USER_PWD, pwd)
-    }
+  fun getPassword(): String {
+    return MMKV.defaultMMKV().decodeString(USER_PWD, "")
+  }
 
-    fun getAccount(): String {
-        return MMKV.defaultMMKV().decodeString(USER_ACCOUNT, "")
-    }
+  fun setUid(uid: Long) {
+    MMKV.defaultMMKV().encode(USER_UID, uid)
+  }
 
-    fun getPassword(): String {
-        return MMKV.defaultMMKV().decodeString(USER_PWD, "")
-    }
+  fun getToken(): String? {
+    return MMKV.defaultMMKV().decodeString(USER_TOKEN)
+  }
 
-    fun setUid(uid: Long) {
-        MMKV.defaultMMKV().encode(USER_UID, uid)
-    }
+  fun setToken(token: String) {
+    MMKV.defaultMMKV().encode(USER_TOKEN, token)
+  }
 
-    fun getToken(): String? {
-        return MMKV.defaultMMKV().decodeString(USER_TOKEN)
-    }
-
-    fun setToken(token: String) {
-        MMKV.defaultMMKV().encode(USER_TOKEN, token)
-    }
-
-    fun clearUserInfo() {
-        MMKV.defaultMMKV().removeValueForKey(USER_UID)
-        MMKV.defaultMMKV().removeValueForKey(USER_TOKEN)
-    }
+  fun clearUserInfo() {
+    MMKV.defaultMMKV().removeValueForKey(USER_UID)
+    MMKV.defaultMMKV().removeValueForKey(USER_TOKEN)
+  }
 }

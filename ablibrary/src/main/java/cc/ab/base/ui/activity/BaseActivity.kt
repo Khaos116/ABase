@@ -59,7 +59,7 @@ abstract class BaseActivity : AppCompatActivity() {
   }
 
   override fun onDestroy() {
-    CleanLeakUtils.instance.fixInputMethodManagerLeak(this)
+    CleanLeakUtils.fixInputMethodManagerLeak(this)
     super.onDestroy()
   }
 

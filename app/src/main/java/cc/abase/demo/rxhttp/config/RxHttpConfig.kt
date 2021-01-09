@@ -50,12 +50,12 @@ object RxHttpConfig {
     //添加公共参数 https://github.com/liujingxing/okhttp-RxHttp/blob/486c7bc9e4554b4604f29c726e3e58714e2de6ee/app/src/main/java/com/example/httpsender/RxHttpManager.java
     RxHttp.setOnParamAssembly { p: Param<*> ->
       p.add("platform", "RxHttp")
-      p.addAllHeader(HeaderManger.instance.getStaticHeaders()) //添加公共参数
+      p.addAllHeader(HeaderManger.getStaticHeaders()) //添加公共参数
       //添加Token
-      if (HeaderManger.instance.noTokenUrls.filter { u ->
+      if (HeaderManger.noTokenUrls.filter { u ->
             (p.httpUrl).toString().contains(u, true)
           }.isNullOrEmpty()) {
-        HeaderManger.instance.getTokenPair()?.let { p.addHeader(it.first, it.second) }
+        HeaderManger.getTokenPair()?.let { p.addHeader(it.first, it.second) }
       }
       p.add("request_time", System.currentTimeMillis()) //添加请求时间，方便更新token
       p

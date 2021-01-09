@@ -131,7 +131,7 @@ class MineFragment : CommFragment() {
       })
     }
     //获取积分
-    UserRepository.instance.myIntegral()
+    UserRepository.myIntegral()
         .life(this)
         .subscribe({
           mineIntegral.text = String.format(R.string.my_integral.xmlToString(), it.coinCount)
