@@ -7,19 +7,16 @@ import cc.abase.demo.bean.local.PicEntity
  * @author: CASE
  * @date: 2019/9/29 18:12
  */
-class ImageUrls private constructor() {
-  private object SingletonHolder {
-    val holder = ImageUrls()
-  }
-
-  companion object {
-    val instance = SingletonHolder.holder
-  }
+object ImageUrls {
 
   //码云
-//  val prefix = "https://gitee.com/CASE_CAI/img/raw/master/"
+  //  val prefix = "https://gitee.com/CASE_CAI/img/raw/master/"
   //gitlab
-  private val prefix = "https://gitlab.com/case2578/img/raw/master/"
+  private const val prefix = "https://gitlab.com/case2578/img/raw/master/"
+
+  //增加背景图
+  const val image_1125x642 = "${prefix}user_top_bg.png"
+
   //图片分组
   private val imageUrls1 = mutableListOf(
       "${prefix}beimoting.jpg",
@@ -109,6 +106,7 @@ class ImageUrls private constructor() {
       "${prefix}youxiwang.jpg",
       "${prefix}yuzhouzhanjiandahehao.jpg"
   )
+
   //图片地址组
   val imgs: MutableList<String> = (imageUrls1 +
       imageUrls2 +
@@ -118,6 +116,7 @@ class ImageUrls private constructor() {
       imageUrls6 +
       imageUrls7 +
       imageUrls8).toMutableList()
+
   //包含尺寸的图片组
   var pics = arrayOf(
       PicEntity(
