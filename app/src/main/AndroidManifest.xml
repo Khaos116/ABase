@@ -94,13 +94,6 @@
         android:launchMode="singleTop"
         android:screenOrientation="portrait"
         android:windowSoftInputMode="adjustPan|stateHidden"/>
-    <!--图片预览-->
-    <activity
-        android:name=".component.gallery.GalleryActivity"
-        android:configChanges="screenLayout|orientation"
-        android:launchMode="singleTop"
-        android:screenOrientation="portrait"
-        android:windowSoftInputMode="adjustPan|stateHidden"/>
     <!--Sticky效果页面-->
     <activity
         android:name=".component.sticky.StickyActivity"
@@ -108,6 +101,7 @@
         android:launchMode="singleTop"
         android:screenOrientation="portrait"
         android:windowSoftInputMode="adjustPan|stateHidden"/>
+    <!--学生成绩单效果-->
     <activity
         android:name=".component.sticky.StickyActivity2"
         android:configChanges="screenLayout|orientation"

@@ -6,7 +6,6 @@ import android.graphics.Color
 import androidx.startup.Initializer
 import cc.ab.base.ext.logI
 import cc.ab.base.startup.DoraemonInit
-import cc.abase.demo.component.gallery.GalleryActivity
 import cc.abase.demo.component.login.LoginActivity
 import cc.abase.demo.component.main.MainActivity
 import cc.abase.demo.component.splash.GuideActivity
@@ -27,7 +26,6 @@ class SmartInit : Initializer<Int> {
       MainActivity::class.java.name,
       GuideActivity::class.java.name,
       LoginActivity::class.java.name,
-      GalleryActivity::class.java.name,
       "com.didichuxing.doraemonkit.ui.UniversalActivity")
 
   override fun create(context: Context): Int {
