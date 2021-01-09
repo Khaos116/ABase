@@ -1,18 +1,16 @@
 package cc.abase.demo.utils
 
-import android.graphics.Bitmap
-import android.media.MediaMetadataRetriever
-import cc.ab.base.ext.logE
 import cc.ab.base.utils.PermissionUtils
 import cc.ab.base.utils.RxUtils
-import cc.abase.demo.R
-import com.blankj.utilcode.util.*
+import com.blankj.utilcode.util.FileUtils
+import com.blankj.utilcode.util.LogUtils
+import com.blankj.utilcode.util.PathUtils
+import com.blankj.utilcode.util.Utils
 import com.iceteck.silicompressorr.CompressCall
 import com.iceteck.silicompressorr.SiliCompressor
 import io.reactivex.Flowable
 import io.reactivex.Observable
 import io.reactivex.disposables.Disposable
-import wseemann.media.FFmpegMediaMetadataRetriever
 import java.io.File
 
 /**
@@ -78,94 +76,6 @@ object VideoUtils {
           CompressCall.release()
           result?.invoke(false, "压缩失败")
         })
-  }
-
-  //获取视频封面第一帧
-  fun getFirstFrame(originFile: File, maxW: Int = 0, maxH: Int = 0, call: ((suc: Boolean, info: String) -> Unit)?) {
-    val destImg = File(outParentImgs, EncryptUtils.encryptMD5File2String(originFile) + ".jpg")
-    //已存在则直接返回
-    if (destImg.exists()) {
-      call?.invoke(true, destImg.path)
-      "已存在封面，直接返回:${destImg.path}".logE()
-      return
-    }
-    //获取封面
-    val mmr = FFmpegMediaMetadataRetriever()
-    mmr.setDataSource(originFile.path)
-    disposableCover?.dispose()
-    disposableCover = Observable.just(mmr)
-        .flatMap {
-          val rotation = mmr.extractMetadata(FFmpegMediaMetadataRetriever.METADATA_KEY_VIDEO_ROTATION).toInt()
-          val originWidth = mmr.extractMetadata(FFmpegMediaMetadataRetriever.METADATA_KEY_VIDEO_WIDTH).toInt()
-          val originHeight = mmr.extractMetadata(FFmpegMediaMetadataRetriever.METADATA_KEY_VIDEO_HEIGHT).toInt()
-          //限制图片的最大宽高
-          val maxWidth = if (maxW > 0) maxW else (ScreenUtils.getScreenWidth() * 0.8f).toInt()
-          val maxHeight = if (maxH > 0) maxH else (ScreenUtils.getScreenHeight() * 0.8f).toInt()
-          var width = originWidth
-          var height = originHeight
-          if (originWidth > maxWidth) {
-            width = maxWidth
-            height = (maxWidth * 1f / originWidth * originHeight).toInt()
-          } else if (originHeight > maxHeight) {
-            width = (maxHeight * 1f / originHeight * originWidth).toInt()
-            height = maxHeight
-          }
-          var bit = it.getScaledFrameAtTime(-1, width, height)
-          //纠正旋转角度
-          if (rotation != 0) bit = ImageUtils.rotate(bit, rotation, bit.width / 2f, bit.height / 2f)
-          //保存到指定位置
-          ImageUtils.save(bit, destImg, Bitmap.CompressFormat.JPEG)
-          "\n修改前封面尺寸:width=${originWidth},height=${originHeight}".logE()
-          "\n修改后封面尺寸:width=${width},height=${height}\n".logE()
-          bit.recycle()
-          Observable.just(destImg.path)
-        }
-        .compose(RxUtils.rx2SchedulerHelperO())
-        .subscribe({
-          mmr.release()
-          call?.invoke(true, it)
-        }, {
-          mmr.release()
-          call?.invoke(true, StringUtils.getString(R.string.pic_first_frame_fail))
-        })
-  }
-
-  //网络视频封面获取
-  fun getNetVideoFistFrame(videoUrl: String, call: (bit: Bitmap?) -> Unit) {
-    disposableNet?.dispose()
-    disposableNet = Observable.just(videoUrl)
-        .flatMap {
-          val retriever = MediaMetadataRetriever()
-          retriever.setDataSource(it, HashMap())
-          val bitmap = retriever.frameAtTime
-          retriever.release()
-          if (bitmap == null) Observable.error(Throwable("get video cover is null"))
-          else {
-            //限制图片的最大宽高
-            val maxWidth = (ScreenUtils.getScreenWidth() * 0.8f).toInt()
-            val maxHeight = (ScreenUtils.getScreenHeight() * 0.8f).toInt()
-            Observable.just(
-                when {
-                  bitmap.width > maxWidth -> {
-                    val width = maxWidth
-                    val height = maxWidth * 1f / bitmap.width * bitmap.height
-                    ImageUtils.compressBySampleSize(bitmap, width, height.toInt())
-                  }
-                  bitmap.height > maxHeight -> {
-                    val width = maxHeight * 1f / bitmap.height * bitmap.width
-                    val height = maxHeight
-                    ImageUtils.compressBySampleSize(bitmap, width.toInt(), height)
-                  }
-                  else -> {
-                    bitmap
-                  }
-                })
-          }
-        }
-        .compose(RxUtils.rx2SchedulerHelperO())
-        .subscribe({ bit ->
-          call.invoke(bit)
-        }, { call.invoke(null) })
   }
   //</editor-fold>
 
