@@ -1,6 +1,7 @@
 package cc.abase.demo.widget.dkplayer
 
 import android.content.Context
+import android.net.Uri
 import android.util.AttributeSet
 import android.view.View
 import android.widget.ImageView
@@ -12,6 +13,7 @@ import com.dueeeke.videocontroller.StandardVideoController
 import com.dueeeke.videocontroller.component.*
 import com.dueeeke.videoplayer.player.VideoView
 import com.dueeeke.videoplayer.util.PlayerUtils
+import java.io.File
 
 /**
  * 将大部分控制封装后对外简单使用
@@ -121,8 +123,27 @@ class MyVideoView : VideoView<MyExoMediaPlayer>, LifecycleObserver {
       isLive: Boolean = false, ratio: Float = 16f / 9, needHolder: Boolean = true) {
     setUrl(url) //设置播放地址
     titleView.setTitle(if (title.isNullOrBlank()) url else title) //设置标题
-    if (cover.isNullOrBlank() && url.startsWith("http")) coverIv.loadNetVideoCover(url, ratio, needHolder)
-    else coverIv.loadImgHorizontal(cover, ratio, needHolder) //加载封面
+    if (cover.isNullOrBlank()) { //封面为空拿播放地址去加载
+      if (url.startsWith("http")) coverIv.loadNetVideoCover(url, ratio, needHolder) //加载网络封面
+      else {
+        val videoFile = File(url)
+        if (videoFile.exists()) {
+          coverIv.loadImgHorizontal(Uri.fromFile(videoFile).toString(), ratio, needHolder) //加载封面
+        } else {
+          coverIv.loadImgHorizontal(url, ratio, needHolder) //加载封面
+        }
+      }
+    } else { //封面防止可能是视频地址
+      if (cover.startsWith("http")) coverIv.loadImgHorizontal(cover, ratio, needHolder)
+      else {
+        val videoFile = File(cover)
+        if (videoFile.exists()) {
+          coverIv.loadImgHorizontal(Uri.fromFile(videoFile).toString(), ratio, needHolder) //加载封面
+        } else {
+          coverIv.loadImgHorizontal(cover, ratio, needHolder) //加载封面
+        }
+      }
+    } //加载封面
     if (autoPlay) start() //开始播放
     //修改控制器
     controller.removeControlComponent(liveCV)
