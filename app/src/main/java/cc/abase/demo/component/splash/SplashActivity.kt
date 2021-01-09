@@ -14,12 +14,11 @@ import cc.abase.demo.utils.MMkvUtils
 import com.blankj.utilcode.util.TimeUtils
 import com.blankj.utilcode.util.Utils
 import com.gyf.immersionbar.ktx.immersionBar
-import com.hjq.permissions.OnPermissionCallback
-import com.hjq.permissions.Permission
-import com.hjq.permissions.XXPermissions
+import com.hjq.permissions.*
 import io.reactivex.Flowable
 import io.reactivex.disposables.Disposable
-import kotlinx.android.synthetic.main.activity_splash.*
+import kotlinx.android.synthetic.main.activity_splash.splashCover
+import kotlinx.android.synthetic.main.activity_splash.splashTime
 import me.panpf.sketch.Sketch
 import java.util.concurrent.TimeUnit
 import kotlin.math.max
@@ -156,7 +155,7 @@ class SplashActivity : CommActivity() {
    */
   private fun loadData() {
     //图片地址
-    val url = ImageUrls.instance.getRandomImgUrl(randomImg)
+    val url = ImageUrls.getRandomImgUrl(randomImg)
     //判断是否存在缓存图片
     val cacheFile = splashCover.getCacheFile(url)
     //缓存图片存在

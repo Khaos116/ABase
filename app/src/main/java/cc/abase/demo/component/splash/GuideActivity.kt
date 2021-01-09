@@ -17,7 +17,7 @@ import com.gyf.immersionbar.ktx.immersionBar
  */
 class GuideActivity : CommActivity() {
   //引导页图片，如果需要，可以在启动页进行预加载
-  private val mList = ImageUrls.instance.imgs.take(4)
+  private val mList = ImageUrls.imgs.take(4)
 
   companion object {
     fun startActivity(context: Context) {
