@@ -121,7 +121,7 @@ class MyVideoView : VideoView<MyExoMediaPlayer>, LifecycleObserver {
       isLive: Boolean = false, ratio: Float = 16f / 9, needHolder: Boolean = true) {
     setUrl(url) //设置播放地址
     titleView.setTitle(if (title.isNullOrBlank()) url else title) //设置标题
-    if (cover.isNullOrBlank()) coverIv.loadNetVideoCover(url, ratio, needHolder)
+    if (cover.isNullOrBlank() && url.startsWith("http")) coverIv.loadNetVideoCover(url, ratio, needHolder)
     else coverIv.loadImgHorizontal(cover, ratio, needHolder) //加载封面
     if (autoPlay) start() //开始播放
     //修改控制器
