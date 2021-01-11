@@ -314,3 +314,6 @@
     public <init>(android.content.Context, android.util.AttributeSet);
     public <init>(android.content.Context, android.util.AttributeSet, int);
 }
+
+#腾讯PAG动画 https://pag.io/docs/sdk.html
+-keep class org.libpag.* {*;}

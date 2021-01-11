@@ -221,4 +221,5 @@ dependencies {
   implementation Deps.pickerview
   implementation Deps.flexbox
   implementation Deps.indicator
+  implementation Deps.pag
 }

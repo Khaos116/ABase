@@ -149,4 +149,7 @@ object Deps {
 
   //指示器 https://github.com/hackware1993/MagicIndicator/tree/androidx
   const val indicator = "com.github.hackware1993:MagicIndicator:1.7.0"
+
+  //腾讯PAG动画 https://pag.io/docs/sdk.html
+  const val pag = "com.tencent.tav:libpag:3.2.5.1"
 }
