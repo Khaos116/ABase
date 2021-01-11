@@ -8,14 +8,12 @@ import android.util.SparseArray;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.accessibility.AccessibilityEvent;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.view.accessibility.AccessibilityEventCompat;
 import androidx.core.view.accessibility.AccessibilityRecordCompat;
 import androidx.recyclerview.widget.LinearSmoothScroller;
 import androidx.recyclerview.widget.RecyclerView;
-
 import cc.ab.base.widget.discretescrollview.transform.DiscreteScrollItemTransformer;
 import java.util.Locale;
 
@@ -163,8 +161,8 @@ class DiscreteScrollLayoutManager extends RecyclerView.LayoutManager {
 
   protected void updateRecyclerDimensions(RecyclerView.State state) {
     boolean dimensionsChanged = !state.isMeasuring()
-        && (recyclerViewProxy.getWidth()  != viewWidth
-        ||  recyclerViewProxy.getHeight() != viewHeight);
+        && (recyclerViewProxy.getWidth() != viewWidth
+        || recyclerViewProxy.getHeight() != viewHeight);
     if (dimensionsChanged) {
       viewWidth = recyclerViewProxy.getWidth();
       viewHeight = recyclerViewProxy.getHeight();
@@ -356,7 +354,7 @@ class DiscreteScrollLayoutManager extends RecyclerView.LayoutManager {
 
   @Override
   public void smoothScrollToPosition(RecyclerView recyclerView, RecyclerView.State state, int position) {
-    if (currentPosition == position || pendingPosition != NO_POSITION) {
+    if (currentPosition == position || pendingPosition != NO_POSITION || state.getItemCount() == 0) {
       return;
     }
     checkTargetPosition(state, position);
