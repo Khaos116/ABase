@@ -1,4 +1,4 @@
-package cc.abase.demo.constants
+package cc.abase.demo.constants.api
 
 /**
  * Description:干货集中营相关开发api地址

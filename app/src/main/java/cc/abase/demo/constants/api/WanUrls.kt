@@ -1,4 +1,4 @@
-package cc.abase.demo.constants
+package cc.abase.demo.constants.api
 
 /**
  * Description:WanAndroid相关API接口
