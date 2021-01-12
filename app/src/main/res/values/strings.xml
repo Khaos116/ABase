@@ -55,7 +55,6 @@
   <string name="title_play_pager">VerticalViewPager仿抖音</string>
   <string name="title_vertical_page">RecyclerView仿抖音</string>
   <string name="title_decoration">列表分割线效果</string>
-  <string name="title_rxhttp">RxHttp请求</string>
   <string name="title_flexbox">FlexboxLayout</string>
   <string name="title_marquee">跑马灯</string>
   <string name="title_blur">高斯模糊</string>

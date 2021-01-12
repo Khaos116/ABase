@@ -20,7 +20,6 @@ import cc.abase.demo.component.marquee.MarqueeActivity
 import cc.abase.demo.component.playlist.PlayListActivity
 import cc.abase.demo.component.playlist.VerticalPagerActivity
 import cc.abase.demo.component.recyclerpage.RecyclerPagerActivity
-import cc.abase.demo.component.rxhttp.RxHttpActivity
 import cc.abase.demo.component.set.SettingActivity
 import cc.abase.demo.component.spedit.SpeditActivity
 import cc.abase.demo.component.sticky.StickyActivity
@@ -80,7 +79,6 @@ class MineFragment : CommFragment() {
       Pair(R.string.title_play_pager.xmlToString(), VerticalPagerActivity::class.java),
       Pair(R.string.title_vertical_page.xmlToString(), RecyclerPagerActivity::class.java),
       Pair(R.string.title_decoration.xmlToString(), DecorationActivity::class.java),
-      Pair(R.string.title_rxhttp.xmlToString(), RxHttpActivity::class.java),
       Pair(R.string.title_flexbox.xmlToString(), FlexboxActivity::class.java),
       Pair(R.string.title_marquee.xmlToString(), MarqueeActivity::class.java),
       Pair(R.string.title_blur.xmlToString(), BlurActivity::class.java),
