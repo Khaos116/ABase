@@ -4,8 +4,7 @@ import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.content.Intent
 import android.view.ViewGroup
-import cc.ab.base.ext.mContext
-import cc.ab.base.ext.toast
+import cc.ab.base.ext.*
 import cc.ab.base.utils.PermissionUtils
 import cc.abase.demo.R
 import cc.abase.demo.component.comm.CommActivity
@@ -18,6 +17,7 @@ import com.blankj.utilcode.util.TimeUtils
 import com.gyf.immersionbar.ktx.immersionBar
 import com.hjq.permissions.*
 import kotlinx.android.synthetic.main.activity_splash.splashRoot
+import kotlinx.coroutines.*
 
 /**
  * Description:
@@ -37,6 +37,9 @@ class SplashActivity : CommActivity() {
 
   //是否需要关闭页面
   private var hasFinish = false
+
+  //延迟执行动画
+  private var mJob: Job? = null
 
   //PAG动画
   private var mLottieAnimationView: LottieAnimationView? = null
@@ -94,7 +97,7 @@ class SplashActivity : CommActivity() {
         }
       })
       splashRoot.addView(lav, ViewGroup.LayoutParams(-1, -1))
-      mLottieAnimationView?.playAnimation()
+      mJob = GlobalScope.launchError { withContext(Dispatchers.IO) { delay(1000) }.let { mLottieAnimationView?.playAnimation() } }
     }
     //请求SD卡权限
     hasSDPermission = PermissionUtils.hasSDPermission()
@@ -169,6 +172,7 @@ class SplashActivity : CommActivity() {
     mLottieAnimationView?.pauseAnimation()
     mLottieAnimationView?.cancelAnimation()
     mLottieAnimationView?.clearAnimation()
+    mJob?.cancel()
     super.finish()
   }
 
@@ -177,6 +181,7 @@ class SplashActivity : CommActivity() {
     mLottieAnimationView?.pauseAnimation()
     mLottieAnimationView?.cancelAnimation()
     mLottieAnimationView?.clearAnimation()
+    mJob?.cancel()
   }
   //</editor-fold>
 }
