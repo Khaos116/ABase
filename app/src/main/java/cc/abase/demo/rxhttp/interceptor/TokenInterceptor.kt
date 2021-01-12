@@ -1,10 +1,8 @@
 package cc.abase.demo.rxhttp.interceptor
 
-import cc.abase.demo.config.AppConfig
-import cc.abase.demo.config.GlobalErrorHandle
+import cc.abase.demo.config.*
 import cc.abase.demo.constants.ErrorCode
-import cc.abase.demo.constants.WanUrls
-import cc.abase.demo.rxhttp.repository.UserRepository
+import cc.abase.demo.constants.api.WanUrls
 import cc.abase.demo.utils.MMkvUtils
 import com.blankj.utilcode.util.EncryptUtils
 import com.blankj.utilcode.util.LogUtils
@@ -51,7 +49,7 @@ class TokenInterceptor : Interceptor {
       cookies.forEach { map ->
         for (value in map.value) {
           if (value.contains("JSESSIONID", true)) {
-            UserRepository.setToken(value, request.url.toString())
+            UserManager.setToken(value, request.url.toString())
           }
         }
       }
@@ -84,11 +82,11 @@ class TokenInterceptor : Interceptor {
       //拿到最新的token,重新发起请求 4、根据自己的业务修改
       if (post) {
         rxHttp1.removeAllHeader("Cookie")
-        rxHttp1.addHeader("Cookie", UserRepository.getToken())
+        rxHttp1.addHeader("Cookie", UserManager.getToken())
         rxHttp1.buildRequest()
       } else {
         rxHttp2.removeAllHeader("Cookie")
-        rxHttp2.addHeader("Cookie", UserRepository.getToken())
+        rxHttp2.addHeader("Cookie", UserManager.getToken())
         rxHttp2.buildRequest()
       }
     } else {
