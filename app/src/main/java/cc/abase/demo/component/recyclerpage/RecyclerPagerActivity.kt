@@ -5,7 +5,6 @@ import android.content.Intent
 import android.view.View
 import android.view.ViewGroup
 import cc.ab.base.ext.*
-import cc.ab.base.utils.RxUtils
 import cc.ab.base.widget.discretescrollview.DSVOrientation
 import cc.ab.base.widget.discretescrollview.adapter.DiscretePageAdapter
 import cc.ab.base.widget.discretescrollview.holder.DiscreteHolder
@@ -15,11 +14,9 @@ import cc.abase.demo.component.comm.CommTitleActivity
 import cc.abase.demo.utils.VideoRandomUtils
 import cc.abase.demo.widget.dkplayer.MyVideoView
 import com.blankj.utilcode.util.StringUtils
-import io.reactivex.Observable
-import io.reactivex.disposables.Disposable
 import kotlinx.android.synthetic.main.activty_verticalpage.*
 import kotlinx.android.synthetic.main.item_vertical_page_parent.view.itemRecyclePagerContainer
-import java.util.concurrent.TimeUnit
+import kotlinx.coroutines.*
 
 /**
  * Description:
@@ -45,7 +42,7 @@ class RecyclerPagerActivity : CommTitleActivity() {
   private var recyclerPagerAdapter: DiscretePageAdapter<VerticalPageBean> = DiscretePageAdapter(RecyclerPagerHolderCreator(), mDatas)
 
   //请求
-  private var disposableRequest: Disposable? = null
+  private var disposableRequest: Job? = null
 
   //播放器控件
   private var mVideoView: MyVideoView? = null
@@ -154,22 +151,27 @@ class RecyclerPagerActivity : CommTitleActivity() {
 
   //<editor-fold defaultstate="collapsed" desc="模拟数据获取">
   private fun loadData(time: Long = 1500L, lastId: Long = 0, call: ((list: MutableList<VerticalPageBean>) -> Unit)? = null) {
-    if (disposableRequest != null && disposableRequest?.isDisposed == false) return
-    disposableRequest = Observable.timer(time, TimeUnit.MILLISECONDS).flatMap {
-      val list = mutableListOf<VerticalPageBean>()
-      for (i in lastId until lastId + 10) {
-        val video = VideoRandomUtils.getVideoPair(i.toInt())
-        list.add(VerticalPageBean(id = i + 1, cover = video.second, videoUrl = video.second, description = video.first))
+    if (disposableRequest != null && disposableRequest?.isActive == true) return
+    disposableRequest = GlobalScope.launchError {
+      withContext(Dispatchers.IO) {
+        delay(time)
+        val list = mutableListOf<VerticalPageBean>()
+        for (i in lastId until lastId + 10) {
+          val video = VideoRandomUtils.getVideoPair(i.toInt())
+          list.add(VerticalPageBean(id = i + 1, cover = video.second, videoUrl = video.second, description = video.first))
+        }
+        list
+      }.let {
+        call?.invoke(it)
       }
-      Observable.just(list)
-    }.compose(RxUtils.rx2SchedulerHelperO(lifecycleProvider)).subscribe { call?.invoke(it) }
+    }
   }
   //</editor-fold>
 
   //<editor-fold defaultstate="collapsed" desc="释放">
   override fun finish() {
     super.finish()
-    disposableRequest?.dispose()
+    disposableRequest?.cancel()
   }
   //</editor-fold>
 }

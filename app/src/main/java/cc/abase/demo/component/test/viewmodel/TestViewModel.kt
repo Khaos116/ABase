@@ -3,10 +3,11 @@ package cc.abase.demo.component.test.viewmodel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.rxLifeScope
 import cc.ab.base.ui.viewmodel.DataState
-import cc.ab.base.utils.RxUtils
 import cc.abase.demo.component.comm.CommViewModel
 import io.reactivex.Flowable
+import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
+import io.reactivex.schedulers.Schedulers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import java.util.concurrent.TimeUnit
@@ -34,7 +35,9 @@ class TestViewModel : CommViewModel() {
   private fun startTime1() {
     disposable1?.dispose()
     disposable1 = Flowable.intervalRange(1, count, 0, 500, TimeUnit.MILLISECONDS)
-        .compose(RxUtils.rx2SchedulerHelperF())
+        .subscribeOn(Schedulers.io())
+        .unsubscribeOn(Schedulers.io())
+        .observeOn(AndroidSchedulers.mainThread())
         .doOnNext { timeLiveData1.value = DataState.SuccessRefresh(newData = it.toString()) }
         .doOnComplete { }
         .subscribe()
