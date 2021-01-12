@@ -85,8 +85,8 @@ inline fun GlobalScope.launchError(
     context: CoroutineContext = Dispatchers.Main,
     crossinline handler: (CoroutineContext, Throwable) -> Unit = { _, e -> e.message.logE() },
     start: CoroutineStart = CoroutineStart.DEFAULT,
-    noinline block: suspend CoroutineScope.() -> Unit) {
-  GlobalScope.launch(context + CoroutineExceptionHandler(handler), start, block)
+    noinline block: suspend CoroutineScope.() -> Unit): Job {
+  return GlobalScope.launch(context + CoroutineExceptionHandler(handler), start, block)
 }
 
 //打印异常
