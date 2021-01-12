@@ -3,6 +3,7 @@ package cc.abase.demo.component.main
 import android.app.Activity
 import android.content.Intent
 import android.view.Gravity
+import androidx.lifecycle.rxLifeScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import cc.ab.base.ext.*
 import cc.abase.demo.R
@@ -36,9 +37,10 @@ import cc.abase.demo.widget.dialog.dateSelDialog
 import com.blankj.utilcode.util.ColorUtils
 import com.drakeet.multitype.MultiTypeAdapter
 import com.jeremyliao.liveeventbus.LiveEventBus
-import com.rxjava.rxlife.life
 import kotlinx.android.synthetic.main.fragment_mine.*
-import java.util.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
+import java.util.Locale
 
 /**
  * Description:
@@ -131,22 +133,21 @@ class MineFragment : CommFragment() {
       })
     }
     //获取积分
-    UserRepository.myIntegral()
-        .life(this)
-        .subscribe({
-          mineIntegral.text = String.format(R.string.my_integral.xmlToString(), it.coinCount)
-          dismissLoadingView()
-          mineRoot?.visible()
-          multiTypeAdapter.items = items
-          multiTypeAdapter.notifyDataSetChanged()
-        }, {
-          mineIntegral.text = String.format(R.string.my_integral.xmlToString(), 0)
-          mContext.toast(it.message)
-          dismissLoadingView()
-          mineRoot?.visible()
-          multiTypeAdapter.items = items
-          multiTypeAdapter.notifyDataSetChanged()
-        })
+    rxLifeScope.launch({
+      withContext(Dispatchers.IO) { UserRepository.myIntegral() }.let {
+        mineIntegral.text = String.format(R.string.my_integral.xmlToString(), it.coinCount)
+        multiTypeAdapter.items = items
+        multiTypeAdapter.notifyDataSetChanged()
+      }
+    }, { e ->
+      e.toast()
+      mineIntegral.text = String.format(R.string.my_integral.xmlToString(), 0)
+      multiTypeAdapter.items = items
+      multiTypeAdapter.notifyDataSetChanged()
+    }, {}, {
+      dismissLoadingView()
+      mineRoot?.visible()
+    })
     //监听加载进度
     LiveEventBus.get(EventKeys.UPDATE_PROGRESS, Triple(UpdateEnum.START, 0f, "").javaClass).observe(this) {
       when (it.first) {
