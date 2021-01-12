@@ -30,8 +30,10 @@ class TestActivity : CommTitleActivity() {
 
   //<editor-fold defaultstate="collapsed" desc="初始化Data">
   override fun initData() {
-    viewModel.timeLiveData1.observe(this) { if (it is DataState.SuccessRefresh) testTv1.append("时间1=${it.data}\n") }
-    viewModel.timeLiveData2.observe(this) { if (it is DataState.SuccessRefresh) testTv2.append("时间2=${it.data}\n") }
+    testTv1.text="Rxjava"
+    testTv2.text="协程"
+    viewModel.timeLiveData1.observe(this) { if (it is DataState.SuccessRefresh) testTv1.append("\n时间1=${it.data}") }
+    viewModel.timeLiveData2.observe(this) { if (it is DataState.SuccessRefresh) testTv2.append("\n时间2=${it.data}") }
     viewModel.startGetTime()
   }
   //</editor-fold>
