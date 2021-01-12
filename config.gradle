@@ -1,32 +1,34 @@
-//★修改version后需要将versionCode重置为从1开始★
-def version_Name = "1.1.0"
-//只能是X.X.X格式，X为数字
-//build版本从1开始：偶数测试版、奇数正式版
-def version_Build = 1
-//只能是1-999的数字(预想999次build应该可以发版)
-
-/**********************************************************************打包后续事项**********************************************************************
- 1.打包(使用V1签名)完毕后，需要使用360加固助手进行加固和多渠道操作
- 2.设置签名：选择应用加固-签名设置-添加签名后勾选启用自动签名
- 3.加固助手多渠道配置：将Channel_Info.txt文件中的Channel信息复制到txt文件中，选择应用加固-多渠道设置-导入摸板-勾选启用多渠道打包
- 4.设置生成包的地址：选择应用加固-基础设置-选择加固包的输出路径
- 5.加固和多渠道：选择应用加固-添加应用-等待加固和多渠道整个流程完成
- 6.查看加固情况：选择应用加固-右键加固包-选择任务详情-即可查看加固情况
- 7.手动设置渠道和签名(当遇到有加固失败的情况，就需要手动设置渠道和签名)：
- ①选择失败的渠道，将Channel_Info.txt文件中对应的Channel信息复制到新的txt文件中
- ②选择工具包-渠道打包-自己选择APK和输出路径(选择加固后没有渠道的包，结尾为_jiagu_sign.apk)-使用多渠道配置文件(刚才自己新建的txt)-生成渠道包
- ③选择工具包-签名APK-自己选择APK和输出路径(选择第②步生成的渠道包)-使用已配置的签名(V1)-开始签名-->完成失败APK的签名
- *******************************************************************************************************************************************************/
-
-//默认显示的version_Code信息为:三位之前表示版本号、后三位表示当前版本的build次数
-def version_Code = (version_Name.replace(".", "")).toInteger() * 1000 + version_Build
+//===================版本配置===================//
+//测试版(只有第一位可以大于等于10)
+def version_Name_D = "1.0.0"
+def version_Code_D = (version_Name_D.replace(".", "")).toInteger()
+//正式版(只有第一位可以大于等于10)
+def version_Name_R = "1.0.0"
+def version_Code_R = (version_Name_R.replace(".", "")).toInteger()
+//Bugly相关
+def buglyAppIdDebug = "c6e450ad19"
+def buglyAppKeyDebug = "54ece6d9-fcb0-4ce2-8dae-b86efb65617c"
+def buglyAppIdRelease = "c6e450ad19"
+def buglyAppKeyRelease = "54ece6d9-fcb0-4ce2-8dae-b86efb65617c"
 ext {
   android = [
-      applicationId: "com.abase.demo",
-      versionName: version_Name,
-      versionCode: version_Code,
+      applicationName_D: "ABase测试",
+      applicationId_D: "com.abase.dev",
+      versionName_D: version_Name_D,
+      versionCode_D: version_Code_D,
+
+      applicationName_R: "2021ABase",
+      applicationId_R: "com.abase.rel",
+      versionName_R: version_Name_R,
+      versionCode_R: version_Code_R,
+
+      buglyId_D: buglyAppIdDebug,
+      buglyKey_D: buglyAppKeyDebug,
+
+      buglyId_R: buglyAppIdRelease,
+      buglyKey_R: buglyAppKeyRelease,
+
       buildTime: new Date().format("yyyyMMdd_HHmm"), //编译日期
-      computer: Math.abs((System.getProperty("user.name") + "@"
-          + InetAddress.localHost.hostName).hashCode()),
+      computer: Math.abs((System.getProperty("user.name") + "@" + InetAddress.localHost.hostName).hashCode()),
   ]
 }
