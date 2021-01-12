@@ -17,7 +17,7 @@ ext {
       versionName_D: version_Name_D,
       versionCode_D: version_Code_D,
 
-      applicationName_R: "2021ABase",
+      applicationName_R: "ABase2021",
       applicationId_R: "com.abase.rel",
       versionName_R: version_Name_R,
       versionCode_R: version_Code_R,
