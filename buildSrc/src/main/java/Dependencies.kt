@@ -5,7 +5,7 @@ object Versions {
   internal const val okHttp = "4.9.0"
   internal const val rxHttp = "2.5.3"
   internal const val doraemonkit = "3.3.5"
-  internal const val coil = "1.1.0"
+  internal const val coil = "1.1.1"
 }
 
 object Deps {
