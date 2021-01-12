@@ -1,6 +1,6 @@
 package cc.abase.demo.rxhttp.config
 
-import cc.abase.demo.constants.BaseUrl
+import cc.abase.demo.constants.ApiUrl
 import okhttp3.Cookie
 import okhttp3.HttpUrl.Companion.toHttpUrlOrNull
 import rxhttp.HttpSender
@@ -13,10 +13,7 @@ import rxhttp.wrapper.cookie.ICookieJar
  */
 object RxCookie {
   //保存cookie
-  fun setCookie(
-      cookie: String,
-      url: String = BaseUrl.baseUrl
-  ) {
+  fun setCookie(cookie: String, url: String = ApiUrl.appBaseUrl) {
     // HttpUrl.parse(url)
     url.toHttpUrlOrNull()
         ?.let { http ->
@@ -28,7 +25,7 @@ object RxCookie {
   }
 
   //读取cookie
-  fun getCookie(url: String = BaseUrl.baseUrl): MutableList<Cookie>? {
+  fun getCookie(url: String = ApiUrl.appBaseUrl): MutableList<Cookie>? {
     // HttpUrl.parse(url)
     url.toHttpUrlOrNull()
         ?.let {
@@ -39,20 +36,17 @@ object RxCookie {
   }
 
   //移除对于地址的cookie
-  fun removeCookie(url: String = BaseUrl.baseUrl) {
+  fun removeCookie(url: String = ApiUrl.appBaseUrl) {
     removeCookie(url, false)
   }
 
   //移除所有cookie
-  fun removeAllCookie(url: String = BaseUrl.baseUrl) {
+  fun removeAllCookie(url: String = ApiUrl.appBaseUrl) {
     removeCookie(url, true)
   }
 
   //移除cookie
-  private fun removeCookie(
-      url: String = BaseUrl.baseUrl,
-      all: Boolean
-  ) {
+  private fun removeCookie(url: String = ApiUrl.appBaseUrl, all: Boolean) {
     (HttpSender.getOkHttpClient().cookieJar as ICookieJar).let {
       if (all) it.removeAllCookie()
       // else it.removeCookie(HttpUrl.parse(url))
