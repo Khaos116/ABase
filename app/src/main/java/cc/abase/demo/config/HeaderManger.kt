@@ -1,6 +1,7 @@
 package cc.abase.demo.config
 
-import cc.abase.demo.constants.*
+import cc.abase.demo.constants.GankUrls
+import cc.abase.demo.constants.WanUrls
 import cc.abase.demo.utils.MMkvUtils
 import com.blankj.utilcode.util.AppUtils
 import com.blankj.utilcode.util.GsonUtils
@@ -35,10 +36,10 @@ object HeaderManger {
 
   //不需要Token的接口
   val noTokenUrls = listOf(
-      BaseUrl.wanUrl + WanUrls.User.LOGIN,
-      BaseUrl.wanUrl + WanUrls.User.REGISTER,
-      BaseUrl.wanUrl + WanUrls.Home.BANNER,
-      BaseUrl.wanUrl + WanUrls.Home.ARTICLE,
-      BaseUrl.gankUrl + GankUrls.ANDROID
+      WanUrls.User.LOGIN,
+      WanUrls.User.REGISTER,
+      WanUrls.Home.BANNER,
+      WanUrls.Home.ARTICLE,
+      GankUrls.ANDROID,
   )
 }
