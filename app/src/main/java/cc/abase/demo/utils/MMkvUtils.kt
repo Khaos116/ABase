@@ -17,6 +17,7 @@ object MMkvUtils {
   }
 
   fun setBaseUrl(url: String?) {
+    ApiUrl.appBaseUrl = ""
     if (url.isNullOrBlank()) {
       MMKV.defaultMMKV()?.removeValueForKey(APP_BASE_URL)
     } else {
