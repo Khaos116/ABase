@@ -3,6 +3,7 @@ package cc.abase.demo.component.login
 import android.content.Context
 import android.content.Intent
 import android.text.TextUtils
+import androidx.lifecycle.rxLifeScope
 import cc.ab.base.ext.*
 import cc.ab.base.utils.CcInputHelper
 import cc.abase.demo.R
@@ -12,8 +13,9 @@ import cc.abase.demo.constants.LengthConstants
 import cc.abase.demo.constants.UiConstants
 import cc.abase.demo.rxhttp.repository.UserRepository
 import com.blankj.utilcode.util.StringUtils
-import com.rxjava.rxlife.life
 import kotlinx.android.synthetic.main.activity_register.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 /**
  * Description:
@@ -41,18 +43,21 @@ class RegisterActivity : CommTitleActivity() {
     registerEditPassword2.addTextWatcher { checkSubmit() }
     registerSubmit.click {
       showActionLoading()
-      UserRepository.register(
-          registerEditAccount.text.toString(),
-          registerEditPassword1.text.toString(),
-          registerEditPassword2.text.toString()
-      )
-          .life(this)
-          .subscribe({
-            dismissActionLoading()
-            MainActivity.startActivity(mContext)
-          }, {
-            mContext.toast(it.message)
-          })
+      rxLifeScope.launch({
+        withContext(Dispatchers.IO) {
+          UserRepository.register(
+              registerEditAccount.text.toString(),
+              registerEditPassword1.text.toString(),
+              registerEditPassword2.text.toString()
+          )
+        }.let {
+          MainActivity.startActivity(mContext)
+        }
+      }, { e ->
+        e.toast()
+      }, {}, {
+        dismissLoadingView()
+      })
     }
     extKeyBoard { statusHeight, navigationHeight, keyBoardHeight -> }
   }
