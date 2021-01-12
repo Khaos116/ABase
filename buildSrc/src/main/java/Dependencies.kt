@@ -74,7 +74,10 @@ object Deps {
   const val rxhttp = "com.ljx.rxhttp:rxhttp:${Versions.rxHttp}"
   const val rxhttp_kapt = "com.ljx.rxhttp:rxhttp-compiler:${Versions.rxHttp}"
   const val rxlife_coroutine = "com.ljx.rxlife:rxlife-coroutine:2.0.1" //管理协程生命周期，页面销毁，关闭请求
-  const val rxlife_rxjava = "com.ljx.rxlife2:rxlife-rxjava:2.0.0" //管理RxJava2生命周期，页面销毁，关闭请求
+  const val rxlife_rxjava = "com.ljx.rxlife3:rxlife-rxjava:3.0.0" //管理RxJava3生命周期，页面销毁，关闭请求
+
+  //RxAndroid https://github.com/ReactiveX/RxAndroid
+  const val rxandroid = "io.reactivex.rxjava3:rxandroid:3.0.0"
 
   //图片加载 https://github.com/coil-kt/coil
   const val coil = "io.coil-kt:coil:${Versions.coil}"
@@ -100,6 +103,15 @@ object Deps {
 
   //指示器 https://github.com/hackware1993/MagicIndicator/tree/androidx
   const val indicator = "com.github.hackware1993:MagicIndicator:1.7.0"
+
+  //侧滑 https://github.com/luckybilly/SmartSwipe
+  const val swipe = "com.billy.android:smart-swipe:1.1.2"
+  const val swipex = "com.billy.android:smart-swipe-x:1.1.0"
+
+  //下拉刷新 https://github.com/scwang90/SmartRefreshLayout
+  const val smart_refresh = "com.scwang.smart:refresh-layout-kernel:2.0.3"
+  const val smart_header = "com.scwang.smart:refresh-header-classics:2.0.3"
+  const val smart_footer = "com.scwang.smart:refresh-footer-classics:2.0.3"
   //</editor-fold>
 
   //<editor-fold defaultstate="collapsed" desc="调试统计工具">
@@ -128,15 +140,6 @@ object Deps {
   //</editor-fold>
 
   //<editor-fold defaultstate="collapsed" desc="三方不常用配置">
-  //侧滑 https://github.com/luckybilly/SmartSwipe
-  const val swipe = "com.billy.android:smart-swipe:1.1.2"
-  const val swipex = "com.billy.android:smart-swipe-x:1.1.0"
-
-  //下拉刷新 https://github.com/scwang90/SmartRefreshLayout
-  const val smart_refresh = "com.scwang.smart:refresh-layout-kernel:2.0.3"
-  const val smart_header = "com.scwang.smart:refresh-header-classics:2.0.3"
-  const val smart_footer = "com.scwang.smart:refresh-footer-classics:2.0.3"
-
   //图片选择器 https://github.com/LuckSiege/PictureSelector
   const val pic_select = "com.github.LuckSiege.PictureSelector:picture_library:v2.6.0"
 
@@ -170,11 +173,5 @@ object Deps {
   //</editor-fold>
 
   //<editor-fold defaultstate="collapsed" desc="其他">
-  //https://github.com/trello/RxLifecycle   更新后RxUtils存在问题
-  //api 'com.trello.rxlifecycle4:rxlifecycle-android-lifecycle:4.0.0'
-  const val rxlife_android = "com.trello.rxlifecycle3:rxlifecycle-android-lifecycle:3.1.0"
-
-  //RxAndroid https://github.com/ReactiveX/RxAndroid
-  const val rxandroid = "io.reactivex.rxjava2:rxandroid:2.1.1"
   //</editor-fold>
 }
