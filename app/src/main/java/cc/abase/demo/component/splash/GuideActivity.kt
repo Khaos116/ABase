@@ -36,7 +36,7 @@ class GuideActivity : CommActivity() {
 
   //状态栏透明
   override fun initStatus() {
-    immersionBar { statusBarDarkFont(false) }
+    immersionBar { statusBarDarkFont(true) }
   }
   //</editor-fold>
 
