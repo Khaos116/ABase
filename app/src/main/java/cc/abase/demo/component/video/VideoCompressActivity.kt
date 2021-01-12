@@ -200,4 +200,11 @@ class VideoCompressActivity : CommTitleActivity() {
     }
     return picturePath
   }
+
+  //<editor-fold defaultstate="collapsed" desc="生命周期">
+  override fun onDestroy() {
+    VideoUtils.release()
+    super.onDestroy()
+  }
+  //</editor-fold>
 }
