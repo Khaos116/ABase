@@ -1,6 +1,6 @@
 package cc.abase.demo.config
 
-import cc.abase.demo.constants.ApiUrl
+import cc.abase.demo.constants.api.ApiUrl
 import cc.abase.demo.rxhttp.config.RxCookie
 import cc.abase.demo.utils.MMkvUtils
 import com.blankj.utilcode.util.LogUtils
@@ -31,7 +31,7 @@ object UserManager {
     return uid
   }
 
-  private fun setUid(uid: Long) {
+  fun setUid(uid: Long) {
     this.uid = uid
     MMkvUtils.setUid(uid)
   }

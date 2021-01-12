@@ -1,7 +1,7 @@
 package cc.abase.demo.utils
 
 import cc.abase.demo.BuildConfig
-import cc.abase.demo.constants.ApiUrl
+import cc.abase.demo.constants.api.ApiUrl
 import com.tencent.mmkv.MMKV
 
 /**

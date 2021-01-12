@@ -1,7 +1,7 @@
 package cc.abase.demo.config
 
-import cc.abase.demo.constants.GankUrls
-import cc.abase.demo.constants.WanUrls
+import cc.abase.demo.constants.api.GankUrls
+import cc.abase.demo.constants.api.WanUrls
 import cc.abase.demo.utils.MMkvUtils
 import com.blankj.utilcode.util.AppUtils
 import com.blankj.utilcode.util.GsonUtils

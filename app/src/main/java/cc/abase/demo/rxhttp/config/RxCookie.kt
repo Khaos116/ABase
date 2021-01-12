@@ -1,6 +1,6 @@
 package cc.abase.demo.rxhttp.config
 
-import cc.abase.demo.constants.ApiUrl
+import cc.abase.demo.constants.api.ApiUrl
 import okhttp3.Cookie
 import okhttp3.HttpUrl.Companion.toHttpUrlOrNull
 import rxhttp.HttpSender
