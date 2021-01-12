@@ -5,47 +5,33 @@ plugins {
   id 'kotlin-kapt'
   id 'bugly'
 }
-apply from: 'and_res_guard.gradle'
 
-def buglyAppId = 'c6e450ad19'
-def buglyAppKey = '54ece6d9-fcb0-4ce2-8dae-b86efb65617c'
-def buglyAppIdDebug = 'c6e450ad19'
-def buglyAppKeyDebug = '54ece6d9-fcb0-4ce2-8dae-b86efb65617c'
-def buglyAppIdRelease = 'c6e450ad19'
-def buglyAppKeyRelease = '54ece6d9-fcb0-4ce2-8dae-b86efb65617c'
-//动态读取app名称
-def appName = ""
+//解决渠道下DebugImplementation和ReleaseImplementation编译通不过的问题  https://stackoverflow.com/questions/24860659/multi-flavor-app-based-on-multi-flavor-library-in-android-gradle
+configurations {
+  developerPFDebugImplementation
+}
 
 android {
   compileSdkVersion Versions.sdkTarget
   defaultConfig {
-    //动态设置APP名称:https://www.jianshu.com/p/a7e8449b37e3
-    String path = getProjectDir().getPath() + "/src/main/java/cc/abase/demo/config/AppConfig.kt"
-    File file = new File(path)
-    file.find { line ->
-      if (line.toString().contains("defaultAppName") && line.toString().contains("=")) {
-        appName = line.toString().split("=")[1].toString().trim().replace("\"", "")
-        return true
-      }
-    }
     //正常配置
-    applicationId rootProject.ext.android.applicationId
     minSdkVersion Versions.sdkMin
     targetSdkVersion Versions.sdkTarget
-    versionCode rootProject.ext.android.versionCode
-    versionName rootProject.ext.android.versionName
-    resValue "string", "app_name", appName //设置APP名称
+    applicationId rootProject.ext.android.applicationId_D
+    versionCode rootProject.ext.android.versionCode_D
+    versionName rootProject.ext.android.versionName_D
+    resValue "string", "bugly_app_id", rootProject.ext.android.buglyId_D
+    resValue "string", "app_name", rootProject.ext.android.applicationName_D
     resValue "string", "build_time", rootProject.ext.android.buildTime
+    buildConfigField "boolean", "APP_IS_RELEASE", "false"
     //允许使用SVG
-    //    vectorDrawables.useSupportLibrary = true
+    //vectorDrawables.useSupportLibrary = true
     multiDexEnabled true
     resConfigs "zh", "en" //保留中文和英文资源
-    ndk {
-      abiFilters 'armeabi-v7a' //, 'arm64-v8a'
-    }
+    ndk { abiFilters 'armeabi-v7a' } //, 'arm64-v8a'
     //资源文件名冲突，引用包重复，文件名显示的格式与文件本身的格式不对应
-    //    aaptOptions.cruncherEnabled = false
-    //    aaptOptions.useNewCruncher = false
+    //aaptOptions.cruncherEnabled = false
+    //aaptOptions.useNewCruncher = false
     //RxHttp需要 https://github.com/liujingxing/okhttp-RxHttp
     javaCompileOptions {
       annotationProcessorOptions {
@@ -70,26 +56,25 @@ android {
   //公开发布商店渠道配置
   productFlavors {
     //渠道develop
-    flavors_dev {
-      //版本号
-      def version_Name = "1.1.0"
-      def version_Build = 1
-      def version_Code = (version_Name.replace(".", "")).toInteger() * 1000 + version_Build
+    developerPF {
       dimension "default"
-      applicationId "com.abase.dev"
-      versionName version_Name
-      versionCode version_Code
+      applicationId rootProject.ext.android.applicationId_D
+      versionCode rootProject.ext.android.versionCode_D
+      versionName rootProject.ext.android.versionName_D
+      resValue "string", "bugly_app_id", rootProject.ext.android.buglyId_D
+      buildConfigField "boolean", "APP_IS_RELEASE", "false"
+      resValue "string", "app_name", rootProject.ext.android.applicationName_D
+      if (rootProject.ext.debugNoLeakcanaryAndCopy2ApkDir != "true") dependencies { developerPFDebugImplementation Deps.leakcanary }
     }
     //渠道release
-    flavors_rel {
-      //版本号
-      def version_Name = "1.1.0"
-      def version_Build = 2
-      def version_Code = (version_Name.replace(".", "")).toInteger() * 1000 + version_Build
+    releasePF {
       dimension "default"
-      applicationId "com.abase.rel"
-      versionName version_Name
-      versionCode version_Code
+      applicationId rootProject.ext.android.applicationId_R
+      versionCode rootProject.ext.android.versionCode_R
+      versionName rootProject.ext.android.versionName_R
+      resValue "string", "bugly_app_id", rootProject.ext.android.buglyId_R
+      buildConfigField "boolean", "APP_IS_RELEASE", "true"
+      resValue "string", "app_name", rootProject.ext.android.applicationName_R
     }
   }
 
@@ -118,9 +103,6 @@ android {
       minifyEnabled false
       signingConfig signingConfigs.debug
       proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-      buglyAppId = buglyAppIdDebug
-      buglyAppKey = buglyAppKeyDebug
-      resValue "string", "bugly_app_id", buglyAppIdDebug
     }
     release {
       debuggable false
@@ -129,56 +111,102 @@ android {
       minifyEnabled true
       signingConfig signingConfigs.release
       proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-      buglyAppId = buglyAppIdRelease
-      buglyAppKey = buglyAppKeyRelease
-      resValue "string", "bugly_app_id", buglyAppIdRelease
     }
   }
 }
 
+//打包处理
 android.applicationVariants.all { variant ->
+  //Bygly符号表上传
+  def buglyAppId = null
+  def buglyAppKey = null
+  if (variant.flavorName == "developerPF") {
+    buglyAppId = rootProject.ext.android.buglyId_D
+    buglyAppKey = rootProject.ext.android.buglyKey_D
+  } else if (variant.flavorName == "releasePF") {
+    buglyAppId = rootProject.ext.android.buglyId_R
+    buglyAppKey = rootProject.ext.android.buglyKey_R
+  }
+  if (buglyAppId != null) {
+    variant.ext.buglyAppId = buglyAppId
+  }
+  if (buglyAppKey != null) {
+    variant.ext.buglyAppKey = buglyAppKey
+  }
   variant.outputs.all { output ->
-    //名称
-    //String appName = ""
-    //String path = getProjectDir().getPath() + "/src/main/res/values/strings.xml"
-    //new XmlSlurper().parse(path)."string".find { name ->
-    //  if (name."@name" == "app_name") {
-    //    appName = name
-    //    return true
-    //  }
-    //}
     //正式版还是测试版
     String typeName = buildType.name
     typeName = typeName.substring(0, 1).toUpperCase() + typeName.substring(1).toLowerCase()
-    //build名称
-    String buildVer = String.valueOf(rootProject.ext.android.versionCode)
-    String buildName = "_build" + buildVer
-    //编译日期
-    String buildTime = "_" + String.valueOf(rootProject.ext.android.buildTime)
-    //打包的电脑
-    String computer = "_" + String.valueOf(rootProject.ext.android.computer)
-    //后缀名
-    String suffix = ".apk"
-    //生成输出文件名称
-    String fileName = "${appName}${typeName}${buildName}${buildTime}${computer}${suffix}"
-    //是否需要删除旧文件APK
-    boolean needDelOldApk = false
-    //输入文件设置
-    if (needDelOldApk) {
-      outputFileName = fileName
+    //版本号
+    String versionName = getVersionName()
+    //渠道名称
+    String flavorsName = variant.productFlavors[0].name
+    //应用名称
+    String apkName = ""
+    if (typeName == "Release") {
+      apkName = rootProject.ext.android.applicationName_R
     } else {
-      assemble.doLast {
-        //解决Android Studio3.6删除安卓包的问题
-        String buildEndTime = "_${new Date().format("yyyyMMdd_HHmm")}"
-        fileName = "${appName}${typeName}${buildName}${buildEndTime}${computer}${suffix}"
+      apkName = rootProject.ext.android.applicationName_D
+    }
+    //只取前5个字
+    apkName = apkName.substring(0, 5)
+    //是否不包含内存泄漏工具
+    boolean noTestTools = rootProject.ext.debugNoLeakcanaryAndCopy2ApkDir == "true"
+    //渠道名称改为中文
+    String typeZH = ""
+    if (flavorsName.toLowerCase().contains("release")) {
+      typeZH = "正式渠道"
+    } else {
+      if (noTestTools) {
+        typeZH = "测试渠道"
+      } else {
+        typeZH = "开发专用"
+      }
+    }
+    //修改默认apk名称
+    String errorApkName = ""
+    if (flavorsName.toLowerCase().contains("developer") && typeName == "Release") {
+      delete("${output.outputFile}")
+      errorApkName = "禁止构建测试渠道的正式包.apk"
+      outputFileName = errorApkName
+    } else if (flavorsName.toLowerCase().contains("release") && typeName == "Debug") {
+      delete("${output.outputFile}")
+      errorApkName = "禁止构建正式渠道的测试包.apk"
+      outputFileName = errorApkName
+    } else {
+      outputFileName = "${apkName}${typeZH}.apk"
+    }
+    //打包完成后的重命名和拷贝
+    assemble.doLast {
+      //编译完成的时间
+      String buildEndTime = "${new Date().format("MMddHHmm")}"
+      String fileName = ""
+      if (errorApkName.isBlank()) {
+        fileName = "${apkName}${typeZH}${versionName}_${buildEndTime}.apk"
+      } else {
+        fileName = errorApkName
+      }
+      //把正式版拷贝到项目APK目录
+      if (typeName == "Release" || noTestTools) {
+        //创建APK目录(APK+渠道名称)
+        File apkFile = new File("${getProjectDir().getParentFile().getPath()}/APK/${flavorsName}/${typeName}")
+        if (!apkFile.exists()) apkFile.mkdirs()
         project.copy {
           from("${output.outputFile}")
-          into("${output.outputFile.parent}")
+          into("${apkFile.path}")
+          rename("${output.outputFile.name}", "${fileName}")
+        }
+      } else {
+        //默认运行生成的apk
+        File apkFileDebug = new File("${getProjectDir().getParentFile().getPath()}/APK/Debug")
+        if (apkFileDebug.exists()) apkFileDebug.deleteDir()
+        apkFileDebug.mkdirs()
+        project.copy {
+          from("${output.outputFile}")
+          into("${apkFileDebug.path}")
           rename("${output.outputFile.name}", "${fileName}")
         }
       }
-    }
-    assemble.doLast {
       //开启线程，在打包完成后20秒杀掉JDK，防止下次运行出现被占用的情况
       new Thread() {
         @Override void run() {
@@ -191,17 +219,14 @@ android.applicationVariants.all { variant ->
   }
 }
 
-bugly {
-  debug = true
-  appId = buglyAppId
-  appKey = buglyAppKey
-}
+//为了在Debug模式下也上传符号表文件
+bugly { debug = true }
 
+//三方依赖
 dependencies {
   implementation fileTree(dir: 'libs', include: ['*.jar'])
   implementation project(':ablibrary')
   implementation project(':silicompressor')
-  flavors_devImplementation Deps.leakcanary
   implementation Deps.emoji
   implementation Deps.startup
   implementation Deps.dk_java
@@ -221,5 +246,5 @@ dependencies {
   implementation Deps.pickerview
   implementation Deps.flexbox
   implementation Deps.indicator
-  implementation Deps.pag
+  implementation Deps.emulator
 }
