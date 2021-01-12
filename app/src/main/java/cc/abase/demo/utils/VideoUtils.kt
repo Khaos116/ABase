@@ -1,16 +1,12 @@
 package cc.abase.demo.utils
 
+import cc.ab.base.ext.launchError
 import cc.ab.base.utils.PermissionUtils
-import cc.ab.base.utils.RxUtils
-import com.blankj.utilcode.util.FileUtils
-import com.blankj.utilcode.util.LogUtils
-import com.blankj.utilcode.util.PathUtils
-import com.blankj.utilcode.util.Utils
+import com.blankj.utilcode.util.*
 import com.iceteck.silicompressorr.CompressCall
 import com.iceteck.silicompressorr.SiliCompressor
-import io.reactivex.Flowable
-import io.reactivex.Observable
 import io.reactivex.disposables.Disposable
+import kotlinx.coroutines.*
 import java.io.File
 
 /**
@@ -50,32 +46,28 @@ object VideoUtils {
       LogUtils.e("CASE:正在压缩中")
       return
     }
-    disposableCompress?.dispose()
+    disposableCompress?.cancel()
     CompressCall.progressCall = { path, progress ->
-      if (originFile.path == path) Flowable.just(progress)
-          .onBackpressureLatest()
-          .compose(RxUtils.rx2SchedulerHelperF())
-          .subscribe { pro?.invoke(progress) }
+      if (originFile.path == path) GlobalScope.launchError(Dispatchers.Main) { pro?.invoke(progress) }
     }
-    disposableCompress = Observable.just(originFile.path)
-        .flatMap {
-          val resultPath = SiliCompressor.with(Utils.getApp()).compressVideo(it, outParentVideo)
-          if (File(resultPath).exists()) {
-            Observable.just(resultPath)
-          } else {
-            Observable.error(Throwable("压缩失败"))
-          }
-        }
-        .compose(RxUtils.rx2SchedulerHelperO())
-        .subscribe({
+    disposableCompress = GlobalScope.launchError(handler = { _, _ ->
+      CompressCall.release()
+      result?.invoke(false, "压缩失败")
+    }) {
+      withContext(Dispatchers.IO) {
+        SiliCompressor.with(Utils.getApp()).compressVideo(originFile.path, outParentVideo)
+      }.let { resultPath ->
+        if (File(resultPath).exists()) {
           CompressCall.release()
-          result?.invoke(true, it)
+          result?.invoke(true, resultPath)
           LogUtils.e("\nCASE:视频压缩前大小:${FileUtils.getSize(originFile)}")
-          LogUtils.e("\nCASE:视频压缩后大小:${FileUtils.getSize(it)}\n")
-        }, {
+          LogUtils.e("\nCASE:视频压缩后大小:${FileUtils.getSize(resultPath)}\n")
+        } else {
           CompressCall.release()
           result?.invoke(false, "压缩失败")
-        })
+        }
+      }
+    }
   }
   //</editor-fold>
 
@@ -183,13 +175,13 @@ object VideoUtils {
   //</editor-fold>
 
   //<editor-fold defaultstate="collapsed" desc="释放、清理">
-  private var disposableCompress: Disposable? = null
+  private var disposableCompress: Job? = null
   private var disposableCover: Disposable? = null
   private var disposableNet: Disposable? = null
 
   //释放
   fun release() {
-    disposableCompress?.dispose()
+    disposableCompress?.cancel()
     disposableCover?.dispose()
     disposableNet?.dispose()
     CompressCall.release()
