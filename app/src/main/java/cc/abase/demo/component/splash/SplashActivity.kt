@@ -1,7 +1,8 @@
 package cc.abase.demo.component.splash
 
+import android.animation.Animator
+import android.animation.AnimatorListenerAdapter
 import android.content.Intent
-import android.graphics.Color
 import android.view.ViewGroup
 import cc.ab.base.ext.mContext
 import cc.ab.base.ext.toast
@@ -12,12 +13,11 @@ import cc.abase.demo.component.login.LoginActivity
 import cc.abase.demo.component.main.MainActivity
 import cc.abase.demo.rxhttp.repository.UserRepository
 import cc.abase.demo.utils.MMkvUtils
+import com.airbnb.lottie.*
 import com.blankj.utilcode.util.TimeUtils
 import com.gyf.immersionbar.ktx.immersionBar
 import com.hjq.permissions.*
-import kotlinx.android.synthetic.main.activity_splash.splashBgView
 import kotlinx.android.synthetic.main.activity_splash.splashRoot
-import org.libpag.*
 
 /**
  * Description:
@@ -32,14 +32,14 @@ class SplashActivity : CommActivity() {
   //是否有SD卡读写权限
   private var hasSDPermission = false
 
-  //倒计时是否结束
-  private var countDownFinish = false
+  //动画是否结束
+  private var animIsFinished = false
 
   //是否需要关闭页面
   private var hasFinish = false
 
   //PAG动画
-  private var mPAGView: PAGView? = null
+  private var mLottieAnimationView: LottieAnimationView? = null
   //</editor-fold>
 
   //<editor-fold defaultstate="collapsed" desc="状态栏">
@@ -78,45 +78,26 @@ class SplashActivity : CommActivity() {
   //<editor-fold defaultstate="collapsed" desc="View尺寸拿到之后获取权限和添加动画">
   private fun initAfterSize() {
     if (hasFinish) return
-    //添加PAG动画
-    val pagView = PAGView(mContext)
-    pagView.alpha = 0f
-    mPAGView = pagView
-    pagView.setScaleMode(PAGScaleMode.Zoom)
-    splashRoot.addView(pagView, ViewGroup.LayoutParams(-1, -1))
-    val pagFile = PAGFile.Load(assets, "guide.pag")
-    val textData = pagFile.getTextData(0)
-    textData.fauxItalic = false
-    textData.fauxBold = true
-    textData.strokeWidth = 6f
-    textData.fillColor = Color.MAGENTA
-    textData.strokeColor = Color.CYAN
-    textData.strokeOverFill = false
-    textData.text = "这只是一个\n演示用的基础库"
-    textData.fontSize = 100f
-    pagView.setTextData(0, textData)
-    pagView.setRepeatCount(1)
-    pagView.file = pagFile
-    pagView.addListener(object : PAGView.PAGViewListener {
-      override fun onAnimationStart(view: PAGView?) {}
-
-      override fun onAnimationEnd(view: PAGView?) {
-        countDownFinish = true
-        goNextPage()
-      }
-
-      override fun onAnimationCancel(view: PAGView?) {
-        view?.stop()
-      }
-
-      override fun onAnimationRepeat(view: PAGView?) {}
-
-    })
-    pagView.animate().alpha(1f).setDuration(1000).start()
-    splashBgView.animate().alpha(0f).setDuration(1000).start()
-    pagView.play()
-    hasSDPermission = PermissionUtils.hasSDPermission()
+    mLottieAnimationView = LottieAnimationView(mContext)
+    mLottieAnimationView?.let { lav ->
+      lav.setAnimation("welcome2021.json")
+      lav.imageAssetsFolder = "images/"
+      lav.setRenderMode(RenderMode.HARDWARE)
+      lav.repeatCount = 0
+      lav.repeatMode = LottieDrawable.RESTART
+      lav.setOnClickListener { }
+      lav.addAnimatorListener(object : AnimatorListenerAdapter() {
+        override fun onAnimationEnd(animation: Animator?) {
+          super.onAnimationEnd(animation)
+          animIsFinished = true
+          goNextPage()
+        }
+      })
+      splashRoot.addView(lav, ViewGroup.LayoutParams(-1, -1))
+      mLottieAnimationView?.playAnimation()
+    }
     //请求SD卡权限
+    hasSDPermission = PermissionUtils.hasSDPermission()
     if (!hasSDPermission) {
       XXPermissions.with(this)
           .permission(Permission.MANAGE_EXTERNAL_STORAGE)
@@ -166,7 +147,7 @@ class SplashActivity : CommActivity() {
   //<editor-fold defaultstate="collapsed" desc="进入下个页面">
   //打开下个页面
   private fun goNextPage() {
-    if (!countDownFinish) return
+    if (!animIsFinished) return
     if (!hasSDPermission) return
     when {
       //是否引导
@@ -185,13 +166,17 @@ class SplashActivity : CommActivity() {
   override fun onBackPressed() {}
 
   override fun finish() {
-    mPAGView?.stop()
+    mLottieAnimationView?.pauseAnimation()
+    mLottieAnimationView?.cancelAnimation()
+    mLottieAnimationView?.clearAnimation()
     super.finish()
   }
 
   override fun onDestroy() {
     super.onDestroy()
-    mPAGView?.stop()
+    mLottieAnimationView?.pauseAnimation()
+    mLottieAnimationView?.cancelAnimation()
+    mLottieAnimationView?.clearAnimation()
   }
   //</editor-fold>
 }
