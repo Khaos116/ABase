@@ -4,12 +4,9 @@ import android.os.Bundle
 import android.view.View
 import android.widget.LinearLayout
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.Lifecycle
 import cc.ab.base.ext.*
 import cc.ab.base.utils.CleanLeakUtils
 import com.gyf.immersionbar.ktx.immersionBar
-import com.trello.lifecycle2.android.lifecycle.AndroidLifecycle
-import com.trello.rxlifecycle3.LifecycleProvider
 import kotlinx.android.synthetic.main.base_activity.baseLLRoot
 import kotlinx.android.synthetic.main.base_activity.baseStatusView
 
@@ -21,11 +18,8 @@ import kotlinx.android.synthetic.main.base_activity.baseStatusView
 abstract class BaseActivity : AppCompatActivity() {
   //状态栏填充的view,当设置fillStatus返回为true时才生效
   protected var mStatusView: View? = null
-  //防止内存泄漏
-  lateinit var lifecycleProvider: LifecycleProvider<Lifecycle.Event>
 
   override fun onCreate(savedInstanceState: Bundle?) {
-    lifecycleProvider = AndroidLifecycle.createLifecycleProvider(this)
     this.onCreateBefore()
     this.initStatus()
     super.onCreate(savedInstanceState)
