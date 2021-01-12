@@ -182,6 +182,7 @@ object VideoUtils {
   //释放
   fun release() {
     disposableCompress?.cancel()
+    disposableCompress = null
     disposableCover?.dispose()
     disposableNet?.dispose()
     CompressCall.release()
