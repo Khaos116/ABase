@@ -9,8 +9,8 @@ import cc.abase.demo.constants.api.WanUrls
 import cc.abase.demo.utils.BuglyManager
 import cc.abase.demo.utils.MMkvUtils
 import com.blankj.utilcode.util.EncryptUtils
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.schedulers.Schedulers
 import rxhttp.*
 import rxhttp.wrapper.cahce.CacheMode
 

@@ -5,7 +5,6 @@ import cc.ab.base.utils.PermissionUtils
 import com.blankj.utilcode.util.*
 import com.iceteck.silicompressorr.CompressCall
 import com.iceteck.silicompressorr.SiliCompressor
-import io.reactivex.disposables.Disposable
 import kotlinx.coroutines.*
 import java.io.File
 
@@ -176,15 +175,11 @@ object VideoUtils {
 
   //<editor-fold defaultstate="collapsed" desc="释放、清理">
   private var disposableCompress: Job? = null
-  private var disposableCover: Disposable? = null
-  private var disposableNet: Disposable? = null
 
   //释放
   fun release() {
     disposableCompress?.cancel()
     disposableCompress = null
-    disposableCover?.dispose()
-    disposableNet?.dispose()
     CompressCall.release()
   }
 

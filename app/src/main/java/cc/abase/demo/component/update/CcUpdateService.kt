@@ -11,7 +11,7 @@ import cc.abase.demo.constants.EventKeys
 import cc.abase.demo.constants.StringConstants
 import com.blankj.utilcode.util.*
 import com.jeremyliao.liveeventbus.LiveEventBus
-import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import rxhttp.RxHttp
 import java.io.File
 import java.util.Locale
