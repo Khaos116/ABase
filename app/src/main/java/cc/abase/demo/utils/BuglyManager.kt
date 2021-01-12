@@ -5,7 +5,7 @@ import cc.ab.base.ext.xmlToString
 import cc.abase.demo.BuildConfig
 import cc.abase.demo.R
 import cc.abase.demo.config.UserManager
-import cc.abase.demo.constants.ApiUrl
+import cc.abase.demo.constants.api.ApiUrl
 import com.blankj.utilcode.util.AppUtils
 import com.snail.antifake.jni.EmulatorDetectUtil
 import com.tencent.bugly.crashreport.CrashReport
