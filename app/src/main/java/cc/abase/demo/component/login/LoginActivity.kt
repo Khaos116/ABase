@@ -64,7 +64,7 @@ class LoginActivity : CommActivity() {
       }, { e ->
         e.toast()
       }, {}, {
-        dismissLoadingView()
+        dismissActionLoading()
       })
     }
     loginRegister.click { RegisterActivity.startActivity(mContext) }

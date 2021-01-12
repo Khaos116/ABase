@@ -56,7 +56,7 @@ class RegisterActivity : CommTitleActivity() {
       }, { e ->
         e.toast()
       }, {}, {
-        dismissLoadingView()
+        dismissActionLoading()
       })
     }
     extKeyBoard { statusHeight, navigationHeight, keyBoardHeight -> }
