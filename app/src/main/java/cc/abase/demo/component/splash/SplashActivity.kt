@@ -11,7 +11,7 @@ import cc.abase.demo.R
 import cc.abase.demo.component.comm.CommActivity
 import cc.abase.demo.component.login.LoginActivity
 import cc.abase.demo.component.main.MainActivity
-import cc.abase.demo.rxhttp.repository.UserRepository
+import cc.abase.demo.config.UserManager
 import cc.abase.demo.utils.MMkvUtils
 import com.airbnb.lottie.*
 import com.blankj.utilcode.util.TimeUtils
@@ -153,7 +153,7 @@ class SplashActivity : CommActivity() {
       //是否引导
       MMkvUtils.getNeedGuide() -> GuideActivity.startActivity(mContext)
       //是否登录
-      UserRepository.isLogin() -> MainActivity.startActivity(mContext)
+      UserManager.isLogin() -> MainActivity.startActivity(mContext)
       //没有其他需要，进入主页
       else -> LoginActivity.startActivity(mContext)
     }
