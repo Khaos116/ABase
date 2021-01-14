@@ -20,6 +20,7 @@
    network_security_config 是7.0以上抓包需要的
    android:usesCleartextTraffic 是9.0以上WebView访问H5需要的
    maxAspectRatio和resizeableActivity是刘海屏适配需要的
+   resizeableActivity:false表示不支持分屏模式，true表示支持分屏模式
   -->
   <application
       android:maxAspectRatio="2.4"
