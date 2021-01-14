@@ -9,11 +9,12 @@ import android.view.*
 import android.view.ViewTreeObserver.OnGlobalLayoutListener
 import android.widget.FrameLayout
 import cc.ab.base.R
+import cc.ab.base.ext.removeParent
 import com.blankj.utilcode.util.BarUtils
 import kotlin.math.abs
 
 /**
- * @Description 尽量添加到"android.R.id.content"这个父控件
+ * @Description 1.尽量添加到"android.R.id.content"这个父控件 2.页面关闭时,需要把本控件从父控件移除,防止父控件监听没有移除
  * @Author：CASE
  * @Date：2021/1/14
  * @Time：9:55
@@ -184,6 +185,15 @@ class DragFloatView @JvmOverloads constructor(c: Context, a: AttributeSet? = nul
       super.onTouchEvent(event)
       true //返回true不允许外部劫持控件自己的内部事件
     } else super.onTouchEvent(event) //其他情况直接交给内部控件处理
+  }
+  //</editor-fold>
+
+  //<editor-fold defaultstate="collapsed" desc="释放内存">
+  fun release() {
+    setBackgroundResource(R.drawable.shape_circle_primary)
+    this.isAniming = false
+    this.clearAnimation()
+    this.removeParent()
   }
   //</editor-fold>
 }
