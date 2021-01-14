@@ -2,9 +2,12 @@ package cc.abase.demo.component.main
 
 import android.content.Context
 import android.content.Intent
+import android.view.Gravity
+import android.widget.FrameLayout
 import androidx.annotation.IntRange
 import androidx.lifecycle.Lifecycle
-import cc.ab.base.ext.toast
+import cc.ab.base.ext.*
+import cc.ab.base.widget.DragFloatView
 import cc.abase.demo.R
 import cc.abase.demo.component.comm.CommActivity
 import cc.abase.demo.component.comm.CommFragment
@@ -56,6 +59,23 @@ class MainActivity : CommActivity() {
       }
       true //返回true让其默认选中点击的选项
     }
+    //添加悬浮球
+    val floatView = DragFloatView(mContext)
+    floatView.click { "点击悬浮球".toast() }
+    //随机位置
+    val params = FrameLayout.LayoutParams(50.dp2Px(), 50.dp2Px())
+    val h = (Math.random() * 3 + 1).toInt()
+    val v = (Math.random() * 3 + 1).toInt()
+    params.gravity = when (h % 3) {
+      0 -> Gravity.START
+      1 -> Gravity.CENTER_HORIZONTAL
+      else -> Gravity.END
+    } or when (v % 3) {
+      0 -> Gravity.TOP
+      1 -> Gravity.CENTER_VERTICAL
+      else -> Gravity.BOTTOM
+    }
+    (mContentView as? FrameLayout)?.addView(floatView, params)
   }
   //</editor-fold>
 
