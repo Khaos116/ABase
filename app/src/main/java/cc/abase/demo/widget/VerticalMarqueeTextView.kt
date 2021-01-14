@@ -41,10 +41,10 @@ class VerticalMarqueeTextView @JvmOverloads constructor(c: Context, a: Attribute
     mTv1.setTextColor(textColor)
     mTv2.setTextColor(textColor)
     //内部间距
-    val paddingStart = 11.dp2Px()
+    val paddingStartEnd = 11.dp2Px()
     val paddingTop = 1.dp2Px()
-    mTv1.setPadding(paddingStart, paddingTop, 0, 0)
-    mTv2.setPadding(paddingStart, paddingTop, 0, 0)
+    mTv1.setPadding(paddingStartEnd, paddingTop, 0, paddingStartEnd)
+    mTv2.setPadding(paddingStartEnd, paddingTop, 0, paddingStartEnd)
     addView(mTv1, FrameLayout.LayoutParams(-1, -1))
     addView(mTv2, FrameLayout.LayoutParams(-1, -1))
     //第二个先看不见
