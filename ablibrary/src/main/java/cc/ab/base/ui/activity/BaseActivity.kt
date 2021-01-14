@@ -1,5 +1,6 @@
 package cc.ab.base.ui.activity
 
+import android.os.Build
 import android.os.Bundle
 import android.view.View
 import android.widget.LinearLayout
@@ -50,6 +51,14 @@ abstract class BaseActivity : AppCompatActivity() {
   //是否需要默认填充状态栏,默认填充为白色view
   protected open fun fillStatus(): Boolean {
     return true
+  }
+
+  override fun onBackPressed() {
+    if (Build.VERSION.SDK_INT == Build.VERSION_CODES.Q) { //Android Q的bug https://blog.csdn.net/oLengYueZa/article/details/109207492
+      finishAfterTransition()
+    } else {
+      super.onBackPressed()
+    }
   }
 
   override fun onDestroy() {

@@ -141,7 +141,7 @@ class MainActivity : CommActivity() {
       toast(R.string.double_exit)
       touchTime = currentTime
     } else {
-      //      AppUtils.exitApp()
+      //AppUtils.exitApp()
       super.onBackPressed()
     }
   }
