@@ -63,7 +63,7 @@ class MainActivity : CommActivity() {
     val floatView = DragFloatView(mContext)
     floatView.click { "点击悬浮球".toast() }
     //随机位置
-    val params = FrameLayout.LayoutParams(50.dp2Px(), 50.dp2Px())
+    val params = FrameLayout.LayoutParams(45.dp2Px(), 45.dp2Px())
     val h = (Math.random() * 3 + 1).toInt()
     val v = (Math.random() * 3 + 1).toInt()
     params.gravity = when (h % 3) {
