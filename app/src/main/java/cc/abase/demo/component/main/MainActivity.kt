@@ -34,6 +34,7 @@ class MainActivity : CommActivity() {
 
   //子列表合集，方便外部调用选中那个
   private val fragmentList = mutableListOf<CommFragment>()
+  private var floatView: DragFloatView? = null
   //</editor-fold>
 
   //<editor-fold defaultstate="collapsed" desc="XML">
@@ -60,8 +61,8 @@ class MainActivity : CommActivity() {
       true //返回true让其默认选中点击的选项
     }
     //添加悬浮球
-    val floatView = DragFloatView(mContext)
-    floatView.click { "点击悬浮球".toast() }
+    floatView = DragFloatView(mContext)
+    floatView?.click { "点击悬浮球".toast() }
     //随机位置
     val params = FrameLayout.LayoutParams(45.dp2Px(), 45.dp2Px())
     val h = (Math.random() * 3 + 1).toInt()
@@ -143,6 +144,20 @@ class MainActivity : CommActivity() {
       //      AppUtils.exitApp()
       super.onBackPressed()
     }
+  }
+  //</editor-fold>
+
+  //<editor-fold defaultstate="collapsed" desc="生命周期">
+  override fun finish() {
+    super.finish()
+    floatView?.release()
+    floatView = null
+  }
+
+  override fun onDestroy() {
+    floatView?.release()
+    floatView = null
+    super.onDestroy()
   }
   //</editor-fold>
 }
