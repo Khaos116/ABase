@@ -15,7 +15,7 @@ import com.blankj.utilcode.util.SizeUtils
  * Date:2020-10-12
  * Time:17:48
  */
-class GeneralRoundImageView(
+open class GeneralRoundImageView(
     context: Context,
     attrs: AttributeSet?
 ) : AppCompatImageView(context, attrs), IRoundView {

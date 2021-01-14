@@ -4,8 +4,6 @@ import android.annotation.TargetApi
 import android.content.Context
 import android.graphics.Canvas
 import android.os.Build
-import android.os.Parcel
-import android.os.Parcelable
 import android.util.AttributeSet
 import android.view.View
 import android.widget.FrameLayout
@@ -20,7 +18,7 @@ import cc.ab.base.widget.roundlayout.abs.IRoundView
  * @time Created by 2019/6/8 0:30
  *
  */
-class GeneralRoundFrameLayout : FrameLayout, IRoundView {
+open class GeneralRoundFrameLayout : FrameLayout, IRoundView {
     private lateinit var generalRoundViewImpl: GeneralRoundViewImpl
 
     constructor(context: Context) : this(context, null)

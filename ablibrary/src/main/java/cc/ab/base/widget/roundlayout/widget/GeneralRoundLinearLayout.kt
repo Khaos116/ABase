@@ -17,7 +17,7 @@ import cc.ab.base.widget.roundlayout.abs.IRoundView
  * @time Created by 2019/6/8 0:30
  *
  */
-class GeneralRoundLinearLayout : LinearLayout, IRoundView {
+open class GeneralRoundLinearLayout : LinearLayout, IRoundView {
     private lateinit var generalRoundViewImpl: GeneralRoundViewImpl
 
     constructor(context: Context) : this(context, null)
