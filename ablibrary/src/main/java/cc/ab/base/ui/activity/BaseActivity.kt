@@ -6,7 +6,6 @@ import android.view.View
 import android.widget.LinearLayout
 import androidx.appcompat.app.AppCompatActivity
 import cc.ab.base.ext.*
-import cc.ab.base.utils.CleanLeakUtils
 import com.gyf.immersionbar.ktx.immersionBar
 import kotlinx.android.synthetic.main.base_activity.baseLLRoot
 import kotlinx.android.synthetic.main.base_activity.baseStatusView
@@ -59,11 +58,6 @@ abstract class BaseActivity : AppCompatActivity() {
     } else {
       super.onBackPressed()
     }
-  }
-
-  override fun onDestroy() {
-    CleanLeakUtils.fixInputMethodManagerLeak(this)
-    super.onDestroy()
   }
 
   //-----------------------需要重写-----------------------//
