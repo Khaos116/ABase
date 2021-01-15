@@ -192,7 +192,7 @@ class SimpleWebSocket {
   //<editor-fold defaultstate="collapsed" desc="外部调用">
   //开始连接
   fun startSocketConnect(url: String) {
-    if (url.isBlank() || mUrlWebSocket == url) return
+    if (url.isBlank() || !url.startsWith("ws") || mUrlWebSocket == url) return
     mUrlWebSocket = url
     releaseSocketConnect()
     isRelease = false
