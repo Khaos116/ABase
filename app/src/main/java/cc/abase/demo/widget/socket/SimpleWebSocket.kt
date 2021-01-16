@@ -104,9 +104,13 @@ class SimpleWebSocket {
   private fun reConnect() {
     if (isRelease) return
     if (mCountRetry < mCountRetryMax) {
+      mWebSocket?.cancel()
+      mWebSocket?.close(1001, "重连主动关闭连接")
       mWebSocket = null
       mOkHttpClient.dispatcher.cancelAll()
-      mJobRetry = GlobalScope.launchError(Dispatchers.IO) {
+      mJobRetry = GlobalScope.launchError(context = Dispatchers.IO, handler = { _, e ->
+        "重试异常URL=$mUrlWebSocket,error=${e.message ?: "null"}".logE()
+      }) {
         delay(mTimeRetry)
         if (NetworkUtils.isConnected()) { //有网络直接重试
           mCountRetry++
@@ -193,8 +197,8 @@ class SimpleWebSocket {
   //开始连接
   fun startSocketConnect(url: String) {
     if (url.isBlank() || !url.startsWith("ws") || mUrlWebSocket == url) return
-    mUrlWebSocket = url
     releaseSocketConnect()
+    mUrlWebSocket = url
     isRelease = false
     isConnected = false
     mOkHttpClient.dispatcher.cancelAll()
