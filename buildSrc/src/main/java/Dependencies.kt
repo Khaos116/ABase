@@ -4,7 +4,6 @@ object Versions {
   internal const val kotlin = "1.4.21"
   internal const val okHttp = "4.9.0"
   internal const val rxHttp = "2.5.3"
-  internal const val doraemonkit = "3.3.5"
   internal const val coil = "1.1.1"
 }
 
@@ -130,9 +129,8 @@ object Deps {
   //内存泄漏检测 https://square.github.io/leakcanary/getting_started/
   const val leakcanary = "com.squareup.leakcanary:leakcanary-android:2.6"
 
-  //辅助工具 https://github.com/didi/DoraemonKit/blob/master/Doc/android_cn_guide.md
-  const val doraemonkit = "com.didichuxing.doraemonkit:dokitx:${Versions.doraemonkit}"
-  const val doraemonkit_no = "com.didichuxing.doraemonkit:dokitx-no-op:${Versions.doraemonkit}"
+  //UI调试 https://github.com/YvesCheung/UInspector
+  const val uinspector = "com.huya.mobile:Uinspector:1.0.10"
 
   //bugly https://bugly.qq.com/docs/user-guide/instruction-manual-android/?v=20190916214340
   const val bugly_crash = "com.tencent.bugly:crashreport:3.2.422"

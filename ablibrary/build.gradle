@@ -34,8 +34,7 @@ android {
 
 dependencies {
   implementation fileTree(dir: 'libs', include: ['*.jar'])
-  debugImplementation(Deps.doraemonkit) { exclude module: 'utilcode' }
-  releaseImplementation Deps.doraemonkit_no
+  debugImplementation Deps.uinspector
   api Deps.kotlin_stdlib
   api Deps.timber
   api Deps.startup

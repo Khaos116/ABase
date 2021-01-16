@@ -5,7 +5,7 @@ import android.content.Context
 import android.graphics.Color
 import androidx.startup.Initializer
 import cc.ab.base.ext.logI
-import cc.ab.base.startup.DoraemonInit
+import cc.ab.base.startup.MmkvInit
 import cc.abase.demo.component.login.LoginActivity
 import cc.abase.demo.component.main.MainActivity
 import cc.abase.demo.component.splash.GuideActivity
@@ -26,7 +26,7 @@ class SmartInit : Initializer<Int> {
       MainActivity::class.java.name,
       GuideActivity::class.java.name,
       LoginActivity::class.java.name,
-      "com.didichuxing.doraemonkit.ui.UniversalActivity")
+  )
 
   override fun create(context: Context): Int {
     //仿手机QQ的手势滑动返回
@@ -45,7 +45,7 @@ class SmartInit : Initializer<Int> {
   }
 
   override fun dependencies(): MutableList<Class<out Initializer<*>>> {
-    return mutableListOf(DoraemonInit::class.java)
+    return mutableListOf(MmkvInit::class.java)
   }
 
   //静态代码段可以防止内存泄露
