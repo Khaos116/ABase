@@ -63,10 +63,8 @@ class MainActivity : CommActivity() {
       true //返回true让其默认选中点击的选项
     }
     //取消长按显示+过度绘制
-    mainNavigation.findViewById<View>(R.id.menu_main_home).let {
-      it.setOnLongClickListener { true }
-      (it.parent?.parent as? View)?.setBackgroundColor(Color.TRANSPARENT)
-    }
+    (mainNavigation.findViewById<View>(R.id.menu_main_home)?.parent?.parent as? View)?.setBackgroundColor(Color.TRANSPARENT)
+    mainNavigation.findViewById<View>(R.id.menu_main_home).setOnLongClickListener { true }
     mainNavigation.findViewById<View>(R.id.menu_main_dyn).setOnLongClickListener { true }
     mainNavigation.findViewById<View>(R.id.menu_main_mine).setOnLongClickListener { true }
     //添加悬浮球
