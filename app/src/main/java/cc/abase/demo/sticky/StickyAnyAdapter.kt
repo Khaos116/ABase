@@ -2,8 +2,6 @@ package cc.abase.demo.sticky
 
 import android.graphics.Color
 import android.view.View
-import cc.ab.base.ext.pressEffectBgColor
-import cc.ab.base.ext.pressEffectDisable
 import com.drakeet.multitype.*
 
 /**
@@ -19,17 +17,11 @@ abstract class StickyAnyAdapter(
 ) : MultiTypeAdapter(i, c, t), StickyHeaderCallbacks {
   override fun setupStickyHeaderView(stickyHeader: View) {
     super.setupStickyHeaderView(stickyHeader)
-    if (bgColor != 0) {
-      stickyHeader.setBackgroundColor(bgColor)
-      stickyHeader.pressEffectBgColor()
-    }
+    stickyHeader.setBackgroundColor(bgColor)
   }
 
   override fun teardownStickyHeaderView(stickyHeader: View) {
     super.teardownStickyHeaderView(stickyHeader)
-    if (bgColor != 0) {
-      stickyHeader.setBackgroundColor(Color.TRANSPARENT)
-      stickyHeader.pressEffectDisable()
-    }
+    stickyHeader.setBackgroundColor(Color.TRANSPARENT)
   }
 }
