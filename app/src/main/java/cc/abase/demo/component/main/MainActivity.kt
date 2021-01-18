@@ -3,6 +3,7 @@ package cc.abase.demo.component.main
 import android.content.Context
 import android.content.Intent
 import android.view.Gravity
+import android.view.View
 import android.widget.FrameLayout
 import androidx.annotation.IntRange
 import androidx.lifecycle.Lifecycle
@@ -60,6 +61,10 @@ class MainActivity : CommActivity() {
       }
       true //返回true让其默认选中点击的选项
     }
+    //取消长按显示
+    mainNavigation.findViewById<View>(R.id.menu_main_home).setOnLongClickListener { true }
+    mainNavigation.findViewById<View>(R.id.menu_main_dyn).setOnLongClickListener { true }
+    mainNavigation.findViewById<View>(R.id.menu_main_mine).setOnLongClickListener { true }
     //添加悬浮球
     floatView = DragFloatView(mContext)
     floatView?.click { "点击悬浮球".toast() }
