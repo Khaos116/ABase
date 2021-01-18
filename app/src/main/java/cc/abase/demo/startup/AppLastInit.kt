@@ -2,6 +2,8 @@ package cc.abase.demo.startup
 
 import android.content.Context
 import androidx.startup.Initializer
+import cc.ab.base.config.PathConfig
+import cc.ab.base.ext.logE
 import cc.ab.base.ext.logI
 
 /**
@@ -11,6 +13,11 @@ import cc.ab.base.ext.logI
  */
 class AppLastInit : Initializer<Int> {
   override fun create(context: Context): Int {
+    try {
+      PathConfig.initCacheDir()
+    } catch (e: Exception) {
+      e.logE()
+    }
     "初始化完成".logI()
     return 0
   }

@@ -1,8 +1,7 @@
 package cc.ab.base.config
 
 import coil.util.CoilUtils
-import com.blankj.utilcode.util.PathUtils
-import com.blankj.utilcode.util.Utils
+import com.blankj.utilcode.util.*
 import java.io.File
 
 /**
@@ -10,24 +9,36 @@ import java.io.File
  * Date:2020-10-6
  * Time:16:05
  */
-class PathConfig {
-  companion object {
-    //网络视频封面
-    val VIDEO_OVER_CACHE_DIR = PathUtils.getExternalAppPicturesPath() + File.separator + "VideoCover"
+object PathConfig {
+  //网络视频封面
+  val VIDEO_OVER_CACHE_DIR = PathUtils.getExternalAppPicturesPath() + File.separator + "VideoCover"
 
-    //视频缓存地址
-    val VIDEO_CACHE_DIR: String = PathUtils.getExternalAppMoviesPath()
+  //视频缓存地址
+  val VIDEO_CACHE_DIR: String = PathUtils.getExternalAppMoviesPath() + File.separator + "VideoExo"
 
-    //图片缓存地址
-    val IMG_CACHE_DIR = CoilUtils.createDefaultCache(Utils.getApp()).directory
+  //图片缓存地址
+  val IMG_CACHE_DIR = CoilUtils.createDefaultCache(Utils.getApp()).directory
 
-    //接口数据缓存地址
-    val API_CACHE_DIR = PathUtils.getExternalAppCachePath() + File.separator + "RxHttpCache"
+  //接口数据缓存地址
+  val API_CACHE_DIR = PathUtils.getExternalAppFilesPath() + File.separator + "RxHttpCache"
 
-    //异常数据目录
-    val CRASH_CACHE_DIR = PathUtils.getExternalAppFilesPath() + File.separator + "Crash"
+  //异常数据目录
+  val CRASH_CACHE_DIR = PathUtils.getExternalAppFilesPath() + File.separator + "Crash"
 
-    //临时文件存放目录，如压缩图片等
-    val TEMP_CACHE_DIR = PathUtils.getExternalAppFilesPath() + File.separator + "Temp"
+  //文件下载目录
+  val DOWNLOAD_DIR = PathUtils.getExternalAppFilesPath() + File.separator + "Download"
+
+  //临时文件存放目录，如压缩图片、压缩视频等
+  val TEMP_IMG_DIR = PathUtils.getExternalAppCachePath() + File.separator + "TempImg"
+  val TEMP_VIDEO_DIR = PathUtils.getExternalAppCachePath() + File.separator + "TempVideo"
+
+  fun initCacheDir() {
+    FileUtils.createOrExistsDir(VIDEO_OVER_CACHE_DIR)
+    FileUtils.createOrExistsDir(VIDEO_CACHE_DIR)
+    FileUtils.createOrExistsDir(API_CACHE_DIR)
+    FileUtils.createOrExistsDir(CRASH_CACHE_DIR)
+    FileUtils.createOrExistsDir(DOWNLOAD_DIR)
+    FileUtils.createOrExistsDir(TEMP_IMG_DIR)
+    FileUtils.createOrExistsDir(TEMP_VIDEO_DIR)
   }
 }

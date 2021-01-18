@@ -37,7 +37,7 @@ class DKPlayerInit : Initializer<Int> {
     //设置缓存地址
     ExoMediaSourceHelper.getInstance(context).setCache(
         SimpleCache(
-            File(PathConfig.VIDEO_CACHE_DIR,"VideoExo"), //缓存目录
+            File(PathConfig.VIDEO_CACHE_DIR), //缓存目录
             LeastRecentlyUsedCacheEvictor(1L * MemoryConstants.GB), //缓存大小，默认1GB，使用LRU算法实现
             ExoDatabaseProvider(context)
         )

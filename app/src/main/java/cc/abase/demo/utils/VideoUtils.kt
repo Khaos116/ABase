@@ -1,5 +1,6 @@
 package cc.abase.demo.utils
 
+import cc.ab.base.config.PathConfig
 import cc.ab.base.ext.launchError
 import cc.ab.base.utils.PermissionUtils
 import com.blankj.utilcode.util.*
@@ -17,10 +18,10 @@ object VideoUtils {
   //<editor-fold defaultstate="collapsed" desc="变量区">
 
   //输出文件目录
-  private val outParentVideo = PathUtils.getExternalAppDataPath() + File.separator + "video"
+  private val outParentVideo = PathConfig.TEMP_VIDEO_DIR
 
   //产生的封面保存地址
-  private val outParentImgs = PathUtils.getExternalAppDataPath() + File.separator + "temp"
+  private val outParentImgs = PathConfig.TEMP_IMG_DIR
 
   //</editor-fold>
 

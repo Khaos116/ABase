@@ -1,16 +1,16 @@
 package cc.abase.demo.rxhttp.config
 
+import cc.ab.base.config.PathConfig
 import cc.ab.base.utils.CharlesUtils
 import cc.abase.demo.config.HeaderManger
 import cc.abase.demo.rxhttp.interceptor.TokenInterceptor
 import com.ayvytr.okhttploginterceptor.LoggingInterceptor
-import com.blankj.utilcode.util.Utils
 import okhttp3.OkHttpClient
 import okhttp3.OkHttpClient.Builder
+import rxhttp.RxHttp
 import rxhttp.RxHttpPlugins
 import rxhttp.wrapper.cahce.CacheMode
 import rxhttp.wrapper.param.Param
-import rxhttp.RxHttp
 import rxhttp.wrapper.ssl.HttpsUtils
 import java.io.File
 import java.util.concurrent.TimeUnit
@@ -87,8 +87,8 @@ object RxHttpConfig {
 
   //缓存配置
   private fun initRxHttpCahce() {
-    //设置缓存目录为：Android/data/{app包名目录}/cache/RxHttpCache
-    val cacheDir = File(Utils.getApp().externalCacheDir, "RxHttpCache")
+    //设置缓存目录
+    val cacheDir = File(PathConfig.API_CACHE_DIR)
     //设置最大缓存为10M，缓存有效时长为1小时
     RxHttpPlugins.setCache(
         cacheDir, 10 * 1024 * 1024L, CacheMode.REQUEST_NETWORK_FAILED_READ_CACHE,

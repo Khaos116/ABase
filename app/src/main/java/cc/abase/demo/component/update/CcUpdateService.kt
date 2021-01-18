@@ -6,6 +6,7 @@ import android.content.Intent
 import android.os.Build
 import android.widget.RemoteViews
 import androidx.core.app.NotificationCompat
+import cc.ab.base.config.PathConfig
 import cc.abase.demo.R
 import cc.abase.demo.constants.EventKeys
 import cc.abase.demo.constants.StringConstants
@@ -69,7 +70,7 @@ open class CcUpdateService : IntentService("UpdateService") {
   private var mVerName: String? = null
 
   //文件下载保存的文件夹
-  private val mFileDir = PathUtils.getExternalAppFilesPath()
+  private val mFileDir = PathConfig.DOWNLOAD_DIR
 
   //是否显示通知栏
   private var needShowNotification = false
