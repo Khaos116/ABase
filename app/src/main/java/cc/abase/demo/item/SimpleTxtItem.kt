@@ -4,7 +4,7 @@ import android.graphics.Typeface
 import android.util.TypedValue
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
-import cc.ab.base.ext.*
+import cc.ab.base.ext.click
 import cc.ab.base.ui.item.BaseItemView
 import cc.abase.demo.R
 import cc.abase.demo.bean.local.SimpleTxtBean
@@ -31,11 +31,6 @@ class SimpleTxtItem(
     itemView.itemSimpleTv.typeface = Typeface.defaultFromStyle(if (item.needBold) Typeface.BOLD else Typeface.NORMAL)
     itemView.itemSimpleTv.setPadding(item.paddingStartPx, item.paddingTopPx, item.paddingEndPx, item.paddingBottomPx)
     itemView.itemSimpleTv.text = item.txt
-    if (onItemClick == null) {
-      itemView.pressEffectDisable()
-    } else {
-      itemView.pressEffectBgColor()
-    }
     itemView.click { onItemClick?.invoke(item) }
   }
 }

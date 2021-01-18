@@ -2,7 +2,8 @@ package cc.abase.demo.item
 
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
-import cc.ab.base.ext.*
+import cc.ab.base.ext.click
+import cc.ab.base.ext.visibleGone
 import cc.ab.base.ui.item.BaseItemView
 import cc.abase.demo.R
 import cc.abase.demo.bean.wan.ArticleBean
@@ -30,13 +31,7 @@ class ArticleItem(
     itemView.itemArticleDes.text = item.desc
     itemView.itemArticleTitle.visibleGone(!item.title.isNullOrBlank())
     itemView.itemArticleDes.visibleGone(!item.desc.isNullOrBlank())
-    if (onItemClick == null) {
-      itemView.pressEffectDisable()
-      itemView.setOnClickListener(null)
-    } else {
-      itemView.pressEffectBgColor()
-      itemView.click { onItemClick.invoke(item) }
-    }
+    itemView.click { onItemClick?.invoke(item) }
   }
   //</editor-fold>
 }

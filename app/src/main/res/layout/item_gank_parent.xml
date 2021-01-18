@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/itemGankParentRoot"
     android:layout_width="match_parent"
-    android:background="@drawable/selector_trans_f7f7f7"
+    android:background="?attr/selectableItemBackground"
     android:layout_height="wrap_content"
     >
   <!--写父控件是为了传递点击事件-->
