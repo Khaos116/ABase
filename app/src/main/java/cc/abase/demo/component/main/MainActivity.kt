@@ -2,6 +2,7 @@ package cc.abase.demo.component.main
 
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
 import android.view.Gravity
 import android.view.View
 import android.widget.FrameLayout
@@ -61,8 +62,11 @@ class MainActivity : CommActivity() {
       }
       true //返回true让其默认选中点击的选项
     }
-    //取消长按显示
-    mainNavigation.findViewById<View>(R.id.menu_main_home).setOnLongClickListener { true }
+    //取消长按显示+过度绘制
+    mainNavigation.findViewById<View>(R.id.menu_main_home).let {
+      it.setOnLongClickListener { true }
+      (it.parent?.parent as? View)?.setBackgroundColor(Color.TRANSPARENT)
+    }
     mainNavigation.findViewById<View>(R.id.menu_main_dyn).setOnLongClickListener { true }
     mainNavigation.findViewById<View>(R.id.menu_main_mine).setOnLongClickListener { true }
     //添加悬浮球
