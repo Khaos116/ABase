@@ -62,4 +62,6 @@
   <string name="gank_see_counts">浏览数:</string>
   <string name="gank_praise_counts">点赞数:</string>
   <string name="gank_store_counts">收藏数:</string>
+  <string name="clear_cache">清理缓存</string>
+  <string name="login_out">退出</string>
 </resources>
