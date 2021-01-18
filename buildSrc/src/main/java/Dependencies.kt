@@ -141,8 +141,8 @@ object Deps {
   //图片选择器 https://github.com/LuckSiege/PictureSelector
   const val pic_select = "com.github.LuckSiege.PictureSelector:picture_library:v2.6.0"
 
-  //表情 https://github.com/vanniktech/Emoji
-  const val emoji = "com.vanniktech:emoji-ios:0.7.0"
+  //Emoji表情 https://github.com/vanniktech/Emoji
+  const val emoji = "com.vanniktech:emoji-twitter:0.7.0"
 
   //SideBar https://github.com/D10NGYANG/DL10SideBar
   const val side_bar = "com.github.D10NGYANG:DL10SideBar:1.0.0"
