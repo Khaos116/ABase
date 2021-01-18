@@ -29,7 +29,6 @@ class SettingActivity : CommTitleActivity() {
   override fun initContentView() {
     setTitleText("设置")
     settingLogout.pressEffectAlpha()
-    setCacheLayout.pressEffectBgColor()
     setCacheLayout.click {
       if (mJob2?.isCompleted == false) return@click
       mJob2 = GlobalScope.launch(Dispatchers.Main) {

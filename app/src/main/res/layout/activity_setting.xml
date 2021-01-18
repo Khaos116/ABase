@@ -1,16 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     >
 
   <FrameLayout
       android:id="@+id/setCacheLayout"
       android:layout_width="match_parent"
       android:layout_height="50dp"
+      android:background="?attr/selectableItemBackground"
       android:orientation="horizontal"
       >
 
@@ -20,7 +21,7 @@
         android:gravity="center_vertical"
         android:paddingStart="12dp"
         android:paddingEnd="100dp"
-        android:text="清理缓存"
+        android:text="@string/clear_cache"
         />
 
     <TextView
@@ -45,6 +46,7 @@
       android:layout_height="0dp"
       android:layout_weight="1"
       />
+
   <TextView
       android:id="@+id/settingLogout"
       android:layout_width="match_parent"
@@ -54,7 +56,7 @@
       android:layout_marginEnd="12dp"
       android:background="@drawable/shape_half_dark_green"
       android:gravity="center"
-      android:text="退出"
+      android:text="@string/login_out"
       android:textColor="@color/white"
       android:textSize="20sp"
       />
