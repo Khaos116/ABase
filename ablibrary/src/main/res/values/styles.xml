@@ -24,6 +24,8 @@
     <item name="android:colorControlActivated">@color/style_Primary</item>
     <!--去掉内边距-->
     <item name="android:includeFontPadding">false</item>
+    <!--去除水波纹按压效果-->
+    <!--<item name="android:colorControlHighlight">@android:color/transparent</item>-->
   </style>
 
   <style name="BaseActivitySwitchAnimation">
