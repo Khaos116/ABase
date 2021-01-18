@@ -2,6 +2,7 @@ package cc.ab.base.widget.discretescrollview.adapter;
 
 import android.view.*;
 import androidx.recyclerview.widget.RecyclerView;
+import cc.ab.base.ext.ViewExtKt;
 import cc.ab.base.widget.discretescrollview.holder.DiscreteHolder;
 import cc.ab.base.widget.discretescrollview.holder.DiscreteHolderCreator;
 import cc.ab.base.widget.discretescrollview.listener.OnItemClickListener;
@@ -38,11 +39,10 @@ public class DiscretePageAdapter<T> extends RecyclerView.Adapter<DiscreteHolder<
     holder.updateUI(datas.get(position), position, getItemCount());
 
     if (onItemClickListener != null) {
-      holder.itemView.setOnClickListener(new View.OnClickListener() {
-        @Override public void onClick(View v) {
-          onItemClickListener.onItemClick(position,datas.get(position));
-        }
-      });
+      holder.itemView.setOnClickListener(v -> onItemClickListener.onItemClick(position, datas.get(position)));
+      ViewExtKt.pressEffectAlpha(holder.itemView, 0.9f);
+    } else {
+      ViewExtKt.pressEffectDisable(holder.itemView);
     }
   }
 
