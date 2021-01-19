@@ -63,6 +63,8 @@ class CoordinatorActivity : CommActivity() {
   override fun initView() {
     //初始化页面
     (coordinatorBack.layoutParams as MarginLayoutParams).topMargin = mStatusBarHeight
+    coordinatorBack.pressEffectAlpha()
+    coordinatorBack.click { onBackPressed() }
     val type = (System.currentTimeMillis() % 2).toInt()
     titles.clear()
     fragments.clear()
