@@ -40,7 +40,7 @@ class WanFragment private constructor() : CommFragment() {
   private val mViewModel: WanViewModel by lazy { WanViewModel() }
 
   //多类型适配器
-  private val stickyAdapter = object : StickyAnyAdapter(bgColor = Color.CYAN) {
+  private val stickyAdapter = object : StickyAnyAdapter(stickyBgColor = Color.CYAN) {
     override fun isStickyHeader(position: Int): Boolean {
       return position == 1
     }

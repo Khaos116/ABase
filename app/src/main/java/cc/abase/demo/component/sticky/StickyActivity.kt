@@ -2,6 +2,7 @@ package cc.abase.demo.component.sticky
 
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import cc.ab.base.ext.mActivity
@@ -50,11 +51,12 @@ class StickyActivity : CommTitleActivity() {
   //那个页面需要选择的标签
   private var mTag = ""
 
+  //Sticky悬浮背景色
+  private var topBg = Color.parseColor("#e0e0e0")
+
   //适配器
-  private var multiTypeAdapter: StickyAnyAdapter = object : StickyAnyAdapter() {
-    override fun isStickyHeader(position: Int): Boolean {
-      return items[position] is ProvinceBean
-    }
+  private var multiTypeAdapter: StickyAnyAdapter = object : StickyAnyAdapter(stickyBgColor = topBg, noStickyBgColor = topBg) {
+    override fun isStickyHeader(position: Int) = items[position] is ProvinceBean
   }
   //</editor-fold>
 
