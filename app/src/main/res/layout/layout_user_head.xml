@@ -106,7 +106,6 @@
         android:layout_height="55dp"
         android:layout_marginStart="14dp"
         android:layout_marginEnd="14dp"
-        android:background="@drawable/shape_5_white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -251,6 +250,26 @@
           />
 
       <View
+          android:layout_width="0dp"
+          android:layout_height="0dp"
+          android:background="@color/white"
+          app:layout_constraintBottom_toTopOf="@id/layoutUserLine1"
+          app:layout_constraintEnd_toEndOf="@id/layoutUserLine1"
+          app:layout_constraintStart_toStartOf="@id/layoutUserLine1"
+          app:layout_constraintTop_toTopOf="parent"
+          />
+
+      <View
+          android:layout_width="0dp"
+          android:layout_height="0dp"
+          android:background="@color/white"
+          app:layout_constraintBottom_toBottomOf="parent"
+          app:layout_constraintEnd_toEndOf="@id/layoutUserLine1"
+          app:layout_constraintStart_toStartOf="@id/layoutUserLine1"
+          app:layout_constraintTop_toBottomOf="@id/layoutUserLine1"
+          />
+
+      <View
           android:id="@+id/layoutUserLine2"
           android:layout_width="2dp"
           android:layout_height="29dp"
@@ -260,6 +279,26 @@
           app:layout_constraintHorizontal_bias="0.66"
           app:layout_constraintStart_toStartOf="parent"
           app:layout_constraintTop_toTopOf="parent"
+          />
+
+      <View
+          android:layout_width="0dp"
+          android:layout_height="0dp"
+          android:background="@color/white"
+          app:layout_constraintBottom_toTopOf="@id/layoutUserLine2"
+          app:layout_constraintEnd_toEndOf="@id/layoutUserLine2"
+          app:layout_constraintStart_toStartOf="@id/layoutUserLine2"
+          app:layout_constraintTop_toTopOf="parent"
+          />
+
+      <View
+          android:layout_width="0dp"
+          android:layout_height="0dp"
+          android:background="@color/white"
+          app:layout_constraintBottom_toBottomOf="parent"
+          app:layout_constraintEnd_toEndOf="@id/layoutUserLine2"
+          app:layout_constraintStart_toStartOf="@id/layoutUserLine2"
+          app:layout_constraintTop_toBottomOf="@id/layoutUserLine2"
           />
     </androidx.constraintlayout.widget.ConstraintLayout>
   </androidx.constraintlayout.widget.ConstraintLayout>
