@@ -1,12 +1,13 @@
 package cc.abase.demo.component.video
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.content.pm.ActivityInfo
 import android.media.MediaMetadataRetriever
-import android.provider.MediaStore
 import android.text.method.ScrollingMovementMethod
+import android.widget.ScrollView
 import cc.ab.base.ext.*
 import cc.ab.base.widget.engine.ImageEngine
 import cc.abase.demo.R
@@ -45,6 +46,7 @@ class VideoCompressActivity : CommTitleActivity() {
   //压缩后的视频地址
   private var compressVideoPath: String? = null
 
+  @SuppressLint("SetTextI18n")
   override fun initContentView() {
     setTitleText(R.string.video_compress_title.xmlToString())
     videoCompressCompress.alpha = UiConstants.disable_alpha
@@ -53,6 +55,9 @@ class VideoCompressActivity : CommTitleActivity() {
       videoCompressPlayer.release()
       videoCompressPlayer.clearCover()
       videoCompressPlayer.gone()
+      mCompressProgress = 0
+      videoCompressResult.text = ""
+      mHeadInfo = ""
       PictureSelector.create(this)
           .openGallery(PictureMimeType.ofVideo())
           .imageEngine(ImageEngine())
@@ -67,6 +72,8 @@ class VideoCompressActivity : CommTitleActivity() {
     }
     //内部可滚动 https://www.jianshu.com/p/7a02253cd23e
     videoCompressResult.movementMethod = ScrollingMovementMethod.getInstance()
+    val sv = ScrollView(mContext)
+    sv.scrollY
     videoCompressCompress.click {
       selVideoPath?.let { path ->
         videoCompressSel.alpha = UiConstants.disable_alpha
@@ -88,11 +95,21 @@ class VideoCompressActivity : CommTitleActivity() {
                 videoCompressResult.append("\n$info")
               }
             },
-            pro = { p -> videoCompressResult.append("\n压缩进度:${p}%") })
+            pro = { p ->
+              val progress = p.toInt()
+              if (progress > mCompressProgress) {
+                mCompressProgress = progress
+                if (mHeadInfo.isBlank()) mHeadInfo = videoCompressResult.text.toString()
+                videoCompressResult.text = "${mHeadInfo}\n压缩进度:${progress}%"
+              }
+            })
       }
     }
     videoCompressPlay.click { VideoDetailActivity.startActivity(mContext, compressVideoPath) }
   }
+
+  private var mCompressProgress = 0
+  private var mHeadInfo = ""
 
   override fun initData() {}
 
@@ -170,35 +187,6 @@ class VideoCompressActivity : CommTitleActivity() {
         LogUtils.e("CASE:onActivityResult:other")
       }
     }
-  }
-
-  //获取选择的视频地址
-  private fun selectVideo(context: Context, data: Intent): String? {
-    val selectedVideo = data.data
-    if (selectedVideo != null) {
-      val uriStr = selectedVideo.toString()
-      val path = uriStr.substring(10, uriStr.length)
-      if (path.startsWith("com.sec.android.gallery3d")) {
-        return null
-      }
-      //file:///storage/emulated/0/ffmpeg2.mp4
-      val index = selectedVideo.toString().indexOf("/storage/emulated")
-      if (index > 0) {
-        return selectedVideo.toString().substring(index)
-      }
-    } else {
-      return null
-    }
-    val filePathColumn = arrayOf(MediaStore.Images.Media.DATA)
-    val cursor = context.contentResolver.query(selectedVideo, filePathColumn, null, null, null)
-    var picturePath: String? = null
-    if (cursor != null) {
-      cursor.moveToFirst()
-      val columnIndex = cursor.getColumnIndex(filePathColumn[0])
-      picturePath = cursor.getString(columnIndex)
-      cursor.close()
-    }
-    return picturePath
   }
 
   //<editor-fold defaultstate="collapsed" desc="生命周期">
