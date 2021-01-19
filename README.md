@@ -42,40 +42,35 @@
 ![横向Banner](https://github.com/caiyoufei/ABase/blob/master/image/horizontal_banner.gif)![纵向Banner](https://github.com/caiyoufei/ABase/blob/master/image/vertical_banner.gif)  
 
 //================================================================//
-##  Banner代码配置
+##  BannerItem代码配置
 ~~~
-val banner: DiscreteBanner<BannerBean> = itemView.findViewById(R.id.itemBanner)
-banner.setOrientation(if (vertical) DSVOrientation.VERTICAL else DSVOrientation.HORIZONTAL)
-    .setLooper(true)//无限循环
-    .setAutoPlay(true)//自动播放
-    .setOnItemClick { _, t ->  }//banner点击
-    .also {
-      if (!vertical) {//由于默认是横向原点居底部(引导页使用)，所以banner处修改为底部居右
-        it.setIndicatorGravity(Gravity.BOTTOM or Gravity.END)
-        it.setIndicatorOffsetY(-it.defaultOffset / 2f)
-        it.setIndicatorOffsetX(-it.defaultOffset)
-      }
-    }
-    .setPages(object : DiscreteHolderCreator {
-      override fun createHolder(view: View) = HomeBannerHolderView(view)
-      override fun getLayoutId() = R.layout.item_banner_child
-    }, data)//BannerBean的数据列表MutableList<BannerBean>
-    
-//需要自定义ViewHolder  
-class HomeBannerHolderView(view: View?) : DiscreteHolder<BannerBean>(view) {
-  private var imageView: ImageView? = null
-  override fun updateUI(
-    data: BannerBean,
-    position: Int,
-    count: Int
-  ) {
-    imageView?.loadImgHorizontal(data.imagePath)
-  }
+override fun fillData(holder: ViewHolder, itemView: View, item: MutableList<BannerBean>) {
+    if (holder.itemView.getTag(R.id.tag_banner) == item) return
+    holder.itemView.setTag(R.id.tag_banner, item)
+    val banner = holder.itemView.findViewById<DiscreteBanner<BannerBean>>(R.id.itemBanner)
+    banner.layoutParams.height = (ScreenUtils.getScreenWidth() * 500f / 900).toInt()
+    banner.setLooper(true) //无限循环
+        .setAutoPlay(true) //自动播放
+        .setOrientation(if (System.currentTimeMillis() % 2 == 0L) DSVOrientation.HORIZONTAL else DSVOrientation.VERTICAL)
+        .setOnItemClick { position, t -> onItemBannerClick?.invoke(t, position) } //banner点击
+        .apply {
+          getIndicator()?.needSpecial = false //去除引导页的特殊指示器
+          if (getOrientation() == DSVOrientation.HORIZONTAL.ordinal) { //由于默认是横向原点居底部(引导页使用)，所以banner处修改为底部居右
+            setIndicatorGravity(Gravity.BOTTOM or Gravity.END)
+            setIndicatorOffsetY(-defaultOffset / 2f)
+            setIndicatorOffsetX(-defaultOffset)
+          }
+        }
+        .setPages(object : DiscreteHolderCreator { //继承DiscreteHolderCreator
+          override fun getLayoutId() = R.layout.item_banner_img
 
-  override fun initView(view: View) {
-    this.imageView = view.itemBannerIV
+          override fun createHolder(itemView: View) = object : DiscreteHolder<BannerBean>(itemView) { //继承DiscreteHolder
+            override fun updateUI(data: BannerBean?, position: Int, count: Int) {
+              itemView.itemBannerImg.loadImgHorizontal(data?.imagePath, 900f / 500)
+            }
+          }
+        }, item) //BannerBean的数据列表MutableList<BannerBean>
   }
-}
 ~~~
 
 //================================================================//
