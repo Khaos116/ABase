@@ -3,6 +3,7 @@ package cc.abase.demo.component.blur
 import android.content.Context
 import android.content.Intent
 import cc.ab.base.ext.loadImgHorizontalBlur
+import cc.ab.base.ext.xmlToString
 import cc.abase.demo.R
 import cc.abase.demo.component.comm.CommTitleActivity
 import cc.abase.demo.constants.ImageUrls
@@ -29,6 +30,7 @@ class BlurActivity : CommTitleActivity() {
 
   //<editor-fold defaultstate="collapsed" desc="初始化View">
   override fun initContentView() {
+    setTitleText(R.string.title_blur.xmlToString())
   }
   //</editor-fold>
 
