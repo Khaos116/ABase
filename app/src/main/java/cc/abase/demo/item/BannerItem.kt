@@ -34,7 +34,7 @@ class BannerItem(
     banner.layoutParams.height = (ScreenUtils.getScreenWidth() * 500f / 900).toInt()
     banner.setLooper(true)
         .setAutoPlay(true)
-        .setOrientation(DSVOrientation.VERTICAL)
+        .setOrientation(if (item.hashCode() % 2 == 0) DSVOrientation.HORIZONTAL else DSVOrientation.VERTICAL)
         .setOnItemClick { position, t -> onItemBannerClick?.invoke(t, position) }
         .apply {
           getIndicator()?.needSpecial = false
