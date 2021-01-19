@@ -2,9 +2,7 @@ package cc.abase.demo.sticky
 
 import android.graphics.Color
 import android.view.View
-import com.drakeet.multitype.MultiTypeAdapter
-import com.drakeet.multitype.MutableTypes
-import com.drakeet.multitype.Types
+import com.drakeet.multitype.*
 
 /**
  * Author:case
@@ -24,6 +22,6 @@ abstract class StickyAnyAdapter(
 
     override fun teardownStickyHeaderView(stickyHeader: View) {
         super.teardownStickyHeaderView(stickyHeader)
-        stickyHeader.setBackgroundColor(Color.TRANSPARENT)
+        if (bgColor != 0) stickyHeader.setBackgroundColor(Color.TRANSPARENT)
     }
 }
