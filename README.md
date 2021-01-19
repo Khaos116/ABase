@@ -1,7 +1,6 @@
 # ABase(采用AndroidX)
-##### 准备实践框架
 使用了[干货集中营开源API](http://gank.io/api)和[玩Android开源API](https://www.wanandroid.com/blog/show/2)  
-Build Scan分析情况:[https://scans.gradle.com/s/4fbw3ftizzorg](https://scans.gradle.com/s/4fbw3ftizzorg)
+可以使用Build Scan分析情况:[https://scans.gradle.com/s/4fbw3ftizzorg](https://scans.gradle.com/s/4fbw3ftizzorg)
   
 三方库|描述
 :-:|:-:
@@ -36,6 +35,7 @@ Build Scan分析情况:[https://scans.gradle.com/s/4fbw3ftizzorg](https://scans.
 **[WheelPicker](https://github.com/zyyoona7/WheelPicker)**|3D滚轮选择器
 **[SpEditTool](https://github.com/sunhapper/SpEditTool)**|微博@和#变色效果
 **[DiscreteScrollView](https://github.com/yarolegovich/DiscreteScrollView)**|实现无限轮播Banner、ViewPager横竖屏滑动等
+**====================**|==========================================
 
 //================================================================//
 ##  Banner效果图  
