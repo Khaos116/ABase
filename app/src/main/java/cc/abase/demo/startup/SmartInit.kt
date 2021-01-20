@@ -5,6 +5,7 @@ import android.content.Context
 import android.graphics.Color
 import androidx.startup.Initializer
 import cc.ab.base.ext.logI
+import cc.ab.base.startup.MmkvInit
 import cc.abase.demo.component.login.LoginActivity
 import cc.abase.demo.component.main.MainActivity
 import cc.abase.demo.component.splash.GuideActivity
@@ -44,7 +45,7 @@ class SmartInit : Initializer<Int> {
   }
 
   override fun dependencies(): MutableList<Class<out Initializer<*>>> {
-    return mutableListOf()
+    return mutableListOf(MmkvInit::class.java)
   }
 
   //静态代码段可以防止内存泄露
