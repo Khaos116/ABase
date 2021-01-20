@@ -1,6 +1,6 @@
 # ABase(采用AndroidX)
 使用了[干货集中营开源API](http://gank.io/api)和[玩Android开源API](https://www.wanandroid.com/blog/show/2)  
-可以使用[Build Scan](https://scans.gradle.com/)(Terminal下执行gradlew build --scan)分析构建情况:[https://scans.gradle.com/s/4fbw3ftizzorg](https://scans.gradle.com/s/4fbw3ftizzorg)
+可以使用[Build Scan](https://scans.gradle.com/)(Terminal下执行gradlew build --scan)分析[构建情况](https://scans.gradle.com/s/4fbw3ftizzorg)(相关配置在settings.gradle中)
 
 三方库|描述
 :-:|:-:

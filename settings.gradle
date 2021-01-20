@@ -1,2 +1,13 @@
-include ':app', ':ablibrary',':silicompressor'
-rootProject.name='ABase'
+//https://ossezhu.medium.com/gradle-%E5%88%9B%E5%BB%BA%E6%9E%84%E5%BB%BA%E6%89%AB%E6%8F%8F-576025f20d9e
+//https://github.com/gradle/gradle-build-scan-quickstart/blob/master/settings.gradle
+plugins { id "com.gradle.enterprise" version "3.5.1" }
+gradleEnterprise {
+  buildScan {
+    termsOfServiceUrl = 'https://gradle.com/terms-of-service'
+    termsOfServiceAgree = 'yes'
+  }
+}
+
+include ':app', ':ablibrary', ':silicompressor'
+rootProject.name = 'ABase'
+
