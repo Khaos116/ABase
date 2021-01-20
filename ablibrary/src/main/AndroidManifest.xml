@@ -55,9 +55,6 @@
         android:authorities="${applicationId}.androidx-startup"
         android:exported="false"
         tools:node="merge">
-      <meta-data
-          android:name="cc.ab.base.startup.MmkvInit"
-          android:value="androidx.startup"/>
     </provider>
   </application>
 </manifest>
