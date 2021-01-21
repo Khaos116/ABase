@@ -2,10 +2,19 @@ package cc.abase.demo.component.video
 
 import android.content.Context
 import android.content.Intent
+import android.view.ViewGroup
+import android.widget.FrameLayout
+import androidx.core.view.get
 import cc.ab.base.ext.*
 import cc.abase.demo.R
 import cc.abase.demo.component.comm.CommActivity
+import cc.abase.demo.constants.StringConstants
+import cc.abase.demo.widget.dkplayer.MyVideoView
+import cc.abase.demo.widget.dkplayer.pipfloat.PIPManager
+import com.dueeeke.videocontroller.StandardVideoController
+import com.dueeeke.videoplayer.player.VideoViewManager
 import com.gyf.immersionbar.ktx.immersionBar
+import com.hjq.permissions.*
 import kotlinx.android.synthetic.main.activity_video_detail.*
 
 /**
@@ -45,18 +54,75 @@ class VideoDetailActivity : CommActivity() {
   override fun layoutResId() = R.layout.activity_video_detail
   //</editor-fold>
 
+  //<editor-fold defaultstate="collapsed" desc="变量">
+  private lateinit var videoDetailVideoView: MyVideoView
+  private var mPIPManager = PIPManager.getInstance()
+  //</editor-fold>
+
   //<editor-fold defaultstate="collapsed" desc="初始化View">
   override fun initView() {
+    videoDetailVideoView = VideoViewManager.instance().get(StringConstants.Tag.FLOAT_PLAY) as MyVideoView
     videoDetailBack.pressEffectAlpha()
+    videoDetailFloat.pressEffectAlpha()
     videoDetailBack.click { onBackPressed() }
     videoDetailStatus.layoutParams.height = mStatusBarHeight
+    videoDetailFloat.click {
+      XXPermissions.with(this)
+          .permission(Permission.SYSTEM_ALERT_WINDOW)
+          .request(object : OnPermissionCallback {
+            override fun onGranted(permissions: MutableList<String>?, all: Boolean) {
+              if (all) {
+                mPIPManager.startFloatWindow()
+                mPIPManager.resume()
+                finish()
+              }
+            }
+
+            override fun onDenied(permissions: MutableList<String>?, never: Boolean) {
+              // 如果是被永久拒绝就跳转到应用权限系统设置页面
+              if (never) XXPermissions.startPermissionActivity(mActivity, permissions)
+            }
+          })
+    }
   }
   //</editor-fold>
 
   //<editor-fold defaultstate="collapsed" desc="初始化Data">
   override fun initData() {
-    val url = intent.getStringExtra(INTENT_KEY_VIDEO_URL)
-    url?.let { videoDetailVideoView.setPlayUrl(it) }
+    if (mPIPManager.isStartFloatWindow) {
+      mPIPManager.stopFloatWindow()
+      videoDetailVideoView.setVideoController(videoDetailVideoView.getMyController())
+      videoDetailVideoView.getMyController().setPlayerState(videoDetailVideoView.currentPlayerState)
+      videoDetailVideoView.getMyController().setPlayState(videoDetailVideoView.currentPlayState)
+    } else {
+      mPIPManager.actClass = VideoDetailActivity::class.java
+      val url = intent.getStringExtra(INTENT_KEY_VIDEO_URL)
+      url?.let { videoDetailVideoView.setPlayUrl(it) }
+    }
+    videoDetailVideoViewParent.addView(videoDetailVideoView, ViewGroup.LayoutParams(-1, -1))
+  }
+  //</editor-fold>
+
+  //<editor-fold defaultstate="collapsed" desc="生命周期">
+  override fun onBackPressed() {
+    (window.decorView as? FrameLayout)?.let { fl ->
+      if (fl.childCount > 0) {
+        val child = fl.getChildAt(fl.childCount - 1)
+        if (child is FrameLayout && child.childCount > 0) {
+          val cc = child[child.childCount - 1]
+          if (cc is StandardVideoController && cc.onBackPressed()) {
+            return
+          }
+        }
+      }
+    }
+    if (!mPIPManager.isStartFloatWindow) mPIPManager.reset()
+    super.onBackPressed()
+  }
+
+  override fun onDestroy() {
+    if (!mPIPManager.isStartFloatWindow) mPIPManager.reset()
+    super.onDestroy()
   }
   //</editor-fold>
 }
