@@ -119,12 +119,18 @@ class MyVideoView : VideoView<MyExoMediaPlayer>, LifecycleObserver {
 
   //<editor-fold defaultstate="collapsed" desc="外部调用">
   var mUrlCover: String? = ""
+  var mUrlVideo: String? = ""
+  var mRatio: Float = 16f / 9
+  var mNeedHolder: Boolean = true
 
   //设置播放地址
   fun setPlayUrl(url: String, title: String? = null, cover: String? = null, autoPlay: Boolean = false,
       isLive: Boolean = false, ratio: Float = 16f / 9, needHolder: Boolean = true) {
     setUrl(url) //设置播放地址
+    mUrlVideo = url
     mUrlCover = if (cover.isNullOrBlank()) url else cover
+    mRatio = ratio
+    mNeedHolder = needHolder
     titleView.setTitle(if (title.isNullOrBlank()) url else title) //设置标题
     if (cover.isNullOrBlank()) { //封面为空拿播放地址去加载
       if (url.startsWith("http")) coverIv.loadNetVideoCover(url, ratio, needHolder) //加载网络封面
