@@ -48,6 +48,7 @@ class MainActivity : CommActivity() {
 
   //<editor-fold defaultstate="collapsed" desc="初始化View">
   override fun initView() {
+    window.setBackgroundDrawable(null)
     //添加子页面
     fragmentList.clear()
     fragmentList.add(WanFragment.newInstance())
