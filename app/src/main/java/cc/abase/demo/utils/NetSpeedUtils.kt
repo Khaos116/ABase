@@ -6,6 +6,7 @@ import androidx.annotation.NonNull
 import androidx.lifecycle.*
 import com.blankj.utilcode.util.Utils
 import kotlinx.coroutines.*
+import java.lang.ref.WeakReference
 
 /**
  * static long getMobileRxBytes() //获取通过Mobile连接收到的字节总数，不包含WiFi
@@ -23,35 +24,23 @@ import kotlinx.coroutines.*
  * @author: CASE
  * @date: 2020/2/21 17:14
  */
-class NetSpeedUtils private constructor() : LifecycleObserver {
-
-  companion object {
-    fun newInstance() = NetSpeedUtils()
-  }
-
+object NetSpeedUtils : LifecycleObserver {
   private var mJob: Job? = null
-  private var mLifecycle: Lifecycle? = null
-  private var mTv: TextView? = null
+  private var mLifecycle: WeakReference<Lifecycle>? = null
+  private var mTv: WeakReference<TextView>? = null
   private var mReceive: Boolean = true
 
   //显示网速
-  fun showNetSpeed(
-    tv: TextView?,
-    receive: Boolean = true,//接收速度还是发送速度
-    @NonNull owner: LifecycleOwner
-  ) {
+  fun showNetSpeed(tv: TextView?, receive: Boolean = true, /*接收速度还是发送速度*/      @NonNull owner: LifecycleOwner) {
     mJob?.cancel()
-    mLifecycle?.removeObserver(this)
-    mLifecycle = owner.lifecycle
-    mLifecycle?.addObserver(this)
+    mLifecycle?.get()?.removeObserver(this)
+    mLifecycle = WeakReference(owner.lifecycle)
+    mLifecycle?.get()?.addObserver(this)
     startJob(tv, receive)
   }
 
-  private fun startJob(
-    tv: TextView?,
-    receive: Boolean = true//接收速度还是发送速度
-  ) {
-    mTv = tv
+  private fun startJob(tv: TextView?, receive: Boolean = true) { //接收速度还是发送速度
+    mTv = WeakReference(tv)
     mReceive = receive
     mJob?.cancel()
     mJob = GlobalScope.launch(Dispatchers.Main) {
@@ -71,7 +60,7 @@ class NetSpeedUtils private constructor() : LifecycleObserver {
   //添加的代码:12
   @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
   fun onResumeNetSpeed() {
-    startJob(mTv, mReceive)
+    startJob(mTv?.get(), mReceive)
   }
 
   //添加的代码:13
@@ -83,7 +72,7 @@ class NetSpeedUtils private constructor() : LifecycleObserver {
   //添加的代码:14
   @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
   fun onDestroyNetSpeed() {
-    mLifecycle?.removeObserver(this)
+    mLifecycle?.get()?.removeObserver(this)
     mLifecycle = null
     mJob = null
     mTv = null
@@ -93,10 +82,7 @@ class NetSpeedUtils private constructor() : LifecycleObserver {
   private var lastTotalBytes: Long = 0
   private var lastTimeStamp: Long = 0
 
-  private suspend fun getNetSpeed(
-    uid: Int = Utils.getApp().applicationInfo.uid,
-    receive: Boolean = true
-  ): Long {
+  private suspend fun getNetSpeed(uid: Int = Utils.getApp().applicationInfo.uid, receive: Boolean = true): Long {
     val nowTotalBytes = Math.max(0, getTotalRxBytes(uid, receive))
     val nowTime = System.currentTimeMillis()
     val speed = Math.max(0, (nowTotalBytes - lastTotalBytes) * 1000 / (nowTime - lastTimeStamp)) //毫秒转换
@@ -106,14 +92,11 @@ class NetSpeedUtils private constructor() : LifecycleObserver {
   }
 
   //getApplicationInfo().uid
-  private suspend fun getTotalRxBytes(
-    uid: Int,
-    receive: Boolean = true//是接收还是发送
-  ): Long {
+  private suspend fun getTotalRxBytes(uid: Int, receive: Boolean = true /*是接收还是发送*/): Long {
     return when {
       TrafficStats.getUidRxBytes(uid) == TrafficStats.UNSUPPORTED.toLong() -> 0
-      receive -> TrafficStats.getTotalRxBytes() / 1024//转为KB
-      else -> TrafficStats.getTotalTxBytes() / 1024//转为KB
+      receive -> TrafficStats.getTotalRxBytes() / 1024 //转为KB
+      else -> TrafficStats.getTotalTxBytes() / 1024 //转为KB
     }
   }
 }
