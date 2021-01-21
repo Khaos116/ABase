@@ -7,7 +7,9 @@ import cc.abase.demo.R
 import cc.abase.demo.component.comm.CommTitleActivity
 import cc.abase.demo.component.login.LoginActivity
 import cc.abase.demo.rxhttp.repository.UserRepository
+import cc.abase.demo.utils.AppInfoUtils
 import cc.abase.demo.utils.CacheUtils
+import com.blankj.utilcode.util.AppUtils
 import kotlinx.android.synthetic.main.activity_setting.*
 import kotlinx.coroutines.*
 
@@ -45,7 +47,11 @@ class SettingActivity : CommTitleActivity() {
       UserRepository.logOut()
       LoginActivity.startActivity(mContext)
     }
+    setVersionTv.text = AppUtils.getAppVersionName()
+    setVersionLayout.setOnClickListener { if (++clickCount == 10) settingAppInfo.text = AppInfoUtils.getAppInfo() }
   }
+
+  private var clickCount = 0
 
   private var mJob1: Job? = null
   private var mJob2: Job? = null
