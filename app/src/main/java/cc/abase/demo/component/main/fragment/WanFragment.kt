@@ -20,7 +20,7 @@ import kotlinx.android.synthetic.main.fragment_wan.wanRefreshLayout
  * Date:2020/8/12
  * Time:20:48
  */
-class WanFragment private constructor() : CommFragment() {
+class WanFragment : CommFragment() {
 
   //<editor-fold defaultstate="collapsed" desc="外部获取实例">
   companion object {

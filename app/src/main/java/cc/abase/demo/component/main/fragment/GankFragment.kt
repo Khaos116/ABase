@@ -21,7 +21,7 @@ import kotlinx.android.synthetic.main.fragment_gank.gankRefreshLayout
  * Date:2020/8/12
  * Time:20:48
  */
-class GankFragment private constructor() : CommFragment() {
+class GankFragment : CommFragment() {
   //<editor-fold defaultstate="collapsed" desc="外部获取实例">
   companion object {
     fun newInstance(): GankFragment {
