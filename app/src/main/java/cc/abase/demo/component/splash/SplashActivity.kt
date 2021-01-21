@@ -4,19 +4,24 @@ import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.content.Intent
 import android.view.ViewGroup
-import cc.ab.base.ext.*
-import cc.ab.base.utils.PermissionUtils
+import cc.ab.base.ext.launchError
+import cc.ab.base.ext.mContext
+import cc.ab.base.ext.toast
 import cc.abase.demo.R
 import cc.abase.demo.component.comm.CommActivity
 import cc.abase.demo.component.login.LoginActivity
 import cc.abase.demo.component.main.MainActivity
 import cc.abase.demo.config.UserManager
 import cc.abase.demo.utils.MMkvUtils
-import com.airbnb.lottie.*
+import com.airbnb.lottie.LottieAnimationView
+import com.airbnb.lottie.LottieDrawable
+import com.airbnb.lottie.RenderMode
 import com.blankj.utilcode.util.TimeUtils
 import com.gyf.immersionbar.ktx.immersionBar
-import com.hjq.permissions.*
-import kotlinx.android.synthetic.main.activity_splash.splashRoot
+import com.hjq.permissions.OnPermissionCallback
+import com.hjq.permissions.Permission
+import com.hjq.permissions.XXPermissions
+import kotlinx.android.synthetic.main.activity_splash.*
 import kotlinx.coroutines.*
 
 /**
@@ -100,23 +105,25 @@ class SplashActivity : CommActivity() {
       mJob = GlobalScope.launchError { withContext(Dispatchers.IO) { delay(1000) }.let { mLottieAnimationView?.playAnimation() } }
     }
     //请求SD卡权限
-    hasSDPermission = PermissionUtils.hasSDPermission()
+    hasSDPermission = XXPermissions.isGrantedPermission(mContext, Permission.MANAGE_EXTERNAL_STORAGE)
     if (!hasSDPermission) {
       XXPermissions.with(this)
           .permission(Permission.MANAGE_EXTERNAL_STORAGE)
           .request(object : OnPermissionCallback {
             override fun onGranted(granted: MutableList<String>, all: Boolean) {
-              if (PermissionUtils.hasSDPermission()) {
+              if (XXPermissions.isGrantedPermission(mContext, Permission.MANAGE_EXTERNAL_STORAGE)) {
                 hasSDPermission = true
                 goNextPage()
               } else {
-                mContext.toast("没有SD卡权限,不能使用APP")
+                "没有SD卡权限,不能使用APP".toast()
+                XXPermissions.startPermissionActivity(mContext, Permission.MANAGE_EXTERNAL_STORAGE)
                 finish()
               }
             }
 
             override fun onDenied(denied: MutableList<String>, quick: Boolean) {
-              mContext.toast("没有SD卡权限,不能使用APP")
+              "没有SD卡权限,不能使用APP".toast()
+              XXPermissions.startPermissionActivity(mContext, Permission.MANAGE_EXTERNAL_STORAGE)
               finish()
             }
           })

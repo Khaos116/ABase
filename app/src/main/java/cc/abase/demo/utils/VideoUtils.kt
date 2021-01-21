@@ -2,11 +2,17 @@ package cc.abase.demo.utils
 
 import cc.ab.base.config.PathConfig
 import cc.ab.base.ext.launchError
-import cc.ab.base.utils.PermissionUtils
-import com.blankj.utilcode.util.*
+import com.blankj.utilcode.util.FileUtils
+import com.blankj.utilcode.util.LogUtils
+import com.blankj.utilcode.util.Utils
+import com.hjq.permissions.Permission
+import com.hjq.permissions.XXPermissions
 import com.iceteck.silicompressorr.CompressCall
 import com.iceteck.silicompressorr.SiliCompressor
-import kotlinx.coroutines.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.withContext
 import java.io.File
 
 /**
@@ -28,7 +34,7 @@ object VideoUtils {
   //<editor-fold defaultstate="collapsed" desc="初始化">
   //创建文件夹
   init {
-    if (PermissionUtils.hasSDPermission()) {
+    if (XXPermissions.isGrantedPermission(Utils.getApp(), Permission.MANAGE_EXTERNAL_STORAGE)) {
       if (!File(outParentVideo).exists())
         LogUtils.e("CASE:创建Video文件夹:${File(outParentVideo).mkdirs()}")
       if (!File(outParentImgs).exists())
