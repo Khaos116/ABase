@@ -2,7 +2,6 @@
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -30,12 +29,12 @@
       android:id="@+id/videoDetailBack"
       android:layout_width="@dimen/dkplayer_controller_height"
       android:layout_height="@dimen/dkplayer_controller_height"
+      android:background="@drawable/dkplayer_shape_standard_controller_top_bg"
       android:contentDescription="@null"
       android:padding="@dimen/dkplayer_controller_icon_padding"
       android:src="@drawable/dkplayer_ic_action_arrow_back"
       app:layout_constraintStart_toStartOf="parent"
       app:layout_constraintTop_toTopOf="@id/videoDetailVideoViewParent"
-      tools:background="@drawable/dkplayer_shape_standard_controller_top_bg"
       />
   <!--评论列表等-->
   <TextView
