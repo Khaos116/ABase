@@ -87,12 +87,14 @@ class MainActivity : CommActivity() {
       else -> Gravity.BOTTOM
     }
     (mContentView as? FrameLayout)?.addView(floatView, params)
-    if (BuildConfig.DEBUG && !XXPermissions.isGrantedPermission(mContext, Permission.NOTIFICATION_SERVICE)) commAlertDialog(supportFragmentManager) {
-      title = R.string.dialog_hint_comm.xmlToString()
-      content = R.string.dialog_hint_permission_notice.xmlToString()
-      confirmText = R.string.go_open.xmlToString()
-      confirmTextColor = R.color.style_Accent.xmlToColor()
-      confirmCallback = { openNoticePermission() }
+    if (BuildConfig.DEBUG && !XXPermissions.isGrantedPermission(mContext, Permission.NOTIFICATION_SERVICE)) {
+      commAlertDialog(supportFragmentManager, cancelable = false, outside = false) {
+        title = R.string.dialog_hint_comm.xmlToString()
+        content = R.string.dialog_hint_permission_notice.xmlToString()
+        confirmText = R.string.go_open.xmlToString()
+        confirmTextColor = R.color.style_Accent.xmlToColor()
+        confirmCallback = { openNoticePermission() }
+      }
     }
   }
   //</editor-fold>
