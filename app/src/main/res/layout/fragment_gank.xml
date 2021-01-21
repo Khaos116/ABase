@@ -3,6 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/gankRefreshLayout"
     android:layout_width="match_parent"
+    android:background="@color/white"
     android:layout_height="match_parent"
     >
 
