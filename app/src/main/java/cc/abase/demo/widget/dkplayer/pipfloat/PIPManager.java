@@ -1,43 +1,62 @@
 package cc.abase.demo.widget.dkplayer.pipfloat;
 
 import android.app.Application;
-import android.view.View;
+import android.net.Uri;
+import android.text.TextUtils;
+import android.view.*;
+import android.widget.ImageView;
+import cc.ab.base.ext.ImageViewExt2Kt;
 import cc.ab.base.ext.ViewExtKt;
+import cc.abase.demo.R;
 import cc.abase.demo.constants.StringConstants;
 import cc.abase.demo.widget.dkplayer.MyVideoView;
 import com.blankj.utilcode.util.Utils;
 import com.dueeeke.videoplayer.player.VideoViewManager;
+import java.io.File;
 
 /**
  * 悬浮播放 https://github.com/Doikki/DKVideoPlayer/blob/master/dkplayer-sample/src/main/java/com/dueeeke/dkplayer/util/PIPManager.java
  * Created by dueeeke on 2018/3/30.
  */
 public class PIPManager {
-  private static PIPManager instance;
+  private static class SingleTonHolder {
+    private static final PIPManager INSTANCE = new PIPManager();
+  }
+
+  public static PIPManager getInstance() {
+    return SingleTonHolder.INSTANCE;
+  }
+
+  private PIPManager() {
+    initVideoView();
+  }
+
   private MyVideoView mVideoView;
   private FloatView mFloatView;
   private FloatController mFloatController;
   private boolean mIsShowing;
   private int mPlayingPosition = -1;
-  private Class mActClass;
+  private Class<?> mActClass;
 
-  private PIPManager() {
+  //初始化悬浮播放器
+  private void initVideoView() {
+    int locationX = 0;
+    int locationY = 0;
+    if (mFloatView != null) {
+      ViewGroup.LayoutParams params = mFloatView.getLayoutParams();
+      if (params instanceof WindowManager.LayoutParams) {
+        locationX = ((WindowManager.LayoutParams) params).x;
+        locationY = ((WindowManager.LayoutParams) params).y;
+      }
+    }
+    mVideoView = null;
+    mFloatController = null;
+    mFloatView = null;
     Application application = Utils.getApp();
     mVideoView = new MyVideoView(application);
     VideoViewManager.instance().add(mVideoView, StringConstants.Tag.FLOAT_PLAY);
     mFloatController = new FloatController(application);
-    mFloatView = new FloatView(application, 0, 0);
-  }
-
-  public static PIPManager getInstance() {
-    if (instance == null) {
-      synchronized (PIPManager.class) {
-        if (instance == null) {
-          instance = new PIPManager();
-        }
-      }
-    }
-    return instance;
+    mFloatView = new FloatView(application, locationX, locationY);
   }
 
   public void startFloatWindow() {
@@ -49,6 +68,40 @@ public class PIPManager {
     mFloatView.addView(mVideoView);
     mFloatView.addToWindow();
     mIsShowing = true;
+    //===============================封面相关START===============================//
+    String coverPath = mVideoView.getMUrlCover();//封面地址
+    float ratio = mVideoView.getMRatio();//封面比例
+    boolean needHolder = mVideoView.getMNeedHolder();//是否需要占位图
+    View playView = mFloatController.findViewById(R.id.start_play);//播放按钮
+    if (playView != null) playView.setOnClickListener(v -> mVideoView.start());
+    ImageView coverIv = mFloatController.findViewById(R.id.thumb);//封面
+    if (coverIv != null && coverPath != null && !TextUtils.isEmpty(coverPath)) {//加载封面
+      coverIv.setClickable(true);//防止透过去点击
+      if (coverPath.equals(mVideoView.getMUrlVideo())) { //封面为空拿播放地址去加载
+        if (coverPath.startsWith("http")) {
+          ImageViewExt2Kt.loadNetVideoCover(coverIv, coverPath, ratio, needHolder); //加载网络封面
+        } else {
+          File videoFile = new File(coverPath);
+          if (videoFile.exists()) {
+            ImageViewExt2Kt.loadImgHorizontal(coverIv, Uri.fromFile(videoFile).toString(), ratio, needHolder); //加载封面
+          } else {
+            ImageViewExt2Kt.loadImgHorizontal(coverIv, coverPath, ratio, needHolder); //加载封面
+          }
+        }
+      } else { //封面防止可能是视频地址
+        if (coverPath.startsWith("http")) {
+          ImageViewExt2Kt.loadImgHorizontal(coverIv, coverPath, ratio, needHolder);
+        } else {
+          File videoFile = new File(coverPath);
+          if (videoFile.exists()) {
+            ImageViewExt2Kt.loadImgHorizontal(coverIv, Uri.fromFile(videoFile).toString(), ratio, needHolder); //加载封面
+          } else {
+            ImageViewExt2Kt.loadImgHorizontal(coverIv, coverPath, ratio, needHolder); //加载封面
+          }
+        }
+      }
+    }
+    //===============================封面相关END===============================//
   }
 
   public void stopFloatWindow() {
@@ -56,6 +109,10 @@ public class PIPManager {
     mFloatView.removeFromWindow();
     ViewExtKt.removeParent(mVideoView);
     mIsShowing = false;
+    //===============================释放点击事件START===============================//
+    View playView = mFloatController.findViewById(R.id.start_play);//播放按钮
+    if (playView != null) playView.setOnClickListener(null);
+    //===============================释放点击事件END===============================//
   }
 
   public void setPlayingPosition(int position) {
@@ -83,6 +140,7 @@ public class PIPManager {
     mVideoView.setVideoController(null);
     mPlayingPosition = -1;
     mActClass = null;
+    initVideoView();
   }
 
   public boolean onBackPress() {
