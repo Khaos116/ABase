@@ -24,14 +24,7 @@
       android:layout_height="0dp"
       app:layout_constraintDimensionRatio="16:9"
       app:layout_constraintTop_toBottomOf="@id/videoDetailStatus"
-      >
-
-    <cc.abase.demo.widget.dkplayer.MyVideoView
-        android:id="@+id/videoDetailVideoView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        />
-  </FrameLayout>
+      />
   <!--返回按钮和video_layout_standard.xml中的返回相同-->
   <ImageView
       android:id="@+id/videoDetailBack"
@@ -45,12 +38,21 @@
       tools:background="@drawable/dkplayer_shape_standard_controller_top_bg"
       />
   <!--评论列表等-->
-  <View
-      android:id="@+id/videoDetailRecycler"
-      android:layout_width="match_parent"
-      android:layout_height="0dp"
+  <TextView
+      android:id="@+id/videoDetailFloat"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:background="@color/cyan_40E0D0"
+      android:paddingStart="12dp"
+      android:paddingTop="8dp"
+      android:paddingEnd="12dp"
+      android:paddingBottom="8dp"
+      android:text="@string/float_play"
+      android:textColor="@color/white"
+      android:textSize="16sp"
       app:layout_constraintBottom_toBottomOf="parent"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintStart_toStartOf="parent"
       app:layout_constraintTop_toBottomOf="@id/videoDetailVideoViewParent"
-      tools:background="@color/cyan_40E0D0"
       />
 </androidx.constraintlayout.widget.ConstraintLayout>
