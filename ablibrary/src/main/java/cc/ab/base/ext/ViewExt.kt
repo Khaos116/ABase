@@ -115,5 +115,5 @@ fun View?.getMyFragment(): Fragment? {
 
 //获取生命周期管理
 fun View?.getMyLifecycleOwner(): LifecycleOwner? {
-  return (this?.getMyFragment()) ?: (this?.context as? LifecycleOwner)
+  return (this?.getMyFragment()) ?: (this?.context as? LifecycleOwner) ?: ((this?.parent as? View)?.context as? LifecycleOwner)
 }
