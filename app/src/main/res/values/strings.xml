@@ -65,4 +65,10 @@
   <string name="clear_cache">清理缓存</string>
   <string name="login_out">退出</string>
   <string name="float_play">悬浮窗播放</string>
+  <string name="version_info">版本信息</string>
+  <string name="cancel">取消</string>
+  <string name="confirm">确定</string>
+  <string name="dialog_hint_comm">温馨提示</string>
+  <string name="dialog_hint_permission_notice">APP调试需要通知权限，是否去打开？</string>
+  <string name="go_open">去打开</string>
 </resources>

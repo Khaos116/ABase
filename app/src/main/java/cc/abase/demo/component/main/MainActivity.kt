@@ -10,13 +10,16 @@ import androidx.annotation.IntRange
 import androidx.lifecycle.Lifecycle
 import cc.ab.base.ext.*
 import cc.ab.base.widget.DragFloatView
+import cc.abase.demo.BuildConfig
 import cc.abase.demo.R
 import cc.abase.demo.component.comm.CommActivity
 import cc.abase.demo.component.comm.CommFragment
 import cc.abase.demo.component.main.fragment.GankFragment
 import cc.abase.demo.component.main.fragment.WanFragment
+import cc.abase.demo.widget.dialog.commAlertDialog
 import com.blankj.utilcode.util.ActivityUtils
 import com.blankj.utilcode.util.FragmentUtils
+import com.hjq.permissions.*
 import kotlinx.android.synthetic.main.activity_main.mainContainer
 import kotlinx.android.synthetic.main.activity_main.mainNavigation
 
@@ -84,6 +87,25 @@ class MainActivity : CommActivity() {
       else -> Gravity.BOTTOM
     }
     (mContentView as? FrameLayout)?.addView(floatView, params)
+    if (BuildConfig.DEBUG && !XXPermissions.isGrantedPermission(mContext, Permission.NOTIFICATION_SERVICE)) commAlertDialog(supportFragmentManager) {
+      title = R.string.dialog_hint_comm.xmlToString()
+      content = R.string.dialog_hint_permission_notice.xmlToString()
+      confirmText = R.string.go_open.xmlToString()
+      confirmTextColor = R.color.style_Accent.xmlToColor()
+      confirmCallback = { openNoticePermission() }
+    }
+  }
+  //</editor-fold>
+
+  //<editor-fold defaultstate="collapsed" desc="请求通知权限">
+  private fun openNoticePermission() {
+    XXPermissions.with(mContext)
+        .permission(Permission.NOTIFICATION_SERVICE)
+        .request(object : OnPermissionCallback {
+          override fun onGranted(permissions: MutableList<String>?, all: Boolean) {}
+
+          override fun onDenied(permissions: MutableList<String>?, never: Boolean) {}
+        })
   }
   //</editor-fold>
 
