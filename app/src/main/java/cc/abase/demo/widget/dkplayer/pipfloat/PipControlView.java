@@ -52,7 +52,7 @@ public class PipControlView extends FrameLayout implements IControlComponent, Vi
     if (id == R.id.btn_close_float) {
       PIPManager.getInstance().stopFloatWindow();
       PIPManager.getInstance().reset();
-    } else if (id == R.id.start_play) {
+    } else if (id == R.id.start_play_float) {
       mControlWrapper.togglePlay();
     } else if (id == R.id.btn_skip_float) {
       if (PIPManager.getInstance().getActClass() != null) {
