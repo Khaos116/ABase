@@ -4,8 +4,7 @@ import android.content.Context;
 import android.util.AttributeSet;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import com.dueeeke.videocontroller.component.CompleteView;
-import com.dueeeke.videocontroller.component.ErrorView;
+import com.dueeeke.videocontroller.component.*;
 import com.dueeeke.videoplayer.controller.GestureVideoController;
 
 /**
@@ -14,24 +13,25 @@ import com.dueeeke.videoplayer.controller.GestureVideoController;
  */
 public class FloatController extends GestureVideoController {
 
-    public FloatController(@NonNull Context context) {
-        super(context);
-    }
+  public FloatController(@NonNull Context context) {
+    super(context);
+  }
 
-    public FloatController(@NonNull Context context, @Nullable AttributeSet attrs) {
-        super(context, attrs);
-    }
+  public FloatController(@NonNull Context context, @Nullable AttributeSet attrs) {
+    super(context, attrs);
+  }
 
-    @Override
-    protected int getLayoutId() {
-        return 0;
-    }
+  @Override
+  protected int getLayoutId() {
+    return 0;
+  }
 
-    @Override
-    protected void initView() {
-        super.initView();
-        addControlComponent(new CompleteView(getContext()));
-        addControlComponent(new ErrorView(getContext()));
-        addControlComponent(new PipControlView(getContext()));
-    }
+  @Override
+  protected void initView() {
+    super.initView();
+    addControlComponent(new PrepareView(getContext()));
+    addControlComponent(new CompleteView(getContext()));
+    addControlComponent(new ErrorView(getContext()));
+    addControlComponent(new PipControlView(getContext()));
+  }
 }
