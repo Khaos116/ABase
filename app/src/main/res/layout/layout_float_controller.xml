@@ -7,7 +7,7 @@
     >
 
   <ImageView
-      android:id="@+id/start_play"
+      android:id="@+id/start_play_float"
       android:layout_width="50dp"
       android:layout_height="50dp"
       android:layout_gravity="center"
@@ -18,7 +18,7 @@
       />
 
   <ProgressBar
-      android:id="@+id/loading"
+      android:id="@+id/loading_float"
       android:layout_width="50dp"
       android:layout_height="50dp"
       android:layout_gravity="center"
@@ -28,7 +28,7 @@
       />
 
   <ImageView
-      android:id="@+id/btn_close"
+      android:id="@+id/btn_close_float"
       android:layout_width="20dp"
       android:layout_height="20dp"
       android:layout_gravity="end"
@@ -38,7 +38,7 @@
       />
 
   <ImageView
-      android:id="@+id/btn_skip"
+      android:id="@+id/btn_skip_float"
       android:layout_width="20dp"
       android:layout_height="20dp"
       android:layout_margin="4dp"

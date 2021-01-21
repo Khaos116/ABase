@@ -38,23 +38,23 @@ public class PipControlView extends FrameLayout implements IControlComponent, Vi
 
   {
     LayoutInflater.from(getContext()).inflate(R.layout.layout_float_controller, this, true);
-    mPlay = findViewById(R.id.start_play);
-    mLoading = findViewById(R.id.loading);
-    mClose = findViewById(R.id.btn_close);
+    mPlay = findViewById(R.id.start_play_float);
+    mLoading = findViewById(R.id.loading_float);
+    mClose = findViewById(R.id.btn_close_float);
     mClose.setOnClickListener(this);
     mPlay.setOnClickListener(this);
-    findViewById(R.id.btn_skip).setOnClickListener(this);
+    findViewById(R.id.btn_skip_float).setOnClickListener(this);
   }
 
   @Override
   public void onClick(View v) {
     int id = v.getId();
-    if (id == R.id.btn_close) {
+    if (id == R.id.btn_close_float) {
       PIPManager.getInstance().stopFloatWindow();
       PIPManager.getInstance().reset();
     } else if (id == R.id.start_play) {
       mControlWrapper.togglePlay();
-    } else if (id == R.id.btn_skip) {
+    } else if (id == R.id.btn_skip_float) {
       if (PIPManager.getInstance().getActClass() != null) {
         Intent intent = new Intent(getContext(), PIPManager.getInstance().getActClass());
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
