@@ -72,9 +72,9 @@ public class PIPManager {
     String coverPath = mVideoView.getMUrlCover();//封面地址
     float ratio = mVideoView.getMRatio();//封面比例
     boolean needHolder = mVideoView.getMNeedHolder();//是否需要占位图
-    View playView = mFloatController.findViewById(R.id.start_play);//播放按钮
+    View playView = mFloatController.findViewById(com.dueeeke.videocontroller.R.id.start_play);//播放按钮
     if (playView != null) playView.setOnClickListener(v -> mVideoView.start());
-    ImageView coverIv = mFloatController.findViewById(R.id.thumb);//封面
+    ImageView coverIv = mFloatController.findViewById(com.dueeeke.videocontroller.R.id.thumb);//封面
     if (coverIv != null && coverPath != null && !TextUtils.isEmpty(coverPath)) {//加载封面
       coverIv.setClickable(true);//防止透过去点击
       if (coverPath.equals(mVideoView.getMUrlVideo())) { //封面为空拿播放地址去加载
