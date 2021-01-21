@@ -23,6 +23,7 @@ class DragFloatView @JvmOverloads constructor(c: Context, a: AttributeSet? = nul
   //<editor-fold defaultstate="collapsed" desc="初始化">
   init {
     setBackgroundResource(R.drawable.shape_circle_primary)
+    setOnLongClickListener { true }
   }
   //</editor-fold>
 
@@ -137,7 +138,7 @@ class DragFloatView @JvmOverloads constructor(c: Context, a: AttributeSet? = nul
   private var mCurrentY = 0f
 
   //需要正常滑动判断的最小距离
-  private var minMoveDistance = 25
+  private var minMoveDistance = ViewConfiguration.get(c).scaledTouchSlop
 
   //是否触发滑动
   private var hasStartTrans = false
@@ -166,7 +167,7 @@ class DragFloatView @JvmOverloads constructor(c: Context, a: AttributeSet? = nul
           mCurrentX = event.rawX //更新当前位置
           mCurrentY = event.rawY
           //判断触发滑动
-          if (!hasStartTrans && (abs(mCurrentX - mDownX) >= minMoveDistance || abs(mCurrentY - mDownY) >= minMoveDistance)) hasStartTrans = true
+          if (!hasStartTrans) hasStartTrans = (abs(mCurrentX - mDownX) >= minMoveDistance || abs(mCurrentY - mDownY) >= minMoveDistance)
           if (hasStartTrans) { //触发滑动后执行移动
             this.translationX = mDownTransX + (mCurrentX - mDownX)
             this.translationY = mDownTransY + (mCurrentY - mDownY)
