@@ -1,34 +1,40 @@
 <resources>
 
-    <!-- Base application theme. -->
-    <style name="AppTheme" parent="BaseAppTheme">
+  <!-- Base application theme. -->
+  <style name="AppTheme" parent="BaseAppTheme">
 
-    </style>
-    <!-- 启动页风格 -->
-    <style name="SplashTheme" parent="BaseAppTheme">
-        <item name="android:windowBackground">@drawable/icon_splash_bg</item>
-    </style>
+  </style>
+  <!-- 启动页风格 -->
+  <style name="SplashTheme" parent="BaseAppTheme">
+    <item name="android:windowBackground">@drawable/icon_splash_bg</item>
+  </style>
 
-    <style name="CollapsingTextAppearance" parent="Base.TextAppearance.AppCompat.Widget.ActionBar.Title"/>
+  <style name="CollapsingTextAppearance" parent="Base.TextAppearance.AppCompat.Widget.ActionBar.Title"/>
 
-    <style name="CollapsingTextAppearance.Inverse">
-        <item name="android:textSize">21sp</item>
-        <item name="android:textColor">@color/black</item>
-    </style>
-    <!-- 自定义Dialog动画 -->
-    <style name="BottomDialogAnimation">
-        <item name="android:windowEnterAnimation">@anim/anim_bottom_in</item>
-        <item name="android:windowExitAnimation">@anim/anim_bottom_out</item>
-    </style>
-    <style name="CollapsingTextAppearance.Black17">
-        <item name="android:textSize">17sp</item>
-        <item name="android:textStyle">bold</item>
-        <item name="android:textColor">@color/black</item>
-    </style>
+  <style name="CollapsingTextAppearance.Inverse">
+    <item name="android:textSize">21sp</item>
+    <item name="android:textColor">@color/black</item>
+  </style>
+  <!-- 自定义Dialog动画 -->
+  <style name="BottomDialogAnimation">
+    <item name="android:windowEnterAnimation">@anim/anim_bottom_in</item>
+    <item name="android:windowExitAnimation">@anim/anim_bottom_out</item>
+  </style>
 
-    <style name="CollapsingTextAppearance.White21">
-        <item name="android:textSize">21sp</item>
-        <item name="android:textStyle">bold</item>
-        <item name="android:textColor">@color/white</item>
-    </style>
+  <style name="CollapsingTextAppearance.Black17">
+    <item name="android:textSize">17sp</item>
+    <item name="android:textStyle">bold</item>
+    <item name="android:textColor">@color/black</item>
+  </style>
+
+  <style name="CollapsingTextAppearance.White21">
+    <item name="android:textSize">21sp</item>
+    <item name="android:textStyle">bold</item>
+    <item name="android:textColor">@color/white</item>
+  </style>
+
+  <style name="FloatWindowAnimation">
+    <item name="android:windowEnterAnimation">@anim/anim_float_window_enter</item>
+    <item name="android:windowExitAnimation">@anim/anim_float_window_exit</item>
+  </style>
 </resources>
