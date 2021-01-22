@@ -1,7 +1,8 @@
-package cc.abase.demo.component.main
+package cc.abase.demo.component.main.fragment
 
 import android.app.Activity
 import android.content.Intent
+import android.graphics.Color
 import android.view.Gravity
 import androidx.lifecycle.rxLifeScope
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -92,6 +93,7 @@ class MineFragment : CommFragment() {
 
   //<editor-fold defaultstate="collapsed" desc="懒加载">
   override fun lazyInit() {
+    mRootView?.setBackgroundColor(Color.WHITE)
     //分割线
     if (mineRecycler.itemDecorationCount == 0) mineRecycler.addItemDecoration(SpacesItemDecoration())
     //注册多类型

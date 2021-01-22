@@ -45,6 +45,7 @@ class GankFragment : CommFragment() {
 
   //<editor-fold defaultstate="collapsed" desc="懒加载">
   override fun lazyInit() {
+    mRootView?.setBackgroundColor(Color.WHITE)
     gankRefreshLayout.setOnRefreshListener { mViewModel.refresh() }
     gankRefreshLayout.setOnLoadMoreListener { mViewModel.loadMore() }
     //设置适配器

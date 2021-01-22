@@ -50,6 +50,7 @@ class WanFragment : CommFragment() {
   //<editor-fold defaultstate="collapsed" desc="懒加载">
   override
   fun lazyInit() {
+    mRootView?.setBackgroundColor(Color.WHITE)
     wanRefreshLayout.setEnableScrollContentWhenLoaded(false) //加载更多完成整体下移，手动上滑显示更多内容
     wanRefreshLayout.setOnRefreshListener { mViewModel.refresh() }
     wanRefreshLayout.setOnLoadMoreListener { mViewModel.loadMore() }
