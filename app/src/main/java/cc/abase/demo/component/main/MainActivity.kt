@@ -14,8 +14,7 @@ import cc.abase.demo.BuildConfig
 import cc.abase.demo.R
 import cc.abase.demo.component.comm.CommActivity
 import cc.abase.demo.component.comm.CommFragment
-import cc.abase.demo.component.main.fragment.GankFragment
-import cc.abase.demo.component.main.fragment.WanFragment
+import cc.abase.demo.component.main.fragment.*
 import cc.abase.demo.widget.dialog.commAlertDialog
 import com.blankj.utilcode.util.ActivityUtils
 import com.blankj.utilcode.util.FragmentUtils
@@ -49,6 +48,7 @@ class MainActivity : CommActivity() {
   //<editor-fold defaultstate="collapsed" desc="初始化View">
   override fun initView() {
     window.setBackgroundDrawable(null)
+    mStatusView?.setBackgroundColor(Color.WHITE)
     //添加子页面
     fragmentList.clear()
     fragmentList.add(WanFragment.newInstance())
@@ -67,7 +67,6 @@ class MainActivity : CommActivity() {
       true //返回true让其默认选中点击的选项
     }
     //取消长按显示+过度绘制
-    (mainNavigation.findViewById<View>(R.id.menu_main_home)?.parent?.parent as? View)?.setBackgroundColor(Color.TRANSPARENT)
     mainNavigation.findViewById<View>(R.id.menu_main_home).setOnLongClickListener { true }
     mainNavigation.findViewById<View>(R.id.menu_main_dyn).setOnLongClickListener { true }
     mainNavigation.findViewById<View>(R.id.menu_main_mine).setOnLongClickListener { true }
