@@ -12,7 +12,7 @@
       android:id="@+id/coordinatorUserAppBar"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
-      android:background="@color/transparent"
+      android:background="@null"
       app:elevation="0dp"
       app:layout_behavior="cc.abase.demo.widget.coordinator.FixAppBarLayoutBehavior"
       >
