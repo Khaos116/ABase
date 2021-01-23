@@ -15,7 +15,7 @@ for %%i in (*.apk) do (
 for %%i in (*.apk) do (
   ::读取当前所有渠道
   for /f "tokens=1,* delims=_" %%a in (config.txt) do (
-     echo 创建渠道%%~ni_%%a.apk
+     echo 创建渠道：%%~ni_%%a.apk
      ::~fi表示文件全路径
      java -jar walle-cli-all.jar put -c %%a -e count_key=%%b %%~fi %~dp0\%%~ni\%%~ni_%%a.apk
   )
