@@ -82,7 +82,7 @@ override fun fillData(holder: ViewHolder, itemView: View, item: MutableList<Bann
 ![聊天Emoji](https://github.com/caiyoufei/ABase/blob/master/image/emoji_chat.gif)
 
 //================================================================//
-##  FFmpeg获取视频封面和压缩视频
+##  Coil加载视频封面和压缩视频
 ![封面和压缩](https://github.com/caiyoufei/ABase/blob/master/image/video_cover_compress.gif)
 
 //================================================================//
