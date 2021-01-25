@@ -62,6 +62,9 @@ class MineFragment : CommFragment() {
   //点击更新次数
   private var clickCount = 0
 
+  //上次选中的日期
+  private var lastYMD: String? = null
+
   //多类型适配器
   private val multiTypeAdapter = MultiTypeAdapter()
 
@@ -160,7 +163,14 @@ class MineFragment : CommFragment() {
     //高度比ScrollView高一个背景的高度
     mineScrollView.post { mineRecyclerParent.layoutParams.height = mineScrollView.height + 70.dp2Px() }
     //点击积分打开日期
-    mineIntegral.click { dateSelDialog(childFragmentManager) { call = { r -> "${r.first}年 ${r.second}月${r.third}日".toast() } } }
+    mineIntegral.click {
+      dateSelDialog(childFragmentManager, lastYMD) {
+        call = { r ->
+          lastYMD = "${r.first}-${r.second}-${r.third}"
+          "${r.first}年 ${r.second}月${r.third}日".toast()
+        }
+      }
+    }
   }
   //</editor-fold>
 }
