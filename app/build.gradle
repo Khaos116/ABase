@@ -242,8 +242,7 @@ dependencies {
   kapt Deps.rxhttp_kapt
   implementation Deps.rxlife_coroutine
   implementation Deps.rxlife_rxjava
-  implementation Deps.wheelview
-  implementation Deps.pickerview
+  implementation Deps.picker_view
   implementation Deps.flexbox
   implementation Deps.indicator
   implementation Deps.emulator

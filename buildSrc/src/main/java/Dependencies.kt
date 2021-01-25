@@ -162,9 +162,8 @@ object Deps {
   const val pinyin = "com.github.promeg:tinypinyin:2.0.3" // TinyPinyin核心包，约80KB
   const val pinyin_android = "com.github.promeg:tinypinyin-lexicons-android-cncity:2.0.3" // 可选，适用于Android的中国地区词典
 
-  //日期选择 https://github.com/zyyoona7/WheelPicker
-  const val wheelview = "com.github.zyyoona7:wheelview:1.0.9"
-  const val pickerview = "com.github.zyyoona7:pickerview:1.1.1"
+  //日期选择器 https://github.com/limxing/DatePickerView
+  const val picker_view = "com.github.limxing:DatePickerView:1.0.3"
 
   //@和#效果 https://github.com/sunhapper/SpEditTool
   const val spedit_tool = "com.github.sunhapper.SpEditTool:SpEditText:1.0.4"
