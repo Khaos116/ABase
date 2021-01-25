@@ -35,7 +35,7 @@
 **[WheelPicker](https://github.com/zyyoona7/WheelPicker)**|3D滚轮选择器
 **[SpEditTool](https://github.com/sunhapper/SpEditTool)**|微博@和#变色效果
 **[DiscreteScrollView](https://github.com/yarolegovich/DiscreteScrollView)**|实现无限轮播Banner、ViewPager横竖屏滑动等
-**[Walle](https://github.com/Meituan-Dianping/walle)**|美团瓦力打包([批量打包](https://github.com/caiyoufei/ABase/tree/master/bat_channel))
+**[Walle](https://github.com/Meituan-Dianping/walle)**|美团瓦力打包([Bat批量打包](https://github.com/caiyoufei/ABase/tree/master/bat_channel))
 **====================**|==========================================
 
 //================================================================//

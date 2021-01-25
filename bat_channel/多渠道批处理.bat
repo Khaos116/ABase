@@ -31,10 +31,10 @@ for %%i in (*.apk) do (
         ::去除空格
         set channel=!channel: =!
   	   	if not "!channel!"=="" (
-      		set key=%%b
+      		  set key=%%b
             ::去除TAB
-            set key=!key:	=!  
-            if not "!key!"=="" (  
+            set key=!key:	=!
+            if not "!key!"=="" (
                 ::去除空格
             	set key=!key: =!
             	if not "!key!"=="" (
@@ -42,9 +42,9 @@ for %%i in (*.apk) do (
             		echo=
             		::~fi表示文件全路径
              		java -jar walle-cli-all.jar put -c !channel! -e count_key=!key! %%~fi %~dp0\%%~ni\%%~ni_!channel!.apk
-            	)	
-            ) 		                  
-  		)
+            	)
+            )
+  		  )
      )
   )
 )
