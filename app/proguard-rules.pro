@@ -317,3 +317,7 @@
 
 #腾讯PAG动画 https://pag.io/docs/sdk.html
 -keep class org.libpag.* {*;}
+
+#远距离识别二维码 https://github.com/devilsen/CZXing
+-keep class me.devilsen.czxing.**
+-keep class me.devilsen.czxing.** { *; }

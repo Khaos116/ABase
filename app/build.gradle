@@ -246,4 +246,5 @@ dependencies {
   implementation Deps.flexbox
   implementation Deps.indicator
   implementation Deps.emulator
+  implementation Deps.czxing
 }

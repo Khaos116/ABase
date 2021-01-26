@@ -167,6 +167,9 @@ object Deps {
 
   //@和#效果 https://github.com/sunhapper/SpEditTool
   const val spedit_tool = "com.github.sunhapper.SpEditTool:SpEditText:1.0.4"
+
+  //远距离识别二维码 https://github.com/devilsen/CZXing
+  const val czxing = "me.devilsen:czxing:1.0.17"
   //</editor-fold>
 
   //<editor-fold defaultstate="collapsed" desc="其他">
