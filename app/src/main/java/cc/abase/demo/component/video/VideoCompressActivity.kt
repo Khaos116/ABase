@@ -61,7 +61,6 @@ class VideoCompressActivity : CommTitleActivity() {
       PictureSelector.create(this)
           .openGallery(PictureMimeType.ofVideo())
           .imageEngine(ImageEngine())
-          .maxSelectNum(1)
           .isCamera(false)
           .isPageStrategy(true, PictureConfig.MAX_PAGE_SIZE, true) //过滤掉已损坏的
           .maxSelectNum(1)
