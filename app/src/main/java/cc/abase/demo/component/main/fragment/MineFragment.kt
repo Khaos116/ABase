@@ -29,6 +29,7 @@ import cc.abase.demo.component.test.TestActivity
 import cc.abase.demo.component.update.CcUpdateService
 import cc.abase.demo.component.update.UpdateEnum
 import cc.abase.demo.component.video.VideoCompressActivity
+import cc.abase.demo.component.zxing.ZxingActivity
 import cc.abase.demo.constants.EventKeys
 import cc.abase.demo.item.SimpleTxtItem
 import cc.abase.demo.rxhttp.repository.UserRepository
@@ -86,6 +87,7 @@ class MineFragment : CommFragment() {
       Pair(R.string.title_flexbox.xmlToString(), FlexboxActivity::class.java),
       Pair(R.string.title_marquee.xmlToString(), MarqueeActivity::class.java),
       Pair(R.string.title_blur.xmlToString(), BlurActivity::class.java),
+      Pair(R.string.title_zxing.xmlToString(), ZxingActivity::class.java),
       Pair(R.string.title_test.xmlToString(), TestActivity::class.java),
   )
   //</editor-fold>

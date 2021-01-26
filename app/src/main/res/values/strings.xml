@@ -58,6 +58,7 @@
   <string name="title_flexbox">FlexboxLayout</string>
   <string name="title_marquee">跑马灯</string>
   <string name="title_blur">高斯模糊</string>
+  <string name="title_zxing">Zxing扫码</string>
   <string name="title_test">测试专用页面</string>
   <string name="gank_see_counts">浏览数:</string>
   <string name="gank_praise_counts">点赞数:</string>
@@ -71,4 +72,6 @@
   <string name="dialog_hint_comm">温馨提示</string>
   <string name="dialog_hint_permission_notice">APP调试需要通知权限，是否去打开？</string>
   <string name="go_open">去打开</string>
+  <string name="empty_zxing">二维码内容不能为空</string>
+  <string name="zxing_camera_permission">扫码需要摄像头权限</string>
 </resources>
