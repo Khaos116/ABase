@@ -3,7 +3,7 @@ object Versions {
   internal const val sdkTarget = 30
   internal const val kotlin = "1.4.21"
   internal const val okHttp = "4.9.0"
-  internal const val rxHttp = "2.5.3"
+  internal const val rxHttp = "2.5.4"
   internal const val coil = "1.1.1"
 }
 
@@ -87,7 +87,7 @@ object Deps {
   const val multitype = "com.drakeet.multitype:multitype:4.2.0"
 
   //动态权限 https://github.com/getActivity/XXPermissions
-  const val xxpermissions = "com.hjq:xxpermissions:9.6"
+  const val xxpermissions = "com.hjq:xxpermissions:9.8"
   //</editor-fold>
 
   //<editor-fold defaultstate="collapsed" desc="三方常用配置">
