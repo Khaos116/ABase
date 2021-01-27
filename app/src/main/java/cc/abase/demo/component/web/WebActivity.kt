@@ -9,6 +9,7 @@ import android.net.Uri
 import android.net.http.SslError
 import android.view.*
 import android.webkit.*
+import cc.ab.base.ext.logE
 import cc.ab.base.ext.toast
 import cc.ab.base.widget.engine.ImageEngine
 import cc.abase.demo.R
@@ -17,7 +18,6 @@ import cc.abase.demo.config.HeaderManger
 import cc.abase.demo.widget.LollipopFixedWebView
 import com.blankj.utilcode.util.ColorUtils
 import com.blankj.utilcode.util.UriUtils
-import com.iceteck.silicompressorr.FileUtils
 import com.just.agentweb.AgentWeb
 import com.just.agentweb.DefaultWebClient
 import com.luck.picture.lib.PictureSelector
@@ -230,11 +230,13 @@ class WebActivity : CommTitleActivity() {
 
   //<editor-fold defaultstate="collapsed" desc="选择图片、视频">
   private fun go2SelMedia(chooseMode: Int) {
+    //https://github.com/LuckSiege/PictureSelector/wiki/PictureSelector-Api%E8%AF%B4%E6%98%8E
     PictureSelector.create(this)
         .openGallery(chooseMode)
         .imageEngine(ImageEngine())
         .isGif(false)
         .isCamera(false)
+        .isEnableCrop(true)
         .isPageStrategy(true, PictureConfig.MAX_PAGE_SIZE, true) //过滤掉已损坏的
         .maxSelectNum(1)
         .queryMaxFileSize(if (chooseMode == PictureMimeType.ofImage()) 5f else 500f)
@@ -253,8 +255,12 @@ class WebActivity : CommTitleActivity() {
         // 图片、视频、音频选择结果回调
         PictureSelector.obtainMultipleResult(data)?.let { medias ->
           if (medias.isNotEmpty()) {
-            hasDeal = true
-            mUploadCall?.onReceiveValue(arrayOf(UriUtils.file2Uri(File(medias.first().realPath))))
+            try {
+              hasDeal = true
+              mUploadCall?.onReceiveValue(arrayOf(UriUtils.file2Uri(File(medias.first().cutPath ?: medias.first().realPath))))
+            } catch (e: Exception) {
+              e.logE()
+            }
           }
         }
       }
