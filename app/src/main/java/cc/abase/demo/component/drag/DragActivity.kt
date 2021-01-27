@@ -167,6 +167,7 @@ class DragActivity : CommTitleActivity() {
     val index = datas.indexOfFirst { f -> f == url }
     val list = mutableListOf<LocalMedia>()
     datas.forEach { d -> list.add(LocalMedia().also { lm -> lm.path = d as String }) }
+    //https://github.com/LuckSiege/PictureSelector/wiki/PictureSelector-Api%E8%AF%B4%E6%98%8E
     PictureSelector.create(this)
         .themeStyle(R.style.picture_default_style)
         .isNotPreviewDownload(true)

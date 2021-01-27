@@ -58,6 +58,7 @@ class VideoCompressActivity : CommTitleActivity() {
       mCompressProgress = 0
       videoCompressResult.text = ""
       mHeadInfo = ""
+      //https://github.com/LuckSiege/PictureSelector/wiki/PictureSelector-Api%E8%AF%B4%E6%98%8E
       PictureSelector.create(this)
           .openGallery(PictureMimeType.ofVideo())
           .imageEngine(ImageEngine())

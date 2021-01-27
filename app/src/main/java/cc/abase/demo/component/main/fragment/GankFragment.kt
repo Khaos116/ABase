@@ -62,6 +62,7 @@ class GankFragment : CommFragment() {
         onImgClick = { _, p, _, list ->
           val tempList = mutableListOf<LocalMedia>()
           list.forEach { s -> tempList.add(LocalMedia().also { it.path = s }) }
+          //https://github.com/LuckSiege/PictureSelector/wiki/PictureSelector-Api%E8%AF%B4%E6%98%8E
           //开始预览
           PictureSelector.create(this)
               .themeStyle(R.style.picture_default_style)

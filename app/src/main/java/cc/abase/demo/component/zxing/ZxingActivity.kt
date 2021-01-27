@@ -124,6 +124,7 @@ class ZxingActivity : CommTitleActivity() {
   //<editor-fold defaultstate="collapsed" desc="图库选择二维码图片">
   private fun go2SelImg() {
     zxingContainer.removeAllViews()
+    //https://github.com/LuckSiege/PictureSelector/wiki/PictureSelector-Api%E8%AF%B4%E6%98%8E
     PictureSelector.create(this)
         .openGallery(PictureMimeType.ofImage())
         .imageEngine(ImageEngine())
