@@ -4,6 +4,9 @@ chcp 65001
 ::双冒号表示注释(setlocal enabledelayedexpansion是延迟变量赋值使用)
 @echo off&setlocal enabledelayedexpansion
 echo ☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆==Start==☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆
+
+::多渠道打包配置 https://www.jianshu.com/p/d41dad812048
+::如果APK的加固后的，需要使用v2签名bat批量写入v2签名，否则渠道号无法写入
 echo=
 ::先删除文件夹，再创建文件夹
 for %%i in (*.apk) do (
