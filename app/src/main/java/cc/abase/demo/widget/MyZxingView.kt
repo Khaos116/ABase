@@ -27,7 +27,7 @@ class MyZxingView : ScanView, LifecycleObserver {
   private var mLifecycle: Lifecycle? = null
 
   //扫码成功的声音
-  private var mSoundPoolUtil: SoundPoolUtil? = null
+  private var mSoundPoolUtil: SoundPoolUtil? = SoundPoolUtil()
 
   //扫码回调
   var mScanListener: ScanListener? = null
@@ -35,6 +35,7 @@ class MyZxingView : ScanView, LifecycleObserver {
 
   //<editor-fold defaultstate="collapsed" desc="初始化">
   init {
+    mSoundPoolUtil?.loadDefault(context)
     this.onFlashLightClick()
     this.setScanMode(SCAN_MODE_TINY)
     this.setBarcodeFormat(BarcodeFormat.QR_CODE, BarcodeFormat.CODABAR, BarcodeFormat.CODE_128, BarcodeFormat.EAN_13, BarcodeFormat.UPC_A)
@@ -79,20 +80,18 @@ class MyZxingView : ScanView, LifecycleObserver {
   @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
   private fun onDestroyScan() {
     this.onDestroy()
+    mSoundPoolUtil?.release()
   }
   //</editor-fold>
 
   //<editor-fold defaultstate="collapsed" desc="自感应生命周期">
   override fun onAttachedToWindow() {
     super.onAttachedToWindow()
-    mSoundPoolUtil = SoundPoolUtil().also { it.loadDefault(context) }
     setLifecycleOwner(getMyLifecycleOwner())
   }
 
   override fun onDetachedFromWindow() {
     super.onDetachedFromWindow()
-    mSoundPoolUtil?.release()
-    mSoundPoolUtil = null
     setLifecycleOwner(null)
     onPauseScan()
   }
