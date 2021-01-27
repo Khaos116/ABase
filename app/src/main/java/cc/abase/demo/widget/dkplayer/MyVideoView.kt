@@ -233,6 +233,7 @@ class MyVideoView : VideoView<MyExoMediaPlayer>, LifecycleObserver {
   override fun onDetachedFromWindow() {
     super.onDetachedFromWindow()
     setLifecycleOwner(null)
+    onPauseVideo()
   }
   //</editor-fold>
 }

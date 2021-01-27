@@ -343,6 +343,7 @@ class DiscreteBanner<T> @JvmOverloads constructor(
 
   private fun onDetachedFromWindowLifecycle() {
     setLifecycleOwner(null)
+    onPauseBanner()
   }
   //</editor-fold>
 
