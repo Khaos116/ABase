@@ -13,6 +13,7 @@ set jksFile=com_ab.jks
 set keyAlias=com_cc
 set storePassword=com_cc
 set keyPassword=com_cc
+set suffix=_已签名
 
 ::找到当前目录(%~dp0)下所有apk文件
 for %%i in (*.apk) do (
@@ -24,11 +25,11 @@ for %%i in (*.apk) do (
 	echo Alias对应密码=%keyPassword%
 	echo=
 	echo 原APK=%%~fi
-	echo 新APK=%~dp0%%~ni_signer.apk
+	echo 新APK=%~dp0%%~ni%suffix%.apk
 	::执行V2签名写入
-	java -jar apksigner.jar sign  --ks %jksFile%  --ks-key-alias %keyAlias%  --ks-pass pass:%storePassword%  --key-pass pass:%keyPassword%  --out %~dp0%%~ni_signer.apk  %%~fi
+	java -jar apksigner.jar sign  --ks %jksFile%  --ks-key-alias %keyAlias%  --ks-pass pass:%storePassword%  --key-pass pass:%keyPassword%  --out %~dp0%%~ni%suffix%.apk  %%~fi
 	::删除签名后生成的临时文件
-	if exist %~dp0%%~ni_signer.apk.idsig del %~dp0%%~ni_signer.apk.idsig	
+	if exist %~dp0%%~ni%suffix%.apk.idsig del %~dp0%%~ni%suffix%.apk.idsig
 	echo=
 )
 

@@ -11,15 +11,15 @@ echo=
 ::先删除文件夹，再创建文件夹
 for %%i in (*.apk) do (
   ::~ni 表示无后缀文件名
-  if exist %~dp0\%%~ni (
+  if exist %~dp0%%~ni (
      echo %%~ni文件夹已存在,执行清空
      echo=
-     del /q /s %~dp0\%%~ni
+     del /q /s %~dp0%%~ni
      echo=
   ) else (
      echo %%~ni文件夹不存在,执行创建
      echo=
-     md %~dp0\%%~ni
+     md %~dp0%%~ni
      echo=
   )
 )
@@ -44,7 +44,7 @@ for %%i in (*.apk) do (
             		echo 创建渠道：%%~ni_!channel!_!key!.apk
             		echo=
             		::~fi表示文件全路径
-             		java -jar walle-cli-all.jar put -c !channel! -e count_key=!key! %%~fi %~dp0\%%~ni\%%~ni_!channel!.apk
+             		java -jar walle-cli-all.jar put -c !channel! -e count_key=!key! %%~fi %~dp0%%~ni\%%~ni_!channel!.apk
             	)
             )
   		  )
