@@ -5,6 +5,19 @@ buildscript {
   repositories {
     google()
     jcenter()
+    maven { url 'https://jitpack.io' }
+    //-----------国内通用-----------
+    maven { url 'https://maven.aliyun.com/repository/gradle-plugin' }
+    maven { url 'https://maven.aliyun.com/repository/jcenter' }
+    maven { url 'https://maven.aliyun.com/repository/central' }
+    maven { url 'https://maven.aliyun.com/repository/public' }
+    maven { url 'https://maven.aliyun.com/repository/google' }
+    maven { url 'https://maven.aliyun.com/repository/apache-snapshots' }
+    maven { url 'https://maven.aliyun.com/repository/spring' }
+    maven { url 'https://maven.aliyun.com/repository/releases' }
+    maven { url 'https://maven.aliyun.com/repository/snapshots' }
+    maven { url 'https://maven.aliyun.com/repository/grails-core' }
+    maven { url 'https://maven.aliyun.com/repository/mapr-public' }
   }
   dependencies {
     classpath Deps.plugin_android_gradle
@@ -19,6 +32,18 @@ allprojects {
     google()
     jcenter()
     maven { url 'https://jitpack.io' }
+    //-----------国内通用-----------
+    maven { url 'https://maven.aliyun.com/repository/gradle-plugin' }
+    maven { url 'https://maven.aliyun.com/repository/jcenter' }
+    maven { url 'https://maven.aliyun.com/repository/central' }
+    maven { url 'https://maven.aliyun.com/repository/public' }
+    maven { url 'https://maven.aliyun.com/repository/google' }
+    maven { url 'https://maven.aliyun.com/repository/apache-snapshots' }
+    maven { url 'https://maven.aliyun.com/repository/spring' }
+    maven { url 'https://maven.aliyun.com/repository/releases' }
+    maven { url 'https://maven.aliyun.com/repository/snapshots' }
+    maven { url 'https://maven.aliyun.com/repository/grails-core' }
+    maven { url 'https://maven.aliyun.com/repository/mapr-public' }
   }
   tasks.withType(Javadoc) {
     options.addStringOption('Xdoclint:none', '-quiet')
