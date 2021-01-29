@@ -4,6 +4,8 @@ import android.app.*
 import android.content.Context
 import android.content.Intent
 import android.os.Build
+import android.text.*
+import android.text.style.ForegroundColorSpan
 import android.widget.RemoteViews
 import androidx.core.app.NotificationCompat
 import cc.ab.base.config.PathConfig
@@ -25,23 +27,13 @@ import java.util.Locale
 open class CcUpdateService : IntentService("UpdateService") {
   companion object {
     private const val DOWNLOAD_PATH = "download_path"
-    private const val DOWNLOAD_APK_NAME = "DOWNLOAD_APK_NAME"
-    private const val DOWNLOAD_VERSION_NAME = "download_version_name"
     private const val DOWNLOAD_SHOW_NOTIFICATION = "download_show_notification"
     private var downIDs: MutableList<Int> = mutableListOf() //正在下载的通知id
-    fun startIntent(
-        path: String,
-        apk_name: String = "",
-        version_name: String = "",
-        showNotification: Boolean = false
-    ) {
+    fun startIntent(path: String, showNotification: Boolean = false) {
       val intent = Intent(Utils.getApp(), CcUpdateService::class.java)
       intent.putExtra(DOWNLOAD_PATH, path)
-      intent.putExtra(DOWNLOAD_APK_NAME, apk_name)
-      intent.putExtra(DOWNLOAD_VERSION_NAME, version_name)
       intent.putExtra(DOWNLOAD_SHOW_NOTIFICATION, showNotification)
-      Utils.getApp()
-          .startService(intent)
+      Utils.getApp().startService(intent)
     }
   }
 
@@ -66,9 +58,6 @@ open class CcUpdateService : IntentService("UpdateService") {
   //通知栏数据设置
   private var mRemoteViews: RemoteViews? = null
 
-  //显示下载更新的版本名称
-  private var mVerName: String? = null
-
   //文件下载保存的文件夹
   private val mFileDir = PathConfig.DOWNLOAD_DIR
 
@@ -76,16 +65,10 @@ open class CcUpdateService : IntentService("UpdateService") {
   private var needShowNotification = false
 
   //总大小
-  private var mTtotalSize = 0L
+  private var mTotalSize = 0L
 
   //apk下载地址
   private var mApkUrl = ""
-
-  //apk下载的版本
-  private var mApkVersion = ""
-
-  //app名称
-  private var appName = AppUtils.getAppName()
 
   //渠道id 安卓8.0 https://blog.csdn.net/MakerCloud/article/details/82079498
   private val UPDATE_CHANNEL_ID = AppUtils.getAppPackageName() + ".update.channel.id"
@@ -96,14 +79,9 @@ open class CcUpdateService : IntentService("UpdateService") {
 
   override fun onHandleIntent(intent: Intent?) {
     if (mNotificationManager == null) {
-      mNotificationManager =
-          getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+      mNotificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
       if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-        val channel = NotificationChannel(
-            UPDATE_CHANNEL_ID,
-            UPDATE_CHANNEL_NAME,
-            NotificationManager.IMPORTANCE_LOW //等级太高会一直响
-        )
+        val channel = NotificationChannel(UPDATE_CHANNEL_ID, UPDATE_CHANNEL_NAME, NotificationManager.IMPORTANCE_LOW) //等级太高会一直响
         channel.setSound(null, null)
         mNotificationManager?.createNotificationChannel(channel)
       }
@@ -114,14 +92,9 @@ open class CcUpdateService : IntentService("UpdateService") {
       notificationID = mApkUrl.hashCode()
       downIDs.add(mApkUrl.hashCode())
       val downloadUrl: String = mApkUrl
-      mApkVersion = it.getStringExtra(DOWNLOAD_VERSION_NAME) ?: ""
-      it.getStringExtra(DOWNLOAD_APK_NAME)
-          ?.let { name -> if (name.isNotBlank()) appName = name }
-      val versionName = mApkVersion
       needShowNotification = it.getBooleanExtra(DOWNLOAD_SHOW_NOTIFICATION, false)
       val downLoadName = EncryptUtils.encryptMD5ToString(downloadUrl)
       val apkName = "$downLoadName.apk"
-      mVerName = if (versionName.isEmpty() || versionName == "最新版本") "最新版本" else versionName
       if (File(mFileDir, apkName).exists()) {
         showSuccess(File(mFileDir, apkName).path)
         AppUtils.installApp(File(mFileDir, apkName).path)
@@ -154,22 +127,20 @@ open class CcUpdateService : IntentService("UpdateService") {
   //显示下载通知
   private fun showNotification() {
     //发送进度
-    LiveEventBus.get(EventKeys.UPDATE_PROGRESS)
-        .post(Triple(UpdateEnum.START, 0f, mApkUrl))
+    LiveEventBus.get(EventKeys.UPDATE_PROGRESS).post(Triple(UpdateEnum.START, 0f, mApkUrl))
     if (needShowNotification) {
       initRemoteViews()
       mRemoteViews?.let {
-        it.setTextViewText(
-            R.id.notice_update_title,
-            "正在下载$appName$mVerName"
-        )
+        val sb = SpannableStringBuilder()
+        sb.append("正在下载\"")
+        val color = ForegroundColorSpan(ColorUtils.getColor(R.color.magenta))
+        val title = SpannableString(AppUtils.getAppName())
+        title.setSpan(color, 0, title.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+        sb.append(title)
+        sb.append("\"新版本")
+        it.setTextViewText(R.id.notice_update_title, sb)
         it.setTextViewText(R.id.notice_update_percent, "0%")
-        it.setProgressBar(
-            R.id.notice_update_progress,
-            100,
-            0,
-            false
-        )
+        it.setProgressBar(R.id.notice_update_progress, 100, 0, false)
         it.setTextViewText(R.id.notice_update_speed, "")
         it.setTextViewText(R.id.notice_update_size, "")
         initBuilder(it)
@@ -182,15 +153,11 @@ open class CcUpdateService : IntentService("UpdateService") {
   private val interval = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) 500 else 250
 
   //更新下载进度
-  private fun updateProgress(
-      offsetSize: Long,
-      totalSize: Long
-  ) {
-    mTtotalSize = totalSize
+  private fun updateProgress(offsetSize: Long, totalSize: Long) {
+    mTotalSize = totalSize
     mPercent = offsetSize * 100f / totalSize
     //发送进度
-    LiveEventBus.get(EventKeys.UPDATE_PROGRESS)
-        .post(Triple(UpdateEnum.DOWNLOADING, Math.min(99.9f, mPercent), mApkUrl))
+    LiveEventBus.get(EventKeys.UPDATE_PROGRESS).post(Triple(UpdateEnum.DOWNLOADING, 99.9f.coerceAtMost(mPercent), mApkUrl))
     if (mLastTime == 0L || mLastBytes == 0L) {
       mSpeed = offsetSize / 1000
       mLastTime = System.currentTimeMillis()
@@ -204,10 +171,7 @@ open class CcUpdateService : IntentService("UpdateService") {
     }
     if (needShowNotification) {
       mRemoteViews?.let {
-        it.setProgressBar(
-            R.id.notice_update_progress, 100,
-            mPercent.toInt(), false
-        )
+        it.setProgressBar(R.id.notice_update_progress, 100, mPercent.toInt(), false)
         val progress = String.format(Locale.getDefault(), "%.1f", mPercent) + "%"
         it.setTextViewText(R.id.notice_update_percent, progress)
         val speedStr = byte2FitMemorySize(mSpeed) + "/s"
@@ -223,42 +187,24 @@ open class CcUpdateService : IntentService("UpdateService") {
   //下载成功
   private fun showSuccess(filePath: String) {
     //发送进度
-    LiveEventBus.get(EventKeys.UPDATE_PROGRESS)
-        .post(Triple(UpdateEnum.SUCCESS, 100f, mApkUrl))
+    LiveEventBus.get(EventKeys.UPDATE_PROGRESS).post(Triple(UpdateEnum.SUCCESS, 100f, mApkUrl))
     if (needShowNotification) {
       initRemoteViews()
       mRemoteViews?.let {
-        if (mTtotalSize == 0L) mTtotalSize = File(filePath).length()
-        it.setTextViewText(
-            R.id.notice_update_title,
-            "$appName${mVerName}下载完成，点击安装"
-        )
-        it.setProgressBar(
-            R.id.notice_update_progress,
-            100,
-            100,
-            false
-        )
+        if (mTotalSize == 0L) mTotalSize = File(filePath).length()
+        it.setTextViewText(R.id.notice_update_title, "新版本下载完成,点击安装")
+        it.setProgressBar(R.id.notice_update_progress, 100, 100, false)
         it.setTextViewText(R.id.notice_update_percent, "100%")
-        val totalSizeStr = byte2FitMemorySize(mTtotalSize)
-        it.setTextViewText(
-            R.id.notice_update_size,
-            "$totalSizeStr/$totalSizeStr"
-        )
-        val intentInstall =
-            Intent(Utils.getApp(), NotificationBroadcastReceiver::class.java)
+        val totalSizeStr = byte2FitMemorySize(mTotalSize)
+        it.setTextViewText(R.id.notice_update_size, "$totalSizeStr/$totalSizeStr")
+        val intentInstall = Intent(Utils.getApp(), NotificationBroadcastReceiver::class.java)
         intentInstall.action = StringConstants.Update.INTENT_KEY_INSTALL_APP
         intentInstall.putExtra(StringConstants.Update.INTENT_KEY_INSTALL_PATH, filePath)
         intentInstall.putExtra(StringConstants.Update.INTENT_KEY_UPDATE_ID, notificationID)
-        it.setOnClickPendingIntent(
-            R.id.notice_update_layout,
-            PendingIntent.getBroadcast(
-                Utils.getApp(), 0, intentInstall,
-                PendingIntent.FLAG_CANCEL_CURRENT
-            )
-        )
+        val intent = PendingIntent.getBroadcast(Utils.getApp(), 0, intentInstall, PendingIntent.FLAG_NO_CREATE)
+        it.setOnClickPendingIntent(R.id.notice_update_layout, intent)
         initBuilder(it)
-        mBuilder?.setOngoing(false)
+        mBuilder?.setOngoing(true)
         mNotificationManager?.notify(notificationID, mBuilder?.build())
       }
     }
@@ -268,27 +214,18 @@ open class CcUpdateService : IntentService("UpdateService") {
   private fun showFail(path: String) {
     downIDs.remove(mApkUrl.hashCode())
     //发送进度
-    LiveEventBus.get(EventKeys.UPDATE_PROGRESS)
-        .post(Triple(UpdateEnum.FAIL, -1, mApkUrl))
+    LiveEventBus.get(EventKeys.UPDATE_PROGRESS).post(Triple(UpdateEnum.FAIL, -1, mApkUrl))
     if (needShowNotification) {
       initRemoteViews()
       mRemoteViews?.let {
-        it.setTextViewText(R.id.notice_update_title, "$appName${mVerName}下载失败，点击重试")
-        val intentInstall =
-            Intent(Utils.getApp(), NotificationBroadcastReceiver::class.java)
+        it.setTextViewText(R.id.notice_update_title, "新版本下载失败,点击重试")
+        val intentInstall = Intent(Utils.getApp(), NotificationBroadcastReceiver::class.java)
         intentInstall.action = StringConstants.Update.INTENT_KEY_APK_DOWNLOAD_ERROR
         intentInstall.putExtra(StringConstants.Update.INTENT_KEY_RETRY_PATH, mApkUrl)
-        intentInstall.putExtra(StringConstants.Update.INTENT_KEY_RETRY_NAME, mApkVersion)
-        intentInstall.putExtra(StringConstants.Update.INTENT_KEY_APP_NAME, appName)
-        it.setOnClickPendingIntent(
-            R.id.notice_update_layout,
-            PendingIntent.getBroadcast(
-                Utils.getApp(), 0, intentInstall,
-                PendingIntent.FLAG_CANCEL_CURRENT
-            )
-        )
+        val intent = PendingIntent.getBroadcast(Utils.getApp(), 0, intentInstall, PendingIntent.FLAG_CANCEL_CURRENT)
+        it.setOnClickPendingIntent(R.id.notice_update_layout, intent)
         initBuilder(it)
-        mBuilder?.setOngoing(false)
+        mBuilder?.setOngoing(true)
         mNotificationManager?.notify(notificationID, mBuilder?.build())
       }
     }
@@ -297,12 +234,8 @@ open class CcUpdateService : IntentService("UpdateService") {
   //初始化RemoteViews
   private fun initRemoteViews() {
     if (mRemoteViews == null) { //防止直接走失败
-      mRemoteViews =
-          RemoteViews(packageName, R.layout.notification_update)
-      mRemoteViews?.setImageViewResource(
-          R.id.notice_update_icon,
-          R.mipmap.ic_launcher
-      )
+      mRemoteViews = RemoteViews(packageName, R.layout.notification_update)
+      mRemoteViews?.setImageViewResource(R.id.notice_update_icon, R.mipmap.ic_launcher)
     }
   }
 
@@ -325,10 +258,8 @@ open class CcUpdateService : IntentService("UpdateService") {
       byteNum < 0 -> "0KB"
       byteNum < 1024 -> String.format(Locale.getDefault(), "%.2fB", byteNum.toDouble())
       byteNum < 1048576 -> String.format(Locale.getDefault(), "%.2fKB", byteNum.toDouble() / 1024)
-      byteNum < 1073741824 -> String.format(
-          Locale.getDefault(), "%.2fMB", byteNum.toDouble() / 1048576
-      )
-      else -> String.format(Locale.getDefault(), "%.32GB", byteNum.toDouble() / 1073741824)
+      byteNum < 1073741824 -> String.format(Locale.getDefault(), "%.2fMB", byteNum.toDouble() / 1048576)
+      else -> String.format(Locale.getDefault(), "%.3fGB", byteNum.toDouble() / 1073741824)
     }
   }
 }

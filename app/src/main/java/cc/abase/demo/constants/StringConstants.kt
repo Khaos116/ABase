@@ -19,8 +19,6 @@ object StringConstants {
     //需要安装的APK路径
     const val INTENT_KEY_INSTALL_PATH = "INTENT_KEY_INSTALL_PATH"
     const val INTENT_KEY_RETRY_PATH = "INTENT_KEY_RETRY_PATH"
-    const val INTENT_KEY_RETRY_NAME = "INTENT_KEY_RETRY_NAME"
-    const val INTENT_KEY_APP_NAME = "INTENT_KEY_APP_NAME"
   }
 
   object Tag {
