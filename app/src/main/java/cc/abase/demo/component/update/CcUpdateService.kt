@@ -266,6 +266,7 @@ open class CcUpdateService : IntentService("UpdateService") {
 
   //更新失败
   private fun showFail(path: String) {
+    downIDs.remove(mApkUrl.hashCode())
     //发送进度
     LiveEventBus.get(EventKeys.UPDATE_PROGRESS)
         .post(Triple(UpdateEnum.FAIL, -1, mApkUrl))
