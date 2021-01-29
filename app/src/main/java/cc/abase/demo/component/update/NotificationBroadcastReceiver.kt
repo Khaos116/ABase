@@ -1,10 +1,10 @@
 package cc.abase.demo.component.update
 
+import android.app.NotificationManager
 import android.content.*
 import cc.abase.demo.constants.StringConstants
 import cc.abase.demo.utils.NetUtils
-import com.blankj.utilcode.util.AppUtils
-import com.blankj.utilcode.util.NotificationUtils
+import com.blankj.utilcode.util.*
 
 /**
  * Description:
@@ -21,8 +21,8 @@ class NotificationBroadcastReceiver : BroadcastReceiver() {
           //收起通知栏
           NotificationUtils.setNotificationBarVisibility(false)
           //点击安装关闭通知栏
-          //(context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager)
-          //    .cancel(intent.getIntExtra(StringConstants.Update.INTENT_KEY_UPDATE_ID, 0))
+          if (ActivityUtils.getActivityList().isNullOrEmpty()) (context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager)
+              .cancel(intent.getIntExtra(StringConstants.Update.INTENT_KEY_UPDATE_ID, 0))
           val path = intent.getStringExtra(StringConstants.Update.INTENT_KEY_INSTALL_PATH)
           AppUtils.installApp(path)
         }
