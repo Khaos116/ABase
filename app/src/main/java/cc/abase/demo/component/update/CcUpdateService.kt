@@ -27,11 +27,13 @@ import java.util.Locale
 open class CcUpdateService : IntentService("UpdateService") {
   companion object {
     private const val DOWNLOAD_PATH = "download_path"
+    private const val DOWNLOAD_APK_NAME = "DOWNLOAD_APK_NAME"
     private const val DOWNLOAD_SHOW_NOTIFICATION = "download_show_notification"
     private var downIDs: MutableList<Int> = mutableListOf() //正在下载的通知id
-    fun startIntent(path: String, showNotification: Boolean = false) {
+    fun startIntent(path: String, apk_name: String = "", showNotification: Boolean = false) {
       val intent = Intent(Utils.getApp(), CcUpdateService::class.java)
       intent.putExtra(DOWNLOAD_PATH, path)
+      intent.putExtra(DOWNLOAD_APK_NAME, apk_name)
       intent.putExtra(DOWNLOAD_SHOW_NOTIFICATION, showNotification)
       Utils.getApp().startService(intent)
     }
@@ -70,6 +72,9 @@ open class CcUpdateService : IntentService("UpdateService") {
   //apk下载地址
   private var mApkUrl = ""
 
+  //app名称
+  private var appName = AppUtils.getAppName()
+
   //渠道id 安卓8.0 https://blog.csdn.net/MakerCloud/article/details/82079498
   private val UPDATE_CHANNEL_ID = AppUtils.getAppPackageName() + ".update.channel.id"
   private val UPDATE_CHANNEL_NAME = AppUtils.getAppPackageName() + ".update.channel.name"
@@ -92,6 +97,7 @@ open class CcUpdateService : IntentService("UpdateService") {
       notificationID = mApkUrl.hashCode()
       downIDs.add(mApkUrl.hashCode())
       val downloadUrl: String = mApkUrl
+      it.getStringExtra(DOWNLOAD_APK_NAME)?.let { name -> if (name.isNotBlank()) appName = name }
       needShowNotification = it.getBooleanExtra(DOWNLOAD_SHOW_NOTIFICATION, false)
       val downLoadName = EncryptUtils.encryptMD5ToString(downloadUrl)
       val apkName = "$downLoadName.apk"
@@ -134,7 +140,7 @@ open class CcUpdateService : IntentService("UpdateService") {
         val sb = SpannableStringBuilder()
         sb.append("正在下载\"")
         val color = ForegroundColorSpan(ColorUtils.getColor(R.color.magenta))
-        val title = SpannableString(AppUtils.getAppName())
+        val title = SpannableString(appName)
         title.setSpan(color, 0, title.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
         sb.append(title)
         sb.append("\"新版本")
@@ -201,10 +207,9 @@ open class CcUpdateService : IntentService("UpdateService") {
         intentInstall.action = StringConstants.Update.INTENT_KEY_INSTALL_APP
         intentInstall.putExtra(StringConstants.Update.INTENT_KEY_INSTALL_PATH, filePath)
         intentInstall.putExtra(StringConstants.Update.INTENT_KEY_UPDATE_ID, notificationID)
-        val intent = PendingIntent.getBroadcast(Utils.getApp(), 0, intentInstall, PendingIntent.FLAG_NO_CREATE)
+        val intent = PendingIntent.getBroadcast(Utils.getApp(), 0, intentInstall, PendingIntent.FLAG_CANCEL_CURRENT)
         it.setOnClickPendingIntent(R.id.notice_update_layout, intent)
         initBuilder(it)
-        mBuilder?.setOngoing(true)
         mNotificationManager?.notify(notificationID, mBuilder?.build())
       }
     }
@@ -225,7 +230,6 @@ open class CcUpdateService : IntentService("UpdateService") {
         val intent = PendingIntent.getBroadcast(Utils.getApp(), 0, intentInstall, PendingIntent.FLAG_CANCEL_CURRENT)
         it.setOnClickPendingIntent(R.id.notice_update_layout, intent)
         initBuilder(it)
-        mBuilder?.setOngoing(true)
         mNotificationManager?.notify(notificationID, mBuilder?.build())
       }
     }
@@ -246,8 +250,8 @@ open class CcUpdateService : IntentService("UpdateService") {
           .setWhen(System.currentTimeMillis())
           .setDefaults(Notification.FLAG_AUTO_CANCEL)
           .setSound(null)
-          .setOngoing(true)
-          .setAutoCancel(true)
+          .setOngoing(true) //将Ongoing设为true 那么notification将不能滑动删除
+          .setAutoCancel(false) //将AutoCancel设为true后，当你点击通知栏的notification后，它会自动被取消消失
           .setContent(remoteViews)
           .setSmallIcon(R.drawable.ic_notification)
     }
@@ -261,5 +265,10 @@ open class CcUpdateService : IntentService("UpdateService") {
       byteNum < 1073741824 -> String.format(Locale.getDefault(), "%.2fMB", byteNum.toDouble() / 1048576)
       else -> String.format(Locale.getDefault(), "%.3fGB", byteNum.toDouble() / 1073741824)
     }
+  }
+
+  override fun onTaskRemoved(rootIntent: Intent?) {
+    mNotificationManager?.cancel(notificationID)
+    super.onTaskRemoved(rootIntent)
   }
 }
