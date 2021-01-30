@@ -12,14 +12,15 @@
   <FrameLayout
       android:id="@+id/notice_update_layout"
       android:layout_width="match_parent"
-      android:layout_height="64dp"
+      android:layout_height="54dp"
       android:layout_gravity="center_vertical"
+      tools:ignore="UselessParent"
       >
     <!--APP图标-->
     <ImageView
         android:id="@+id/notice_update_icon"
-        android:layout_width="64dp"
-        android:layout_height="64dp"
+        android:layout_width="54dp"
+        android:layout_height="54dp"
         android:layout_marginStart="5dp"
         android:contentDescription="@null"
         android:scaleType="centerCrop"
