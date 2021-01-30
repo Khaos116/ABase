@@ -1,8 +1,7 @@
 package cc.abase.demo.component.update
 
 import android.app.*
-import android.content.Context
-import android.content.Intent
+import android.content.*
 import android.os.Build
 import android.text.*
 import android.text.style.ForegroundColorSpan
@@ -12,6 +11,8 @@ import cc.ab.base.config.PathConfig
 import cc.abase.demo.R
 import cc.abase.demo.constants.EventKeys
 import cc.abase.demo.constants.StringConstants
+import cc.abase.demo.rxhttp.config.RxHttpConfig
+import com.blankj.utilcode.constant.MemoryConstants
 import com.blankj.utilcode.util.*
 import com.jeremyliao.liveeventbus.LiveEventBus
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
@@ -82,6 +83,11 @@ open class CcUpdateService : IntentService("UpdateService") {
   //通知
   private var notificationID = 0
 
+  override fun onCreate() {
+    super.onCreate()
+    registerAppInstall()
+  }
+
   override fun onHandleIntent(intent: Intent?) {
     if (mNotificationManager == null) {
       mNotificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
@@ -110,6 +116,7 @@ open class CcUpdateService : IntentService("UpdateService") {
       //RxHttp 下载
       val tempFile = File(mFileDir, downLoadName)
       RxHttp.get(downloadUrl)
+          .setOkClient(RxHttpConfig.getOkHttpClient().build())
           .setRangeHeader(if (tempFile.exists()) tempFile.length() else 0L) //设置开始下载位置，结束位置默认为文件末尾,如果需要衔接上次的下载进度，则需要传入上次已下载的字节数length
           .asDownload(tempFile.path, AndroidSchedulers.mainThread()) { progress ->
             //下载进度回调,0-100，仅在进度有更新时才会回调
@@ -190,8 +197,10 @@ open class CcUpdateService : IntentService("UpdateService") {
     }
   }
 
+  private var downApkPackageName: String = ""
   //下载成功
   private fun showSuccess(filePath: String) {
+    downApkPackageName = AppUtils.getApkInfo(filePath).packageName
     //发送进度
     LiveEventBus.get(EventKeys.UPDATE_PROGRESS).post(Triple(UpdateEnum.SUCCESS, 100f, mApkUrl))
     if (needShowNotification) {
@@ -227,6 +236,7 @@ open class CcUpdateService : IntentService("UpdateService") {
         val intentInstall = Intent(Utils.getApp(), NotificationBroadcastReceiver::class.java)
         intentInstall.action = StringConstants.Update.INTENT_KEY_APK_DOWNLOAD_ERROR
         intentInstall.putExtra(StringConstants.Update.INTENT_KEY_RETRY_PATH, mApkUrl)
+        intentInstall.putExtra(StringConstants.Update.INTENT_KEY_RETRY_NAME, appName)
         val intent = PendingIntent.getBroadcast(Utils.getApp(), 0, intentInstall, PendingIntent.FLAG_CANCEL_CURRENT)
         it.setOnClickPendingIntent(R.id.notice_update_layout, intent)
         initBuilder(it)
@@ -259,16 +269,54 @@ open class CcUpdateService : IntentService("UpdateService") {
 
   private fun byte2FitMemorySize(byteNum: Long): String {
     return when {
-      byteNum < 0 -> "0KB"
-      byteNum < 1024 -> String.format(Locale.getDefault(), "%.2fB", byteNum.toDouble())
-      byteNum < 1048576 -> String.format(Locale.getDefault(), "%.2fKB", byteNum.toDouble() / 1024)
-      byteNum < 1073741824 -> String.format(Locale.getDefault(), "%.2fMB", byteNum.toDouble() / 1048576)
+      byteNum < 0 -> "0B"
+      byteNum < MemoryConstants.KB -> String.format(Locale.getDefault(), "%.2fB", byteNum.toDouble())
+      byteNum < MemoryConstants.MB -> String.format(Locale.getDefault(), "%.2fKB", byteNum.toDouble() / 1024)
+      byteNum < MemoryConstants.GB -> String.format(Locale.getDefault(), "%.2fMB", byteNum.toDouble() / 1048576)
       else -> String.format(Locale.getDefault(), "%.3fGB", byteNum.toDouble() / 1073741824)
     }
   }
 
   override fun onTaskRemoved(rootIntent: Intent?) {
-    mNotificationManager?.cancel(notificationID)
+    unregisterAppInstall()
     super.onTaskRemoved(rootIntent)
   }
+
+  //<editor-fold defaultstate="collapsed" desc="监听安装">
+  private var hasRegister = false
+  private fun registerAppInstall() {
+    if (!hasRegister) {
+      hasRegister = true
+      val intentFilter = IntentFilter()
+      intentFilter.addAction(Intent.ACTION_PACKAGE_ADDED)
+      intentFilter.addAction(Intent.ACTION_PACKAGE_REPLACED)
+      intentFilter.addAction(Intent.ACTION_PACKAGE_REMOVED)
+      intentFilter.addDataScheme("package")
+      Utils.getApp().registerReceiver(mInstallAppBroadcastReceiver, intentFilter)
+    }
+  }
+
+  private fun unregisterAppInstall() {
+    mNotificationManager?.cancel(notificationID)
+    if (hasRegister) {
+      hasRegister = false
+      Utils.getApp().unregisterReceiver(mInstallAppBroadcastReceiver)
+    }
+  }
+
+  private val mInstallAppBroadcastReceiver: BroadcastReceiver = object : BroadcastReceiver() {
+    override fun onReceive(context: Context, intent: Intent?) {
+      if (intent != null && TextUtils.equals(Intent.ACTION_PACKAGE_ADDED, intent.action)) {
+        intent.data?.schemeSpecificPart?.let { packageName ->
+          if (packageName == AppUtils.getAppPackageName()) {
+            unregisterAppInstall()
+          } else if (packageName == downApkPackageName) { //兼容正式和测试包名不一样
+            unregisterAppInstall()
+            AppUtils.exitApp()
+          }
+        }
+      }
+    }
+  }
+  //</editor-fold>
 }
