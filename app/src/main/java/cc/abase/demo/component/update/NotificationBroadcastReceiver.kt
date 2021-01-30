@@ -29,7 +29,8 @@ class NotificationBroadcastReceiver : BroadcastReceiver() {
         //重试
         StringConstants.Update.INTENT_KEY_APK_DOWNLOAD_ERROR -> if (NetUtils.checkNetToast()) {
           val apkUrl = intent.getStringExtra(StringConstants.Update.INTENT_KEY_RETRY_PATH)
-          CcUpdateService.startIntent(apkUrl ?: "", true)
+          val appName = intent.getStringExtra(StringConstants.Update.INTENT_KEY_RETRY_NAME) ?: ""
+          CcUpdateService.startIntent(apkUrl ?: "", appName,  true)
         }
       }
     }
