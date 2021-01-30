@@ -17,6 +17,7 @@ import cc.abase.demo.component.decoration.DecorationActivity
 import cc.abase.demo.component.drag.DragActivity
 import cc.abase.demo.component.expand.ExpandActivity
 import cc.abase.demo.component.flexbox.FlexboxActivity
+import cc.abase.demo.component.locker.PatternLockerActivity
 import cc.abase.demo.component.marquee.MarqueeActivity
 import cc.abase.demo.component.playlist.PlayListActivity
 import cc.abase.demo.component.playlist.VerticalPagerActivity
@@ -88,6 +89,7 @@ class MineFragment : CommFragment() {
       Pair(R.string.title_marquee.xmlToString(), MarqueeActivity::class.java),
       Pair(R.string.title_blur.xmlToString(), BlurActivity::class.java),
       Pair(R.string.title_zxing.xmlToString(), ZxingActivity::class.java),
+      Pair(R.string.title_pattern_locker.xmlToString(), PatternLockerActivity::class.java),
       Pair(R.string.title_test.xmlToString(), TestActivity::class.java),
   )
   //</editor-fold>

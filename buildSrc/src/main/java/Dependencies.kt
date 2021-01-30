@@ -173,6 +173,9 @@ object Deps {
 
   //多渠道读取 https://github.com/Meituan-Dianping/walle
   const val walle = "com.meituan.android.walle:library:1.1.7"
+
+  //手势解锁 https://github.com/ihsg/PatternLocker
+  const val pattern_locker = "com.github.ihsg:PatternLocker:2.5.7"
   //</editor-fold>
 
   //<editor-fold defaultstate="collapsed" desc="其他">

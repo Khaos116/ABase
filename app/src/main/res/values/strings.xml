@@ -59,6 +59,7 @@
   <string name="title_marquee">跑马灯</string>
   <string name="title_blur">高斯模糊</string>
   <string name="title_zxing">Zxing扫码</string>
+  <string name="title_pattern_locker">手势解锁</string>
   <string name="title_test">测试专用页面</string>
   <string name="gank_see_counts">浏览数:</string>
   <string name="gank_praise_counts">点赞数:</string>
