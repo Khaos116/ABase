@@ -38,7 +38,7 @@ class WebActivity : CommTitleActivity() {
     fun startActivity(context: Context, url: String) {
       val intent = Intent(context, WebActivity::class.java)
       //"https://chatlink.mstatik.com/widget/standalone.html?eid=125038"
-      if (url.isNotBlank()) intent.putExtra(WEB_URL, "https://chat.meiqia.cn/widget/standalone.html?eid=571a9f8a678de7b801e2e9f5222a90fb")
+      if (url.isNotBlank()) intent.putExtra(WEB_URL, url)
       context.startActivity(intent)
     }
   }
