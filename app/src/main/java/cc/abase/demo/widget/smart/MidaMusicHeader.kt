@@ -2,16 +2,17 @@ package cc.abase.demo.widget.smart
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.graphics.drawable.BitmapDrawable
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.TextView
+import androidx.annotation.ColorInt
 import cc.abase.demo.R
 import com.airbnb.lottie.LottieAnimationView
-import com.scwang.smart.refresh.classics.ClassicsAbstract
-import com.scwang.smart.refresh.layout.api.RefreshHeader
-import com.scwang.smart.refresh.layout.api.RefreshLayout
+import com.scwang.smart.refresh.layout.api.*
 import com.scwang.smart.refresh.layout.constant.RefreshState
+import com.scwang.smart.refresh.layout.simple.SimpleComponent
 
 /**
  * @description: 小黑人动画的下拉刷新的头(艾美咪哒项目)
@@ -20,7 +21,7 @@ import com.scwang.smart.refresh.layout.constant.RefreshState
  * @Time:18:54:13
  */
 open class MidaMusicHeader @JvmOverloads constructor(c: Context, a: AttributeSet? = null, d: Int = 0
-) : ClassicsAbstract<MidaMusicHeader>(c, a, d), RefreshHeader {
+) : SimpleComponent(c, a, d), RefreshComponent, RefreshHeader {
 
   //<editor-fold defaultstate="collapsed" desc="变量+XML">
   //头部布局
@@ -69,6 +70,46 @@ open class MidaMusicHeader @JvmOverloads constructor(c: Context, a: AttributeSet
   //</editor-fold>
 
   //<editor-fold defaultstate="collapsed" desc="禁止父类方法">
-  override fun onFinish(refreshLayout: RefreshLayout, success: Boolean) = mFinishDuration //延迟500毫秒之后再弹回
+  override fun onFinish(refreshLayout: RefreshLayout, success: Boolean) = 500 //延迟500毫秒之后再弹回
+  //</editor-fold>
+
+  //<editor-fold defaultstate="collapsed" desc="Header外部背景设置">
+  private var mRefreshKernel: RefreshKernel? = null
+  private var mBackgroundColor: Int = 0
+
+  override fun onInitialized(kernel: RefreshKernel, height: Int, maxDragHeight: Int) {
+    super.onInitialized(kernel, height, maxDragHeight)
+    mRefreshKernel = kernel
+    kernel.requestDrawBackgroundFor(this, mBackgroundColor)
+  }
+
+  private var mSetPrimaryColor = false
+  private var mSetAccentColor = false
+  override fun setPrimaryColors(vararg colors: Int) {
+    if (colors.isNotEmpty()) {
+      val thisView: View = this
+      if (thisView.background !is BitmapDrawable && !mSetPrimaryColor) {
+        setPrimaryColor(colors[0])
+        mSetPrimaryColor = false
+      }
+      if (!mSetAccentColor) {
+        if (colors.size > 1) {
+          setAccentColor(colors[1])
+        }
+        mSetAccentColor = false
+      }
+    }
+  }
+
+  private fun setPrimaryColor(@ColorInt primaryColor: Int) {
+    mSetPrimaryColor = true
+    mBackgroundColor = primaryColor
+    mRefreshKernel?.requestDrawBackgroundFor(this, primaryColor)
+  }
+
+  private fun setAccentColor(@ColorInt accentColor: Int) {
+    mSetAccentColor = true
+    headerTv?.setTextColor(accentColor)
+  }
   //</editor-fold>
 }
