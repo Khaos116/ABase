@@ -2,8 +2,10 @@ package cc.abase.demo.utils
 
 import cc.abase.demo.BuildConfig
 import cc.abase.demo.R
-import com.blankj.utilcode.util.AppUtils
-import com.blankj.utilcode.util.StringUtils
+import cc.abase.demo.constants.api.ApiUrl
+import com.blankj.utilcode.util.*
+import com.snail.antifake.deviceid.macaddress.MacAddressUtils
+import com.snail.antifake.jni.EmulatorDetectUtil
 import java.io.BufferedReader
 import java.io.InputStreamReader
 
@@ -16,27 +18,29 @@ object AppInfoUtils {
   //获取APP版本信息
   fun getAppInfo(): String {
     val builder: StringBuilder = StringBuilder()
-    builder.append("版本信息：")
-        .append("\n")
-        .append("DEBUG：")
-        .append(BuildConfig.DEBUG)
-        .append("\n")
-        .append("BUILD_TIME：")
-        .append(StringUtils.getString(R.string.build_time))
-        .append("\n")
-        .append("VERSION_NAME：")
-        .append(AppUtils.getAppVersionName())
-        .append("\n")
-        .append("VERSION_CODE：")
-        .append(AppUtils.getAppVersionCode())
-        .append("\n")
-        .append("CPU：")
-        .append(getDeviceCPU())
+    builder.append("APP信息：").append("\n")
+        .append("=====================================\n")
+        .append("Emulator：").append(EmulatorDetectUtil.isEmulator(Utils.getApp())).append("\n")
+        .append("Release：").append(BuildConfig.APP_IS_RELEASE).append("\n")
+        .append("BuildTime：").append(StringUtils.getString(R.string.build_time)).append("\n")
+        .append("VersionName：").append(AppUtils.getAppVersionName()).append("\n")
+        .append("VersionCode：").append(AppUtils.getAppVersionCode()).append("\n")
+        .append("BaseUrl：").append(ApiUrl.appBaseUrl).append("\n")
+        .append("CPU：").append(getDeviceCPU()).append("\n")
+        .append("渠道号：").append(WalleUtils.getChannel(true)).append("\n")
+        .append("Wifi-BSSID：").append(MacAddressUtils.getConnectedWifiMacAddress(Utils.getApp()) ?: "null").append("\n")
+        .append("=====================================\n")
+        .append("签名SHA1：").append("\n")
+        .append(AppUtils.getAppSignaturesSHA1().firstOrNull()).append("\n")
+        .append("签名SHA256：").append("\n")
+        .append(AppUtils.getAppSignaturesSHA256().firstOrNull()).append("\n")
+        .append("签名MD5：").append("\n")
+        .append(AppUtils.getAppSignaturesMD5().firstOrNull()).append("\n")
     return builder.toString()
   }
 
   //获取CPU架构
-  fun getDeviceCPU(): String {
+  private fun getDeviceCPU(): String {
     return try {
       BufferedReader(
           InputStreamReader(
