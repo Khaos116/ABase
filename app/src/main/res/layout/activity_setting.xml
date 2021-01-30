@@ -99,7 +99,7 @@
       android:id="@+id/settingAppInfo"
       android:layout_width="match_parent"
       android:layout_height="0dp"
-      android:layout_weight="1"
+      android:layout_weight="10"
       android:gravity="bottom"
       android:padding="8dp"
       android:textColor="@color/cyan_40E0D0"
