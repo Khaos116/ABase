@@ -2,6 +2,7 @@ package cc.abase.demo.rxhttp.interceptor
 
 import cc.abase.demo.config.*
 import cc.abase.demo.constants.ErrorCode
+import cc.abase.demo.constants.api.ApiUrl
 import cc.abase.demo.constants.api.WanUrls
 import cc.abase.demo.utils.MMkvUtils
 import com.blankj.utilcode.util.EncryptUtils
@@ -26,11 +27,14 @@ class TokenInterceptor : Interceptor {
   override fun intercept(chain: Interceptor.Chain): Response {
     //请求
     val request: Request = chain.request()
+    //防止不需要token的请求走到下面去
+    if (!request.url.toString().contains(ApiUrl.appBaseUrl)) {
+      return chain.proceed(request)
+    }
     //响应
     val originalResponse = chain.proceed(request)
     //Cookies
-    val cookies = originalResponse.headers.toMultimap()
-        .filter { it.key.contains("cookie", true) }
+    val cookies = originalResponse.headers.toMultimap().filter { it.key.contains("cookie", true) }
     //需要重新登录的判断
     originalResponse.body?.source()?.apply { request(Long.MAX_VALUE) }?.buffer?.let { buffer ->
       val jsonObject = JSONObject(buffer.clone().readString(Charset.forName("UTF-8")))
