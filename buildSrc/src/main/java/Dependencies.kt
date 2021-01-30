@@ -170,6 +170,9 @@ object Deps {
 
   //远距离识别二维码 https://github.com/devilsen/CZXing
   const val czxing = "me.devilsen:czxing:1.0.17"
+
+  //多渠道读取 https://github.com/Meituan-Dianping/walle
+  const val walle = "com.meituan.android.walle:library:1.1.7"
   //</editor-fold>
 
   //<editor-fold defaultstate="collapsed" desc="其他">

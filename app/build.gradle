@@ -227,6 +227,7 @@ dependencies {
   implementation fileTree(dir: 'libs', include: ['*.jar'])
   implementation project(':ablibrary')
   implementation project(':silicompressor')
+  implementation Deps.walle
   implementation Deps.emoji
   implementation Deps.startup
   implementation Deps.dk_java
