@@ -6,6 +6,7 @@ import android.os.Build
 import android.text.*
 import android.text.style.ForegroundColorSpan
 import android.widget.RemoteViews
+import androidx.core.app.JobIntentService
 import androidx.core.app.NotificationCompat
 import cc.ab.base.config.PathConfig
 import cc.abase.demo.R
@@ -22,11 +23,15 @@ import java.util.Locale
 
 /**
  * Description:
+ * 1.https://blog.csdn.net/houson_c/article/details/78461751
+ * 2.https://www.cnblogs.com/yongfengnice/p/10945591.html
  * @author: CASE
  * @date: 2019/10/30 9:45
  */
-open class CcUpdateService : IntentService("UpdateService") {
+open class CcUpdateService : JobIntentService() {
+  //<editor-fold defaultstate="collapsed" desc="外部跳转">
   companion object {
+    private const val JOB_ID = 1000
     private const val DOWNLOAD_PATH = "download_path"
     private const val DOWNLOAD_APK_NAME = "DOWNLOAD_APK_NAME"
     private const val DOWNLOAD_SHOW_NOTIFICATION = "download_show_notification"
@@ -36,9 +41,15 @@ open class CcUpdateService : IntentService("UpdateService") {
       intent.putExtra(DOWNLOAD_PATH, path)
       intent.putExtra(DOWNLOAD_APK_NAME, apk_name)
       intent.putExtra(DOWNLOAD_SHOW_NOTIFICATION, showNotification)
-      Utils.getApp().startService(intent)
+      enqueueWork(Utils.getApp(), CcUpdateService::class.java, JOB_ID, intent)
     }
   }
+  //</editor-fold>
+
+  //<editor-fold defaultstate="collapsed" desc="变量">
+  //渠道id 安卓8.0 https://blog.csdn.net/MakerCloud/article/details/82079498
+  private val updateChannelId = AppUtils.getAppPackageName() + ".update.channel.id"
+  private val updateChannelName = AppUtils.getAppPackageName() + ".update.channel.name"
 
   //下载的百分比
   private var mPercent = 0f
@@ -76,28 +87,21 @@ open class CcUpdateService : IntentService("UpdateService") {
   //app名称
   private var appName = AppUtils.getAppName()
 
-  //渠道id 安卓8.0 https://blog.csdn.net/MakerCloud/article/details/82079498
-  private val UPDATE_CHANNEL_ID = AppUtils.getAppPackageName() + ".update.channel.id"
-  private val UPDATE_CHANNEL_NAME = AppUtils.getAppPackageName() + ".update.channel.name"
-
-  //通知
+  //通知id
   private var notificationID = 0
+  //</editor-fold>
 
-  override fun onCreate() {
-    super.onCreate()
-    registerAppInstall()
-  }
-
-  override fun onHandleIntent(intent: Intent?) {
+  //<editor-fold defaultstate="collapsed" desc="处理打开Service的命令等">
+  override fun onHandleWork(intent: Intent) {
     if (mNotificationManager == null) {
       mNotificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
       if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-        val channel = NotificationChannel(UPDATE_CHANNEL_ID, UPDATE_CHANNEL_NAME, NotificationManager.IMPORTANCE_LOW) //等级太高会一直响
+        val channel = NotificationChannel(updateChannelId, updateChannelName, NotificationManager.IMPORTANCE_LOW) //等级太高会一直响
         channel.setSound(null, null)
         mNotificationManager?.createNotificationChannel(channel)
       }
     }
-    intent?.let {
+    intent.let {
       mApkUrl = it.getStringExtra(DOWNLOAD_PATH) ?: ""
       if (downIDs.contains(mApkUrl.hashCode())) return
       notificationID = mApkUrl.hashCode()
@@ -115,15 +119,16 @@ open class CcUpdateService : IntentService("UpdateService") {
       showNotification()
       //RxHttp 下载
       val tempFile = File(mFileDir, downLoadName)
+      val downSize = if (tempFile.exists()) tempFile.length() else 0L
       RxHttp.get(downloadUrl)
           .setOkClient(RxHttpConfig.getOkHttpClient().build())
-          .setRangeHeader(if (tempFile.exists()) tempFile.length() else 0L) //设置开始下载位置，结束位置默认为文件末尾,如果需要衔接上次的下载进度，则需要传入上次已下载的字节数length
+          .setRangeHeader(downSize) //设置开始下载位置，结束位置默认为文件末尾,如果需要衔接上次的下载进度，则需要传入上次已下载的字节数length
           .asDownload(tempFile.path, AndroidSchedulers.mainThread()) { progress ->
             //下载进度回调,0-100，仅在进度有更新时才会回调
             val currentProgress = progress.progress //当前进度 0-100
             val currentSize = progress.currentSize //当前已下载的字节大小
             val totalSize = progress.totalSize //要下载的总字节大小
-            updateProgress(currentSize, totalSize)
+            updateProgress(currentSize + downSize, totalSize + downSize)
           } //指定回调(进度/成功/失败)线程,不指定,默认在请求所在线程回调
           .subscribe({
             //下载成功，处理相关逻辑
@@ -136,7 +141,9 @@ open class CcUpdateService : IntentService("UpdateService") {
           })
     }
   }
+  //</editor-fold>
 
+  //<editor-fold defaultstate="collapsed" desc="触发下载显示下载的内容">
   //显示下载通知
   private fun showNotification() {
     //发送进度
@@ -161,7 +168,9 @@ open class CcUpdateService : IntentService("UpdateService") {
       }
     }
   }
+  //</editor-fold>
 
+  //<editor-fold defaultstate="collapsed" desc="下载中更新进度">
   //每次刷新的时间间隔
   private val interval = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) 500 else 250
 
@@ -196,8 +205,12 @@ open class CcUpdateService : IntentService("UpdateService") {
       }
     }
   }
+  //</editor-fold>
 
+  //<editor-fold defaultstate="collapsed" desc="下载成功的显示">
+  //下载成功后读取APK文件的包名，安装成功后对比是不是安装的刚下载的包名
   private var downApkPackageName: String = ""
+
   //下载成功
   private fun showSuccess(filePath: String) {
     downApkPackageName = AppUtils.getApkInfo(filePath).packageName
@@ -207,7 +220,14 @@ open class CcUpdateService : IntentService("UpdateService") {
       initRemoteViews()
       mRemoteViews?.let {
         if (mTotalSize == 0L) mTotalSize = File(filePath).length()
-        it.setTextViewText(R.id.notice_update_title, "新版本下载完成,点击安装")
+        val sb = SpannableStringBuilder()
+        sb.append("\"")
+        val color = ForegroundColorSpan(ColorUtils.getColor(R.color.magenta))
+        val title = SpannableString(appName)
+        title.setSpan(color, 0, title.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+        sb.append(title)
+        sb.append("\"下载完成,点击安装")
+        it.setTextViewText(R.id.notice_update_title, sb)
         it.setProgressBar(R.id.notice_update_progress, 100, 100, false)
         it.setTextViewText(R.id.notice_update_percent, "100%")
         val totalSizeStr = byte2FitMemorySize(mTotalSize)
@@ -216,14 +236,16 @@ open class CcUpdateService : IntentService("UpdateService") {
         intentInstall.action = StringConstants.Update.INTENT_KEY_INSTALL_APP
         intentInstall.putExtra(StringConstants.Update.INTENT_KEY_INSTALL_PATH, filePath)
         intentInstall.putExtra(StringConstants.Update.INTENT_KEY_UPDATE_ID, notificationID)
-        val intent = PendingIntent.getBroadcast(Utils.getApp(), 0, intentInstall, PendingIntent.FLAG_CANCEL_CURRENT)
+        val intent = PendingIntent.getBroadcast(Utils.getApp(), notificationID, intentInstall, PendingIntent.FLAG_CANCEL_CURRENT)
         it.setOnClickPendingIntent(R.id.notice_update_layout, intent)
         initBuilder(it)
         mNotificationManager?.notify(notificationID, mBuilder?.build())
       }
     }
   }
+  //</editor-fold>
 
+  //<editor-fold defaultstate="collapsed" desc="下载失败的显示">
   //更新失败
   private fun showFail(path: String) {
     downIDs.remove(mApkUrl.hashCode())
@@ -232,19 +254,28 @@ open class CcUpdateService : IntentService("UpdateService") {
     if (needShowNotification) {
       initRemoteViews()
       mRemoteViews?.let {
-        it.setTextViewText(R.id.notice_update_title, "新版本下载失败,点击重试")
+        val sb = SpannableStringBuilder()
+        sb.append("\"")
+        val color = ForegroundColorSpan(ColorUtils.getColor(R.color.magenta))
+        val title = SpannableString(appName)
+        title.setSpan(color, 0, title.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+        sb.append(title)
+        sb.append("\"下载失败,点击重试")
+        it.setTextViewText(R.id.notice_update_title, sb)
         val intentInstall = Intent(Utils.getApp(), NotificationBroadcastReceiver::class.java)
         intentInstall.action = StringConstants.Update.INTENT_KEY_APK_DOWNLOAD_ERROR
         intentInstall.putExtra(StringConstants.Update.INTENT_KEY_RETRY_PATH, mApkUrl)
         intentInstall.putExtra(StringConstants.Update.INTENT_KEY_RETRY_NAME, appName)
-        val intent = PendingIntent.getBroadcast(Utils.getApp(), 0, intentInstall, PendingIntent.FLAG_CANCEL_CURRENT)
+        val intent = PendingIntent.getBroadcast(Utils.getApp(), notificationID, intentInstall, PendingIntent.FLAG_CANCEL_CURRENT)
         it.setOnClickPendingIntent(R.id.notice_update_layout, intent)
         initBuilder(it)
         mNotificationManager?.notify(notificationID, mBuilder?.build())
       }
     }
   }
+  //</editor-fold>
 
+  //<editor-fold defaultstate="collapsed" desc="通知栏显示初始化">
   //初始化RemoteViews
   private fun initRemoteViews() {
     if (mRemoteViews == null) { //防止直接走失败
@@ -256,7 +287,7 @@ open class CcUpdateService : IntentService("UpdateService") {
   //初始化Builder
   private fun initBuilder(remoteViews: RemoteViews) {
     if (mBuilder == null) {
-      mBuilder = NotificationCompat.Builder(Utils.getApp(), UPDATE_CHANNEL_ID)
+      mBuilder = NotificationCompat.Builder(Utils.getApp(), updateChannelId)
           .setWhen(System.currentTimeMillis())
           .setDefaults(Notification.FLAG_AUTO_CANCEL)
           .setSound(null)
@@ -266,7 +297,9 @@ open class CcUpdateService : IntentService("UpdateService") {
           .setSmallIcon(R.drawable.ic_notification)
     }
   }
+  //</editor-fold>
 
+  //<editor-fold defaultstate="collapsed" desc="文件大小格式化显示">
   private fun byte2FitMemorySize(byteNum: Long): String {
     return when {
       byteNum < 0 -> "0B"
@@ -276,11 +309,19 @@ open class CcUpdateService : IntentService("UpdateService") {
       else -> String.format(Locale.getDefault(), "%.3fGB", byteNum.toDouble() / 1073741824)
     }
   }
+  //</editor-fold>
+
+  //<editor-fold defaultstate="collapsed" desc="打开监听和关闭监听">
+  override fun onCreate() {
+    super.onCreate()
+    registerAppInstall()
+  }
 
   override fun onTaskRemoved(rootIntent: Intent?) {
     unregisterAppInstall()
     super.onTaskRemoved(rootIntent)
   }
+  //</editor-fold>
 
   //<editor-fold defaultstate="collapsed" desc="监听安装">
   private var hasRegister = false
@@ -298,6 +339,7 @@ open class CcUpdateService : IntentService("UpdateService") {
 
   private fun unregisterAppInstall() {
     mNotificationManager?.cancel(notificationID)
+    downIDs.remove(mApkUrl.hashCode())
     if (hasRegister) {
       hasRegister = false
       Utils.getApp().unregisterReceiver(mInstallAppBroadcastReceiver)
