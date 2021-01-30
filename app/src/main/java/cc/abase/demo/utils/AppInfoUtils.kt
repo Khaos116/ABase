@@ -28,7 +28,7 @@ object AppInfoUtils {
         .append("BaseUrl：").append(ApiUrl.appBaseUrl).append("\n")
         .append("CPU：").append(getDeviceCPU()).append("\n")
         .append("渠道号：").append(WalleUtils.getChannel(true)).append("\n")
-        .append("Wifi-BSSID：").append(MacAddressUtils.getConnectedWifiMacAddress(Utils.getApp()) ?: "null").append("\n")
+        .append("Wifi-BSSID：").append(MacAddressUtils.getConnectedWifiMacAddress(Utils.getApp()) ?: "null").append("\n") //需要地理位置权限
         .append("=====================================\n")
         .append("签名SHA1：").append("\n")
         .append(AppUtils.getAppSignaturesSHA1().firstOrNull()).append("\n")

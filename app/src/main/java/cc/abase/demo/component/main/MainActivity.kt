@@ -3,6 +3,7 @@ package cc.abase.demo.component.main
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
+import android.os.Build
 import android.view.Gravity
 import android.view.View
 import android.widget.FrameLayout
@@ -96,6 +97,53 @@ class MainActivity : CommActivity() {
         confirmCallback = { openNoticePermission() }
       }
     }
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) { //安卓Q版本以上需要ACCESS_BACKGROUND_LOCATION
+      if (XXPermissions.isGrantedPermission(this, Permission.Group.LOCATION)) {
+        getLocation()
+      } else {
+        XXPermissions.with(mActivity)
+            .permission(Permission.Group.LOCATION)
+            .request(object : OnPermissionCallback {
+              override fun onGranted(permissions: MutableList<String>?, all: Boolean) {
+                if (all) getLocation() else "获取到部分权限:${permissions.toString()}".logE()
+              }
+
+              override fun onDenied(permissions: MutableList<String>?, never: Boolean) {
+                "被拒绝的权限:${permissions.toString()};never=$never".logE()
+                permissions?.let { p ->
+                  if (!never && p.size == 1 && p.first() == Permission.ACCESS_BACKGROUND_LOCATION) {
+                    getLocation()
+                  }
+                }
+              }
+            })
+      }
+    } else { //安卓Q版本以前
+      if (XXPermissions.isGrantedPermission(this, mutableListOf(Permission.ACCESS_FINE_LOCATION, Permission.ACCESS_COARSE_LOCATION))) {
+        getLocation()
+      } else {
+        ActivityUtils.getTopActivity()?.let { activity ->
+          XXPermissions.with(activity)
+              .permission(mutableListOf(Permission.ACCESS_FINE_LOCATION, Permission.ACCESS_COARSE_LOCATION))
+              .request(object : OnPermissionCallback {
+                override fun onGranted(permissions: MutableList<String>?, all: Boolean) {
+                  if (all) getLocation() else "获取到部分权限:${permissions.toString()}".logE()
+                }
+
+                override fun onDenied(permissions: MutableList<String>?, never: Boolean) {
+                  "被拒绝的权限:${permissions.toString()};never=$never".logE()
+                }
+              })
+        }
+      }
+    }
+  }
+  //</editor-fold>
+
+  //<editor-fold defaultstate="collapsed" desc="获取到地理位置权限后的操作">
+  private fun getLocation() {
+    //获取到位置后才能获取到WIFI的BSSID
+    "已获取位置权限,可以进行定位操作".logE()
   }
   //</editor-fold>
 
