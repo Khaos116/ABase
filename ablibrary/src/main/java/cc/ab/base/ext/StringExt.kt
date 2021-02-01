@@ -39,9 +39,15 @@ inline fun String?.logD() {
   }
 }
 
-fun String?.toast() {
+inline fun CharSequence?.toast() {
   if (!this.isNullOrBlank() && AppUtils.isAppForeground()) {
     ToastUtils.make().setGravity(Gravity.CENTER, 0, 0).show(this)
+  }
+}
+
+inline fun CharSequence?.toastLong() {
+  if (!this.isNullOrBlank() && AppUtils.isAppForeground()) {
+    ToastUtils.make().setDurationIsLong(true).setGravity(Gravity.CENTER, 0, 0).show(this)
   }
 }
 
