@@ -116,14 +116,14 @@ class DrawableEditText(context: Context, attributeSet: AttributeSet?) :
   @SuppressLint("ClickableViewAccessibility")
   override fun onTouchEvent(event: MotionEvent?): Boolean {
     event?.let { e ->
-      if (compoundDrawables[2] != null && e.action == MotionEvent.ACTION_UP) {
+      if (compoundDrawables[2] != null && (e.action == MotionEvent.ACTION_DOWN || e.action == MotionEvent.ACTION_UP)) {
         val eventX = event.rawX.toInt()
         val eventY = event.rawY.toInt()
         val rect = Rect()
         getGlobalVisibleRect(rect)
         rect.left = rect.right - rightWidth - paddingEnd
         if (rect.contains(eventX, eventY)) {
-          setText("")
+          if (e.action == MotionEvent.ACTION_UP) setText("")
           return true
         }
       }
