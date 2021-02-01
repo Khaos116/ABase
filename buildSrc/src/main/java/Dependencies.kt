@@ -67,7 +67,7 @@ object Deps {
   const val okhttp = "com.squareup.okhttp3:okhttp:${Versions.okHttp}"
 
   //日志json打印 https://github.com/Ayvytr/OKHttpLogInterceptor
-  const val okhttp_log = "com.ayvytr:okhttploginterceptor:3.0.4"
+  const val okhttp_log = "com.ayvytr:okhttploginterceptor:3.0.5"
 
   //RxHttp https://github.com/liujingxing/okhttp-RxHttp
   const val rxhttp = "com.ljx.rxhttp:rxhttp:${Versions.rxHttp}"
