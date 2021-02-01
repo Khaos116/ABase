@@ -53,7 +53,7 @@ abstract class BaseActivity : AppCompatActivity() {
   }
 
   override fun onBackPressed() {
-    if (Build.VERSION.SDK_INT == Build.VERSION_CODES.Q) { //Android Q的bug https://blog.csdn.net/oLengYueZa/article/details/109207492
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) { //Android Q的bug https://blog.csdn.net/oLengYueZa/article/details/109207492
       finishAfterTransition()
     } else {
       super.onBackPressed()
