@@ -1,5 +1,6 @@
 package cc.abase.demo.utils
 
+import android.text.SpannableStringBuilder
 import cc.abase.demo.BuildConfig
 import cc.abase.demo.R
 import cc.abase.demo.constants.api.ApiUrl
@@ -16,18 +17,18 @@ import java.io.InputStreamReader
  */
 object AppInfoUtils {
   //获取APP版本信息
-  fun getAppInfo(): String {
-    val builder: StringBuilder = StringBuilder()
+  fun getAppInfo(): CharSequence {
+    val builder = SpannableStringBuilder()
     builder.append("APP信息：").append("\n")
         .append("=====================================\n")
-        .append("Emulator：").append(EmulatorDetectUtil.isEmulator(Utils.getApp())).append("\n")
-        .append("Release：").append(BuildConfig.APP_IS_RELEASE).append("\n")
+        .append("Emulator：").append(EmulatorDetectUtil.isEmulator(Utils.getApp()).toString()).append("\n")
+        .append("Release：").append(BuildConfig.APP_IS_RELEASE.toString()).append("\n")
         .append("BuildTime：").append(StringUtils.getString(R.string.build_time)).append("\n")
         .append("VersionName：").append(AppUtils.getAppVersionName()).append("\n")
-        .append("VersionCode：").append(AppUtils.getAppVersionCode()).append("\n")
+        .append("VersionCode：").append(AppUtils.getAppVersionCode().toString()).append("\n")
         .append("BaseUrl：").append(ApiUrl.appBaseUrl).append("\n")
         .append("CPU：").append(getDeviceCPU()).append("\n")
-        .append("渠道号：").append(WalleUtils.getChannel(true)).append("\n")
+        .append("渠道号").append(MySpanUtils.getSpanSimple("[测试服永远-1]")).append("：").append(WalleUtils.getChannel()).append("\n")
         .append("Wifi-BSSID：").append(MacAddressUtils.getConnectedWifiMacAddress(Utils.getApp()) ?: "null").append("\n") //需要地理位置权限
         .append("=====================================\n")
         .append("签名SHA1：").append("\n")

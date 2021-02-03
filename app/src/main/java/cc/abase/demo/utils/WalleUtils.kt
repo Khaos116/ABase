@@ -15,10 +15,9 @@ object WalleUtils {
   private var mChannel: String = ""
 
   //读取渠道号(测试版本默认官方，官方默认-1)
-  fun getChannel(real: Boolean = false): String {
-    if (real) return WalleChannelReader.getChannel(Utils.getApp()) ?: ""
+  fun getChannel(): String {
     if (mChannel.isBlank()) {
-      mChannel = if (BuildConfig.APP_IS_RELEASE) WalleChannelReader.getChannel(Utils.getApp()) ?: "" else "-1"
+      mChannel = if (BuildConfig.APP_IS_RELEASE) WalleChannelReader.getChannel(Utils.getApp()) ?: "-1" else "-1"
     }
     return mChannel
   }
