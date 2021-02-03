@@ -37,7 +37,7 @@ object AppInfoUtils {
         .append(AppUtils.getAppSignaturesSHA256().firstOrNull()).append("\n")
         .append("签名MD5：").append("\n")
         .append(AppUtils.getAppSignaturesMD5().firstOrNull()).append("\n")
-    return builder.toString()
+    return builder
   }
 
   //获取CPU架构
