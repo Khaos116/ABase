@@ -9,23 +9,23 @@ package cc.abase.demo.constants.api
 object WanUrls {
   object User {
     //登录
-    val LOGIN = "${ApiUrl.appBaseUrl}user/login" //POST：username,password
+    val LOGIN get() = "${ApiUrl.appBaseUrl}user/login" //POST：username,password
 
     //注册
-    val REGISTER = "${ApiUrl.appBaseUrl}user/register" //POST：username,password,repassword
+    val REGISTER get() = "${ApiUrl.appBaseUrl}user/register" //POST：username,password,repassword
 
     //退出
-    val LOGOUT = "${ApiUrl.appBaseUrl}ser/logout/json" //GET
+    val LOGOUT get() = "${ApiUrl.appBaseUrl}ser/logout/json" //GET
 
     //个人积分
-    val INTEGRAL = "${ApiUrl.appBaseUrl}lg/coin/userinfo/json" //GET
+    val INTEGRAL get() = "${ApiUrl.appBaseUrl}lg/coin/userinfo/json" //GET
   }
 
   object Home {
     //banner
-    val BANNER = "${ApiUrl.appBaseUrl}banner/json"
+    val BANNER get() = "${ApiUrl.appBaseUrl}banner/json"
 
     //文章
-    val ARTICLE = "${ApiUrl.appBaseUrl}article/list/%s/json" //页数，从0开始
+    val ARTICLE get() = "${ApiUrl.appBaseUrl}article/list/%s/json" //页数，从0开始
   }
 }
