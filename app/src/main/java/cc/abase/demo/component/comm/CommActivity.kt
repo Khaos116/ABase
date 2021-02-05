@@ -3,9 +3,9 @@ package cc.abase.demo.component.comm
 import android.graphics.Color
 import android.os.Bundle
 import android.view.Gravity
+import android.view.View
 import android.widget.FrameLayout
 import android.widget.TextView
-import androidx.core.view.get
 import cc.ab.base.ext.*
 import cc.ab.base.ui.activity.BaseActivity
 import cc.abase.demo.R
@@ -197,15 +197,11 @@ abstract class CommActivity : BaseActivity() {
 
   //<editor-fold defaultstate="collapsed" desc="退出全屏">
   override fun onBackPressed() {
-    (window.decorView as? FrameLayout)?.let { fl ->
-      if (fl.childCount > 0) {
-        val child = fl.getChildAt(fl.childCount - 1)
-        if (child is FrameLayout && child.childCount > 0) {
-          val cc = child[child.childCount - 1]
-          if (cc is StandardVideoController && cc.onBackPressed()) {
-            return
-          }
-        }
+    val lockView = findViewById<View>(com.dueeeke.videocontroller.R.id.lock)
+    val loadingView = findViewById<View>(com.dueeeke.videocontroller.R.id.loading)
+    if (lockView != null && loadingView != null && lockView.parent == loadingView.parent) {
+      lockView.getMyParents().firstOrNull { v -> v is StandardVideoController }?.let { f ->
+        if ((f as StandardVideoController).onBackPressed()) return
       }
     }
     super.onBackPressed()
