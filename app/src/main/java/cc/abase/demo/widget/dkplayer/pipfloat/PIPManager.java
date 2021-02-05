@@ -61,6 +61,7 @@ public class PIPManager {
 
   public void startFloatWindow() {
     if (mIsShowing) return;
+    boolean needResume = mVideoView.isPlaying();
     ViewExtKt.removeParent(mVideoView);
     mVideoView.setVideoController(mFloatController);
     mFloatController.setPlayState(mVideoView.getCurrentPlayState());
@@ -68,6 +69,7 @@ public class PIPManager {
     mFloatView.addView(mVideoView);
     mFloatView.addToWindow();
     mIsShowing = true;
+    if (needResume) mVideoView.resume();
     //===============================封面相关START===============================//
     String coverPath = mVideoView.getMUrlCover();//封面地址
     float ratio = mVideoView.getMRatio();//封面比例

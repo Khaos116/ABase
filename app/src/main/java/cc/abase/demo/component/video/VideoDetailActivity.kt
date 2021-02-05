@@ -70,7 +70,6 @@ class VideoDetailActivity : CommActivity() {
             override fun onGranted(permissions: MutableList<String>?, all: Boolean) {
               if (all) {
                 mPIPManager.startFloatWindow()
-                mPIPManager.resume()
                 finish()
               }
             }
