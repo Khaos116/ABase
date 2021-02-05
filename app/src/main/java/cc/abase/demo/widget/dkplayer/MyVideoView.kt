@@ -246,9 +246,10 @@ class MyVideoView : VideoView<MyExoMediaPlayer>, LifecycleObserver {
   }
 
   //全屏需要Activity，如果是Application创建的，则需要从父控件获取
-  override fun getActivity(): Activity {
-    return (mVideoController ?: this).getMyParents().lastOrNull { v -> v.context is Activity }
-        ?.let { f -> f.context as Activity } ?: super.getActivity()
+  override fun getActivity(): Activity? {
+    return this.getMyParents().lastOrNull { v -> v.context is Activity }?.let { f -> f.context as Activity }
+        ?: mVideoController?.getMyParents()?.lastOrNull { v -> v.context is Activity }?.let { f -> f.context as Activity }
+        ?: super.getActivity()
   }
   //</editor-fold>
 }
