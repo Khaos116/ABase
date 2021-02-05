@@ -236,4 +236,10 @@ class MyVideoView : VideoView<MyExoMediaPlayer>, LifecycleObserver {
     onPauseVideo()
   }
   //</editor-fold>
+
+  //<editor-fold defaultstate="collapsed" desc="防止空指针">
+  override fun startPrepare(reset: Boolean) {
+    if (mMediaPlayer != null) super.startPrepare(reset)
+  }
+  //</editor-fold>
 }
