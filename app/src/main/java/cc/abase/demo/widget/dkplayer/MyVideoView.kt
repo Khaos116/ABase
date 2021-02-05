@@ -72,7 +72,7 @@ class MyVideoView : VideoView<MyExoMediaPlayer>, LifecycleObserver {
     controller.addControlComponent(MyTitleView(mCon).also { tv ->
       titleView = tv
       backIv = tv.findViewById(R.id.back)
-      backIv.setOnClickListener { PlayerUtils.scanForActivity(context)?.onBackPressed() }
+      backIv.setOnClickListener { if (isFullScreen) onBackPressed() else PlayerUtils.scanForActivity(context)?.onBackPressed() }
     })
     //5.滑动控制视图
     controller.addControlComponent(GestureView(mCon))
