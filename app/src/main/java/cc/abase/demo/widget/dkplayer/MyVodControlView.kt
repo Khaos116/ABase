@@ -6,9 +6,11 @@ import android.util.AttributeSet
 import android.view.View
 import cc.ab.base.ext.dp2Px
 import cc.ab.base.ext.getMyParents
+import cc.abase.demo.constants.StringConstants
 import com.dueeeke.videocontroller.R
 import com.dueeeke.videocontroller.component.VodControlView
 import com.dueeeke.videoplayer.player.VideoView
+import com.dueeeke.videoplayer.player.VideoViewManager
 import com.dueeeke.videoplayer.util.PlayerUtils
 
 /**
@@ -43,8 +45,9 @@ class MyVodControlView(c: Context, a: AttributeSet? = null, d: Int = 0) : VodCon
   private fun toggleFullScreen2() {
     val size = mControlWrapper.videoSize
     if (size[0] > 0 && size[1] > 0 && size[0] > size[1]) {
-      var activity = PlayerUtils.scanForActivity(context)
-      if (activity == null) activity = this.getMyParents().firstOrNull { f -> f.context is Activity }?.context as? Activity
+      val activity = this.getMyParents().lastOrNull { v -> v.context is Activity }?.let { f -> f.context as Activity }
+          ?: VideoViewManager.instance().get(StringConstants.Tag.FLOAT_PLAY).getMyParents().lastOrNull { v -> v.context is Activity }
+              ?.let { f -> f.context as Activity } ?: PlayerUtils.scanForActivity(context)
       mControlWrapper.toggleFullScreen(activity)
     } else {
       mControlWrapper.toggleFullScreen()
