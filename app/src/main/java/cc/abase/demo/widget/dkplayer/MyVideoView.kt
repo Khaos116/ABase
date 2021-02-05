@@ -1,9 +1,11 @@
 package cc.abase.demo.widget.dkplayer
 
+import android.app.Activity
 import android.content.Context
 import android.net.Uri
 import android.util.AttributeSet
 import android.view.View
+import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.annotation.DrawableRes
 import androidx.lifecycle.*
@@ -237,9 +239,18 @@ class MyVideoView : VideoView<MyExoMediaPlayer>, LifecycleObserver {
   }
   //</editor-fold>
 
-  //<editor-fold defaultstate="collapsed" desc="防止空指针">
+  //<editor-fold defaultstate="collapsed" desc="重写">
+  //防止空指针
   override fun startPrepare(reset: Boolean) {
     if (mMediaPlayer != null) super.startPrepare(reset)
+  }
+
+  //通过Application创建的播放器没有Activity,需要从父控件去获取
+  override fun getDecorView(): ViewGroup? {
+    (mVideoController ?: this).getMyParents().lastOrNull { v -> v.context is Activity }?.let { f ->
+      return (f.context as Activity).window.decorView as ViewGroup
+    }
+    return super.getDecorView()
   }
   //</editor-fold>
 }
