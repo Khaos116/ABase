@@ -1,9 +1,11 @@
 package cc.abase.demo.widget.dkplayer
 
+import android.app.Activity
 import android.content.Context
 import android.util.AttributeSet
 import android.view.View
 import cc.ab.base.ext.dp2Px
+import cc.ab.base.ext.getMyParents
 import com.dueeeke.videocontroller.R
 import com.dueeeke.videocontroller.component.VodControlView
 import com.dueeeke.videoplayer.player.VideoView
@@ -41,7 +43,8 @@ class MyVodControlView(c: Context, a: AttributeSet? = null, d: Int = 0) : VodCon
   private fun toggleFullScreen2() {
     val size = mControlWrapper.videoSize
     if (size[0] > 0 && size[1] > 0 && size[0] > size[1]) {
-      val activity = PlayerUtils.scanForActivity(context)
+      var activity = PlayerUtils.scanForActivity(context)
+      if (activity == null) activity = this.getMyParents().firstOrNull { f -> f.context is Activity }?.context as? Activity
       mControlWrapper.toggleFullScreen(activity)
     } else {
       mControlWrapper.toggleFullScreen()
@@ -51,9 +54,9 @@ class MyVodControlView(c: Context, a: AttributeSet? = null, d: Int = 0) : VodCon
 
   //<editor-fold defaultstate="collapsed" desc="设置全屏按钮的显示状态">
   fun setFullShow(visible: Int) {
-    findViewById<View>(R.id.fullscreen)?.let { iv ->//全屏按钮处理
+    findViewById<View>(R.id.fullscreen)?.let { iv -> //全屏按钮处理
       iv.visibility = visible
-      findViewById<View>(R.id.total_time)?.let { tv ->//时间间距处理
+      findViewById<View>(R.id.total_time)?.let { tv -> //时间间距处理
         (tv.layoutParams as? MarginLayoutParams)?.marginEnd = if (visible == View.GONE) 10.dp2Px() else 0
       }
     }
