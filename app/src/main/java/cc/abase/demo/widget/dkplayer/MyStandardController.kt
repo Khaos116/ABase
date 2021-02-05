@@ -1,6 +1,7 @@
 package cc.abase.demo.widget.dkplayer
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.Context
 import android.graphics.Color
 import android.util.AttributeSet
@@ -8,12 +9,14 @@ import android.view.Gravity
 import android.view.MotionEvent
 import android.widget.FrameLayout
 import android.widget.TextView
-import cc.ab.base.ext.dp2Px
-import cc.ab.base.ext.removeParent
+import cc.ab.base.ext.*
+import cc.abase.demo.constants.StringConstants
 import com.blankj.utilcode.util.BarUtils
 import com.blankj.utilcode.util.VibrateUtils
 import com.dueeeke.videocontroller.StandardVideoController
 import com.dueeeke.videoplayer.player.VideoView
+import com.dueeeke.videoplayer.player.VideoViewManager
+import com.dueeeke.videoplayer.util.PlayerUtils
 
 /**
  * 为了监听手指按压和抬起,使用倍速播放
@@ -142,6 +145,14 @@ class MyStandardController : StandardVideoController {
   override fun setEnableInNormal(enableInNormal: Boolean) {
     super.setEnableInNormal(enableInNormal)
     isInList = !enableInNormal
+  }
+
+  //修复退出全屏找不到Activity添加播放器的bug
+  override fun stopFullScreen(): Boolean {
+    if (mActivity == null) mActivity = this.getMyParents().lastOrNull { v -> v.context is Activity }?.let { f -> f.context as Activity }
+        ?: VideoViewManager.instance().get(StringConstants.Tag.FLOAT_PLAY).getMyParents().lastOrNull { v -> v.context is Activity }
+            ?.let { f -> f.context as Activity } ?: PlayerUtils.scanForActivity(context)
+    return super.stopFullScreen()
   }
   //</editor-fold>
 }
