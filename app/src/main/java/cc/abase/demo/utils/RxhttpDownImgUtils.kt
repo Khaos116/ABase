@@ -2,11 +2,12 @@ package cc.abase.demo.utils
 
 import android.annotation.SuppressLint
 import android.content.Intent
+import cc.ab.base.config.PathConfig
 import cc.ab.base.ext.*
 import cc.abase.demo.rxhttp.config.RxHttpConfig
 import com.blankj.utilcode.util.*
 import com.blankj.utilcode.util.TimeUtils
-import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.*
 import okhttp3.internal.and
 import rxhttp.RxHttp
 import java.io.*
@@ -20,6 +21,7 @@ import java.util.Locale
  * @Time：13:52
  */
 object RxhttpDownImgUtils {
+  //<editor-fold defaultstate="collapsed" desc="图片下载">
   //常用文件格式
   private val FILE_TYPE_MAP = mutableMapOf(
       Pair("ffd8ffe000104a464946", "jpg"),
@@ -145,48 +147,55 @@ object RxhttpDownImgUtils {
       call.invoke(false, true, "")
     }) {
       call.invoke(true, false, "")
-      val fileName = TimeUtils.millis2String(System.currentTimeMillis(), "yyyyMMdd_HHmmss")
-      if (url.startsWith("http")) { //是http开头
-        RxHttp.get(url)
-            .setOkClient(RxHttpConfig.getOkHttpClient().build()) //不要加log打印，否则文件太大要OOM
-            .asDownload(File(destDir, fileName).path)  //指定回调(进度/成功/失败)线程,不指定,默认在请求所在线程回调
-            .subscribe({ destPath ->
-              destPath.logE()
-              val suffix = getFileType(destPath) //文件类型
-              //下载成功，处理相关逻辑
-              if (suffix.isNotBlank()) {
-                val destF = File(destDir, "${fileName}.${suffix}")
-                if (!destF.exists()) {
-                  FileUtils.rename(File(destPath), destF.name)
-                  Utils.getApp().sendBroadcast(Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, UriUtils.file2Uri(destF)))
+      withContext(Dispatchers.IO) { delay(500) }.let {
+        val fileName = TimeUtils.millis2String(System.currentTimeMillis(), "yyyyMMdd_HHmmss")
+        if (url.startsWith("http")) { //是http开头
+          RxHttp.get(url)
+              .setOkClient(RxHttpConfig.getOkHttpClient().build()) //不要加log打印，否则文件太大要OOM
+              .asDownload(File(PathConfig.TEMP_IMG_DIR, fileName).path)  //指定回调(进度/成功/失败)线程,不指定,默认在请求所在线程回调
+              .subscribe({ destPath ->
+                destPath.logE()
+                val suffix = getFileType(destPath) //文件类型
+                //下载成功，处理相关逻辑
+                if (suffix.isNotBlank()) {
+                  val destF = File(destDir, "${fileName}.${suffix}")
+                  if (!destF.exists()) {
+                    val result = FileUtils.copy(destPath, destF.path)
+                    //发送广播刷新图片
+                    if (result) {
+                      Utils.getApp().sendBroadcast(Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, UriUtils.file2Uri(destF)))
+                      call.invoke(false, true, destF.path)
+                    } else call.invoke(false, true, "")
+                  } else {
+                    FileUtils.delete(destPath)
+                    call.invoke(false, true, destF.path)
+                  }
                 } else {
-                  FileUtils.delete(destPath)
+                  val destF = File(destPath)
+                  Utils.getApp().sendBroadcast(Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, UriUtils.file2Uri(destF)))
+                  call.invoke(false, true, destF.path)
                 }
-                call.invoke(false, true, destF.path)
-              } else {
-                val destF = File(destPath)
-                Utils.getApp().sendBroadcast(Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, UriUtils.file2Uri(destF)))
-                call.invoke(false, true, destF.path)
-              }
-            }, { e ->
-              e.logE()
-              call.invoke(false, true, "")
-            })
-      } else { //本地文件
-        val cacheFile = url.toFile() //获取缓存文件
-        if (cacheFile == null) {
-          call.invoke(false, true, "")
-        } else {
-          val suffix = getFileType(cacheFile.path) //文件类型
-          val destF = File(destDir, if (suffix.isNotBlank()) "${fileName}.${suffix}" else fileName)
-          val result = if (destF.exists()) true else FileUtils.copy(cacheFile.path, destF.path)
-          //发送广播刷新图片
-          if (result) {
-            Utils.getApp().sendBroadcast(Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, UriUtils.file2Uri(destF)))
-            call.invoke(false, true, destF.path)
-          } else call.invoke(false, true, "")
+              }, { e ->
+                e.logE()
+                call.invoke(false, true, "")
+              })
+        } else { //本地文件
+          val cacheFile = url.toFile() //获取缓存文件
+          if (cacheFile == null) {
+            call.invoke(false, true, "")
+          } else {
+            val suffix = getFileType(cacheFile.path) //文件类型
+            val destF = File(destDir, if (suffix.isNotBlank()) "${fileName}.${suffix}" else fileName)
+            val result = if (destF.exists()) true else FileUtils.copy(cacheFile.path, destF.path)
+            //发送广播刷新图片
+            if (result) {
+              Utils.getApp().sendBroadcast(Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, UriUtils.file2Uri(destF)))
+              call.invoke(false, true, destF.path)
+            } else call.invoke(false, true, "")
+          }
         }
       }
     }
   }
+  //</editor-fold>
 }
