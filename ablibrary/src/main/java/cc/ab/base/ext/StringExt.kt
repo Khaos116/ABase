@@ -94,21 +94,9 @@ fun String?.toFile(): File? {
   return null
 }
 
-//获取缓存文件
+//Coil获取缓存图片文件
 fun String?.getCacheFile(): File? {
-  val url = this
-  url?.let { u ->
-    var f = u.toFile()
-    if (f != null) {
-      return f
-    } else {
-      url.toHttpUrlOrNull()?.let { h ->
-        f = CoilUtils.createDefaultCache(Utils.getApp()).directory.listFiles()?.firstOrNull { v -> v.name.contains(Cache.key(h)) }
-        if (f?.exists() == true) {
-          return f
-        }
-      }
-    }
+  return this?.toFile() ?: this?.toHttpUrlOrNull()?.let { u ->
+    CoilUtils.createDefaultCache(Utils.getApp()).directory.listFiles()?.lastOrNull { it.name.endsWith(".1") && it.name.contains(Cache.key(u)) }
   }
-  return null
 }
