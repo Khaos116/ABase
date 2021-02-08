@@ -95,7 +95,7 @@ fun String?.toFile(): File? {
 }
 
 //Coil获取缓存图片文件
-fun String?.getCacheFile(): File? {
+fun String?.getCoilCacheFile(): File? {
   return this?.toFile() ?: this?.toHttpUrlOrNull()?.let { u ->
     CoilUtils.createDefaultCache(Utils.getApp()).directory.listFiles()?.lastOrNull { it.name.endsWith(".1") && it.name.contains(Cache.key(u)) }
   }
