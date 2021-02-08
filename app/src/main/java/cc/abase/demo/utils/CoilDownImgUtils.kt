@@ -1,15 +1,13 @@
 package cc.abase.demo.utils
 
-import android.annotation.SuppressLint
 import android.content.Intent
-import cc.ab.base.config.PathConfig
 import cc.ab.base.ext.*
-import cc.abase.demo.rxhttp.config.RxHttpConfig
+import coil.imageLoader
+import coil.request.ImageRequest
 import com.blankj.utilcode.util.*
 import com.blankj.utilcode.util.TimeUtils
 import kotlinx.coroutines.*
 import okhttp3.internal.and
-import rxhttp.RxHttp
 import java.io.*
 import java.util.Locale
 
@@ -20,7 +18,7 @@ import java.util.Locale
  * @Date：2021/2/6
  * @Time：13:52
  */
-object RxhttpDownImgUtils {
+object CoilDownImgUtils {
   //<editor-fold defaultstate="collapsed" desc="图片下载">
   //常用文件格式
   private val FILE_TYPE_MAP = mutableMapOf(
@@ -128,70 +126,59 @@ object RxhttpDownImgUtils {
   }
 
   //将图片保存到相册
-  @SuppressLint("CheckResult")
   @Suppress("DEPRECATION")
-  fun downloadImgByRxhttp(url: String?, call: (start: Boolean, end: Boolean, sucPath: String) -> Unit) {
+  fun downloadImgByCoil(url: String?, call: (start: Boolean, end: Boolean, sucPath: String, msg: String) -> Unit) {
     if (url.isNullOrBlank()) { //下载地址不存在
-      call.invoke(false, true, "")
+      call.invoke(false, true, "", "下载地址不存在")
       return
     }
     val dcim = PathUtils.getExternalDcimPath()
     val picture = PathUtils.getExternalPicturesPath()
     val destDir = if (dcim.isNullOrBlank()) picture else dcim
     if (destDir.isNullOrBlank()) { //没有获取到DCIM和Pictures文件夹
-      call.invoke(false, true, "")
+      call.invoke(false, true, "", "相册不能访问")
       return
     }
-    GlobalScope.launchError(handler = { _, e ->
-      e.logE()
-      call.invoke(false, true, "")
-    }) {
-      call.invoke(true, false, "")
-      withContext(Dispatchers.IO) { delay(500) }.let {
-        val fileName = TimeUtils.millis2String(System.currentTimeMillis(), "yyyyMMdd_HHmmss")
+    GlobalScope.launchError(handler = { _, e -> call.invoke(false, true, "", e.message ?: "下载出错，请重试") }) {
+      call.invoke(true, false, "", "开始下载")
+      withContext(Dispatchers.IO) { delay(500) }.let { //延迟500ms，方便显示loading
+        val fileName = TimeUtils.millis2String(System.currentTimeMillis(), "yyyyMMdd_HHmmss") //保存到相册的文件名
         if (url.startsWith("http")) { //是http开头
-          RxHttp.get(url)
-              .setOkClient(RxHttpConfig.getOkHttpClient().build()) //不要加log打印，否则文件太大要OOM
-              .asDownload(File(PathConfig.TEMP_IMG_DIR, fileName).path)  //指定回调(进度/成功/失败)线程,不指定,默认在请求所在线程回调
-              .subscribe({ destPath ->
-                destPath.logE()
-                val suffix = getFileType(destPath) //文件类型
-                //下载成功，处理相关逻辑
-                if (suffix.isNotBlank()) {
-                  val destF = File(destDir, "${fileName}.${suffix}")
-                  if (!destF.exists()) {
-                    val result = FileUtils.copy(destPath, destF.path)
-                    //发送广播刷新图片
-                    if (result) {
-                      Utils.getApp().sendBroadcast(Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, UriUtils.file2Uri(destF)))
-                      call.invoke(false, true, destF.path)
-                    } else call.invoke(false, true, "")
+          Utils.getApp().imageLoader.enqueue(ImageRequest.Builder(Utils.getApp()).data(url).listener( //下载监听
+              onCancel = { call.invoke(false, true, "", "取消下载") },
+              onError = { _, e -> call.invoke(false, true, "", e.message ?: "下载出错，请重试") },
+              onSuccess = { _, _ ->
+                val cacheFile = url.getCoilCacheFile()
+                if (cacheFile?.exists() == true) {
+                  val suffix = getFileType(cacheFile.path) //文件类型
+                  val destF = File(destDir, "${fileName}.${if (suffix.isBlank()) "jpg" else suffix}") //没有默认jpg
+                  val result = if (destF.exists()) true else FileUtils.copy(cacheFile.path, destF.path)
+                  if (result) { //发送广播刷新图片
+                    Utils.getApp().sendBroadcast(Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, UriUtils.file2Uri(destF)))
+                    call.invoke(false, true, destF.path, "下载成功")
                   } else {
-                    FileUtils.delete(destPath)
-                    call.invoke(false, true, destF.path)
+                    call.invoke(false, false, "", "下载成功，插入相册失败")
                   }
                 } else {
-                  val destF = File(destPath)
-                  Utils.getApp().sendBroadcast(Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, UriUtils.file2Uri(destF)))
-                  call.invoke(false, true, destF.path)
+                  call.invoke(false, true, "", "下载成功，未找到缓存文件")
                 }
-              }, { e ->
-                e.logE()
-                call.invoke(false, true, "")
-              })
+              }
+          ).build())
         } else { //本地文件
           val cacheFile = url.toFile() //获取缓存文件
-          if (cacheFile == null) {
-            call.invoke(false, true, "")
-          } else {
+          if (cacheFile?.exists() == true) {
             val suffix = getFileType(cacheFile.path) //文件类型
             val destF = File(destDir, if (suffix.isNotBlank()) "${fileName}.${suffix}" else fileName)
             val result = if (destF.exists()) true else FileUtils.copy(cacheFile.path, destF.path)
             //发送广播刷新图片
             if (result) {
               Utils.getApp().sendBroadcast(Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, UriUtils.file2Uri(destF)))
-              call.invoke(false, true, destF.path)
-            } else call.invoke(false, true, "")
+              call.invoke(false, true, destF.path, "本地文件插入相册成功")
+            } else {
+              call.invoke(false, true, "", "本地文件插入相册失败")
+            }
+          } else {
+            call.invoke(false, true, "", "本地文件未找到")
           }
         }
       }
