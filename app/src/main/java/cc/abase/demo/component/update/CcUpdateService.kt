@@ -33,12 +33,14 @@ open class CcUpdateService : JobIntentService() {
   companion object {
     private const val JOB_ID = 1000
     private const val DOWNLOAD_PATH = "download_path"
+    private const val DOWNLOAD_VERSION = "download_version"
     private const val DOWNLOAD_APK_NAME = "DOWNLOAD_APK_NAME"
     private const val DOWNLOAD_SHOW_NOTIFICATION = "download_show_notification"
     private var downIDs: MutableList<Int> = mutableListOf() //正在下载的通知id
-    fun startIntent(path: String, apk_name: String = "", showNotification: Boolean = false) {
+    fun startIntent(path: String, apk_name: String = "", version: String = "", showNotification: Boolean = false) {
       val intent = Intent(Utils.getApp(), CcUpdateService::class.java)
       intent.putExtra(DOWNLOAD_PATH, path)
+      intent.putExtra(DOWNLOAD_VERSION, version)
       intent.putExtra(DOWNLOAD_APK_NAME, apk_name)
       intent.putExtra(DOWNLOAD_SHOW_NOTIFICATION, showNotification)
       enqueueWork(Utils.getApp(), CcUpdateService::class.java, JOB_ID, intent)
@@ -84,6 +86,9 @@ open class CcUpdateService : JobIntentService() {
   //apk下载地址
   private var mApkUrl = ""
 
+  //防止服务器返回同样的下载地址，就需要版本号来区别缓存文件
+  private var mApkVersion = ""
+
   //app名称
   private var appName = AppUtils.getAppName()
 
@@ -103,17 +108,20 @@ open class CcUpdateService : JobIntentService() {
     }
     intent.let {
       mApkUrl = it.getStringExtra(DOWNLOAD_PATH) ?: ""
+      mApkVersion = it.getStringExtra(DOWNLOAD_VERSION) ?: ""
       if (downIDs.contains(mApkUrl.hashCode())) return
       notificationID = mApkUrl.hashCode()
       downIDs.add(mApkUrl.hashCode())
       val downloadUrl: String = mApkUrl
+      val downloadVersion: String = mApkVersion
       it.getStringExtra(DOWNLOAD_APK_NAME)?.let { name -> if (name.isNotBlank()) appName = name }
       needShowNotification = it.getBooleanExtra(DOWNLOAD_SHOW_NOTIFICATION, false)
-      val downLoadName = EncryptUtils.encryptMD5ToString(downloadUrl)
+      val downLoadName = EncryptUtils.encryptMD5ToString("$downloadUrl-$downloadVersion")
       val apkName = "$downLoadName.apk"
       if (File(mFileDir, apkName).exists()) {
         showSuccess(File(mFileDir, apkName).path)
         AppUtils.installApp(File(mFileDir, apkName).path)
+        NotificationUtils.setNotificationBarVisibility(false)
         return
       }
       showNotification()
@@ -135,6 +143,7 @@ open class CcUpdateService : JobIntentService() {
             FileUtils.rename(tempFile, apkName)
             showSuccess(File(mFileDir, apkName).path)
             AppUtils.installApp(File(mFileDir, apkName).path)
+            NotificationUtils.setNotificationBarVisibility(false)
           }, {
             //下载失败，处理相关逻辑
             showFail(downloadUrl)
@@ -214,12 +223,12 @@ open class CcUpdateService : JobIntentService() {
   //下载成功
   private fun showSuccess(filePath: String) {
     downApkPackageName = AppUtils.getApkInfo(filePath).packageName
+    downIDs.remove(mApkUrl.hashCode())
     //发送进度
     LiveEventBus.get(EventKeys.UPDATE_PROGRESS).post(Triple(UpdateEnum.SUCCESS, 100f, mApkUrl))
     if (needShowNotification) {
       initRemoteViews()
       mRemoteViews?.let {
-        if (mTotalSize == 0L) mTotalSize = File(filePath).length()
         val sb = SpannableStringBuilder()
         sb.append("\"")
         val color = ForegroundColorSpan(ColorUtils.getColor(R.color.magenta))
@@ -230,12 +239,16 @@ open class CcUpdateService : JobIntentService() {
         it.setTextViewText(R.id.notice_update_title, sb)
         it.setProgressBar(R.id.notice_update_progress, 100, 100, false)
         it.setTextViewText(R.id.notice_update_percent, "100%")
+        if (mTotalSize == 0L) mTotalSize = File(filePath).length()
         val totalSizeStr = byte2FitMemorySize(mTotalSize)
         it.setTextViewText(R.id.notice_update_size, "$totalSizeStr/$totalSizeStr")
         val intentInstall = Intent(Utils.getApp(), NotificationBroadcastReceiver::class.java)
         intentInstall.action = StringConstants.Update.INTENT_KEY_INSTALL_APP
         intentInstall.putExtra(StringConstants.Update.INTENT_KEY_INSTALL_PATH, filePath)
         intentInstall.putExtra(StringConstants.Update.INTENT_KEY_UPDATE_ID, notificationID)
+        intentInstall.putExtra(StringConstants.Update.INTENT_KEY_RETRY_NAME, appName)
+        intentInstall.putExtra(StringConstants.Update.INTENT_KEY_RETRY_PATH, mApkUrl)
+        intentInstall.putExtra(StringConstants.Update.INTENT_KEY_RETRY_VERSION, mApkVersion)
         val intent = PendingIntent.getBroadcast(Utils.getApp(), notificationID, intentInstall, PendingIntent.FLAG_CANCEL_CURRENT)
         it.setOnClickPendingIntent(R.id.notice_update_layout, intent)
         initBuilder(it)
@@ -264,8 +277,9 @@ open class CcUpdateService : JobIntentService() {
         it.setTextViewText(R.id.notice_update_title, sb)
         val intentInstall = Intent(Utils.getApp(), NotificationBroadcastReceiver::class.java)
         intentInstall.action = StringConstants.Update.INTENT_KEY_APK_DOWNLOAD_ERROR
-        intentInstall.putExtra(StringConstants.Update.INTENT_KEY_RETRY_PATH, mApkUrl)
         intentInstall.putExtra(StringConstants.Update.INTENT_KEY_RETRY_NAME, appName)
+        intentInstall.putExtra(StringConstants.Update.INTENT_KEY_RETRY_PATH, mApkUrl)
+        intentInstall.putExtra(StringConstants.Update.INTENT_KEY_RETRY_VERSION, mApkVersion)
         val intent = PendingIntent.getBroadcast(Utils.getApp(), notificationID, intentInstall, PendingIntent.FLAG_CANCEL_CURRENT)
         it.setOnClickPendingIntent(R.id.notice_update_layout, intent)
         initBuilder(it)

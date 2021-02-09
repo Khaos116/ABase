@@ -20,6 +20,7 @@ object StringConstants {
     const val INTENT_KEY_INSTALL_PATH = "INTENT_KEY_INSTALL_PATH"
     const val INTENT_KEY_RETRY_PATH = "INTENT_KEY_RETRY_PATH"
     const val INTENT_KEY_RETRY_NAME = "INTENT_KEY_RETRY_NAME"
+    const val INTENT_KEY_RETRY_VERSION = "INTENT_KEY_RETRY_VERSION"
   }
 
   object Tag {
