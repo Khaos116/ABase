@@ -163,7 +163,7 @@ object Deps {
   const val pinyin_android = "com.github.promeg:tinypinyin-lexicons-android-cncity:2.0.3" // 可选，适用于Android的中国地区词典
 
   //日期选择器 https://github.com/limxing/DatePickerView
-  const val picker_view = "com.github.limxing:DatePickerView:1.0.3"
+  const val picker_view = "com.github.limxing:DatePickerView:1.0.4"
 
   //@和#效果 https://github.com/sunhapper/SpEditTool
   const val spedit_tool = "com.github.sunhapper.SpEditTool:SpEditText:1.0.4"
