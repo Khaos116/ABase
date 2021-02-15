@@ -22,16 +22,9 @@ class SpXEditText : AppCompatEditText {
 
   constructor(context: Context) : super(context)
 
-  constructor(
-    context: Context,
-    attrs: AttributeSet
-  ) : super(context, attrs)
+  constructor(context: Context, attrs: AttributeSet) : super(context, attrs)
 
-  constructor(
-    context: Context,
-    attrs: AttributeSet,
-    defStyleAttr: Int
-  ) : super(context, attrs, defStyleAttr)
+  constructor(context: Context, attrs: AttributeSet, defStyleAttr: Int) : super(context, attrs, defStyleAttr)
 
   init {
     val watchers = ArrayList<NoCopySpan>()
@@ -42,12 +35,15 @@ class SpXEditText : AppCompatEditText {
   }
 
   private fun handleKeyEvent(event: KeyEvent): Boolean {
-      val temp = text
-      return if (temp == null) false else mKeyEventProxy.onKeyEvent(event, temp)
+    val temp = text
+    return if (temp == null) false else mKeyEventProxy.onKeyEvent(event, temp)
   }
 
-  override fun onCreateInputConnection(outAttrs: EditorInfo): InputConnection {
-    return CustomInputConnectionWrapper(super.onCreateInputConnection(outAttrs), true)
+  override fun onCreateInputConnection(outAttrs: EditorInfo?): InputConnection? {
+    super.onCreateInputConnection(outAttrs)?.let { ic ->
+      return CustomInputConnectionWrapper(ic, true)
+    }
+    return super.onCreateInputConnection(outAttrs)
   }
 
   /**
@@ -66,26 +62,12 @@ class SpXEditText : AppCompatEditText {
    * @param mutable set `true` to protect this object from being reconfigured to target
    * another [InputConnection].  Note that this is ignored while the target is `null`.
    */
-  (
-    target: InputConnection,
-    mutable: Boolean
-  ) : InputConnectionWrapper(target, mutable) {
+  (target: InputConnection, mutable: Boolean) : InputConnectionWrapper(target, mutable) {
 
-    override fun deleteSurroundingText(
-      beforeLength: Int,
-      afterLength: Int
-    ): Boolean {
+    override fun deleteSurroundingText(beforeLength: Int, afterLength: Int): Boolean {
       return if (beforeLength == 1 && afterLength == 0) {
-        sendKeyEvent(
-            KeyEvent(
-                KeyEvent.ACTION_DOWN,
-                KeyEvent.KEYCODE_DEL
-            )
-        ) && sendKeyEvent(
-            KeyEvent(
-                KeyEvent.ACTION_UP,
-                KeyEvent.KEYCODE_DEL
-            )
+        sendKeyEvent(KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_DEL)) && sendKeyEvent(
+            KeyEvent(KeyEvent.ACTION_UP, KeyEvent.KEYCODE_DEL)
         )
       } else super.deleteSurroundingText(beforeLength, afterLength)
     }
@@ -98,5 +80,4 @@ class SpXEditText : AppCompatEditText {
   fun setKeyEventProxy(keyEventProxy: KeyEventProxy) {
     mKeyEventProxy = keyEventProxy
   }
-
 }
