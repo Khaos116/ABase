@@ -13,6 +13,7 @@ import cc.abase.demo.component.blur.BlurActivity
 import cc.abase.demo.component.chat.ChatActivity
 import cc.abase.demo.component.comm.CommFragment
 import cc.abase.demo.component.coordinator.CoordinatorActivity
+import cc.abase.demo.component.count.CountActivity
 import cc.abase.demo.component.decoration.DecorationActivity
 import cc.abase.demo.component.drag.DragActivity
 import cc.abase.demo.component.expand.ExpandActivity
@@ -90,6 +91,7 @@ class MineFragment : CommFragment() {
       Pair(R.string.title_blur.xmlToString(), BlurActivity::class.java),
       Pair(R.string.title_zxing.xmlToString(), ZxingActivity::class.java),
       Pair(R.string.title_pattern_locker.xmlToString(), PatternLockerActivity::class.java),
+      Pair(R.string.title_count.xmlToString(), CountActivity::class.java),
       Pair(R.string.title_test.xmlToString(), TestActivity::class.java),
   )
   //</editor-fold>

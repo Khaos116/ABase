@@ -214,6 +214,13 @@
         android:launchMode="singleTop"
         android:screenOrientation="portrait"
         android:windowSoftInputMode="adjustPan|stateHidden"/>
+    <!--统计相关-->
+    <activity
+        android:name=".component.count.CountActivity"
+        android:configChanges="screenLayout|orientation"
+        android:launchMode="singleTop"
+        android:screenOrientation="portrait"
+        android:windowSoftInputMode="adjustPan|stateHidden"/>
     <!--测试专用页面-->
     <activity
         android:name=".component.test.TestActivity"

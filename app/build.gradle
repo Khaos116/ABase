@@ -224,7 +224,7 @@ bugly { debug = true }
 
 //三方依赖
 dependencies {
-  implementation fileTree(dir: 'libs', include: ['*.jar'])
+  implementation fileTree(dir: "libs", include: ['*.jar', '*.aar'])
   implementation project(':ablibrary')
   implementation project(':silicompressor')
   implementation Deps.walle
