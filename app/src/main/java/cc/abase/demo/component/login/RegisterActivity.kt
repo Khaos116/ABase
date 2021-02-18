@@ -23,15 +23,20 @@ import kotlinx.coroutines.withContext
  * @date: 2019/10/10 21:03
  */
 class RegisterActivity : CommTitleActivity() {
+  //<editor-fold defaultstate="collapsed" desc="外部跳转">
   companion object {
     fun startActivity(context: Context) {
       val intent = Intent(context, RegisterActivity::class.java)
       context.startActivity(intent)
     }
   }
+  //</editor-fold>
 
+  //<editor-fold defaultstate="collapsed" desc="XML">
   override fun layoutResContentId() = R.layout.activity_register
+  //</editor-fold>
 
+  //<editor-fold defaultstate="collapsed" desc="初始化View">
   override fun initContentView() {
     setTitleText(StringUtils.getString(R.string.login_register_hint))
     checkSubmit()
@@ -59,9 +64,34 @@ class RegisterActivity : CommTitleActivity() {
         dismissActionLoading()
       })
     }
-    extKeyBoard { statusHeight, navigationHeight, keyBoardHeight -> }
+    extKeyBoard { statusHeight, navigationHeight, keyBoardHeight ->
+      if (keyBoardHeight > 0) {
+        val array1 = intArrayOf(0, 0)
+        val array2 = intArrayOf(0, 0)
+        val array3 = intArrayOf(0, 0)
+        registerRoot.getLocationOnScreen(array1)
+        registerSubmit.getLocationOnScreen(array2)
+        registerInputPassword2.getLocationOnScreen(array3)
+        array1[1] = array1[1] + registerRoot.height
+        array2[1] = array2[1] + registerSubmit.height
+        array3[1] = array3[1] + registerInputPassword2.height
+        registerSubmit.translationY = (keyBoardHeight - (array1[1] - array2[1])) * -1f - 10.dp2Px()
+        if (array1[1] - array3[1] < registerSubmit.height + 10.dp2Px()) {
+          registerInputPassword2.translationY = (registerSubmit.height - (array1[1] - array3[1])) * -1f - 20.dp2Px()
+          registerInputPassword1.translationY = registerInputPassword2.translationY
+          registerInputAccount.translationY = registerInputPassword2.translationY
+        }
+      } else {
+        registerSubmit.translationY = 0f
+        registerInputAccount.translationY = 0f
+        registerInputPassword1.translationY = 0f
+        registerInputPassword2.translationY = 0f
+      }
+    }
   }
+  //</editor-fold>
 
+  //<editor-fold defaultstate="collapsed" desc="注册操作">
   private fun checkSubmit() {
     val textAcc = registerEditAccount.text
     val textPass1 = registerEditPassword1.text
@@ -98,7 +128,10 @@ class RegisterActivity : CommTitleActivity() {
       registerSubmit.pressEffectDisable()
     }
   }
+  //</editor-fold>
 
+  //<editor-fold defaultstate="collapsed" desc="初始化Data">
   override fun initData() {
   }
+  //</editor-fold>
 }
