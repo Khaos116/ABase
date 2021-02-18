@@ -23,6 +23,9 @@
   <uses-permission
       android:name="android.permission.READ_LOGS"
       tools:ignore="ProtectedPermissions"/>
+  <!--suppress DeprecatedClassUsageInspection 指纹相关权限-->
+  <uses-permission android:name="android.permission.USE_FINGERPRINT"/>
+  <uses-permission android:name="android.permission.USE_BIOMETRIC"/>
 
   <application
       android:name=".app.MyApplication"
