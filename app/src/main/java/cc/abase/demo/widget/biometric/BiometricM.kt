@@ -7,8 +7,9 @@ import androidx.core.hardware.fingerprint.FingerprintManagerCompat
 import androidx.core.os.CancellationSignal
 import androidx.fragment.app.FragmentActivity
 import cc.ab.base.ext.logE
-import cc.abase.demo.widget.dialog.CommAlertDialog
-import cc.abase.demo.widget.dialog.commAlertDialog
+import cc.ab.base.ext.xmlToString
+import cc.abase.demo.R
+import cc.abase.demo.widget.dialog.*
 import kotlinx.android.synthetic.main.dialog_comm.commAlertConfirm
 import javax.crypto.Cipher
 
@@ -69,13 +70,10 @@ class BiometricM(val activity: FragmentActivity) : BiometricInterface {
     mDialog = null
     val t = title
     commAlertDialog(activity.supportFragmentManager) {
+      type = AlertDialogType.SINGLE_BUTTON
       mDialog = this
-      title = t
-      content = subTitle
-      confirmText = hint
-      cancelText = negative
-      cancelCallback = { cancellationSignal.cancel() }
-      confirmCallback = { false }
+      content = hint
+      confirmText = R.string.cancel.xmlToString()
     }
     val loadCipher = try {
       loadCipher(encrypt, keyAlias, ivBytes)
