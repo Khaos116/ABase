@@ -31,7 +31,7 @@ class CommAlertDialog : BaseFragmentDialog() {
   var confirmText: String? = null
   var confirmTextColor: Int? = null
   var cancelCallback: (() -> Unit)? = null
-  var confirmCallback: (() -> Unit)? = null
+  var confirmCallback: (() -> Boolean)? = null
   var contentHorizontal: Boolean = false
   var titleHorizontal: Boolean = true
 
@@ -74,8 +74,8 @@ class CommAlertDialog : BaseFragmentDialog() {
       dismissAllowingStateLoss()
     }
     commAlertConfirm.click {
-      confirmCallback?.invoke()
-      dismissAllowingStateLoss()
+      val dis = confirmCallback?.invoke() ?: true
+      if (dis) dismissAllowingStateLoss()
     }
     //按钮类型
     when (type) {
