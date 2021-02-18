@@ -2,9 +2,10 @@
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/loginRoot"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools"
     android:focusable="true"
     android:focusableInTouchMode="true"
     android:orientation="vertical"
@@ -22,6 +23,7 @@
       app:layout_constraintTop_toTopOf="parent"
       tools:text="1.0.2"
       />
+
   <com.google.android.material.textfield.TextInputLayout
       android:id="@+id/loginInputAccount"
       android:layout_width="0dp"
@@ -38,10 +40,10 @@
 
     <EditText
         android:id="@+id/loginEditAccount"
-        android:inputType="textPersonName|textEmailAddress"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/login_account_hint"
+        android:inputType="textPersonName|textEmailAddress"
         android:maxLines="1"
         />
   </com.google.android.material.textfield.TextInputLayout>
