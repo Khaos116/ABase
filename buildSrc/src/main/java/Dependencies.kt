@@ -176,9 +176,6 @@ object Deps {
 
   //手势解锁 https://github.com/ihsg/PatternLocker
   const val pattern_locker = "com.github.ihsg:PatternLocker:2.5.7"
-
-  //腾讯生物认证 https://github.com/Tencent/soter
-  const val soter = "com.tencent.soter:soter-wrapper:2.0.0"
   //</editor-fold>
 
   //<editor-fold defaultstate="collapsed" desc="其他">

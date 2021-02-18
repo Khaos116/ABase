@@ -6,7 +6,6 @@ buildscript {
     google()
     jcenter()
     maven { url 'https://jitpack.io' }
-    maven { url 'https://dl.bintray.com/tencent-soter/maven' } //https://github.com/Tencent/soter
     //-----------国内通用-----------
     maven { url 'https://maven.aliyun.com/repository/gradle-plugin' }
     maven { url 'https://maven.aliyun.com/repository/jcenter' }
@@ -33,7 +32,6 @@ allprojects {
     google()
     jcenter()
     maven { url 'https://jitpack.io' }
-    maven { url 'https://dl.bintray.com/tencent-soter/maven' } //https://github.com/Tencent/soter
     //-----------国内通用-----------
     maven { url 'https://maven.aliyun.com/repository/gradle-plugin' }
     maven { url 'https://maven.aliyun.com/repository/jcenter' }
