@@ -37,7 +37,11 @@ class TokenInterceptor : Interceptor {
     val cookies = originalResponse.headers.toMultimap().filter { it.key.contains("cookie", true) }
     //需要重新登录的判断
     originalResponse.body?.source()?.apply { request(Long.MAX_VALUE) }?.buffer?.let { buffer ->
-      val jsonObject = JSONObject(buffer.clone().readString(Charset.forName("UTF-8")))
+      val jsonObject = try {
+        JSONObject(buffer.clone().readString(Charset.forName("UTF-8")))
+      } catch (e: Exception) {
+        JSONObject("{}")
+      }
       //需要的登录
       if (jsonObject.has("errorCode") && jsonObject.optInt("errorCode") == ErrorCode.NO_LOGIN) {
         if (AppConfig.NEE_AUTO_LOGIN) {
