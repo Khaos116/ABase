@@ -23,6 +23,7 @@ class BiometricUn : BiometricInterface {
     return BiometricInterface.ERROR_HW_UNAVAILABLE
   }
 
-  override fun authenticate(onSuccess: ((Cipher) -> Unit)?, onError: ((Int, String) -> Unit)?) {
-  }
+  override fun release() {}
+
+  override fun authenticate(onSuccess: ((Cipher) -> Unit)?, onError: ((Int, String) -> Unit)?) {}
 }
