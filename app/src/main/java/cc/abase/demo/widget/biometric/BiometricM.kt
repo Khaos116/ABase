@@ -62,10 +62,10 @@ class BiometricM(val activity: FragmentActivity) : BiometricInterface {
     }
   }
 
-  override fun authenticate(onSuccess: (Cipher) -> Unit, onError: (Int, String) -> Unit) {
+  override fun authenticate(onSuccess: ((Cipher) -> Unit)?, onError: ((Int, String) -> Unit)?) {
     val cancellationSignal = CancellationSignal()
     cancellationSignal.setOnCancelListener {
-      onError.invoke(5, "用户取消")
+      onError?.invoke(5, "用户取消")
     }
     mDialog?.dismiss()
     mDialog = null
@@ -82,7 +82,7 @@ class BiometricM(val activity: FragmentActivity) : BiometricInterface {
       null
     }
     if (null == loadCipher) {
-      onError.invoke(BiometricInterface.ERROR_FAILED, "指纹验证失败")
+      onError?.invoke(BiometricInterface.ERROR_FAILED, "指纹验证失败")
       return
     }
     fingerprintManager.authenticate(FingerprintManagerCompat.CryptoObject(loadCipher), 0, cancellationSignal,
@@ -91,10 +91,10 @@ class BiometricM(val activity: FragmentActivity) : BiometricInterface {
             try {
               val cipher = result?.cryptoObject?.cipher
                   ?: throw RuntimeException("cipher is null!")
-              onSuccess.invoke(cipher)
+              onSuccess?.invoke(cipher)
             } catch (throwable: Throwable) {
               throwable.logE()
-              onError.invoke(BiometricInterface.ERROR_FAILED, "指纹验证失败")
+              onError?.invoke(BiometricInterface.ERROR_FAILED, "指纹验证失败")
             } finally {
               mDialog?.dismiss()
             }
@@ -102,17 +102,17 @@ class BiometricM(val activity: FragmentActivity) : BiometricInterface {
 
           override fun onAuthenticationHelp(helpCode: Int, helpString: CharSequence?) {
             mDialog?.commAlertConfirm?.text = (helpString.toString())
-            onError.invoke(helpCode, helpString.toString())
+            onError?.invoke(helpCode, helpString.toString())
           }
 
           override fun onAuthenticationFailed() {
             mDialog?.dismiss()
-            onError.invoke(BiometricInterface.ERROR_FAILED, "指纹验证失败")
+            onError?.invoke(BiometricInterface.ERROR_FAILED, "指纹验证失败")
           }
 
           override fun onAuthenticationError(errorCode: Int, errString: CharSequence?) {
             mDialog?.dismiss()
-            onError.invoke(errorCode, errString.toString())
+            onError?.invoke(errorCode, errString.toString())
           }
         },
         null)

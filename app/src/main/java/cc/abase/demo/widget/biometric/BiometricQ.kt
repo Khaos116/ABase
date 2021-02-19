@@ -1,6 +1,5 @@
 package cc.abase.demo.widget.biometric
 
-import android.content.Context
 import android.hardware.biometrics.BiometricPrompt
 import android.os.Build
 import androidx.annotation.RequiresApi
@@ -25,10 +24,10 @@ class BiometricQ(val activity: FragmentActivity) : BiometricInterface by Biometr
   override var hint = "请按压指纹感应区验证指纹"
   override var negative = "取消"
 
-  override fun authenticate(onSuccess: (Cipher) -> Unit, onError: (Int, String) -> Unit) {
+  override fun authenticate(onSuccess: ((Cipher) -> Unit)?, onError: ((Int, String) -> Unit)?) {
     val cancellationSignal = android.os.CancellationSignal()
     cancellationSignal.setOnCancelListener {
-      onError.invoke(5, "用户取消")
+      onError?.invoke(5, "用户取消")
     }
     val prompt = with(BiometricPrompt.Builder(activity.applicationContext)) {
       if (title.isNotBlank()) {
@@ -52,7 +51,7 @@ class BiometricQ(val activity: FragmentActivity) : BiometricInterface by Biometr
       null
     }
     if (null == loadCipher) {
-      onError.invoke(BiometricInterface.ERROR_FAILED, "指纹验证失败")
+      onError?.invoke(BiometricInterface.ERROR_FAILED, "指纹验证失败")
       return
     }
     prompt.authenticate(BiometricPrompt.CryptoObject(loadCipher), cancellationSignal, activity.mainExecutor,
@@ -61,23 +60,23 @@ class BiometricQ(val activity: FragmentActivity) : BiometricInterface by Biometr
             try {
               val cipher = result?.cryptoObject?.cipher
                   ?: throw RuntimeException("cipher is null!")
-              onSuccess.invoke(cipher)
+              onSuccess?.invoke(cipher)
             } catch (throwable: Throwable) {
               throwable.logE()
-              onError.invoke(BiometricInterface.ERROR_FAILED, "指纹验证失败")
+              onError?.invoke(BiometricInterface.ERROR_FAILED, "指纹验证失败")
             }
           }
 
           override fun onAuthenticationHelp(helpCode: Int, helpString: CharSequence?) {
-            onError.invoke(helpCode, helpString.toString())
+            onError?.invoke(helpCode, helpString.toString())
           }
 
           override fun onAuthenticationFailed() {
-            onError.invoke(BiometricInterface.ERROR_FAILED, "指纹验证失败")
+            onError?.invoke(BiometricInterface.ERROR_FAILED, "指纹验证失败")
           }
 
           override fun onAuthenticationError(errorCode: Int, errString: CharSequence?) {
-            onError.invoke(errorCode, errString.toString())
+            onError?.invoke(errorCode, errString.toString())
           }
         })
   }
