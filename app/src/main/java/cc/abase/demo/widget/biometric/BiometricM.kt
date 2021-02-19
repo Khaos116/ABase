@@ -20,6 +20,7 @@ import javax.crypto.Cipher
  *
  * @author 王杰
  */
+@Suppress("DEPRECATION")
 @RequiresApi(Build.VERSION_CODES.M)
 class BiometricM(val activity: FragmentActivity) : BiometricInterface {
 
@@ -84,10 +85,7 @@ class BiometricM(val activity: FragmentActivity) : BiometricInterface {
       onError.invoke(BiometricInterface.ERROR_FAILED, "指纹验证失败")
       return
     }
-    fingerprintManager.authenticate(
-        FingerprintManagerCompat.CryptoObject(loadCipher),
-        0,
-        cancellationSignal,
+    fingerprintManager.authenticate(FingerprintManagerCompat.CryptoObject(loadCipher), 0, cancellationSignal,
         object : FingerprintManagerCompat.AuthenticationCallback() {
           override fun onAuthenticationSucceeded(result: FingerprintManagerCompat.AuthenticationResult?) {
             try {
