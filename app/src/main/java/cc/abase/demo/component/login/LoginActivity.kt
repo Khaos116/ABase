@@ -51,6 +51,9 @@ class LoginActivity : CommActivity() {
 
   //指纹登录数据保存
   private var mmkv = MMKV.mmkvWithID("Biometric")
+
+  //指纹识别相关
+  private var mBiometricProvider: BiometricProvider? = null
   //</editor-fold>
 
   //<editor-fold defaultstate="collapsed" desc="初始化View">
@@ -158,17 +161,20 @@ class LoginActivity : CommActivity() {
   //检测是否可以指纹登录
   private fun checkBiometric(): Boolean {
     val provider = BiometricProvider(this)
+    mBiometricProvider = provider
     provider.encrypt = false //默认为加密，这里改为解密
     val result = provider.checkBiometric()
     if (result == BiometricInterface.HW_AVAILABLE) {
       mmkv?.decodeBytes("IV")?.let { iv -> provider.ivBytes = iv } //解密需要IV
       mmkv?.decodeBytes("Biometric")?.let { b ->
         "读取的数据:${String(b)}".logE()
+        needResumeShow = true
         commAlertDialog(supportFragmentManager, cancelable = false, outside = false) {
           title = "温馨提示"
           content = "是否使用指纹登录(切换账号请点取消)?"
           confirmText = "指纹登录"
           cancelText = "取消"
+          cancelCallback = { needResumeShow = false }
           confirmCallback = { authenticate(provider, b) }
         }
         return true
@@ -205,13 +211,16 @@ class LoginActivity : CommActivity() {
         }
       }
     }, { code, msg ->
-      failCount++
-      if (code == BiometricInterface.ERROR_FAILED && failCount < 5) {
-        "验证失败，请重试".toast()
-        authenticate(provider, bytes)
-      } else {
-        "失败次数太多，暂停使用".toast()
-        ActivityUtils.finishAllActivities()
+      if (AppUtils.isAppForeground()) {
+        failCount++
+        if (code == BiometricInterface.ERROR_FAILED && failCount <= 5) {
+          "验证失败，请重试".toast()
+          authenticate(provider, bytes)
+        } else if (failCount > 5) {
+          "失败次数太多，暂停使用".toast()
+          mBiometricProvider = null
+          ActivityUtils.finishAllActivities()
+        }
       }
     })
   }
@@ -221,6 +230,7 @@ class LoginActivity : CommActivity() {
   //指纹识别通过后保存加密后的账号密码
   private fun saveBiometric(account: String, password: String) {
     val provider = BiometricProvider(this)
+    mBiometricProvider = provider
     val result = provider.checkBiometric()
     if (result == BiometricInterface.HW_AVAILABLE) {
       commAlertDialog(supportFragmentManager, cancelable = false, outside = false) {
@@ -249,6 +259,26 @@ class LoginActivity : CommActivity() {
     } else {
       MainActivity.startActivity(mContext)
     }
+  }
+  //</editor-fold>
+
+  //<editor-fold defaultstate="collapsed" desc="生命周期">
+  private var needResumeShow = false
+  override fun onResume() {
+    super.onResume()
+    if (needResumeShow && supportFragmentManager.fragments.isNullOrEmpty()) {
+      checkBiometric()
+    }
+  }
+
+  override fun finish() {
+    super.finish()
+    mBiometricProvider = null
+  }
+
+  override fun onDestroy() {
+    mBiometricProvider = null
+    super.onDestroy()
   }
   //</editor-fold>
 }
