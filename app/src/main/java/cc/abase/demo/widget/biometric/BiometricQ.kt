@@ -1,5 +1,6 @@
 package cc.abase.demo.widget.biometric
 
+import android.content.Context
 import android.hardware.biometrics.BiometricPrompt
 import android.os.Build
 import androidx.annotation.RequiresApi
@@ -15,9 +16,7 @@ import javax.crypto.Cipher
  * @author 王杰
  */
 @RequiresApi(Build.VERSION_CODES.Q)
-class BiometricQ(val activity: FragmentActivity)
-  : BiometricInterface by BiometricM(activity) {
-
+class BiometricQ(val activity: FragmentActivity) : BiometricInterface by BiometricM(activity) {
   override var encrypt = true
   override var keyAlias = "DEFAULT_KEY_NAME"
   override var ivBytes: ByteArray? = null
@@ -31,7 +30,7 @@ class BiometricQ(val activity: FragmentActivity)
     cancellationSignal.setOnCancelListener {
       onError.invoke(5, "用户取消")
     }
-    val prompt = with(BiometricPrompt.Builder(activity)) {
+    val prompt = with(BiometricPrompt.Builder(activity.applicationContext)) {
       if (title.isNotBlank()) {
         setTitle(title)
       }
@@ -56,10 +55,7 @@ class BiometricQ(val activity: FragmentActivity)
       onError.invoke(BiometricInterface.ERROR_FAILED, "指纹验证失败")
       return
     }
-    prompt.authenticate(
-        BiometricPrompt.CryptoObject(loadCipher),
-        cancellationSignal,
-        activity.mainExecutor,
+    prompt.authenticate(BiometricPrompt.CryptoObject(loadCipher), cancellationSignal, activity.mainExecutor,
         object : BiometricPrompt.AuthenticationCallback() {
           override fun onAuthenticationSucceeded(result: BiometricPrompt.AuthenticationResult?) {
             try {
