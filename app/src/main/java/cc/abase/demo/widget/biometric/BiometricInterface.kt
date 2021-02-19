@@ -42,6 +42,9 @@ interface BiometricInterface {
   /** 检查指纹识别支持装汤 */
   fun checkBiometric(): Int
 
+  //释放资源
+  fun release()
+
   /** 发起认证，成功回调 [onSuccess] 回传 [Cipher] 对象，失败回调 [onError] 回传错误码 [Int] 错误信息 [String] */
   fun authenticate(onSuccess: ((Cipher) -> Unit)? = null, onError: ((Int, String) -> Unit)? = null)
 

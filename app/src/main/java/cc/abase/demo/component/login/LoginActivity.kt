@@ -273,11 +273,11 @@ class LoginActivity : CommActivity() {
 
   override fun finish() {
     super.finish()
-    mBiometricProvider = null
+    mBiometricProvider?.release()
   }
 
   override fun onDestroy() {
-    mBiometricProvider = null
+    mBiometricProvider?.release()
     super.onDestroy()
   }
   //</editor-fold>
