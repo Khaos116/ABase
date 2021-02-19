@@ -61,6 +61,7 @@
   <string name="title_zxing">Zxing扫码</string>
   <string name="title_pattern_locker">手势解锁</string>
   <string name="title_count">统计信息展示</string>
+  <string name="title_bottom_sheet">BottomSheetDialog</string>
   <string name="title_test">测试专用页面</string>
   <string name="gank_see_counts">浏览数:</string>
   <string name="gank_praise_counts">点赞数:</string>
@@ -76,4 +77,5 @@
   <string name="go_open">去打开</string>
   <string name="empty_zxing">二维码内容不能为空</string>
   <string name="zxing_camera_permission">扫码需要摄像头权限</string>
+  <string name="open_bottom_sheet_dialog">打开BottomSheetDialog</string>
 </resources>

@@ -10,6 +10,7 @@ import cc.ab.base.ext.*
 import cc.abase.demo.R
 import cc.abase.demo.bean.local.SimpleTxtBean
 import cc.abase.demo.component.blur.BlurActivity
+import cc.abase.demo.component.bottomsheet.BottomSheetActivity
 import cc.abase.demo.component.chat.ChatActivity
 import cc.abase.demo.component.comm.CommFragment
 import cc.abase.demo.component.coordinator.CoordinatorActivity
@@ -92,6 +93,7 @@ class MineFragment : CommFragment() {
       Pair(R.string.title_zxing.xmlToString(), ZxingActivity::class.java),
       Pair(R.string.title_pattern_locker.xmlToString(), PatternLockerActivity::class.java),
       Pair(R.string.title_count.xmlToString(), CountActivity::class.java),
+      Pair(R.string.title_bottom_sheet.xmlToString(), BottomSheetActivity::class.java),
       Pair(R.string.title_test.xmlToString(), TestActivity::class.java),
   )
   //</editor-fold>

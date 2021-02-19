@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+
+  <TextView
+      android:id="@+id/bottomSheetBtn"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_gravity="center"
+      android:background="@drawable/shape_half_dark_green"
+      android:paddingStart="20dp"
+      android:paddingTop="8dp"
+      android:paddingEnd="20dp"
+      android:paddingBottom="8dp"
+      android:text="@string/open_bottom_sheet_dialog"
+      android:textColor="@color/white"
+      />
+</FrameLayout>

@@ -224,6 +224,13 @@
         android:launchMode="singleTop"
         android:screenOrientation="portrait"
         android:windowSoftInputMode="adjustPan|stateHidden"/>
+    <!--BottomSheet-->
+    <activity
+        android:name=".component.bottomsheet.BottomSheetActivity"
+        android:configChanges="screenLayout|orientation"
+        android:launchMode="singleTop"
+        android:screenOrientation="portrait"
+        android:windowSoftInputMode="adjustPan|stateHidden"/>
     <!--测试专用页面-->
     <activity
         android:name=".component.test.TestActivity"
