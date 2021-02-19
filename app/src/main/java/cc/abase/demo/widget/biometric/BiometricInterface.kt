@@ -4,6 +4,7 @@ import android.os.Build
 import android.security.keystore.KeyGenParameterSpec
 import android.security.keystore.KeyProperties
 import androidx.annotation.RequiresApi
+import androidx.fragment.app.FragmentActivity
 import java.security.KeyStore
 import javax.crypto.Cipher
 import javax.crypto.KeyGenerator
@@ -46,7 +47,7 @@ interface BiometricInterface {
   fun release()
 
   /** 发起认证，成功回调 [onSuccess] 回传 [Cipher] 对象，失败回调 [onError] 回传错误码 [Int] 错误信息 [String] */
-  fun authenticate(onSuccess: ((Cipher) -> Unit)? = null, onError: ((Int, String) -> Unit)? = null)
+  fun authenticate(activity: FragmentActivity, onSuccess: ((Cipher) -> Unit)? = null, onError: ((Int, String) -> Unit)? = null)
 
   /** 根据是否加密 [encrypt] 密钥别名 [keyAlias] 以及解密时必须的向量字节数组 [bytes] 创建 [Cipher] 对象 */
   @RequiresApi(Build.VERSION_CODES.M)
