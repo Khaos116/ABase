@@ -1,5 +1,6 @@
 package cc.abase.demo.widget.biometric
 
+import android.app.Application
 import android.app.KeyguardManager
 import android.os.Build
 import androidx.annotation.RequiresApi
@@ -22,11 +23,11 @@ import javax.crypto.Cipher
  */
 @Suppress("DEPRECATION")
 @RequiresApi(Build.VERSION_CODES.M)
-class BiometricM(val activity: FragmentActivity) : BiometricInterface {
+class BiometricM(val app: Application) : BiometricInterface {
 
   /** [Build.VERSION_CODES.M] 以上指纹管理对象 */
   private val fingerprintManager: FingerprintManagerCompat by lazy {
-    FingerprintManagerCompat.from(activity)
+    FingerprintManagerCompat.from(app)
   }
 
   override var encrypt = true
@@ -41,7 +42,7 @@ class BiometricM(val activity: FragmentActivity) : BiometricInterface {
 
   override fun checkBiometric(): Int {
     //键盘锁管理者
-    val km = activity.getSystemService(KeyguardManager::class.java)
+    val km = app.getSystemService(KeyguardManager::class.java)
     return when {
       !fingerprintManager.isHardwareDetected -> {
         // 不支持指纹
@@ -62,14 +63,23 @@ class BiometricM(val activity: FragmentActivity) : BiometricInterface {
     }
   }
 
-  override fun authenticate(onSuccess: ((Cipher) -> Unit)?, onError: ((Int, String) -> Unit)?) {
+  private var mSuccessCall: ((Cipher) -> Unit)? = null
+  private var mErrorCall: ((Int, String) -> Unit)? = null
+
+  override fun release() {
+    mSuccessCall = null
+    mErrorCall = null
+  }
+
+  override fun authenticate(activity: FragmentActivity, onSuccess: ((Cipher) -> Unit)?, onError: ((Int, String) -> Unit)?) {
+    mSuccessCall = onSuccess
+    mErrorCall = onError
     val cancellationSignal = CancellationSignal()
     cancellationSignal.setOnCancelListener {
-      onError?.invoke(5, "用户取消")
+      mErrorCall?.invoke(5, "用户取消")
     }
     mDialog?.dismiss()
     mDialog = null
-    val t = title
     commAlertDialog(activity.supportFragmentManager) {
       type = AlertDialogType.SINGLE_BUTTON
       mDialog = this
@@ -82,19 +92,18 @@ class BiometricM(val activity: FragmentActivity) : BiometricInterface {
       null
     }
     if (null == loadCipher) {
-      onError?.invoke(BiometricInterface.ERROR_FAILED, "指纹验证失败")
+      mErrorCall?.invoke(BiometricInterface.ERROR_FAILED, "指纹验证失败")
       return
     }
     fingerprintManager.authenticate(FingerprintManagerCompat.CryptoObject(loadCipher), 0, cancellationSignal,
         object : FingerprintManagerCompat.AuthenticationCallback() {
           override fun onAuthenticationSucceeded(result: FingerprintManagerCompat.AuthenticationResult?) {
             try {
-              val cipher = result?.cryptoObject?.cipher
-                  ?: throw RuntimeException("cipher is null!")
-              onSuccess?.invoke(cipher)
+              val cipher = result?.cryptoObject?.cipher ?: throw RuntimeException("cipher is null!")
+              mSuccessCall?.invoke(cipher)
             } catch (throwable: Throwable) {
               throwable.logE()
-              onError?.invoke(BiometricInterface.ERROR_FAILED, "指纹验证失败")
+              mErrorCall?.invoke(BiometricInterface.ERROR_FAILED, "指纹验证失败")
             } finally {
               mDialog?.dismiss()
             }
@@ -102,17 +111,17 @@ class BiometricM(val activity: FragmentActivity) : BiometricInterface {
 
           override fun onAuthenticationHelp(helpCode: Int, helpString: CharSequence?) {
             mDialog?.commAlertConfirm?.text = (helpString.toString())
-            onError?.invoke(helpCode, helpString.toString())
+            mErrorCall?.invoke(helpCode, helpString.toString())
           }
 
           override fun onAuthenticationFailed() {
             mDialog?.dismiss()
-            onError?.invoke(BiometricInterface.ERROR_FAILED, "指纹验证失败")
+            mErrorCall?.invoke(BiometricInterface.ERROR_FAILED, "指纹验证失败")
           }
 
           override fun onAuthenticationError(errorCode: Int, errString: CharSequence?) {
             mDialog?.dismiss()
-            onError?.invoke(errorCode, errString.toString())
+            mErrorCall?.invoke(errorCode, errString.toString())
           }
         },
         null)

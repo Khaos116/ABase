@@ -160,7 +160,7 @@ class LoginActivity : CommActivity() {
   //<editor-fold defaultstate="collapsed" desc="检测指纹登录">
   //检测是否可以指纹登录
   private fun checkBiometric(): Boolean {
-    val provider = BiometricProvider(this)
+    val provider = BiometricProvider(application)
     mBiometricProvider = provider
     provider.encrypt = false //默认为加密，这里改为解密
     val result = provider.checkBiometric()
@@ -187,7 +187,7 @@ class LoginActivity : CommActivity() {
   //<editor-fold defaultstate="collapsed" desc="调用指纹登录">
   private var failCount = 0
   private fun authenticate(provider: BiometricProvider, bytes: ByteArray) {
-    provider.tryAuthenticate({ cipher ->
+    provider.tryAuthenticate(this@LoginActivity, { cipher ->
       // 使用 cipher 对登录信息进行解密
       val loginInfo = cipher.doFinal(bytes)
       if (loginInfo != null) {
@@ -229,7 +229,7 @@ class LoginActivity : CommActivity() {
   //<editor-fold defaultstate="collapsed" desc="登录成功处理指纹登录">
   //指纹识别通过后保存加密后的账号密码
   private fun saveBiometric(account: String, password: String) {
-    val provider = BiometricProvider(this)
+    val provider = BiometricProvider(application)
     mBiometricProvider = provider
     val result = provider.checkBiometric()
     if (result == BiometricInterface.HW_AVAILABLE) {
@@ -239,7 +239,7 @@ class LoginActivity : CommActivity() {
         confirmText = "开启"
         cancelText = "忽略"
         confirmCallback = {
-          provider.tryAuthenticate({ cipher ->
+          provider.tryAuthenticate(this@LoginActivity, { cipher ->
             // 使用 cipher 对登录信息进行加密并保存
             val map = hashMapOf(account to password)
             val saveMsg = GsonUtils.toJson(map)

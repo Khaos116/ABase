@@ -1,5 +1,6 @@
 package cc.abase.demo.widget.biometric
 
+import android.app.Application
 import android.os.Build
 import androidx.fragment.app.FragmentActivity
 import javax.crypto.Cipher
@@ -11,27 +12,15 @@ import javax.crypto.Cipher
  *
  * @author 王杰
  */
-class BiometricProvider(private val activity: FragmentActivity, supportQ: Boolean = true)
+class BiometricProvider(private val app: Application, supportQ: Boolean = true)
   : BiometricInterface by when {
-  Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q && supportQ -> BiometricQ(activity)
-  Build.VERSION.SDK_INT >= Build.VERSION_CODES.M -> BiometricM(activity)
+  Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q && supportQ -> BiometricQ(app)
+  Build.VERSION.SDK_INT >= Build.VERSION_CODES.M -> BiometricM(app)
   else -> BiometricUn()
 }
 
-/** 标记 - 是否支持 AndroidQ API */
-var biometricSupportQ: Boolean = true
-
-/** 生物识别对象 */
-val FragmentActivity.biometric: BiometricInterface
-  get() = BiometricProvider(this, biometricSupportQ)
-
-/** 是否支持生物识别 */
-fun FragmentActivity.supportBiometric(): Boolean {
-  return biometric.checkBiometric() == BiometricInterface.HW_AVAILABLE
-}
-
 /** 尝试进行生物识别认证，成功回调 [onSuccess] 回传 [Cipher] 对象，失败回调 [onError] 回传错误码 [Int] 错误信息 [String] */
-fun BiometricInterface.tryAuthenticate(onSuccess: ((Cipher) -> Unit)? = null, onError: ((Int, String) -> Unit)? = null) {
+fun BiometricInterface.tryAuthenticate(activity: FragmentActivity, onSuccess: ((Cipher) -> Unit)? = null, onError: ((Int, String) -> Unit)? = null) {
   when (val resultCode = checkBiometric()) {
     BiometricInterface.ERROR_HW_UNAVAILABLE -> {
       // 不支持
@@ -47,7 +36,7 @@ fun BiometricInterface.tryAuthenticate(onSuccess: ((Cipher) -> Unit)? = null, on
     }
     else -> {
       // 支持
-      authenticate(onSuccess, onError)
+      authenticate(activity, onSuccess, onError)
     }
   }
 }

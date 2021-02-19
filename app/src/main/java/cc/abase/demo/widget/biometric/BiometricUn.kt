@@ -1,5 +1,6 @@
 package cc.abase.demo.widget.biometric
 
+import androidx.fragment.app.FragmentActivity
 import javax.crypto.Cipher
 
 /**
@@ -25,5 +26,5 @@ class BiometricUn : BiometricInterface {
 
   override fun release() {}
 
-  override fun authenticate(onSuccess: ((Cipher) -> Unit)?, onError: ((Int, String) -> Unit)?) {}
+  override fun authenticate(activity: FragmentActivity, onSuccess: ((Cipher) -> Unit)?, onError: ((Int, String) -> Unit)?) {}
 }
