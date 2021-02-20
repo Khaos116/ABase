@@ -47,7 +47,7 @@ class DecorationFragment : CommFragment() {
 
   //<editor-fold defaultstate="collapsed" desc="懒加载">
   override fun lazyInit() {
-    multiTypeAdapter.register(SimpleTxtItem(height = 70.dp2Px(), bgColor = Color.CYAN) { it.txt.toast() })
+    multiTypeAdapter.register(SimpleTxtItem(height = 70.dp2Px(), bgColor = Color.CYAN).also { it.onItemClick = { bean -> bean.txt.toast() } })
     //页面重建View不再重新设置
     if (decorRecycler.itemDecorationCount == 0) {
       val decorator = if (mType != 8) {

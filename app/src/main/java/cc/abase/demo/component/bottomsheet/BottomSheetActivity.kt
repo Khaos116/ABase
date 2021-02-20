@@ -45,7 +45,7 @@ class BottomSheetActivity : CommTitleActivity() {
       if (mBottomSheetDialog == null) initBottomSheet()
       if (mBottomSheetDialog?.isShowing == false) mBottomSheetDialog?.show()
     }
-    mAdapter.register(SimpleTxtItem { it.txt.toast() })
+    mAdapter.register(SimpleTxtItem().also { it.onItemClick = { bean -> bean.txt.toast() } })
     mAdapter.register(DividerItem())
   }
   //</editor-fold>

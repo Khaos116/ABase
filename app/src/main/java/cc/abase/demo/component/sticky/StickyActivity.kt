@@ -74,15 +74,19 @@ class StickyActivity : CommTitleActivity() {
       if (position >= 0) manager.scrollToPositionWithOffset(position, 0)
     }
     //注册多类型
-    multiTypeAdapter.register(StickyTopItem {
-      it.regionName?.toast()
+    multiTypeAdapter.register(StickyTopItem().also {
+      it.onItemClick = { bean ->
+        bean.regionName?.toast()
+      }
     })
-    multiTypeAdapter.register(StickyNormalItem {
-      if (needChoose) {
-        it.fromTag = mTag
-        LiveEventBus.get(EventKeys.CHOOSE_STICKY).post(it)
-        finish()
-      } else it.regionFullName?.toast()
+    multiTypeAdapter.register(StickyNormalItem().also {
+      it.onItemClick = { bean ->
+        if (needChoose) {
+          bean.fromTag = mTag
+          LiveEventBus.get(EventKeys.CHOOSE_STICKY).post(it)
+          finish()
+        } else bean.regionFullName?.toast()
+      }
     })
     multiTypeAdapter.register(DividerItem())
     stickyRecycler.adapter = multiTypeAdapter

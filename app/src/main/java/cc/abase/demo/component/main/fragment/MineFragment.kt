@@ -108,18 +108,20 @@ class MineFragment : CommFragment() {
     //分割线
     if (mineRecycler.itemDecorationCount == 0) mineRecycler.addItemDecoration(SpacesItemDecoration())
     //注册多类型
-    multiTypeAdapter.register(SimpleTxtItem() { stb ->
-      stb.cls?.let { cls ->
-        val second = cls.newInstance()
-        if (second is Activity) {
-          mActivity.startActivity(Intent(mContext, cls))
-        } else if (second is CcUpdateService) {
-          clickCount++
-          CcUpdateService.startIntent(
-              path = if (clickCount % 2 == 0) apkUrk else apkUrk2,
-              apk_name = if (clickCount % 2 == 0) "应用变量" else "币安",
-              showNotification = true
-          )
+    multiTypeAdapter.register(SimpleTxtItem().also {
+      it.onItemClick = { stb ->
+        stb.cls?.let { cls ->
+          val second = cls.newInstance()
+          if (second is Activity) {
+            mActivity.startActivity(Intent(mContext, cls))
+          } else if (second is CcUpdateService) {
+            clickCount++
+            CcUpdateService.startIntent(
+                path = if (clickCount % 2 == 0) apkUrk else apkUrk2,
+                apk_name = if (clickCount % 2 == 0) "应用变量" else "币安",
+                showNotification = true
+            )
+          }
         }
       }
     })

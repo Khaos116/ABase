@@ -63,8 +63,10 @@ class WanFragment : CommFragment() {
     stickyAdapter.register(BannerItem() { bean, _ ->
       bean.url?.let { u -> WebActivity.startActivity(mActivity, u) }
     })
-    stickyAdapter.register(ArticleItem { bean ->
-      bean.link?.let { u -> WebActivity.startActivity(mActivity, u) }
+    stickyAdapter.register(ArticleItem().also {
+      it.onItemClick = { bean ->
+        bean.link?.let { u -> WebActivity.startActivity(mActivity, u) }
+      }
     })
     //文章列表监听
     mViewModel.articleLiveData.observe(this) {

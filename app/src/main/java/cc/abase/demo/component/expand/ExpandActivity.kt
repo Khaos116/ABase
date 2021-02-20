@@ -46,34 +46,36 @@ class ExpandActivity : CommTitleActivity() {
   //<editor-fold defaultstate="collapsed" desc="初始化View">
   override fun initContentView() {
     setTitleText(StringUtils.getString(R.string.expandable))
-    multiTypeAdapter.register(StickyTopItem { pb ->
-      val items = multiTypeAdapter.items.toMutableList()
-      val index = items.indexOf(pb)
-      if (pb.expand) { //收起
-        pb.expand = false
-        val remainList = items.subList(index + 1, items.size) //找到当前到最后一个数据
-        val next = remainList.firstOrNull { a -> a is ProvinceBean } //找到下一个数据
-        val end = if (next == null) items.size - 2/*多减1是最后一个分割线*/ else items.indexOf(next) - 2/*多减1是最后一个分割线*/
-        for (i in end downTo index + 1) items.removeAt(i) //全部移除掉
-        multiTypeAdapter.items = items
-        multiTypeAdapter.notifyItemChanged(index)
-        multiTypeAdapter.notifyItemRangeRemoved(index + 1, end - index)
-      } else { //展开
-        pb.expand = true
-        val temps = mutableListOf<Any>()
-        val size = pb.cmsRegionDtoList?.size ?: 0
-        pb.cmsRegionDtoList?.forEachIndexed { i, city -> //添加展开数据和分割线
-          temps.add(city)
-          if (i < size - 1) temps.add(DividerBean(heightPx = 1, bgColor = Color.CYAN))
+    multiTypeAdapter.register(StickyTopItem().also {
+      it.onItemClick = { pb ->
+        val items = multiTypeAdapter.items.toMutableList()
+        val index = items.indexOf(pb)
+        if (pb.expand) { //收起
+          pb.expand = false
+          val remainList = items.subList(index + 1, items.size) //找到当前到最后一个数据
+          val next = remainList.firstOrNull { a -> a is ProvinceBean } //找到下一个数据
+          val end = if (next == null) items.size - 2/*多减1是最后一个分割线*/ else items.indexOf(next) - 2/*多减1是最后一个分割线*/
+          for (i in end downTo index + 1) items.removeAt(i) //全部移除掉
+          multiTypeAdapter.items = items
+          multiTypeAdapter.notifyItemChanged(index)
+          multiTypeAdapter.notifyItemRangeRemoved(index + 1, end - index)
+        } else { //展开
+          pb.expand = true
+          val temps = mutableListOf<Any>()
+          val size = pb.cmsRegionDtoList?.size ?: 0
+          pb.cmsRegionDtoList?.forEachIndexed { i, city -> //添加展开数据和分割线
+            temps.add(city)
+            if (i < size - 1) temps.add(DividerBean(heightPx = 1, bgColor = Color.CYAN))
+          }
+          items.addAll(index + 1, temps)
+          multiTypeAdapter.items = items
+          multiTypeAdapter.notifyItemChanged(index)
+          multiTypeAdapter.notifyItemRangeInserted(index + 1, temps.size)
+          if (pb == items.last { a -> a is ProvinceBean }) expandRecycler.smoothScrollToPosition(items.size) //最后一条滚动到底部
         }
-        items.addAll(index + 1, temps)
-        multiTypeAdapter.items = items
-        multiTypeAdapter.notifyItemChanged(index)
-        multiTypeAdapter.notifyItemRangeInserted(index + 1, temps.size)
-        if (pb == items.last { a -> a is ProvinceBean }) expandRecycler.smoothScrollToPosition(items.size) //最后一条滚动到底部
       }
     })
-    multiTypeAdapter.register(StickyNormalItem { it.regionFullName.toast() })
+    multiTypeAdapter.register(StickyNormalItem().also { it.onItemClick = { bean -> bean.regionFullName.toast() } })
     multiTypeAdapter.register(DividerItem())
     expandRecycler.layoutManager = SpeedLinearLayoutManager(mContext)
     expandRecycler.adapter = multiTypeAdapter

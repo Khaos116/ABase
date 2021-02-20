@@ -56,9 +56,6 @@ class GankFragment : CommFragment() {
     multiTypeAdapter.register(DividerItem())
     multiTypeAdapter.register(EmptyErrorItem() { mViewModel.refresh() })
     multiTypeAdapter.register(GankParentItem(
-        onItemClick = { bean ->
-          bean.url?.let { u -> WebActivity.startActivity(mActivity, u) }
-        },
         onImgClick = { _, p, _, list ->
           val tempList = mutableListOf<LocalMedia>()
           list.forEach { s -> tempList.add(LocalMedia().also { it.path = s }) }
@@ -70,7 +67,7 @@ class GankFragment : CommFragment() {
               .imageEngine(ImageEngine())
               .openExternalPreview(p, tempList)
         }
-    ))
+    ).also { it.onItemClick = { bean -> bean.url?.let { u -> WebActivity.startActivity(mActivity, u) } } })
     //监听加载结果
     mViewModel.androidLiveData.observe(this) {
       mViewModel.handleRefresh(gankRefreshLayout, it)
