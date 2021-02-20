@@ -12,7 +12,7 @@ import android.widget.ImageView.ScaleType
 import androidx.core.graphics.drawable.toBitmap
 import cc.ab.base.ext.*
 import cc.ab.base.utils.MediaUtils
-import coil.Coil
+import coil.imageLoader
 import coil.load
 import coil.request.ImageRequest
 import com.blankj.utilcode.util.Utils
@@ -99,7 +99,7 @@ class ImageEngine : com.luck.picture.lib.engine.ImageEngine {
   ) {
     val weakReference = WeakReference(imageView)
     val weakReferenceLong = WeakReference(longImageView)
-    Coil.imageLoader(Utils.getApp()).enqueue(
+    Utils.getApp().imageLoader.enqueue(
         ImageRequest.Builder(Utils.getApp()).data(url).target(
             onStart = {
               weakReferenceLong.get()?.gone()

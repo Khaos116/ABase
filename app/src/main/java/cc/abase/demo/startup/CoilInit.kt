@@ -5,6 +5,8 @@ import android.os.Build
 import androidx.startup.Initializer
 import cc.ab.base.ext.logI
 import cc.abase.demo.rxhttp.config.RxHttpConfig
+import cc.abase.demo.rxhttp.interceptor.NetCacheInterceptor
+import cc.abase.demo.rxhttp.interceptor.OfflineCacheInterceptor
 import coil.Coil
 import coil.ImageLoader
 import coil.decode.GifDecoder
@@ -24,6 +26,8 @@ class CoilInit : Initializer<Int> {
         .crossfade(300)
         .okHttpClient {
           RxHttpConfig.getOkHttpClient()
+              .addNetworkInterceptor(NetCacheInterceptor())
+              .addInterceptor(OfflineCacheInterceptor())
               .cache(CoilUtils.createDefaultCache(context))
               .build()
         }
