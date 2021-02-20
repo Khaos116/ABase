@@ -12,9 +12,7 @@ import com.drakeet.multitype.ItemViewBinder
  * @Date：2021/2/20
  * @Time：10:42
  */
-abstract class BaseItemView<T>(
-    protected var onItemClick: ((item: T) -> Unit)? = null
-) : ItemViewBinder<T, BaseViewHolder>() {
+abstract class BaseItemView<T>(var onItemClick: ((item: T) -> Unit)? = null) : ItemViewBinder<T, BaseViewHolder>() {
   //<editor-fold defaultstate="collapsed" desc="创建ViewHolder">
   override fun onCreateViewHolder(inflater: LayoutInflater, parent: ViewGroup) = BaseViewHolder(inflater.inflate(layoutResId(), parent, false))
   //</editor-fold>
