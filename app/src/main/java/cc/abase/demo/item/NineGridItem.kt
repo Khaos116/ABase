@@ -5,16 +5,16 @@ import android.view.View
 import android.widget.ImageView
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.ItemTouchHelper
-import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import cc.ab.base.ext.click2Parent
 import cc.ab.base.ui.item.BaseItemView
+import cc.ab.base.ui.item.BaseViewHolder
 import cc.abase.demo.R
 import cc.abase.demo.bean.local.GridImageBean
 import cc.abase.demo.drag.GridItemTouchHelperCallback
 import cc.abase.demo.widget.decoration.GridSpaceItemDecoration
 import com.blankj.utilcode.util.SizeUtils
 import com.drakeet.multitype.MultiTypeAdapter
-import kotlinx.android.synthetic.main.item_nine_grid.view.itemNineGridRecycler
+import kotlinx.android.synthetic.main.item_nine_grid.itemNineGridRecycler
 
 /**
  * Author:CASE
@@ -40,8 +40,8 @@ class NineGridItem(
 
   //<editor-fold defaultstate="collapsed" desc="数据填充">
   @SuppressLint("ClickableViewAccessibility")
-  override fun fillData(holder: ViewHolder, itemView: View, item: GridImageBean) {
-    val recyclerView = itemView.itemNineGridRecycler
+  override fun fillData(item: GridImageBean): BaseViewHolder.() -> Unit = {
+    val recyclerView = itemNineGridRecycler
     val urlSize = item.list.size
     val canDrag = urlSize != 5 && urlSize != 7 && urlSize != 8
     //拖动和外部点击不能兼容，所以只能适配一个
@@ -69,7 +69,7 @@ class NineGridItem(
   //</editor-fold>
 
   //<editor-fold defaultstate="collapsed" desc="移出去后解除拖拽">
-  override fun onViewDetachedFromWindow(holder: ViewHolder) {
+  override fun onViewDetachedFromWindow(holder: BaseViewHolder) {
     super.onViewDetachedFromWindow(holder)
     helper?.attachToRecyclerView(null)
     helper = null

@@ -1,11 +1,10 @@
 package cc.abase.demo.item
 
-import android.view.View
-import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import cc.ab.base.ui.item.BaseItemView
+import cc.ab.base.ui.item.BaseViewHolder
 import cc.abase.demo.R
 import cc.abase.demo.bean.local.UserScoreBean
-import kotlinx.android.synthetic.main.item_sticky2_bottom.view.*
+import kotlinx.android.synthetic.main.item_sticky2_bottom.*
 
 /**
  * Author:CASE
@@ -13,23 +12,27 @@ import kotlinx.android.synthetic.main.item_sticky2_bottom.view.*
  * Time:14:44
  */
 class Sticky2RightItem : BaseItemView<UserScoreBean>() {
+  //<editor-fold defaultstate="collapsed" desc="XML">
   override fun layoutResId() = R.layout.item_sticky2_bottom
+  //</editor-fold>
 
-  override fun fillData(holder: ViewHolder, itemView: View, item: UserScoreBean) {
+  //<editor-fold defaultstate="collapsed" desc="数据填充">
+  override fun fillData(item: UserScoreBean): BaseViewHolder.() -> Unit = {
     item.scores.forEachIndexed { index, i ->
       when (index) {
-        0 -> itemView.itemStickyUserScore1
-        1 -> itemView.itemStickyUserScore2
-        2 -> itemView.itemStickyUserScore3
-        3 -> itemView.itemStickyUserScore4
-        4 -> itemView.itemStickyUserScore5
-        5 -> itemView.itemStickyUserScore6
-        6 -> itemView.itemStickyUserScore7
-        7 -> itemView.itemStickyUserScore8
-        8 -> itemView.itemStickyUserScore9
+        0 -> itemStickyUserScore1
+        1 -> itemStickyUserScore2
+        2 -> itemStickyUserScore3
+        3 -> itemStickyUserScore4
+        4 -> itemStickyUserScore5
+        5 -> itemStickyUserScore6
+        6 -> itemStickyUserScore7
+        7 -> itemStickyUserScore8
+        8 -> itemStickyUserScore9
         else -> null
       }?.text = i.toString()
-      itemView.itemStickyUserScoreTotal.text = (item.scores.sum()).toString()
+      itemStickyUserScoreTotal.text = (item.scores.sum()).toString()
     }
   }
+  //</editor-fold>
 }

@@ -1,8 +1,7 @@
 package cc.abase.demo.item
 
-import android.view.View
-import androidx.recyclerview.widget.RecyclerView
 import cc.ab.base.ui.item.BaseItemView
+import cc.ab.base.ui.item.BaseViewHolder
 import cc.abase.demo.R
 import cc.abase.demo.bean.local.DividerBean
 
@@ -17,7 +16,7 @@ class DividerItem : BaseItemView<DividerBean>() {
   //</editor-fold>
 
   //<editor-fold defaultstate="collapsed" desc="数据填充">
-  override fun fillData(holder: RecyclerView.ViewHolder, itemView: View, item: DividerBean) {
+  override fun fillData(item: DividerBean): BaseViewHolder.() -> Unit = {
     itemView.layoutParams.height = item.heightPx
     itemView.setBackgroundColor(item.bgColor)
   }

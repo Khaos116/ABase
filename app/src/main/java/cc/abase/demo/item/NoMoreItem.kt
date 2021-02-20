@@ -2,12 +2,11 @@ package cc.abase.demo.item
 
 import android.graphics.Typeface
 import android.util.TypedValue
-import android.view.View
-import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import cc.ab.base.ui.item.BaseItemView
+import cc.ab.base.ui.item.BaseViewHolder
 import cc.abase.demo.R
 import cc.abase.demo.bean.local.NoMoreBean
-import kotlinx.android.synthetic.main.item_no_more.view.noMoreTv
+import kotlinx.android.synthetic.main.item_no_more.noMoreTv
 
 /**
  * @Description
@@ -16,13 +15,17 @@ import kotlinx.android.synthetic.main.item_no_more.view.noMoreTv
  * @Time：21:27
  */
 class NoMoreItem : BaseItemView<NoMoreBean>() {
+  //<editor-fold defaultstate="collapsed" desc="XML">
   override fun layoutResId() = R.layout.item_no_more
+  //</editor-fold>
 
-  override fun fillData(holder: ViewHolder, itemView: View, item: NoMoreBean) {
-    itemView.noMoreTv.layoutParams.height = item.heightPx
-    itemView.noMoreTv.setTextColor(item.textColor)
-    itemView.noMoreTv.setBackgroundColor(item.bgColor)
-    itemView.noMoreTv.setTextSize(TypedValue.COMPLEX_UNIT_PX, item.textSize)
-    itemView.noMoreTv.setTypeface(Typeface.DEFAULT, if (item.bold) Typeface.BOLD else Typeface.NORMAL)
+  //<editor-fold defaultstate="collapsed" desc="数据填充">
+  override fun fillData(item: NoMoreBean): BaseViewHolder.() -> Unit = {
+    noMoreTv.layoutParams.height = item.heightPx
+    noMoreTv.setTextColor(item.textColor)
+    noMoreTv.setBackgroundColor(item.bgColor)
+    noMoreTv.setTextSize(TypedValue.COMPLEX_UNIT_PX, item.textSize)
+    noMoreTv.setTypeface(Typeface.DEFAULT, if (item.bold) Typeface.BOLD else Typeface.NORMAL)
   }
+  //</editor-fold>
 }
