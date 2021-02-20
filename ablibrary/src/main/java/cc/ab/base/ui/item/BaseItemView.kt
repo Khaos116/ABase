@@ -28,6 +28,6 @@ abstract class BaseItemView<T> : ItemViewBinder<T, BaseViewHolder>() {
   protected abstract fun layoutResId(): Int
 
   //加载数据(返回值是为了解决findViewById)
-  abstract fun fillData(holder: View, item: T): BaseViewHolder.() -> Unit
+  abstract fun fillData(itemView: View, item: T): BaseViewHolder.() -> Unit
   //</editor-fold>
 }
