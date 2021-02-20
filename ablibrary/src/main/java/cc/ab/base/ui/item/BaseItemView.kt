@@ -2,23 +2,24 @@ package cc.ab.base.ui.item
 
 import android.view.*
 import androidx.annotation.LayoutRes
-import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.drakeet.multitype.ItemViewBinder
 
 /**
- * Author:CASE
- * Date:2021-1-2
- * Time:15:53
+ * @Description 使用BaseViewHolder引用LayoutContainer解决findViewById问题
+ * @Author：CASE
+ * @Date：2021/2/20
+ * @Time：10:42
  */
-abstract class BaseItemView<T> : ItemViewBinder<T, RecyclerView.ViewHolder>() {
-  //<editor-fold defaultstate="collapsed" desc="加载XML">
-  override fun onCreateViewHolder(inflater: LayoutInflater, parent: ViewGroup) =
-      object : RecyclerView.ViewHolder(inflater.inflate(layoutResId(), parent, false)) {}
+abstract class BaseItemView<T> : ItemViewBinder<T, BaseViewHolder>() {
+  //<editor-fold defaultstate="collapsed" desc="创建ViewHolder">
+  override fun onCreateViewHolder(inflater: LayoutInflater, parent: ViewGroup) = BaseViewHolder(inflater.inflate(layoutResId(), parent, false))
   //</editor-fold>
 
-  //<editor-fold defaultstate="collapsed" desc="加载数据">
-  override fun onBindViewHolder(holder: ViewHolder, item: T) = fillData(holder, holder.itemView, item)
+  //<editor-fold defaultstate="collapsed" desc="绑定数据">
+  //holder可以获得holder.layoutPosition
+  override fun onBindViewHolder(holder: BaseViewHolder, item: T) {
+    holder.apply(fillData(holder.itemView, item))
+  }
   //</editor-fold>
 
   //<editor-fold defaultstate="collapsed" desc="子类必须重新的方法">
@@ -26,7 +27,7 @@ abstract class BaseItemView<T> : ItemViewBinder<T, RecyclerView.ViewHolder>() {
   @LayoutRes
   protected abstract fun layoutResId(): Int
 
-  //加载数据(传holder主要是为了获得holder.layoutPosition)
-  protected abstract fun fillData(holder: ViewHolder, itemView: View, item: T)
+  //加载数据(返回值是为了解决findViewById)
+  abstract fun fillData(holder: View, item: T): BaseViewHolder.() -> Unit
   //</editor-fold>
 }
