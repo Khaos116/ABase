@@ -50,7 +50,11 @@ class LoginActivity : CommActivity() {
   private var count = 0
 
   //指纹登录数据保存
-  private var mmkv = MMKV.mmkvWithID("Biometric")
+  private var mmkv: MMKV? = null
+    get() {
+      if (field == null) field = MMKV.mmkvWithID("Biometric")
+      return field
+    }
 
   //指纹识别相关
   private var mBiometricProvider: BiometricProvider? = null
