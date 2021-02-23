@@ -1,13 +1,11 @@
 package cc.ab.base.widget.roundlayout.abs
 
 import android.content.Context
-import android.graphics.*
+import android.graphics.Canvas
 import android.os.Build
 import android.util.AttributeSet
 import android.view.View
-import cc.ab.base.widget.roundlayout.policy.GeneralRoundView18Policy
-import cc.ab.base.widget.roundlayout.policy.GeneralRoundView21Policy
-import cc.ab.base.widget.roundlayout.policy.IRoundViewPolicy
+import cc.ab.base.widget.roundlayout.policy.*
 
 /**
  * 通用圆角布局实现类
@@ -19,7 +17,7 @@ import cc.ab.base.widget.roundlayout.policy.IRoundViewPolicy
 class GeneralRoundViewImpl(view: View, context: Context, attributeSet: AttributeSet?, attrs: IntArray, attrIndex: Int) :
     IRoundView {
 
-    private lateinit var generalRoundViewPolicy: IRoundViewPolicy
+    lateinit var generalRoundViewPolicy: AbsRoundViewPolicy
 
     init {
         init(view, context, attributeSet, attrs, attrIndex)
