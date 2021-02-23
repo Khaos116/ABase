@@ -40,8 +40,8 @@
       android:layout_height="wrap_content"
       app:layout_constraintBottom_toBottomOf="@id/layoutUserHolder"
       >
-
-    <androidx.constraintlayout.utils.widget.ImageFilterView
+    <!--padding至少需要strokeWidth的一半，否则会有问题-->
+    <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/layoutUserHead"
         android:layout_width="71dp"
         android:layout_height="71dp"
@@ -49,11 +49,14 @@
         android:layout_marginTop="4dp"
         android:layout_marginBottom="78dp"
         android:contentDescription="@null"
+        android:padding="1dp"
         android:scaleType="centerCrop"
         android:src="@drawable/head_placeholder_border"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:roundPercent="1"
+        app:shapeAppearanceOverlay="@style/ShapeCircleImageStyle"
+        app:strokeColor="@color/magenta"
+        app:strokeWidth="2dp"
         />
 
     <cc.ab.base.widget.DrawableTextView

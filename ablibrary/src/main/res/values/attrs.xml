@@ -54,4 +54,10 @@
     <attr name="drawableEBottomWidth" format="dimension"/>
     <attr name="drawableEBottomHeight" format="dimension"/>
   </declare-styleable>
+
+  <!-- 圆形图片 -->
+  <style name="ShapeCircleImageStyle">
+    <item name="cornerFamily">rounded</item>
+    <item name="cornerSize">50%</item>
+  </style>
 </resources>
