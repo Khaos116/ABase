@@ -37,16 +37,16 @@
         tools:background="@color/cyan_40E0D0"
         />
 
-    <cc.ab.base.widget.roundlayout.widget.GeneralRoundImageView
+    <androidx.constraintlayout.utils.widget.ImageFilterView
         android:id="@+id/blurIv3"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginTop="5dp"
         android:contentDescription="@null"
         android:scaleType="fitXY"
-        app:corner_radius="12dp"
         app:layout_constraintDimensionRatio="1125:642"
         app:layout_constraintTop_toBottomOf="@id/blurIv2"
+        app:round="8dp"
         tools:background="@color/cyan_40E0D0"
         />
   </androidx.constraintlayout.widget.ConstraintLayout>

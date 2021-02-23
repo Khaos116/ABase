@@ -41,7 +41,7 @@
       app:layout_constraintBottom_toBottomOf="@id/layoutUserHolder"
       >
 
-    <cc.ab.base.widget.roundlayout.widget.GeneralCircleImageView
+    <androidx.constraintlayout.utils.widget.ImageFilterView
         android:id="@+id/layoutUserHead"
         android:layout_width="71dp"
         android:layout_height="71dp"
@@ -53,6 +53,7 @@
         android:src="@drawable/head_placeholder_border"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        app:roundPercent="1"
         />
 
     <cc.ab.base.widget.DrawableTextView
