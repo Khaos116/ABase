@@ -3,7 +3,7 @@ object Versions {
   internal const val sdkTarget = 30
   internal const val kotlin = "1.4.30"
   internal const val okHttp = "4.9.0"
-  internal const val rxHttp = "2.5.4"
+  internal const val rxHttp = "2.5.5"
   internal const val coil = "1.1.1"
 }
 
@@ -42,7 +42,7 @@ object Deps {
   const val timber = "com.jakewharton.timber:timber:4.7.1"
 
   //工具类 https://github.com/Blankj/AndroidUtilCode/blob/master/lib/utilcode/README-CN.md
-  const val utilcodex = "com.blankj:utilcodex:1.30.5"
+  const val utilcodex = "com.blankj:utilcodex:1.30.6"
 
   //UI适配 https://github.com/JessYanCoding/AndroidAutoSize
   const val autosize = "me.jessyan:autosize:1.2.1"
@@ -156,14 +156,14 @@ object Deps {
   const val dk_exo = "com.github.dueeeke.dkplayer:player-exo:3.2.6"
 
   //https://github.com/airbnb/lottie-android
-  const val lottie = "com.airbnb.android:lottie:3.6.0"
+  const val lottie = "com.airbnb.android:lottie:3.6.1"
 
   //中文转拼音 https://github.com/promeG/TinyPinyin
   const val pinyin = "com.github.promeg:tinypinyin:2.0.3" // TinyPinyin核心包，约80KB
   const val pinyin_android = "com.github.promeg:tinypinyin-lexicons-android-cncity:2.0.3" // 可选，适用于Android的中国地区词典
 
   //日期选择器 https://github.com/limxing/DatePickerView
-  const val picker_view = "com.github.limxing:DatePickerView:1.0.4"
+  const val picker_view = "com.github.limxing:DatePickerView:1.0.7"
 
   //@和#效果 https://github.com/sunhapper/SpEditTool
   const val spedit_tool = "com.github.sunhapper.SpEditTool:SpEditText:1.0.4"
