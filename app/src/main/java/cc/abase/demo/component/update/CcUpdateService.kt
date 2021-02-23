@@ -222,7 +222,7 @@ open class CcUpdateService : JobIntentService() {
 
   //下载成功
   private fun showSuccess(filePath: String) {
-    downApkPackageName = AppUtils.getApkInfo(filePath).packageName
+    downApkPackageName = AppUtils.getApkInfo(filePath)?.packageName ?: ""
     downIDs.remove(mApkUrl.hashCode())
     //发送进度
     LiveEventBus.get(EventKeys.UPDATE_PROGRESS).post(Triple(UpdateEnum.SUCCESS, 100f, mApkUrl))
