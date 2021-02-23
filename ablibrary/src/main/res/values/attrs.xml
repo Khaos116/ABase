@@ -32,12 +32,6 @@
   <declare-styleable name="GeneralRoundConstraintLayout">
     <attr name="corner_radius"/>
   </declare-styleable>
-  <declare-styleable name="GeneralRoundImageView">
-    <attr name="corner_radius"/>
-  </declare-styleable>
-  <declare-styleable name="GeneralCircleImageView">
-    <attr name="corner_radius"/>
-  </declare-styleable>
 
   <declare-styleable name="DrawableTextView">
     <attr name="drawableTLeftWidth" format="dimension"/>
