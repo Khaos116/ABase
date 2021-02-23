@@ -7,7 +7,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import cc.ab.base.R
 
 /**
- * 优势：四个角可以单独配置也可以统一配置
+ * 优势：四个角可以单独配置也可以统一配置,如果四个角统一，请使用GeneralRoundConstraintLayout(可以解决抗锯齿问题)
  * 劣势：不抗锯齿
  * 其他：如果四个角一致，使用GeneralRoundConstraintLayout即可
  * 原文说明：https://blog.csdn.net/ldld1717/article/details/106652831
@@ -16,11 +16,11 @@ import cc.ab.base.R
  * description: https://github.com/leidongld/RoundCornerDemmo
  */
 class RoundConstraintLayout @JvmOverloads constructor(c: Context, a: AttributeSet? = null, d: Int = 0) : ConstraintLayout(c, a, d) {
-  private val mCorners: Float
-  private val mLeftTopCorner: Float
-  private val mRightTopCorner: Float
-  private val mLeftBottomCorner: Float
-  private val mRightBottomCorner: Float
+  private var mCorners: Float = 0f
+  private var mLeftTopCorner: Float = 0f
+  private var mRightTopCorner: Float = 0f
+  private var mLeftBottomCorner: Float = 0f
+  private var mRightBottomCorner: Float = 0f
   private var mWidth = 0
   private var mHeight = 0
 
@@ -41,12 +41,14 @@ class RoundConstraintLayout @JvmOverloads constructor(c: Context, a: AttributeSe
     setMeasuredDimension(mWidth, mHeight)
   }
 
+  private var mPath = Path()
+  private var mRectF = RectF()
   override fun draw(canvas: Canvas) {
     canvas.save()
-    val path = Path()
-    val rectF = RectF(0f, 0f, mWidth.toFloat(), mHeight.toFloat())
+    mPath = Path()
+    mRectF = RectF(0f, 0f, mWidth.toFloat(), mHeight.toFloat())
     if (mCorners > 0f) {
-      path.addRoundRect(rectF, mCorners, mCorners, Path.Direction.CCW)
+      mPath.addRoundRect(mRectF, mCorners, mCorners, Path.Direction.CCW)
     } else {
       val radii = floatArrayOf(
           mLeftTopCorner, mLeftTopCorner,
@@ -54,9 +56,10 @@ class RoundConstraintLayout @JvmOverloads constructor(c: Context, a: AttributeSe
           mRightBottomCorner, mRightBottomCorner,
           mLeftBottomCorner, mLeftBottomCorner
       )
-      path.addRoundRect(rectF, radii, Path.Direction.CCW)
+      mPath.addRoundRect(mRectF, radii, Path.Direction.CCW)
     }
-    canvas.clipPath(path)
+    canvas.clipPath(mPath)
     super.draw(canvas)
+    canvas.restore()
   }
 }
