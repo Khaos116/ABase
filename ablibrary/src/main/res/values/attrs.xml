@@ -60,4 +60,13 @@
     <item name="cornerFamily">rounded</item>
     <item name="cornerSize">50%</item>
   </style>
+
+  <!--圆角ConstraintLayout(可以单独设置每个角，但是不抗锯齿，如果四个角一致，使用GeneralRoundConstraintLayout即可)-->
+  <declare-styleable name="RoundConstraintLayout">
+    <attr name="corner" format="dimension"/>
+    <attr name="leftTopCorner" format="dimension"/>
+    <attr name="rightTopCorner" format="dimension"/>
+    <attr name="leftBottomCorner" format="dimension"/>
+    <attr name="rightBottomCorner" format="dimension"/>
+  </declare-styleable>
 </resources>
