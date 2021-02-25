@@ -23,6 +23,7 @@ import com.tencent.mmkv.MMKV
 import kotlinx.android.synthetic.main.activity_login.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import java.util.Locale
 
 /**
  * Description:
@@ -52,7 +53,7 @@ class LoginActivity : CommActivity() {
   //指纹登录数据保存
   private var mmkv: MMKV? = null
     get() {
-      if (field == null) field = MMKV.mmkvWithID("Biometric")
+      if (field == null) field = MMKV.mmkvWithID("Biometric_101")
       return field
     }
 
@@ -170,8 +171,8 @@ class LoginActivity : CommActivity() {
     val result = provider.checkBiometric()
     if (result == BiometricInterface.HW_AVAILABLE) {
       mmkv?.decodeBytes("IV")?.let { iv -> provider.ivBytes = iv } //解密需要IV
-      mmkv?.decodeBytes("Biometric")?.let { b ->
-        "读取的数据:${String(b)}".logE()
+      mmkv?.decodeString("Biometric")?.let { author ->
+        "读取的数据:${author}".logE()
         needResumeShow = true
         commAlertDialog(supportFragmentManager, cancelable = false, outside = false) {
           title = "温馨提示"
@@ -179,7 +180,7 @@ class LoginActivity : CommActivity() {
           confirmText = "指纹登录"
           cancelText = "取消"
           cancelCallback = { needResumeShow = false }
-          confirmCallback = { authenticate(provider, b) }
+          confirmCallback = { authenticate(provider, author) }
         }
         return true
       }
@@ -190,13 +191,13 @@ class LoginActivity : CommActivity() {
 
   //<editor-fold defaultstate="collapsed" desc="调用指纹登录">
   private var failCount = 0
-  private fun authenticate(provider: BiometricProvider, bytes: ByteArray) {
+  private fun authenticate(provider: BiometricProvider, author: String) {
     provider.tryAuthenticate(this@LoginActivity, { cipher ->
       // 使用 cipher 对登录信息进行解密
-      val loginInfo = cipher.doFinal(bytes)
+      val loginInfo = cipher.doFinal(author.toHexByteArray())?.decodeToString()
       if (loginInfo != null) {
         val type = object : TypeToken<MutableMap<String, String>>() {}.type
-        GsonUtils.fromJson<MutableMap<String, String>>(String(loginInfo), type)?.let { map ->
+        GsonUtils.fromJson<MutableMap<String, String>>(loginInfo, type)?.let { map ->
           map.toList().firstOrNull()?.let { pair ->
             showActionLoading()
             rxLifeScope.launch({
@@ -219,7 +220,7 @@ class LoginActivity : CommActivity() {
         failCount++
         if (code == BiometricInterface.ERROR_FAILED && failCount <= 5) {
           "验证失败，请重试".toast()
-          authenticate(provider, bytes)
+          authenticate(provider, author)
         } else if (failCount > 5) {
           "失败次数太多，暂停使用".toast()
           mBiometricProvider = null
@@ -248,9 +249,9 @@ class LoginActivity : CommActivity() {
             val map = hashMapOf(account to password)
             val saveMsg = GsonUtils.toJson(map)
             "加密前的数据:${saveMsg}".logE()
-            cipher.doFinal(saveMsg.toByteArray())?.let { ap ->
-              "保存的数据:${String(ap)}".logE()
-              mmkv?.encode("Biometric", ap)
+            cipher.doFinal(saveMsg.toByteArray())?.toHexString()?.let { author ->
+              "保存的数据:$author".logE()
+              mmkv?.encode("Biometric", author)
               mmkv?.encode("IV", cipher.iv)
             }
             MainActivity.startActivity(mContext)
@@ -264,6 +265,44 @@ class LoginActivity : CommActivity() {
       MainActivity.startActivity(mContext)
     }
   }
+  //</editor-fold>
+
+  //<editor-fold defaultstate="collapsed" desc="加解密">
+  /** 将 [ByteArray] 转为 16 进制字符串 [String] */
+  private fun ByteArray.toHexString(): String {
+    //转成16进制后是32字节
+    return with(StringBuilder()) {
+      this@toHexString.forEach {
+        val hex = it.toInt() and (0xFF)
+        val hexStr = Integer.toHexString(hex)
+        if (hexStr.length == 1) {
+          append("0").append(hexStr)
+        } else {
+          append(hexStr)
+        }
+      }
+      toString().toUpperCase(Locale.getDefault())
+    }
+  }
+
+  /** 将 16 进制字符串 [String] 转换为字节数组 [ByteArray] */
+  private fun String.toHexByteArray(): ByteArray {
+    val hexString = toUpperCase(Locale.getDefault())
+    val len = hexString.length / 2
+    val charArray = hexString.toCharArray()
+    val byteArray = ByteArray(len)
+    for (i in 0 until len) {
+      val pos = i * 2
+      byteArray[i] = (charArray[pos].toHexByte().toInt() shl 4 or charArray[pos + 1].toHexByte().toInt()).toByte()
+    }
+    return byteArray
+  }
+
+  /** 将 [Char] 转换为 16 进制 [String] 对应的 [Byte] */
+  private fun Char.toHexByte(): Byte {
+    return "0123456789ABCDEF".indexOf(this).toByte()
+  }
+
   //</editor-fold>
 
   //<editor-fold defaultstate="collapsed" desc="生命周期">
