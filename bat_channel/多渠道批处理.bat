@@ -38,7 +38,7 @@ for %%i in (*.apk) do (
             ::去除TAB
             set key=!key:	=!
             if not "!key!"=="" (
-                ::去除空格
+              ::去除空格
             	set key=!key: =!
             	if not "!key!"=="" (
             		echo %date%_%time%  创建渠道：%%~ni_!channel!_!key!.apk
