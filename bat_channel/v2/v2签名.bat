@@ -24,14 +24,14 @@ set suffix2=_已对齐
 ::找到当前目录(%~dp0)下所有apk文件
 for %%i in (*.apk) do (
 	::打印签名信息
-	echo 签名文件路径=%~dp0%jksFile%
+	echo %date%_%time%  签名文件路径=%~dp0%jksFile%
 	echo=
-	echo 签名Alias=%keyAlias%
-	echo KeyStore密码=%storePassword%
-	echo Alias对应密码=%keyPassword%
+	echo %date%_%time%  签名Alias=%keyAlias%
+	echo %date%_%time%  KeyStore密码=%storePassword%
+	echo %date%_%time%  Alias对应密码=%keyPassword%
 	echo=
-	echo 原APK=%%~fi
-	echo 新APK=%~dp0%%~ni%suffix2%%suffix%.apk
+	echo %date%_%time%  原APK=%%~fi
+	echo %date%_%time%  新APK=%~dp0%%~ni%suffix2%%suffix%.apk
 	echo=
 	::APK对齐，使APP在安卓系统中运行速度更快
   zipalign -v 4 %%~fi %~dp0%%~ni%suffix2%.apk
