@@ -7,6 +7,7 @@ import cc.abase.demo.R
 import cc.abase.demo.config.UserManager
 import cc.abase.demo.constants.api.ApiUrl
 import com.blankj.utilcode.util.AppUtils
+import com.blankj.utilcode.util.DeviceUtils
 import com.snail.antifake.jni.EmulatorDetectUtil
 import com.tencent.bugly.crashreport.CrashReport
 
@@ -21,12 +22,14 @@ object BuglyManager {
     //初始化key
     CrashReport.initCrashReport(application, R.string.bugly_app_id.xmlToString(), BuildConfig.DEBUG)
     //上报APP信息
-    CrashReport.putUserData(application.applicationContext, "Emulator", EmulatorDetectUtil.isEmulator(application).toString())
-    CrashReport.putUserData(application.applicationContext, "Release", "${BuildConfig.APP_IS_RELEASE}")
-    CrashReport.putUserData(application.applicationContext, "BuildTime", R.string.build_time.xmlToString())
-    CrashReport.putUserData(application.applicationContext, "VersionName", AppUtils.getAppVersionName())
-    CrashReport.putUserData(application.applicationContext, "VersionCode", "${AppUtils.getAppVersionCode()}")
-    CrashReport.putUserData(application.applicationContext, "BaseUrl", ApiUrl.appBaseUrl)
+    CrashReport.putUserData(application, "Emulator1", EmulatorDetectUtil.isEmulator(application).toString())
+    CrashReport.putUserData(application, "Emulator2", DeviceUtils.isEmulator().toString())
+    CrashReport.putUserData(application, "UUID", DeviceUtils.getUniqueDeviceId())
+    CrashReport.putUserData(application, "Release", "${BuildConfig.APP_IS_RELEASE}")
+    CrashReport.putUserData(application, "BuildTime", R.string.build_time.xmlToString())
+    CrashReport.putUserData(application, "VersionName", AppUtils.getAppVersionName())
+    CrashReport.putUserData(application, "VersionCode", "${AppUtils.getAppVersionCode()}")
+    CrashReport.putUserData(application, "BaseUrl", ApiUrl.appBaseUrl)
     //用户信息
     setBuglyUserInfo()
   }
