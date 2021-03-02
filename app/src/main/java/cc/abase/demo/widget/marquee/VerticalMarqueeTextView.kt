@@ -1,4 +1,4 @@
-package cc.abase.demo.widget
+package cc.abase.demo.widget.marquee
 
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
@@ -11,6 +11,7 @@ import android.view.Gravity
 import android.widget.FrameLayout
 import cc.ab.base.ext.dp2Px
 import cc.abase.demo.R
+import cc.abase.demo.widget.MarqueeTextView
 
 /**
  * @Description
