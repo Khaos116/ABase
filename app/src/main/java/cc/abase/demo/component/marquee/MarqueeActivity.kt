@@ -2,6 +2,7 @@ package cc.abase.demo.component.marquee
 
 import android.content.Context
 import android.content.Intent
+import cc.ab.base.ext.toast
 import cc.abase.demo.R
 import cc.abase.demo.component.comm.CommTitleActivity
 import com.blankj.utilcode.util.StringUtils
@@ -28,6 +29,12 @@ class MarqueeActivity : CommTitleActivity() {
     setTitleText(StringUtils.getString(R.string.title_marquee))
     marqueeContent1.text = "这是一个很长很长的测试跑马灯效果的描述文字，如果不够长，我再添加一点文字！"
     marqueeContent2.text = "这是一个很长很长的测试跑马灯效果的描述文字，如果不够长，我再添加一点文字，我再添加一点文字！"
+    val list = mutableListOf<String>()
+    for (i in 1..20) {
+      list.add("这是第${i}条公告!")
+    }
+    marqueeContent3.mCall = { it.toast() }
+    marqueeContent3.setNewDatas(list)
   }
 
   override fun initData() {
