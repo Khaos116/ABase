@@ -255,6 +255,10 @@
           android:name="cc.abase.demo.startup.AppLastInit"
           android:value="androidx.startup"/>
     </provider>
+    <!--设置统计的key-->
+    <meta-data
+        android:name="com.countSDK.APP_KEY"
+        android:value="abase5dd8e181bda2a33"/>
   </application>
 
 </manifest>
