@@ -4,6 +4,12 @@ import java.io.File;
 import java.io.IOException;
 
 /**
+ * Main方法无法运行的解决方案：添加delegatedBuild
+ * project模式->.idea文件夹->gradle.xml
+ * <GradleProjectSettings>
+ *    <option name="delegatedBuild" value="false"/>
+ * </GradleProjectSettings>
+ *
  * @Description JAVA实现美团多渠道打包(供服务器参考)
  * @Author：CASE
  * @Date：2021/3/9
