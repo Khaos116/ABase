@@ -9,6 +9,7 @@ import cc.ab.base.ext.*
 import com.gyf.immersionbar.ktx.immersionBar
 import kotlinx.android.synthetic.main.base_activity.baseLLRoot
 import kotlinx.android.synthetic.main.base_activity.baseStatusView
+import kotlinx.coroutines.*
 
 /**
  * Description:
@@ -23,16 +24,34 @@ abstract class BaseActivity : AppCompatActivity() {
     this.onCreateBefore()
     this.initStatus()
     super.onCreate(savedInstanceState)
+    val layoutId = layoutResId()
     if (fillStatus()) {
       setContentView(cc.ab.base.R.layout.base_activity)
       mStatusView = baseStatusView
       mStatusView?.layoutParams = LinearLayout.LayoutParams(-1, mStatusBarHeight)
       //不需要填充白色view状态栏
       if (!fillStatus()) baseLLRoot.removeAllViews()
-      if (layoutResId() > 0) mContext.inflate(layoutResId(), baseLLRoot, true)
-    } else if (layoutResId() > 0) {
-      setContentView(layoutResId())
+      if (layoutId > 0) {
+        GlobalScope.launch(context = Dispatchers.Main) {
+          withContext(Dispatchers.IO) { mContext.inflate(layoutId, baseLLRoot, false) }.let { v ->
+            baseLLRoot.addView(v)
+            init(savedInstanceState)
+          }
+        }
+      } else {
+        init(savedInstanceState)
+      }
+    } else if (layoutId > 0) {
+      GlobalScope.launch(context = Dispatchers.Main) {
+        withContext(Dispatchers.IO) { mContext.inflate(layoutId, null, false) }.let { v ->
+          setContentView(v)
+          init(savedInstanceState)
+        }
+      }
     }
+  }
+
+  private fun init(savedInstanceState: Bundle?) {
     initView()
     initData()
   }
