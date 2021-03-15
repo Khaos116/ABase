@@ -2,12 +2,12 @@ package cc.abase.demo.component.splash
 
 import android.content.Context
 import android.content.Intent
+import android.view.LayoutInflater
 import cc.ab.base.widget.discretescrollview.DSVOrientation
-import cc.ab.base.widget.discretescrollview.DiscreteBanner
-import cc.abase.demo.R
-import cc.abase.demo.component.comm.CommActivity
+import cc.abase.demo.component.comm.CommBindActivity
 import cc.abase.demo.component.splash.adapter.GuideHolderCreator
 import cc.abase.demo.constants.ImageUrls
+import cc.abase.demo.databinding.ActivityGuideBinding
 import com.gyf.immersionbar.ktx.immersionBar
 
 /**
@@ -15,7 +15,7 @@ import com.gyf.immersionbar.ktx.immersionBar
  * @author: CASE
  * @date: 2019/10/11 15:11
  */
-class GuideActivity : CommActivity() {
+class GuideActivity : CommBindActivity<ActivityGuideBinding>() {
   //<editor-fold defaultstate="collapsed" desc="外部跳转">
   companion object {
     fun startActivity(context: Context) {
@@ -41,20 +41,15 @@ class GuideActivity : CommActivity() {
   //</editor-fold>
 
   //<editor-fold defaultstate="collapsed" desc="XML">
-  override fun layoutResId() = R.layout.activity_guide
+  override fun loadViewBinding(inflater: LayoutInflater) = ActivityGuideBinding.inflate(inflater)
   //</editor-fold>
 
   //<editor-fold defaultstate="collapsed" desc="初始化View">
   override fun initView() {
-    findViewById<DiscreteBanner<String>>(R.id.guideBanner)
+    viewBinding.guideBanner
         .setOrientation(DSVOrientation.VERTICAL)
         .apply { getIndicator()?.needSpecial = true }
         .setPages(GuideHolderCreator(), mList)
-  }
-  //</editor-fold>
-
-  //<editor-fold defaultstate="collapsed" desc="初始化Data">
-  override fun initData() {
   }
   //</editor-fold>
 }
