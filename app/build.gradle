@@ -13,6 +13,7 @@ configurations {
 
 android {
   compileSdkVersion Versions.sdkTarget
+  buildFeatures { viewBinding true } //https://blog.csdn.net/choimroc/article/details/104756365
   defaultConfig {
     //正常配置
     minSdkVersion Versions.sdkMin
