@@ -7,8 +7,6 @@ import android.widget.LinearLayout
 import androidx.appcompat.app.AppCompatActivity
 import cc.ab.base.ext.*
 import com.gyf.immersionbar.ktx.immersionBar
-import kotlinx.android.synthetic.main.base_activity.baseLLRoot
-import kotlinx.android.synthetic.main.base_activity.baseStatusView
 import kotlinx.coroutines.*
 
 /**
@@ -27,9 +25,10 @@ abstract class BaseActivity : AppCompatActivity() {
     val layoutId = layoutResId()
     if (fillStatus()) {
       setContentView(cc.ab.base.R.layout.base_activity)
-      mStatusView = baseStatusView
+      mStatusView = findViewById(cc.ab.base.R.id.baseStatusView)
       mStatusView?.layoutParams = LinearLayout.LayoutParams(-1, mStatusBarHeight)
       //不需要填充白色view状态栏
+     val baseLLRoot = mStatusView?.parent as LinearLayout
       if (!fillStatus()) baseLLRoot.removeAllViews()
       if (layoutId > 0) {
         GlobalScope.launch(context = Dispatchers.Main) {
