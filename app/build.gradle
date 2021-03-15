@@ -4,6 +4,7 @@ plugins {
   id 'kotlin-android-extensions'
   id 'kotlin-kapt'
   id 'bugly'
+  //id 'kotlin-parcelize' //https://weilu.blog.csdn.net/article/details/109557820
 }
 
 //解决渠道下DebugImplementation和ReleaseImplementation编译通不过的问题  https://stackoverflow.com/questions/24860659/multi-flavor-app-based-on-multi-flavor-library-in-android-gradle
