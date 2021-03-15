@@ -3,7 +3,7 @@ object Versions {
   internal const val sdkTarget = 30
   internal const val kotlin = "1.4.31"
   internal const val okHttp = "4.9.0"
-  internal const val rxHttp = "2.5.5"
+  internal const val rxHttp = "2.5.7"
   internal const val coil = "1.1.1"
 }
 
@@ -20,13 +20,13 @@ object Deps {
 
   //<editor-fold defaultstate="collapsed" desc="Studio-UI基础配置">
   //系统相关 https://maven.aliyun.com/mvn/search
-  const val core_ktx = "androidx.core:core-ktx:1.5.0-beta01"
-  const val activity_ktx = "androidx.activity:activity-ktx:1.2.0-rc01"
+  const val core_ktx = "androidx.core:core-ktx:1.5.0-beta03"
+  const val activity_ktx = "androidx.activity:activity-ktx:1.3.0-alpha04"
   const val appcompat = "androidx.appcompat:appcompat:1.3.0-beta01"
-  const val fragment = "androidx.fragment:fragment:1.3.0-rc02"
-  const val material = "com.google.android.material:material:1.3.0-rc01"
-  const val constraint = "androidx.constraintlayout:constraintlayout:2.1.0-alpha2"
-  const val viewmodel = "androidx.lifecycle:lifecycle-viewmodel:2.3.0-rc01"
+  const val fragment = "androidx.fragment:fragment:1.3.1"
+  const val material = "com.google.android.material:material:1.4.0-alpha01"
+  const val constraint = "androidx.constraintlayout:constraintlayout:2.1.0-beta01"
+  const val viewmodel = "androidx.lifecycle:lifecycle-viewmodel:2.3.0"
   //</editor-fold>
 
   //<editor-fold defaultstate="collapsed" desc="AndroidX基础配置">
@@ -87,7 +87,7 @@ object Deps {
   const val multitype = "com.drakeet.multitype:multitype:4.2.0"
 
   //动态权限 https://github.com/getActivity/XXPermissions
-  const val xxpermissions = "com.hjq:xxpermissions:9.8"
+  const val xxpermissions = "com.hjq:xxpermissions:10.2"
   //</editor-fold>
 
   //<editor-fold defaultstate="collapsed" desc="三方常用配置">
@@ -114,8 +114,6 @@ object Deps {
   //</editor-fold>
 
   //<editor-fold defaultstate="collapsed" desc="调试统计工具">
-  const val plugin_bugly = "com.tencent.bugly:symtabfileuploader:2.2.1" //bugly的mapping上传
-
   //模拟器检测 https://github.com/happylishang/CacheEmulatorChecker
   const val emulator = "com.snail:antifake:1.4"
 
@@ -133,8 +131,9 @@ object Deps {
   const val uinspector = "com.huya.mobile:Uinspector:1.0.11"
 
   //bugly https://bugly.qq.com/docs/user-guide/instruction-manual-android/?v=20190916214340
-  const val bugly_crash = "com.tencent.bugly:crashreport:3.3.3"
-  const val bugly_native = "com.tencent.bugly:nativecrashreport:3.7.700"
+  const val bugly_crash = "com.tencent.bugly:crashreport:3.3.7"
+  const val bugly_native = "com.tencent.bugly:nativecrashreport:3.8.0"
+  const val plugin_bugly = "com.tencent.bugly:symtabfileuploader:2.2.1" //bugly的mapping上传
   //</editor-fold>
 
   //<editor-fold defaultstate="collapsed" desc="三方不常用配置">
