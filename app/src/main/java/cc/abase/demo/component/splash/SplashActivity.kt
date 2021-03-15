@@ -3,25 +3,19 @@ package cc.abase.demo.component.splash
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.content.Intent
+import android.view.LayoutInflater
 import android.view.ViewGroup
-import cc.ab.base.ext.launchError
-import cc.ab.base.ext.mContext
-import cc.ab.base.ext.toast
-import cc.abase.demo.R
-import cc.abase.demo.component.comm.CommActivity
+import cc.ab.base.ext.*
+import cc.abase.demo.component.comm.CommBindActivity
 import cc.abase.demo.component.login.LoginActivity
 import cc.abase.demo.component.main.MainActivity
 import cc.abase.demo.config.UserManager
+import cc.abase.demo.databinding.ActivitySplashBinding
 import cc.abase.demo.utils.MMkvUtils
-import com.airbnb.lottie.LottieAnimationView
-import com.airbnb.lottie.LottieDrawable
-import com.airbnb.lottie.RenderMode
+import com.airbnb.lottie.*
 import com.blankj.utilcode.util.TimeUtils
 import com.gyf.immersionbar.ktx.immersionBar
-import com.hjq.permissions.OnPermissionCallback
-import com.hjq.permissions.Permission
-import com.hjq.permissions.XXPermissions
-import kotlinx.android.synthetic.main.activity_splash.*
+import com.hjq.permissions.*
 import kotlinx.coroutines.*
 
 /**
@@ -29,7 +23,7 @@ import kotlinx.coroutines.*
  * @author: CASE
  * @date: 2019/10/8 10:03
  */
-class SplashActivity : CommActivity() {
+class SplashActivity : CommBindActivity<ActivitySplashBinding>() {
   //<editor-fold defaultstate="collapsed" desc="变量">
   //一个小时变一张图
   private val randomImg = TimeUtils.millis2String(System.currentTimeMillis()).split(" ")[1].split(":")[0].toInt()
@@ -64,7 +58,7 @@ class SplashActivity : CommActivity() {
   //</editor-fold>
 
   //<editor-fold defaultstate="collapsed" desc="XML">
-  override fun layoutResId() = R.layout.activity_splash
+  override fun loadViewBinding(inflater: LayoutInflater) = ActivitySplashBinding.inflate(inflater)
   //</editor-fold>
 
   //<editor-fold defaultstate="collapsed" desc="初始化View">
@@ -74,8 +68,8 @@ class SplashActivity : CommActivity() {
     if (hasFinish) return
     //页面无缝过渡后重置背景，不然会导致页面显示出现问题。主要解决由于window背景设置后的一些问题
     window.setBackgroundDrawable(null)
-    splashRoot.viewTreeObserver.addOnGlobalLayoutListener {
-      if (splashRoot.height > 0 && isFirstSize) {
+    viewBinding.root.viewTreeObserver.addOnGlobalLayoutListener {
+      if (viewBinding.root.height > 0 && isFirstSize) {
         isFirstSize = false
         initAfterSize()
       }
@@ -101,7 +95,7 @@ class SplashActivity : CommActivity() {
           goNextPage()
         }
       })
-      splashRoot.addView(lav, ViewGroup.LayoutParams(-1, -1))
+      viewBinding.root.addView(lav, ViewGroup.LayoutParams(-1, -1))
       mJob = GlobalScope.launchError { withContext(Dispatchers.IO) { delay(1000) }.let { mLottieAnimationView?.playAnimation() } }
     }
     //请求SD卡权限
@@ -130,12 +124,6 @@ class SplashActivity : CommActivity() {
     } else {
       goNextPage()
     }
-  }
-  //</editor-fold>
-
-  //<editor-fold defaultstate="collapsed" desc="初始化Data">
-  override fun initData() {
-    if (hasFinish) return
   }
   //</editor-fold>
 
