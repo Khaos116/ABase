@@ -1,8 +1,7 @@
 package cc.abase.demo.component.decoration
 
 import android.graphics.Color
-import android.view.Gravity
-import android.view.LayoutInflater
+import android.view.*
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.GridLayoutManager.SpanSizeLookup
 import cc.ab.base.ext.dp2Px
@@ -42,7 +41,7 @@ class DecorationFragment : CommBindFragment<FragmentDecorationBinding>() {
   //</editor-fold>
 
   //<editor-fold defaultstate="collapsed" desc="XML">
-  override fun loadViewBinding(inflater: LayoutInflater) = FragmentDecorationBinding.inflate(inflater)
+  override fun loadViewBinding(inflater: LayoutInflater, container: ViewGroup?) = FragmentDecorationBinding.inflate(inflater, container, false)
   //</editor-fold>
 
   //<editor-fold defaultstate="collapsed" desc="懒加载">

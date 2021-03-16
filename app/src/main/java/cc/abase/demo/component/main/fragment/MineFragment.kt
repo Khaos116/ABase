@@ -3,8 +3,7 @@ package cc.abase.demo.component.main.fragment
 import android.app.Activity
 import android.content.Intent
 import android.graphics.Color
-import android.view.Gravity
-import android.view.LayoutInflater
+import android.view.*
 import androidx.lifecycle.rxLifeScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import cc.ab.base.ext.*
@@ -100,7 +99,7 @@ class MineFragment : CommBindFragment<FragmentMineBinding>() {
   //</editor-fold>
 
   //<editor-fold defaultstate="collapsed" desc="XML">
-  override fun loadViewBinding(inflater: LayoutInflater) = FragmentMineBinding.inflate(inflater)
+  override fun loadViewBinding(inflater: LayoutInflater, container: ViewGroup?) = FragmentMineBinding.inflate(inflater, container, false)
   //</editor-fold>
 
   //<editor-fold defaultstate="collapsed" desc="懒加载">

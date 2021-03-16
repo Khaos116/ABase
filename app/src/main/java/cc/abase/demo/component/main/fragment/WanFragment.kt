@@ -2,6 +2,7 @@ package cc.abase.demo.component.main.fragment
 
 import android.graphics.Color
 import android.view.LayoutInflater
+import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import cc.ab.base.ui.viewmodel.DataState
 import cc.abase.demo.bean.local.EmptyErrorBean
@@ -31,7 +32,7 @@ class WanFragment : CommBindFragment<FragmentWanBinding>() {
   //</editor-fold>
 
   //<editor-fold defaultstate="collapsed" desc="XML">
-  override fun loadViewBinding(inflater: LayoutInflater) = FragmentWanBinding.inflate(inflater)
+  override fun loadViewBinding(inflater: LayoutInflater, container: ViewGroup?) = FragmentWanBinding.inflate(inflater, container, false)
   //</editor-fold>
 
   //<editor-fold defaultstate="collapsed" desc="变量">

@@ -3,6 +3,7 @@ package cc.abase.demo.component.simple
 import android.graphics.Color
 import android.view.Gravity
 import android.view.LayoutInflater
+import android.view.ViewGroup
 import androidx.lifecycle.rxLifeScope
 import cc.ab.base.ext.noMoreData
 import cc.abase.demo.bean.local.DividerBean
@@ -15,7 +16,9 @@ import cc.abase.demo.widget.SpeedLinearLayoutManager
 import cc.abase.demo.widget.smart.MidaMusicHeader
 import com.drakeet.multitype.MultiTypeAdapter
 import com.scwang.smart.refresh.layout.api.RefreshLayout
-import kotlinx.coroutines.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.withContext
 
 /**
  * Description:
@@ -43,7 +46,7 @@ class SimpleFragment : CommBindFragment<FragmentSimpleBinding>() {
   //</editor-fold>
 
   //<editor-fold defaultstate="collapsed" desc="XML">
-  override fun loadViewBinding(inflater: LayoutInflater) = FragmentSimpleBinding.inflate(inflater)
+  override fun loadViewBinding(inflater: LayoutInflater, container: ViewGroup?) = FragmentSimpleBinding.inflate(inflater, container, false)
   //</editor-fold>
 
   //<editor-fold defaultstate="collapsed" desc="懒加载">
