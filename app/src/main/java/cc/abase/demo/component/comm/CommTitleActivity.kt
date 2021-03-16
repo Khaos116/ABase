@@ -2,9 +2,9 @@ package cc.abase.demo.component.comm
 
 import android.view.View
 import android.view.ViewGroup
-import android.widget.FrameLayout
 import cc.ab.base.ext.*
 import cc.abase.demo.R
+import kotlinx.android.synthetic.main.activity_comm_title.commonRootView
 import kotlinx.android.synthetic.main.layout_comm_title.commTitleBack
 import kotlinx.android.synthetic.main.layout_comm_title.commTitleText
 
@@ -20,7 +20,6 @@ abstract class CommTitleActivity : CommActivity() {
     //处理返回
     commTitleBack.pressEffectAlpha()
     commTitleBack.click { finish() }
-    val commonRootView = commTitleBack.parent as FrameLayout
     //添加子view
     if (commonRootView.childCount == 1) {
       commonRootView.addView(
