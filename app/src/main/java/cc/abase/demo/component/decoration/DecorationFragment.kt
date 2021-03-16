@@ -2,25 +2,25 @@ package cc.abase.demo.component.decoration
 
 import android.graphics.Color
 import android.view.Gravity
+import android.view.LayoutInflater
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.GridLayoutManager.SpanSizeLookup
 import cc.ab.base.ext.dp2Px
 import cc.ab.base.ext.toast
-import cc.abase.demo.R
 import cc.abase.demo.bean.local.SimpleTxtBean
-import cc.abase.demo.component.comm.CommFragment
+import cc.abase.demo.component.comm.CommBindFragment
+import cc.abase.demo.databinding.FragmentDecorationBinding
 import cc.abase.demo.item.SimpleTxtItem
 import cc.abase.demo.widget.decoration.GridSpaceItemDecoration
 import com.blankj.utilcode.util.KeyboardUtils
 import com.drakeet.multitype.MultiTypeAdapter
-import kotlinx.android.synthetic.main.fragment_decoration.decorRecycler
 
 /**
  * Description:
  * @author: CASE
  * @date: 2020/4/16 9:54
  */
-class DecorationFragment : CommFragment() {
+class DecorationFragment : CommBindFragment<FragmentDecorationBinding>() {
   //<editor-fold defaultstate="collapsed" desc="外部获取实例">
   companion object {
     fun newInstance(type: Int): DecorationFragment {
@@ -42,14 +42,14 @@ class DecorationFragment : CommFragment() {
   //</editor-fold>
 
   //<editor-fold defaultstate="collapsed" desc="XML">
-  override val contentXmlId = R.layout.fragment_decoration
+  override fun loadViewBinding(inflater: LayoutInflater) = FragmentDecorationBinding.inflate(inflater)
   //</editor-fold>
 
   //<editor-fold defaultstate="collapsed" desc="懒加载">
   override fun lazyInit() {
     multiTypeAdapter.register(SimpleTxtItem(height = 70.dp2Px(), bgColor = Color.CYAN).also { it.onItemClick = { bean -> bean.txt.toast() } })
     //页面重建View不再重新设置
-    if (decorRecycler.itemDecorationCount == 0) {
+    if (viewBinding.decorRecycler.itemDecorationCount == 0) {
       val decorator = if (mType != 8) {
         GridSpaceItemDecoration(20).setNoDragGridEdge(
             //前4个没有，后4个有
@@ -76,9 +76,9 @@ class DecorationFragment : CommFragment() {
         }
       }
       layoutManager.spanSizeLookup = spanSizeLookup
-      decorRecycler.layoutManager = layoutManager
-      decorRecycler.adapter = multiTypeAdapter
-      decorRecycler.addItemDecoration(decorator)
+      viewBinding.decorRecycler.layoutManager = layoutManager
+      viewBinding.decorRecycler.adapter = multiTypeAdapter
+      viewBinding.decorRecycler.addItemDecoration(decorator)
     }
     val items = mutableListOf<Any>()
     for (i in 1..30) {

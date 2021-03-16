@@ -1,26 +1,25 @@
 package cc.abase.demo.component.main.fragment
 
 import android.graphics.Color
+import android.view.LayoutInflater
 import androidx.recyclerview.widget.LinearLayoutManager
 import cc.ab.base.ui.viewmodel.DataState
-import cc.abase.demo.R
 import cc.abase.demo.bean.local.EmptyErrorBean
 import cc.abase.demo.bean.local.LoadingBean
-import cc.abase.demo.component.comm.CommFragment
+import cc.abase.demo.component.comm.CommBindFragment
 import cc.abase.demo.component.main.viewmodel.WanViewModel
 import cc.abase.demo.component.web.WebActivity
+import cc.abase.demo.databinding.FragmentWanBinding
 import cc.abase.demo.item.*
 import cc.abase.demo.sticky.StickyAnyAdapter
 import cc.abase.demo.sticky.StickyHeaderLinearLayoutManager
-import kotlinx.android.synthetic.main.fragment_wan.wanRecycler
-import kotlinx.android.synthetic.main.fragment_wan.wanRefreshLayout
 
 /**
  * Author:case
  * Date:2020/8/12
  * Time:20:48
  */
-class WanFragment : CommFragment() {
+class WanFragment : CommBindFragment<FragmentWanBinding>() {
 
   //<editor-fold defaultstate="collapsed" desc="外部获取实例">
   companion object {
@@ -32,7 +31,7 @@ class WanFragment : CommFragment() {
   //</editor-fold>
 
   //<editor-fold defaultstate="collapsed" desc="XML">
-  override val contentXmlId = R.layout.fragment_wan
+  override fun loadViewBinding(inflater: LayoutInflater) = FragmentWanBinding.inflate(inflater)
   //</editor-fold>
 
   //<editor-fold defaultstate="collapsed" desc="变量">
@@ -50,13 +49,13 @@ class WanFragment : CommFragment() {
   //<editor-fold defaultstate="collapsed" desc="懒加载">
   override
   fun lazyInit() {
-    mRootView?.setBackgroundColor(Color.WHITE)
-    wanRefreshLayout.setEnableScrollContentWhenLoaded(false) //加载更多完成整体下移，手动上滑显示更多内容
-    wanRefreshLayout.setOnRefreshListener { mViewModel.refresh() }
-    wanRefreshLayout.setOnLoadMoreListener { mViewModel.loadMore() }
+    mRootFrameLayout?.setBackgroundColor(Color.WHITE)
+    viewBinding.wanRefreshLayout.setEnableScrollContentWhenLoaded(false) //加载更多完成整体下移，手动上滑显示更多内容
+    viewBinding.wanRefreshLayout.setOnRefreshListener { mViewModel.refresh() }
+    viewBinding.wanRefreshLayout.setOnLoadMoreListener { mViewModel.loadMore() }
     //设置适配器
-    wanRecycler.layoutManager = StickyHeaderLinearLayoutManager<StickyAnyAdapter>(mContext, LinearLayoutManager.VERTICAL, false)
-    wanRecycler.adapter = stickyAdapter
+    viewBinding.wanRecycler.layoutManager = StickyHeaderLinearLayoutManager<StickyAnyAdapter>(mContext, LinearLayoutManager.VERTICAL, false)
+    viewBinding.wanRecycler.adapter = stickyAdapter
     //注册多类型
     stickyAdapter.register(LoadingItem())
     stickyAdapter.register(EmptyErrorItem() { mViewModel.refresh() })
@@ -70,7 +69,7 @@ class WanFragment : CommFragment() {
     })
     //文章列表监听
     mViewModel.articleLiveData.observe(this) {
-      mViewModel.handleRefresh(wanRefreshLayout, it)
+      mViewModel.handleRefresh(viewBinding.wanRefreshLayout, it)
       //正常数据处理
       var items = mutableListOf<Any>()
       when (it) {
@@ -127,10 +126,10 @@ class WanFragment : CommFragment() {
 
   //<editor-fold defaultstate="collapsed" desc="公共方法调用">
   override fun scroll2Top() {
-    wanRecycler.layoutManager?.let { manager ->
+    viewBinding.wanRecycler.layoutManager?.let { manager ->
       val firstPosition = (manager as LinearLayoutManager).findFirstVisibleItemPosition()
-      if (firstPosition > 5) wanRecycler.scrollToPosition(5)
-      wanRecycler.smoothScrollToPosition(0)
+      if (firstPosition > 5) viewBinding.wanRecycler.scrollToPosition(5)
+      viewBinding.wanRecycler.smoothScrollToPosition(0)
     }
   }
   //</editor-fold>

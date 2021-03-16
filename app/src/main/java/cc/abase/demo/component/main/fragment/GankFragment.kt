@@ -1,27 +1,27 @@
 package cc.abase.demo.component.main.fragment
 
 import android.graphics.Color
+import android.view.LayoutInflater
 import androidx.recyclerview.widget.LinearLayoutManager
 import cc.ab.base.ui.viewmodel.DataState
 import cc.ab.base.widget.engine.ImageEngine
 import cc.abase.demo.R
 import cc.abase.demo.bean.local.*
-import cc.abase.demo.component.comm.CommFragment
+import cc.abase.demo.component.comm.CommBindFragment
 import cc.abase.demo.component.main.viewmodel.GankViewModel
 import cc.abase.demo.component.web.WebActivity
+import cc.abase.demo.databinding.FragmentGankBinding
 import cc.abase.demo.item.*
 import com.drakeet.multitype.MultiTypeAdapter
 import com.luck.picture.lib.PictureSelector
 import com.luck.picture.lib.entity.LocalMedia
-import kotlinx.android.synthetic.main.fragment_gank.gankRecycler
-import kotlinx.android.synthetic.main.fragment_gank.gankRefreshLayout
 
 /**
  * Author:case
  * Date:2020/8/12
  * Time:20:48
  */
-class GankFragment : CommFragment() {
+class GankFragment : CommBindFragment<FragmentGankBinding>() {
   //<editor-fold defaultstate="collapsed" desc="外部获取实例">
   companion object {
     fun newInstance(): GankFragment {
@@ -32,7 +32,7 @@ class GankFragment : CommFragment() {
   //</editor-fold>
 
   //<editor-fold defaultstate="collapsed" desc="XML">
-  override val contentXmlId = R.layout.fragment_gank
+  override fun loadViewBinding(inflater: LayoutInflater) = FragmentGankBinding.inflate(inflater)
   //</editor-fold>
 
   //<editor-fold defaultstate="collapsed" desc="变量">
@@ -45,12 +45,12 @@ class GankFragment : CommFragment() {
 
   //<editor-fold defaultstate="collapsed" desc="懒加载">
   override fun lazyInit() {
-    mRootView?.setBackgroundColor(Color.WHITE)
-    gankRefreshLayout.setOnRefreshListener { mViewModel.refresh() }
-    gankRefreshLayout.setOnLoadMoreListener { mViewModel.loadMore() }
+    mRootFrameLayout?.setBackgroundColor(Color.WHITE)
+    viewBinding.gankRefreshLayout.setOnRefreshListener { mViewModel.refresh() }
+    viewBinding.gankRefreshLayout.setOnLoadMoreListener { mViewModel.loadMore() }
     //设置适配器
-    gankRecycler.layoutManager = LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false)
-    gankRecycler.adapter = multiTypeAdapter
+    viewBinding.gankRecycler.layoutManager = LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false)
+    viewBinding.gankRecycler.adapter = multiTypeAdapter
     //注册多类型
     multiTypeAdapter.register(LoadingItem())
     multiTypeAdapter.register(DividerItem())
@@ -70,7 +70,7 @@ class GankFragment : CommFragment() {
     ).also { it.onItemClick = { bean -> bean.url?.let { u -> WebActivity.startActivity(mActivity, u) } } })
     //监听加载结果
     mViewModel.androidLiveData.observe(this) {
-      mViewModel.handleRefresh(gankRefreshLayout, it)
+      mViewModel.handleRefresh(viewBinding.gankRefreshLayout, it)
       //正常数据处理
       var items = mutableListOf<Any>()
       when (it) {
@@ -115,10 +115,10 @@ class GankFragment : CommFragment() {
 
   //<editor-fold defaultstate="collapsed" desc="公共方法调用">
   override fun scroll2Top() {
-    gankRecycler.layoutManager?.let { manager ->
+    viewBinding.gankRecycler.layoutManager?.let { manager ->
       val firstPosition = (manager as LinearLayoutManager).findFirstVisibleItemPosition()
-      if (firstPosition > 5) gankRecycler.scrollToPosition(5)
-      gankRecycler.smoothScrollToPosition(0)
+      if (firstPosition > 5) viewBinding.gankRecycler.scrollToPosition(5)
+      viewBinding.gankRecycler.smoothScrollToPosition(0)
     }
   }
   //</editor-fold>

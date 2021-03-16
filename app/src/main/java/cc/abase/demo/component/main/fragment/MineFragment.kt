@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Intent
 import android.graphics.Color
 import android.view.Gravity
+import android.view.LayoutInflater
 import androidx.lifecycle.rxLifeScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import cc.ab.base.ext.*
@@ -12,7 +13,7 @@ import cc.abase.demo.bean.local.SimpleTxtBean
 import cc.abase.demo.component.blur.BlurActivity
 import cc.abase.demo.component.bottomsheet.BottomSheetActivity
 import cc.abase.demo.component.chat.ChatActivity
-import cc.abase.demo.component.comm.CommFragment
+import cc.abase.demo.component.comm.CommBindFragment
 import cc.abase.demo.component.coordinator.CoordinatorActivity
 import cc.abase.demo.component.count.CountActivity
 import cc.abase.demo.component.decoration.DecorationActivity
@@ -34,6 +35,7 @@ import cc.abase.demo.component.update.UpdateEnum
 import cc.abase.demo.component.video.VideoCompressActivity
 import cc.abase.demo.component.zxing.ZxingActivity
 import cc.abase.demo.constants.EventKeys
+import cc.abase.demo.databinding.FragmentMineBinding
 import cc.abase.demo.item.SimpleTxtItem
 import cc.abase.demo.rxhttp.repository.UserRepository
 import cc.abase.demo.widget.decoration.SpacesItemDecoration
@@ -41,7 +43,6 @@ import cc.abase.demo.widget.dialog.dateSelDialog
 import com.blankj.utilcode.util.ColorUtils
 import com.drakeet.multitype.MultiTypeAdapter
 import com.jeremyliao.liveeventbus.LiveEventBus
-import kotlinx.android.synthetic.main.fragment_mine.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.util.Locale
@@ -51,7 +52,7 @@ import java.util.Locale
  * @author: CASE
  * @date: 2019/9/30 18:13
  */
-class MineFragment : CommFragment() {
+class MineFragment : CommBindFragment<FragmentMineBinding>() {
   //<editor-fold defaultstate="collapsed" desc="外部获取实例">
   companion object {
     fun newInstance() = MineFragment()
@@ -99,14 +100,14 @@ class MineFragment : CommFragment() {
   //</editor-fold>
 
   //<editor-fold defaultstate="collapsed" desc="XML">
-  override val contentXmlId = R.layout.fragment_mine
+  override fun loadViewBinding(inflater: LayoutInflater) = FragmentMineBinding.inflate(inflater)
   //</editor-fold>
 
   //<editor-fold defaultstate="collapsed" desc="懒加载">
   override fun lazyInit() {
-    mRootView?.setBackgroundColor(Color.WHITE)
+    mRootFrameLayout?.setBackgroundColor(Color.WHITE)
     //分割线
-    if (mineRecycler.itemDecorationCount == 0) mineRecycler.addItemDecoration(SpacesItemDecoration())
+    if (viewBinding.mineRecycler.itemDecorationCount == 0) viewBinding.mineRecycler.addItemDecoration(SpacesItemDecoration())
     //注册多类型
     multiTypeAdapter.register(SimpleTxtItem().also {
       it.onItemClick = { stb ->
@@ -126,12 +127,12 @@ class MineFragment : CommFragment() {
       }
     })
     //设置适配器
-    mineRecycler.layoutManager = LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false)
-    mineRecycler.adapter = multiTypeAdapter
+    viewBinding.mineRecycler.layoutManager = LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false)
+    viewBinding.mineRecycler.adapter = multiTypeAdapter
     showLoadingView()
-    mineRoot.gone()
-    mineSetting.pressEffectAlpha()
-    mineSetting.click { SettingActivity.startActivity(mContext) }
+    viewBinding.root.gone()
+    viewBinding.mineSetting.pressEffectAlpha()
+    viewBinding.mineSetting.click { SettingActivity.startActivity(mContext) }
     //item文字颜色
     val typeColor = ColorUtils.getColor(R.color.style_Primary)
     //转化为item需要的数据
@@ -148,18 +149,18 @@ class MineFragment : CommFragment() {
     //获取积分
     rxLifeScope.launch({
       withContext(Dispatchers.IO) { UserRepository.myIntegral() }.let {
-        mineIntegral.text = String.format(R.string.my_integral.xmlToString(), it.coinCount)
+        viewBinding.mineIntegral.text = String.format(R.string.my_integral.xmlToString(), it.coinCount)
         multiTypeAdapter.items = items
         multiTypeAdapter.notifyDataSetChanged()
       }
     }, { e ->
       e.toast()
-      mineIntegral.text = String.format(R.string.my_integral.xmlToString(), 0)
+      viewBinding.mineIntegral.text = String.format(R.string.my_integral.xmlToString(), 0)
       multiTypeAdapter.items = items
       multiTypeAdapter.notifyDataSetChanged()
     }, {}, {
       dismissLoadingView()
-      mineRoot?.visible()
+      viewBinding.root.visible()
     })
     //监听加载进度
     LiveEventBus.get(EventKeys.UPDATE_PROGRESS, Triple(UpdateEnum.START, 0f, "").javaClass).observe(this) {
@@ -171,9 +172,9 @@ class MineFragment : CommFragment() {
       }
     }
     //高度比ScrollView高一个背景的高度
-    mineScrollView.post { mineRecyclerParent.layoutParams.height = mineScrollView.height + 70.dp2Px() }
+    viewBinding.mineScrollView.post { viewBinding.mineRecyclerParent.layoutParams.height = viewBinding.mineScrollView.height + 70.dp2Px() }
     //点击积分打开日期
-    mineIntegral.click {
+    viewBinding.mineIntegral.click {
       dateSelDialog(childFragmentManager, lastYMD) {
         call = { r ->
           lastYMD = "${r.first}-${r.second}-${r.third}"

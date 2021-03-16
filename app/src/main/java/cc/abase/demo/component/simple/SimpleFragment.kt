@@ -2,20 +2,19 @@ package cc.abase.demo.component.simple
 
 import android.graphics.Color
 import android.view.Gravity
+import android.view.LayoutInflater
 import androidx.lifecycle.rxLifeScope
 import cc.ab.base.ext.noMoreData
-import cc.abase.demo.R
 import cc.abase.demo.bean.local.DividerBean
 import cc.abase.demo.bean.local.SimpleTxtBean
-import cc.abase.demo.component.comm.CommFragment
+import cc.abase.demo.component.comm.CommBindFragment
+import cc.abase.demo.databinding.FragmentSimpleBinding
 import cc.abase.demo.item.DividerItem
 import cc.abase.demo.item.SimpleTxtItem
 import cc.abase.demo.widget.SpeedLinearLayoutManager
 import cc.abase.demo.widget.smart.MidaMusicHeader
 import com.drakeet.multitype.MultiTypeAdapter
 import com.scwang.smart.refresh.layout.api.RefreshLayout
-import kotlinx.android.synthetic.main.fragment_simple.simpleRecycler
-import kotlinx.android.synthetic.main.fragment_simple.simpleRefresh
 import kotlinx.coroutines.*
 
 /**
@@ -23,7 +22,7 @@ import kotlinx.coroutines.*
  * @author: CASE
  * @date: 2019/11/19 14:44
  */
-class SimpleFragment : CommFragment() {
+class SimpleFragment : CommBindFragment<FragmentSimpleBinding>() {
   //<editor-fold defaultstate="collapsed" desc="外部获取实例">
   companion object {
     //0-无刷新 1-Smart
@@ -44,20 +43,20 @@ class SimpleFragment : CommFragment() {
   //</editor-fold>
 
   //<editor-fold defaultstate="collapsed" desc="XML">
-  override val contentXmlId: Int = R.layout.fragment_simple
+  override fun loadViewBinding(inflater: LayoutInflater) = FragmentSimpleBinding.inflate(inflater)
   //</editor-fold>
 
   //<editor-fold defaultstate="collapsed" desc="懒加载">
   override fun lazyInit() {
-    simpleRecycler.layoutManager = SpeedLinearLayoutManager(mContext).also { it.MILLISECONDS_PER_INCH = 100f }
+    viewBinding.simpleRecycler.layoutManager = SpeedLinearLayoutManager(mContext).also { it.MILLISECONDS_PER_INCH = 100f }
     multiTypeAdapter.register(SimpleTxtItem())
     multiTypeAdapter.register(DividerItem())
-    simpleRecycler.adapter = multiTypeAdapter
-    simpleRefresh.setEnableRefresh(mType != 0)
-    simpleRefresh.setRefreshHeader(object : MidaMusicHeader(mContext) {
+    viewBinding.simpleRecycler.adapter = multiTypeAdapter
+    viewBinding.simpleRefresh.setEnableRefresh(mType != 0)
+    viewBinding.simpleRefresh.setRefreshHeader(object : MidaMusicHeader(mContext) {
       override fun onFinish(refreshLayout: RefreshLayout, success: Boolean) = 0
     })
-    simpleRefresh.setOnRefreshListener {
+    viewBinding.simpleRefresh.setOnRefreshListener {
       rxLifeScope.launch {
         withContext(Dispatchers.IO) { delay(2000) }.let {
           val list = mutableListOf<String>()
@@ -78,9 +77,9 @@ class SimpleFragment : CommFragment() {
           items.addAll(multiTypeAdapter.items)
           multiTypeAdapter.items = items
           multiTypeAdapter.notifyItemRangeInserted(0, 20)
-          simpleRefresh.finishRefresh(0)
-          simpleRecycler.smoothScrollToPosition(0)
-          simpleRefresh.noMoreData()
+          viewBinding.simpleRefresh.finishRefresh(0)
+          viewBinding.simpleRecycler.smoothScrollToPosition(0)
+          viewBinding.simpleRefresh.noMoreData()
         }
       }
     }
@@ -100,7 +99,7 @@ class SimpleFragment : CommFragment() {
     }
     multiTypeAdapter.items = items
     multiTypeAdapter.notifyDataSetChanged()
-    simpleRefresh.noMoreData()
+    viewBinding.simpleRefresh.noMoreData()
   }
   //</editor-fold>
 }
