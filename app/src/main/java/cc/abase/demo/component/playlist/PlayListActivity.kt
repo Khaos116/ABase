@@ -15,12 +15,12 @@ import cc.abase.demo.bean.local.VideoBean
 import cc.abase.demo.component.comm.CommBindTitleActivity
 import cc.abase.demo.component.playlist.viewmoel.PlayListViewModel
 import cc.abase.demo.databinding.ActivityPlayListBinding
+import cc.abase.demo.databinding.ItemListVideoBinding
 import cc.abase.demo.item.NoMoreItem
 import cc.abase.demo.item.VideoListItem
 import cc.abase.demo.widget.dkplayer.MyVideoView
 import com.blankj.utilcode.util.StringUtils
 import com.drakeet.multitype.MultiTypeAdapter
-import kotlinx.android.synthetic.main.item_list_video.view.itemVideoContainer
 
 /**
  * Description:https://github.com/dueeeke/DKVideoPlayer
@@ -68,7 +68,10 @@ class PlayListActivity : CommBindTitleActivity<ActivityPlayListBinding>() {
     viewBinding.playListRecycler.adapter = multiTypeAdapter
     viewBinding.playListRecycler.addOnChildAttachStateChangeListener(object : RecyclerView.OnChildAttachStateChangeListener {
       override fun onChildViewDetachedFromWindow(view: View) { //非全屏滑出去释放掉
-        view.itemVideoContainer?.getChildAt(0)?.let { if (it == mVideoView && mVideoView?.isFullScreen == false) releaseVideoView() }
+        if (view.findViewById<View>(R.id.itemVideoContainer) != null) {//有可能是其他View，所以要判断
+          val binding = ItemListVideoBinding.bind(view)
+          binding.itemVideoContainer.getChildAt(0)?.let { if (it == mVideoView && mVideoView?.isFullScreen == false) releaseVideoView() }
+        }
       }
 
       override fun onChildViewAttachedToWindow(view: View) {
@@ -100,14 +103,14 @@ class PlayListActivity : CommBindTitleActivity<ActivityPlayListBinding>() {
   private fun startPlay(position: Int) {
     if (mCurPos == position) return
     if (mCurPos != -1) releaseVideoView()
-    viewBinding.playListRecycler.layoutManager?.findViewByPosition(position)
-        ?.let {
-          mVideoView?.removeParent()
-          it.itemVideoContainer.addView(mVideoView)
-          val videoBean = multiTypeAdapter.items[position] as? VideoBean
-          mVideoView?.setPlayUrl(url = videoBean?.url ?: "", autoPlay = true, needHolder = false)
-          mCurPos = position
-        }
+    viewBinding.playListRecycler.layoutManager?.findViewByPosition(position)?.let {
+      mVideoView?.removeParent()
+      val binding = ItemListVideoBinding.bind(it)
+      binding.itemVideoContainer.addView(mVideoView)
+      val videoBean = multiTypeAdapter.items[position] as? VideoBean
+      mVideoView?.setPlayUrl(url = videoBean?.url ?: "", autoPlay = true, needHolder = false)
+      mCurPos = position
+    }
   }
   //</editor-fold>
 

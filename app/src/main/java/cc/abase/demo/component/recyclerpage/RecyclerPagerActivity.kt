@@ -11,10 +11,10 @@ import cc.abase.demo.R
 import cc.abase.demo.bean.local.VerticalPageBean
 import cc.abase.demo.component.comm.CommBindTitleActivity
 import cc.abase.demo.databinding.ActivtyVerticalpageBinding
+import cc.abase.demo.databinding.ItemVerticalPageParentBinding
 import cc.abase.demo.utils.VideoRandomUtils
 import cc.abase.demo.widget.dkplayer.MyVideoView
 import com.blankj.utilcode.util.StringUtils
-import kotlinx.android.synthetic.main.item_vertical_page_parent.view.itemRecyclePagerContainer
 import kotlinx.coroutines.*
 
 /**
@@ -71,7 +71,10 @@ class RecyclerPagerActivity : CommBindTitleActivity<ActivtyVerticalpageBinding>(
         //更新UI
         (viewHolder as? DiscreteHolder<VerticalPageBean>)?.let { dh ->
           dh.updateUI(mDatas[position], position, mDatas.size)
-          dh.itemView.itemRecyclePagerContainer?.addView(videoView)
+          if (dh.itemView.findViewById<View>(R.id.itemRecyclePagerContainer) != null) {
+            val binding = ItemVerticalPageParentBinding.bind(dh.itemView)
+            binding.itemRecyclePagerContainer.addView(videoView)
+          }
         }
         //开始播放
         val bean = mDatas[position]
@@ -113,7 +116,10 @@ class RecyclerPagerActivity : CommBindTitleActivity<ActivtyVerticalpageBinding>(
             //防止还存在播放器
             if (mVideoView?.parent != null) initVideoView()
             mVideoView?.let { videoView ->
-              viewHolder.itemView.itemRecyclePagerContainer?.addView(videoView)
+              if (viewHolder.itemView.findViewById<View>(R.id.itemRecyclePagerContainer) != null) {
+                val binding = ItemVerticalPageParentBinding.bind(viewHolder.itemView)
+                binding.itemRecyclePagerContainer.addView(videoView)
+              }
               //开始播放
               val bean = mDatas.first()
               videoView.setPlayUrl(bean.videoUrl ?: "", bean.description ?: "", autoPlay = true, needHolder = false)
