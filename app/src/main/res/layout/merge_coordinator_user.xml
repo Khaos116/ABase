@@ -33,12 +33,20 @@
         app:layout_scrollFlags="scroll|exitUntilCollapsed|snap"
         >
       <!--整个头部-->
-      <include
-          layout="@layout/layout_user_head"
+      <androidx.constraintlayout.widget.ConstraintLayout
+          android:id="@+id/coordinatorUserHead"
           android:layout_width="match_parent"
           android:layout_height="wrap_content"
           app:layout_collapseMode="parallax"
-          />
+          >
+
+        <include
+            layout="@layout/layout_user_head"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            />
+      </androidx.constraintlayout.widget.ConstraintLayout>
+
       <!--顶部占位高度-->
       <androidx.appcompat.widget.Toolbar
           android:id="@+id/coordinatorUserToolbar"
