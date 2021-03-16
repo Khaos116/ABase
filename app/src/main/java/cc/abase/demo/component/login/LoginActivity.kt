@@ -252,8 +252,11 @@ class LoginActivity : CommBindActivity<ActivityLoginBinding>() {
             }
             MainActivity.startActivity(mContext)
           }, { code, msg ->
-            if (msg.isEmpty()) "指纹识别失败".toast() else msg.toast()
-            MainActivity.startActivity(mContext)
+            if (code == BiometricInterface.ERROR_FAILED) { //识别失败不进入
+              msg.toast()
+            } else {
+              MainActivity.startActivity(mContext)
+            }
           })
         }
       }
