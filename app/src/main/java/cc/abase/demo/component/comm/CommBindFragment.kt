@@ -101,9 +101,9 @@ abstract class CommBindFragment<T : ViewBinding> : BaseBindFragment<T>() {
   //</editor-fold>
 
   //<editor-fold defaultstate="collapsed" desc="防止内存泄漏">
-  override fun onDestroy() {
+  override fun onDestroyView() {
     removeAllCallbacks()
-    super.onDestroy()
+    super.onDestroyView()
   }
   //</editor-fold>
 }
