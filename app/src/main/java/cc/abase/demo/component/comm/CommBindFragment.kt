@@ -50,7 +50,7 @@ abstract class CommBindFragment<T : ViewBinding> : BaseBindFragment<T>() {
       gravity: Int = getLoadingViewGravity(),
       bgColor: Int = getLoadingViewBgColor()
   ) {
-    val parent = viewBinding.root as? ViewGroup
+    val parent = mRootFrameLayout
     if (loadingView.parent == null && parent != null) {
       val prams = FrameLayout.LayoutParams(-1, height)
       prams.gravity = gravity
@@ -91,7 +91,7 @@ abstract class CommBindFragment<T : ViewBinding> : BaseBindFragment<T>() {
   open fun getLoadingViewTransY() = 0f
 
   //设置动画高度
-  open fun getLoadingViewHeight() = viewBinding.root.width
+  open fun getLoadingViewHeight() = mRootFrameLayout?.height ?: viewBinding.root.height
 
   //设置动画的位置，默认居中
   open fun getLoadingViewGravity() = Gravity.CENTER
