@@ -7,6 +7,7 @@ import android.view.*
 import android.widget.FrameLayout
 import android.widget.LinearLayout
 import androidx.lifecycle.*
+import androidx.viewbinding.ViewBinding
 import androidx.viewpager.widget.ViewPager
 import androidx.viewpager2.widget.ViewPager2
 import cc.ab.base.R
@@ -22,7 +23,7 @@ import kotlin.math.abs
  * @author: CASE
  * @date: 2019/10/14 11:44
  */
-class DiscreteBanner<T> @JvmOverloads constructor(
+class DiscreteBanner<T, V : ViewBinding> @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0,
@@ -32,13 +33,13 @@ class DiscreteBanner<T> @JvmOverloads constructor(
   private var orientation = DSVOrientation.HORIZONTAL.ordinal
 
   //数据源
-  private var mData: List<T> = emptyList()
+  private var mData: MutableList<T> = mutableListOf()
 
   //列表
   private lateinit var mPager: DiscreteScrollView
 
   //真正使用的adapter
-  private var mPagerAdapter: DiscretePageAdapter<T>? = null
+  private var mPagerAdapter: DiscretePageAdapter<T,V>? = null
 
   //圆点
   private lateinit var mIndicator: DotsIndicator
@@ -47,7 +48,7 @@ class DiscreteBanner<T> @JvmOverloads constructor(
   private var looper: Boolean = false
 
   //无限循环adapter
-  private var mLooperAdapter: InfiniteScrollAdapter<DiscreteHolder<T>>? = null
+  private var mLooperAdapter: InfiniteScrollAdapter<DiscreteHolder<T,V>>? = null
 
   //是否需要自动轮播
   private var needAutoPlay = false
@@ -129,7 +130,7 @@ class DiscreteBanner<T> @JvmOverloads constructor(
   }
 
   //设置横竖切换
-  fun setOrientation(orientation: DSVOrientation): DiscreteBanner<T> {
+  fun setOrientation(orientation: DSVOrientation): DiscreteBanner<T, V> {
     this.orientation = orientation.ordinal
     mPager.setOrientation(orientation)
     if (orientation == DSVOrientation.HORIZONTAL) { //横向
@@ -148,37 +149,37 @@ class DiscreteBanner<T> @JvmOverloads constructor(
   }
 
   //设置显示位置,请在setOrientation后设置
-  fun setIndicatorGravity(gravity: Int): DiscreteBanner<T> {
+  fun setIndicatorGravity(gravity: Int): DiscreteBanner<T, V> {
     (mIndicator.layoutParams as LayoutParams).gravity = gravity
     return this
   }
 
   //设置偏移量X,请在setOrientation后设置
-  fun setIndicatorOffsetX(offsetX: Float): DiscreteBanner<T> {
+  fun setIndicatorOffsetX(offsetX: Float): DiscreteBanner<T, V> {
     mIndicator.translationX = offsetX
     return this
   }
 
   //设置偏移量Y,请在setOrientation后设置
-  fun setIndicatorOffsetY(offsetY: Float): DiscreteBanner<T> {
+  fun setIndicatorOffsetY(offsetY: Float): DiscreteBanner<T, V> {
     mIndicator.translationY = offsetY
     return this
   }
 
   //是否需要无限循环
-  fun setLooper(loop: Boolean): DiscreteBanner<T> {
+  fun setLooper(loop: Boolean): DiscreteBanner<T, V> {
     this.looper = loop
     return this
   }
 
   //设置是否自动轮播
-  fun setAutoPlay(auto: Boolean): DiscreteBanner<T> {
+  fun setAutoPlay(auto: Boolean): DiscreteBanner<T, V> {
     this.needAutoPlay = auto
     return this
   }
 
   //设置点击事件
-  fun setOnItemClick(click: (position: Int, t: T) -> Unit): DiscreteBanner<T> {
+  fun setOnItemClick(click: (position: Int, t: T) -> Unit): DiscreteBanner<T, V> {
     itemClick = click
     return this
   }
@@ -198,11 +199,10 @@ class DiscreteBanner<T> @JvmOverloads constructor(
 
   //设置数据
   @Suppress("UNCHECKED_CAST")
-  fun setPages(holderCreator: DiscreteHolderCreator, datas: List<T>): DiscreteBanner<T> {
+  fun setPages(holderCreator: DiscreteHolderCreator<T,V>, datas: MutableList<T>): DiscreteBanner<T, V> {
     stopPlay()
     this.mData = datas
-    this.mPagerAdapter = DiscretePageAdapter(holderCreator, mData)
-    this.mPagerAdapter?.setOnItemClickListener { position, t ->
+    this.mPagerAdapter = DiscretePageAdapter(holderCreator, mData) { position, t ->
       itemClick?.invoke(position, t as T)
     }
     if (looper) {
