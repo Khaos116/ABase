@@ -252,7 +252,7 @@ class LoginActivity : CommBindActivity<ActivityLoginBinding>() {
             }
             MainActivity.startActivity(mContext)
           }, { code, msg ->
-            msg.toast()
+            if (msg.isEmpty()) "指纹识别失败".toast() else msg.toast()
             MainActivity.startActivity(mContext)
           })
         }
