@@ -4,8 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.os.Build
-import android.view.Gravity
-import android.view.View
+import android.view.*
 import android.widget.FrameLayout
 import androidx.annotation.IntRange
 import androidx.lifecycle.Lifecycle
@@ -13,17 +12,16 @@ import cc.ab.base.ext.*
 import cc.ab.base.widget.DragFloatView
 import cc.abase.demo.BuildConfig
 import cc.abase.demo.R
-import cc.abase.demo.component.comm.CommActivity
+import cc.abase.demo.component.comm.CommBindActivity
 import cc.abase.demo.component.comm.CommFragment
 import cc.abase.demo.component.main.fragment.*
+import cc.abase.demo.databinding.ActivityMainBinding
 import cc.abase.demo.widget.dialog.commAlertDialog
 import com.blankj.utilcode.util.ActivityUtils
 import com.blankj.utilcode.util.FragmentUtils
 import com.hjq.permissions.*
-import kotlinx.android.synthetic.main.activity_main.mainContainer
-import kotlinx.android.synthetic.main.activity_main.mainNavigation
 
-class MainActivity : CommActivity() {
+class MainActivity : CommBindActivity<ActivityMainBinding>() {
   //<editor-fold defaultstate="collapsed" desc="外部跳转">
   companion object {
     fun startActivity(context: Context) {
@@ -43,13 +41,13 @@ class MainActivity : CommActivity() {
   //</editor-fold>
 
   //<editor-fold defaultstate="collapsed" desc="XML">
-  override fun layoutResId() = R.layout.activity_main
+  override fun loadViewBinding(inflater: LayoutInflater) = ActivityMainBinding.inflate(inflater)
   //</editor-fold>
 
   //<editor-fold defaultstate="collapsed" desc="初始化View">
   override fun initView() {
     window.setBackgroundDrawable(null)
-    mStatusView?.setBackgroundColor(Color.WHITE)
+    baseBinding.baseStatusView.setBackgroundColor(Color.WHITE)
     //添加子页面
     fragmentList.clear()
     fragmentList.add(WanFragment.newInstance())
@@ -59,7 +57,7 @@ class MainActivity : CommActivity() {
     selectFragment(0)
     setSelectIndex(0)
     //切换
-    mainNavigation.setOnNavigationItemSelectedListener {
+    viewBinding.mainNavigation.setOnNavigationItemSelectedListener {
       when (it.itemId) {
         R.id.menu_main_home -> selectFragment(0)
         R.id.menu_main_dyn -> selectFragment(1)
@@ -68,9 +66,9 @@ class MainActivity : CommActivity() {
       true //返回true让其默认选中点击的选项
     }
     //取消长按显示+过度绘制
-    mainNavigation.findViewById<View>(R.id.menu_main_home).setOnLongClickListener { true }
-    mainNavigation.findViewById<View>(R.id.menu_main_dyn).setOnLongClickListener { true }
-    mainNavigation.findViewById<View>(R.id.menu_main_mine).setOnLongClickListener { true }
+    viewBinding.mainNavigation.findViewById<View>(R.id.menu_main_home).setOnLongClickListener { true }
+    viewBinding.mainNavigation.findViewById<View>(R.id.menu_main_dyn).setOnLongClickListener { true }
+    viewBinding.mainNavigation.findViewById<View>(R.id.menu_main_mine).setOnLongClickListener { true }
     //添加悬浮球
     floatView = DragFloatView(mContext)
     floatView?.click { "点击悬浮球".toast() }
@@ -137,6 +135,8 @@ class MainActivity : CommActivity() {
         }
       }
     }
+    //关闭其他所有页面
+    ActivityUtils.finishOtherActivities(javaClass)
   }
   //</editor-fold>
 
@@ -159,13 +159,6 @@ class MainActivity : CommActivity() {
   }
   //</editor-fold>
 
-  //<editor-fold defaultstate="collapsed" desc="初始化数据">
-  override fun initData() {
-    //关闭其他所有页面
-    ActivityUtils.finishOtherActivities(javaClass)
-  }
-  //</editor-fold>
-
   //<editor-fold defaultstate="collapsed" desc="设置选中的fragment">
   //设置选中的fragment
   private fun selectFragment(@IntRange(from = 0, to = 2) index: Int) {
@@ -185,7 +178,7 @@ class MainActivity : CommActivity() {
     currentFragment = fragment
     if (!fragment.isAdded) { //没有添加，则添加并显示
       val tag = fragment::class.java.simpleName
-      FragmentUtils.add(supportFragmentManager, fragment, mainContainer.id, tag, false)
+      FragmentUtils.add(supportFragmentManager, fragment, viewBinding.mainContainer.id, tag, false)
     } else { //添加了就直接显示
       FragmentUtils.show(fragment)
       if (fragment.isAdded) supportFragmentManager
@@ -204,8 +197,8 @@ class MainActivity : CommActivity() {
       2 -> R.id.menu_main_mine
       else -> R.id.menu_main_home
     }
-    mainNavigation?.post {
-      if (mainNavigation.selectedItemId != selectId) mainNavigation.selectedItemId = selectId
+    viewBinding.mainNavigation.post {
+      if (viewBinding.mainNavigation.selectedItemId != selectId) viewBinding.mainNavigation.selectedItemId = selectId
     }
   }
   //</editor-fold>

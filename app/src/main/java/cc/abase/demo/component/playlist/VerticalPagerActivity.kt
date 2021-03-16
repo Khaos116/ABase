@@ -2,28 +2,26 @@ package cc.abase.demo.component.playlist
 
 import android.content.Context
 import android.content.Intent
-import android.view.MotionEvent
-import android.view.View
+import android.view.*
 import androidx.viewpager.widget.ViewPager
 import cc.ab.base.ext.*
 import cc.ab.base.ui.viewmodel.DataState
-import cc.abase.demo.R
 import cc.abase.demo.bean.local.VideoBean
-import cc.abase.demo.component.comm.CommActivity
+import cc.abase.demo.component.comm.CommBindActivity
 import cc.abase.demo.component.playlist.adapter.VerticalPagerAdapter
 import cc.abase.demo.component.playlist.adapter.VerticalPagerAdapter.PagerHolder
 import cc.abase.demo.component.playlist.viewmoel.VerticalPagerViewModel
+import cc.abase.demo.databinding.ActivityPlayPagerBinding
 import cc.abase.demo.widget.dkplayer.MyVideoView
 import com.gyf.immersionbar.ktx.immersionBar
 import com.scwang.smart.refresh.layout.wrapper.RefreshHeaderWrapper
-import kotlinx.android.synthetic.main.activity_play_pager.*
 
 /**
  * Description:
  * @author: CASE
  * @date: 2019/12/12 11:33
  */
-class VerticalPagerActivity : CommActivity() {
+class VerticalPagerActivity : CommBindActivity<ActivityPlayPagerBinding>() {
   //<editor-fold defaultstate="collapsed" desc="外部跳转">
   companion object {
     fun startActivity(context: Context) {
@@ -62,33 +60,28 @@ class VerticalPagerActivity : CommActivity() {
   //</editor-fold>
 
   //<editor-fold defaultstate="collapsed" desc="XML">
-  override fun layoutResId() = R.layout.activity_play_pager
+  override fun loadViewBinding(inflater: LayoutInflater) = ActivityPlayPagerBinding.inflate(inflater)
   //</editor-fold>
 
   //<editor-fold defaultstate="collapsed" desc="初始化View">
   override fun initView() {
     //返回按钮
-    verticalPagerBack.pressEffectAlpha()
-    verticalPagerBack.click { onBackPressed() }
+    viewBinding.verticalPagerBack.pressEffectAlpha()
+    viewBinding.verticalPagerBack.click { onBackPressed() }
     //播放控件
     mVideoView = MyVideoView(mContext)
     mVideoView?.titleFitWindow(true)
     mVideoView?.setBackShow(View.INVISIBLE)
     mVideoView?.setLooping(true)
     //列表
-    verticalPagerViewPager.offscreenPageLimit = 4
+    viewBinding.verticalPagerViewPager.offscreenPageLimit = 4
     //下拉刷新
-    verticalPagerRefresh.setEnableLoadMoreWhenContentNotFull(true) //解决不能上拉问题
-    verticalPagerRefresh.setEnableFooterFollowWhenNoMoreData(false) //没有更多不固定显示，只有上拉才能看到
-    verticalPagerRefresh.setEnableRefresh(false) //不要下拉刷新
-    verticalPagerRefresh.setRefreshHeader(RefreshHeaderWrapper(View(mContext))) //使用简单的header以节约内存
-    verticalPagerRefresh.setEnableLoadMore(false) //暂时禁止上拉加载
-    verticalPagerRefresh.setOnLoadMoreListener { viewModel.loadMore() }
-  }
-  //</editor-fold>
-
-  //<editor-fold defaultstate="collapsed" desc="初始化Data">
-  override fun initData() {
+    viewBinding.verticalPagerRefresh.setEnableLoadMoreWhenContentNotFull(true) //解决不能上拉问题
+    viewBinding.verticalPagerRefresh.setEnableFooterFollowWhenNoMoreData(false) //没有更多不固定显示，只有上拉才能看到
+    viewBinding.verticalPagerRefresh.setEnableRefresh(false) //不要下拉刷新
+    viewBinding.verticalPagerRefresh.setRefreshHeader(RefreshHeaderWrapper(View(mContext))) //使用简单的header以节约内存
+    viewBinding.verticalPagerRefresh.setEnableLoadMore(false) //暂时禁止上拉加载
+    viewBinding.verticalPagerRefresh.setOnLoadMoreListener { viewModel.loadMore() }
     viewModel.videoLiveData.observe(this) {
       when (it) {
         is DataState.SuccessRefresh -> {
@@ -100,7 +93,7 @@ class VerticalPagerActivity : CommActivity() {
           }
         }
         is DataState.SuccessMore -> {
-          verticalPagerRefresh?.finishLoadMore()
+          viewBinding.verticalPagerRefresh.finishLoadMore()
           mVideoList = it.data ?: mutableListOf()
           if (mVerticalPagerAdapter == null) {
             initAdapter(mVideoList)
@@ -114,14 +107,14 @@ class VerticalPagerActivity : CommActivity() {
         is DataState.Complete -> {
           dismissLoadingView()
           hasMore = it.hasMore
-          if (verticalPagerViewPager.currentItem == mVideoList.size - 1) {
+          if (viewBinding.verticalPagerViewPager.currentItem == mVideoList.size - 1) {
             if (hasMore) {
-              verticalPagerRefresh?.hasMoreData()
+              viewBinding.verticalPagerRefresh.hasMoreData()
             } else {
-              verticalPagerRefresh?.noMoreData()
+              viewBinding.verticalPagerRefresh.noMoreData()
             }
           } else {
-            verticalPagerRefresh?.setEnableLoadMore(false)
+            viewBinding.verticalPagerRefresh.setEnableLoadMore(false)
           }
         }
         else -> {
@@ -135,28 +128,28 @@ class VerticalPagerActivity : CommActivity() {
   //<editor-fold defaultstate="collapsed" desc="拿到数据第一次初始化Adapter">
   //初始化adapter
   private fun initAdapter(datas: MutableList<VideoBean>) {
-    if (mVerticalPagerAdapter == null && verticalPagerViewPager != null) {
+    if (mVerticalPagerAdapter == null) {
       mVerticalPagerAdapter = VerticalPagerAdapter(datas)
-      verticalPagerViewPager.adapter = mVerticalPagerAdapter
+      viewBinding.verticalPagerViewPager.adapter = mVerticalPagerAdapter
       //随机从某一个开始播放
       val index = (Math.random() * datas.size).toInt()
       if (index != 0) {
-        verticalPagerViewPager.currentItem = index
+        viewBinding.verticalPagerViewPager.currentItem = index
         //如果直接到最后一条需要显示可以加载更多
-        if (index == mVideoList.size - 1) verticalPagerRefresh?.hasMoreData()
+        if (index == mVideoList.size - 1) viewBinding.verticalPagerRefresh.hasMoreData()
       }
       //第一次加载的时候设置currentItem会滚动刷新，所以播放需要延时
-      verticalPagerViewPager.post {
+      viewBinding.verticalPagerViewPager.post {
         startPlay(index)
-        verticalPagerViewPager.setOnPageChangeListener(object : ViewPager.SimpleOnPageChangeListener() {
+        viewBinding.verticalPagerViewPager.setOnPageChangeListener(object : ViewPager.SimpleOnPageChangeListener() {
           override fun onPageSelected(position: Int) {
             if (position == mCurPos) return
             startPlay(position)
             if (position == (mVideoList.size - 1)) {
               if (hasMore) {
-                verticalPagerRefresh?.hasMoreData()
+                viewBinding.verticalPagerRefresh.hasMoreData()
               } else {
-                verticalPagerRefresh?.noMoreData()
+                viewBinding.verticalPagerRefresh.noMoreData()
               }
             }
           }
@@ -172,10 +165,10 @@ class VerticalPagerActivity : CommActivity() {
     //预加载更多
     //if (position >= mVideoList.size - 5) viewModel.loadMore()
     //遍历加载信息和播放
-    val count: Int = verticalPagerViewPager.childCount
+    val count: Int = viewBinding.verticalPagerViewPager.childCount
     var findCount = 0 //由于复用id是混乱的，所以需要保证3个都找到才跳出循环(为了节约性能)
     for (i in 0 until count) {
-      val itemView: View = verticalPagerViewPager.getChildAt(i)
+      val itemView: View = viewBinding.verticalPagerViewPager.getChildAt(i)
       val viewHolder: PagerHolder = itemView.tag as PagerHolder
       if (viewHolder.mPosition == position) {
         mVideoView?.release()
@@ -204,7 +197,7 @@ class VerticalPagerActivity : CommActivity() {
     } catch (e: Exception) {
       e.printStackTrace()
       if (ev != null && (ev.action and MotionEvent.ACTION_MASK) == MotionEvent.ACTION_UP) {
-        verticalPagerViewPager.scrollBy(1, 0)
+        viewBinding.verticalPagerViewPager.scrollBy(1, 0)
       }
       false
     }

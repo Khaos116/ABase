@@ -2,24 +2,24 @@ package cc.abase.demo.component.video
 
 import android.content.Context
 import android.content.Intent
+import android.view.LayoutInflater
 import android.view.ViewGroup
 import cc.ab.base.ext.*
-import cc.abase.demo.R
-import cc.abase.demo.component.comm.CommActivity
+import cc.abase.demo.component.comm.CommBindActivity
 import cc.abase.demo.constants.StringConstants
+import cc.abase.demo.databinding.ActivityVideoDetailBinding
 import cc.abase.demo.widget.dkplayer.MyVideoView
 import cc.abase.demo.widget.dkplayer.pipfloat.PIPManager
 import com.dueeeke.videoplayer.player.VideoViewManager
 import com.gyf.immersionbar.ktx.immersionBar
 import com.hjq.permissions.*
-import kotlinx.android.synthetic.main.activity_video_detail.*
 
 /**
  * Description:
  * @author: CASE
  * @date: 2019/11/2 9:51
  */
-class VideoDetailActivity : CommActivity() {
+class VideoDetailActivity : CommBindActivity<ActivityVideoDetailBinding>() {
   //<editor-fold defaultstate="collapsed" desc="外部跳转">
   companion object {
     //视频地址
@@ -48,7 +48,7 @@ class VideoDetailActivity : CommActivity() {
   //</editor-fold>
 
   //<editor-fold defaultstate="collapsed" desc="XML">
-  override fun layoutResId() = R.layout.activity_video_detail
+  override fun loadViewBinding(inflater: LayoutInflater) = ActivityVideoDetailBinding.inflate(inflater)
   //</editor-fold>
 
   //<editor-fold defaultstate="collapsed" desc="变量">
@@ -59,11 +59,11 @@ class VideoDetailActivity : CommActivity() {
   //<editor-fold defaultstate="collapsed" desc="初始化View">
   override fun initView() {
     videoDetailVideoView = VideoViewManager.instance().get(StringConstants.Tag.FLOAT_PLAY) as MyVideoView
-    videoDetailBack.pressEffectAlpha()
-    videoDetailFloat.pressEffectAlpha()
-    videoDetailBack.click { onBackPressed() }
-    videoDetailStatus.layoutParams.height = mStatusBarHeight
-    videoDetailFloat.click {
+    viewBinding.videoDetailBack.pressEffectAlpha()
+    viewBinding.videoDetailFloat.pressEffectAlpha()
+    viewBinding.videoDetailBack.click { onBackPressed() }
+    viewBinding.videoDetailStatus.layoutParams.height = mStatusBarHeight
+    viewBinding.videoDetailFloat.click {
       XXPermissions.with(this)
           .permission(Permission.SYSTEM_ALERT_WINDOW)
           .request(object : OnPermissionCallback {
@@ -80,11 +80,6 @@ class VideoDetailActivity : CommActivity() {
             }
           })
     }
-  }
-  //</editor-fold>
-
-  //<editor-fold defaultstate="collapsed" desc="初始化Data">
-  override fun initData() {
     if (mPIPManager.isStartFloatWindow) {
       mPIPManager.stopFloatWindow()
       videoDetailVideoView.setVideoController(videoDetailVideoView.getMyController())
@@ -95,7 +90,7 @@ class VideoDetailActivity : CommActivity() {
       val url = intent.getStringExtra(INTENT_KEY_VIDEO_URL)
       url?.let { videoDetailVideoView.setPlayUrl(it) }
     }
-    videoDetailVideoViewParent.addView(videoDetailVideoView, ViewGroup.LayoutParams(-1, -1))
+    viewBinding.videoDetailVideoViewParent.addView(videoDetailVideoView, ViewGroup.LayoutParams(-1, -1))
   }
   //</editor-fold>
 

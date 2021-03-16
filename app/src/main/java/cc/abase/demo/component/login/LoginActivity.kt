@@ -2,16 +2,18 @@ package cc.abase.demo.component.login
 
 import android.content.Context
 import android.content.Intent
+import android.view.LayoutInflater
 import androidx.lifecycle.rxLifeScope
 import cc.ab.base.ext.*
 import cc.ab.base.utils.CcInputHelper
 import cc.ab.base.utils.PressEffectHelper
 import cc.abase.demo.R
-import cc.abase.demo.component.comm.CommActivity
+import cc.abase.demo.component.comm.CommBindActivity
 import cc.abase.demo.component.main.MainActivity
 import cc.abase.demo.config.UserManager
 import cc.abase.demo.constants.LengthConstants
 import cc.abase.demo.constants.UiConstants
+import cc.abase.demo.databinding.ActivityLoginBinding
 import cc.abase.demo.rxhttp.repository.UserRepository
 import cc.abase.demo.utils.AppInfoUtils
 import cc.abase.demo.utils.MMkvUtils
@@ -20,7 +22,6 @@ import cc.abase.demo.widget.dialog.commAlertDialog
 import com.blankj.utilcode.util.*
 import com.google.gson.reflect.TypeToken
 import com.tencent.mmkv.MMKV
-import kotlinx.android.synthetic.main.activity_login.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.util.Locale
@@ -30,7 +31,7 @@ import java.util.Locale
  * @author: CASE
  * @date: 2019/10/10 14:58
  */
-class LoginActivity : CommActivity() {
+class LoginActivity : CommBindActivity<ActivityLoginBinding>() {
   //<editor-fold defaultstate="collapsed" desc="外部跳转">
   companion object {
     private const val KEY_INTENT_LOGIN_OUT = "KEY_INTENT_LOGIN_OUT"
@@ -43,7 +44,7 @@ class LoginActivity : CommActivity() {
   //</editor-fold>
 
   //<editor-fold defaultstate="collapsed" desc="XML">
-  override fun layoutResId() = R.layout.activity_login
+  override fun loadViewBinding(inflater: LayoutInflater) = ActivityLoginBinding.inflate(inflater)
   //</editor-fold>
 
   //<editor-fold defaultstate="collapsed" desc="变量">
@@ -63,21 +64,21 @@ class LoginActivity : CommActivity() {
 
   //<editor-fold defaultstate="collapsed" desc="初始化View">
   override fun initView() {
-    loginAppInfo.setPadding(0, mStatusBarHeight, 0, 0)
-    loginAppInfo.setOnClickListener {
-      if ((++count) == 10) loginAppInfo.text = AppInfoUtils.getAppInfo()
+    viewBinding.loginAppInfo.setPadding(0, mStatusBarHeight, 0, 0)
+    viewBinding.loginAppInfo.setOnClickListener {
+      if ((++count) == 10) viewBinding.loginAppInfo.text = AppInfoUtils.getAppInfo()
     }
     checkSubmit()
-    PressEffectHelper.alphaEffect(loginRegister)
-    CcInputHelper.wrapCommCountLimit(loginEditAccount, LengthConstants.MAX_LEN_ACC, 0)
-    CcInputHelper.wrapCommCountLimit(loginEditPassword, LengthConstants.MAX_LEN_PASS, 0)
-    loginEditAccount.addTextWatcher { checkSubmit() }
-    loginEditPassword.addTextWatcher { checkSubmit() }
-    loginSubmit.click {
+    PressEffectHelper.alphaEffect(viewBinding.loginRegister)
+    CcInputHelper.wrapCommCountLimit(viewBinding.loginEditAccount, LengthConstants.MAX_LEN_ACC, 0)
+    CcInputHelper.wrapCommCountLimit(viewBinding.loginEditPassword, LengthConstants.MAX_LEN_PASS, 0)
+    viewBinding.loginEditAccount.addTextWatcher { checkSubmit() }
+    viewBinding.loginEditPassword.addTextWatcher { checkSubmit() }
+    viewBinding.loginSubmit.click {
       showActionLoading()
       rxLifeScope.launch({
-        val account = loginEditAccount.text.toString()
-        val password = loginEditPassword.text.toString()
+        val account = viewBinding.loginEditAccount.text.toString()
+        val password = viewBinding.loginEditPassword.text.toString()
         withContext(Dispatchers.IO) { UserRepository.login(account, password) }.let { user ->
           "登录成功:${user.nickname}".logI()
           mmkv?.clearAll()
@@ -89,43 +90,38 @@ class LoginActivity : CommActivity() {
         dismissActionLoading()
       })
     }
-    loginRegister.click { RegisterActivity.startActivity(mContext) }
+    viewBinding.loginRegister.click { RegisterActivity.startActivity(mContext) }
     //键盘弹窗直接处理登录操作View位置
     extKeyBoard { statusHeight, navigationHeight, keyBoardHeight ->
       if (keyBoardHeight > 0) {
-        loginRegister.invisible()
+        viewBinding.loginRegister.invisible()
         val array1 = intArrayOf(0, 0)
         val array2 = intArrayOf(0, 0)
         val array3 = intArrayOf(0, 0)
-        loginRoot.getLocationOnScreen(array1)
-        loginSubmit.getLocationOnScreen(array2)
-        loginInputPassword.getLocationOnScreen(array3)
-        array1[1] = array1[1] + loginRoot.height
-        array2[1] = array2[1] + loginSubmit.height
-        array3[1] = array3[1] + loginInputPassword.height
-        loginSubmit.translationY = (keyBoardHeight - (array1[1] - array2[1])) * -1f - 10.dp2Px()
-        if (array1[1] - array3[1] < loginSubmit.height + 10.dp2Px()) {
-          loginInputPassword.translationY = (loginSubmit.height - (array1[1] - array3[1])) * -1f - 20.dp2Px()
-          loginInputAccount.translationY = loginInputPassword.translationY
+        viewBinding.loginRoot.getLocationOnScreen(array1)
+        viewBinding.loginSubmit.getLocationOnScreen(array2)
+        viewBinding.loginInputPassword.getLocationOnScreen(array3)
+        array1[1] = array1[1] + viewBinding.loginRoot.height
+        array2[1] = array2[1] + viewBinding.loginSubmit.height
+        array3[1] = array3[1] + viewBinding.loginInputPassword.height
+        viewBinding.loginSubmit.translationY = (keyBoardHeight - (array1[1] - array2[1])) * -1f - 10.dp2Px()
+        if (array1[1] - array3[1] < viewBinding.loginSubmit.height + 10.dp2Px()) {
+          viewBinding.loginInputPassword.translationY = (viewBinding.loginSubmit.height - (array1[1] - array3[1])) * -1f - 20.dp2Px()
+          viewBinding.loginInputAccount.translationY = viewBinding.loginInputPassword.translationY
         }
       } else {
-        loginRegister.visible()
-        loginSubmit.translationY = 0f
-        loginInputPassword.translationY = 0f
-        loginInputAccount.translationY = 0f
+        viewBinding.loginRegister.visible()
+        viewBinding.loginSubmit.translationY = 0f
+        viewBinding.loginInputPassword.translationY = 0f
+        viewBinding.loginInputAccount.translationY = 0f
       }
     }
     val isLoginOut = intent.getBooleanExtra(KEY_INTENT_LOGIN_OUT, false)
     if (isLoginOut || !checkBiometric()) {
       //读取上次的数据
-      loginEditAccount.setText(MMkvUtils.getAccount())
-      loginEditPassword.setText(MMkvUtils.getPassword())
+      viewBinding.loginEditAccount.setText(MMkvUtils.getAccount())
+      viewBinding.loginEditPassword.setText(MMkvUtils.getPassword())
     }
-  }
-  //</editor-fold>
-
-  //<editor-fold defaultstate="collapsed" desc="初始化Data">
-  override fun initData() {
     //来到登录页默认需要清除数据
     UserManager.clearUserInfo()
     //关闭其他所有页面
@@ -135,29 +131,29 @@ class LoginActivity : CommActivity() {
 
   //<editor-fold defaultstate="collapsed" desc="账号密码登录">
   private fun checkSubmit() {
-    val textAcc = loginEditAccount.text
-    val textPass = loginEditPassword.text
+    val textAcc = viewBinding.loginEditAccount.text
+    val textPass = viewBinding.loginEditPassword.text
     if (textAcc.isEmpty()) {
-      loginInputAccount.hint = StringUtils.getString(R.string.login_account_hint)
+      viewBinding.loginInputAccount.hint = StringUtils.getString(R.string.login_account_hint)
     } else if (textAcc.isNotEmpty() && textAcc.length < LengthConstants.MIN_LEN_ACC) {
-      loginInputAccount.hint = StringUtils.getString(R.string.login_account_short)
+      viewBinding.loginInputAccount.hint = StringUtils.getString(R.string.login_account_short)
     } else {
-      loginInputAccount.hint = ""
+      viewBinding.loginInputAccount.hint = ""
     }
     if (textPass.isEmpty()) {
-      loginInputPassword.hint = StringUtils.getString(R.string.login_password_hint)
+      viewBinding.loginInputPassword.hint = StringUtils.getString(R.string.login_password_hint)
     } else if (textPass.isNotEmpty() && textPass.length < LengthConstants.MIN_LEN_PASS) {
-      loginInputPassword.hint = StringUtils.getString(R.string.login_password_short)
+      viewBinding.loginInputPassword.hint = StringUtils.getString(R.string.login_password_short)
     } else {
-      loginInputPassword.hint = ""
+      viewBinding.loginInputPassword.hint = ""
     }
     val enable = textAcc.length >= LengthConstants.MIN_LEN_ACC && textPass.length >= LengthConstants.MIN_LEN_PASS
-    loginSubmit.isEnabled = enable
-    loginSubmit.alpha = if (enable) 1f else UiConstants.disable_alpha
+    viewBinding.loginSubmit.isEnabled = enable
+    viewBinding.loginSubmit.alpha = if (enable) 1f else UiConstants.disable_alpha
     if (enable) {
-      loginSubmit.pressEffectAlpha()
+      viewBinding.loginSubmit.pressEffectAlpha()
     } else {
-      loginSubmit.pressEffectDisable()
+      viewBinding.loginSubmit.pressEffectDisable()
     }
   }
   //</editor-fold>

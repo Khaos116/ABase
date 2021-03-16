@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.Typeface
+import android.view.LayoutInflater
 import android.view.ViewGroup.MarginLayoutParams
 import android.view.animation.AccelerateInterpolator
 import android.view.animation.DecelerateInterpolator
@@ -13,15 +14,12 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentPagerAdapter
 import cc.ab.base.ext.*
 import cc.abase.demo.R
-import cc.abase.demo.component.comm.CommActivity
+import cc.abase.demo.component.comm.CommBindActivity
 import cc.abase.demo.component.simple.SimpleFragment
+import cc.abase.demo.databinding.*
 import cc.abase.demo.utils.RandomName
 import cc.abase.demo.widget.indicator.ScaleTransitionPagerTitleView
 import com.google.android.material.appbar.AppBarLayout
-import kotlinx.android.synthetic.main.activity_coordinator.*
-import kotlinx.android.synthetic.main.layout_user_head.view.*
-import kotlinx.android.synthetic.main.merge_coordinator_user.view.coordinatorUserCTL
-import kotlinx.android.synthetic.main.merge_coordinator_user.view.coordinatorUserToolbar
 import net.lucode.hackware.magicindicator.ViewPagerHelper
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.CommonNavigator
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.abs.*
@@ -34,7 +32,7 @@ import kotlin.math.min
  * @author: CASE
  * @date: 2019/12/6 10:16
  */
-class CoordinatorActivity : CommActivity() {
+class CoordinatorActivity : CommBindActivity<ActivityCoordinatorBinding>() {
   //<editor-fold defaultstate="collapsed" desc="外部跳转">
   companion object {
     fun startActivity(context: Context) {
@@ -51,7 +49,7 @@ class CoordinatorActivity : CommActivity() {
   //</editor-fold>
 
   //<editor-fold defaultstate="collapsed" desc="XML">
-  override fun layoutResId() = R.layout.activity_coordinator
+  override fun loadViewBinding(inflater: LayoutInflater) = ActivityCoordinatorBinding.inflate(inflater)
   //</editor-fold>
 
   //<editor-fold defaultstate="collapsed" desc="状态栏操作">
@@ -62,9 +60,9 @@ class CoordinatorActivity : CommActivity() {
   @Suppress("DEPRECATION")
   override fun initView() {
     //初始化页面
-    (coordinatorBack.layoutParams as MarginLayoutParams).topMargin = mStatusBarHeight
-    coordinatorBack.pressEffectAlpha()
-    coordinatorBack.click { onBackPressed() }
+    (viewBinding.coordinatorBack.layoutParams as MarginLayoutParams).topMargin = mStatusBarHeight
+    viewBinding.coordinatorBack.pressEffectAlpha()
+    viewBinding.coordinatorBack.click { onBackPressed() }
     val type = (System.currentTimeMillis() % 2).toInt()
     titles.clear()
     fragments.clear()
@@ -73,16 +71,16 @@ class CoordinatorActivity : CommActivity() {
       titles.add((if (type == 0) "Normal" else "Smart") + i)
       fragments.add(SimpleFragment.newInstance(type))
     }
-    coordinatorPager.adapter = object : FragmentPagerAdapter(supportFragmentManager, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
+    viewBinding.coordinatorPager.adapter = object : FragmentPagerAdapter(supportFragmentManager, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
       override fun getItem(position: Int) = fragments[position]
 
       override fun getCount() = fragments.size
 
       override fun getPageTitle(position: Int) = titles[position]
     }
-    coordinatorPager.offscreenPageLimit = fragments.size
+    viewBinding.coordinatorPager.offscreenPageLimit = fragments.size
     //加载页面
-    coordinatorCoordinator.indicator?.let {
+    viewBinding.coordinatorCoordinator.indicator?.let {
       val commonNavigator = CommonNavigator(mContext)
       commonNavigator.isAdjustMode = titles.size <= 3 //设置是否等分
       commonNavigator.adapter = object : CommonNavigatorAdapter() {
@@ -105,7 +103,7 @@ class CoordinatorActivity : CommActivity() {
           simplePagerTitleView.minScale = 0.8f
           simplePagerTitleView.normalColor = R.color.gray_808A87.xmlToColor()
           simplePagerTitleView.selectedColor = R.color.yellow_FF6100.xmlToColor()
-          simplePagerTitleView.setOnClickListener { coordinatorPager.currentItem = index }
+          simplePagerTitleView.setOnClickListener { viewBinding.coordinatorPager.currentItem = index }
           return simplePagerTitleView
         }
 
@@ -122,68 +120,65 @@ class CoordinatorActivity : CommActivity() {
         }
       }
       it.navigator = commonNavigator
-      ViewPagerHelper.bind(it, coordinatorPager)
+      ViewPagerHelper.bind(it, viewBinding.coordinatorPager)
     }
+    val bindingCoordinator = MergeCoordinatorUserBinding.bind(viewBinding.coordinatorCoordinator)
+    val bindingUser = LayoutUserHeadBinding.bind(bindingCoordinator.coordinatorUserHead)
     //滑动变化
-    coordinatorCoordinator.appBar?.let { bar ->
+    viewBinding.coordinatorCoordinator.appBar?.let { bar ->
       bar.addOnOffsetChangedListener(AppBarLayout.OnOffsetChangedListener { appBarLayout, verticalOffset ->
         val percent = min(abs(verticalOffset * 1f) / appBarLayout.totalScrollRange, 1f)
-        coordinatorCoordinator.layoutUserOver.alpha = 1 - percent
-        coordinatorBack.setColorFilter(mEvaluator.evaluate(percent, Color.WHITE, R.color.gray.xmlToColor()) as Int)
+        bindingUser.layoutUserOver.alpha = 1 - percent
+        viewBinding.coordinatorBack.setColorFilter(mEvaluator.evaluate(percent, Color.WHITE, R.color.gray.xmlToColor()) as Int)
       })
     }
-  }
-  //</editor-fold>
-
-  //<editor-fold defaultstate="collapsed" desc="初始化Data">
-  override fun initData() {
-    fillTop()
+    fillTop(bindingCoordinator, bindingUser)
   }
   //</editor-fold>
 
   //<editor-fold defaultstate="collapsed" desc="顶部数据填充">
-  private fun fillTop() {
-    val userHomeCoordinator = coordinatorCoordinator
+  private fun fillTop(bindingCoordinator: MergeCoordinatorUserBinding, bindingUser: LayoutUserHeadBinding) {
     //返回
-    userHomeCoordinator.layoutUserFollowState.pressEffectAlpha()
-    userHomeCoordinator.layoutUserFollowState.click {
-      if (userHomeCoordinator.layoutUserFollowState.text.toString() == "未关注") {
-        userHomeCoordinator.layoutUserFollowState.text = "已关注"
+    bindingUser.layoutUserFollowState.pressEffectAlpha()
+    bindingUser.layoutUserFollowState.click {
+      if (bindingUser.layoutUserFollowState.text.toString() == "未关注") {
+        bindingUser.layoutUserFollowState.text = "已关注"
       } else {
-        userHomeCoordinator.layoutUserFollowState.text = "未关注"
+        bindingUser.layoutUserFollowState.text = "未关注"
       }
+      bindingUser.layoutUserFollowState.text.toast()
     }
     //标题(layoutCircleName是为了找到expandedTitle的位置使用)
     val nickname = RandomName.randomName(Math.random() > 0.5, if (Math.random() > 0.5) 4 else 3)
-    userHomeCoordinator.layoutUserName.text = nickname
+    bindingUser.layoutUserName.text = nickname
     when (System.currentTimeMillis() % 3) {
       0L -> ContextCompat.getDrawable(mContext, R.drawable.sex_man)
       1L -> ContextCompat.getDrawable(mContext, R.drawable.sex_woman)
       else -> null
     }.let { d ->
-      userHomeCoordinator.layoutUserName.setCompoundDrawablesWithIntrinsicBounds(null, null, d, null)
+      bindingUser.layoutUserName.setCompoundDrawablesWithIntrinsicBounds(null, null, d, null)
     }
-    userHomeCoordinator.coordinatorUserToolbar.title = nickname
+    bindingCoordinator.coordinatorUserToolbar.title = nickname
     //找到位置
-    userHomeCoordinator.layoutUserName.post {
+    bindingUser.layoutUserName.post {
       val arr1 = intArrayOf(0, 0)
       val arr2 = intArrayOf(0, 0)
-      userHomeCoordinator.layoutUserName.getLocationInWindow(arr1)
-      userHomeCoordinator.layoutUserBg.getLocationInWindow(arr2)
-      userHomeCoordinator.coordinatorUserCTL.expandedTitleMarginTop = arr1[1] - arr2[1] - mStatusBarHeight
-      userHomeCoordinator.coordinatorUserCTL.expandedTitleMarginStart = arr1[0] - arr2[0]
+      bindingUser.layoutUserName.getLocationInWindow(arr1)
+      bindingUser.layoutUserBg.getLocationInWindow(arr2)
+      bindingCoordinator.coordinatorUserCTL.expandedTitleMarginTop = arr1[1] - arr2[1] - mStatusBarHeight
+      bindingCoordinator.coordinatorUserCTL.expandedTitleMarginStart = arr1[0] - arr2[0]
     }
     //背景和封面
-    userHomeCoordinator.layoutUserBg.setImageResource(R.drawable.bg_user_top)
-    userHomeCoordinator.layoutUserHead.setImageResource(R.drawable.head_placeholder_border)
-    userHomeCoordinator.layoutUserHead.pressEffectAlpha(0.9f)
+    bindingUser.layoutUserBg.setImageResource(R.drawable.bg_user_top)
+    bindingUser.layoutUserHead.setImageResource(R.drawable.head_placeholder_border)
+    bindingUser.layoutUserHead.pressEffectAlpha(0.9f)
     //数量
-    userHomeCoordinator.layoutUserCircleNum.setNumberNo00((Math.random() * 10000).toInt() + 30.0)
-    userHomeCoordinator.layoutUserFollowNum.setNumberNo00((Math.random() * 10000).toInt() + 30.0)
-    userHomeCoordinator.layoutUserFansNum.setNumberNo00((Math.random() * 10000).toInt() + 30.0)
-    userHomeCoordinator.layoutUserCircleNumClick.click { "圈子".toast() }
-    userHomeCoordinator.layoutUserFollowNumClick.click { "关注".toast() }
-    userHomeCoordinator.layoutUserFansNumClick.click { "粉丝".toast() }
+    bindingUser.layoutUserCircleNum.setNumberNo00((Math.random() * 10000).toInt() + 30.0)
+    bindingUser.layoutUserFollowNum.setNumberNo00((Math.random() * 10000).toInt() + 30.0)
+    bindingUser.layoutUserFansNum.setNumberNo00((Math.random() * 10000).toInt() + 30.0)
+    bindingUser.layoutUserCircleNumClick.click { "圈子".toast() }
+    bindingUser.layoutUserFollowNumClick.click { "关注".toast() }
+    bindingUser.layoutUserFansNumClick.click { "粉丝".toast() }
   }
   //</editor-fold>
 }
