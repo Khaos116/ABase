@@ -1,20 +1,19 @@
 package cc.abase.demo.item
 
 import android.annotation.SuppressLint
-import android.view.View
+import android.view.*
 import android.widget.ImageView
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.ItemTouchHelper
 import cc.ab.base.ext.click2Parent
-import cc.ab.base.ui.item.BaseItemView
+import cc.ab.base.ui.item.BaseBindItemView
 import cc.ab.base.ui.item.BaseViewHolder
-import cc.abase.demo.R
 import cc.abase.demo.bean.local.GridImageBean
+import cc.abase.demo.databinding.ItemNineGridBinding
 import cc.abase.demo.drag.GridItemTouchHelperCallback
 import cc.abase.demo.widget.decoration.GridSpaceItemDecoration
 import com.blankj.utilcode.util.SizeUtils
 import com.drakeet.multitype.MultiTypeAdapter
-import kotlinx.android.synthetic.main.item_nine_grid.itemNineGridRecycler
 
 /**
  * Author:CASE
@@ -24,7 +23,7 @@ import kotlinx.android.synthetic.main.item_nine_grid.itemNineGridRecycler
 class NineGridItem(
     private var parentView: View? = null,
     private val onItemImgClick: ((url: String, position: Int, iv: ImageView, list: MutableList<String>) -> Unit)? = null,
-) : BaseItemView<GridImageBean>() {
+) : BaseBindItemView<GridImageBean, ItemNineGridBinding>() {
   //<editor-fold defaultstate="collapsed" desc="变量">
   //Item间距
   private val spaceItem = SizeUtils.dp2px(6f)
@@ -35,20 +34,21 @@ class NineGridItem(
   //</editor-fold>
 
   //<editor-fold defaultstate="collapsed" desc="XML">
-  override fun layoutResId() = R.layout.item_nine_grid
+  override fun loadViewBinding(inflater: LayoutInflater, parent: ViewGroup) = ItemNineGridBinding.inflate(inflater, parent, false)
   //</editor-fold>
 
   //<editor-fold defaultstate="collapsed" desc="数据填充">
   @SuppressLint("ClickableViewAccessibility")
-  override fun fillData(item: GridImageBean): BaseViewHolder.() -> Unit = {
-    val recyclerView = itemNineGridRecycler
+  override fun fillData(holder: BaseViewHolder<ItemNineGridBinding>, item: GridImageBean) {
+    val viewBinding = holder.viewBinding
+    val recyclerView = viewBinding.itemNineGridRecycler
     val urlSize = item.list.size
     val canDrag = urlSize != 5 && urlSize != 7 && urlSize != 8
     //拖动和外部点击不能兼容，所以只能适配一个
     if (!canDrag) recyclerView.click2Parent(parentView)
     val list = item.list
     val count = if (list.size == 1) 1 else if (list.size == 2 || list.size == 4) 2 else 3
-    recyclerView.layoutManager = GridLayoutManager(itemView.context, count)
+    recyclerView.layoutManager = GridLayoutManager(holder.itemView.context, count)
     if (recyclerView.itemDecorationCount > 0) recyclerView.removeItemDecorationAt(0)
     recyclerView.addItemDecoration(GridSpaceItemDecoration(spaceItem).setDragGridEdge(false))
     val multiTypeAdapter = MultiTypeAdapter()
@@ -69,7 +69,7 @@ class NineGridItem(
   //</editor-fold>
 
   //<editor-fold defaultstate="collapsed" desc="移出去后解除拖拽">
-  override fun onViewDetachedFromWindow(holder: BaseViewHolder) {
+  override fun onViewDetachedFromWindow(holder: BaseViewHolder<ItemNineGridBinding>) {
     super.onViewDetachedFromWindow(holder)
     helper?.attachToRecyclerView(null)
     helper = null

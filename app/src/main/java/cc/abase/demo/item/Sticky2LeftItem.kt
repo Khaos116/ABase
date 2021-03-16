@@ -1,23 +1,25 @@
 package cc.abase.demo.item
 
-import cc.ab.base.ui.item.BaseItemView
+import android.view.LayoutInflater
+import android.view.ViewGroup
+import cc.ab.base.ui.item.BaseBindItemView
 import cc.ab.base.ui.item.BaseViewHolder
-import cc.abase.demo.R
-import kotlinx.android.synthetic.main.item_sticky2_left.itemStickyUserName
+import cc.abase.demo.databinding.ItemSticky2LeftBinding
 
 /**
  * Author:CASE
  * Date:2021/1/4
  * Time:14:42
  */
-class Sticky2LeftItem : BaseItemView<String>() {
+class Sticky2LeftItem : BaseBindItemView<String, ItemSticky2LeftBinding>() {
   //<editor-fold defaultstate="collapsed" desc="XML">
-  override fun layoutResId() = R.layout.item_sticky2_left
+  override fun loadViewBinding(inflater: LayoutInflater, parent: ViewGroup) = ItemSticky2LeftBinding.inflate(inflater, parent, false)
   //</editor-fold>
 
   //<editor-fold defaultstate="collapsed" desc="数据填充">
-  override fun fillData(item: String): BaseViewHolder.() -> Unit = {
-    itemStickyUserName.text = item
+  override fun fillData(holder: BaseViewHolder<ItemSticky2LeftBinding>, item: String) {
+    val viewBinding = holder.viewBinding
+    viewBinding.itemStickyUserName.text = item
   }
   //</editor-fold>
 }

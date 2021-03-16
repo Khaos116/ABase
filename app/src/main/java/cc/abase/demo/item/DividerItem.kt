@@ -1,24 +1,26 @@
 package cc.abase.demo.item
 
-import cc.ab.base.ui.item.BaseItemView
+import android.view.LayoutInflater
+import android.view.ViewGroup
+import cc.ab.base.ui.item.BaseBindItemView
 import cc.ab.base.ui.item.BaseViewHolder
-import cc.abase.demo.R
 import cc.abase.demo.bean.local.DividerBean
+import cc.abase.demo.databinding.ItemDividerBinding
 
 /**
  * Author:CASE
  * Date:2020-11-25
  * Time:15:35
  */
-class DividerItem : BaseItemView<DividerBean>() {
+class DividerItem : BaseBindItemView<DividerBean, ItemDividerBinding>() {
   //<editor-fold defaultstate="collapsed" desc="XML">
-  override fun layoutResId() = R.layout.item_divider
+  override fun loadViewBinding(inflater: LayoutInflater, parent: ViewGroup) = ItemDividerBinding.inflate(inflater, parent, false)
   //</editor-fold>
 
   //<editor-fold defaultstate="collapsed" desc="数据填充">
-  override fun fillData(item: DividerBean): BaseViewHolder.() -> Unit = {
-    itemView.layoutParams.height = item.heightPx
-    itemView.setBackgroundColor(item.bgColor)
+  override fun fillData(holder: BaseViewHolder<ItemDividerBinding>, item: DividerBean) {
+    holder.itemView.layoutParams?.height = item.heightPx
+    holder.itemView.setBackgroundColor(item.bgColor)
   }
   //</editor-fold>
 }

@@ -1,11 +1,12 @@
 package cc.abase.demo.item
 
+import android.view.LayoutInflater
+import android.view.ViewGroup
 import android.widget.ImageView
 import cc.ab.base.ext.*
-import cc.ab.base.ui.item.BaseItemView
+import cc.ab.base.ui.item.BaseBindItemView
 import cc.ab.base.ui.item.BaseViewHolder
-import cc.abase.demo.R
-import kotlinx.android.synthetic.main.item_nine_img.*
+import cc.abase.demo.databinding.ItemNineImgBinding
 
 /**
  * Author:CASE
@@ -15,36 +16,37 @@ import kotlinx.android.synthetic.main.item_nine_img.*
 class NineImgItem(
     private val onDelClick: ((item: String, position: Int, iv: ImageView) -> Unit)? = null,
     private val onItemChildClick: ((item: String, position: Int, iv: ImageView) -> Unit)? = null,
-) : BaseItemView<String>() {
+) : BaseBindItemView<String, ItemNineImgBinding>() {
   //<editor-fold defaultstate="collapsed" desc="XML">
-  override fun layoutResId() = R.layout.item_nine_img
+  override fun loadViewBinding(inflater: LayoutInflater, parent: ViewGroup) = ItemNineImgBinding.inflate(inflater, parent, false)
   //</editor-fold>
 
   //<editor-fold defaultstate="collapsed" desc="数据填充">
-  override fun fillData(item: String): BaseViewHolder.() -> Unit = {
+  override fun fillData(holder: BaseViewHolder<ItemNineImgBinding>, item: String) {
+    val viewBinding = holder.viewBinding
     if (item.isBlank() && onDelClick != null) {
-      itemNineImgIv.invisible()
-      itemNineImgAdd.visible()
-      itemNineImgDel.gone()
+      viewBinding.itemNineImgIv.invisible()
+      viewBinding.itemNineImgAdd.visible()
+      viewBinding.itemNineImgDel.gone()
     } else {
-      itemNineImgIv.visible()
-      itemNineImgAdd.gone()
-      itemNineImgDel.visibleGone(onDelClick != null)
-      itemNineImgIv.loadImgSquare(item)
+      viewBinding.itemNineImgIv.visible()
+      viewBinding.itemNineImgAdd.gone()
+      viewBinding.itemNineImgDel.visibleGone(onDelClick != null)
+      viewBinding.itemNineImgIv.loadImgSquare(item)
     }
     if (onDelClick != null) {
-      itemNineImgDel.pressEffectAlpha(0.9f)
-      itemNineImgDel.click { onDelClick.invoke(item, layoutPosition, itemNineImgIv) }
+      viewBinding.itemNineImgDel.pressEffectAlpha(0.9f)
+      viewBinding.itemNineImgDel.click { onDelClick.invoke(item, mLayoutPosition, viewBinding.itemNineImgIv) }
     } else {
-      itemNineImgDel.setOnClickListener(null)
-      itemNineImgDel.pressEffectDisable()
+      viewBinding.itemNineImgDel.setOnClickListener(null)
+      viewBinding.itemNineImgDel.pressEffectDisable()
     }
     if (onItemChildClick != null) {
-      itemView.pressEffectAlpha(0.9f)
-      itemView.click { onItemChildClick.invoke(item, layoutPosition, itemNineImgIv) }
+      holder.itemView.pressEffectAlpha(0.9f)
+      holder.itemView.click { onItemChildClick.invoke(item, mLayoutPosition, viewBinding.itemNineImgIv) }
     } else {
-      itemView.setOnClickListener(null)
-      itemView.pressEffectDisable()
+      holder.itemView.setOnClickListener(null)
+      holder.itemView.pressEffectDisable()
     }
   }
   //</editor-fold>

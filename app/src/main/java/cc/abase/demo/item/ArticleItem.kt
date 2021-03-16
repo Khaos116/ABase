@@ -1,31 +1,33 @@
 package cc.abase.demo.item
 
+import android.view.LayoutInflater
+import android.view.ViewGroup
 import cc.ab.base.ext.visibleGone
-import cc.ab.base.ui.item.BaseItemView
+import cc.ab.base.ui.item.BaseBindItemView
 import cc.ab.base.ui.item.BaseViewHolder
-import cc.abase.demo.R
 import cc.abase.demo.bean.wan.ArticleBean
+import cc.abase.demo.databinding.ItemArticleBinding
 import com.blankj.utilcode.util.TimeUtils
-import kotlinx.android.synthetic.main.item_article.*
 
 /**
  * Author:CASE
  * Date:2020-11-25
  * Time:15:05
  */
-class ArticleItem : BaseItemView<ArticleBean>() {
+class ArticleItem : BaseBindItemView<ArticleBean, ItemArticleBinding>() {
   //<editor-fold defaultstate="collapsed" desc="XML">
-  override fun layoutResId() = R.layout.item_article
+  override fun loadViewBinding(inflater: LayoutInflater, parent: ViewGroup) = ItemArticleBinding.inflate(inflater, parent, false)
   //</editor-fold>
 
   //<editor-fold defaultstate="collapsed" desc="数据填充">
-  override fun fillData(item: ArticleBean): BaseViewHolder.() -> Unit = {
-    itemArticleCapterName.text = item.chapterName
-    itemArticleTime.text = TimeUtils.millis2String(item.publishTime)
-    itemArticleTitle.text = item.title
-    itemArticleDes.text = item.desc
-    itemArticleTitle.visibleGone(!item.title.isNullOrBlank())
-    itemArticleDes.visibleGone(!item.desc.isNullOrBlank())
+  override fun fillData(holder: BaseViewHolder<ItemArticleBinding>, item: ArticleBean) {
+    val viewBinding = holder.viewBinding
+    viewBinding.itemArticleCapterName.text = item.chapterName
+    viewBinding.itemArticleTime.text = TimeUtils.millis2String(item.publishTime)
+    viewBinding.itemArticleTitle.text = item.title
+    viewBinding.itemArticleDes.text = item.desc
+    viewBinding.itemArticleTitle.visibleGone(!item.title.isNullOrBlank())
+    viewBinding.itemArticleDes.visibleGone(!item.desc.isNullOrBlank())
   }
   //</editor-fold>
 }

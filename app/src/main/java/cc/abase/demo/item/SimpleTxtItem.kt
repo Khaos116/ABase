@@ -2,12 +2,12 @@ package cc.abase.demo.item
 
 import android.graphics.Typeface
 import android.util.TypedValue
-import cc.ab.base.ui.item.BaseItemView
+import android.view.LayoutInflater
+import android.view.ViewGroup
+import cc.ab.base.ui.item.BaseBindItemView
 import cc.ab.base.ui.item.BaseViewHolder
-import cc.abase.demo.R
 import cc.abase.demo.bean.local.SimpleTxtBean
-import kotlinx.android.synthetic.main.item_simple_text.itemSimpleTv
-import kotlinx.android.synthetic.main.item_simple_text.view.itemSimpleTv
+import cc.abase.demo.databinding.ItemSimpleTextBinding
 
 /**
  * Author:CASE
@@ -17,21 +17,22 @@ import kotlinx.android.synthetic.main.item_simple_text.view.itemSimpleTv
 class SimpleTxtItem(
     private val height: Int = -2,
     private val bgColor: Int = 0,
-) : BaseItemView<SimpleTxtBean>() {
+) : BaseBindItemView<SimpleTxtBean, ItemSimpleTextBinding>() {
   //<editor-fold defaultstate="collapsed" desc="XML">
-  override fun layoutResId() = R.layout.item_simple_text
+  override fun loadViewBinding(inflater: LayoutInflater, parent: ViewGroup) = ItemSimpleTextBinding.inflate(inflater, parent, false)
   //</editor-fold>
 
   //<editor-fold defaultstate="collapsed" desc="数据填充">
-  override fun fillData(item: SimpleTxtBean): BaseViewHolder.() -> Unit = {
-    itemSimpleTv.layoutParams.height = height
-    if (bgColor != 0) itemView.itemSimpleTv.setBackgroundColor(bgColor)
-    itemSimpleTv.setTextColor(item.textColor)
-    itemSimpleTv.gravity = item.gravity
-    itemSimpleTv.setTextSize(TypedValue.COMPLEX_UNIT_PX, item.textSizePx)
-    itemSimpleTv.typeface = Typeface.defaultFromStyle(if (item.needBold) Typeface.BOLD else Typeface.NORMAL)
-    itemSimpleTv.setPadding(item.paddingStartPx, item.paddingTopPx, item.paddingEndPx, item.paddingBottomPx)
-    itemSimpleTv.text = item.txt
+  override fun fillData(holder: BaseViewHolder<ItemSimpleTextBinding>, item: SimpleTxtBean) {
+    val viewBinding = holder.viewBinding
+    viewBinding.itemSimpleTv.layoutParams.height = height
+    if (bgColor != 0) viewBinding.itemSimpleTv.setBackgroundColor(bgColor)
+    viewBinding.itemSimpleTv.setTextColor(item.textColor)
+    viewBinding.itemSimpleTv.gravity = item.gravity
+    viewBinding.itemSimpleTv.setTextSize(TypedValue.COMPLEX_UNIT_PX, item.textSizePx)
+    viewBinding.itemSimpleTv.typeface = Typeface.defaultFromStyle(if (item.needBold) Typeface.BOLD else Typeface.NORMAL)
+    viewBinding.itemSimpleTv.setPadding(item.paddingStartPx, item.paddingTopPx, item.paddingEndPx, item.paddingBottomPx)
+    viewBinding.itemSimpleTv.text = item.txt
   }
   //</editor-fold>
 }

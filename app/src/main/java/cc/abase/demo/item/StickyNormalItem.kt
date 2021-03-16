@@ -1,24 +1,26 @@
 package cc.abase.demo.item
 
-import cc.ab.base.ui.item.BaseItemView
+import android.view.LayoutInflater
+import android.view.ViewGroup
+import cc.ab.base.ui.item.BaseBindItemView
 import cc.ab.base.ui.item.BaseViewHolder
-import cc.abase.demo.R
 import cc.abase.demo.bean.local.CityBean
-import kotlinx.android.synthetic.main.item_sticky_normal.itemStickyNormalText
+import cc.abase.demo.databinding.ItemStickyNormalBinding
 
 /**
  * Author:CASE
  * Date:2021/1/4
  * Time:10:30
  */
-class StickyNormalItem : BaseItemView<CityBean>() {
+class StickyNormalItem : BaseBindItemView<CityBean, ItemStickyNormalBinding>() {
   //<editor-fold defaultstate="collapsed" desc="XML">
-  override fun layoutResId() = R.layout.item_sticky_normal
+  override fun loadViewBinding(inflater: LayoutInflater, parent: ViewGroup) = ItemStickyNormalBinding.inflate(inflater, parent, false)
   //</editor-fold>
 
   //<editor-fold defaultstate="collapsed" desc="数据填充">
-  override fun fillData(item: CityBean): BaseViewHolder.() -> Unit = {
-    itemStickyNormalText.text = if (item.regionCode?.startsWith("+") == true) {
+  override fun fillData(holder: BaseViewHolder<ItemStickyNormalBinding>, item: CityBean) {
+    val viewBinding = holder.viewBinding
+    viewBinding.itemStickyNormalText.text = if (item.regionCode?.startsWith("+") == true) {
       String.format("%s  (%s)", item.regionFullName, item.regionCode)
     } else {
       item.regionFullName

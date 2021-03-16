@@ -1,37 +1,39 @@
 package cc.abase.demo.item
 
-import cc.ab.base.ui.item.BaseItemView
+import android.view.LayoutInflater
+import android.view.ViewGroup
+import cc.ab.base.ui.item.BaseBindItemView
 import cc.ab.base.ui.item.BaseViewHolder
-import cc.abase.demo.R
 import cc.abase.demo.bean.local.UserScoreBean
-import kotlinx.android.synthetic.main.item_sticky2_bottom.*
+import cc.abase.demo.databinding.ItemSticky2BottomBinding
 
 /**
  * Author:CASE
  * Date:2021/1/4
  * Time:14:44
  */
-class Sticky2RightItem : BaseItemView<UserScoreBean>() {
+class Sticky2RightItem : BaseBindItemView<UserScoreBean, ItemSticky2BottomBinding>() {
   //<editor-fold defaultstate="collapsed" desc="XML">
-  override fun layoutResId() = R.layout.item_sticky2_bottom
+  override fun loadViewBinding(inflater: LayoutInflater, parent: ViewGroup) = ItemSticky2BottomBinding.inflate(inflater, parent, false)
   //</editor-fold>
 
   //<editor-fold defaultstate="collapsed" desc="数据填充">
-  override fun fillData(item: UserScoreBean): BaseViewHolder.() -> Unit = {
+  override fun fillData(holder: BaseViewHolder<ItemSticky2BottomBinding>, item: UserScoreBean) {
+    val viewBinding = holder.viewBinding
     item.scores.forEachIndexed { index, i ->
       when (index) {
-        0 -> itemStickyUserScore1
-        1 -> itemStickyUserScore2
-        2 -> itemStickyUserScore3
-        3 -> itemStickyUserScore4
-        4 -> itemStickyUserScore5
-        5 -> itemStickyUserScore6
-        6 -> itemStickyUserScore7
-        7 -> itemStickyUserScore8
-        8 -> itemStickyUserScore9
+        0 -> viewBinding.itemStickyUserScore1
+        1 -> viewBinding.itemStickyUserScore2
+        2 -> viewBinding.itemStickyUserScore3
+        3 -> viewBinding.itemStickyUserScore4
+        4 -> viewBinding.itemStickyUserScore5
+        5 -> viewBinding.itemStickyUserScore6
+        6 -> viewBinding.itemStickyUserScore7
+        7 -> viewBinding.itemStickyUserScore8
+        8 -> viewBinding.itemStickyUserScore9
         else -> null
       }?.text = i.toString()
-      itemStickyUserScoreTotal.text = (item.scores.sum()).toString()
+      viewBinding.itemStickyUserScoreTotal.text = (item.scores.sum()).toString()
     }
   }
   //</editor-fold>

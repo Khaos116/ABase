@@ -1,24 +1,26 @@
 package cc.abase.demo.item
 
-import cc.ab.base.ui.item.BaseItemView
+import android.view.LayoutInflater
+import android.view.ViewGroup
+import cc.ab.base.ui.item.BaseBindItemView
 import cc.ab.base.ui.item.BaseViewHolder
-import cc.abase.demo.R
 import cc.abase.demo.bean.local.ProvinceBean
-import kotlinx.android.synthetic.main.item_sticky_top.itemStickyTopText
+import cc.abase.demo.databinding.ItemStickyTopBinding
 
 /**
  * Author:CASE
  * Date:2021/1/4
  * Time:10:29
  */
-class StickyTopItem : BaseItemView<ProvinceBean>() {
+class StickyTopItem : BaseBindItemView<ProvinceBean, ItemStickyTopBinding>() {
   //<editor-fold defaultstate="collapsed" desc="XML">
-  override fun layoutResId() = R.layout.item_sticky_top
+  override fun loadViewBinding(inflater: LayoutInflater, parent: ViewGroup) = ItemStickyTopBinding.inflate(inflater, parent, false)
   //</editor-fold>
 
   //<editor-fold defaultstate="collapsed" desc="填充数据">
-  override fun fillData(item: ProvinceBean): BaseViewHolder.() -> Unit = {
-    itemStickyTopText.text = item.regionName
+  override fun fillData(holder: BaseViewHolder<ItemStickyTopBinding>, item: ProvinceBean) {
+    val viewBinding = holder.viewBinding
+    viewBinding.itemStickyTopText.text = item.regionName
   }
   //</editor-fold>
 }

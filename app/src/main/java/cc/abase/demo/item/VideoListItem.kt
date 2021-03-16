@@ -1,11 +1,12 @@
 package cc.abase.demo.item
 
+import android.view.LayoutInflater
+import android.view.ViewGroup
 import cc.ab.base.ext.*
-import cc.ab.base.ui.item.BaseItemView
+import cc.ab.base.ui.item.BaseBindItemView
 import cc.ab.base.ui.item.BaseViewHolder
-import cc.abase.demo.R
 import cc.abase.demo.bean.local.VideoBean
-import kotlinx.android.synthetic.main.item_list_video.*
+import cc.abase.demo.databinding.ItemListVideoBinding
 
 /**
  * @Description
@@ -15,17 +16,18 @@ import kotlinx.android.synthetic.main.item_list_video.*
  */
 class VideoListItem(
     private val onItemPlayClick: ((videoBean: VideoBean) -> Unit)? = null
-) : BaseItemView<VideoBean>() {
+) : BaseBindItemView<VideoBean, ItemListVideoBinding>() {
   //<editor-fold defaultstate="collapsed" desc="XML">
-  override fun layoutResId() = R.layout.item_list_video
+  override fun loadViewBinding(inflater: LayoutInflater, parent: ViewGroup) = ItemListVideoBinding.inflate(inflater, parent, false)
   //</editor-fold>
 
   //<editor-fold defaultstate="collapsed" desc="注释">
-  override fun fillData(item: VideoBean): BaseViewHolder.() -> Unit = {
-    itemPlayPagerThumb.loadNetVideoCover(item.url ?: "")
-    itemVideoListTitle.text = item.title
-    itemPlayPagerBtn.pressEffectAlpha(0.9f)
-    itemPlayPagerBtn.click { onItemPlayClick?.invoke(item) }
+  override fun fillData(holder: BaseViewHolder<ItemListVideoBinding>, item: VideoBean) {
+    val viewBinding = holder.viewBinding
+    viewBinding.itemPlayPagerThumb.loadNetVideoCover(item.url ?: "")
+    viewBinding.itemVideoListTitle.text = item.title
+    viewBinding.itemPlayPagerBtn.pressEffectAlpha(0.9f)
+    viewBinding.itemPlayPagerBtn.click { onItemPlayClick?.invoke(item) }
   }
   //</editor-fold>
 }
