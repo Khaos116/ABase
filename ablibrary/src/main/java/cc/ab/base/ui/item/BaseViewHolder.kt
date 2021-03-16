@@ -1,8 +1,7 @@
 package cc.ab.base.ui.item
 
-import android.view.View
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
-import kotlinx.android.extensions.LayoutContainer
+import androidx.viewbinding.ViewBinding
 
 /**
  * @Description
@@ -10,4 +9,4 @@ import kotlinx.android.extensions.LayoutContainer
  * @Date：2021/2/19
  * @Time：16:43
  */
-class BaseViewHolder(override val containerView: View) : ViewHolder(containerView), LayoutContainer
+class BaseViewHolder<T : ViewBinding>(val viewBinding: T) : ViewHolder(viewBinding.root)
