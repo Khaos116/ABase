@@ -39,7 +39,7 @@ abstract class BaseBindFragment<T : ViewBinding> : Fragment() {
 
   //<editor-fold defaultstate="collapsed" desc="创建View和销毁">
   override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-    _binding = loadViewBinding(inflater)
+    _binding = loadViewBinding(inflater, container)
     val root = viewBinding.root
     return if (root is FrameLayout) {
       mRootFrameLayout = root
@@ -73,7 +73,7 @@ abstract class BaseBindFragment<T : ViewBinding> : Fragment() {
 
   //<editor-fold defaultstate="collapsed" desc="子类需要重新的方法">
   //获取XML
-  protected abstract fun loadViewBinding(inflater: LayoutInflater): T
+  protected abstract fun loadViewBinding(inflater: LayoutInflater, container: ViewGroup?): T
 
   //懒加载初始化
   protected abstract fun lazyInit()
