@@ -1,22 +1,20 @@
 package cc.abase.demo.widget.dialog
 
 import android.graphics.Typeface
-import android.os.Bundle
 import android.view.Gravity
-import android.view.View
+import android.view.LayoutInflater
 import androidx.fragment.app.FragmentManager
 import cc.ab.base.ext.*
-import cc.ab.base.ui.dialog.BaseFragmentDialog
-import cc.abase.demo.R
+import cc.ab.base.ui.dialog.BaseBindFragmentDialog
+import cc.abase.demo.databinding.DialogCommBinding
 import com.blankj.utilcode.util.ScreenUtils
-import kotlinx.android.synthetic.main.dialog_comm.*
 
 /**
  * Author:CASE
  * Date:2020-10-13
  * Time:09:51
  */
-class CommAlertDialog : BaseFragmentDialog() {
+class CommAlertDialog : BaseBindFragmentDialog<DialogCommBinding>() {
   //<editor-fold defaultstate="collapsed" desc="变量">
   //提示框的类型
   var type = AlertDialogType.DOUBLE_BUTTON
@@ -42,51 +40,53 @@ class CommAlertDialog : BaseFragmentDialog() {
   //</editor-fold>
 
   //<editor-fold defaultstate="collapsed" desc="XML">
-  override fun contentLayout() = R.layout.dialog_comm
+  override fun loadViewBinding(inflater: LayoutInflater) = DialogCommBinding.inflate(inflater)
   //</editor-fold>
 
   //<editor-fold defaultstate="collapsed" desc="初始化">
-  override fun initView(view: View, savedInstanceState: Bundle?) {
+  override fun initView() {
     //按压效果
-    commAlertCancel?.pressEffectAlpha()
-    commAlertConfirm?.pressEffectAlpha()
+    viewBinding.commAlertCancel?.pressEffectAlpha()
+    viewBinding.commAlertConfirm?.pressEffectAlpha()
     //标题
-    commAlertTitle?.text = title
-    commAlertTitle?.visibleGone(!title.isNullOrBlank())
-    if (!titleHorizontal) commAlertTitle?.gravity = Gravity.START
+    viewBinding.commAlertTitle?.text = title
+    viewBinding.commAlertTitle?.visibleGone(!title.isNullOrBlank())
+    if (!titleHorizontal) viewBinding.commAlertTitle?.gravity = Gravity.START
     //内容
-    commAlertContent?.text = content
-    if (contentHorizontal) commAlertContent?.gravity = Gravity.CENTER_HORIZONTAL
-    else commAlertContent?.post { if (commAlertContent?.lineCount ?: 0 == 1) commAlertContent?.gravity = Gravity.CENTER_HORIZONTAL }
-    if (boldContent == true) commAlertContent?.typeface = Typeface.defaultFromStyle(Typeface.BOLD)
-    commContentLl?.visibleGone(!content.isNullOrBlank())
+    viewBinding.commAlertContent?.text = content
+    if (contentHorizontal) viewBinding.commAlertContent?.gravity = Gravity.CENTER_HORIZONTAL
+    else viewBinding.commAlertContent?.post {
+      if (viewBinding.commAlertContent?.lineCount ?: 0 == 1) viewBinding.commAlertContent?.gravity = Gravity.CENTER_HORIZONTAL
+    }
+    if (boldContent == true) viewBinding.commAlertContent?.typeface = Typeface.defaultFromStyle(Typeface.BOLD)
+    viewBinding.commContentLl?.visibleGone(!content.isNullOrBlank())
     //取消
-    cancelText?.let { commAlertCancel.text = it }
-    cancelTextColor?.let { commAlertCancel?.setTextColor(it) }
-    if (boldCancel == true) commAlertCancel?.typeface = Typeface.defaultFromStyle(Typeface.BOLD)
+    cancelText?.let { viewBinding.commAlertCancel.text = it }
+    cancelTextColor?.let { viewBinding.commAlertCancel?.setTextColor(it) }
+    if (boldCancel == true) viewBinding.commAlertCancel?.typeface = Typeface.defaultFromStyle(Typeface.BOLD)
     //确定
-    confirmText?.let { commAlertConfirm?.text = it }
-    confirmTextColor?.let { commAlertConfirm?.setTextColor(it) }
-    if (boldConfirm == true) commAlertConfirm?.typeface = Typeface.defaultFromStyle(Typeface.BOLD)
+    confirmText?.let { viewBinding.commAlertConfirm?.text = it }
+    confirmTextColor?.let { viewBinding.commAlertConfirm?.setTextColor(it) }
+    if (boldConfirm == true) viewBinding.commAlertConfirm?.typeface = Typeface.defaultFromStyle(Typeface.BOLD)
     //点击事件
-    commAlertCancel?.click {
+    viewBinding.commAlertCancel?.click {
       cancelCallback?.invoke()
       dismissAllowingStateLoss()
     }
-    commAlertConfirm.click {
+    viewBinding.commAlertConfirm.click {
       confirmCallback?.invoke()
       dismissAllowingStateLoss()
     }
     //按钮类型
     when (type) {
       AlertDialogType.SINGLE_BUTTON -> {
-        commAlertConfirm?.visible()
-        commAlertContent?.visible()
+        viewBinding.commAlertConfirm?.visible()
+        viewBinding.commAlertContent?.visible()
       }
       AlertDialogType.DOUBLE_BUTTON -> {
-        commAlertCancel.visible()
-        commBtnLine.visible()
-        commAlertContent.visible()
+        viewBinding.commAlertCancel.visible()
+        viewBinding.commBtnLine.visible()
+        viewBinding.commAlertContent.visible()
       }
     }
   }

@@ -1,33 +1,32 @@
 package cc.abase.demo.widget.dialog
 
-import android.os.Bundle
 import android.view.Gravity
-import android.view.View
+import android.view.LayoutInflater
 import androidx.fragment.app.FragmentManager
-import cc.ab.base.ui.dialog.BaseFragmentDialog
+import cc.ab.base.ui.dialog.BaseBindFragmentDialog
 import cc.abase.demo.R
+import cc.abase.demo.databinding.DialogActionBinding
 import com.blankj.utilcode.util.ScreenUtils
 import com.blankj.utilcode.util.StringUtils
-import kotlinx.android.synthetic.main.dialog_action.dialogActionHint
 
 /**
  * Description:
  * @author: CASE
  * @date: 2019/9/24 13:03
  */
-class ActionDialog : BaseFragmentDialog() {
+class ActionDialog : BaseBindFragmentDialog<DialogActionBinding>() {
   //默认提示语
   var hintText: String = StringUtils.getString(R.string.action_loading)
 
-  override fun contentLayout() = R.layout.dialog_action
+  override fun loadViewBinding(inflater: LayoutInflater) = DialogActionBinding.inflate(inflater)
 
-  override fun initView(view: View, savedInstanceState: Bundle?) {
-    dialogActionHint?.text = hintText
+  override fun initView() {
+    viewBinding.dialogActionHint.text = hintText
   }
 
   companion object {
     fun newInstance(
-      touchCancel: Boolean = true
+        touchCancel: Boolean = true
     ): ActionDialog {
       val dialog = ActionDialog()
       dialog.mGravity = Gravity.CENTER
@@ -44,8 +43,8 @@ class ActionDialog : BaseFragmentDialog() {
 
 //  DSL style
 inline fun actionDialog(
-  fragmentManager: FragmentManager,
-  dsl: ActionDialog.() -> Unit
+    fragmentManager: FragmentManager,
+    dsl: ActionDialog.() -> Unit
 ) {
   val dialog = ActionDialog.newInstance()
       .apply(dsl)

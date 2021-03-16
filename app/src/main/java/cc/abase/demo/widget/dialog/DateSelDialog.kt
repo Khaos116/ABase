@@ -1,13 +1,12 @@
 package cc.abase.demo.widget.dialog
 
-import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.FragmentManager
 import cc.ab.base.ext.click
-import cc.ab.base.ui.dialog.BaseFragmentDialog
+import cc.ab.base.ui.dialog.BaseBindFragmentDialog
 import cc.abase.demo.R
+import cc.abase.demo.databinding.DialogDateSelBinding
 import com.blankj.utilcode.util.TimeUtils
-import kotlinx.android.synthetic.main.dialog_date_sel.view.*
 import java.util.Date
 
 /**
@@ -15,7 +14,7 @@ import java.util.Date
  * @author: CASE
  * @date: 2020/2/20 18:43
  */
-class DateSelDialog : BaseFragmentDialog() {
+class DateSelDialog : BaseBindFragmentDialog<DialogDateSelBinding>() {
   //选择的结果
   private var result: Triple<Int, Int, Int>? = null
 
@@ -25,15 +24,15 @@ class DateSelDialog : BaseFragmentDialog() {
   //默认选中的日期
   var mDefaultDate = "1997-7-1"
 
-  override fun contentLayout() = R.layout.dialog_date_sel
+  override fun loadViewBinding(inflater: LayoutInflater) = DialogDateSelBinding.inflate(inflater)
 
-  override fun initView(view: View, savedInstanceState: Bundle?) {
-    view.dialogDateView.let {
+  override fun initView() {
+    viewBinding.dialogDateView.let {
       it.listener = { array -> result = Triple(array[0], array[1], array[2]) }
       it.setDate("1900-1-1", TimeUtils.date2String(Date(), "yyyy-MM-dd"), mDefaultDate)
     }
-    view.dialogDateCancel.click { dismissAllowingStateLoss() }
-    view.dialogDateConfirm.click {
+    viewBinding.dialogDateCancel.click { dismissAllowingStateLoss() }
+    viewBinding.dialogDateConfirm.click {
       dismissAllowingStateLoss()
       result?.let { r -> call?.invoke(r) }
     }
