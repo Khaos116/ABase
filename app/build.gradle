@@ -1,7 +1,7 @@
 plugins {
   id 'com.android.application'
   id 'kotlin-android'
-  id 'kotlin-android-extensions'
+  //id 'kotlin-android-extensions'
   id 'kotlin-kapt'
   id 'bugly'
   //id 'kotlin-parcelize' //https://weilu.blog.csdn.net/article/details/109557820
@@ -14,6 +14,7 @@ configurations {
 
 android {
   compileSdkVersion Versions.sdkTarget
+  //buildFeatures编译问题 https://www.freesion.com/article/90591379803/
   buildFeatures { viewBinding true } //https://blog.csdn.net/choimroc/article/details/104756365
   defaultConfig {
     //正常配置
