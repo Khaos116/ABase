@@ -1,21 +1,21 @@
 package cc.abase.demo.component.test
 
+import android.view.LayoutInflater
 import cc.ab.base.ui.viewmodel.DataState
 import cc.abase.demo.R
-import cc.abase.demo.component.comm.CommTitleActivity
+import cc.abase.demo.component.comm.CommBindTitleActivity
 import cc.abase.demo.component.test.viewmodel.TestViewModel
+import cc.abase.demo.databinding.ActivityTestBinding
 import com.blankj.utilcode.util.StringUtils
-import kotlinx.android.synthetic.main.activity_test.testTv1
-import kotlinx.android.synthetic.main.activity_test.testTv2
 
 /**
  * Description:
  * @author: CASE
  * @date: 2020/5/7 9:41
  */
-class TestActivity : CommTitleActivity() {
+class TestActivity : CommBindTitleActivity<ActivityTestBinding>() {
   //<editor-fold defaultstate="collapsed" desc="XML">
-  override fun layoutResContentId() = R.layout.activity_test
+  override fun loadViewBinding(inflater: LayoutInflater) = ActivityTestBinding.inflate(inflater)
   //</editor-fold>
 
   //<editor-fold defaultstate="collapsed" desc="变量">
@@ -25,15 +25,10 @@ class TestActivity : CommTitleActivity() {
   //<editor-fold defaultstate="collapsed" desc="初始化View">
   override fun initContentView() {
     setTitleText(StringUtils.getString(R.string.title_test))
-  }
-  //</editor-fold>
-
-  //<editor-fold defaultstate="collapsed" desc="初始化Data">
-  override fun initData() {
-    testTv1.text="Rxjava"
-    testTv2.text="协程"
-    viewModel.timeLiveData1.observe(this) { if (it is DataState.SuccessRefresh) testTv1.append("\n时间1=${it.data}") }
-    viewModel.timeLiveData2.observe(this) { if (it is DataState.SuccessRefresh) testTv2.append("\n时间2=${it.data}") }
+    viewBinding.testTv1.text = "Rxjava"
+    viewBinding.testTv2.text = "协程"
+    viewModel.timeLiveData1.observe(this) { if (it is DataState.SuccessRefresh) viewBinding.testTv1.append("\n时间1=${it.data}") }
+    viewModel.timeLiveData2.observe(this) { if (it is DataState.SuccessRefresh) viewBinding.testTv2.append("\n时间2=${it.data}") }
     viewModel.startGetTime()
   }
   //</editor-fold>

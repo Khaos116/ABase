@@ -1,11 +1,12 @@
 package cc.abase.demo.component.count
 
+import android.view.LayoutInflater
 import cc.ab.base.ext.xmlToString
 import cc.abase.demo.R
-import cc.abase.demo.component.comm.CommTitleActivity
+import cc.abase.demo.component.comm.CommBindTitleActivity
+import cc.abase.demo.databinding.ActivityCountBinding
 import com.blankj.utilcode.util.TimeUtils
 import com.cc.countsdk.utils.CountInfoUtils
-import kotlinx.android.synthetic.main.activity_count.countTv
 
 /**
  * @Description
@@ -13,20 +14,15 @@ import kotlinx.android.synthetic.main.activity_count.countTv
  * @Date：2021/2/17
  * @Time：16:15
  */
-class CountActivity : CommTitleActivity() {
+class CountActivity : CommBindTitleActivity<ActivityCountBinding>() {
   //<editor-fold defaultstate="collapsed" desc="XML">
-  override fun layoutResContentId() = R.layout.activity_count
+  override fun loadViewBinding(inflater: LayoutInflater) = ActivityCountBinding.inflate(inflater)
   //</editor-fold>
 
   //<editor-fold defaultstate="collapsed" desc="初始化View">
   override fun initContentView() {
     setTitleText(R.string.title_count.xmlToString())
-  }
-  //</editor-fold>
-
-  //<editor-fold defaultstate="collapsed" desc="初始化Data">
-  override fun initData() {
-    countTv.text = StringBuilder()
+    viewBinding.countTv.text = StringBuilder()
         .append("统计key:").append(CountInfoUtils.getCountKey()).append("\n\n")
         .append("AppInfo:\n").append(
             CountInfoUtils.getAppInfo().replace("{", "{\n\t")
@@ -47,7 +43,7 @@ class CountActivity : CommTitleActivity() {
           sb.append("\n").append(d.key).append("：").append("${d.value / 1000}s")
         }
       }
-      countTv.append(sb)
+      viewBinding.countTv.append(sb)
       //处理完成后清除旧数据
       //CountInfoUtils.clearHistoryDurationInfo()
     }
@@ -60,7 +56,7 @@ class CountActivity : CommTitleActivity() {
           sb.append("\n").append(d.key).append("：").append(d.value)
         }
       }
-      countTv.append(sb)
+      viewBinding.countTv.append(sb)
       //处理完成后清除旧数据
       //CountInfoUtils.clearHistoryPagePathInfo()
     }

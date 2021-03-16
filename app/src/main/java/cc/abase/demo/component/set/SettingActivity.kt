@@ -2,15 +2,15 @@ package cc.abase.demo.component.set
 
 import android.content.Context
 import android.content.Intent
+import android.view.LayoutInflater
 import cc.ab.base.ext.*
-import cc.abase.demo.R
-import cc.abase.demo.component.comm.CommTitleActivity
+import cc.abase.demo.component.comm.CommBindTitleActivity
 import cc.abase.demo.component.login.LoginActivity
+import cc.abase.demo.databinding.ActivitySettingBinding
 import cc.abase.demo.rxhttp.repository.UserRepository
 import cc.abase.demo.utils.AppInfoUtils
 import cc.abase.demo.utils.CacheUtils
 import com.blankj.utilcode.util.AppUtils
-import kotlinx.android.synthetic.main.activity_setting.*
 import kotlinx.coroutines.*
 
 /**
@@ -18,7 +18,7 @@ import kotlinx.coroutines.*
  * @author: CASE
  * @date: 2020/3/5 17:04
  */
-class SettingActivity : CommTitleActivity() {
+class SettingActivity : CommBindTitleActivity<ActivitySettingBinding>() {
   companion object {
     fun startActivity(context: Context) {
       val intent = Intent(context, SettingActivity::class.java)
@@ -26,45 +26,49 @@ class SettingActivity : CommTitleActivity() {
     }
   }
 
-  override fun layoutResContentId() = R.layout.activity_setting
+  override fun loadViewBinding(inflater: LayoutInflater) = ActivitySettingBinding.inflate(inflater)
 
   override fun initContentView() {
     setTitleText("设置")
-    settingLogout.pressEffectAlpha()
-    setCacheLayout.click {
+    viewBinding.settingLogout.pressEffectAlpha()
+    viewBinding.setCacheLayout.click {
       if (mJob2?.isCompleted == false) return@click
       mJob2 = GlobalScope.launch(Dispatchers.Main) {
         showActionLoading("缓存清理中")
         val size = CacheUtils.clearCache()
         delay(1000)
         if (isActive) {
-          setCacheSize.text = size
+          viewBinding.setCacheSize.text = size
           dismissActionLoading()
         }
       }
     }
-    settingLogout.click {
+    viewBinding.settingLogout.click {
       UserRepository.logOut()
       LoginActivity.startActivity(mContext)
     }
-    setVersionTv.text = AppUtils.getAppVersionName()
-    setVersionLayout.setOnClickListener { if (++clickCount == 10) settingAppInfo.text = AppInfoUtils.getAppInfo() }
+    viewBinding.setVersionTv.text = AppUtils.getAppVersionName()
+    viewBinding.setVersionLayout.setOnClickListener { if (++clickCount == 10) viewBinding.settingAppInfo.text = AppInfoUtils.getAppInfo() }
+    //读取缓存大小
+    mJob1 = GlobalScope.launch(Dispatchers.Main) {
+      val size = CacheUtils.getCacheSize()
+      if (isActive) viewBinding.setCacheSize.text = size
+    }
   }
 
   private var clickCount = 0
 
   private var mJob1: Job? = null
   private var mJob2: Job? = null
-  override fun initData() {
-    //读取缓存大小
-    mJob1 = GlobalScope.launch(Dispatchers.Main) {
-      val size = CacheUtils.getCacheSize()
-      if (isActive) setCacheSize.text = size
-    }
-  }
 
   override fun finish() {
     super.finish()
+    mJob1?.cancel()
+    mJob2?.cancel()
+  }
+
+  override fun onDestroy() {
+    super.onDestroy()
     mJob1?.cancel()
     mJob2?.cancel()
   }

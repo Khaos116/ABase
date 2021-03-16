@@ -3,25 +3,26 @@ package cc.abase.demo.component.expand
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
+import android.view.LayoutInflater
 import cc.ab.base.ext.mContext
 import cc.ab.base.ext.toast
 import cc.ab.base.ui.viewmodel.DataState
 import cc.abase.demo.R
 import cc.abase.demo.bean.local.DividerBean
 import cc.abase.demo.bean.local.ProvinceBean
-import cc.abase.demo.component.comm.CommTitleActivity
+import cc.abase.demo.component.comm.CommBindTitleActivity
 import cc.abase.demo.component.sticky.viewmodel.StickyViewModel
+import cc.abase.demo.databinding.ActivityExpandBinding
 import cc.abase.demo.item.*
 import cc.abase.demo.widget.SpeedLinearLayoutManager
 import com.blankj.utilcode.util.StringUtils
 import com.drakeet.multitype.MultiTypeAdapter
-import kotlinx.android.synthetic.main.activity_expand.expandRecycler
 
 /**
  * @author: CASE
  * @date: 2019/12/6 21:24
  */
-class ExpandActivity : CommTitleActivity() {
+class ExpandActivity : CommBindTitleActivity<ActivityExpandBinding>() {
   //<editor-fold defaultstate="collapsed" desc="外部跳转">
   companion object {
     fun startActivity(context: Context) {
@@ -40,7 +41,7 @@ class ExpandActivity : CommTitleActivity() {
   //</editor-fold>
 
   //<editor-fold defaultstate="collapsed" desc="XML">
-  override fun layoutResContentId() = R.layout.activity_expand
+  override fun loadViewBinding(inflater: LayoutInflater) = ActivityExpandBinding.inflate(inflater)
   //</editor-fold>
 
   //<editor-fold defaultstate="collapsed" desc="初始化View">
@@ -71,19 +72,14 @@ class ExpandActivity : CommTitleActivity() {
           multiTypeAdapter.items = items
           multiTypeAdapter.notifyItemChanged(index)
           multiTypeAdapter.notifyItemRangeInserted(index + 1, temps.size)
-          if (pb == items.last { a -> a is ProvinceBean }) expandRecycler.smoothScrollToPosition(items.size) //最后一条滚动到底部
+          if (pb == items.last { a -> a is ProvinceBean }) viewBinding.expandRecycler.smoothScrollToPosition(items.size) //最后一条滚动到底部
         }
       }
     })
     multiTypeAdapter.register(StickyNormalItem().also { it.onItemClick = { bean -> bean.regionFullName.toast() } })
     multiTypeAdapter.register(DividerItem())
-    expandRecycler.layoutManager = SpeedLinearLayoutManager(mContext)
-    expandRecycler.adapter = multiTypeAdapter
-  }
-  //</editor-fold>
-
-  //<editor-fold defaultstate="collapsed" desc="初始化Data">
-  override fun initData() {
+    viewBinding.expandRecycler.layoutManager = SpeedLinearLayoutManager(mContext)
+    viewBinding.expandRecycler.adapter = multiTypeAdapter
     viewModel.cityLiveData.observe(this) {
       if (it is DataState.SuccessRefresh) fillData(it.data ?: mutableListOf())
     }

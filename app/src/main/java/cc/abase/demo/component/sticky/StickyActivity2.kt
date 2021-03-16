@@ -2,6 +2,7 @@ package cc.abase.demo.component.sticky
 
 import android.content.Context
 import android.content.Intent
+import android.view.LayoutInflater
 import androidx.lifecycle.rxLifeScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -10,11 +11,11 @@ import cc.ab.base.ext.*
 import cc.abase.demo.R
 import cc.abase.demo.R.color
 import cc.abase.demo.bean.local.*
-import cc.abase.demo.component.comm.CommTitleActivity
+import cc.abase.demo.component.comm.CommBindTitleActivity
+import cc.abase.demo.databinding.ActivitySticky2Binding
 import cc.abase.demo.item.*
 import com.blankj.utilcode.util.StringUtils
 import com.drakeet.multitype.MultiTypeAdapter
-import kotlinx.android.synthetic.main.activity_sticky2.*
 import kotlinx.coroutines.*
 
 /**
@@ -22,7 +23,7 @@ import kotlinx.coroutines.*
  * @author: CASE
  * @date: 2020/4/21 14:34
  */
-class StickyActivity2 : CommTitleActivity() {
+class StickyActivity2 : CommBindTitleActivity<ActivitySticky2Binding>() {
   //<editor-fold defaultstate="collapsed" desc="外部跳转">
   companion object {
     fun startActivity(context: Context) {
@@ -44,7 +45,7 @@ class StickyActivity2 : CommTitleActivity() {
   //</editor-fold>
 
   //<editor-fold defaultstate="collapsed" desc="XML">
-  override fun layoutResContentId() = R.layout.activity_sticky2
+  override fun loadViewBinding(inflater: LayoutInflater) = ActivitySticky2Binding.inflate(inflater)
   //</editor-fold>
 
   //<editor-fold defaultstate="collapsed" desc="初始化View">
@@ -53,17 +54,17 @@ class StickyActivity2 : CommTitleActivity() {
     //同步两个列表
     initScrollListener()
     //加载更多
-    sticky2RefreshLayout.setEnableRefresh(false)
-    sticky2RefreshLayout.setEnableLoadMore(true)
-    sticky2RefreshLayout.setOnLoadMoreListener {
+    viewBinding.sticky2RefreshLayout.setEnableRefresh(false)
+    viewBinding.sticky2RefreshLayout.setEnableLoadMore(true)
+    viewBinding.sticky2RefreshLayout.setOnLoadMoreListener {
       //停止惯性滚动
-      sticky2Recycler1.stopInertiaRolling()
-      sticky2Recycler2.stopInertiaRolling()
+      viewBinding.sticky2Recycler1.stopInertiaRolling()
+      viewBinding.sticky2Recycler2.stopInertiaRolling()
       rxLifeScope.launch {
         withContext(Dispatchers.IO) { delay(2000) }.let {
           fillData(originDatas.takeLast(40).toMutableList(), true)
-          sticky2RefreshLayout?.finishLoadMore(true)
-          sticky2RefreshLayout?.noMoreData()
+          viewBinding.sticky2RefreshLayout.finishLoadMore(true)
+          viewBinding.sticky2RefreshLayout.noMoreData()
         }
       }
     }
@@ -73,10 +74,27 @@ class StickyActivity2 : CommTitleActivity() {
     rightAdapter.register(Sticky2RightItem())
     rightAdapter.register(DividerItem())
     //设置适配器
-    sticky2Recycler1.layoutManager = LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false)
-    sticky2Recycler2.layoutManager = LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false)
-    sticky2Recycler1.adapter = leftAdapter
-    sticky2Recycler2.adapter = rightAdapter
+    viewBinding.sticky2Recycler1.layoutManager = LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false)
+    viewBinding.sticky2Recycler2.layoutManager = LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false)
+    viewBinding.sticky2Recycler1.adapter = leftAdapter
+    viewBinding.sticky2Recycler2.adapter = rightAdapter
+    showLoadingView()
+    rxLifeScope.launch {
+      withContext(Dispatchers.IO) {
+        delay(2000)
+        val temp = mutableListOf<UserStickyBean>()
+        //随机增加个学生成绩
+        for (i in 0..79) temp.add(UserStickyBean(score = UserScoreBean()))
+        //按总成绩排序
+        temp.sortedByDescending { it.score?.scores?.sum() }.toMutableList()
+      }.let {
+        originDatas.addAll(it)
+        //第一页随机数量
+        val size = (Math.random() * 40).toInt() + 1
+        fillData(originDatas.take(size).toMutableList(), false)
+        dismissLoadingView()
+      }
+    }
   }
   //</editor-fold>
 
@@ -98,9 +116,9 @@ class StickyActivity2 : CommTitleActivity() {
 
       override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
         super.onScrolled(recyclerView, dx, dy)
-        sticky2Recycler2.removeOnScrollListener(scrollListenerRight)
-        sticky2Recycler2.scrollBy(dx, dy)
-        sticky2Recycler2.addOnScrollListener(scrollListenerRight)
+        viewBinding.sticky2Recycler2.removeOnScrollListener(scrollListenerRight)
+        viewBinding.sticky2Recycler2.scrollBy(dx, dy)
+        viewBinding.sticky2Recycler2.addOnScrollListener(scrollListenerRight)
       }
     }
     scrollListenerRight = object : OnScrollListener() {
@@ -111,63 +129,40 @@ class StickyActivity2 : CommTitleActivity() {
 
       override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
         super.onScrolled(recyclerView, dx, dy)
-        sticky2Recycler1.removeOnScrollListener(scrollListenerLeft)
-        sticky2Recycler1.scrollBy(dx, dy)
-        sticky2Recycler1.addOnScrollListener(scrollListenerLeft)
+        viewBinding.sticky2Recycler1.removeOnScrollListener(scrollListenerLeft)
+        viewBinding.sticky2Recycler1.scrollBy(dx, dy)
+        viewBinding.sticky2Recycler1.addOnScrollListener(scrollListenerLeft)
       }
     }
-    sticky2Recycler1.addOnScrollListener(scrollListenerLeft)
-    sticky2Recycler2.addOnScrollListener(scrollListenerRight)
+    viewBinding.sticky2Recycler1.addOnScrollListener(scrollListenerLeft)
+    viewBinding.sticky2Recycler2.addOnScrollListener(scrollListenerRight)
     //两个横向列表位置同步
-    sticky2TopHSV.setScrollViewListener { _, x, y, _, _ -> sticky2BottomHSV.scrollTo(x, y) }
-    sticky2BottomHSV.setScrollViewListener { _, x, y, _, _ -> sticky2TopHSV.scrollTo(x, y) }
+    viewBinding.sticky2TopHSV.setScrollViewListener { _, x, y, _, _ -> viewBinding.sticky2BottomHSV.scrollTo(x, y) }
+    viewBinding.sticky2BottomHSV.setScrollViewListener { _, x, y, _, _ -> viewBinding.sticky2TopHSV.scrollTo(x, y) }
   }
 
   //同步滚动距离
   private fun synRecyclerScroll(baseLeft: Boolean) {
     //没有控件不执行
-    if (sticky2Recycler1.childCount == 0 || sticky2Recycler2.childCount == 0) return
+    if (viewBinding.sticky2Recycler1.childCount == 0 || viewBinding.sticky2Recycler2.childCount == 0) return
     //参照方
-    val layout1 = (if (baseLeft) sticky2Recycler1 else sticky2Recycler2).layoutManager as LinearLayoutManager
+    val layout1 = (if (baseLeft) viewBinding.sticky2Recycler1 else viewBinding.sticky2Recycler2).layoutManager as LinearLayoutManager
     //需要修改对齐的方
-    val layout2 = (if (baseLeft) sticky2Recycler2 else sticky2Recycler1).layoutManager as LinearLayoutManager
+    val layout2 = (if (baseLeft) viewBinding.sticky2Recycler2 else viewBinding.sticky2Recycler1).layoutManager as LinearLayoutManager
     //找到位置
     val position = layout1.findFirstVisibleItemPosition()
     //偏移量
     var offset = 0
     //找到第一个View计算偏移量
-    (if (baseLeft) sticky2Recycler1 else sticky2Recycler2).findViewHolderForAdapterPosition(position)?.let {
+    (if (baseLeft) viewBinding.sticky2Recycler1 else viewBinding.sticky2Recycler2).findViewHolderForAdapterPosition(position)?.let {
       offset = it.itemView.top
     }
     layout2.scrollToPositionWithOffset(position, offset)
   }
   //</editor-fold>
 
-  //<editor-fold defaultstate="collapsed" desc="初始化Data">
-  override fun initData() {
-    showLoadingView()
-    rxLifeScope.launch {
-      withContext(Dispatchers.IO) {
-        delay(2000)
-        val temp = mutableListOf<UserStickyBean>()
-        //随机增加个学生成绩
-        for (i in 0..79) temp.add(UserStickyBean(score = UserScoreBean()))
-        //按总成绩排序
-        temp.sortedByDescending { it.score?.scores?.sum() }.toMutableList()
-      }.let {
-        originDatas.addAll(it)
-        //第一页随机数量
-        val size = (Math.random() * 40).toInt() + 1
-        fillData(originDatas.take(size).toMutableList(), false)
-        dismissLoadingView()
-      }
-    }
-  }
-  //</editor-fold>
-
   //<editor-fold defaultstate="collapsed" desc="填充列表数据">
   private fun fillData(list: MutableList<UserStickyBean>, more: Boolean) {
-    if (sticky2Recycler2 == null) return
     val items1 = mutableListOf<Any>()
     val items2 = mutableListOf<Any>()
     if (more) { //加载更多需要旧数据
@@ -189,8 +184,8 @@ class StickyActivity2 : CommTitleActivity() {
     rightAdapter.notifyDataSetChanged()
     //如果是第一次加载，判断是否可以加载更多
     if (!more) {
-      sticky2RootViewParent?.visible()
-      sticky2RefreshLayout?.hasMoreData()
+      viewBinding.sticky2RootViewParent.visible()
+      viewBinding.sticky2RefreshLayout.hasMoreData()
     }
   }
   //</editor-fold>

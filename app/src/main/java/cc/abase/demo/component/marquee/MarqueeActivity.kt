@@ -2,11 +2,12 @@ package cc.abase.demo.component.marquee
 
 import android.content.Context
 import android.content.Intent
+import android.view.LayoutInflater
 import cc.ab.base.ext.toast
 import cc.abase.demo.R
-import cc.abase.demo.component.comm.CommTitleActivity
+import cc.abase.demo.component.comm.CommBindTitleActivity
+import cc.abase.demo.databinding.ActivityMarqueeBinding
 import com.blankj.utilcode.util.StringUtils
-import kotlinx.android.synthetic.main.activity_marquee.*
 import kotlinx.coroutines.*
 
 /**
@@ -14,7 +15,7 @@ import kotlinx.coroutines.*
  * @author: CASE
  * @date: 2020/3/23 18:00
  */
-class MarqueeActivity : CommTitleActivity() {
+class MarqueeActivity : CommBindTitleActivity<ActivityMarqueeBinding>() {
 
   companion object {
     fun startActivity(context: Context) {
@@ -23,22 +24,19 @@ class MarqueeActivity : CommTitleActivity() {
     }
   }
 
-  override fun layoutResContentId() = R.layout.activity_marquee
+  override fun loadViewBinding(inflater: LayoutInflater) = ActivityMarqueeBinding.inflate(inflater)
 
   override fun initContentView() {
     setTitleText(StringUtils.getString(R.string.title_marquee))
-    marqueeContent1.text = "这是一个很长很长的测试跑马灯效果的描述文字，如果不够长，我再添加一点文字！"
-    marqueeContent2.text = "这是一个很长很长的测试跑马灯效果的描述文字，如果不够长，我再添加一点文字，我再添加一点文字！"
+    viewBinding.marqueeContent1.text = "这是一个很长很长的测试跑马灯效果的描述文字，如果不够长，我再添加一点文字！"
+    viewBinding.marqueeContent2.text = "这是一个很长很长的测试跑马灯效果的描述文字，如果不够长，我再添加一点文字，我再添加一点文字！"
     val list = mutableListOf<String>()
     for (i in 1..20) {
       list.add("这是第${i}条公告!")
     }
-    marqueeContent3.mCall = { it.toast() }
-    marqueeContent3.setNewDatas(list)
-  }
-
-  override fun initData() {
-    marqueeTime?.post { startCountdown() }
+    viewBinding.marqueeContent3.mCall = { it.toast() }
+    viewBinding.marqueeContent3.setNewDatas(list)
+    viewBinding.marqueeTime.post { startCountdown() }
   }
 
   private var launchJob: Job? = null
@@ -48,7 +46,7 @@ class MarqueeActivity : CommTitleActivity() {
     launchJob = GlobalScope.launch(Dispatchers.Main) {
       if (isActive) {
         for (i in 60 downTo 1) {
-          marqueeTime?.text = i.toString()
+          viewBinding.marqueeTime.text = i.toString()
           delay(1000)
         }
         startCountdown()

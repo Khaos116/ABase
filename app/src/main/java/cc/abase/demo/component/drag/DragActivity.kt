@@ -5,12 +5,14 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.ActivityInfo
 import android.graphics.Color
+import android.view.LayoutInflater
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.ItemTouchHelper
 import cc.ab.base.ext.*
 import cc.ab.base.widget.engine.ImageEngine
 import cc.abase.demo.R
-import cc.abase.demo.component.comm.CommTitleActivity
+import cc.abase.demo.component.comm.CommBindTitleActivity
+import cc.abase.demo.databinding.ActivityDragBinding
 import cc.abase.demo.drag.GridItemTouchHelperCallback
 import cc.abase.demo.item.NineImgItem
 import cc.abase.demo.widget.decoration.GridSpaceItemDecoration
@@ -21,15 +23,13 @@ import com.luck.picture.lib.PictureSelector
 import com.luck.picture.lib.config.PictureConfig
 import com.luck.picture.lib.config.PictureMimeType
 import com.luck.picture.lib.entity.LocalMedia
-import kotlinx.android.synthetic.main.activity_drag.dragRecycler
-import kotlinx.android.synthetic.main.activity_drag.dragRoot
 
 /**
  * Description:item拖拽效果
  * @author: CASE
  * @date: 2019/11/30 20:48
  */
-class DragActivity : CommTitleActivity() {
+class DragActivity : CommBindTitleActivity<ActivityDragBinding>() {
   //<editor-fold defaultstate="collapsed" desc="外部跳转">
   companion object {
     fun startActivity(context: Context) {
@@ -52,16 +52,16 @@ class DragActivity : CommTitleActivity() {
   //</editor-fold>
 
   //<editor-fold defaultstate="collapsed" desc="XML">
-  override fun layoutResContentId() = R.layout.activity_drag
+  override fun loadViewBinding(inflater: LayoutInflater) = ActivityDragBinding.inflate(inflater)
   //</editor-fold>
 
   //<editor-fold defaultstate="collapsed" desc="初始化View">
   override fun initContentView() {
     setTitleText(StringUtils.getString(R.string.title_drag))
-    dragRecycler.layoutManager = GridLayoutManager(mContext, 3)
-    dragRecycler.setPadding(spaceItem, dragRecycler.paddingTop, spaceItem, dragRecycler.paddingBottom)
-    if (dragRecycler.itemDecorationCount > 0) dragRecycler.removeItemDecorationAt(0)
-    dragRecycler.addItemDecoration(GridSpaceItemDecoration(spaceItem).setDragGridEdge(false))
+    viewBinding.dragRecycler.layoutManager = GridLayoutManager(mContext, 3)
+    viewBinding.dragRecycler.setPadding(spaceItem, viewBinding.dragRecycler.paddingTop, spaceItem, viewBinding.dragRecycler.paddingBottom)
+    if (viewBinding.dragRecycler.itemDecorationCount > 0) viewBinding.dragRecycler.removeItemDecorationAt(0)
+    viewBinding.dragRecycler.addItemDecoration(GridSpaceItemDecoration(spaceItem).setDragGridEdge(false))
     //适配器注册
     multiTypeAdapter.register(NineImgItem(
         onDelClick = { url, p, v -> removeSelect(url) },
@@ -71,26 +71,21 @@ class DragActivity : CommTitleActivity() {
     val items = mutableListOf<Any>()
     items.add("")
     multiTypeAdapter.items = items
-    dragRecycler.adapter = multiTypeAdapter
-    val mParent = dragRoot
+    viewBinding.dragRecycler.adapter = multiTypeAdapter
+    val mParent = viewBinding.root
     //拖拽
     ItemTouchHelper(GridItemTouchHelperCallback(
         mAdapter = multiTypeAdapter,
         dragBgColor = Color.parseColor("#f7f7f7"),
-        dragStart = { mParent.bringChildToFront(dragRecycler) },
+        dragStart = { mParent.bringChildToFront(viewBinding.dragRecycler) },
         dragEnd = {
-          dragRecycler.removeParent()
-          mParent.addView(dragRecycler, 0)
+          viewBinding.dragRecycler.removeParent()
+          mParent.addView(viewBinding.dragRecycler, 0)
         },
         canMove = { p ->
           val hasAdd = multiTypeAdapter.items.toMutableList().any { a -> a is String && a.isBlank() }
           if (!hasAdd) true else p < multiTypeAdapter.items.size - 1
-        })).attachToRecyclerView(dragRecycler)
-  }
-  //</editor-fold>
-
-  //<editor-fold defaultstate="collapsed" desc="初始化Data">
-  override fun initData() {
+        })).attachToRecyclerView(viewBinding.dragRecycler)
   }
   //</editor-fold>
 

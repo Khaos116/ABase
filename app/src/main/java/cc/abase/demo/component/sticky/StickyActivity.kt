@@ -3,6 +3,7 @@ package cc.abase.demo.component.sticky
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
+import android.view.LayoutInflater
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import cc.ab.base.ext.mActivity
@@ -11,23 +12,22 @@ import cc.ab.base.ui.viewmodel.DataState
 import cc.abase.demo.R
 import cc.abase.demo.bean.local.DividerBean
 import cc.abase.demo.bean.local.ProvinceBean
-import cc.abase.demo.component.comm.CommTitleActivity
+import cc.abase.demo.component.comm.CommBindTitleActivity
 import cc.abase.demo.component.sticky.viewmodel.StickyViewModel
 import cc.abase.demo.constants.EventKeys
+import cc.abase.demo.databinding.ActivityStickyBinding
 import cc.abase.demo.item.*
 import cc.abase.demo.sticky.StickyAnyAdapter
 import cc.abase.demo.sticky.StickyHeaderLinearLayoutManager
 import com.blankj.utilcode.util.StringUtils
 import com.jeremyliao.liveeventbus.LiveEventBus
-import kotlinx.android.synthetic.main.activity_sticky.stickyBar
-import kotlinx.android.synthetic.main.activity_sticky.stickyRecycler
 
 /**
  * Description:
  * @author: CASE
  * @date: 2019/11/26 16:54
  */
-class StickyActivity : CommTitleActivity() {
+class StickyActivity : CommBindTitleActivity<ActivityStickyBinding>() {
   //<editor-fold defaultstate="collapsed" desc="外部跳转">
   companion object {
     private const val INTENT_KEY_CHOOSE = "INTENT_KEY_CHOOSE"
@@ -61,15 +61,15 @@ class StickyActivity : CommTitleActivity() {
   //</editor-fold>
 
   //<editor-fold defaultstate="collapsed" desc="XML">
-  override fun layoutResContentId() = R.layout.activity_sticky
+  override fun loadViewBinding(inflater: LayoutInflater) = ActivityStickyBinding.inflate(inflater)
   //</editor-fold>
 
   //<editor-fold defaultstate="collapsed" desc="初始化View">
   override fun initContentView() {
     setTitleText(StringUtils.getString(R.string.title_sticky))
     val manager = StickyHeaderLinearLayoutManager<StickyAnyAdapter>(mActivity, LinearLayoutManager.VERTICAL, false)
-    stickyRecycler.layoutManager = manager
-    stickyBar.setOnTouchingLetterChangedListener { tag ->
+    viewBinding.stickyRecycler.layoutManager = manager
+    viewBinding.stickyBar.setOnTouchingLetterChangedListener { tag ->
       val position = multiTypeAdapter.items.indexOfFirst { c -> c is ProvinceBean && c.pinYinFirst?.substring(0, 1) == tag }
       if (position >= 0) manager.scrollToPositionWithOffset(position, 0)
     }
@@ -83,18 +83,13 @@ class StickyActivity : CommTitleActivity() {
       it.onItemClick = { bean ->
         if (needChoose) {
           bean.fromTag = mTag
-          LiveEventBus.get(EventKeys.CHOOSE_STICKY).post(it)
+          LiveEventBus.get(EventKeys.CHOOSE_STICKY).post(bean)
           finish()
         } else bean.regionFullName?.toast()
       }
     })
     multiTypeAdapter.register(DividerItem())
-    stickyRecycler.adapter = multiTypeAdapter
-  }
-  //</editor-fold>
-
-  //<editor-fold defaultstate="collapsed" desc="初始化Data">
-  override fun initData() {
+    viewBinding.stickyRecycler.adapter = multiTypeAdapter
     needChoose = intent.getBooleanExtra(INTENT_KEY_CHOOSE, false)
     mTag = intent.getStringExtra(INTENT_KEY_TAG) ?: ""
     viewModel.countryLiveData.observe(this, observer)

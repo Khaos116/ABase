@@ -1,21 +1,20 @@
 package cc.abase.demo.component.bottomsheet
 
-import android.view.Gravity
-import android.view.View
+import android.view.*
 import androidx.recyclerview.widget.LinearLayoutManager
 import cc.ab.base.ext.*
 import cc.abase.demo.R
 import cc.abase.demo.bean.local.DividerBean
 import cc.abase.demo.bean.local.SimpleTxtBean
-import cc.abase.demo.component.comm.CommTitleActivity
+import cc.abase.demo.component.comm.CommBindTitleActivity
+import cc.abase.demo.databinding.ActivityBottomSheetBinding
+import cc.abase.demo.databinding.LayoutBottomSheetBinding
 import cc.abase.demo.item.DividerItem
 import cc.abase.demo.item.SimpleTxtItem
 import com.blankj.utilcode.util.ColorUtils
 import com.drakeet.multitype.MultiTypeAdapter
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
-import kotlinx.android.synthetic.main.activity_bottom_sheet.bottomSheetBtn
-import kotlinx.android.synthetic.main.layout_bottom_sheet.view.bottomSheetRecycler
 import kotlin.math.roundToInt
 
 /**
@@ -24,7 +23,7 @@ import kotlin.math.roundToInt
  * @Date：2021/2/19
  * @Time：10:38
  */
-class BottomSheetActivity : CommTitleActivity() {
+class BottomSheetActivity : CommBindTitleActivity<ActivityBottomSheetBinding>() {
   //<editor-fold defaultstate="collapsed" desc="变量">
   //弹窗
   private var mBottomSheetDialog: BottomSheetDialog? = null
@@ -34,14 +33,14 @@ class BottomSheetActivity : CommTitleActivity() {
   //</editor-fold>
 
   //<editor-fold defaultstate="collapsed" desc="XML">
-  override fun layoutResContentId() = R.layout.activity_bottom_sheet
+  override fun loadViewBinding(inflater: LayoutInflater) = ActivityBottomSheetBinding.inflate(inflater)
   //</editor-fold>
 
   //<editor-fold defaultstate="collapsed" desc="初始化View">
   override fun initContentView() {
     setTitleText(R.string.title_bottom_sheet.xmlToString())
-    bottomSheetBtn.pressEffectAlpha()
-    bottomSheetBtn.click {
+    viewBinding.bottomSheetBtn.pressEffectAlpha()
+    viewBinding.bottomSheetBtn.click {
       if (mBottomSheetDialog == null) initBottomSheet()
       if (mBottomSheetDialog?.isShowing == false) mBottomSheetDialog?.show()
     }
@@ -50,17 +49,12 @@ class BottomSheetActivity : CommTitleActivity() {
   }
   //</editor-fold>
 
-  //<editor-fold defaultstate="collapsed" desc="初始化Data">
-  override fun initData() {
-  }
-  //</editor-fold>
-
   //<editor-fold defaultstate="collapsed" desc="初始化BottomSheet">
   private fun initBottomSheet() {
     //弹窗View
-    val viewBottomSheet = mContext.inflate(R.layout.layout_bottom_sheet)
+    val binding = LayoutBottomSheetBinding.inflate(layoutInflater)
     //设置内部数据
-    val recycler = viewBottomSheet.bottomSheetRecycler
+    val recycler = binding.bottomSheetRecycler
     recycler.layoutManager = LinearLayoutManager(mContext)
     recycler.adapter = mAdapter
     //item文字颜色
@@ -81,11 +75,11 @@ class BottomSheetActivity : CommTitleActivity() {
     //宽度全屏
     mBottomSheetDialog = BottomSheetDialog(mContext)
     //设置弹窗的View
-    mBottomSheetDialog?.setContentView(viewBottomSheet)
+    mBottomSheetDialog?.setContentView(binding.root)
     //去除默认背景色
-    (viewBottomSheet.parent as? View)?.setBackgroundResource(android.R.color.transparent)
+    (binding.root.parent as? View)?.setBackgroundResource(android.R.color.transparent)
     //设置默认弹窗高度
-    BottomSheetBehavior.from<View>(viewBottomSheet.parent as View).peekHeight = getPeekHeight()
+    BottomSheetBehavior.from<View>(binding.root.parent as View).peekHeight = getPeekHeight()
   }
   //</editor-fold>
 

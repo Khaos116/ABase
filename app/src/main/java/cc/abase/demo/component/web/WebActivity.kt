@@ -13,8 +13,9 @@ import cc.ab.base.ext.logE
 import cc.ab.base.ext.toast
 import cc.ab.base.widget.engine.ImageEngine
 import cc.abase.demo.R
-import cc.abase.demo.component.comm.CommTitleActivity
+import cc.abase.demo.component.comm.CommBindTitleActivity
 import cc.abase.demo.config.HeaderManger
+import cc.abase.demo.databinding.ActivityWebBinding
 import cc.abase.demo.widget.LollipopFixedWebView
 import com.blankj.utilcode.util.ColorUtils
 import com.blankj.utilcode.util.UriUtils
@@ -23,7 +24,6 @@ import com.just.agentweb.DefaultWebClient
 import com.luck.picture.lib.PictureSelector
 import com.luck.picture.lib.config.PictureConfig
 import com.luck.picture.lib.config.PictureMimeType
-import kotlinx.android.synthetic.main.activity_web.webRootView
 import java.io.File
 
 /**
@@ -31,7 +31,7 @@ import java.io.File
  * @author: CASE
  * @date: 2019/10/3 15:25
  */
-class WebActivity : CommTitleActivity() {
+class WebActivity : CommBindTitleActivity<ActivityWebBinding>() {
   //<editor-fold defaultstate="collapsed" desc="外部跳转">
   companion object {
     private const val WEB_URL = "INTENT_KEY_WEB_URL"
@@ -57,21 +57,15 @@ class WebActivity : CommTitleActivity() {
   //</editor-fold>
 
   //<editor-fold defaultstate="collapsed" desc="XML">
-  override fun layoutResContentId() = R.layout.activity_web
+  override fun loadViewBinding(inflater: LayoutInflater) = ActivityWebBinding.inflate(inflater)
   //</editor-fold>
 
   //<editor-fold defaultstate="collapsed" desc="初始化View">
   //初始化view
-  override fun initContentView() {
-    webRootView.removeAllViews()
-    initAgentBuilder()
-  }
-  //</editor-fold>
-
-  //<editor-fold defaultstate="collapsed" desc="初始化Data">
-  //加载数据
   @SuppressLint("SetJavaScriptEnabled", "ClickableViewAccessibility")
-  override fun initData() {
+  override fun initContentView() {
+    viewBinding.root.removeAllViews()
+    initAgentBuilder()
     webUrl = intent.getStringExtra(WEB_URL) ?: "https://www.baidu.com" //获取加载地址
     agentWeb = agentBuilder?.createAgentWeb()?.ready()?.go(webUrl) //创建web并打开
     //设置适配
@@ -121,7 +115,7 @@ class WebActivity : CommTitleActivity() {
     webView.overScrollMode = View.OVER_SCROLL_NEVER
     webView.scrollBarStyle = View.SCROLLBARS_INSIDE_INSET
     agentBuilder = AgentWeb.with(this)
-        .setAgentWebParent(webRootView, ViewGroup.LayoutParams(-1, -1)) //添加到父容器
+        .setAgentWebParent(viewBinding.root, ViewGroup.LayoutParams(-1, -1)) //添加到父容器
         .useDefaultIndicator(ColorUtils.getColor(R.color.colorPrimary)) //设置进度条颜色
         //.setWebViewClient(getWebViewClient())//监听结束，适配宽度
         .setWebViewClient(getWebViewClientSSL()) //SSL

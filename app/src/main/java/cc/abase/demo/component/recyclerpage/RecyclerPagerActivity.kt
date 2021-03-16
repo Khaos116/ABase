@@ -2,19 +2,18 @@ package cc.abase.demo.component.recyclerpage
 
 import android.content.Context
 import android.content.Intent
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import cc.ab.base.ext.*
 import cc.ab.base.widget.discretescrollview.DSVOrientation
 import cc.ab.base.widget.discretescrollview.adapter.DiscretePageAdapter
 import cc.ab.base.widget.discretescrollview.holder.DiscreteHolder
 import cc.abase.demo.R
 import cc.abase.demo.bean.local.VerticalPageBean
-import cc.abase.demo.component.comm.CommTitleActivity
+import cc.abase.demo.component.comm.CommBindTitleActivity
+import cc.abase.demo.databinding.ActivtyVerticalpageBinding
 import cc.abase.demo.utils.VideoRandomUtils
 import cc.abase.demo.widget.dkplayer.MyVideoView
 import com.blankj.utilcode.util.StringUtils
-import kotlinx.android.synthetic.main.activty_verticalpage.*
 import kotlinx.android.synthetic.main.item_vertical_page_parent.view.itemRecyclePagerContainer
 import kotlinx.coroutines.*
 
@@ -24,7 +23,7 @@ import kotlinx.coroutines.*
  * @date: 2020/5/13 9:23
  */
 @Suppress("UNCHECKED_CAST")
-class RecyclerPagerActivity : CommTitleActivity() {
+class RecyclerPagerActivity : CommBindTitleActivity<ActivtyVerticalpageBinding>() {
   //<editor-fold defaultstate="collapsed" desc="外部跳转">
   companion object {
     fun startActivity(context: Context) {
@@ -49,7 +48,7 @@ class RecyclerPagerActivity : CommTitleActivity() {
   //</editor-fold>
 
   //<editor-fold defaultstate="collapsed" desc="XML">
-  override fun layoutResContentId() = R.layout.activty_verticalpage
+  override fun loadViewBinding(inflater: LayoutInflater) = ActivtyVerticalpageBinding.inflate(inflater)
   //</editor-fold>
 
   //<editor-fold defaultstate="collapsed" desc="View初始化">
@@ -57,8 +56,8 @@ class RecyclerPagerActivity : CommTitleActivity() {
     //设置标题
     setTitleText(StringUtils.getString(R.string.title_vertical_page))
     //初始化列表
-    vvpDSV.setOrientation(DSVOrientation.VERTICAL)
-    vvpDSV.addOnItemChangedListener { viewHolder, position, end ->
+    viewBinding.vvpDSV.setOrientation(DSVOrientation.VERTICAL)
+    viewBinding.vvpDSV.addOnItemChangedListener { viewHolder, position, end ->
       //滑动过程中位置改变
       if (!end) {
         //更新UI
@@ -80,41 +79,36 @@ class RecyclerPagerActivity : CommTitleActivity() {
       }
       //判断是否可以上拉加载更多
       if (position == (mDatas.size - 1)) {
-        vvpRefreshLayout.setEnableLoadMore(true)
+        viewBinding.vvpRefreshLayout.setEnableLoadMore(true)
       } else {
-        vvpRefreshLayout.setEnableLoadMore(false)
+        viewBinding.vvpRefreshLayout.setEnableLoadMore(false)
       }
     }
-    vvpDSV.setItemTransitionTimeMillis(100)
-    vvpDSV.adapter = recyclerPagerAdapter
+    viewBinding.vvpDSV.setItemTransitionTimeMillis(100)
+    viewBinding.vvpDSV.adapter = recyclerPagerAdapter
     //初始化播放器
     initVideoView()
     //加载更多
-    vvpRefreshLayout.setEnableLoadMoreWhenContentNotFull(true) //解决不能上拉问题
-    vvpRefreshLayout.setEnableScrollContentWhenLoaded(false)  //是否在加载完成时滚动列表显示新的内容(false相当于加载更多是一个item)
-    vvpRefreshLayout.setEnableFooterFollowWhenNoMoreData(false) //没有更多不固定显示，只有上拉才能看到
-    vvpRefreshLayout.setEnableRefresh(false)
-    vvpRefreshLayout.setEnableLoadMore(false)
-    vvpRefreshLayout.setOnLoadMoreListener {
+    viewBinding.vvpRefreshLayout.setEnableLoadMoreWhenContentNotFull(true) //解决不能上拉问题
+    viewBinding.vvpRefreshLayout.setEnableScrollContentWhenLoaded(false)  //是否在加载完成时滚动列表显示新的内容(false相当于加载更多是一个item)
+    viewBinding.vvpRefreshLayout.setEnableFooterFollowWhenNoMoreData(false) //没有更多不固定显示，只有上拉才能看到
+    viewBinding.vvpRefreshLayout.setEnableRefresh(false)
+    viewBinding.vvpRefreshLayout.setEnableLoadMore(false)
+    viewBinding.vvpRefreshLayout.setOnLoadMoreListener {
       loadData(lastId = mDatas.last().id) {
-        vvpRefreshLayout?.finishLoadMore(true)
-        vvpRefreshLayout?.noMoreData()
+        viewBinding.vvpRefreshLayout.finishLoadMore(true)
+        viewBinding.vvpRefreshLayout.noMoreData()
         mDatas.addAll(it)
         recyclerPagerAdapter.notifyDataSetChanged()
       }
     }
-  }
-  //</editor-fold>
-
-  //<editor-fold defaultstate="collapsed" desc="数据初始化">
-  override fun initData() {
     loadData(time = 100) {
       mDatas.addAll(it)
       recyclerPagerAdapter.notifyDataSetChanged()
-      vvpRefreshLayout?.hasMoreData()
+      viewBinding.vvpRefreshLayout.hasMoreData()
       //默认进来第一个位置没有回调，所以手动进行播放
-      vvpDSV.post {
-        vvpDSV.getViewHolder(0)?.let { viewHolder ->
+      viewBinding.vvpDSV.post {
+        viewBinding.vvpDSV.getViewHolder(0)?.let { viewHolder ->
           if (viewHolder is DiscreteHolder<*>) {
             //防止还存在播放器
             if (mVideoView?.parent != null) initVideoView()

@@ -7,19 +7,20 @@ import android.content.Intent
 import android.content.pm.ActivityInfo
 import android.media.MediaMetadataRetriever
 import android.text.method.ScrollingMovementMethod
+import android.view.LayoutInflater
 import android.widget.ScrollView
 import cc.ab.base.ext.*
 import cc.ab.base.widget.engine.ImageEngine
 import cc.abase.demo.R
-import cc.abase.demo.component.comm.CommTitleActivity
+import cc.abase.demo.component.comm.CommBindTitleActivity
 import cc.abase.demo.constants.UiConstants
+import cc.abase.demo.databinding.ActivityVideoCompressBinding
 import cc.abase.demo.utils.VideoUtils
 import com.blankj.utilcode.util.FileUtils
 import com.blankj.utilcode.util.LogUtils
 import com.luck.picture.lib.PictureSelector
 import com.luck.picture.lib.config.PictureConfig
 import com.luck.picture.lib.config.PictureMimeType
-import kotlinx.android.synthetic.main.activity_video_compress.*
 import java.io.File
 
 /**
@@ -27,7 +28,7 @@ import java.io.File
  * @author: CASE
  * @date: 2019/10/28 15:06
  */
-class VideoCompressActivity : CommTitleActivity() {
+class VideoCompressActivity : CommBindTitleActivity<ActivityVideoCompressBinding>() {
   companion object {
     fun startActivity(context: Context) {
       val intent = Intent(context, VideoCompressActivity::class.java)
@@ -41,7 +42,7 @@ class VideoCompressActivity : CommTitleActivity() {
   //每次设置资源后的第一次播放
   private var isFirstPlay = true
 
-  override fun layoutResContentId() = R.layout.activity_video_compress
+  override fun loadViewBinding(inflater: LayoutInflater) = ActivityVideoCompressBinding.inflate(inflater)
 
   //压缩后的视频地址
   private var compressVideoPath: String? = null
@@ -49,14 +50,14 @@ class VideoCompressActivity : CommTitleActivity() {
   @SuppressLint("SetTextI18n")
   override fun initContentView() {
     setTitleText(R.string.video_compress_title.xmlToString())
-    videoCompressCompress.alpha = UiConstants.disable_alpha
-    videoCompressCompress.isEnabled = false
-    videoCompressSel.click {
-      videoCompressPlayer.release()
-      videoCompressPlayer.clearCover()
-      videoCompressPlayer.gone()
+    viewBinding.videoCompressCompress.alpha = UiConstants.disable_alpha
+    viewBinding.videoCompressCompress.isEnabled = false
+    viewBinding.videoCompressSel.click {
+      viewBinding.videoCompressPlayer.release()
+      viewBinding.videoCompressPlayer.clearCover()
+      viewBinding.videoCompressPlayer.gone()
       mCompressProgress = 0
-      videoCompressResult.text = ""
+      viewBinding.videoCompressResult.text = ""
       mHeadInfo = ""
       //https://github.com/LuckSiege/PictureSelector/wiki/PictureSelector-Api%E8%AF%B4%E6%98%8E
       PictureSelector.create(this)
@@ -71,53 +72,51 @@ class VideoCompressActivity : CommTitleActivity() {
           .forResult(PictureConfig.CHOOSE_REQUEST)
     }
     //内部可滚动 https://www.jianshu.com/p/7a02253cd23e
-    videoCompressResult.movementMethod = ScrollingMovementMethod.getInstance()
+    viewBinding.videoCompressResult.movementMethod = ScrollingMovementMethod.getInstance()
     val sv = ScrollView(mContext)
     sv.scrollY
-    videoCompressCompress.click {
+    viewBinding.videoCompressCompress.click {
       selVideoPath?.let { path ->
-        videoCompressSel.alpha = UiConstants.disable_alpha
-        videoCompressSel.isEnabled = false
-        videoCompressCompress.alpha = UiConstants.disable_alpha
-        videoCompressCompress.isEnabled = false
+        viewBinding.videoCompressSel.alpha = UiConstants.disable_alpha
+        viewBinding.videoCompressSel.isEnabled = false
+        viewBinding.videoCompressCompress.alpha = UiConstants.disable_alpha
+        viewBinding.videoCompressCompress.isEnabled = false
         VideoUtils.startCompressed(File(path),
             result = { suc, info ->
-              videoCompressSel.alpha = 1f
-              videoCompressSel.isEnabled = true
-              videoCompressCompress.alpha = 1f
-              videoCompressCompress.isEnabled = true
+              viewBinding.videoCompressSel.alpha = 1f
+              viewBinding.videoCompressSel.isEnabled = true
+              viewBinding.videoCompressCompress.alpha = 1f
+              viewBinding.videoCompressCompress.isEnabled = true
               if (suc) {
                 compressVideoPath = info
-                videoCompressPlay.text = "播放本地压缩视频"
-                videoCompressResult.append("\n压缩成功:$info")
-                videoCompressResult.append("\n压缩后视频大小:${FileUtils.getSize(info)}")
+                viewBinding.videoCompressPlay.text = "播放本地压缩视频"
+                viewBinding.videoCompressResult.append("\n压缩成功:$info")
+                viewBinding.videoCompressResult.append("\n压缩后视频大小:${FileUtils.getSize(info)}")
               } else {
-                videoCompressResult.append("\n$info")
+                viewBinding.videoCompressResult.append("\n$info")
               }
             },
             pro = { p ->
               val progress = p.toInt()
               if (progress > mCompressProgress) {
                 mCompressProgress = progress
-                if (mHeadInfo.isBlank()) mHeadInfo = videoCompressResult.text.toString()
-                videoCompressResult.text = "${mHeadInfo}\n压缩进度:${progress}%"
+                if (mHeadInfo.isBlank()) mHeadInfo = viewBinding.videoCompressResult.text.toString()
+                viewBinding.videoCompressResult.text = "${mHeadInfo}\n压缩进度:${progress}%"
               }
             })
       }
     }
-    videoCompressPlay.click { VideoDetailActivity.startActivity(mContext, compressVideoPath) }
+    viewBinding.videoCompressPlay.click { VideoDetailActivity.startActivity(mContext, compressVideoPath) }
   }
 
   private var mCompressProgress = 0
   private var mHeadInfo = ""
 
-  override fun initData() {}
-
   private fun initPlayer(videoPath: String) {
-    videoCompressPlayer?.let { videoView ->
+    viewBinding.videoCompressPlayer.let { videoView ->
       //设置尺寸
       val size = getVideoSize(videoPath)
-      val parent = videoCompressPlayerParent
+      val parent = viewBinding.videoCompressPlayerParent
       val width = parent.width - parent.paddingStart - parent.paddingEnd
       val height = parent.height - parent.paddingTop - parent.paddingBottom
       val ratioParent = width * 1f / height
@@ -140,10 +139,10 @@ class VideoCompressActivity : CommTitleActivity() {
   //解析选择的视频
   private fun parseVideo(videoPath: String) {
     selVideoPath = videoPath
-    videoCompressResult.text = videoPath
-    videoCompressResult.append("\n原视频大小:${FileUtils.getSize(videoPath)}")
-    videoCompressCompress.alpha = 1f
-    videoCompressCompress.isEnabled = true
+    viewBinding.videoCompressResult.text = videoPath
+    viewBinding.videoCompressResult.append("\n原视频大小:${FileUtils.getSize(videoPath)}")
+    viewBinding.videoCompressCompress.alpha = 1f
+    viewBinding.videoCompressCompress.isEnabled = true
     initPlayer(videoPath)
   }
 
@@ -156,7 +155,7 @@ class VideoCompressActivity : CommTitleActivity() {
     val videoWidth = mMetadataRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_VIDEO_WIDTH) ?: "0"
     val bitrate = mMetadataRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_BITRATE) ?: "0"
     mMetadataRetriever.release()
-    videoCompressResult.append("\n原视频码率:${bitrate?.toInt() / 1000}K")
+    viewBinding.videoCompressResult.append("\n原视频码率:${bitrate.toInt() / 1000}K")
     val width: Int
     val height: Int
     if (Integer.parseInt(videoRotation) == 90 || Integer.parseInt(videoRotation) == 270) {
@@ -175,14 +174,13 @@ class VideoCompressActivity : CommTitleActivity() {
     data?.let {
       if (requestCode == PictureConfig.CHOOSE_REQUEST && resultCode == Activity.RESULT_OK) {
         // 图片、视频、音频选择结果回调
-        PictureSelector.obtainMultipleResult(data)
-            ?.let { medias ->
-              if (medias.isNotEmpty()) {
-                val path = medias.first().path
-                val file = path.toFile()
-                if (file?.exists() == true) parseVideo(file.path)
-              }
-            }
+        PictureSelector.obtainMultipleResult(data)?.let { medias ->
+          if (medias.isNotEmpty()) {
+            val path = medias.first().path
+            val file = path.toFile()
+            if (file?.exists() == true) parseVideo(file.path)
+          }
+        }
       } else {
         LogUtils.e("CASE:onActivityResult:other")
       }

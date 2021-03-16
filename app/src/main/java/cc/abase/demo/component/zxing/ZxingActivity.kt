@@ -6,20 +6,21 @@ import android.content.Intent
 import android.content.pm.ActivityInfo
 import android.graphics.BitmapFactory
 import android.util.TypedValue
+import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import cc.ab.base.ext.*
 import cc.ab.base.widget.engine.ImageEngine
 import cc.abase.demo.R
-import cc.abase.demo.component.comm.CommTitleActivity
+import cc.abase.demo.component.comm.CommBindTitleActivity
+import cc.abase.demo.databinding.ActivityZxingBinding
 import cc.abase.demo.widget.MyZxingView
 import com.blankj.utilcode.util.ClickUtils
 import com.hjq.permissions.*
 import com.luck.picture.lib.PictureSelector
 import com.luck.picture.lib.config.PictureConfig
 import com.luck.picture.lib.config.PictureMimeType
-import kotlinx.android.synthetic.main.activity_zxing.*
 import kotlinx.coroutines.*
 import me.devilsen.czxing.code.*
 import me.devilsen.czxing.util.BitmapUtil
@@ -31,7 +32,7 @@ import me.devilsen.czxing.view.ScanListener
  * @Date：2021/1/26
  * @Time：16:01
  */
-class ZxingActivity : CommTitleActivity() {
+class ZxingActivity : CommBindTitleActivity<ActivityZxingBinding>() {
   //<editor-fold defaultstate="collapsed" desc="外部跳转">
   companion object {
     fun startActivity(context: Context) {
@@ -49,16 +50,16 @@ class ZxingActivity : CommTitleActivity() {
   //</editor-fold>
 
   //<editor-fold defaultstate="collapsed" desc="XML">
-  override fun layoutResContentId() = R.layout.activity_zxing
+  override fun loadViewBinding(inflater: LayoutInflater) = ActivityZxingBinding.inflate(inflater)
   //</editor-fold>
 
   //<editor-fold defaultstate="collapsed" desc="初始化View">
   override fun initContentView() {
     setTitleText(R.string.title_zxing.xmlToString())
-    ClickUtils.applyPressedViewAlpha(zxingCreate, zxingParse, zxingScan)
-    zxingCreate.click {
-      val code = zxingEdit.text.toString().trim()
-      val size = zxingContainer.width
+    ClickUtils.applyPressedViewAlpha(viewBinding.zxingCreate, viewBinding.zxingParse, viewBinding.zxingScan)
+    viewBinding.zxingCreate.click {
+      val code = viewBinding.zxingEdit.text.toString().trim()
+      val size = viewBinding.zxingContainer.width
       if (code.isBlank()) {
         R.string.empty_zxing.xmlToast()
       } else {
@@ -67,18 +68,13 @@ class ZxingActivity : CommTitleActivity() {
             ?.let { bit ->
               val iv = ImageView(mContext)
               iv.setImageBitmap(bit)
-              zxingContainer.removeAllViews()
-              zxingContainer.addView(iv, ViewGroup.LayoutParams(size, size))
+              viewBinding.zxingContainer.removeAllViews()
+              viewBinding.zxingContainer.addView(iv, ViewGroup.LayoutParams(size, size))
             }
       }
     }
-    zxingParse.click { go2SelImg() }
-    zxingScan.click { checkCameraPermission() }
-  }
-  //</editor-fold>
-
-  //<editor-fold defaultstate="collapsed" desc="初始化Data">
-  override fun initData() {
+    viewBinding.zxingParse.click { go2SelImg() }
+    viewBinding.zxingScan.click { checkCameraPermission() }
   }
   //</editor-fold>
 
@@ -104,7 +100,7 @@ class ZxingActivity : CommTitleActivity() {
 
   //<editor-fold defaultstate="collapsed" desc="打开扫码">
   private fun openScan() {
-    zxingContainer.removeAllViews()
+    viewBinding.zxingContainer.removeAllViews()
     if (mScanView == null) {
       mScanView = MyZxingView(mContext).also { zx ->
         zx.mScanListener = object : ScanListener {
@@ -114,16 +110,16 @@ class ZxingActivity : CommTitleActivity() {
       }
     }
     mScanView?.let {
-      val size = zxingContainer.width
-      zxingContainer.removeAllViews()
-      zxingContainer.addView(it, ViewGroup.LayoutParams(size, size))
+      val size = viewBinding.zxingContainer.width
+      viewBinding.zxingContainer.removeAllViews()
+      viewBinding.zxingContainer.addView(it, ViewGroup.LayoutParams(size, size))
     }
   }
   //</editor-fold>
 
   //<editor-fold defaultstate="collapsed" desc="图库选择二维码图片">
   private fun go2SelImg() {
-    zxingContainer.removeAllViews()
+    viewBinding.zxingContainer.removeAllViews()
     //https://github.com/LuckSiege/PictureSelector/wiki/PictureSelector-Api%E8%AF%B4%E6%98%8E
     PictureSelector.create(this)
         .openGallery(PictureMimeType.ofImage())
@@ -177,8 +173,8 @@ class ZxingActivity : CommTitleActivity() {
       tv.setTextColor(R.color.magenta.xmlToColor())
       tv.setTextSize(TypedValue.COMPLEX_UNIT_SP, 15f)
       tv.text = msg
-      zxingContainer.removeAllViews()
-      zxingContainer.addView(tv, ViewGroup.LayoutParams(-1, -2))
+      viewBinding.zxingContainer.removeAllViews()
+      viewBinding.zxingContainer.addView(tv, ViewGroup.LayoutParams(-1, -2))
     }
   }
   //</editor-fold>
