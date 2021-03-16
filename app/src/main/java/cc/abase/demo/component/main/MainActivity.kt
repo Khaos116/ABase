@@ -10,10 +10,9 @@ import androidx.annotation.IntRange
 import androidx.lifecycle.Lifecycle
 import cc.ab.base.ext.*
 import cc.ab.base.widget.DragFloatView
-import cc.abase.demo.BuildConfig
 import cc.abase.demo.R
 import cc.abase.demo.component.comm.CommBindActivity
-import cc.abase.demo.component.comm.CommFragment
+import cc.abase.demo.component.comm.CommBindFragment
 import cc.abase.demo.component.main.fragment.*
 import cc.abase.demo.databinding.ActivityMainBinding
 import cc.abase.demo.widget.dialog.commAlertDialog
@@ -33,10 +32,10 @@ class MainActivity : CommBindActivity<ActivityMainBinding>() {
 
   //<editor-fold defaultstate="collapsed" desc="变量">
   //当前页面
-  private var currentFragment: CommFragment? = null
+  private var currentFragment: CommBindFragment<*>? = null
 
   //子列表合集，方便外部调用选中那个
-  private val fragmentList = mutableListOf<CommFragment>()
+  private val fragmentList = mutableListOf<CommBindFragment<*>>()
   private var floatView: DragFloatView? = null
   //</editor-fold>
 
