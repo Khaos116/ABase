@@ -30,10 +30,10 @@ abstract class BaseBindActivity<T : ViewBinding> : AppCompatActivity() {
 
   //<editor-fold defaultstate="collapsed" desc="创建">
   override fun onCreate(savedInstanceState: Bundle?) {
+    baseBinding = BaseActivityBinding.inflate(layoutInflater)
     this.onCreateBefore()
     this.initStatus()
     super.onCreate(savedInstanceState)
-    baseBinding = BaseActivityBinding.inflate(layoutInflater)
     setContentView(baseBinding.root)
     baseBinding.baseStatusView.visibleGone(fillStatus())
     viewBinding = loadViewBinding(layoutInflater)
