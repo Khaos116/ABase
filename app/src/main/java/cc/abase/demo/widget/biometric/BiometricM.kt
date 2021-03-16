@@ -11,7 +11,6 @@ import cc.ab.base.ext.logE
 import cc.ab.base.ext.xmlToString
 import cc.abase.demo.R
 import cc.abase.demo.widget.dialog.*
-import kotlinx.android.synthetic.main.dialog_comm.commAlertConfirm
 import javax.crypto.Cipher
 
 /**
@@ -110,7 +109,7 @@ class BiometricM(val app: Application) : BiometricInterface {
           }
 
           override fun onAuthenticationHelp(helpCode: Int, helpString: CharSequence?) {
-            mDialog?.commAlertConfirm?.text = (helpString.toString())
+            mDialog?.viewBinding?.commAlertContent?.text = (helpString.toString())
             mErrorCall?.invoke(helpCode, helpString.toString())
           }
 
