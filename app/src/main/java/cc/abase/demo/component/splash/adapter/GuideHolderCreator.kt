@@ -1,32 +1,35 @@
 package cc.abase.demo.component.splash.adapter
 
 import android.app.Activity
-import android.view.View
+import android.view.LayoutInflater
+import android.view.ViewGroup
 import cc.ab.base.ext.*
 import cc.ab.base.widget.discretescrollview.holder.DiscreteHolder
 import cc.ab.base.widget.discretescrollview.holder.DiscreteHolderCreator
-import cc.abase.demo.R
 import cc.abase.demo.component.login.LoginActivity
+import cc.abase.demo.databinding.LayoutGuideBinding
 import cc.abase.demo.utils.MMkvUtils
 import com.blankj.utilcode.util.ScreenUtils
-import kotlinx.android.synthetic.main.layout_guide.view.guideGo
-import kotlinx.android.synthetic.main.layout_guide.view.guideKIV
 
 /**
  * Description:
  * @author: CASE
  * @date: 2019/10/14 14:30
  */
-class GuideHolderCreator : DiscreteHolderCreator {
-  override fun getLayoutId() = R.layout.layout_guide
+class GuideHolderCreator : DiscreteHolderCreator<String, LayoutGuideBinding>() {
+  //<editor-fold defaultstate="collapsed" desc="XML">
+  override fun loadViewBinding(inflater: LayoutInflater, parent: ViewGroup) = LayoutGuideBinding.inflate(inflater, parent, false)
+  //</editor-fold>
 
-  override fun createHolder(itemView: View) = object : DiscreteHolder<String>(itemView) {
-    override fun updateUI(data: String?, position: Int, count: Int) {
+  //<editor-fold defaultstate="collapsed" desc="创建Holder+数据填充">
+  override fun createHolder(binding: LayoutGuideBinding) = object : DiscreteHolder<String, LayoutGuideBinding>(binding) {
+    //填充数据
+    override fun updateUI(data: String?, binding: LayoutGuideBinding, position: Int, count: Int) {
       val height = (itemView.context as? Activity)?.mContentView?.height ?: ScreenUtils.getScreenHeight()
       val width = ScreenUtils.getScreenWidth()
-      itemView.guideKIV?.loadImgVertical(data, holderRatio = width * 1f / height)
-      itemView.guideGo?.visibleGone(position == count - 1)
-      itemView.guideGo?.let { view ->
+      binding.guideKIV.loadImgVertical(data, holderRatio = width * 1f / height)
+      binding.guideGo.visibleGone(position == count - 1)
+      binding.guideGo.let { view ->
         view.visibleGone(position == count - 1)
         view.pressEffectAlpha()
         view.click {
@@ -36,4 +39,5 @@ class GuideHolderCreator : DiscreteHolderCreator {
       }
     }
   }
+  //</editor-fold>
 }

@@ -30,7 +30,7 @@ class BannerItem(
   override fun fillData(holder: BaseViewHolder<ItemBannerBinding>, item: MutableList<BannerBean>) {
     if (holder.itemView.getTag(R.id.tag_banner) != item) {
       holder.itemView.setTag(R.id.tag_banner, item)
-      val banner = holder.itemView.findViewById<DiscreteBanner<BannerBean>>(R.id.itemBanner)
+      val banner = holder.itemView.findViewById<DiscreteBanner<BannerBean, ItemBannerImgBinding>>(R.id.itemBanner)
       banner.layoutParams.height = (ScreenUtils.getScreenWidth() * 500f / 900).toInt()
       banner.setLooper(true) //无限循环
           .setAutoPlay(true) //自动播放
@@ -44,12 +44,14 @@ class BannerItem(
               setIndicatorOffsetX(-defaultOffset)
             }
           }
-          .setPages(object : DiscreteHolderCreator { //继承DiscreteHolderCreator
-            override fun getLayoutId() = R.layout.item_banner_img
+          .setPages(object : DiscreteHolderCreator<BannerBean, ItemBannerImgBinding>() { //继承DiscreteHolderCreator
+            //XML
+            override fun loadViewBinding(inflater: LayoutInflater, parent: ViewGroup) = ItemBannerImgBinding.inflate(inflater, parent, false)
 
-            override fun createHolder(itemView: View) = object : DiscreteHolder<BannerBean>(itemView) { //继承DiscreteHolder
-              override fun updateUI(data: BannerBean?, position: Int, count: Int) {
-                val binding = ItemBannerImgBinding.bind(itemView)
+            //创建Holder
+            override fun createHolder(binding: ItemBannerImgBinding) = object : DiscreteHolder<BannerBean, ItemBannerImgBinding>(binding) {
+              //刷新数据
+              override fun updateUI(data: BannerBean?, binding: ItemBannerImgBinding, position: Int, count: Int) {
                 binding.itemBannerImg.loadImgHorizontal(data?.imagePath, 900f / 500)
               }
             }

@@ -38,7 +38,7 @@ class RecyclerPagerActivity : CommBindTitleActivity<ActivtyVerticalpageBinding>(
   private var mDatas = mutableListOf<VerticalPageBean>()
 
   //适配器
-  private var recyclerPagerAdapter: DiscretePageAdapter<VerticalPageBean> = DiscretePageAdapter(RecyclerPagerHolderCreator(), mDatas)
+  private var recyclerPagerAdapter = DiscretePageAdapter(RecyclerPagerHolderCreator(), mDatas)
 
   //请求
   private var disposableRequest: Job? = null
@@ -61,7 +61,9 @@ class RecyclerPagerActivity : CommBindTitleActivity<ActivtyVerticalpageBinding>(
       //滑动过程中位置改变
       if (!end) {
         //更新UI
-        (viewHolder as? DiscreteHolder<VerticalPageBean>)?.updateUI(mDatas[position], position, mDatas.size)
+        (viewHolder as? DiscreteHolder<VerticalPageBean, ItemVerticalPageParentBinding>)?.let { dh ->
+          dh.updateUI(mDatas[position], dh.viewBinding, position, mDatas.size)
+        }
         return@addOnItemChangedListener
       }
       //防止还存在播放器
@@ -69,12 +71,9 @@ class RecyclerPagerActivity : CommBindTitleActivity<ActivtyVerticalpageBinding>(
       //滑动结束后的位置，添加播放器，开始播放
       mVideoView?.let { videoView ->
         //更新UI
-        (viewHolder as? DiscreteHolder<VerticalPageBean>)?.let { dh ->
-          dh.updateUI(mDatas[position], position, mDatas.size)
-          if (dh.itemView.findViewById<View>(R.id.itemRecyclePagerContainer) != null) {
-            val binding = ItemVerticalPageParentBinding.bind(dh.itemView)
-            binding.itemRecyclePagerContainer.addView(videoView)
-          }
+        (viewHolder as? DiscreteHolder<VerticalPageBean, ItemVerticalPageParentBinding>)?.let { dh ->
+          dh.updateUI(mDatas[position], dh.viewBinding, position, mDatas.size)
+          dh.viewBinding.itemRecyclePagerContainer.addView(videoView)
         }
         //开始播放
         val bean = mDatas[position]
@@ -112,14 +111,11 @@ class RecyclerPagerActivity : CommBindTitleActivity<ActivtyVerticalpageBinding>(
       //默认进来第一个位置没有回调，所以手动进行播放
       viewBinding.vvpDSV.post {
         viewBinding.vvpDSV.getViewHolder(0)?.let { viewHolder ->
-          if (viewHolder is DiscreteHolder<*>) {
+          (viewHolder as? DiscreteHolder<VerticalPageBean, ItemVerticalPageParentBinding>)?.let { holder ->
             //防止还存在播放器
             if (mVideoView?.parent != null) initVideoView()
             mVideoView?.let { videoView ->
-              if (viewHolder.itemView.findViewById<View>(R.id.itemRecyclePagerContainer) != null) {
-                val binding = ItemVerticalPageParentBinding.bind(viewHolder.itemView)
-                binding.itemRecyclePagerContainer.addView(videoView)
-              }
+              holder.viewBinding.itemRecyclePagerContainer.addView(videoView)
               //开始播放
               val bean = mDatas.first()
               videoView.setPlayUrl(bean.videoUrl ?: "", bean.description ?: "", autoPlay = true, needHolder = false)

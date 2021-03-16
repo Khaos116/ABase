@@ -175,7 +175,7 @@ class VerticalPagerActivity : CommBindActivity<ActivityPlayPagerBinding>() {
         mVideoView?.removeParent()
         val videoBean: VideoBean = mVideoList[viewHolder.mPosition]
         mVideoView?.setPlayUrl(videoBean.url ?: "", videoBean.title ?: "", autoPlay = true, needHolder = false)
-        viewHolder.mPlayerContainer?.addView(mVideoView)
+        viewHolder.viewBinding.itemVerticalPagerContainer.addView(mVideoView)
         mCurPos = position
         findCount++
       } else if (position > 0 && viewHolder.mPosition == position - 1) { //预加载上一个数据，否则滑动可能出现复用的数据

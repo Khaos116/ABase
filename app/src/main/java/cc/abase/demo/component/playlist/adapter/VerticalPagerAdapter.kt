@@ -2,15 +2,12 @@ package cc.abase.demo.component.playlist.adapter
 
 import android.app.Activity
 import android.view.*
-import android.widget.FrameLayout
-import android.widget.ImageView
 import androidx.viewpager.widget.PagerAdapter
 import cc.ab.base.ext.*
 import cc.abase.demo.R
 import cc.abase.demo.bean.local.VideoBean
+import cc.abase.demo.databinding.ItemPlayPagerParentBinding
 import com.blankj.utilcode.util.ScreenUtils
-import kotlinx.android.synthetic.main.item_play_pager_parent.view.itemVerticalPagerContainer
-import kotlinx.android.synthetic.main.item_play_pager_parent.view.itemVerticalPagerCover
 
 /**
  * Description:
@@ -61,12 +58,12 @@ class VerticalPagerAdapter(list: List<VideoBean>) : PagerAdapter() {
 
   //填充数据
   fun fillData(videoBean: VideoBean, viewHolder: PagerHolder) {
-    val height = (viewHolder.mPlayerContainer?.context as? Activity)?.mContentView?.height ?: ScreenUtils.getScreenHeight()
+    val height = (viewHolder.viewBinding.itemVerticalPagerContainer.context as? Activity)?.mContentView?.height ?: ScreenUtils.getScreenHeight()
     videoBean.thumb?.let {
       if (it.isVideoUrl()) {
-        viewHolder.mPlayerCover?.loadNetVideoCover(it, ScreenUtils.getScreenWidth() * 1f / height, hasHolder = false)
+        viewHolder.viewBinding.itemVerticalPagerCover.loadNetVideoCover(it, ScreenUtils.getScreenWidth() * 1f / height, hasHolder = false)
       } else {
-        viewHolder.mPlayerCover?.loadImgVertical(it, ScreenUtils.getScreenWidth() * 1f / height, hasHolder = false)
+        viewHolder.viewBinding.itemVerticalPagerCover.loadImgVertical(it, ScreenUtils.getScreenWidth() * 1f / height, hasHolder = false)
       }
     }
   }
@@ -80,12 +77,9 @@ class VerticalPagerAdapter(list: List<VideoBean>) : PagerAdapter() {
 
   class PagerHolder(view: View) {
     var mPosition = 0
-    var mPlayerContainer: FrameLayout? = null
-    var mPlayerCover: ImageView? = null
+    val viewBinding: ItemPlayPagerParentBinding = ItemPlayPagerParentBinding.bind(view)
 
     init {
-      mPlayerContainer = view.itemVerticalPagerContainer
-      mPlayerCover = view.itemVerticalPagerCover
       view.tag = this
     }
   }
