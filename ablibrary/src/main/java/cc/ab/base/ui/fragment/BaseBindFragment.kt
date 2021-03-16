@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Context
 import android.os.Bundle
 import android.view.*
+import android.widget.FrameLayout
 import androidx.fragment.app.Fragment
 import androidx.viewbinding.ViewBinding
 import cc.ab.base.ext.logI
@@ -18,6 +19,7 @@ abstract class BaseBindFragment<T : ViewBinding> : Fragment() {
   //<editor-fold defaultstate="collapsed" desc="变量">
   private var _binding: T? = null
   protected val viewBinding: T get() = _binding!!
+  protected var mRootFrameLayout: FrameLayout? = null
 
   //是否已经懒加载
   private var isLoaded = false
@@ -38,7 +40,14 @@ abstract class BaseBindFragment<T : ViewBinding> : Fragment() {
   //<editor-fold defaultstate="collapsed" desc="创建View和销毁">
   override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
     _binding = loadViewBinding(inflater)
-    return viewBinding.root
+    val root = viewBinding.root
+    return if (root is FrameLayout) {
+      mRootFrameLayout = root
+      root
+    } else FrameLayout(mContext).also {
+      mRootFrameLayout = it
+      it.addView(root, ViewGroup.LayoutParams(-1, -1))
+    }
   }
   //</editor-fold>
 
