@@ -22,7 +22,7 @@ import com.blankj.utilcode.util.ActivityUtils
 abstract class BaseBindFragmentDialog<T : ViewBinding> : DialogFragment() {
   //<editor-fold defaultstate="collapsed" desc="变量">
   private var _binding: T? = null
-  protected val viewBinding: T get() = _binding!!
+  val viewBinding: T get() = _binding!!
 
   //弹窗布局位置相关
   var mWidth = LayoutParams.WRAP_CONTENT
