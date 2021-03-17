@@ -25,7 +25,7 @@ object MediaUtils {
       getMimeType(filePath).contains("image/")
     } else {
       val f = UriUtils.uri2File(Uri.parse(filePath))
-      if (f.exists()) getMimeType(f.path).contains("image/") else false
+      if (f?.exists() == true) getMimeType(f.path).contains("image/") else false
     }
   }
 
