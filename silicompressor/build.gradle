@@ -7,7 +7,11 @@ plugins {
 
 android {
   compileSdkVersion Versions.sdkTarget
-  buildFeatures { viewBinding true } //https://blog.csdn.net/choimroc/article/details/104756365
+  //buildFeatures编译问题 https://www.freesion.com/article/90591379803/ https://blog.csdn.net/choimroc/article/details/104756365
+  //com.android.tools.build:gradle:version < 4.1.2
+  //viewBinding { enabled = true }
+  //com.android.tools.build:gradle:version >=4.1.2
+  //buildFeatures { viewBinding = true }
   defaultConfig {
     minSdkVersion Versions.sdkMin
     targetSdkVersion Versions.sdkTarget
