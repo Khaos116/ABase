@@ -20,7 +20,7 @@ abstract class BaseBindFragment<T : ViewBinding> : Fragment() {
   //<editor-fold defaultstate="collapsed" desc="变量">
   protected var _binding: T? = null//由于是异步加载，所以如果重写生命周期用到View先判断它是否为空
   protected val viewBinding: T get() = _binding!!
-  protected var mRootFrameLayout: FrameLayout? = null
+  protected var mRootLayout: FrameLayout? = null
 
   //是否已经懒加载
   private var isLoaded = false
@@ -45,15 +45,15 @@ abstract class BaseBindFragment<T : ViewBinding> : Fragment() {
   //</editor-fold>
 
   //<editor-fold defaultstate="collapsed" desc="创建View和销毁">
-  override fun onCreateView(i: LayoutInflater, c: ViewGroup?, s: Bundle?): View? = FrameLayout(mContext).also { mRootFrameLayout = it }
+  override fun onCreateView(i: LayoutInflater, c: ViewGroup?, s: Bundle?): View? = mRootLayout ?: FrameLayout(mContext).also { mRootLayout = it }
 
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
     super.onViewCreated(view, savedInstanceState)
-    mRootFrameLayout?.removeAllViews()
-    mJobLoading = GlobalScope.launch(context = Dispatchers.Main + CoroutineExceptionHandler { _, _ -> }) {
-      withContext(Dispatchers.IO) { loadViewBinding(LayoutInflater.from(mContext), mRootFrameLayout) }.let { b ->
+    if (_binding == null) mJobLoading = GlobalScope.launch(context = Dispatchers.Main + CoroutineExceptionHandler { _, _ -> }) {
+      withContext(Dispatchers.IO) { loadViewBinding(LayoutInflater.from(mContext), mRootLayout) }.let { b ->
         _binding = b
-        mRootFrameLayout?.addView(b.root, ViewGroup.LayoutParams(-1, -1))
+        mRootLayout?.removeAllViews()
+        mRootLayout?.addView(b.root, ViewGroup.LayoutParams(-1, -1))
         checkFirstLoad()
       }
     }
@@ -90,9 +90,7 @@ abstract class BaseBindFragment<T : ViewBinding> : Fragment() {
   override fun onDestroyView() {
     super.onDestroyView()
     mJobLoading?.cancel()//释放异步耗时
-    _binding = null
     isLoaded = false
-    "Fragment:UI销毁：${this.javaClass.simpleName}${this.hashCode()}".logI()
   }
   //</editor-fold>
 
