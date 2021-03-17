@@ -9,6 +9,7 @@ import androidx.viewbinding.ViewBinding
 import cc.ab.base.databinding.BaseActivityBinding
 import cc.ab.base.ext.visibleGone
 import com.gyf.immersionbar.ktx.immersionBar
+import kotlinx.coroutines.*
 
 /**
  * 参考：
@@ -30,15 +31,20 @@ abstract class BaseBindActivity<T : ViewBinding> : AppCompatActivity() {
 
   //<editor-fold defaultstate="collapsed" desc="创建">
   override fun onCreate(savedInstanceState: Bundle?) {
-    baseBinding = BaseActivityBinding.inflate(layoutInflater)
     this.onCreateBefore()
-    this.initStatus()
     super.onCreate(savedInstanceState)
-    setContentView(baseBinding.root)
-    baseBinding.baseStatusView.visibleGone(fillStatus())
-    viewBinding = loadViewBinding(layoutInflater)
-    baseBinding.root.addView(viewBinding.root, ViewGroup.LayoutParams(-1, -1))
-    initView()
+    //异步加载布局，可以实现快速打开页面
+    GlobalScope.launch(context = Dispatchers.Main + CoroutineExceptionHandler { _, _ -> }) {
+      withContext(Dispatchers.IO) { BaseActivityBinding.inflate(layoutInflater) }.let { b ->
+        baseBinding = b
+        setContentView(baseBinding.root)
+        baseBinding.baseStatusView.visibleGone(fillStatus())
+        viewBinding = loadViewBinding(layoutInflater)
+        baseBinding.root.addView(viewBinding.root, ViewGroup.LayoutParams(-1, -1))
+        initStatus()
+        initView()
+      }
+    }
   }
   //</editor-fold>
 
