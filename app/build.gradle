@@ -55,7 +55,7 @@ android {
   kotlinOptions { jvmTarget = "1.8" }
 
   //使用LayoutContainer代替findViewById https://www.cnblogs.com/huyang011/p/14184045.html
-  androidExtensions { experimental = true }
+  //androidExtensions { experimental = true }
 
   //多维度 https://blog.csdn.net/chen_xi_hao/article/details/80526049
   flavorDimensions "default"
