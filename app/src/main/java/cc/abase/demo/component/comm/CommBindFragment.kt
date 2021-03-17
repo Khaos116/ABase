@@ -22,7 +22,7 @@ abstract class CommBindFragment<T : ViewBinding> : BaseBindFragment<T>() {
   //</editor-fold>
 
   //<editor-fold defaultstate="collapsed" desc="初始化">
-  override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+  override fun onCreateView(i: LayoutInflater, c: ViewGroup?, s: Bundle?): View? {
     loadingView = LottieAnimationView(mContext)
     loadingView.setAnimation("loading.json")
     loadingView.imageAssetsFolder = "images/"
@@ -30,7 +30,7 @@ abstract class CommBindFragment<T : ViewBinding> : BaseBindFragment<T>() {
     loadingView.repeatCount = LottieDrawable.INFINITE
     loadingView.repeatMode = LottieDrawable.RESTART
     loadingView.setOnClickListener { }
-    return super.onCreateView(inflater, container, savedInstanceState)
+    return super.onCreateView(i, c, s)
   }
   //</editor-fold>
 
@@ -45,10 +45,10 @@ abstract class CommBindFragment<T : ViewBinding> : BaseBindFragment<T>() {
 
   //显示loadingView
   private fun startShowLoadingView(
-      transY: Float = getLoadingViewTransY(),
-      height: Int = getLoadingViewHeight(),
-      gravity: Int = getLoadingViewGravity(),
-      bgColor: Int = getLoadingViewBgColor()
+    transY: Float = getLoadingViewTransY(),
+    height: Int = getLoadingViewHeight(),
+    gravity: Int = getLoadingViewGravity(),
+    bgColor: Int = getLoadingViewBgColor()
   ) {
     val parent = mRootFrameLayout
     if (loadingView.parent == null && parent != null) {
