@@ -1,9 +1,9 @@
 //===================版本配置===================//
 //测试版(只有第一位可以大于等于10)
-def version_Name_D = "1.0.2"
+def version_Name_D = "1.0.3"
 def version_Code_D = (version_Name_D.replace(".", "")).toInteger()
 //正式版(只有第一位可以大于等于10)
-def version_Name_R = "1.0.2"
+def version_Name_R = "1.0.3"
 def version_Code_R = (version_Name_R.replace(".", "")).toInteger()
 //Bugly相关
 def buglyAppIdDebug = "c6e450ad19"
