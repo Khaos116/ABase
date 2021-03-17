@@ -10,8 +10,6 @@ import cc.abase.demo.bean.local.VerticalPageBean
 import cc.abase.demo.databinding.ItemVerticalPageParentBinding
 import com.blankj.utilcode.util.BarUtils
 import com.blankj.utilcode.util.ScreenUtils
-import kotlinx.android.synthetic.main.item_vertical_page_parent.view.itemRecyclePagerContainer
-import kotlinx.android.synthetic.main.item_vertical_page_parent.view.itemRecyclePagerCover
 
 /**
  * Description:
@@ -28,13 +26,13 @@ class RecyclerPagerHolderCreator : DiscreteHolderCreator<VerticalPageBean, ItemV
       object : DiscreteHolder<VerticalPageBean, ItemVerticalPageParentBinding>(binding) {
         //数据填充
         override fun updateUI(data: VerticalPageBean?, binding: ItemVerticalPageParentBinding, position: Int, count: Int) {
-          val h = (itemView.itemRecyclePagerContainer?.context as? Activity)?.mContentView?.height ?: ScreenUtils.getScreenHeight()
+          val h = (binding.itemRecyclePagerContainer.context as? Activity)?.mContentView?.height ?: ScreenUtils.getScreenHeight()
           val height = h - BarUtils.getStatusBarHeight() - 49.dp2Px()
           data?.cover?.let {
             if (it.isVideoUrl()) {
-              itemView.itemRecyclePagerCover?.loadNetVideoCover(it, ScreenUtils.getScreenWidth() * 1f / height, hasHolder = false)
+              binding.itemRecyclePagerCover.loadNetVideoCover(it, ScreenUtils.getScreenWidth() * 1f / height, hasHolder = false)
             } else {
-              itemView.itemRecyclePagerCover?.loadImgVertical(it, ScreenUtils.getScreenWidth() * 1f / height, hasHolder = false)
+              binding.itemRecyclePagerCover.loadImgVertical(it, ScreenUtils.getScreenWidth() * 1f / height, hasHolder = false)
             }
           }
         }

@@ -5,10 +5,9 @@ import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.widget.FrameLayout
 import androidx.coordinatorlayout.widget.CoordinatorLayout
-import cc.abase.demo.R
+import cc.abase.demo.databinding.MergeCoordinatorUserBinding
 import com.blankj.utilcode.util.BarUtils
 import com.google.android.material.appbar.AppBarLayout
-import kotlinx.android.synthetic.main.merge_coordinator_user.view.coordinatorUserToolbar
 import net.lucode.hackware.magicindicator.MagicIndicator
 
 /**
@@ -17,20 +16,20 @@ import net.lucode.hackware.magicindicator.MagicIndicator
  * Time:19:34
  */
 class CoordinatorUserLayout @JvmOverloads constructor(
-    context: Context,
-    attrs: AttributeSet? = null,
-    defStyleAttr: Int = 0
+  context: Context,
+  attrs: AttributeSet? = null,
+  defStyleAttr: Int = 0
 ) : CoordinatorLayout(context, attrs, defStyleAttr) {
   var indicator: MagicIndicator? = null
   var appBar: AppBarLayout? = null
 
   init {
     if (!isInEditMode) {
-      LayoutInflater.from(context).inflate(R.layout.merge_coordinator_user, this, true)
-      indicator = findViewById(R.id.coordinatorUserIndicator)
+      val binding = MergeCoordinatorUserBinding.inflate(LayoutInflater.from(context), this)
+      indicator = binding.coordinatorUserIndicator
+      appBar = binding.coordinatorUserAppBar
       //适配状态栏
-      (coordinatorUserToolbar.layoutParams as FrameLayout.LayoutParams).topMargin = BarUtils.getStatusBarHeight()
-      appBar = findViewById(R.id.coordinatorUserAppBar)
+      (binding.coordinatorUserToolbar.layoutParams as FrameLayout.LayoutParams).topMargin = BarUtils.getStatusBarHeight()
     }
   }
 }
