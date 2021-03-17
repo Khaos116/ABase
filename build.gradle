@@ -6,6 +6,10 @@ buildscript {
     google()
     jcenter()
     maven { url 'https://jitpack.io' }
+    maven {
+      url 'https://maven.google.com'
+      name 'google'
+    }
     //-----------国内通用-----------
     maven { url 'https://maven.aliyun.com/repository/gradle-plugin' }
     maven { url 'https://maven.aliyun.com/repository/jcenter' }
@@ -32,6 +36,10 @@ allprojects {
     google()
     jcenter()
     maven { url 'https://jitpack.io' }
+    maven {
+      url 'https://maven.google.com'
+      name 'google'
+    }
     //-----------国内通用-----------
     maven { url 'https://maven.aliyun.com/repository/gradle-plugin' }
     maven { url 'https://maven.aliyun.com/repository/jcenter' }
