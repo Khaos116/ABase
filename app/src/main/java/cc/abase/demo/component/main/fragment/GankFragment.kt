@@ -7,17 +7,12 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import cc.ab.base.ui.viewmodel.DataState
 import cc.ab.base.widget.engine.ImageEngine
 import cc.abase.demo.R
-import cc.abase.demo.bean.local.DividerBean
-import cc.abase.demo.bean.local.EmptyErrorBean
-import cc.abase.demo.bean.local.LoadingBean
+import cc.abase.demo.bean.local.*
 import cc.abase.demo.component.comm.CommBindFragment
 import cc.abase.demo.component.main.viewmodel.GankViewModel
 import cc.abase.demo.component.web.WebActivity
 import cc.abase.demo.databinding.FragmentGankBinding
-import cc.abase.demo.item.DividerItem
-import cc.abase.demo.item.EmptyErrorItem
-import cc.abase.demo.item.GankParentItem
-import cc.abase.demo.item.LoadingItem
+import cc.abase.demo.item.*
 import com.drakeet.multitype.MultiTypeAdapter
 import com.luck.picture.lib.PictureSelector
 import com.luck.picture.lib.entity.LocalMedia
@@ -51,7 +46,7 @@ class GankFragment : CommBindFragment<FragmentGankBinding>() {
 
   //<editor-fold defaultstate="collapsed" desc="懒加载">
   override fun lazyInit() {
-    mRootFrameLayout?.setBackgroundColor(Color.WHITE)
+    mRootLayout?.setBackgroundColor(Color.WHITE)
     viewBinding.gankRefreshLayout.setOnRefreshListener { mViewModel.refresh() }
     viewBinding.gankRefreshLayout.setOnLoadMoreListener { mViewModel.loadMore() }
     //设置适配器

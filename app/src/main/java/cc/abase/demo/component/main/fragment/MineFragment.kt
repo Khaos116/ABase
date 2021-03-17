@@ -104,7 +104,7 @@ class MineFragment : CommBindFragment<FragmentMineBinding>() {
 
   //<editor-fold defaultstate="collapsed" desc="懒加载">
   override fun lazyInit() {
-    mRootFrameLayout?.setBackgroundColor(Color.WHITE)
+    mRootLayout?.setBackgroundColor(Color.WHITE)
     //分割线
     if (viewBinding.mineRecycler.itemDecorationCount == 0) viewBinding.mineRecycler.addItemDecoration(SpacesItemDecoration())
     //注册多类型
