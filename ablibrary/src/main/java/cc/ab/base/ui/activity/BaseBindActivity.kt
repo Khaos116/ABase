@@ -15,7 +15,7 @@ import kotlinx.coroutines.*
  * 参考：
  * 1.https://blog.csdn.net/choimroc/article/details/104756365
  * 2.https://blog.csdn.net/u010976213/article/details/104501830
- * @Description 使用ViewBinding的基类
+ * @Description 由于进行了异步XML加载，所以如果重写了onResume、onPause等生命周期方法，需要谨慎使用viewBinding
  * @Author：CASE
  * @Date：2021/3/15
  * @Time：16:20
@@ -25,23 +25,27 @@ abstract class BaseBindActivity<T : ViewBinding> : AppCompatActivity() {
   //如果要操作状态栏，则需要使用到
   protected lateinit var baseBinding: BaseActivityBinding
 
-  //除状态栏意外的XML
-  protected lateinit var viewBinding: T
+  //除状态栏以外的XML
+  protected var _binding: T? = null//由于是异步加载，所以如果重写生命周期用到View先判断它是否为空
+  protected val viewBinding get() = _binding!!
+
+  //XML加载
+  private var mJobLoading: Job? = null
   //</editor-fold>
 
   //<editor-fold defaultstate="collapsed" desc="创建">
   override fun onCreate(savedInstanceState: Bundle?) {
+    baseBinding = BaseActivityBinding.inflate(layoutInflater)
     this.onCreateBefore()
+    this.initStatus()
     super.onCreate(savedInstanceState)
+    setContentView(baseBinding.root)
+    baseBinding.baseStatusView.visibleGone(fillStatus())
     //异步加载布局，可以实现快速打开页面
-    GlobalScope.launch(context = Dispatchers.Main + CoroutineExceptionHandler { _, _ -> }) {
-      withContext(Dispatchers.IO) { BaseActivityBinding.inflate(layoutInflater) }.let { b ->
-        baseBinding = b
-        setContentView(baseBinding.root)
-        baseBinding.baseStatusView.visibleGone(fillStatus())
-        viewBinding = loadViewBinding(layoutInflater)
+    mJobLoading = GlobalScope.launch(context = Dispatchers.Main + CoroutineExceptionHandler { _, _ -> }) {
+      withContext(Dispatchers.IO) { loadViewBinding(layoutInflater) }.let { b ->
+        _binding = b
         baseBinding.root.addView(viewBinding.root, ViewGroup.LayoutParams(-1, -1))
-        initStatus()
         initView()
       }
     }
@@ -72,6 +76,22 @@ abstract class BaseBindActivity<T : ViewBinding> : AppCompatActivity() {
       super.onBackPressed()
     }
   }
+  //</editor-fold>
+
+  //<editor-fold defaultstate="collapsed" desc="释放异步耗时">
+  override fun finish() {
+    super.finish()
+    mJobLoading?.cancel()
+  }
+
+  override fun onDestroy() {
+    super.onDestroy()
+    mJobLoading?.cancel()
+  }
+  //</editor-fold>
+
+  //<editor-fold defaultstate="collapsed" desc="判断View是否加载">
+  fun hasLoadedXML() = _binding != null
   //</editor-fold>
 
   //<editor-fold defaultstate="collapsed" desc="子类必须重新的方法">
