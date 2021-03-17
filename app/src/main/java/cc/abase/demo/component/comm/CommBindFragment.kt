@@ -18,18 +18,19 @@ import com.airbnb.lottie.*
 abstract class CommBindFragment<T : ViewBinding> : BaseBindFragment<T>() {
   //<editor-fold defaultstate="collapsed" desc="变量">
   //lottie的加载动画
-  lateinit var loadingView: LottieAnimationView
+  private var loadingView: LottieAnimationView? = null
   //</editor-fold>
 
   //<editor-fold defaultstate="collapsed" desc="初始化">
   override fun onCreateView(i: LayoutInflater, c: ViewGroup?, s: Bundle?): View? {
-    loadingView = LottieAnimationView(mContext)
-    loadingView.setAnimation("loading.json")
-    loadingView.imageAssetsFolder = "images/"
-    loadingView.setRenderMode(RenderMode.HARDWARE)
-    loadingView.repeatCount = LottieDrawable.INFINITE
-    loadingView.repeatMode = LottieDrawable.RESTART
-    loadingView.setOnClickListener { }
+    if (loadingView == null) loadingView = LottieAnimationView(mContext).also {
+      it.setAnimation("loading.json")
+      it.imageAssetsFolder = "images/"
+      it.setRenderMode(RenderMode.HARDWARE)
+      it.repeatCount = LottieDrawable.INFINITE
+      it.repeatMode = LottieDrawable.RESTART
+      it.setOnClickListener { }
+    }
     return super.onCreateView(i, c, s)
   }
   //</editor-fold>
@@ -51,23 +52,23 @@ abstract class CommBindFragment<T : ViewBinding> : BaseBindFragment<T>() {
     bgColor: Int = getLoadingViewBgColor()
   ) {
     val parent = mRootFrameLayout
-    if (loadingView.parent == null && parent != null) {
+    if (loadingView?.parent == null && parent != null) {
       val prams = FrameLayout.LayoutParams(-1, height)
       prams.gravity = gravity
-      loadingView.translationY = transY
-      loadingView.setBackgroundColor(bgColor)
+      loadingView?.translationY = transY
+      loadingView?.setBackgroundColor(bgColor)
       parent.addView(loadingView, prams)
     }
-    loadingView.playAnimation()
+    loadingView?.playAnimation()
   }
 
   //关闭loadingView
   fun dismissLoadingView() {
     removeAllCallbacks()
     runDismissLoading = Runnable {
-      loadingView.pauseAnimation()
-      loadingView.cancelAnimation()
-      loadingView.removeParent()
+      loadingView?.pauseAnimation()
+      loadingView?.cancelAnimation()
+      loadingView?.removeParent()
     }
     //防止获取不到高度
     viewBinding.root.post(runDismissLoading)
