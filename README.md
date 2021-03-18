@@ -22,7 +22,7 @@
 **[MagicIndicator](https://github.com/hackware1993/MagicIndicator/tree/androidx)**|样式齐全的ViewPager指示器
 **[SmartSwipe](https://github.com/luckybilly/SmartSwipe)**|仿微信、小米侧滑返回
 **[SmartRefresh](https://github.com/scwang90/SmartRefreshLayout)**|下拉刷新，兼容性和效果比SmartSwipe好
-**[CacheEmulatorChecker](https://github.com/happylishang/CacheEmulatorChecker)**|下模拟器检测工具
+**[CacheEmulatorChecker](https://github.com/happylishang/CacheEmulatorChecker)**|模拟器检测工具
 **[Leakcanary](https://github.com/square/leakcanary/releases)**|内存泄漏检测工具
 **[Uinspector](https://github.com/YvesCheung/UInspector)**|取代LayoutInspector的UI调试工具(仅限Debug模式)
 **[PictureSelector](https://github.com/LuckSiege/PictureSelector)**|强悍的图片选择，大图预览工具
