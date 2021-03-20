@@ -16,8 +16,8 @@ fun Activity.extFullScreen() {
   window?.let { win ->
     win.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
     win.decorView.systemUiVisibility = (View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-            or View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
-            or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN)
+      or View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
+      or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN)
   }
 }
 
@@ -37,6 +37,7 @@ val Activity.mContext: Activity
   get() {
     return this
   }
+
 //Activity
 val Activity.mActivity: Activity
   get() {
@@ -49,10 +50,7 @@ fun Activity.extKeyBoard(keyCall: (statusHeight: Int, navigationHeight: Int, key
   this.window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN or WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
   this.window.decorView.setOnApplyWindowInsetsListener(object : View.OnApplyWindowInsetsListener {
     var preKeyOffset: Int = 0//键盘高度改变才回调
-    override fun onApplyWindowInsets(
-      v: View?,
-      insets: WindowInsets?
-    ): WindowInsets {
+    override fun onApplyWindowInsets(v: View?, insets: WindowInsets?): WindowInsets {
       insets?.let { ins ->
         val navHeight = ins.systemWindowInsetBottom//下面弹窗到屏幕底部的高度，比如键盘弹出后的键盘+虚拟导航键高度
         val offset = if (navHeight < ins.stableInsetBottom) navHeight
