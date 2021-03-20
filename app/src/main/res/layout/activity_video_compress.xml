@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/videoCompressPlayerParent"
     android:layout_width="match_parent"
@@ -9,19 +8,12 @@
     android:padding="12dp"
     >
 
-  <cc.abase.demo.widget.dkplayer.MyVideoView
-      android:id="@+id/videoCompressPlayer"
-      android:layout_width="match_parent"
-      android:layout_height="match_parent"
-      android:layout_gravity="center"
-      android:visibility="invisible"
-      />
-
   <LinearLayout
       android:layout_width="match_parent"
       android:layout_height="match_parent"
       android:orientation="vertical"
       android:padding="12dp"
+      tools:ignore="UselessParent"
       >
 
     <TextView
@@ -30,10 +22,10 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:background="@drawable/shape_half_dark_green"
+        android:paddingBottom="5dp"
+        android:paddingEnd="10dp"
         android:paddingStart="10dp"
         android:paddingTop="5dp"
-        android:paddingEnd="10dp"
-        android:paddingBottom="5dp"
         android:text="@string/play_compress_video"
         android:textColor="@color/white"
         android:textSize="14sp"
@@ -45,10 +37,10 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:background="@drawable/shape_half_dark_green"
+        android:paddingBottom="5dp"
+        android:paddingEnd="10dp"
         android:paddingStart="10dp"
         android:paddingTop="5dp"
-        android:paddingEnd="10dp"
-        android:paddingBottom="5dp"
         android:text="@string/select_a_video"
         android:textColor="@color/white"
         android:textSize="14sp"
@@ -60,10 +52,10 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:background="@drawable/shape_half_dark_green"
+        android:paddingBottom="5dp"
+        android:paddingEnd="10dp"
         android:paddingStart="10dp"
         android:paddingTop="5dp"
-        android:paddingEnd="10dp"
-        android:paddingBottom="5dp"
         android:text="@string/start_compress"
         android:textColor="@color/white"
         android:textSize="14sp"
@@ -75,10 +67,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:maxWidth="180dp"
+        android:paddingBottom="5dp"
+        android:paddingEnd="10dp"
         android:paddingStart="10dp"
         android:paddingTop="5dp"
-        android:paddingEnd="10dp"
-        android:paddingBottom="5dp"
         android:scrollbars="vertical"
         android:shadowColor="@color/black"
         android:shadowDx="1"

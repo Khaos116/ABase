@@ -7,7 +7,9 @@ import android.content.Intent
 import android.content.pm.ActivityInfo
 import android.media.MediaMetadataRetriever
 import android.text.method.ScrollingMovementMethod
+import android.view.Gravity
 import android.view.LayoutInflater
+import android.widget.FrameLayout
 import android.widget.ScrollView
 import cc.ab.base.ext.*
 import cc.ab.base.widget.engine.ImageEngine
@@ -16,6 +18,7 @@ import cc.abase.demo.component.comm.CommBindTitleActivity
 import cc.abase.demo.constants.UiConstants
 import cc.abase.demo.databinding.ActivityVideoCompressBinding
 import cc.abase.demo.utils.VideoUtils
+import cc.abase.demo.widget.dkplayer.MyVideoView
 import com.blankj.utilcode.util.FileUtils
 import com.blankj.utilcode.util.LogUtils
 import com.luck.picture.lib.PictureSelector
@@ -47,29 +50,37 @@ class VideoCompressActivity : CommBindTitleActivity<ActivityVideoCompressBinding
   //压缩后的视频地址
   private var compressVideoPath: String? = null
 
+  //播放器(由于ViewBinding加载XML存在问题，所以改为代码加载)
+  private lateinit var videoCompressPlayer: MyVideoView
+
   @SuppressLint("SetTextI18n")
   override fun initContentView() {
     setTitleText(R.string.video_compress_title.xmlToString())
     viewBinding.videoCompressCompress.alpha = UiConstants.disable_alpha
     viewBinding.videoCompressCompress.isEnabled = false
+    videoCompressPlayer = MyVideoView(mContext)
+    val params = FrameLayout.LayoutParams(-1, -1)
+    params.gravity = Gravity.CENTER
+    viewBinding.root.addView(videoCompressPlayer, 0, params)
+    videoCompressPlayer.invisible()
     viewBinding.videoCompressSel.click {
-      viewBinding.videoCompressPlayer.release()
-      viewBinding.videoCompressPlayer.clearCover()
-      viewBinding.videoCompressPlayer.gone()
+      videoCompressPlayer.release()
+      videoCompressPlayer.clearCover()
+      videoCompressPlayer.gone()
       mCompressProgress = 0
       viewBinding.videoCompressResult.text = ""
       mHeadInfo = ""
       //https://github.com/LuckSiege/PictureSelector/wiki/PictureSelector-Api%E8%AF%B4%E6%98%8E
       PictureSelector.create(this)
-          .openGallery(PictureMimeType.ofVideo())
-          .imageEngine(ImageEngine())
-          .isCamera(false)
-          .isPageStrategy(true, PictureConfig.MAX_PAGE_SIZE, true) //过滤掉已损坏的
-          .maxSelectNum(1)
-          .queryMaxFileSize(1024f)
-          .isPreviewVideo(true)
-          .setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
-          .forResult(PictureConfig.CHOOSE_REQUEST)
+        .openGallery(PictureMimeType.ofVideo())
+        .imageEngine(ImageEngine())
+        .isCamera(false)
+        .isPageStrategy(true, PictureConfig.MAX_PAGE_SIZE, true) //过滤掉已损坏的
+        .maxSelectNum(1)
+        .queryMaxFileSize(1024f)
+        .isPreviewVideo(true)
+        .setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
+        .forResult(PictureConfig.CHOOSE_REQUEST)
     }
     //内部可滚动 https://www.jianshu.com/p/7a02253cd23e
     viewBinding.videoCompressResult.movementMethod = ScrollingMovementMethod.getInstance()
@@ -82,28 +93,28 @@ class VideoCompressActivity : CommBindTitleActivity<ActivityVideoCompressBinding
         viewBinding.videoCompressCompress.alpha = UiConstants.disable_alpha
         viewBinding.videoCompressCompress.isEnabled = false
         VideoUtils.startCompressed(File(path),
-            result = { suc, info ->
-              viewBinding.videoCompressSel.alpha = 1f
-              viewBinding.videoCompressSel.isEnabled = true
-              viewBinding.videoCompressCompress.alpha = 1f
-              viewBinding.videoCompressCompress.isEnabled = true
-              if (suc) {
-                compressVideoPath = info
-                viewBinding.videoCompressPlay.text = "播放本地压缩视频"
-                viewBinding.videoCompressResult.append("\n压缩成功:$info")
-                viewBinding.videoCompressResult.append("\n压缩后视频大小:${FileUtils.getSize(info)}")
-              } else {
-                viewBinding.videoCompressResult.append("\n$info")
-              }
-            },
-            pro = { p ->
-              val progress = p.toInt()
-              if (progress > mCompressProgress) {
-                mCompressProgress = progress
-                if (mHeadInfo.isBlank()) mHeadInfo = viewBinding.videoCompressResult.text.toString()
-                viewBinding.videoCompressResult.text = "${mHeadInfo}\n压缩进度:${progress}%"
-              }
-            })
+          result = { suc, info ->
+            viewBinding.videoCompressSel.alpha = 1f
+            viewBinding.videoCompressSel.isEnabled = true
+            viewBinding.videoCompressCompress.alpha = 1f
+            viewBinding.videoCompressCompress.isEnabled = true
+            if (suc) {
+              compressVideoPath = info
+              viewBinding.videoCompressPlay.text = "播放本地压缩视频"
+              viewBinding.videoCompressResult.append("\n压缩成功:$info")
+              viewBinding.videoCompressResult.append("\n压缩后视频大小:${FileUtils.getSize(info)}")
+            } else {
+              viewBinding.videoCompressResult.append("\n$info")
+            }
+          },
+          pro = { p ->
+            val progress = p.toInt()
+            if (progress > mCompressProgress) {
+              mCompressProgress = progress
+              if (mHeadInfo.isBlank()) mHeadInfo = viewBinding.videoCompressResult.text.toString()
+              viewBinding.videoCompressResult.text = "${mHeadInfo}\n压缩进度:${progress}%"
+            }
+          })
       }
     }
     viewBinding.videoCompressPlay.click { VideoDetailActivity.startActivity(mContext, compressVideoPath) }
@@ -113,7 +124,7 @@ class VideoCompressActivity : CommBindTitleActivity<ActivityVideoCompressBinding
   private var mHeadInfo = ""
 
   private fun initPlayer(videoPath: String) {
-    viewBinding.videoCompressPlayer.let { videoView ->
+    videoCompressPlayer.let { videoView ->
       //设置尺寸
       val size = getVideoSize(videoPath)
       val parent = viewBinding.videoCompressPlayerParent
