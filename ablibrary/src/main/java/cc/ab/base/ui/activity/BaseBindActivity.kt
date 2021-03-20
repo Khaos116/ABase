@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewbinding.ViewBinding
 import cc.ab.base.databinding.BaseActivityBinding
+import cc.ab.base.ext.logE
 import cc.ab.base.ext.visibleGone
 import com.gyf.immersionbar.ktx.immersionBar
 import kotlinx.coroutines.*
@@ -42,7 +43,7 @@ abstract class BaseBindActivity<T : ViewBinding> : AppCompatActivity() {
     setContentView(baseBinding.root)
     baseBinding.baseStatusView.visibleGone(fillStatus())
     //异步加载布局，可以实现快速打开页面
-    mJobLoading = GlobalScope.launch(context = Dispatchers.Main + CoroutineExceptionHandler { _, _ -> }) {
+    mJobLoading = GlobalScope.launch(context = Dispatchers.Main + CoroutineExceptionHandler { _, e ->e.logE() }) {
       withContext(Dispatchers.IO) { loadViewBinding(layoutInflater) }.let { b ->
         _binding = b
         baseBinding.root.addView(viewBinding.root, ViewGroup.LayoutParams(-1, -1))
