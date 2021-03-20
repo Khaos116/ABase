@@ -1,8 +1,8 @@
 package cc.abase.demo.component.bottomsheet
 
-import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
-import android.view.*
+import android.view.Gravity
+import android.view.LayoutInflater
 import androidx.recyclerview.widget.LinearLayoutManager
 import cc.ab.base.ext.*
 import cc.abase.demo.R
@@ -15,7 +15,6 @@ import cc.abase.demo.item.DividerItem
 import cc.abase.demo.item.SimpleTxtItem
 import com.blankj.utilcode.util.ColorUtils
 import com.drakeet.multitype.MultiTypeAdapter
-import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 
 /**
@@ -74,15 +73,15 @@ class BottomSheetActivity : CommBindTitleActivity<ActivityBottomSheetBinding>() 
     mAdapter.items = items
     mAdapter.notifyDataSetChanged()
     //宽度全屏
-    mBottomSheetDialog = BottomSheetDialog(mContext, android.R.style.Theme_Material_DialogWhenLarge_NoActionBar)
-    //设置弹窗的View
-    mBottomSheetDialog?.setContentView(binding.root)
-    //去除默认背景色
-    mBottomSheetDialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-    (binding.root.parent as? View)?.let { v ->
-      (v.parent?.parent as? View)?.setBackgroundColor(R.color.black_50.xmlToColor())
+    mBottomSheetDialog = BottomSheetDialog(mContext, android.R.style.Theme_Material_DialogWhenLarge_NoActionBar).also { bsd ->
+      //点击外部可关闭
+      bsd.setCanceledOnTouchOutside(true)
+      //设置弹窗的View
+      bsd.setContentView(binding.root)
+      //去除默认背景色
+      bsd.window?.setBackgroundDrawable(ColorDrawable(R.color.black_70.xmlToColor()))
       //设置默认弹窗高度
-      BottomSheetBehavior.from<View>(v).peekHeight = (mContentView.height * 3 / 5f).toInt()
+      bsd.behavior.peekHeight = (mContentView.height * 3 / 5f).toInt()
     }
   }
   //</editor-fold>
