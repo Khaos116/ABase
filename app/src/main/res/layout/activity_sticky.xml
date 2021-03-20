@@ -12,20 +12,4 @@
       android:layout_width="match_parent"
       android:layout_height="match_parent"
       />
-
-  <com.dlong.rep.dlsidebar.DLSideBar
-      android:id="@+id/stickyBar"
-      android:layout_width="40dp"
-      android:layout_height="match_parent"
-      android:layout_gravity="end"
-      app:dialogTextBackground="@drawable/shape_corner5_black35"
-      app:dialogTextBackgroundHeight="70dp"
-      app:dialogTextBackgroundWidth="70dp"
-      app:dialogTextColor="@color/colorAccent"
-      app:dialogTextSize="20sp"
-      app:sideBackground="#59ffbb33"
-      app:sideTextArray="@array/a_z"
-      app:sideTextColor="@color/colorPrimaryDark"
-      app:sideTextSelectColor="@color/colorAccent"
-      app:sideTextSize="16sp" />
 </FrameLayout>

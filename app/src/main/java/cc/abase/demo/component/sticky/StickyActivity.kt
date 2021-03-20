@@ -6,8 +6,7 @@ import android.graphics.Color
 import android.view.LayoutInflater
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
-import cc.ab.base.ext.mActivity
-import cc.ab.base.ext.toast
+import cc.ab.base.ext.*
 import cc.ab.base.ui.viewmodel.DataState
 import cc.abase.demo.R
 import cc.abase.demo.bean.local.DividerBean
@@ -20,6 +19,7 @@ import cc.abase.demo.item.*
 import cc.abase.demo.sticky.StickyAnyAdapter
 import cc.abase.demo.sticky.StickyHeaderLinearLayoutManager
 import com.blankj.utilcode.util.StringUtils
+import com.dlong.rep.dlsidebar.DLSideBar
 import com.jeremyliao.liveeventbus.LiveEventBus
 
 /**
@@ -69,7 +69,9 @@ class StickyActivity : CommBindTitleActivity<ActivityStickyBinding>() {
     setTitleText(StringUtils.getString(R.string.title_sticky))
     val manager = StickyHeaderLinearLayoutManager<StickyAnyAdapter>(mActivity, LinearLayoutManager.VERTICAL, false)
     viewBinding.stickyRecycler.layoutManager = manager
-    viewBinding.stickyBar.setOnTouchingLetterChangedListener { tag ->
+    //由于自定义的DLSideBar里面dialog存在ViewBinding无法直接调用的异常(XML里面无法加载)，所以改为动态添加
+    val viewBar = LayoutInflater.from(mContext).inflate(R.layout.merge_side_bar, viewBinding.root, true)
+    viewBar.findViewById<DLSideBar>(R.id.stickyBar).setOnTouchingLetterChangedListener { tag ->
       val position = multiTypeAdapter.items.indexOfFirst { c -> c is ProvinceBean && c.pinYinFirst?.substring(0, 1) == tag }
       if (position >= 0) manager.scrollToPositionWithOffset(position, 0)
     }
