@@ -1,5 +1,7 @@
 package cc.abase.demo.component.bottomsheet
 
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.view.*
 import androidx.recyclerview.widget.LinearLayoutManager
 import cc.ab.base.ext.*
@@ -15,7 +17,6 @@ import com.blankj.utilcode.util.ColorUtils
 import com.drakeet.multitype.MultiTypeAdapter
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
-import kotlin.math.roundToInt
 
 /**
  * @Description
@@ -73,22 +74,16 @@ class BottomSheetActivity : CommBindTitleActivity<ActivityBottomSheetBinding>() 
     mAdapter.items = items
     mAdapter.notifyDataSetChanged()
     //宽度全屏
-    mBottomSheetDialog = BottomSheetDialog(mContext)
+    mBottomSheetDialog = BottomSheetDialog(mContext, android.R.style.Theme_Material_DialogWhenLarge_NoActionBar)
     //设置弹窗的View
     mBottomSheetDialog?.setContentView(binding.root)
     //去除默认背景色
-    (binding.root.parent as? View)?.setBackgroundResource(android.R.color.transparent)
-    //设置默认弹窗高度
-    BottomSheetBehavior.from<View>(binding.root.parent as View).peekHeight = getPeekHeight()
-  }
-  //</editor-fold>
-
-  //<editor-fold defaultstate="collapsed" desc="设置弹窗内容默认高度">
-  //弹窗高度，默认为屏幕高度的四分之三
-  private fun getPeekHeight(): Int {
-    val peekHeight = resources.displayMetrics.heightPixels
-    //设置弹窗高度为屏幕高度的3/4
-    return (peekHeight * 3f / 4).roundToInt()
+    mBottomSheetDialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+    (binding.root.parent as? View)?.let { v ->
+      (v.parent?.parent as? View)?.setBackgroundColor(R.color.black_50.xmlToColor())
+      //设置默认弹窗高度
+      BottomSheetBehavior.from<View>(v).peekHeight = (mContentView.height * 3 / 5f).toInt()
+    }
   }
   //</editor-fold>
 }
