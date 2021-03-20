@@ -101,13 +101,15 @@ class ChatActivity : CommBindTitleActivity<ActivityChatBinding>() {
 
   //初始化emoji
   private fun initEmoji() {
+    //SOFT_INPUT_ADJUST_RESIZE才能正确监听键盘高度
+    this.window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN or WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
     emojiPopup = EmojiPopup.Builder.fromRootView(mContentView)
-        .setOnEmojiPopupShownListener { viewBinding.chatKeyEmoji.setImageResource(R.drawable.svg_keyboard) }
-        .setOnEmojiPopupDismissListener { viewBinding.chatKeyEmoji.setImageResource(R.drawable.svg_emoji) }
-        .setOnSoftKeyboardOpenListener { keyHeight -> changeKeyHeight(keyHeight) }
-        .setOnSoftKeyboardCloseListener { changeKeyHeight(0) }
-        .setKeyboardAnimationStyle(R.style.emoji_fade_animation_style)
-        .build(viewBinding.chatEdit)
+      .setOnEmojiPopupShownListener { viewBinding.chatKeyEmoji.setImageResource(R.drawable.svg_keyboard) }
+      .setOnEmojiPopupDismissListener { viewBinding.chatKeyEmoji.setImageResource(R.drawable.svg_emoji) }
+      .setOnSoftKeyboardOpenListener { keyHeight -> changeKeyHeight(keyHeight) }
+      .setOnSoftKeyboardCloseListener { changeKeyHeight(0) }
+      .setKeyboardAnimationStyle(R.style.emoji_fade_animation_style)
+      .build(viewBinding.chatEdit)
     viewBinding.chatKeyEmoji.click { emojiPopup?.toggle() }
   }
 
