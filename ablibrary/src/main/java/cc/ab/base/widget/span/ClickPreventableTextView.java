@@ -3,13 +3,12 @@ package cc.ab.base.widget.span;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Color;
+import android.graphics.Rect;
 import android.text.Spannable;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
-
 import androidx.appcompat.widget.AppCompatTextView;
-
 
 /**
  * description: 解决有SpanClick点击事件和TextView点击事件同时出发的TextView.
@@ -41,9 +40,13 @@ public class ClickPreventableTextView extends AppCompatTextView implements View.
     setMovementMethod(new LinkTouchMovementMethod());
   }
 
+  private Rect rect = new Rect();
+
   @SuppressLint("ClickableViewAccessibility")
   @Override
   public boolean onTouchEvent(MotionEvent event) {
+    getLocalVisibleRect(rect);
+    if (!rect.contains((int) event.getX(), (int) (event.getY()))) return true;
     if (getMovementMethod() != null) {
       getMovementMethod().onTouchEvent(this, (Spannable) getText(), event);
     }
