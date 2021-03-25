@@ -109,7 +109,7 @@ class BiometricM(val app: Application) : BiometricInterface {
           }
 
           override fun onAuthenticationHelp(helpCode: Int, helpString: CharSequence?) {
-            mDialog?.viewBinding?.commAlertContent?.text = (helpString.toString())
+            mDialog?.getMyViewBinding()?.commAlertContent?.text = (helpString.toString())
             mErrorCall?.invoke(helpCode, helpString.toString())
           }
 
