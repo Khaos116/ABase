@@ -21,8 +21,8 @@ import com.blankj.utilcode.util.ActivityUtils
  */
 abstract class BaseBindFragmentDialog<T : ViewBinding> : DialogFragment() {
   //<editor-fold defaultstate="collapsed" desc="变量">
-  private var _binding: T? = null
-  val viewBinding: T get() = _binding!!
+  protected var _binding: T? = null
+  protected val viewBinding: T get() = _binding!!
 
   //弹窗布局位置相关
   var mWidth = LayoutParams.WRAP_CONTENT
@@ -120,6 +120,22 @@ abstract class BaseBindFragmentDialog<T : ViewBinding> : DialogFragment() {
   override fun onDismiss(dialog: DialogInterface) {
     dismissCallback?.invoke()
     super.onDismiss(dialog)
+  }
+
+  override fun onResume() {
+    super.onResume()
+    _binding?.root?.postDelayed(mRunnableAnim, 300)
+  }
+
+  override fun onPause() {
+    _binding?.root?.removeCallbacks(mRunnableAnim)
+    dialog?.window?.setWindowAnimations(0)
+    super.onPause()
+  }
+
+  //窗口动画，不移除掉，每次重新恢复页面都要执行
+  private val mRunnableAnim = Runnable {
+    mAnimation?.let { a -> dialog?.window?.setWindowAnimations(a) }
   }
 
   override fun onDestroy() {
