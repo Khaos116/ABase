@@ -19,7 +19,7 @@ import cc.abase.demo.widget.MarqueeTextView
  * @Date：2021/1/13
  * @Time：13:08
  */
-class VerticalMarqueeTextView @JvmOverloads constructor(c: Context, a: AttributeSet? = null, d: Int = 0) : FrameLayout(c, a, d) {
+class VerticalMarqueeTextView @kotlin.jvm.JvmOverloads constructor(c: Context, a: AttributeSet? = null, d: Int = 0) : FrameLayout(c, a, d) {
   //<editor-fold defaultstate="collapsed" desc="变量">
   private val mTv1 = MarqueeTextView(context)
   private val mTv2 = MarqueeTextView(context)

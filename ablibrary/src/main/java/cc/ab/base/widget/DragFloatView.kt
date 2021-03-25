@@ -19,7 +19,7 @@ import kotlin.math.abs
  * @Date：2021/1/14
  * @Time：9:55
  */
-class DragFloatView @JvmOverloads constructor(c: Context, a: AttributeSet? = null, d: Int = 0) : FrameLayout(c, a, d) {
+class DragFloatView @kotlin.jvm.JvmOverloads constructor(c: Context, a: AttributeSet? = null, d: Int = 0) : FrameLayout(c, a, d) {
   //<editor-fold defaultstate="collapsed" desc="初始化">
   init {
     setBackgroundResource(R.drawable.shape_circle_primary)

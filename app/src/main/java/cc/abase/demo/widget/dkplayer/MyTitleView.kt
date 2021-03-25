@@ -20,7 +20,7 @@ import com.dueeeke.videoplayer.util.PlayerUtils
  * Date:2020/12/24
  * Time:18:41
  */
-class MyTitleView(c: Context, a: AttributeSet? = null, d: Int = 0) : TitleView(c, a, d) {
+class MyTitleView @kotlin.jvm.JvmOverloads constructor(c: Context, a: AttributeSet? = null, d: Int = 0) : TitleView(c, a, d) {
   //<editor-fold defaultstate="collapsed" desc="变量">
   //进入全屏前返回按钮的显示状态
   var noFullBackVisibility = View.VISIBLE

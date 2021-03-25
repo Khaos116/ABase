@@ -12,7 +12,7 @@ import android.webkit.WebView
  * @author: CASE
  * @date: 2019/10/3 16:06
  */
-class LollipopFixedWebView @JvmOverloads constructor(
+class LollipopFixedWebView @kotlin.jvm.JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null
 ) : WebView(getFixedContext(context), attrs) {

@@ -15,7 +15,7 @@ import net.lucode.hackware.magicindicator.MagicIndicator
  * Date:2020-10-20
  * Time:19:34
  */
-class CoordinatorUserLayout @JvmOverloads constructor(
+class CoordinatorUserLayout @kotlin.jvm.JvmOverloads constructor(
   context: Context,
   attrs: AttributeSet? = null,
   defStyleAttr: Int = 0

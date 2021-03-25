@@ -11,7 +11,7 @@ import com.scwang.smart.refresh.footer.ClassicsFooter
  * Date:2020-11-27
  * Time:16:04
  */
-class ClassicsFooter(context: Context, attrs: AttributeSet? = null)
+class ClassicsFooter @kotlin.jvm.JvmOverloads constructor(context: Context, attrs: AttributeSet? = null)
   : ClassicsFooter(context, attrs) {
   override fun setPrimaryColors(vararg colors: Int) {
     if (colors.isNotEmpty()) {

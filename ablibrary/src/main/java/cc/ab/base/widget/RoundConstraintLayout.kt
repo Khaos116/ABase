@@ -15,7 +15,7 @@ import cc.ab.base.R
  * created on: 2020/6/9 10:55
  * description: https://github.com/leidongld/RoundCornerDemmo
  */
-class RoundConstraintLayout @JvmOverloads constructor(c: Context, a: AttributeSet? = null, d: Int = 0) : ConstraintLayout(c, a, d) {
+class RoundConstraintLayout @kotlin.jvm.JvmOverloads constructor(c: Context, a: AttributeSet? = null, d: Int = 0) : ConstraintLayout(c, a, d) {
   private var mCorners: Float = 0f
   private var mLeftTopCorner: Float = 0f
   private var mRightTopCorner: Float = 0f

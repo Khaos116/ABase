@@ -19,7 +19,7 @@ import com.dueeeke.videoplayer.util.PlayerUtils
  * Date:2020/12/24
  * Time:17:50
  */
-class MyVodControlView(c: Context, a: AttributeSet? = null, d: Int = 0) : VodControlView(c, a, d) {
+class MyVodControlView @kotlin.jvm.JvmOverloads constructor(c: Context, a: AttributeSet? = null, d: Int = 0) : VodControlView(c, a, d) {
   //<editor-fold defaultstate="collapsed" desc="重写">
   //重写点击事件，解决竖向全屏问题
   override fun onClick(v: View) {
@@ -46,8 +46,8 @@ class MyVodControlView(c: Context, a: AttributeSet? = null, d: Int = 0) : VodCon
     val size = mControlWrapper.videoSize
     if (size[0] > 0 && size[1] > 0 && size[0] > size[1]) {
       val activity = this.getMyParents().lastOrNull { v -> v.context is Activity }?.let { f -> f.context as Activity }
-          ?: VideoViewManager.instance().get(StringConstants.Tag.FLOAT_PLAY).getMyParents().lastOrNull { v -> v.context is Activity }
-              ?.let { f -> f.context as Activity } ?: PlayerUtils.scanForActivity(context)
+        ?: VideoViewManager.instance().get(StringConstants.Tag.FLOAT_PLAY).getMyParents().lastOrNull { v -> v.context is Activity }
+          ?.let { f -> f.context as Activity } ?: PlayerUtils.scanForActivity(context)
       mControlWrapper.toggleFullScreen(activity)
     } else {
       mControlWrapper.toggleFullScreen()

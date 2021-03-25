@@ -8,7 +8,8 @@ import android.util.AttributeSet
  * @author: CASE
  * @date: 2020/5/12 21:03
  */
-class ClassicFooter(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0)
-  : com.billy.android.swipe.refresh.ClassicFooter(context, attrs, defStyleAttr) {
+class ClassicFooter @kotlin.jvm.JvmOverloads constructor(
+  context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
+) : com.billy.android.swipe.refresh.ClassicFooter(context, attrs, defStyleAttr) {
   override fun onReset() {}
 }

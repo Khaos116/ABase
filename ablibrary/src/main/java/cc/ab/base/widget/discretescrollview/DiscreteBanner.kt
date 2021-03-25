@@ -23,7 +23,7 @@ import kotlin.math.abs
  * @author: CASE
  * @date: 2019/10/14 11:44
  */
-class DiscreteBanner<T, V : ViewBinding> @JvmOverloads constructor(
+class DiscreteBanner<T, V : ViewBinding> @kotlin.jvm.JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0,

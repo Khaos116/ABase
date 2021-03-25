@@ -20,7 +20,7 @@ import com.scwang.smart.refresh.layout.simple.SimpleComponent
  * @Date:2021年1月5日
  * @Time:18:54:13
  */
-open class MidaMusicHeader @JvmOverloads constructor(c: Context, a: AttributeSet? = null, d: Int = 0
+open class MidaMusicHeader @kotlin.jvm.JvmOverloads constructor(c: Context, a: AttributeSet? = null, d: Int = 0
 ) : SimpleComponent(c, a, d), RefreshComponent, RefreshHeader {
 
   //<editor-fold defaultstate="collapsed" desc="变量+XML">

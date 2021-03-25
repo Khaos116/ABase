@@ -13,7 +13,7 @@ import cc.abase.demo.R
  * @author: CASE
  * @date: 2020/4/21 18:42
  */
-class LineView @JvmOverloads constructor(
+class LineView @kotlin.jvm.JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0,
