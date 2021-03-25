@@ -22,13 +22,13 @@ import com.dueeeke.videocontroller.StandardVideoController
  * @Date：2021/3/15
  * @Time：17:57
  */
-abstract class CommBindActivity<T:ViewBinding>:BaseBindActivity<T>() {
+abstract class CommBindActivity<T : ViewBinding> : BaseBindActivity<T>() {
   //<editor-fold defaultstate="collapsed" desc="清理奔溃前的fragment">
   override fun onCreate(savedInstanceState: Bundle?) {
     for (fragment in supportFragmentManager.fragments) {
       supportFragmentManager.beginTransaction()
-          .remove(fragment)
-          .commitAllowingStateLoss()
+        .remove(fragment)
+        .commitAllowingStateLoss()
     }
     super.onCreate(savedInstanceState)
   }
@@ -97,11 +97,11 @@ abstract class CommBindActivity<T:ViewBinding>:BaseBindActivity<T>() {
 
   //<editor-fold defaultstate="collapsed" desc="loading和重试内部调用">
   private fun startLoadingView(
-      msg: String = "",
-      transY: Float = getHoldViewTransY(),
-      height: Int = getHoldViewHeight(),
-      gravity: Int = getHoldViewGravity(),
-      bgColor: Int = getHoldViewBgColor()
+    msg: String = "",
+    transY: Float = getHoldViewTransY(),
+    height: Int = getHoldViewHeight(),
+    gravity: Int = getHoldViewGravity(),
+    bgColor: Int = getHoldViewBgColor()
   ) {
     dismissErrorView()
     if (loadingView == null) {
@@ -126,12 +126,14 @@ abstract class CommBindActivity<T:ViewBinding>:BaseBindActivity<T>() {
     loadingView?.playAnimation()
   }
 
-  private fun startErrorView(msg: String? = "",
-      transY: Float = getHoldViewTransY(),
-      height: Int = getHoldViewHeight(),
-      gravity: Int = getHoldViewGravity(),
-      bgColor: Int = getHoldViewBgColor(),
-      retry: (() -> Unit)? = null) {
+  private fun startErrorView(
+    msg: String? = "",
+    transY: Float = getHoldViewTransY(),
+    height: Int = getHoldViewHeight(),
+    gravity: Int = getHoldViewGravity(),
+    bgColor: Int = getHoldViewBgColor(),
+    retry: (() -> Unit)? = null
+  ) {
     dismissLoadingView()
     if (errorView == null) {
       errorView = TextView(mContext)
@@ -183,7 +185,7 @@ abstract class CommBindActivity<T:ViewBinding>:BaseBindActivity<T>() {
     if (mActionDialog == null) {
       mActionDialog = ActionDialog.newInstance(true)
     }
-    mActionDialog?.onDismiss {
+    mActionDialog?.dismissCallback = {
       mActionDialog = null
     }
     mActionDialog?.let {
