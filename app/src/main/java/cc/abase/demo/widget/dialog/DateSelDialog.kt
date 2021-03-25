@@ -6,7 +6,7 @@ import cc.ab.base.ext.click
 import cc.ab.base.ui.dialog.BaseBindFragmentDialog
 import cc.abase.demo.R
 import cc.abase.demo.databinding.DialogDateSelBinding
-import com.blankj.utilcode.util.*
+import com.blankj.utilcode.util.TimeUtils
 import java.util.Date
 
 /**
@@ -43,12 +43,7 @@ class DateSelDialog : BaseBindFragmentDialog<DialogDateSelBinding>() {
       val dialog = DateSelDialog()
       dialog.mGravity = Gravity.BOTTOM
       dialog.canTouchOutside = touchCancel
-      val ac = ActivityUtils.getTopActivity()
-      if (ac != null && BarUtils.isNavBarVisible(ac)) {
-        dialog.mAnimation = null
-      } else {
-        dialog.mAnimation = R.style.BottomDialogAnimation
-      }
+      dialog.mAnimation = R.style.BottomDialogAnimation
       dialog.mWidth = ViewGroup.LayoutParams.MATCH_PARENT
       return dialog
     }
