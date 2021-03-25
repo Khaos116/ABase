@@ -6,7 +6,7 @@ import cc.ab.base.ext.click
 import cc.ab.base.ui.dialog.BaseBindFragmentDialog
 import cc.abase.demo.R
 import cc.abase.demo.databinding.DialogDateSelBinding
-import com.blankj.utilcode.util.TimeUtils
+import com.blankj.utilcode.util.*
 import java.util.Date
 
 /**
@@ -24,15 +24,15 @@ class DateSelDialog : BaseBindFragmentDialog<DialogDateSelBinding>() {
   //默认选中的日期
   var mDefaultDate = "1997-7-1"
 
-  override fun loadViewBinding(inflater: LayoutInflater) = DialogDateSelBinding.inflate(inflater)
+  override fun loadViewBinding(inflater: LayoutInflater, parent: ViewGroup?) = DialogDateSelBinding.inflate(inflater, parent, parent != null)
 
   override fun initView() {
-    viewBinding.dialogDateView.let {
+    viewBinding?.dialogDateView?.let {
       it.listener = { array -> result = Triple(array[0], array[1], array[2]) }
       it.setDate("1900-1-1", TimeUtils.date2String(Date(), "yyyy-MM-dd"), mDefaultDate)
     }
-    viewBinding.dialogDateCancel.click { dismissAllowingStateLoss() }
-    viewBinding.dialogDateConfirm.click {
+    viewBinding?.dialogDateCancel?.click { dismissAllowingStateLoss() }
+    viewBinding?.dialogDateConfirm?.click {
       dismissAllowingStateLoss()
       result?.let { r -> call?.invoke(r) }
     }
@@ -42,8 +42,13 @@ class DateSelDialog : BaseBindFragmentDialog<DialogDateSelBinding>() {
     fun newInstance(touchCancel: Boolean = true): DateSelDialog {
       val dialog = DateSelDialog()
       dialog.mGravity = Gravity.BOTTOM
-      dialog.touchOutside = touchCancel
-      dialog.mAnimation = R.style.BottomDialogAnimation
+      dialog.canTouchOutside = touchCancel
+      val ac = ActivityUtils.getTopActivity()
+      if (ac != null && BarUtils.isNavBarVisible(ac)) {
+        dialog.mAnimation = null
+      } else {
+        dialog.mAnimation = R.style.BottomDialogAnimation
+      }
       dialog.mWidth = ViewGroup.LayoutParams.MATCH_PARENT
       return dialog
     }

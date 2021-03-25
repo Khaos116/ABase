@@ -1,7 +1,6 @@
 package cc.abase.demo.widget.dialog
 
-import android.view.Gravity
-import android.view.LayoutInflater
+import android.view.*
 import androidx.fragment.app.FragmentManager
 import cc.ab.base.ui.dialog.BaseBindFragmentDialog
 import cc.abase.demo.R
@@ -18,19 +17,19 @@ class ActionDialog : BaseBindFragmentDialog<DialogActionBinding>() {
   //默认提示语
   var hintText: String = StringUtils.getString(R.string.action_loading)
 
-  override fun loadViewBinding(inflater: LayoutInflater) = DialogActionBinding.inflate(inflater)
+  override fun loadViewBinding(inflater: LayoutInflater, parent: ViewGroup?) = DialogActionBinding.inflate(inflater, parent, parent != null)
 
   override fun initView() {
-    viewBinding.dialogActionHint.text = hintText
+    viewBinding?.dialogActionHint?.text = hintText
   }
 
   companion object {
     fun newInstance(
-        touchCancel: Boolean = true
+      touchCancel: Boolean = true
     ): ActionDialog {
       val dialog = ActionDialog()
       dialog.mGravity = Gravity.CENTER
-      dialog.touchOutside = touchCancel
+      dialog.canTouchOutside = touchCancel
       dialog.mWidth = ScreenUtils.getScreenWidth() / 3
       return dialog
     }
@@ -43,10 +42,10 @@ class ActionDialog : BaseBindFragmentDialog<DialogActionBinding>() {
 
 //  DSL style
 inline fun actionDialog(
-    fragmentManager: FragmentManager,
-    dsl: ActionDialog.() -> Unit
+  fragmentManager: FragmentManager,
+  dsl: ActionDialog.() -> Unit
 ) {
   val dialog = ActionDialog.newInstance()
-      .apply(dsl)
+    .apply(dsl)
   dialog.show(fragmentManager)
 }
