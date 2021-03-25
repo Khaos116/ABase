@@ -35,7 +35,7 @@ abstract class BaseBindFragmentDialog<T : ViewBinding> : DialogFragment() {
   var mAnimation: Int? = null
 
   //点击外部是否可以关闭
-  var touchOutside: Boolean = true
+  var canTouchOutside: Boolean = true
 
   //输入法状态
   var mSoftInputMode: Int = WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN
@@ -44,14 +44,19 @@ abstract class BaseBindFragmentDialog<T : ViewBinding> : DialogFragment() {
   var lowerBackground = false
 
   //监听显示和关闭
-  private var showListener: (() -> Unit)? = null
-  private var disListener: (() -> Unit)? = null
+  var showCallback: (() -> Unit)? = null
+  var dismissCallback: (() -> Unit)? = null
   //</editor-fold>
 
   //<editor-fold defaultstate="collapsed" desc="创建和销毁View">
+  override fun onCreate(savedInstanceState: Bundle?) {
+    super.onCreate(savedInstanceState)
+    //setStyle(STYLE_NO_TITLE, android.R.style.Theme_Material_Light_NoActionBar)
+  }
+
   override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-    setStyle()
-    _binding = loadViewBinding(inflater)
+    setMyStyle()
+    _binding = loadViewBinding(inflater, null)
     return viewBinding.root
   }
 
@@ -88,7 +93,7 @@ abstract class BaseBindFragmentDialog<T : ViewBinding> : DialogFragment() {
       //第一次弹窗，添加弹窗时间
       if (!has) list.add(Pair(keyStr, System.currentTimeMillis()))
     }
-    showListener?.invoke()
+    showCallback?.invoke()
     //super.show(manager, tag)
     setBooleanField("mDismissed", false)
     setBooleanField("mShownByMe", true)
@@ -113,28 +118,23 @@ abstract class BaseBindFragmentDialog<T : ViewBinding> : DialogFragment() {
 
   //<editor-fold defaultstate="collapsed" desc="关闭的回调">
   override fun onDismiss(dialog: DialogInterface) {
-    disListener?.invoke()
+    dismissCallback?.invoke()
     super.onDismiss(dialog)
   }
 
   override fun onDestroy() {
     super.onDestroy()
-    disListener = null
+    dismissCallback = null
   }
-
-  fun onDismiss(listener: () -> Unit) {
-    disListener = listener
-  }
-
   //</editor-fold>
 
   //<editor-fold defaultstate="collapsed" desc="弹窗样式">
   //设置弹窗样式
-  private fun setStyle() {
+  private fun setMyStyle() {
     //无标题
-    dialog?.requestWindowFeature(DialogFragment.STYLE_NO_TITLE)
+    dialog?.requestWindowFeature(STYLE_NO_TITLE)
     //外部是否可以点击
-    dialog?.setCanceledOnTouchOutside(touchOutside)
+    dialog?.setCanceledOnTouchOutside(canTouchOutside)
     //获取Window
     dialog?.window?.let { window ->
       // 透明背景
@@ -161,9 +161,13 @@ abstract class BaseBindFragmentDialog<T : ViewBinding> : DialogFragment() {
 
   //<editor-fold defaultstate="collapsed" desc="子类需要重新的方法">
   //获取XML
-  protected abstract fun loadViewBinding(inflater: LayoutInflater): T
+  protected abstract fun loadViewBinding(inflater: LayoutInflater, container: ViewGroup?): T
 
   //懒加载初始化
   protected abstract fun initView()
+  //</editor-fold>
+
+  //<editor-fold defaultstate="collapsed" desc="外部调用ViewBinding">
+  fun getMyViewBinding(): T? = _binding
   //</editor-fold>
 }
