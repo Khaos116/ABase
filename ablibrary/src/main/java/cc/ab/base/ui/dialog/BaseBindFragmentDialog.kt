@@ -62,6 +62,15 @@ abstract class BaseBindFragmentDialog<T : ViewBinding> : DialogFragment() {
 
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
     super.onViewCreated(view, savedInstanceState)
+    //监听返回按钮
+    dialog?.setOnKeyListener { _, keyCode, event ->
+      if (keyCode == KeyEvent.KEYCODE_BACK && event.action == KeyEvent.ACTION_DOWN) {
+        dismissAfterAnim()
+        true
+      } else {
+        false
+      }
+    }
     initView()
   }
 
@@ -172,6 +181,12 @@ abstract class BaseBindFragmentDialog<T : ViewBinding> : DialogFragment() {
         window.attributes = wlp
       }
     }
+  }
+  //</editor-fold>
+
+  //<editor-fold defaultstate="collapsed" desc="需要执行动画后的关闭，自己重写">
+  protected open fun dismissAfterAnim() {
+    dismissAllowingStateLoss()
   }
   //</editor-fold>
 
