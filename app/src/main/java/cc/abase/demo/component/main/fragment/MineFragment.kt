@@ -141,8 +141,8 @@ class MineFragment : CommBindFragment<FragmentMineBinding>() {
         stb.cls = p.second
         stb.textColor = typeColor
         stb.gravity = Gravity.CENTER_VERTICAL
-        stb.paddingBottomPx = 15.dp2Px()
-        stb.paddingTopPx = 15.dp2Px()
+        stb.paddingBottomPx = 15.dp2px()
+        stb.paddingTopPx = 15.dp2px()
       })
     }
     //获取积分
@@ -171,7 +171,7 @@ class MineFragment : CommBindFragment<FragmentMineBinding>() {
       }
     }
     //高度比ScrollView高一个背景的高度
-    viewBinding.mineScrollView.post { viewBinding.mineRecyclerParent.layoutParams.height = viewBinding.mineScrollView.height + 70.dp2Px() }
+    viewBinding.mineScrollView.post { viewBinding.mineRecyclerParent.layoutParams.height = viewBinding.mineScrollView.height + 70.dp2px() }
     //点击积分打开日期
     viewBinding.mineIntegral.click {
       dateSelDialog(childFragmentManager, lastYMD) {

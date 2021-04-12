@@ -66,8 +66,8 @@ class BottomSheetActivity : CommBindTitleActivity<ActivityBottomSheetBinding>() 
       items.add(SimpleTxtBean(txt = "这是第${i}条数据").also { stb ->
         stb.textColor = typeColor
         stb.gravity = Gravity.CENTER_VERTICAL
-        stb.paddingBottomPx = 15.dp2Px()
-        stb.paddingTopPx = 15.dp2Px()
+        stb.paddingBottomPx = 15.dp2px()
+        stb.paddingTopPx = 15.dp2px()
       })
     }
     mAdapter.items = items

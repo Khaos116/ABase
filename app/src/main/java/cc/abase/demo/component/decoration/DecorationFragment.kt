@@ -4,7 +4,7 @@ import android.graphics.Color
 import android.view.*
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.GridLayoutManager.SpanSizeLookup
-import cc.ab.base.ext.dp2Px
+import cc.ab.base.ext.dp2px
 import cc.ab.base.ext.toast
 import cc.abase.demo.bean.local.SimpleTxtBean
 import cc.abase.demo.component.comm.CommBindFragment
@@ -46,7 +46,7 @@ class DecorationFragment : CommBindFragment<FragmentDecorationBinding>() {
 
   //<editor-fold defaultstate="collapsed" desc="懒加载">
   override fun lazyInit() {
-    multiTypeAdapter.register(SimpleTxtItem(height = 70.dp2Px(), bgColor = Color.CYAN).also { it.onItemClick = { bean -> bean.txt.toast() } })
+    multiTypeAdapter.register(SimpleTxtItem(height = 70.dp2px(), bgColor = Color.CYAN).also { it.onItemClick = { bean -> bean.txt.toast() } })
     //页面重建View不再重新设置
     if (viewBinding.decorRecycler.itemDecorationCount == 0) {
       val decorator = if (mType != 8) {
@@ -82,7 +82,7 @@ class DecorationFragment : CommBindFragment<FragmentDecorationBinding>() {
     val items = mutableListOf<Any>()
     for (i in 1..30) {
       items.add(SimpleTxtBean(txt = "我是第${i}个元素").also { stb ->
-        stb.textSizePx = 12.dp2Px() * 1f
+        stb.textSizePx = 12.dp2px() * 1f
         stb.gravity = Gravity.CENTER
       })
     }

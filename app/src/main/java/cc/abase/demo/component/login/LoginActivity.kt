@@ -104,9 +104,9 @@ class LoginActivity : CommBindActivity<ActivityLoginBinding>() {
         array1[1] = array1[1] + viewBinding.loginRoot.height
         array2[1] = array2[1] + viewBinding.loginSubmit.height
         array3[1] = array3[1] + viewBinding.loginInputPassword.height
-        viewBinding.loginSubmit.translationY = (keyBoardHeight - (array1[1] - array2[1])) * -1f - 10.dp2Px()
-        if (array1[1] - array3[1] < viewBinding.loginSubmit.height + 10.dp2Px()) {
-          viewBinding.loginInputPassword.translationY = (viewBinding.loginSubmit.height - (array1[1] - array3[1])) * -1f - 20.dp2Px()
+        viewBinding.loginSubmit.translationY = (keyBoardHeight - (array1[1] - array2[1])) * -1f - 10.dp2px()
+        if (array1[1] - array3[1] < viewBinding.loginSubmit.height + 10.dp2px()) {
+          viewBinding.loginInputPassword.translationY = (viewBinding.loginSubmit.height - (array1[1] - array3[1])) * -1f - 20.dp2px()
           viewBinding.loginInputAccount.translationY = viewBinding.loginInputPassword.translationY
         }
       } else {

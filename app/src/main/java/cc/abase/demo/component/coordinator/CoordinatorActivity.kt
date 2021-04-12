@@ -112,8 +112,8 @@ class CoordinatorActivity : CommBindActivity<ActivityCoordinatorBinding>() {
           indicator.mode = LinePagerIndicator.MODE_WRAP_CONTENT
           indicator.startInterpolator = AccelerateInterpolator()
           indicator.endInterpolator = DecelerateInterpolator(1.6f)
-          indicator.yOffset = 8.dp2Px() * 1f
-          indicator.lineHeight = 2.dp2Px() * 1f
+          indicator.yOffset = 8.dp2px() * 1f
+          indicator.lineHeight = 2.dp2px() * 1f
           indicator.roundRadius = indicator.lineHeight / 2f
           indicator.setColors(R.color.yellow_FF6100.xmlToColor())
           return indicator

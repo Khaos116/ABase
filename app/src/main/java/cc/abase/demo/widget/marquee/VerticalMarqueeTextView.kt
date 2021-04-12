@@ -9,7 +9,7 @@ import android.text.Html
 import android.util.AttributeSet
 import android.view.Gravity
 import android.widget.FrameLayout
-import cc.ab.base.ext.dp2Px
+import cc.ab.base.ext.dp2px
 import cc.abase.demo.R
 import cc.abase.demo.widget.MarqueeTextView
 
@@ -24,7 +24,7 @@ class VerticalMarqueeTextView @kotlin.jvm.JvmOverloads constructor(c: Context, a
   private val mTv1 = MarqueeTextView(context)
   private val mTv2 = MarqueeTextView(context)
   private var isFirstSize = true
-  private var mHeight: Float = 22.dp2Px() * 1f
+  private var mHeight: Float = 22.dp2px() * 1f
   private var isAnim = false
   //</editor-fold>
 
@@ -45,8 +45,8 @@ class VerticalMarqueeTextView @kotlin.jvm.JvmOverloads constructor(c: Context, a
     mTv1.setTextColor(textColor)
     mTv2.setTextColor(textColor)
     //内部间距
-    val paddingStartEnd = 11.dp2Px()
-    val paddingTopTxt = 1.dp2Px()
+    val paddingStartEnd = 11.dp2px()
+    val paddingTopTxt = 1.dp2px()
     mTv1.setPadding(paddingStartEnd, paddingTopTxt, paddingStartEnd, 0)
     mTv2.setPadding(paddingStartEnd, paddingTopTxt, paddingStartEnd, 0)
     addView(mTv1, FrameLayout.LayoutParams(-1, -1))

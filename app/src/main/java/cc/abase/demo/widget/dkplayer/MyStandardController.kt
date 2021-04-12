@@ -99,14 +99,14 @@ class MyStandardController : StandardVideoController {
       params.gravity = Gravity.CENTER_HORIZONTAL
       params.topMargin = if (mControlWrapper.isFullScreen) { //全屏
         speedTv.textSize = 14f
-        35.dp2Px() + if (w < h) mControlWrapper.cutoutHeight else 0 //竖向全屏需要兼容状态栏
+        35.dp2px() + if (w < h) mControlWrapper.cutoutHeight else 0 //竖向全屏需要兼容状态栏
       } else { //非全屏
         speedTv.textSize = 12f
-        if (fitStatus && fitTitle) (BarUtils.getStatusBarHeight() + 35.dp2Px())
-        else if (fitStatus) (BarUtils.getStatusBarHeight() + 5.dp2Px())
-        else if (fitTitle) 35.dp2Px()
-        else if (isInList) 5.dp2Px()
-        else 35.dp2Px()
+        if (fitStatus && fitTitle) (BarUtils.getStatusBarHeight() + 35.dp2px())
+        else if (fitStatus) (BarUtils.getStatusBarHeight() + 5.dp2px())
+        else if (fitTitle) 35.dp2px()
+        else if (isInList) 5.dp2px()
+        else 35.dp2px()
       }
       addView(speedTv, params)
       if (!mControlWrapper.isShowing) mControlWrapper.show()

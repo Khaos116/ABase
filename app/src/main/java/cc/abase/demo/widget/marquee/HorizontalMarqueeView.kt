@@ -104,8 +104,8 @@ class HorizontalMarqueeView : FrameLayout {
         tv.gravity = Gravity.CENTER_VERTICAL
         tv.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14f)
         tv.setBackgroundColor(Color.LTGRAY)
-        tv.setPadding(5.dp2Px(), 0, 5.dp2Px(), 0)
-      }, MarginLayoutParams(-2, -1).also { p -> p.marginEnd = 20.dp2Px() })
+        tv.setPadding(5.dp2px(), 0, 5.dp2px(), 0)
+      }, MarginLayoutParams(-2, -1).also { p -> p.marginEnd = 20.dp2px() })
     })
 
     //绑定数据

@@ -20,14 +20,6 @@ fun Int.xmlToast() {
   StringUtils.getString(this).toast()
 }
 
-fun Number.dp2Px(): Int {
-  return SizeUtils.dp2px(this.toFloat())
-}
-
-fun Number.sp2Px(): Int {
-  return SizeUtils.sp2px(this.toFloat())
-}
-
 fun Int.toDrawable(mContext: Context): Drawable? {
   return if (this <= 0) null else ContextCompat.getDrawable(mContext, this)
 }

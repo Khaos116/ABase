@@ -27,7 +27,7 @@ class RecyclerPagerHolderCreator : DiscreteHolderCreator<VerticalPageBean, ItemV
         //数据填充
         override fun updateUI(data: VerticalPageBean?, binding: ItemVerticalPageParentBinding, position: Int, count: Int) {
           val h = (binding.itemRecyclePagerContainer.context as? Activity)?.mContentView?.height ?: ScreenUtils.getScreenHeight()
-          val height = h - BarUtils.getStatusBarHeight() - 49.dp2Px()
+          val height = h - BarUtils.getStatusBarHeight() - 49.dp2px()
           data?.cover?.let {
             if (it.isVideoUrl()) {
               binding.itemRecyclePagerCover.loadNetVideoCover(it, ScreenUtils.getScreenWidth() * 1f / height, hasHolder = false)

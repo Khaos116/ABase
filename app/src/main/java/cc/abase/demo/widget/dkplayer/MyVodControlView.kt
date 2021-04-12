@@ -4,7 +4,7 @@ import android.app.Activity
 import android.content.Context
 import android.util.AttributeSet
 import android.view.View
-import cc.ab.base.ext.dp2Px
+import cc.ab.base.ext.dp2px
 import cc.ab.base.ext.getMyParents
 import cc.abase.demo.constants.StringConstants
 import com.dueeeke.videocontroller.R
@@ -60,7 +60,7 @@ class MyVodControlView @kotlin.jvm.JvmOverloads constructor(c: Context, a: Attri
     findViewById<View>(R.id.fullscreen)?.let { iv -> //全屏按钮处理
       iv.visibility = visible
       findViewById<View>(R.id.total_time)?.let { tv -> //时间间距处理
-        (tv.layoutParams as? MarginLayoutParams)?.marginEnd = if (visible == View.GONE) 10.dp2Px() else 0
+        (tv.layoutParams as? MarginLayoutParams)?.marginEnd = if (visible == View.GONE) 10.dp2px() else 0
       }
     }
   }

@@ -76,9 +76,9 @@ class RegisterActivity : CommBindTitleActivity<ActivityRegisterBinding>() {
         array1[1] = array1[1] + viewBinding.registerRoot.height
         array2[1] = array2[1] + viewBinding.registerSubmit.height
         array3[1] = array3[1] + viewBinding.registerInputPassword2.height
-        viewBinding.registerSubmit.translationY = (keyBoardHeight - (array1[1] - array2[1])) * -1f - 10.dp2Px()
-        if (array1[1] - array3[1] < viewBinding.registerSubmit.height + 10.dp2Px()) {
-          viewBinding.registerInputPassword2.translationY = (viewBinding.registerSubmit.height - (array1[1] - array3[1])) * -1f - 20.dp2Px()
+        viewBinding.registerSubmit.translationY = (keyBoardHeight - (array1[1] - array2[1])) * -1f - 10.dp2px()
+        if (array1[1] - array3[1] < viewBinding.registerSubmit.height + 10.dp2px()) {
+          viewBinding.registerInputPassword2.translationY = (viewBinding.registerSubmit.height - (array1[1] - array3[1])) * -1f - 20.dp2px()
           viewBinding.registerInputPassword1.translationY = viewBinding.registerInputPassword2.translationY
           viewBinding.registerInputAccount.translationY = viewBinding.registerInputPassword2.translationY
         }
