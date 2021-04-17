@@ -2,9 +2,9 @@ object Versions {
   internal const val sdkMin = 21
   internal const val sdkTarget = 30
   internal const val kotlin = "1.4.32"
-  internal const val okHttp = "4.9.0"
+  internal const val okHttp = "4.9.1"
   internal const val rxHttp = "2.5.7"
-  internal const val coil = "1.1.1"
+  internal const val coil = "1.2.0"
 }
 
 object Deps {
@@ -20,18 +20,18 @@ object Deps {
 
   //<editor-fold defaultstate="collapsed" desc="Studio-UI基础配置">
   //系统相关 https://maven.aliyun.com/mvn/search
-  const val core_ktx = "androidx.core:core-ktx:1.5.0-beta03"
-  const val activity_ktx = "androidx.activity:activity-ktx:1.3.0-alpha04"
-  const val appcompat = "androidx.appcompat:appcompat:1.3.0-beta01"
-  const val fragment = "androidx.fragment:fragment:1.3.1"
-  const val material = "com.google.android.material:material:1.4.0-alpha01"
+  const val core_ktx = "androidx.core:core-ktx:1.5.0-rc01"
+  const val activity_ktx = "androidx.activity:activity-ktx:1.3.0-alpha06"
+  const val appcompat = "androidx.appcompat:appcompat:1.3.0-rc01"
+  const val fragment = "androidx.fragment:fragment:1.3.2"
+  const val material = "com.google.android.material:material:1.4.0-alpha02"
   const val constraint = "androidx.constraintlayout:constraintlayout:2.1.0-beta01"
-  const val viewmodel = "androidx.lifecycle:lifecycle-viewmodel:2.3.0"
+  const val viewmodel = "androidx.lifecycle:lifecycle-viewmodel:2.4.0-alpha01"
   //</editor-fold>
 
   //<editor-fold defaultstate="collapsed" desc="AndroidX基础配置">
   //启动初始化 https://developer.android.google.cn/topic/libraries/app-startup
-  const val startup = "androidx.startup:startup-runtime:1.0.0"
+  const val startup = "androidx.startup:startup-runtime:1.1.0-alpha01"
 
   //分包 https://developer.android.google.cn/studio/build/multidex?hl=zh_cn#mdex-gradle
   const val multidex = "androidx.multidex:multidex:2.0.1"
@@ -60,8 +60,8 @@ object Deps {
   const val gson = "com.google.code.gson:gson:2.8.6"
 
   //协程 https://github.com/Kotlin/kotlinx.coroutines
-  const val coroutine = "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.4.2"
-  const val coroutine_android = "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.4.2"
+  const val coroutine = "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.4.3"
+  const val coroutine_android = "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.4.3"
 
   //网络请求 https://github.com/square/okhttp
   const val okhttp = "com.squareup.okhttp3:okhttp:${Versions.okHttp}"
@@ -87,7 +87,7 @@ object Deps {
   const val multitype = "com.drakeet.multitype:multitype:4.2.0"
 
   //动态权限 https://github.com/getActivity/XXPermissions
-  const val xxpermissions = "com.hjq:xxpermissions:10.2"
+  const val xxpermissions = "com.hjq:xxpermissions:10.6"
   //</editor-fold>
 
   //<editor-fold defaultstate="collapsed" desc="三方常用配置">
@@ -125,20 +125,20 @@ object Deps {
   //const val crashlytics_ktx = "com.google.firebase:firebase-crashlytics-ktx"
 
   //内存泄漏检测 https://square.github.io/leakcanary/getting_started/
-  const val leakcanary = "com.squareup.leakcanary:leakcanary-android:2.6"
+  const val leakcanary = "com.squareup.leakcanary:leakcanary-android:2.7"
 
   //UI调试 https://github.com/YvesCheung/UInspector
-  const val uinspector = "com.huya.mobile:Uinspector:1.0.11"
+  const val uinspector = "com.github.YvesCheung.UInspector:Uinspector:2.0.2"
 
   //bugly https://bugly.qq.com/docs/user-guide/instruction-manual-android/?v=20190916214340
-  const val bugly_crash = "com.tencent.bugly:crashreport:3.3.7"
-  const val bugly_native = "com.tencent.bugly:nativecrashreport:3.8.0"
+  const val bugly_crash = "com.tencent.bugly:crashreport:3.3.91"
+  const val bugly_native = "com.tencent.bugly:nativecrashreport:3.9.1"
   const val plugin_bugly = "com.tencent.bugly:symtabfileuploader:2.2.1" //bugly的mapping上传
   //</editor-fold>
 
   //<editor-fold defaultstate="collapsed" desc="三方不常用配置">
   //图片选择器 https://github.com/LuckSiege/PictureSelector
-  const val pic_select = "com.github.LuckSiege.PictureSelector:picture_library:v2.6.0"
+  const val pic_select = "com.github.LuckSiege.PictureSelector:picture_library:v2.6.1"
 
   //Emoji表情 https://github.com/vanniktech/Emoji
   const val emoji = "com.vanniktech:emoji-twitter:0.7.0"
@@ -155,14 +155,14 @@ object Deps {
   const val dk_exo = "com.github.dueeeke.dkplayer:player-exo:3.2.6"
 
   //https://github.com/airbnb/lottie-android
-  const val lottie = "com.airbnb.android:lottie:3.6.1"
+  const val lottie = "com.airbnb.android:lottie:3.7.0"
 
   //中文转拼音 https://github.com/promeG/TinyPinyin
   const val pinyin = "com.github.promeg:tinypinyin:2.0.3" // TinyPinyin核心包，约80KB
   const val pinyin_android = "com.github.promeg:tinypinyin-lexicons-android-cncity:2.0.3" // 可选，适用于Android的中国地区词典
 
   //日期选择器 https://github.com/limxing/DatePickerView
-  const val picker_view = "com.github.limxing:DatePickerView:1.0.7"
+  const val picker_view = "com.github.limxing:DatePickerView:1.1.0"
 
   //@和#效果 https://github.com/sunhapper/SpEditTool
   const val spedit_tool = "com.github.sunhapper.SpEditTool:SpEditText:1.0.4"

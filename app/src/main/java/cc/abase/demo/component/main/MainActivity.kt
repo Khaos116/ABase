@@ -85,7 +85,7 @@ class MainActivity : CommBindActivity<ActivityMainBinding>() {
       else -> Gravity.BOTTOM
     }
     (mContentView as? FrameLayout)?.addView(floatView, params)
-    if (BuildConfig.DEBUG && !XXPermissions.isGrantedPermission(mContext, Permission.NOTIFICATION_SERVICE)) {
+    if (BuildConfig.DEBUG && !XXPermissions.isGranted(mContext, Permission.NOTIFICATION_SERVICE)) {
       commAlertDialog(supportFragmentManager, cancelable = false, outside = false) {
         title = R.string.dialog_hint_comm.xmlToString()
         content = R.string.dialog_hint_permission_notice.xmlToString()
@@ -95,7 +95,7 @@ class MainActivity : CommBindActivity<ActivityMainBinding>() {
       }
     }
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) { //安卓Q版本以上需要ACCESS_BACKGROUND_LOCATION
-      if (XXPermissions.isGrantedPermission(this, Permission.Group.LOCATION)) {
+      if (XXPermissions.isGranted(this, Permission.Group.LOCATION)) {
         getLocation()
       } else {
         XXPermissions.with(mActivity)
@@ -116,7 +116,7 @@ class MainActivity : CommBindActivity<ActivityMainBinding>() {
             })
       }
     } else { //安卓Q版本以前
-      if (XXPermissions.isGrantedPermission(this, mutableListOf(Permission.ACCESS_FINE_LOCATION, Permission.ACCESS_COARSE_LOCATION))) {
+      if (XXPermissions.isGranted(this, mutableListOf(Permission.ACCESS_FINE_LOCATION, Permission.ACCESS_COARSE_LOCATION))) {
         getLocation()
       } else {
         ActivityUtils.getTopActivity()?.let { activity ->

@@ -99,13 +99,13 @@ class SplashActivity : CommBindActivity<ActivitySplashBinding>() {
       mJob = GlobalScope.launchError { withContext(Dispatchers.IO) { delay(1000) }.let { mLottieAnimationView?.playAnimation() } }
     }
     //请求SD卡权限
-    hasSDPermission = XXPermissions.isGrantedPermission(mContext, Permission.MANAGE_EXTERNAL_STORAGE)
+    hasSDPermission = XXPermissions.isGranted(mContext, Permission.MANAGE_EXTERNAL_STORAGE)
     if (!hasSDPermission) {
       XXPermissions.with(this)
           .permission(Permission.MANAGE_EXTERNAL_STORAGE)
           .request(object : OnPermissionCallback {
             override fun onGranted(granted: MutableList<String>, all: Boolean) {
-              if (XXPermissions.isGrantedPermission(mContext, Permission.MANAGE_EXTERNAL_STORAGE)) {
+              if (XXPermissions.isGranted(mContext, Permission.MANAGE_EXTERNAL_STORAGE)) {
                 hasSDPermission = true
                 goNextPage()
               } else {

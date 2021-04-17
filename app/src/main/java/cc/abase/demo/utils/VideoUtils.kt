@@ -34,7 +34,7 @@ object VideoUtils {
   //<editor-fold defaultstate="collapsed" desc="初始化">
   //创建文件夹
   init {
-    if (XXPermissions.isGrantedPermission(Utils.getApp(), Permission.MANAGE_EXTERNAL_STORAGE)) {
+    if (XXPermissions.isGranted(Utils.getApp(), Permission.MANAGE_EXTERNAL_STORAGE)) {
       if (!File(outParentVideo).exists())
         LogUtils.e("CASE:创建Video文件夹:${File(outParentVideo).mkdirs()}")
       if (!File(outParentImgs).exists())
