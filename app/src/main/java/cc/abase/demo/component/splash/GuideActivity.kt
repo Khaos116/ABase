@@ -3,11 +3,14 @@ package cc.abase.demo.component.splash
 import android.content.Context
 import android.content.Intent
 import android.view.LayoutInflater
+import android.view.ViewGroup
 import cc.ab.base.widget.discretescrollview.DSVOrientation
+import cc.ab.base.widget.discretescrollview.DiscreteBanner
 import cc.abase.demo.component.comm.CommBindActivity
 import cc.abase.demo.component.splash.adapter.GuideHolderCreator
 import cc.abase.demo.constants.ImageUrls
 import cc.abase.demo.databinding.ActivityGuideBinding
+import cc.abase.demo.databinding.LayoutGuideBinding
 import com.gyf.immersionbar.ktx.immersionBar
 
 /**
@@ -46,8 +49,10 @@ class GuideActivity : CommBindActivity<ActivityGuideBinding>() {
 
   //<editor-fold defaultstate="collapsed" desc="初始化View">
   override fun initView() {
-    viewBinding.guideBanner
-        .setOrientation(DSVOrientation.VERTICAL)
+    viewBinding.root.removeAllViews()
+    val banner = DiscreteBanner<String, LayoutGuideBinding>(this)
+    viewBinding.root.addView(banner, ViewGroup.LayoutParams(-1, -1))
+    banner.setOrientation(DSVOrientation.VERTICAL)
         .apply { getIndicator()?.needSpecial = true }
         .setPages(GuideHolderCreator(), mList)
   }
