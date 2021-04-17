@@ -239,6 +239,9 @@ class LoginActivity : CommBindActivity<ActivityLoginBinding>() {
         content = "检测到您的手机支持指纹识别，是否开启指纹登录?"
         confirmText = "开启"
         cancelText = "忽略"
+        cancelCallback = {
+          MainActivity.startActivity(mContext)
+        }
         confirmCallback = {
           provider.tryAuthenticate(this@LoginActivity, { cipher ->
             // 使用 cipher 对登录信息进行加密并保存
