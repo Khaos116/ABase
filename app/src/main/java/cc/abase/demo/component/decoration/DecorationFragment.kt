@@ -19,7 +19,7 @@ import com.drakeet.multitype.MultiTypeAdapter
  * @author: CASE
  * @date: 2020/4/16 9:54
  */
-class DecorationFragment : CommBindFragment<FragmentDecorationBinding>() {
+class DecorationFragment private constructor() : CommBindFragment<FragmentDecorationBinding>() {
   //<editor-fold defaultstate="collapsed" desc="外部获取实例">
   companion object {
     fun newInstance(type: Int): DecorationFragment {

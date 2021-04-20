@@ -51,7 +51,7 @@ import java.util.Locale
  * @author: CASE
  * @date: 2019/9/30 18:13
  */
-class MineFragment : CommBindFragment<FragmentMineBinding>() {
+class MineFragment private constructor() : CommBindFragment<FragmentMineBinding>() {
   //<editor-fold defaultstate="collapsed" desc="外部获取实例">
   companion object {
     fun newInstance() = MineFragment()

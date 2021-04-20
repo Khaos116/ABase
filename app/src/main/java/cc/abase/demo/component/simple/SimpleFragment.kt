@@ -25,7 +25,7 @@ import kotlinx.coroutines.withContext
  * @author: CASE
  * @date: 2019/11/19 14:44
  */
-class SimpleFragment : CommBindFragment<FragmentSimpleBinding>() {
+class SimpleFragment private constructor() : CommBindFragment<FragmentSimpleBinding>() {
   //<editor-fold defaultstate="collapsed" desc="外部获取实例">
   companion object {
     //0-无刷新 1-Smart

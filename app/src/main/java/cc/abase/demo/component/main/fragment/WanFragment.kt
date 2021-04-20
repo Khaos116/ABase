@@ -20,7 +20,7 @@ import cc.abase.demo.sticky.StickyHeaderLinearLayoutManager
  * Date:2020/8/12
  * Time:20:48
  */
-class WanFragment : CommBindFragment<FragmentWanBinding>() {
+class WanFragment private constructor() : CommBindFragment<FragmentWanBinding>() {
 
   //<editor-fold defaultstate="collapsed" desc="外部获取实例">
   companion object {
