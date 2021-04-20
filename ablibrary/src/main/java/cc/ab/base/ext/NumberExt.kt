@@ -1,6 +1,7 @@
 package cc.ab.base.ext
 
 import com.blankj.utilcode.util.SizeUtils
+import java.math.RoundingMode
 import java.text.DecimalFormat
 
 //<editor-fold defaultstate="collapsed" desc="尺寸转换">
@@ -26,9 +27,14 @@ fun Number.px2sp(): Int {
 //</editor-fold>
 
 //<editor-fold defaultstate="collapsed" desc="保留小数">
-//保留2位小数
-fun Number?.to2point(): String {
-  return if (this == null) "0.00" else DecimalFormat("#0.00").format(this.toDouble())
+//保留2位小数(根据第三位四舍五入)
+fun Number?.to2pointUp(): String {
+  return if (this == null) "0.00" else DecimalFormat("#0.00").also { it.roundingMode = RoundingMode.HALF_UP }.format(this.toDouble())
+}
+
+//保留2位小数(去掉后面的)
+fun Number?.to2pointDown(): String {
+  return if (this == null) "0.00" else DecimalFormat("#0.00").also { it.roundingMode = RoundingMode.DOWN }.format(this.toDouble())
 }
 
 //保留2位小数+逗号分隔
