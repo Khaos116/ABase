@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.graphics.Color
 import android.os.Parcelable
+import android.os.SystemClock
 import android.view.*
 import android.view.GestureDetector.SimpleOnGestureListener
 import androidx.fragment.app.Fragment
@@ -139,4 +140,9 @@ fun SmartRefreshLayout?.hasMoreData() {
   this?.setEnableLoadMore(true)
   this?.setNoMoreData(true) //防止下一个设置无效，所以先重置
   this?.setNoMoreData(false)
+}
+
+//开机时间
+fun Long.getOpenSysTime(): Long {
+  return System.currentTimeMillis() - SystemClock.elapsedRealtime()
 }
