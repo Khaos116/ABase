@@ -45,7 +45,7 @@ class ImageEngine : com.luck.picture.lib.engine.ImageEngine {
       if (MediaUtils.isImageFile(url)) {
         val options = Options()
         options.inJustDecodeBounds = true
-        BitmapFactory.decodeFile(url, options)
+        BitmapFactory.decodeFile(url.toFile()?.path, options)
         val widthImg = options.outWidth * 1f
         val heightImg = options.outHeight * 1f
         if (widthImg > 0) {
