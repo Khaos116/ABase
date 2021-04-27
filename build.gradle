@@ -4,7 +4,7 @@ apply from: "config.gradle"
 buildscript {
   repositories {
     google()
-    jcenter()
+    mavenCentral()
     maven { url 'https://jitpack.io' }
     maven { url 'https://dl.google.com/dl/android/maven2/' }
     maven {
@@ -35,7 +35,7 @@ buildscript {
 allprojects {
   repositories {
     google()
-    jcenter()
+    mavenCentral()
     maven { url 'https://jitpack.io' }
     maven { url 'https://dl.google.com/dl/android/maven2/' }
     maven {
