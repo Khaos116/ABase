@@ -29,7 +29,6 @@ buildscript {
     classpath Deps.plugin_kotlin_gradle
     classpath Deps.plugin_r8_gradle
     classpath Deps.plugin_bugly
-    classpath 'com.android.tools.build:gradle:4.2.0-rc01'
   }
 }
 
