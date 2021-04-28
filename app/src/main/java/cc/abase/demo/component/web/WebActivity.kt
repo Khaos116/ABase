@@ -10,6 +10,7 @@ import android.net.http.SslError
 import android.view.*
 import android.webkit.*
 import cc.ab.base.ext.logE
+import cc.ab.base.ext.logI
 import cc.ab.base.ext.toast
 import cc.ab.base.widget.engine.ImageEngine
 import cc.abase.demo.R
@@ -24,6 +25,7 @@ import com.just.agentweb.DefaultWebClient
 import com.luck.picture.lib.PictureSelector
 import com.luck.picture.lib.config.PictureConfig
 import com.luck.picture.lib.config.PictureMimeType
+import com.tencent.bugly.proguard.u
 import java.io.File
 
 /**
@@ -68,6 +70,9 @@ class WebActivity : CommBindTitleActivity<ActivityWebBinding>() {
     initAgentBuilder()
     webUrl = intent.getStringExtra(WEB_URL) ?: "https://www.baidu.com" //获取加载地址
     agentWeb = agentBuilder?.createAgentWeb()?.ready()?.go(webUrl) //创建web并打开
+    //agentWeb = agentBuilder?.createAgentWeb()?.ready()?.get()?.also {
+    //  it.urlLoader?.loadData(htmlStr, "text/html", "UTF-8") //打开Html代码
+    //}
     //设置适配
     val web = agentWeb?.webCreator?.webView
     web?.settings?.let { ws ->
@@ -211,12 +216,28 @@ class WebActivity : CommBindTitleActivity<ActivityWebBinding>() {
   //}
   //</editor-fold>
 
-  //<editor-fold defaultstate="collapsed" desc="解决SSL无法打开的问题">
+  //<editor-fold defaultstate="collapsed" desc="解决SSL无法打开的问题+URL拦截">
   //解决SSL无法打开的问题
   private fun getWebViewClientSSL(): com.just.agentweb.WebViewClient {
     return object : com.just.agentweb.WebViewClient() {
       override fun onReceivedSslError(view: WebView?, handler: SslErrorHandler, error: SslError?) {
         handler.proceed()
+      }
+
+      @Suppress("DEPRECATION")
+      override fun shouldOverrideUrlLoading(view: WebView?, request: WebResourceRequest?): Boolean {
+        return shouldOverrideUrlLoading(view, request?.url?.toString())
+      }
+
+      override fun shouldOverrideUrlLoading(view: WebView?, url: String?): Boolean {
+        view?.settings?.cacheMode = WebSettings.LOAD_DEFAULT
+        url?.let { u ->
+          if (u.startsWith("CASE://")) {
+            //自己处理跳转拦截，需要自己处理返回true
+            return true
+          } else "Web内部跳转Url=$u".logI()
+        }
+        return super.shouldOverrideUrlLoading(view, url)
       }
     }
   }
