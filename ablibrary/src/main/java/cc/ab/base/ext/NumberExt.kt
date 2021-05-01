@@ -44,7 +44,7 @@ fun Number?.to2point2(): String {
 
 //保留2位小数
 fun String?.to2point(): String {
-  return if (this == null) "0.00" else try {
+  return if (this.isNullOrBlank()) "0.00" else try {
     DecimalFormat("#0.00").format(this.toDouble())
   } catch (e: Exception) {
     this
@@ -53,7 +53,7 @@ fun String?.to2point(): String {
 
 //保留2位小数+逗号分隔
 fun String?.to2point2(): String {
-  return if (this == null) "0.00" else try {
+  return if (this.isNullOrBlank()) "0.00" else try {
     DecimalFormat("###,###,###,###,##0.00").format(this.toDouble())
   } catch (e: Exception) {
     this
