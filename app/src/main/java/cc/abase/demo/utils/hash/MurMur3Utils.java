@@ -46,14 +46,14 @@ public class MurMur3Utils {
 
   //<editor-fold defaultstate="collapsed" desc="正常使用方法">
   //计算Hash3_x86_32
-  public static String getMurmurHash3_x86_32(String key, int speed) {
+  public static String MurmurHash3_x86_32(String key, int speed) {
     int x86_32Temp = MurmurHash3.digest32_x86(key.getBytes(), speed, false);
     long x86_32 = new BigInteger(Integer.toHexString(x86_32Temp), 16).longValue();//https://www.cnblogs.com/wlv1314/p/12188545.html
     return String.valueOf(x86_32);
   }
 
   //计算Hash3_x86_128
-  public static String getMurmurHash3_x86_128(String key, int speed) {
+  public static String MurmurHash3_x86_128(String key, int speed) {
     int[] x86_128Array = MurmurHash3.digest128_x86(key.getBytes(), speed, false);
     StringBuilder x86_128Sb = new StringBuilder();
     for (int value : x86_128Array) x86_128Sb.append(String.format("%08x", value));//https://www.cnblogs.com/wlv1314/p/12188545.html
@@ -61,7 +61,7 @@ public class MurMur3Utils {
   }
 
   //计算Hash3_x64_128
-  public static String getMurmurHash3_x64_128(String key, int speed) {
+  public static String MurmurHash3_x64_128(String key, int speed) {
     long[] x64_128Array = MurmurHash3.digest128_x64(key.getBytes(), speed, false);
     StringBuilder x64_128Sb = new StringBuilder();
     for (long value : x64_128Array) x64_128Sb.append(String.format("%016x", value));//https://www.cnblogs.com/wlv1314/p/12188545.html
