@@ -6,7 +6,7 @@ import android.util.Log;
 import java.math.BigInteger;
 
 /**
- * @Description MurMur3 加密工具
+ * @Description MurMur3 加密工具 https://github.com/tamtam180/MurmurHash-For-Java
  * @Author：CASE
  * @Date：2021-05-03
  * @Time：14:17
@@ -18,8 +18,8 @@ public class MurMur3Utils {
   //校验地址：http://murmurhash.shorelabs.com/
   @SuppressLint("LogNotTimber")
   public static void simpleTest() {
-    String key = "linus";
-    int speed = 42;
+    String key = "case";
+    int speed = 24;
     //x86_32    ->    3359281890
     //x86_128   ->    b5c544bd54d27c3254d27c3254d27c32
     //x64_128   ->    c1f90cad4751109f2fee1674aaf8fceb
