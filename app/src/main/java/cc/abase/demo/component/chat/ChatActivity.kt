@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.view.*
+import androidx.core.widget.addTextChangedListener
 import androidx.recyclerview.widget.LinearLayoutManager
 import cc.ab.base.ext.*
 import cc.ab.base.ui.viewmodel.DataState
@@ -90,6 +91,14 @@ class ChatActivity : CommBindTitleActivity<ActivityChatBinding>() {
           //是否处于底部，非底部不滚动到底部
           if (isBottom) scrollChatBottom()
         }
+      }
+    }
+    //判断手机号
+    viewBinding.chatEdit.addTextChangedListener {
+      if (it?.toString()?.isPhoneNumber("CN") == true) {
+        viewBinding.chatEdit.setTextColor(Color.GREEN)
+      } else {
+        viewBinding.chatEdit.setTextColor(Color.BLACK)
       }
     }
   }

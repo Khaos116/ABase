@@ -11,6 +11,8 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import cc.ab.base.R
 import com.blankj.utilcode.util.ActivityUtils
+import com.google.i18n.phonenumbers.PhoneNumberUtil
+import com.google.i18n.phonenumbers.Phonenumber
 import com.luck.picture.lib.PictureExternalPreviewActivity
 import com.luck.picture.lib.PictureSelectionModel
 import com.luck.picture.lib.config.PictureConfig
@@ -83,10 +85,11 @@ fun Color.randomAlpha(): Int {
 /**需要明确的一点是，通过 async 启动的协程出现未捕获的异常时会忽略
  * CoroutineExceptionHandler，这与 launch 的设计思路是不同的。*/
 inline fun GlobalScope.launchError(
-    context: CoroutineContext = Dispatchers.Main,
-    crossinline handler: (CoroutineContext, Throwable) -> Unit = { _, e -> e.message.logE() },
-    start: CoroutineStart = CoroutineStart.DEFAULT,
-    noinline block: suspend CoroutineScope.() -> Unit): Job {
+  context: CoroutineContext = Dispatchers.Main,
+  crossinline handler: (CoroutineContext, Throwable) -> Unit = { _, e -> e.message.logE() },
+  start: CoroutineStart = CoroutineStart.DEFAULT,
+  noinline block: suspend CoroutineScope.() -> Unit
+): Job {
   return GlobalScope.launch(context + CoroutineExceptionHandler(handler), start, block)
 }
 
@@ -117,8 +120,10 @@ fun PictureSelectionModel.openExternalPreview2(position: Int, medias: List<Local
     val ac = ActivityUtils.getTopActivity()
     if (ac != null) {
       val intent = Intent(ac, PictureExternalPreviewActivity::class.java)
-      intent.putParcelableArrayListExtra(PictureConfig.EXTRA_PREVIEW_SELECT_LIST,
-          medias as ArrayList<out Parcelable?>)
+      intent.putParcelableArrayListExtra(
+        PictureConfig.EXTRA_PREVIEW_SELECT_LIST,
+        medias as ArrayList<out Parcelable?>
+      )
       intent.putExtra(PictureConfig.EXTRA_POSITION, position)
       ac.startActivity(intent)
       ac.overridePendingTransition(R.anim.picture_anim_enter, R.anim.picture_anim_fade_in)
@@ -145,4 +150,20 @@ fun SmartRefreshLayout?.hasMoreData() {
 //开机时间
 fun Long.getOpenSysTime(): Long {
   return System.currentTimeMillis() - SystemClock.elapsedRealtime()
+}
+
+/**
+ * 判断手机号(国家编码，中国->CN)
+ * @see com.google.i18n.phonenumbers.CountryCodeToRegionCodeMap
+ */
+fun String?.isPhoneNumber(countryCode: String = "CN"): Boolean {
+  if (this.isNullOrBlank()) return false
+  val phoneUtil = PhoneNumberUtil.getInstance()
+  return try {
+    val numberProto: Phonenumber.PhoneNumber = phoneUtil.parse(this, countryCode.toUpperCase())
+    phoneUtil.isValidNumber(numberProto)
+  } catch (e: Exception) {
+    e.printStackTrace()
+    false
+  }
 }

@@ -10,7 +10,7 @@ object Versions {
 object Deps {
   //<editor-fold defaultstate="collapsed" desc="Studio基础配置">
   //根目录gradle https://maven.aliyun.com/mvn/search 使用ViewBinding最低3.6.0
-  const val plugin_android_gradle = "com.android.tools.build:gradle:4.1.3"
+  const val plugin_android_gradle = "com.android.tools.build:gradle:4.2.0"
   const val plugin_kotlin_gradle = "org.jetbrains.kotlin:kotlin-gradle-plugin:${Versions.kotlin}"
   const val plugin_r8_gradle = "com.android.tools:r8:2.2.60" //更新R8版本，解决正式版无法打包的问题 https://github.com/square/okhttp/issues/4604
 
@@ -111,6 +111,9 @@ object Deps {
   const val smart_refresh = "com.scwang.smart:refresh-layout-kernel:2.0.3"
   const val smart_header = "com.scwang.smart:refresh-header-classics:2.0.3"
   const val smart_footer = "com.scwang.smart:refresh-footer-classics:2.0.3"
+
+  //手机号判断 https://github.com/google/libphonenumber
+  const val libphonenumber= "com.googlecode.libphonenumber:libphonenumber:8.12.22"
   //</editor-fold>
 
   //<editor-fold defaultstate="collapsed" desc="调试统计工具">

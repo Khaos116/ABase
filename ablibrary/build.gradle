@@ -78,4 +78,5 @@ dependencies {
   api Deps.coil_video_file
   api Deps.xxpermissions
   api Deps.rv_anim
+  api Deps.libphonenumber
 }
