@@ -8,6 +8,6 @@ gradleEnterprise {
   }
 }
 
-include ':app', ':ablibrary', ':silicompressor'
+include ':app', ':ablibrary', ':silicompressor', ':shelllib', ':shell'
 rootProject.name = 'ABase'
 
