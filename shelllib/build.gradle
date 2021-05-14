@@ -1,0 +1,56 @@
+plugins {
+  id 'com.android.library'
+  id 'kotlin-android'
+}
+
+android {
+  compileSdkVersion 30
+
+  defaultConfig {
+    minSdkVersion 23
+    targetSdkVersion 30
+    versionCode 1
+    versionName "1.0"
+
+    consumerProguardFiles "consumer-rules.pro"
+    multiDexEnabled true
+  }
+
+  buildTypes {
+    release {
+      multiDexKeepFile file('multidex-config.txt') // 主dex下面可以放置的 class 文件
+      minifyEnabled false
+      proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+    }
+    debug {
+      multiDexKeepFile file('multidex-config.txt') // 主dex下面可以放置的 class 文件
+      minifyEnabled false
+      proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+    }
+  }
+  compileOptions {
+    sourceCompatibility JavaVersion.VERSION_1_8
+    targetCompatibility JavaVersion.VERSION_1_8
+  }
+  kotlinOptions {
+    jvmTarget = '1.8'
+  }
+  dexOptions {
+    javaMaxHeapSize "4g"
+    preDexLibraries = false
+    additionalParameters = [
+        '--multi-dex',
+        '--set-max-idx-number=30000',
+        '--main-dex-list=' + projectDir + '/multidex-config.txt',
+        '--minimal-main-dex'
+    ]
+  }
+}
+
+dependencies {
+  implementation Deps.kotlin_stdlib
+  implementation Deps.core_ktx
+  implementation Deps.appcompat
+  implementation Deps.material
+  implementation Deps.multidex
+}
