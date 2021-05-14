@@ -1,0 +1,16 @@
+原文参考：https://github.com/Leizxy/MyProtectApp
+
+settings.gradle需要添加-->':shelllib', ':shell'
+主项目需要引用-->implementation project(':shelllib')
+
+使用到的文件夹：
+1.需要在cn.leizy.shell.Main里面配置签名和APK信息等
+2.shelllib加固后的解析，需要将app的application设置为ShellApplication
+3.source资源文件夹，主要存放shelllib库生成的aar+需要加固的APK
+4.shell加固使用的库，java方式运行Main.kt中的main方法
+5.最后生成apk-signed.apk
+
+其他：
+1.加固后的APK比较大
+2.ARouter好像存在问题
+3.其他问题还没有完全测试发现
