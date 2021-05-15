@@ -6,10 +6,10 @@ import java.io.FileOutputStream
 class Main {
   companion object {
     //需要修改的地方
-    const val 签名文件地址 = "I:\\03Work\\YMSport\\YMApp\\app\\ymappYn.jks"
-    const val 签名密码 = "ym123456"
-    const val 签名别名 = "ymYn"
-    const val 签名别名密码 = "ym123456"
+    val 签名文件地址 = File("source/jsk").path + File.separator + "com_ab.jks"
+    const val 签名密码 = "com_cc"
+    const val 签名别名 = "com_cc"
+    const val 签名别名密码 = "com_cc"
     const val 需要加固的APK名称 = "APP.apk"
 
     @JvmStatic
@@ -71,10 +71,10 @@ class Main {
       /**
        * 3.打包签名
        */
-      val unsignedApk = File("APK/apk-unsigned.apk")
+      val unsignedApk = File("APK/JiaGu/apk-unsigned.apk")
       unsignedApk.parentFile.mkdirs()
       Zip.zip(newApkFile, unsignedApk)
-      val signedApk = File("APK/apk-signed.apk")
+      val signedApk = File("APK/JiaGu/apk-signed.apk")
       Signature.signature(unsignedApk, signedApk, 签名文件地址)
       delDir(tempFileApk)
       delDir(tempFileAar)
