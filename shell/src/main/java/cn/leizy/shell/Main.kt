@@ -14,7 +14,7 @@ class Main {
 
     @JvmStatic
     fun main(args: Array<String>) {
-      println("hello main")
+      println("加固开始")
       //初始化相应目录，或删除之前的文件。
       val tempFileApk = File("source/apk/temp")
       if (tempFileApk.exists()) {
@@ -43,10 +43,10 @@ class Main {
           if (it.isFile) {
             if (it.name.endsWith(".dex")) {
               val name = it.name
-              println("rename 1:$name")
+              println("重命名前:$name")
               val cursor = name.indexOf(".dex")
               val newName = it.parent + File.separator + name.substring(0, cursor) + "_.dex"
-              println("rename 2:$newName")
+              println("重命名后:$newName")
               it.renameTo(File(newName))
             }
           }
@@ -92,6 +92,3 @@ class Main {
     }
   }
 }
-//fun main() {
-//    println("hello")
-//}
