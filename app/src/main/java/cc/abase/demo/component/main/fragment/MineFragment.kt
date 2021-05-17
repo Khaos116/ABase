@@ -98,10 +98,6 @@ class MineFragment private constructor() : CommBindFragment<FragmentMineBinding>
   )
   //</editor-fold>
 
-  //<editor-fold defaultstate="collapsed" desc="XML">
-  override fun loadViewBinding(inflater: LayoutInflater, container: ViewGroup?) = FragmentMineBinding.inflate(inflater, container, false)
-  //</editor-fold>
-
   //<editor-fold defaultstate="collapsed" desc="懒加载">
   override fun lazyInit() {
     mRootLayout?.setBackgroundColor(Color.WHITE)

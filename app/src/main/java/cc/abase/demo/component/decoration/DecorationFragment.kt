@@ -40,10 +40,6 @@ class DecorationFragment private constructor() : CommBindFragment<FragmentDecora
   private var multiTypeAdapter = MultiTypeAdapter()
   //</editor-fold>
 
-  //<editor-fold defaultstate="collapsed" desc="XML">
-  override fun loadViewBinding(inflater: LayoutInflater, container: ViewGroup?) = FragmentDecorationBinding.inflate(inflater, container, false)
-  //</editor-fold>
-
   //<editor-fold defaultstate="collapsed" desc="懒加载">
   override fun lazyInit() {
     multiTypeAdapter.register(SimpleTxtItem(height = 70.dp2px(), bgColor = Color.CYAN).also { it.onItemClick = { bean -> bean.txt.toast() } })

@@ -32,10 +32,6 @@ class GankFragment private constructor() : CommBindFragment<FragmentGankBinding>
   }
   //</editor-fold>
 
-  //<editor-fold defaultstate="collapsed" desc="XML">
-  override fun loadViewBinding(inflater: LayoutInflater, container: ViewGroup?) = FragmentGankBinding.inflate(inflater, container, false)
-  //</editor-fold>
-
   //<editor-fold defaultstate="collapsed" desc="变量">
   //网络请求
   private val mViewModel by lazy { GankViewModel() }

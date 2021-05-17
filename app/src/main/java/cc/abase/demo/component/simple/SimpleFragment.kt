@@ -45,10 +45,6 @@ class SimpleFragment private constructor() : CommBindFragment<FragmentSimpleBind
   private val multiTypeAdapter = MultiTypeAdapter()
   //</editor-fold>
 
-  //<editor-fold defaultstate="collapsed" desc="XML">
-  override fun loadViewBinding(inflater: LayoutInflater, container: ViewGroup?) = FragmentSimpleBinding.inflate(inflater, container, false)
-  //</editor-fold>
-
   //<editor-fold defaultstate="collapsed" desc="懒加载">
   override fun lazyInit() {
     viewBinding.simpleRecycler.layoutManager = SpeedLinearLayoutManager(mContext).also { it.MILLISECONDS_PER_INCH = 100f }
