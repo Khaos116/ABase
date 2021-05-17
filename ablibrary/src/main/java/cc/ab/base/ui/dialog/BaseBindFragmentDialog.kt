@@ -57,7 +57,7 @@ abstract class BaseBindFragmentDialog<T : ViewBinding> : DialogFragment() {
 
   override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
     setMyStyle()
-    _binding = inflateBindingWithGeneric(inflater, container, false)
+    _binding = this.inflateBindingWithGeneric(inflater, container, false)
     return viewBinding.root
   }
 

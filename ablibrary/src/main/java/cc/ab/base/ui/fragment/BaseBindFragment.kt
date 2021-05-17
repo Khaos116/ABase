@@ -62,7 +62,7 @@ abstract class BaseBindFragment<T : ViewBinding> : Fragment() {
 
   //<editor-fold defaultstate="collapsed" desc="由于要读取泛型，所以必须要放到泛型类下面调用，不能放到协程中">
   private fun initBinding() {
-    _binding = inflateBindingWithGeneric(layoutInflater, mRootLayout, false)
+    _binding = this.inflateBindingWithGeneric(layoutInflater, mRootLayout, false)
   }
   //</editor-fold>
 

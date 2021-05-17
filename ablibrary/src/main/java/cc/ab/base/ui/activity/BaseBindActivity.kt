@@ -2,7 +2,6 @@ package cc.ab.base.ui.activity
 
 import android.os.Build
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewbinding.ViewBinding
@@ -56,7 +55,7 @@ abstract class BaseBindActivity<T : ViewBinding> : AppCompatActivity() {
 
   //<editor-fold defaultstate="collapsed" desc="由于要读取泛型，所以必须要放到泛型类下面调用，不能放到协程中">
   private fun initBinding() {
-    _binding = inflateBindingWithGeneric(layoutInflater)
+    _binding = this.inflateBindingWithGeneric(layoutInflater)
   }
   //</editor-fold>
 

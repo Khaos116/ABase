@@ -19,12 +19,8 @@ abstract class BaseBindItemView<T, V : ViewBinding>(var onItemClick: ((item: T) 
   //</editor-fold>
 
   //<editor-fold defaultstate="collapsed" desc="创建ViewHolder">
-  override fun onCreateViewHolder(inflater: LayoutInflater, parent: ViewGroup) = BaseViewHolder(initBinding(inflater, parent))
-  //</editor-fold>
-
-  //<editor-fold defaultstate="collapsed" desc="由于要读取泛型，所以必须要放到泛型类下面调用，不能放到协程中">
-  private fun initBinding(inflater: LayoutInflater, parent: ViewGroup): V {
-    return inflateBindingWithGeneric(inflater, parent, false)
+  override fun onCreateViewHolder(inflater: LayoutInflater, parent: ViewGroup): BaseViewHolder<V> {
+    return BaseViewHolder(this.inflateBindingWithGeneric(inflater, parent, false))
   }
   //</editor-fold>
 
