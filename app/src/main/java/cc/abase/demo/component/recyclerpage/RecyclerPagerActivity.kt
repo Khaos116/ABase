@@ -1,12 +1,13 @@
 package cc.abase.demo.component.recyclerpage
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.view.*
 import cc.ab.base.ext.*
+import cc.ab.base.ui.item.BaseViewHolder
 import cc.ab.base.widget.discretescrollview.DSVOrientation
 import cc.ab.base.widget.discretescrollview.adapter.DiscretePageAdapter
-import cc.ab.base.widget.discretescrollview.holder.DiscreteHolder
 import cc.abase.demo.R
 import cc.abase.demo.bean.local.VerticalPageBean
 import cc.abase.demo.component.comm.CommBindTitleActivity
@@ -14,7 +15,7 @@ import cc.abase.demo.databinding.ActivtyVerticalpageBinding
 import cc.abase.demo.databinding.ItemVerticalPageParentBinding
 import cc.abase.demo.utils.VideoRandomUtils
 import cc.abase.demo.widget.dkplayer.MyVideoView
-import com.blankj.utilcode.util.StringUtils
+import com.blankj.utilcode.util.*
 import kotlinx.coroutines.*
 
 /**
@@ -38,7 +39,19 @@ class RecyclerPagerActivity : CommBindTitleActivity<ActivtyVerticalpageBinding>(
   private var mDatas = mutableListOf<VerticalPageBean>()
 
   //适配器
-  private var recyclerPagerAdapter = DiscretePageAdapter(RecyclerPagerHolderCreator(), mDatas)
+  private var recyclerPagerAdapter = object : DiscretePageAdapter<VerticalPageBean, ItemVerticalPageParentBinding>(mDatas) {
+    override fun fillData(data: VerticalPageBean, binding: ItemVerticalPageParentBinding, position: Int, count: Int) {
+      val h = (binding.itemRecyclePagerContainer.context as? Activity)?.mContentView?.height ?: ScreenUtils.getScreenHeight()
+      val height = h - BarUtils.getStatusBarHeight() - 49.dp2px()
+      data.cover?.let {
+        if (it.isVideoUrl()) {
+          binding.itemRecyclePagerCover.loadNetVideoCover(it, ScreenUtils.getScreenWidth() * 1f / height, hasHolder = false)
+        } else {
+          binding.itemRecyclePagerCover.loadImgVertical(it, ScreenUtils.getScreenWidth() * 1f / height, hasHolder = false)
+        }
+      }
+    }
+  }
 
   //请求
   private var disposableRequest: Job? = null
@@ -57,8 +70,8 @@ class RecyclerPagerActivity : CommBindTitleActivity<ActivtyVerticalpageBinding>(
       //滑动过程中位置改变
       if (!end) {
         //更新UI
-        (viewHolder as? DiscreteHolder<VerticalPageBean, ItemVerticalPageParentBinding>)?.let { dh ->
-          dh.updateUI(mDatas[position], dh.viewBinding, position, mDatas.size)
+        (viewHolder as? BaseViewHolder<ItemVerticalPageParentBinding>)?.let { dh ->
+          recyclerPagerAdapter.fillData(mDatas[position], dh.viewBinding, position, recyclerPagerAdapter.itemCount)
         }
         return@addOnItemChangedListener
       }
@@ -67,8 +80,8 @@ class RecyclerPagerActivity : CommBindTitleActivity<ActivtyVerticalpageBinding>(
       //滑动结束后的位置，添加播放器，开始播放
       mVideoView?.let { videoView ->
         //更新UI
-        (viewHolder as? DiscreteHolder<VerticalPageBean, ItemVerticalPageParentBinding>)?.let { dh ->
-          dh.updateUI(mDatas[position], dh.viewBinding, position, mDatas.size)
+        (viewHolder as? BaseViewHolder<ItemVerticalPageParentBinding>)?.let { dh ->
+          recyclerPagerAdapter.fillData(mDatas[position], dh.viewBinding, position, recyclerPagerAdapter.itemCount)
           dh.viewBinding.itemRecyclePagerContainer.addView(videoView)
         }
         //开始播放
@@ -107,7 +120,7 @@ class RecyclerPagerActivity : CommBindTitleActivity<ActivtyVerticalpageBinding>(
       //默认进来第一个位置没有回调，所以手动进行播放
       viewBinding.vvpDSV.post {
         viewBinding.vvpDSV.getViewHolder(0)?.let { viewHolder ->
-          (viewHolder as? DiscreteHolder<VerticalPageBean, ItemVerticalPageParentBinding>)?.let { holder ->
+          (viewHolder as? BaseViewHolder<ItemVerticalPageParentBinding>)?.let { holder ->
             //防止还存在播放器
             if (mVideoView?.parent != null) initVideoView()
             mVideoView?.let { videoView ->

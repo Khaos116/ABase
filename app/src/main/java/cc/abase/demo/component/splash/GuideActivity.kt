@@ -2,15 +2,18 @@ package cc.abase.demo.component.splash
 
 import android.content.Context
 import android.content.Intent
-import android.view.LayoutInflater
 import android.view.ViewGroup
+import cc.ab.base.ext.*
 import cc.ab.base.widget.discretescrollview.DSVOrientation
 import cc.ab.base.widget.discretescrollview.DiscreteBanner
+import cc.ab.base.widget.discretescrollview.adapter.DiscretePageAdapter
 import cc.abase.demo.component.comm.CommBindActivity
-import cc.abase.demo.component.splash.adapter.GuideHolderCreator
+import cc.abase.demo.component.login.LoginActivity
 import cc.abase.demo.constants.ImageUrls
 import cc.abase.demo.databinding.ActivityGuideBinding
 import cc.abase.demo.databinding.LayoutGuideBinding
+import cc.abase.demo.utils.MMkvUtils
+import com.blankj.utilcode.util.ScreenUtils
 import com.gyf.immersionbar.ktx.immersionBar
 
 /**
@@ -49,8 +52,23 @@ class GuideActivity : CommBindActivity<ActivityGuideBinding>() {
     val banner = DiscreteBanner<String, LayoutGuideBinding>(this)
     viewBinding.root.addView(banner, ViewGroup.LayoutParams(-1, -1))
     banner.setOrientation(DSVOrientation.VERTICAL)
-        .apply { getIndicator()?.needSpecial = true }
-        .setPages(GuideHolderCreator(), mList)
+      .apply { getIndicator()?.needSpecial = true }
+      .setPages(object : DiscretePageAdapter<String, LayoutGuideBinding>(mList) {
+        override fun fillData(data: String, binding: LayoutGuideBinding, position: Int, count: Int) {
+          val height = mContentView.height
+          val width = ScreenUtils.getScreenWidth()
+          binding.guideKIV.loadImgVertical(data, holderRatio = width * 1f / height)
+          binding.guideGo.visibleGone(position == count - 1)
+          binding.guideGo.let { view ->
+            view.visibleGone(position == count - 1)
+            view.pressEffectAlpha()
+            view.click {
+              MMkvUtils.setNeedGuide(false)
+              LoginActivity.startActivity(it.context)
+            }
+          }
+        }
+      }, mList)
   }
   //</editor-fold>
 }

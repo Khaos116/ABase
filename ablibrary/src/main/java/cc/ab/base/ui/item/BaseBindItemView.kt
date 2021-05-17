@@ -39,7 +39,7 @@ abstract class BaseBindItemView<T, V : ViewBinding>(var onItemClick: ((item: T) 
   //</editor-fold>
 
   //<editor-fold defaultstate="collapsed" desc="子类必须重新的方法">
-  //加载数据(返回值是为了解决findViewById)
+  //加载数据
   abstract fun fillData(holder: BaseViewHolder<V>, item: T)
   //</editor-fold>
 }

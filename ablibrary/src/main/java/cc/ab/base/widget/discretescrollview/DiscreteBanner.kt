@@ -12,9 +12,8 @@ import androidx.viewpager.widget.ViewPager
 import androidx.viewpager2.widget.ViewPager2
 import cc.ab.base.R
 import cc.ab.base.ext.getMyLifecycleOwner
+import cc.ab.base.ui.item.BaseViewHolder
 import cc.ab.base.widget.discretescrollview.adapter.DiscretePageAdapter
-import cc.ab.base.widget.discretescrollview.holder.DiscreteHolder
-import cc.ab.base.widget.discretescrollview.holder.DiscreteHolderCreator
 import com.blankj.utilcode.util.SizeUtils
 import kotlin.math.abs
 
@@ -24,10 +23,10 @@ import kotlin.math.abs
  * @date: 2019/10/14 11:44
  */
 class DiscreteBanner<T, V : ViewBinding> @kotlin.jvm.JvmOverloads constructor(
-    context: Context,
-    attrs: AttributeSet? = null,
-    defStyleAttr: Int = 0,
-    defStyleRes: Int = 0
+  context: Context,
+  attrs: AttributeSet? = null,
+  defStyleAttr: Int = 0,
+  defStyleRes: Int = 0
 ) : FrameLayout(context, attrs, defStyleAttr, defStyleRes), LifecycleObserver {
   //横向还是竖向
   private var orientation = DSVOrientation.HORIZONTAL.ordinal
@@ -39,7 +38,7 @@ class DiscreteBanner<T, V : ViewBinding> @kotlin.jvm.JvmOverloads constructor(
   private lateinit var mPager: DiscreteScrollView
 
   //真正使用的adapter
-  private var mPagerAdapter: DiscretePageAdapter<T,V>? = null
+  private var mPagerAdapter: DiscretePageAdapter<T, V>? = null
 
   //圆点
   private lateinit var mIndicator: DotsIndicator
@@ -48,7 +47,7 @@ class DiscreteBanner<T, V : ViewBinding> @kotlin.jvm.JvmOverloads constructor(
   private var looper: Boolean = false
 
   //无限循环adapter
-  private var mLooperAdapter: InfiniteScrollAdapter<DiscreteHolder<T,V>>? = null
+  private var mLooperAdapter: InfiniteScrollAdapter<BaseViewHolder<V>>? = null
 
   //是否需要自动轮播
   private var needAutoPlay = false
@@ -136,7 +135,7 @@ class DiscreteBanner<T, V : ViewBinding> @kotlin.jvm.JvmOverloads constructor(
     if (orientation == DSVOrientation.HORIZONTAL) { //横向
       mIndicator.orientation = LinearLayout.HORIZONTAL
       (mIndicator.layoutParams as LayoutParams).gravity =
-          Gravity.BOTTOM or Gravity.CENTER_HORIZONTAL
+        Gravity.BOTTOM or Gravity.CENTER_HORIZONTAL
       mIndicator.translationX = 0f
       mIndicator.translationY = -defaultOffset
     } else { //竖向
@@ -199,12 +198,10 @@ class DiscreteBanner<T, V : ViewBinding> @kotlin.jvm.JvmOverloads constructor(
 
   //设置数据
   @Suppress("UNCHECKED_CAST")
-  fun setPages(holderCreator: DiscreteHolderCreator<T,V>, datas: MutableList<T>): DiscreteBanner<T, V> {
+  fun setPages(adapter: DiscretePageAdapter<T, V>, datas: MutableList<T>): DiscreteBanner<T, V> {
     stopPlay()
     this.mData = datas
-    this.mPagerAdapter = DiscretePageAdapter(holderCreator, mData) { position, t ->
-      itemClick?.invoke(position, t as T)
-    }
+    this.mPagerAdapter = adapter
     if (looper) {
       mPagerAdapter?.let {
         this.mLooperAdapter = InfiniteScrollAdapter.wrap(it)
