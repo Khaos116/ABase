@@ -1,7 +1,7 @@
 package cc.abase.demo.widget.dialog
 
 import android.graphics.Typeface
-import android.view.*
+import android.view.Gravity
 import androidx.fragment.app.FragmentManager
 import cc.ab.base.ext.*
 import cc.ab.base.ui.dialog.BaseBindFragmentDialog
@@ -38,54 +38,50 @@ class CommAlertDialog : BaseBindFragmentDialog<DialogCommBinding>() {
   var boldConfirm: Boolean? = null
   //</editor-fold>
 
-  //<editor-fold defaultstate="collapsed" desc="XML">
-  override fun loadViewBinding(inflater: LayoutInflater, parent: ViewGroup?) = DialogCommBinding.inflate(inflater, parent, parent != null)
-  //</editor-fold>
-
   //<editor-fold defaultstate="collapsed" desc="初始化">
   override fun initView() {
     //按压效果
-    viewBinding?.commAlertCancel?.pressEffectAlpha()
-    viewBinding?.commAlertConfirm?.pressEffectAlpha()
+    viewBinding.commAlertCancel.pressEffectAlpha()
+    viewBinding.commAlertConfirm.pressEffectAlpha()
     //标题
-    viewBinding?.commAlertTitle?.text = title
-    viewBinding?.commAlertTitle?.visibleGone(!title.isNullOrBlank())
-    if (!titleHorizontal) viewBinding?.commAlertTitle?.gravity = Gravity.START
+    viewBinding.commAlertTitle.text = title
+    viewBinding.commAlertTitle.visibleGone(!title.isNullOrBlank())
+    if (!titleHorizontal) viewBinding.commAlertTitle.gravity = Gravity.START
     //内容
-    viewBinding?.commAlertContent?.text = content
-    if (contentHorizontal) viewBinding?.commAlertContent?.gravity = Gravity.CENTER_HORIZONTAL
-    else viewBinding?.commAlertContent?.post {
-      if (viewBinding?.commAlertContent?.lineCount ?: 0 == 1) viewBinding?.commAlertContent?.gravity = Gravity.CENTER_HORIZONTAL
+    viewBinding.commAlertContent.text = content
+    if (contentHorizontal) viewBinding.commAlertContent.gravity = Gravity.CENTER_HORIZONTAL
+    else viewBinding.commAlertContent.post {
+      if (viewBinding.commAlertContent.lineCount == 1) viewBinding.commAlertContent.gravity = Gravity.CENTER_HORIZONTAL
     }
-    if (boldContent == true) viewBinding?.commAlertContent?.typeface = Typeface.defaultFromStyle(Typeface.BOLD)
-    viewBinding?.commContentLl?.visibleGone(!content.isNullOrBlank())
+    if (boldContent == true) viewBinding.commAlertContent.typeface = Typeface.defaultFromStyle(Typeface.BOLD)
+    viewBinding.commContentLl.visibleGone(!content.isNullOrBlank())
     //取消
-    cancelText?.let { viewBinding?.commAlertCancel?.text = it }
-    cancelTextColor?.let { viewBinding?.commAlertCancel?.setTextColor(it) }
-    if (boldCancel == true) viewBinding?.commAlertCancel?.typeface = Typeface.defaultFromStyle(Typeface.BOLD)
+    cancelText.let { viewBinding.commAlertCancel.text = it }
+    cancelTextColor?.let { viewBinding.commAlertCancel.setTextColor(it) }
+    if (boldCancel == true) viewBinding.commAlertCancel.typeface = Typeface.defaultFromStyle(Typeface.BOLD)
     //确定
-    confirmText?.let { viewBinding?.commAlertConfirm?.text = it }
-    confirmTextColor?.let { viewBinding?.commAlertConfirm?.setTextColor(it) }
-    if (boldConfirm == true) viewBinding?.commAlertConfirm?.typeface = Typeface.defaultFromStyle(Typeface.BOLD)
+    confirmText?.let { viewBinding.commAlertConfirm.text = it }
+    confirmTextColor?.let { viewBinding.commAlertConfirm.setTextColor(it) }
+    if (boldConfirm == true) viewBinding.commAlertConfirm.typeface = Typeface.defaultFromStyle(Typeface.BOLD)
     //点击事件
-    viewBinding?.commAlertCancel?.click {
+    viewBinding.commAlertCancel.click {
       cancelCallback?.invoke()
       dismissAllowingStateLoss()
     }
-    viewBinding?.commAlertConfirm?.click {
+    viewBinding.commAlertConfirm.click {
       confirmCallback?.invoke()
       dismissAllowingStateLoss()
     }
     //按钮类型
     when (type) {
       AlertDialogType.SINGLE_BUTTON -> {
-        viewBinding?.commAlertConfirm?.visible()
-        viewBinding?.commAlertContent?.visible()
+        viewBinding.commAlertConfirm.visible()
+        viewBinding.commAlertContent.visible()
       }
       AlertDialogType.DOUBLE_BUTTON -> {
-        viewBinding?.commAlertCancel?.visible()
-        viewBinding?.commBtnLine?.visible()
-        viewBinding?.commAlertContent?.visible()
+        viewBinding.commAlertCancel.visible()
+        viewBinding.commBtnLine.visible()
+        viewBinding.commAlertContent.visible()
       }
     }
   }

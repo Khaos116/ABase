@@ -17,10 +17,8 @@ class ActionDialog : BaseBindFragmentDialog<DialogActionBinding>() {
   //默认提示语
   var hintText: String = StringUtils.getString(R.string.action_loading)
 
-  override fun loadViewBinding(inflater: LayoutInflater, parent: ViewGroup?) = DialogActionBinding.inflate(inflater, parent, parent != null)
-
   override fun initView() {
-    viewBinding?.dialogActionHint?.text = hintText
+    viewBinding.dialogActionHint.text = hintText
   }
 
   companion object {
