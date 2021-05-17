@@ -6,6 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    tools:parentTag="cc.abase.demo.widget.coordinator.CoordinatorUserLayout"
     >
   <!--滑动效果需要CoordinatorLayout+AppBarLayout-->
   <com.google.android.material.appbar.AppBarLayout

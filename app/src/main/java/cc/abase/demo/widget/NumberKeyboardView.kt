@@ -10,7 +10,7 @@ import android.widget.EditText
 import androidx.constraintlayout.widget.ConstraintLayout
 import cc.ab.base.ext.click
 import cc.ab.base.ext.dp2px
-import cc.abase.demo.databinding.LayoutNumberKeyboardBinding
+import cc.abase.demo.databinding.MergeNumberKeyboardBinding
 
 /**
  * @Description https://blog.csdn.net/lianwanfei/article/details/48052073
@@ -27,7 +27,7 @@ class NumberKeyboardView @JvmOverloads constructor(c: Context, a: AttributeSet? 
   init {
     setBackgroundColor(Color.parseColor("#fbfbfb"))
     setPadding(11.dp2px(), 14.dp2px(), 11.dp2px(), 4.dp2px())
-    val viewBind = LayoutNumberKeyboardBinding.inflate(LayoutInflater.from(c), this)
+    val viewBind = MergeNumberKeyboardBinding.inflate(LayoutInflater.from(c), this)
     viewBind.tv0.click { performKeyDown(KeyEvent.KEYCODE_0) }
     viewBind.tv1.click { performKeyDown(KeyEvent.KEYCODE_1) }
     viewBind.tv2.click { performKeyDown(KeyEvent.KEYCODE_2) }
