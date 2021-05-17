@@ -2,7 +2,6 @@ package cc.abase.demo.component.bottomsheet
 
 import android.graphics.drawable.ColorDrawable
 import android.view.Gravity
-import android.view.LayoutInflater
 import androidx.recyclerview.widget.LinearLayoutManager
 import cc.ab.base.ext.*
 import cc.abase.demo.R
@@ -15,6 +14,7 @@ import cc.abase.demo.item.DividerItem
 import cc.abase.demo.item.SimpleTxtItem
 import com.blankj.utilcode.util.ColorUtils
 import com.drakeet.multitype.MultiTypeAdapter
+import com.dylanc.viewbinding.inflateBinding
 import com.google.android.material.bottomsheet.BottomSheetDialog
 
 /**
@@ -48,7 +48,7 @@ class BottomSheetActivity : CommBindTitleActivity<ActivityBottomSheetBinding>() 
   //<editor-fold defaultstate="collapsed" desc="初始化BottomSheet">
   private fun initBottomSheet() {
     //弹窗View
-    val binding = LayoutBottomSheetBinding.inflate(layoutInflater)
+    val binding: LayoutBottomSheetBinding = inflateBinding(layoutInflater)
     //设置内部数据
     val recycler = binding.bottomSheetRecycler
     recycler.layoutManager = LinearLayoutManager(mContext)

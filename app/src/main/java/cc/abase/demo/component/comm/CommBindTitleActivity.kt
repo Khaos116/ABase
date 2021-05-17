@@ -4,6 +4,7 @@ import androidx.viewbinding.ViewBinding
 import cc.ab.base.ext.click
 import cc.ab.base.ext.pressEffectAlpha
 import cc.abase.demo.databinding.LayoutCommTitleBinding
+import com.dylanc.viewbinding.inflateBinding
 
 /**
  * @Description
@@ -20,7 +21,7 @@ abstract class CommBindTitleActivity<T : ViewBinding> : CommBindActivity<T>() {
   //<editor-fold defaultstate="collapsed" desc="拦截添加标题栏">
   //重新后，添加标题栏，重新调用子类方法
   override fun initView() {
-    viewBindingTitle = LayoutCommTitleBinding.inflate(layoutInflater)
+    viewBindingTitle = inflateBinding(layoutInflater)
     baseBinding.root.addView(viewBindingTitle.root, 1)
     //处理返回
     viewBindingTitle.commTitleBack.pressEffectAlpha()

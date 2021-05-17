@@ -9,6 +9,7 @@ import cc.ab.base.databinding.BaseActivityBinding
 import cc.ab.base.ext.logE
 import cc.ab.base.ext.visibleGone
 import com.dylanc.viewbinding.base.inflateBindingWithGeneric
+import com.dylanc.viewbinding.inflateBinding
 import com.gyf.immersionbar.ktx.immersionBar
 import kotlinx.coroutines.*
 
@@ -37,7 +38,7 @@ abstract class BaseBindActivity<T : ViewBinding> : AppCompatActivity() {
 
   //<editor-fold defaultstate="collapsed" desc="创建">
   override fun onCreate(savedInstanceState: Bundle?) {
-    baseBinding = BaseActivityBinding.inflate(layoutInflater)
+    baseBinding = inflateBinding(layoutInflater)
     this.onCreateBefore()
     this.initStatus()
     super.onCreate(savedInstanceState)
