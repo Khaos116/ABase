@@ -39,10 +39,6 @@ class MainActivity : CommBindActivity<ActivityMainBinding>() {
   private var floatView: DragFloatView? = null
   //</editor-fold>
 
-  //<editor-fold defaultstate="collapsed" desc="XML">
-  override fun loadViewBinding(inflater: LayoutInflater) = ActivityMainBinding.inflate(inflater)
-  //</editor-fold>
-
   //<editor-fold defaultstate="collapsed" desc="初始化View">
   override fun initView() {
     window.setBackgroundDrawable(null)

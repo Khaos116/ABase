@@ -33,10 +33,6 @@ class RegisterActivity : CommBindTitleActivity<ActivityRegisterBinding>() {
   }
   //</editor-fold>
 
-  //<editor-fold defaultstate="collapsed" desc="XML">
-  override fun loadViewBinding(inflater: LayoutInflater) = ActivityRegisterBinding.inflate(inflater)
-  //</editor-fold>
-
   //<editor-fold defaultstate="collapsed" desc="初始化View">
   override fun initContentView() {
     setTitleText(StringUtils.getString(R.string.login_register_hint))

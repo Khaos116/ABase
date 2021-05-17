@@ -25,10 +25,6 @@ class BlurActivity : CommBindTitleActivity<ActivityBlurBinding>() {
   }
   //</editor-fold>
 
-  //<editor-fold defaultstate="collapsed" desc="XML">
-  override fun loadViewBinding(inflater: LayoutInflater) = ActivityBlurBinding.inflate(inflater)
-  //</editor-fold>
-
   //<editor-fold defaultstate="collapsed" desc="初始化View">
   override fun initContentView() {
     setTitleText(R.string.title_blur.xmlToString())

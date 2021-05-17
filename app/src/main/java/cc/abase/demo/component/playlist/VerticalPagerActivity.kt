@@ -59,10 +59,6 @@ class VerticalPagerActivity : CommBindActivity<ActivityPlayPagerBinding>() {
   }
   //</editor-fold>
 
-  //<editor-fold defaultstate="collapsed" desc="XML">
-  override fun loadViewBinding(inflater: LayoutInflater) = ActivityPlayPagerBinding.inflate(inflater)
-  //</editor-fold>
-
   //<editor-fold defaultstate="collapsed" desc="初始化View">
   override fun initView() {
     //返回按钮

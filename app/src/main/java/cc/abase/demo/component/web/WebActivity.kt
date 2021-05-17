@@ -58,10 +58,6 @@ class WebActivity : CommBindTitleActivity<ActivityWebBinding>() {
   private var mUploadCall: ValueCallback<Array<Uri>>? = null
   //</editor-fold>
 
-  //<editor-fold defaultstate="collapsed" desc="XML">
-  override fun loadViewBinding(inflater: LayoutInflater) = ActivityWebBinding.inflate(inflater)
-  //</editor-fold>
-
   //<editor-fold defaultstate="collapsed" desc="初始化View">
   //初始化view
   @SuppressLint("SetJavaScriptEnabled", "ClickableViewAccessibility")

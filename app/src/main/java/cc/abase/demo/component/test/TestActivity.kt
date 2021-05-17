@@ -14,10 +14,6 @@ import com.blankj.utilcode.util.StringUtils
  * @date: 2020/5/7 9:41
  */
 class TestActivity : CommBindTitleActivity<ActivityTestBinding>() {
-  //<editor-fold defaultstate="collapsed" desc="XML">
-  override fun loadViewBinding(inflater: LayoutInflater) = ActivityTestBinding.inflate(inflater)
-  //</editor-fold>
-
   //<editor-fold defaultstate="collapsed" desc="变量">
   private val viewModel: TestViewModel by lazy { TestViewModel() }
   //</editor-fold>

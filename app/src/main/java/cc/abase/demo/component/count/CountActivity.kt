@@ -15,10 +15,6 @@ import com.cc.countsdk.utils.CountInfoUtils
  * @Time：16:15
  */
 class CountActivity : CommBindTitleActivity<ActivityCountBinding>() {
-  //<editor-fold defaultstate="collapsed" desc="XML">
-  override fun loadViewBinding(inflater: LayoutInflater) = ActivityCountBinding.inflate(inflater)
-  //</editor-fold>
-
   //<editor-fold defaultstate="collapsed" desc="初始化View">
   override fun initContentView() {
     setTitleText(R.string.title_count.xmlToString())

@@ -46,10 +46,6 @@ class ChatActivity : CommBindTitleActivity<ActivityChatBinding>() {
   private val viewModel: ChatViewModel by lazy { ChatViewModel() }
   //</editor-fold>
 
-  //<editor-fold defaultstate="collapsed" desc="XML">
-  override fun loadViewBinding(inflater: LayoutInflater) = ActivityChatBinding.inflate(inflater)
-  //</editor-fold>
-
   //<editor-fold defaultstate="collapsed" desc="初始化View">
   override fun initContentView() {
     window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_UNCHANGED)

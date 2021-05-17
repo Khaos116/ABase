@@ -26,8 +26,6 @@ class SettingActivity : CommBindTitleActivity<ActivitySettingBinding>() {
     }
   }
 
-  override fun loadViewBinding(inflater: LayoutInflater) = ActivitySettingBinding.inflate(inflater)
-
   override fun initContentView() {
     setTitleText("设置")
     viewBinding.settingLogout.pressEffectAlpha()

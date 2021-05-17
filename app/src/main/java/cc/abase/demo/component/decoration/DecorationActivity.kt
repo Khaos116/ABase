@@ -31,8 +31,6 @@ class DecorationActivity : CommBindTitleActivity<ActivityDecorationBinding>() {
   private var titles: MutableList<String> =
     mutableListOf("TAB1", "TAB2", "TAB3", "TAB4", "TAB5", "TAB6", "TAB7", "TAB8", "TAB9")
 
-  override fun loadViewBinding(inflater: LayoutInflater) = ActivityDecorationBinding.inflate(inflater)
-
   override fun initContentView() {
     setTitleText(StringUtils.getString(R.string.title_decoration))
     fragments.clear()

@@ -57,10 +57,6 @@ class SplashActivity : CommBindActivity<ActivitySplashBinding>() {
   }
   //</editor-fold>
 
-  //<editor-fold defaultstate="collapsed" desc="XML">
-  override fun loadViewBinding(inflater: LayoutInflater) = ActivitySplashBinding.inflate(inflater)
-  //</editor-fold>
-
   //<editor-fold defaultstate="collapsed" desc="初始化View">
   private var isFirstSize = true
   override fun initView() {
@@ -161,7 +157,7 @@ class SplashActivity : CommBindActivity<ActivitySplashBinding>() {
 
   //<editor-fold defaultstate="collapsed" desc="生命周期">
   //禁止返回
-  override fun onBackPressed() {}
+  //override fun onBackPressed() {}
 
   override fun finish() {
     mLottieAnimationView?.pauseAnimation()

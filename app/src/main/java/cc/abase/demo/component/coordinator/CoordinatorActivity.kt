@@ -48,10 +48,6 @@ class CoordinatorActivity : CommBindActivity<ActivityCoordinatorBinding>() {
   private var titles: MutableList<String> = mutableListOf()
   //</editor-fold>
 
-  //<editor-fold defaultstate="collapsed" desc="XML">
-  override fun loadViewBinding(inflater: LayoutInflater) = ActivityCoordinatorBinding.inflate(inflater)
-  //</editor-fold>
-
   //<editor-fold defaultstate="collapsed" desc="状态栏操作">
   override fun fillStatus() = false
   //</editor-fold>

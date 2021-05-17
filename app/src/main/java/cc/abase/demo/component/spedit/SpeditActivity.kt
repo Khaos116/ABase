@@ -36,8 +36,6 @@ class SpeditActivity : CommBindTitleActivity<ActivitySpeditBinding>() {
   //最大输入数量
   private val MAX_LENGTH = 200
 
-  override fun loadViewBinding(inflater: LayoutInflater) = ActivitySpeditBinding.inflate(inflater)
-
   override fun initContentView() {
     setTitleText(StringUtils.getString(R.string.title_spedit))
     //点击效果

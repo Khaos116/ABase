@@ -43,8 +43,6 @@ class FlexboxActivity : CommBindTitleActivity<ActivityFlexboxBinding>() {
       "一个很长的随机标签"
   )
 
-  override fun loadViewBinding(inflater: LayoutInflater) = ActivityFlexboxBinding.inflate(inflater)
-
   override fun initContentView() {
     setTitleText(StringUtils.getString(R.string.title_flexbox))
     //主轴项目排列方向

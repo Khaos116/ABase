@@ -43,10 +43,6 @@ class GuideActivity : CommBindActivity<ActivityGuideBinding>() {
   }
   //</editor-fold>
 
-  //<editor-fold defaultstate="collapsed" desc="XML">
-  override fun loadViewBinding(inflater: LayoutInflater) = ActivityGuideBinding.inflate(inflater)
-  //</editor-fold>
-
   //<editor-fold defaultstate="collapsed" desc="初始化View">
   override fun initView() {
     viewBinding.root.removeAllViews()

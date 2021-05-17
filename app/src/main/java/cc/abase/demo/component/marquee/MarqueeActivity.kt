@@ -24,8 +24,6 @@ class MarqueeActivity : CommBindTitleActivity<ActivityMarqueeBinding>() {
     }
   }
 
-  override fun loadViewBinding(inflater: LayoutInflater) = ActivityMarqueeBinding.inflate(inflater)
-
   override fun initContentView() {
     setTitleText(StringUtils.getString(R.string.title_marquee))
     viewBinding.marqueeContent1.text = "这是一个很长很长的测试跑马灯效果的描述文字，如果不够长，我再添加一点文字！"

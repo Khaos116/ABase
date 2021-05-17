@@ -16,10 +16,6 @@ import com.github.ihsg.patternlocker.PatternLockerView
  * @Time：18:29
  */
 class PatternLockerActivity : CommBindTitleActivity<ActivityPatternLockerBinding>() {
-  //<editor-fold defaultstate="collapsed" desc="XML">
-  override fun loadViewBinding(inflater: LayoutInflater) = ActivityPatternLockerBinding.inflate(inflater)
-  //</editor-fold>
-
   //<editor-fold defaultstate="collapsed" desc="初始化View">
   private var mLastList = mutableListOf<Int>()
   override fun initContentView() {

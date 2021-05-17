@@ -49,10 +49,6 @@ class ZxingActivity : CommBindTitleActivity<ActivityZxingBinding>() {
   private var mJob: Job? = null
   //</editor-fold>
 
-  //<editor-fold defaultstate="collapsed" desc="XML">
-  override fun loadViewBinding(inflater: LayoutInflater) = ActivityZxingBinding.inflate(inflater)
-  //</editor-fold>
-
   //<editor-fold defaultstate="collapsed" desc="初始化View">
   override fun initContentView() {
     setTitleText(R.string.title_zxing.xmlToString())

@@ -44,10 +44,6 @@ class StickyActivity2 : CommBindTitleActivity<ActivitySticky2Binding>() {
   private var rightAdapter = MultiTypeAdapter()
   //</editor-fold>
 
-  //<editor-fold defaultstate="collapsed" desc="XML">
-  override fun loadViewBinding(inflater: LayoutInflater) = ActivitySticky2Binding.inflate(inflater)
-  //</editor-fold>
-
   //<editor-fold defaultstate="collapsed" desc="初始化View">
   override fun initContentView() {
     setTitleText(StringUtils.getString(R.string.title_sticky2))

@@ -47,10 +47,6 @@ class VideoDetailActivity : CommBindActivity<ActivityVideoDetailBinding>() {
   }
   //</editor-fold>
 
-  //<editor-fold defaultstate="collapsed" desc="XML">
-  override fun loadViewBinding(inflater: LayoutInflater) = ActivityVideoDetailBinding.inflate(inflater)
-  //</editor-fold>
-
   //<editor-fold defaultstate="collapsed" desc="变量">
   private lateinit var videoDetailVideoView: MyVideoView
   private var mPIPManager = PIPManager.getInstance()

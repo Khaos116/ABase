@@ -45,8 +45,6 @@ class VideoCompressActivity : CommBindTitleActivity<ActivityVideoCompressBinding
   //每次设置资源后的第一次播放
   private var isFirstPlay = true
 
-  override fun loadViewBinding(inflater: LayoutInflater) = ActivityVideoCompressBinding.inflate(inflater)
-
   //压缩后的视频地址
   private var compressVideoPath: String? = null
 

@@ -43,10 +43,6 @@ class LoginActivity : CommBindActivity<ActivityLoginBinding>() {
   }
   //</editor-fold>
 
-  //<editor-fold defaultstate="collapsed" desc="XML">
-  override fun loadViewBinding(inflater: LayoutInflater) = ActivityLoginBinding.inflate(inflater)
-  //</editor-fold>
-
   //<editor-fold defaultstate="collapsed" desc="变量">
   //隐藏功能点击次数
   private var count = 0
