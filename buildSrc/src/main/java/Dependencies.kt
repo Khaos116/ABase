@@ -88,6 +88,9 @@ object Deps {
 
   //动态权限 https://github.com/getActivity/XXPermissions
   const val xxpermissions = "com.hjq:xxpermissions:10.6"
+
+  //ViewBinding https://github.com/hi-dhl/Binding/blob/main/doc/README_CN.md
+  const val binding = "com.hi-dhl:binding:1.1.3"
   //</editor-fold>
 
   //<editor-fold defaultstate="collapsed" desc="三方常用配置">
