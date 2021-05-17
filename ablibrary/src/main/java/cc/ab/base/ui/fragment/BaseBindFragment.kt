@@ -51,12 +51,18 @@ abstract class BaseBindFragment<T : ViewBinding> : Fragment() {
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
     super.onViewCreated(view, savedInstanceState)
     if (_binding == null) mJobLoading = GlobalScope.launch(context = Dispatchers.Main + CoroutineExceptionHandler { _, _ -> }) {
-      withContext(Dispatchers.IO) { _binding = inflateBindingWithGeneric(layoutInflater, mRootLayout, false) }.let {
+      withContext(Dispatchers.IO) { initBinding() }.let {
         mRootLayout?.removeAllViews()
         mRootLayout?.addView(viewBinding.root, ViewGroup.LayoutParams(-1, -1))
         checkFirstLoad()
       }
     }
+  }
+  //</editor-fold>
+
+  //<editor-fold defaultstate="collapsed" desc="由于要读取泛型，所以必须要放到泛型类下面调用，不能放到协程中">
+  private fun initBinding() {
+    _binding = inflateBindingWithGeneric(layoutInflater, mRootLayout, false)
   }
   //</editor-fold>
 

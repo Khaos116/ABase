@@ -46,11 +46,17 @@ abstract class BaseBindActivity<T : ViewBinding> : AppCompatActivity() {
     baseBinding.baseStatusView.visibleGone(fillStatus())
     //异步加载布局，可以实现快速打开页面
     mJobLoading = GlobalScope.launch(context = Dispatchers.Main + CoroutineExceptionHandler { _, e -> e.logE() }) {
-      withContext(Dispatchers.IO) { _binding = inflateBindingWithGeneric(layoutInflater) }.let {
+      withContext(Dispatchers.IO) { initBinding() }.let {
         baseBinding.root.addView(viewBinding.root, ViewGroup.LayoutParams(-1, -1))
         initView()
       }
     }
+  }
+  //</editor-fold>
+
+  //<editor-fold defaultstate="collapsed" desc="由于要读取泛型，所以必须要放到泛型类下面调用，不能放到协程中">
+  private fun initBinding() {
+    _binding = inflateBindingWithGeneric(layoutInflater)
   }
   //</editor-fold>
 
