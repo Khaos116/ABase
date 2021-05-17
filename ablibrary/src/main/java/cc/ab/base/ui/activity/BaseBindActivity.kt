@@ -9,6 +9,7 @@ import androidx.viewbinding.ViewBinding
 import cc.ab.base.databinding.BaseActivityBinding
 import cc.ab.base.ext.logE
 import cc.ab.base.ext.visibleGone
+import com.dylanc.viewbinding.base.inflateBindingWithGeneric
 import com.gyf.immersionbar.ktx.immersionBar
 import kotlinx.coroutines.*
 
@@ -28,7 +29,7 @@ abstract class BaseBindActivity<T : ViewBinding> : AppCompatActivity() {
   protected lateinit var baseBinding: BaseActivityBinding
 
   //除状态栏以外的XML
-  protected var _binding: T? = null//由于是异步加载，所以如果重写生命周期用到View先判断它是否为空
+  protected var _binding: T? = null //由于是异步加载，所以如果重写生命周期用到View先判断它是否为空
   protected val viewBinding get() = _binding!!
 
   //XML加载
@@ -44,9 +45,8 @@ abstract class BaseBindActivity<T : ViewBinding> : AppCompatActivity() {
     setContentView(baseBinding.root)
     baseBinding.baseStatusView.visibleGone(fillStatus())
     //异步加载布局，可以实现快速打开页面
-    mJobLoading = GlobalScope.launch(context = Dispatchers.Main + CoroutineExceptionHandler { _, e ->e.logE() }) {
-      withContext(Dispatchers.IO) { loadViewBinding(layoutInflater) }.let { b ->
-        _binding = b
+    mJobLoading = GlobalScope.launch(context = Dispatchers.Main + CoroutineExceptionHandler { _, e -> e.logE() }) {
+      withContext(Dispatchers.IO) { _binding = inflateBindingWithGeneric(layoutInflater) }.let {
         baseBinding.root.addView(viewBinding.root, ViewGroup.LayoutParams(-1, -1))
         initView()
       }
@@ -97,9 +97,6 @@ abstract class BaseBindActivity<T : ViewBinding> : AppCompatActivity() {
   //</editor-fold>
 
   //<editor-fold defaultstate="collapsed" desc="子类必须重新的方法">
-  //获取XML
-  protected abstract fun loadViewBinding(inflater: LayoutInflater): T
-
   //执行初始化
   protected abstract fun initView()
   //</editor-fold>

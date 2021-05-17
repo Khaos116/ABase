@@ -8,6 +8,7 @@ import android.widget.FrameLayout
 import androidx.fragment.app.Fragment
 import androidx.viewbinding.ViewBinding
 import cc.ab.base.ext.logI
+import com.dylanc.viewbinding.base.inflateBindingWithGeneric
 import kotlinx.coroutines.*
 
 /**
@@ -18,7 +19,7 @@ import kotlinx.coroutines.*
  */
 abstract class BaseBindFragment<T : ViewBinding> : Fragment() {
   //<editor-fold defaultstate="collapsed" desc="变量">
-  protected var _binding: T? = null//由于是异步加载，所以如果重写生命周期用到View先判断它是否为空
+  protected var _binding: T? = null //由于是异步加载，所以如果重写生命周期用到View先判断它是否为空
   protected val viewBinding: T get() = _binding!!
   protected var mRootLayout: FrameLayout? = null
 
@@ -50,10 +51,9 @@ abstract class BaseBindFragment<T : ViewBinding> : Fragment() {
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
     super.onViewCreated(view, savedInstanceState)
     if (_binding == null) mJobLoading = GlobalScope.launch(context = Dispatchers.Main + CoroutineExceptionHandler { _, _ -> }) {
-      withContext(Dispatchers.IO) { loadViewBinding(LayoutInflater.from(mContext), mRootLayout) }.let { b ->
-        _binding = b
+      withContext(Dispatchers.IO) { _binding = inflateBindingWithGeneric(layoutInflater, mRootLayout, false) }.let {
         mRootLayout?.removeAllViews()
-        mRootLayout?.addView(b.root, ViewGroup.LayoutParams(-1, -1))
+        mRootLayout?.addView(viewBinding.root, ViewGroup.LayoutParams(-1, -1))
         checkFirstLoad()
       }
     }
@@ -89,15 +89,12 @@ abstract class BaseBindFragment<T : ViewBinding> : Fragment() {
   //<editor-fold defaultstate="collapsed" desc="UI销毁-重置懒加载">
   override fun onDestroyView() {
     super.onDestroyView()
-    mJobLoading?.cancel()//释放异步耗时
+    mJobLoading?.cancel() //释放异步耗时
     isLoaded = false
   }
   //</editor-fold>
 
   //<editor-fold defaultstate="collapsed" desc="子类需要重新的方法">
-  //获取XML
-  protected abstract fun loadViewBinding(inflater: LayoutInflater, container: ViewGroup?): T
-
   //懒加载初始化
   protected abstract fun lazyInit()
   //</editor-fold>
