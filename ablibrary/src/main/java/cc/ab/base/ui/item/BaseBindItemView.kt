@@ -13,7 +13,7 @@ import com.dylanc.viewbinding.base.inflateBindingWithGeneric
  * @Date：2021/2/20
  * @Time：10:42
  */
-abstract class BaseBindItemView<T, R : ViewBinding>(var onItemClick: ((item: T) -> Unit)? = null) : ItemViewBinder<T, BaseViewHolder<R>>() {
+abstract class BaseBindItemView<T, V : ViewBinding>(var onItemClick: ((item: T) -> Unit)? = null) : ItemViewBinder<T, BaseViewHolder<V>>() {
   //<editor-fold defaultstate="collapsed" desc="变量">
   protected var mLayoutPosition = 0
   //</editor-fold>
@@ -23,14 +23,14 @@ abstract class BaseBindItemView<T, R : ViewBinding>(var onItemClick: ((item: T) 
   //</editor-fold>
 
   //<editor-fold defaultstate="collapsed" desc="由于要读取泛型，所以必须要放到泛型类下面调用，不能放到协程中">
-  private fun initBinding(inflater: LayoutInflater, parent: ViewGroup): R {
+  private fun initBinding(inflater: LayoutInflater, parent: ViewGroup): V {
     return inflateBindingWithGeneric(inflater, parent, false)
   }
   //</editor-fold>
 
   //<editor-fold defaultstate="collapsed" desc="绑定数据">
   //holder可以获得holder.layoutPosition
-  override fun onBindViewHolder(holder: BaseViewHolder<R>, item: T) {
+  override fun onBindViewHolder(holder: BaseViewHolder<V>, item: T) {
     //写在fillData前，方便fillData修改点击事件
     if (onItemClick == null) {
       holder.itemView.setOnClickListener(null)
@@ -44,6 +44,6 @@ abstract class BaseBindItemView<T, R : ViewBinding>(var onItemClick: ((item: T) 
 
   //<editor-fold defaultstate="collapsed" desc="子类必须重新的方法">
   //加载数据(返回值是为了解决findViewById)
-  abstract fun fillData(holder: BaseViewHolder<R>, item: T)
+  abstract fun fillData(holder: BaseViewHolder<V>, item: T)
   //</editor-fold>
 }
