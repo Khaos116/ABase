@@ -18,10 +18,6 @@ class SimpleTxtItem(
     private val height: Int = -2,
     private val bgColor: Int = 0,
 ) : BaseBindItemView<SimpleTxtBean, ItemSimpleTextBinding>() {
-  //<editor-fold defaultstate="collapsed" desc="XML">
-  override fun loadViewBinding(inflater: LayoutInflater, parent: ViewGroup) = ItemSimpleTextBinding.inflate(inflater, parent, false)
-  //</editor-fold>
-
   //<editor-fold defaultstate="collapsed" desc="数据填充">
   override fun fillData(holder: BaseViewHolder<ItemSimpleTextBinding>, item: SimpleTxtBean) {
     val viewBinding = holder.viewBinding

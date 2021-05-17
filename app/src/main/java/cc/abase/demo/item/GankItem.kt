@@ -14,10 +14,6 @@ import cc.abase.demo.databinding.ItemGankBinding
  * Time:15:39
  */
 class GankItem : BaseBindItemView<GankAndroidBean, ItemGankBinding>() {
-  //<editor-fold defaultstate="collapsed" desc="XML">
-  override fun loadViewBinding(inflater: LayoutInflater, parent: ViewGroup) = ItemGankBinding.inflate(inflater, parent, false)
-  //</editor-fold>
-
   //<editor-fold defaultstate="collapsed" desc="数据填充">
   override fun fillData(holder: BaseViewHolder<ItemGankBinding>, item: GankAndroidBean) {
     val viewBinding = holder.viewBinding

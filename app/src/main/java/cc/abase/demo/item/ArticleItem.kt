@@ -15,10 +15,6 @@ import com.blankj.utilcode.util.TimeUtils
  * Time:15:05
  */
 class ArticleItem : BaseBindItemView<ArticleBean, ItemArticleBinding>() {
-  //<editor-fold defaultstate="collapsed" desc="XML">
-  override fun loadViewBinding(inflater: LayoutInflater, parent: ViewGroup) = ItemArticleBinding.inflate(inflater, parent, false)
-  //</editor-fold>
-
   //<editor-fold defaultstate="collapsed" desc="数据填充">
   override fun fillData(holder: BaseViewHolder<ItemArticleBinding>, item: ArticleBean) {
     val viewBinding = holder.viewBinding

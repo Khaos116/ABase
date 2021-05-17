@@ -13,10 +13,6 @@ import cc.abase.demo.databinding.ItemDividerBinding
  * Time:15:35
  */
 class DividerItem : BaseBindItemView<DividerBean, ItemDividerBinding>() {
-  //<editor-fold defaultstate="collapsed" desc="XML">
-  override fun loadViewBinding(inflater: LayoutInflater, parent: ViewGroup) = ItemDividerBinding.inflate(inflater, parent, false)
-  //</editor-fold>
-
   //<editor-fold defaultstate="collapsed" desc="数据填充">
   override fun fillData(holder: BaseViewHolder<ItemDividerBinding>, item: DividerBean) {
     holder.itemView.layoutParams?.height = item.heightPx

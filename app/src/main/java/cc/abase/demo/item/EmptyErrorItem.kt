@@ -20,10 +20,6 @@ import com.blankj.utilcode.util.StringUtils
 class EmptyErrorItem(
     private val callRetry: (() -> Unit)? = null
 ) : BaseBindItemView<EmptyErrorBean, ItemEmptyErrorBinding>() {
-  //<editor-fold defaultstate="collapsed" desc="XML">
-  override fun loadViewBinding(inflater: LayoutInflater, parent: ViewGroup) = ItemEmptyErrorBinding.inflate(inflater, parent, false)
-  //</editor-fold>
-
   //<editor-fold defaultstate="collapsed" desc="数据填充">
   override fun fillData(holder: BaseViewHolder<ItemEmptyErrorBinding>, item: EmptyErrorBean) {
     val viewBinding = holder.viewBinding

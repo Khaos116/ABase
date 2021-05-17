@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import androidx.viewbinding.ViewBinding
 import cc.ab.base.ext.click
 import com.drakeet.multitype.ItemViewBinder
+import com.dylanc.viewbinding.base.inflateBindingWithGeneric
 
 /**
  * @Description 使用BaseViewHolder嵌套ViewBinding解决findViewById问题
@@ -18,7 +19,13 @@ abstract class BaseBindItemView<T, R : ViewBinding>(var onItemClick: ((item: T) 
   //</editor-fold>
 
   //<editor-fold defaultstate="collapsed" desc="创建ViewHolder">
-  override fun onCreateViewHolder(inflater: LayoutInflater, parent: ViewGroup) = BaseViewHolder(loadViewBinding(inflater, parent))
+  override fun onCreateViewHolder(inflater: LayoutInflater, parent: ViewGroup) = BaseViewHolder(initBinding(inflater, parent))
+  //</editor-fold>
+
+  //<editor-fold defaultstate="collapsed" desc="由于要读取泛型，所以必须要放到泛型类下面调用，不能放到协程中">
+  private fun initBinding(inflater: LayoutInflater, parent: ViewGroup): R {
+    return inflateBindingWithGeneric(inflater, parent, false)
+  }
   //</editor-fold>
 
   //<editor-fold defaultstate="collapsed" desc="绑定数据">
@@ -36,9 +43,6 @@ abstract class BaseBindItemView<T, R : ViewBinding>(var onItemClick: ((item: T) 
   //</editor-fold>
 
   //<editor-fold defaultstate="collapsed" desc="子类必须重新的方法">
-  //xml布局
-  protected abstract fun loadViewBinding(inflater: LayoutInflater, parent: ViewGroup): R
-
   //加载数据(返回值是为了解决findViewById)
   abstract fun fillData(holder: BaseViewHolder<R>, item: T)
   //</editor-fold>

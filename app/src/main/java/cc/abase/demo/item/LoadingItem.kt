@@ -13,10 +13,6 @@ import cc.abase.demo.databinding.ItemLoadingBinding
  * Time:15:43
  */
 class LoadingItem : BaseBindItemView<LoadingBean, ItemLoadingBinding>() {
-  //<editor-fold defaultstate="collapsed" desc="XML">
-  override fun loadViewBinding(inflater: LayoutInflater, parent: ViewGroup) = ItemLoadingBinding.inflate(inflater, parent, false)
-  //</editor-fold>
-
   //<editor-fold defaultstate="collapsed" desc="数据填充">
   override fun fillData(holder: BaseViewHolder<ItemLoadingBinding>, item: LoadingBean) {
     val viewBinding = holder.viewBinding

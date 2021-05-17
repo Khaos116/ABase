@@ -33,10 +33,6 @@ class NineGridItem(
   private var helperCallback: GridItemTouchHelperCallback? = null
   //</editor-fold>
 
-  //<editor-fold defaultstate="collapsed" desc="XML">
-  override fun loadViewBinding(inflater: LayoutInflater, parent: ViewGroup) = ItemNineGridBinding.inflate(inflater, parent, false)
-  //</editor-fold>
-
   //<editor-fold defaultstate="collapsed" desc="数据填充">
   @SuppressLint("ClickableViewAccessibility")
   override fun fillData(holder: BaseViewHolder<ItemNineGridBinding>, item: GridImageBean) {

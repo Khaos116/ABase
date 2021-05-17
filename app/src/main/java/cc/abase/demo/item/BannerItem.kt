@@ -22,10 +22,6 @@ import com.blankj.utilcode.util.ScreenUtils
 class BannerItem(
     private val onItemBannerClick: ((item: BannerBean, position: Int) -> Unit)? = null
 ) : BaseBindItemView<MutableList<BannerBean>, ItemBannerBinding>() {
-  //<editor-fold defaultstate="collapsed" desc="XML">
-  override fun loadViewBinding(inflater: LayoutInflater, parent: ViewGroup) = ItemBannerBinding.inflate(inflater, parent, false)
-  //</editor-fold>
-
   //<editor-fold defaultstate="collapsed" desc="数据填充">
   override fun fillData(holder: BaseViewHolder<ItemBannerBinding>, item: MutableList<BannerBean>) {
     if (holder.itemView.getTag(R.id.tag_banner) != item) {

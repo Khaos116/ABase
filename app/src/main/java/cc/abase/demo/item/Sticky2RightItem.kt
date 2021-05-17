@@ -13,10 +13,6 @@ import cc.abase.demo.databinding.ItemSticky2BottomBinding
  * Time:14:44
  */
 class Sticky2RightItem : BaseBindItemView<UserScoreBean, ItemSticky2BottomBinding>() {
-  //<editor-fold defaultstate="collapsed" desc="XML">
-  override fun loadViewBinding(inflater: LayoutInflater, parent: ViewGroup) = ItemSticky2BottomBinding.inflate(inflater, parent, false)
-  //</editor-fold>
-
   //<editor-fold defaultstate="collapsed" desc="数据填充">
   override fun fillData(holder: BaseViewHolder<ItemSticky2BottomBinding>, item: UserScoreBean) {
     val viewBinding = holder.viewBinding

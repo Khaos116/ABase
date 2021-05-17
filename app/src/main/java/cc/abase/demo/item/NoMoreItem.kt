@@ -16,10 +16,6 @@ import cc.abase.demo.databinding.ItemNoMoreBinding
  * @Time：21:27
  */
 class NoMoreItem : BaseBindItemView<NoMoreBean, ItemNoMoreBinding>() {
-  //<editor-fold defaultstate="collapsed" desc="XML">
-  override fun loadViewBinding(inflater: LayoutInflater, parent: ViewGroup) = ItemNoMoreBinding.inflate(inflater, parent, false)
-  //</editor-fold>
-
   //<editor-fold defaultstate="collapsed" desc="数据填充">
   override fun fillData(holder: BaseViewHolder<ItemNoMoreBinding>, item: NoMoreBean) {
     val viewBinding = holder.viewBinding

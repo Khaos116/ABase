@@ -21,10 +21,6 @@ import com.drakeet.multitype.MultiTypeAdapter
 class GankParentItem(
     private val onImgClick: ((url: String, position: Int, iv: ImageView, list: MutableList<String>) -> Unit)? = null,
 ) : BaseBindItemView<GankAndroidBean, ItemGankParentBinding>() {
-  //<editor-fold defaultstate="collapsed" desc="XML">
-  override fun loadViewBinding(inflater: LayoutInflater, parent: ViewGroup) = ItemGankParentBinding.inflate(inflater, parent, false)
-  //</editor-fold>
-
   //<editor-fold defaultstate="collapsed" desc="数据填充">
   @SuppressLint("ClickableViewAccessibility")
   override fun fillData(holder: BaseViewHolder<ItemGankParentBinding>, item: GankAndroidBean) {

@@ -17,10 +17,6 @@ class NineImgItem(
     private val onDelClick: ((item: String, position: Int, iv: ImageView) -> Unit)? = null,
     private val onItemChildClick: ((item: String, position: Int, iv: ImageView) -> Unit)? = null,
 ) : BaseBindItemView<String, ItemNineImgBinding>() {
-  //<editor-fold defaultstate="collapsed" desc="XML">
-  override fun loadViewBinding(inflater: LayoutInflater, parent: ViewGroup) = ItemNineImgBinding.inflate(inflater, parent, false)
-  //</editor-fold>
-
   //<editor-fold defaultstate="collapsed" desc="数据填充">
   override fun fillData(holder: BaseViewHolder<ItemNineImgBinding>, item: String) {
     val viewBinding = holder.viewBinding

@@ -13,10 +13,6 @@ import cc.abase.demo.databinding.ItemStickyTopBinding
  * Time:10:29
  */
 class StickyTopItem : BaseBindItemView<ProvinceBean, ItemStickyTopBinding>() {
-  //<editor-fold defaultstate="collapsed" desc="XML">
-  override fun loadViewBinding(inflater: LayoutInflater, parent: ViewGroup) = ItemStickyTopBinding.inflate(inflater, parent, false)
-  //</editor-fold>
-
   //<editor-fold defaultstate="collapsed" desc="填充数据">
   override fun fillData(holder: BaseViewHolder<ItemStickyTopBinding>, item: ProvinceBean) {
     val viewBinding = holder.viewBinding

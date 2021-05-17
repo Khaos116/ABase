@@ -12,10 +12,6 @@ import cc.abase.demo.databinding.ItemSticky2LeftBinding
  * Time:14:42
  */
 class Sticky2LeftItem : BaseBindItemView<String, ItemSticky2LeftBinding>() {
-  //<editor-fold defaultstate="collapsed" desc="XML">
-  override fun loadViewBinding(inflater: LayoutInflater, parent: ViewGroup) = ItemSticky2LeftBinding.inflate(inflater, parent, false)
-  //</editor-fold>
-
   //<editor-fold defaultstate="collapsed" desc="数据填充">
   override fun fillData(holder: BaseViewHolder<ItemSticky2LeftBinding>, item: String) {
     val viewBinding = holder.viewBinding

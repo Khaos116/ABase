@@ -17,10 +17,6 @@ import cc.abase.demo.databinding.ItemListVideoBinding
 class VideoListItem(
     private val onItemPlayClick: ((videoBean: VideoBean) -> Unit)? = null
 ) : BaseBindItemView<VideoBean, ItemListVideoBinding>() {
-  //<editor-fold defaultstate="collapsed" desc="XML">
-  override fun loadViewBinding(inflater: LayoutInflater, parent: ViewGroup) = ItemListVideoBinding.inflate(inflater, parent, false)
-  //</editor-fold>
-
   //<editor-fold defaultstate="collapsed" desc="注释">
   override fun fillData(holder: BaseViewHolder<ItemListVideoBinding>, item: VideoBean) {
     val viewBinding = holder.viewBinding
