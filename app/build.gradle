@@ -236,7 +236,7 @@ dependencies {
   implementation fileTree(dir: "libs", include: ['*.jar', '*.aar'])
   implementation project(':ablibrary')
   implementation project(':silicompressor')
-  implementation project(':shelllib')
+  //implementation project(':shelllib')
   implementation Deps.walle
   implementation Deps.emoji
   implementation Deps.startup
