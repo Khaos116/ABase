@@ -79,4 +79,6 @@ dependencies {
   api Deps.xxpermissions
   api Deps.rv_anim
   api Deps.libphonenumber
+  api Deps.binding_ktx
+  api Deps.binding_base
 }
