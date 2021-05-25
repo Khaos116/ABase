@@ -1,7 +1,7 @@
 object Versions {
   internal const val sdkMin = 23
   internal const val sdkTarget = 30
-  internal const val kotlin = "1.4.32"
+  internal const val kotlin = "1.5.10"
   internal const val okHttp = "4.9.1"
   internal const val rxHttp = "2.5.7"
   internal const val coil = "1.2.0"
