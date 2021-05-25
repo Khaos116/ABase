@@ -71,6 +71,7 @@
     <!--注册页-->
     <activity
         android:name=".component.login.RegisterActivity"
+        android:configChanges="screenLayout|orientation"
         android:launchMode="singleTop"
         android:screenOrientation="portrait"
         android:windowSoftInputMode="adjustPan|stateHidden"
