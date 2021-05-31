@@ -26,6 +26,8 @@ object HostUtils {
     return suspendCancellableCoroutine { con ->
       GlobalScope.launchError(Dispatchers.IO, handler = { _, e -> con.resumeWithException(e) }) {
         val time = System.currentTimeMillis()
+        //val response = RxHttp.get("https://${host}").setCacheMode(CacheMode.ONLY_NETWORK).awaitOkResponse()
+        //if (response.isSuccessful) {
         if (NetworkUtils.isAvailableByPing(host)) {
           "{$host} 耗时=${System.currentTimeMillis() - time}".logI()
           con.resume(host)
