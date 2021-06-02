@@ -13,6 +13,7 @@ import rxhttp.wrapper.cahce.CacheMode
  */
 object OtherRepository {
   suspend fun getNetIp(): IpBean {
+    //备用地址 https://www.cloudflare.com/cdn-cgi/trace
     return RxHttp.get("http://ip-api.com/json/?lang=zh-CN")
       .setCacheMode(CacheMode.ONLY_NETWORK)
       .toResponseOther<IpBean>()
