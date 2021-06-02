@@ -53,7 +53,7 @@ inline fun CharSequence?.toastLong() {
 }
 
 fun String?.isNetImageUrl(): Boolean {
-  return if (this.isNullOrEmpty()) {
+  return if (this.isNullOrBlank()) {
     false
   } else if (!this.startsWith("http", true)) {
     false
@@ -63,7 +63,7 @@ fun String?.isNetImageUrl(): Boolean {
 }
 
 fun String?.isVideoUrl(): Boolean {
-  return if (this.isNullOrEmpty()) {
+  return if (this.isNullOrBlank()) {
     false
   } else if (!this.toLowerCase(Locale.getDefault()).startsWith("http", true)) {
     false
@@ -74,7 +74,7 @@ fun String?.isVideoUrl(): Boolean {
 }
 
 fun String?.isLiveUrl(): Boolean {
-  return if (this.isNullOrEmpty()) {
+  return if (this.isNullOrBlank()) {
     false
   } else {
     this.toLowerCase(Locale.getDefault()).run {
@@ -99,4 +99,9 @@ fun String?.getCoilCacheFile(): File? {
   return this?.toFile() ?: this?.toHttpUrlOrNull()?.let { u ->
     CoilUtils.createDefaultCache(Utils.getApp()).directory.listFiles()?.lastOrNull { it.name.endsWith(".1") && it.name.contains(Cache.key(u)) }
   }
+}
+
+//读取Host
+fun String?.getHost(): String {
+  return if (this.isNullOrBlank()) "" else Uri.parse(this).host ?: this
 }
