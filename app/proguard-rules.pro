@@ -151,7 +151,7 @@
 #############################################
 
 #-----------处理反射类---------------
--keep class com.dueeeke.videoplayer.exo.ExoMediaSourceHelper { *; }
+-keep class xyz.doikki.videoplayer.exo.ExoMediaSourceHelper { *; }
 
 #......
 
@@ -253,8 +253,8 @@
 #--------------------------
 
 #----------- DKPlayer ----------------
--keep class com.dueeeke.videoplayer.** { *; }
--dontwarn com.dueeeke.videoplayer.**
+-keep class xyz.doikki.videoplayer.** { *; }
+-dontwarn xyz.doikki.videoplayer.**
 
 # IjkPlayer
 -keep class tv.danmaku.ijk.** { *; }
