@@ -155,4 +155,11 @@ class MyStandardController : StandardVideoController {
     return super.stopFullScreen()
   }
   //</editor-fold>
+
+  //开始拖动进度条会调用这个方法，所以需要取消倍速
+  override fun stopProgress() {
+    super.stopProgress()
+    cancelSpeedShow()
+  }
+  //</editor-fold>
 }
