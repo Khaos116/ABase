@@ -22,14 +22,22 @@ class VideoDetailActivity : CommBindActivity<ActivityVideoDetailBinding>() {
   //<editor-fold defaultstate="collapsed" desc="外部跳转">
   companion object {
     //视频地址
-    private val moveUrls = mutableListOf(
-        "http://vfx.mtime.cn/Video/2019/03/18/mp4/190318231014076505.mp4",
-        "https://v3.dious.cc/20210603/a6JxY1mK/1000kb/hls/index.m3u8",
+    private val moveUrlPairs = mutableListOf(
+      Pair("http://vfx.mtime.cn/Video/2019/03/18/mp4/190318231014076505.mp4", "叶问预览片"),
+      Pair("https://v3.dious.cc/20210429/CnNHtUZs/index.m3u8", "不良人4(第一集)"),
+      Pair("https://v3.dious.cc/20210429/euEFOXZ2/index.m3u8", "不良人4(第二集)"),
+      Pair("https://v3.dious.cc/20210506/CXr0LMp8/index.m3u8", "不良人4(第三集)"),
+      Pair("https://v3.dious.cc/20210513/zodnofSz/index.m3u8", "不良人4(第四集)"),
+      Pair("https://v3.dious.cc/20210520/KJjHTrV9/index.m3u8", "不良人4(第五集)"),
+      Pair("https://v3.dious.cc/20210527/hq83F1Vq/index.m3u8", "不良人4(第六集)"),
+      Pair("https://v3.dious.cc/20210527/S8c0zImb/index.m3u8", "不良人4(第七集)"),
+      Pair("https://v3.dious.cc/20210603/a6JxY1mK/index.m3u8", "不良人4(第八集)"),
     )
     private const val INTENT_KEY_VIDEO_URL = "INTENT_KEY_VIDEO_URL"
     fun startActivity(context: Context, videoUrl: String?) {
       val intent = Intent(context, VideoDetailActivity::class.java)
-      val defaultUrl = moveUrls[(System.currentTimeMillis() % moveUrls.size).toInt()]
+      val index = (System.currentTimeMillis() % moveUrlPairs.size).toInt()
+      val defaultUrl = moveUrlPairs[index].first
       intent.putExtra(INTENT_KEY_VIDEO_URL, if (videoUrl.isNullOrBlank()) defaultUrl else videoUrl)
       context.startActivity(intent)
     }
@@ -60,20 +68,20 @@ class VideoDetailActivity : CommBindActivity<ActivityVideoDetailBinding>() {
     viewBinding.videoDetailStatus.layoutParams.height = mStatusBarHeight
     viewBinding.videoDetailFloat.click {
       XXPermissions.with(this)
-          .permission(Permission.SYSTEM_ALERT_WINDOW)
-          .request(object : OnPermissionCallback {
-            override fun onGranted(permissions: MutableList<String>?, all: Boolean) {
-              if (all) {
-                mPIPManager.startFloatWindow()
-                finish()
-              }
+        .permission(Permission.SYSTEM_ALERT_WINDOW)
+        .request(object : OnPermissionCallback {
+          override fun onGranted(permissions: MutableList<String>?, all: Boolean) {
+            if (all) {
+              mPIPManager.startFloatWindow()
+              finish()
             }
+          }
 
-            override fun onDenied(permissions: MutableList<String>?, never: Boolean) {
-              // 如果是被永久拒绝就跳转到应用权限系统设置页面
-              if (never) XXPermissions.startPermissionActivity(mActivity, permissions)
-            }
-          })
+          override fun onDenied(permissions: MutableList<String>?, never: Boolean) {
+            // 如果是被永久拒绝就跳转到应用权限系统设置页面
+            if (never) XXPermissions.startPermissionActivity(mActivity, permissions)
+          }
+        })
     }
     if (mPIPManager.isStartFloatWindow) {
       mPIPManager.stopFloatWindow()
@@ -83,7 +91,7 @@ class VideoDetailActivity : CommBindActivity<ActivityVideoDetailBinding>() {
     } else {
       mPIPManager.actClass = VideoDetailActivity::class.java
       val url = intent.getStringExtra(INTENT_KEY_VIDEO_URL)
-      url?.let { videoDetailVideoView.setPlayUrl(it) }
+      url?.let { videoDetailVideoView.setPlayUrl(url = it, title = moveUrlPairs.firstOrNull { p -> p.first == it }?.second) }
     }
     viewBinding.videoDetailVideoViewParent.addView(videoDetailVideoView, ViewGroup.LayoutParams(-1, -1))
   }
