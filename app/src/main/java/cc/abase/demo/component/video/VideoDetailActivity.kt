@@ -2,7 +2,6 @@ package cc.abase.demo.component.video
 
 import android.content.Context
 import android.content.Intent
-import android.view.LayoutInflater
 import android.view.ViewGroup
 import cc.ab.base.ext.*
 import cc.abase.demo.component.comm.CommBindActivity
@@ -10,12 +9,12 @@ import cc.abase.demo.constants.StringConstants
 import cc.abase.demo.databinding.ActivityVideoDetailBinding
 import cc.abase.demo.widget.dkplayer.MyVideoView
 import cc.abase.demo.widget.dkplayer.pipfloat.PIPManager
-import xyz.doikki.videoplayer.player.VideoViewManager
 import com.gyf.immersionbar.ktx.immersionBar
 import com.hjq.permissions.*
+import xyz.doikki.videoplayer.player.VideoViewManager
 
 /**
- * Description:
+ * Description: 视频源 https://miao101.com/
  * @author: CASE
  * @date: 2019/11/2 9:51
  */
@@ -25,7 +24,7 @@ class VideoDetailActivity : CommBindActivity<ActivityVideoDetailBinding>() {
     //视频地址
     private val moveUrls = mutableListOf(
         "http://vfx.mtime.cn/Video/2019/03/18/mp4/190318231014076505.mp4",
-        "https://meinv.jingyu-zuida.com/20200917/13581_c98cc8fd/1000k/hls/index.m3u8",
+        "https://v3.dious.cc/20210603/a6JxY1mK/1000kb/hls/index.m3u8",
     )
     private const val INTENT_KEY_VIDEO_URL = "INTENT_KEY_VIDEO_URL"
     fun startActivity(context: Context, videoUrl: String?) {
