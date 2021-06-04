@@ -10,7 +10,7 @@ import cc.abase.demo.constants.StringConstants
 import cc.abase.demo.databinding.ActivityVideoDetailBinding
 import cc.abase.demo.widget.dkplayer.MyVideoView
 import cc.abase.demo.widget.dkplayer.pipfloat.PIPManager
-import com.dueeeke.videoplayer.player.VideoViewManager
+import xyz.doikki.videoplayer.player.VideoViewManager
 import com.gyf.immersionbar.ktx.immersionBar
 import com.hjq.permissions.*
 

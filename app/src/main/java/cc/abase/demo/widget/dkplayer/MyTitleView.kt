@@ -6,12 +6,12 @@ import android.util.AttributeSet
 import android.view.View
 import android.view.animation.Animation
 import android.widget.*
+import cc.abase.demo.R
 import com.blankj.utilcode.util.BarUtils
-import com.dueeeke.videocontroller.R
-import com.dueeeke.videocontroller.component.TitleView
-import com.dueeeke.videoplayer.controller.ControlWrapper
-import com.dueeeke.videoplayer.player.VideoView
-import com.dueeeke.videoplayer.util.PlayerUtils
+import xyz.doikki.videocontroller.component.TitleView
+import xyz.doikki.videoplayer.controller.ControlWrapper
+import xyz.doikki.videoplayer.player.VideoView
+import xyz.doikki.videoplayer.util.PlayerUtils
 
 /**
  * 1.解决竖向全屏适配状态栏

@@ -1,20 +1,20 @@
 package cc.abase.demo.widget.dkplayer
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.net.Uri
 import android.util.AttributeSet
 import android.view.View
-import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.annotation.DrawableRes
 import androidx.lifecycle.*
 import cc.ab.base.ext.*
-import com.dueeeke.videocontroller.R
-import com.dueeeke.videocontroller.StandardVideoController
-import com.dueeeke.videocontroller.component.*
-import com.dueeeke.videoplayer.player.VideoView
-import com.dueeeke.videoplayer.util.PlayerUtils
+import cc.abase.demo.R
+import xyz.doikki.videocontroller.StandardVideoController
+import xyz.doikki.videocontroller.component.*
+import xyz.doikki.videoplayer.player.VideoView
+import xyz.doikki.videoplayer.util.PlayerUtils
 import java.io.File
 
 /**
@@ -23,6 +23,7 @@ import java.io.File
  * Date:2020/12/23
  * Time:13:16
  */
+@SuppressLint("ResourceType")
 class MyVideoView : VideoView<MyExoMediaPlayer>, LifecycleObserver {
   //<editor-fold defaultstate="collapsed" desc="多构造">
   constructor(c: Context) : super(c, null, 0)

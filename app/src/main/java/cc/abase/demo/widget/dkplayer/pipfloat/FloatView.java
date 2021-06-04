@@ -8,7 +8,7 @@ import android.view.*;
 import android.widget.FrameLayout;
 import androidx.annotation.NonNull;
 import cc.abase.demo.R;
-import com.dueeeke.videoplayer.util.PlayerUtils;
+import xyz.doikki.videoplayer.util.PlayerUtils;
 
 /**
  * 悬浮窗控件（解决滑动冲突） https://github.com/Doikki/DKVideoPlayer/blob/master/dkplayer-sample/src/main/java/com/dueeeke/dkplayer/widget/FloatView.java

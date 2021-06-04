@@ -4,8 +4,8 @@ import android.content.Context;
 import android.util.AttributeSet;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import com.dueeeke.videocontroller.component.*;
-import com.dueeeke.videoplayer.controller.GestureVideoController;
+import xyz.doikki.videocontroller.component.*;
+import xyz.doikki.videoplayer.controller.GestureVideoController;
 
 /**
  * 悬浮播放控制器 https://github.com/Doikki/DKVideoPlayer/blob/master/dkplayer-sample/src/main/java/com/dueeeke/dkplayer/widget/controller/FloatController.java

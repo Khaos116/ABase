@@ -10,9 +10,9 @@ import android.widget.*;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import cc.abase.demo.R;
-import com.dueeeke.videoplayer.controller.ControlWrapper;
-import com.dueeeke.videoplayer.controller.IControlComponent;
-import com.dueeeke.videoplayer.player.VideoView;
+import xyz.doikki.videoplayer.player.VideoView;
+import xyz.doikki.videoplayer.controller.ControlWrapper;
+import xyz.doikki.videoplayer.controller.IControlComponent;
 
 /**
  * https://github.com/Doikki/DKVideoPlayer/blob/master/dkplayer-sample/src/main/java/com/dueeeke/dkplayer/widget/component/PipControlView.java

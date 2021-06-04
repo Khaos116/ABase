@@ -11,8 +11,8 @@ import cc.abase.demo.R;
 import cc.abase.demo.constants.StringConstants;
 import cc.abase.demo.widget.dkplayer.MyVideoView;
 import com.blankj.utilcode.util.Utils;
-import com.dueeeke.videoplayer.player.VideoViewManager;
 import java.io.File;
+import xyz.doikki.videoplayer.player.VideoViewManager;
 
 /**
  * 悬浮播放 https://github.com/Doikki/DKVideoPlayer/blob/master/dkplayer-sample/src/main/java/com/dueeeke/dkplayer/util/PIPManager.java
@@ -74,9 +74,9 @@ public class PIPManager {
     String coverPath = mVideoView.getMUrlCover();//封面地址
     float ratio = mVideoView.getMRatio();//封面比例
     boolean needHolder = mVideoView.getMNeedHolder();//是否需要占位图
-    View playView = mFloatController.findViewById(com.dueeeke.videocontroller.R.id.start_play);//播放按钮
+    View playView = mFloatController.findViewById(xyz.doikki.videocontroller.R.id.start_play);//播放按钮
     if (playView != null) playView.setOnClickListener(v -> mVideoView.start());
-    ImageView coverIv = mFloatController.findViewById(com.dueeeke.videocontroller.R.id.thumb);//封面
+    ImageView coverIv = mFloatController.findViewById(xyz.doikki.videocontroller.R.id.thumb);//封面
     if (coverIv != null && coverPath != null && !TextUtils.isEmpty(coverPath)) {//加载封面
       coverIv.setClickable(true);//防止透过去点击
       if (coverPath.equals(mVideoView.getMUrlVideo())) { //封面为空拿播放地址去加载

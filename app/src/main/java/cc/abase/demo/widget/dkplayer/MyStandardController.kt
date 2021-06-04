@@ -13,10 +13,10 @@ import cc.ab.base.ext.*
 import cc.abase.demo.constants.StringConstants
 import com.blankj.utilcode.util.BarUtils
 import com.blankj.utilcode.util.VibrateUtils
-import com.dueeeke.videocontroller.StandardVideoController
-import com.dueeeke.videoplayer.player.VideoView
-import com.dueeeke.videoplayer.player.VideoViewManager
-import com.dueeeke.videoplayer.util.PlayerUtils
+import xyz.doikki.videocontroller.StandardVideoController
+import xyz.doikki.videoplayer.player.VideoView
+import xyz.doikki.videoplayer.player.VideoViewManager
+import xyz.doikki.videoplayer.util.PlayerUtils
 
 /**
  * 为了监听手指按压和抬起,使用倍速播放

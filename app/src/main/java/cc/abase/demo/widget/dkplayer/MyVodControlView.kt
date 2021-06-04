@@ -7,11 +7,11 @@ import android.view.View
 import cc.ab.base.ext.dp2px
 import cc.ab.base.ext.getMyParents
 import cc.abase.demo.constants.StringConstants
-import com.dueeeke.videocontroller.R
-import com.dueeeke.videocontroller.component.VodControlView
-import com.dueeeke.videoplayer.player.VideoView
-import com.dueeeke.videoplayer.player.VideoViewManager
-import com.dueeeke.videoplayer.util.PlayerUtils
+import xyz.doikki.videocontroller.R
+import xyz.doikki.videocontroller.component.VodControlView
+import xyz.doikki.videoplayer.player.VideoView
+import xyz.doikki.videoplayer.player.VideoViewManager
+import xyz.doikki.videoplayer.util.PlayerUtils
 
 /**
  * 解决竖向视频全屏问题

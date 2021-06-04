@@ -14,7 +14,7 @@ import cc.abase.demo.utils.NetUtils
 import cc.abase.demo.widget.dialog.ActionDialog
 import com.airbnb.lottie.*
 import com.blankj.utilcode.util.NetworkUtils
-import com.dueeeke.videocontroller.StandardVideoController
+import xyz.doikki.videocontroller.StandardVideoController
 
 /**
  * @Description
@@ -201,8 +201,8 @@ abstract class CommBindActivity<T : ViewBinding> : BaseBindActivity<T>() {
 
   //<editor-fold defaultstate="collapsed" desc="退出全屏">
   override fun onBackPressed() {
-    val lockView = findViewById<View>(com.dueeeke.videocontroller.R.id.lock)
-    val loadingView = findViewById<View>(com.dueeeke.videocontroller.R.id.loading)
+    val lockView = findViewById<View>(xyz.doikki.videocontroller.R.id.lock)
+    val loadingView = findViewById<View>(xyz.doikki.videocontroller.R.id.loading)
     if (lockView != null && loadingView != null && lockView.parent == loadingView.parent) {
       lockView.getMyParents().firstOrNull { v -> v is StandardVideoController }?.let { f ->
         if ((f as StandardVideoController).onBackPressed()) return

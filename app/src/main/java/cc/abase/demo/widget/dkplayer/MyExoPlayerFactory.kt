@@ -1,7 +1,7 @@
 package cc.abase.demo.widget.dkplayer
 
 import android.content.Context
-import com.dueeeke.videoplayer.player.PlayerFactory
+import xyz.doikki.videoplayer.player.PlayerFactory
 
 /**
  * VideoViewManager需要设置为自己的播放器工厂
