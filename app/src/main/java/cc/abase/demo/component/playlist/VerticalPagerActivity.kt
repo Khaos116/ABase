@@ -2,7 +2,9 @@ package cc.abase.demo.component.playlist
 
 import android.content.Context
 import android.content.Intent
-import android.view.*
+import android.view.MotionEvent
+import android.view.View
+import android.view.ViewGroup.MarginLayoutParams
 import androidx.viewpager.widget.ViewPager
 import cc.ab.base.ext.*
 import cc.ab.base.ui.viewmodel.DataState
@@ -62,6 +64,7 @@ class VerticalPagerActivity : CommBindActivity<ActivityPlayPagerBinding>() {
   //<editor-fold defaultstate="collapsed" desc="初始化View">
   override fun initView() {
     //返回按钮
+    (viewBinding.verticalPagerBack.layoutParams as? MarginLayoutParams)?.topMargin = mStatusBarHeight
     viewBinding.verticalPagerBack.pressEffectAlpha()
     viewBinding.verticalPagerBack.click { onBackPressed() }
     //播放控件

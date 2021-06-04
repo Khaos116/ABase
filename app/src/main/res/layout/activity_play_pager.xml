@@ -23,21 +23,14 @@
         android:scrollbars="none"
         />
   </com.scwang.smart.refresh.layout.SmartRefreshLayout>
-  <!--兼容刘海屏-->
-  <FrameLayout
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:fitsSystemWindows="true"
-      >
-
-    <ImageView
-        android:id="@+id/verticalPagerBack"
-        android:layout_width="@dimen/dkplayer_controller_height"
-        android:layout_height="@dimen/dkplayer_controller_height"
-        android:contentDescription="@null"
-        android:padding="@dimen/dkplayer_controller_icon_padding"
-        android:src="@drawable/dkplayer_ic_action_arrow_back"
-        tools:background="@drawable/dkplayer_shape_standard_controller_top_bg"
-        />
-  </FrameLayout>
+  <!--返回-->
+  <ImageView
+      android:id="@+id/verticalPagerBack"
+      android:layout_width="@dimen/dkplayer_controller_height"
+      android:layout_height="@dimen/dkplayer_controller_height"
+      android:contentDescription="@null"
+      android:padding="@dimen/dkplayer_controller_icon_padding"
+      android:src="@drawable/dkplayer_ic_action_arrow_back"
+      tools:background="@drawable/dkplayer_shape_standard_controller_top_bg"
+      />
 </FrameLayout>
