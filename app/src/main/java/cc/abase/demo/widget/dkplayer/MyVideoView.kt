@@ -13,6 +13,7 @@ import cc.ab.base.ext.*
 import cc.abase.demo.R
 import xyz.doikki.videocontroller.StandardVideoController
 import xyz.doikki.videocontroller.component.*
+import xyz.doikki.videoplayer.player.AbstractPlayer
 import xyz.doikki.videoplayer.player.VideoView
 import xyz.doikki.videoplayer.util.PlayerUtils
 import java.io.File
@@ -89,6 +90,7 @@ class MyVideoView : VideoView<MyExoMediaPlayer>, LifecycleObserver {
   //<editor-fold defaultstate="collapsed" desc="Lifecycle生命周期">
   private var mLifecycle: Lifecycle? = null
   private var pauseIsPlaying = false
+  private var isPagePause = true
 
   //通过Lifecycle内部自动管理暂停和播放(如果不需要后台播放)
   private fun setLifecycleOwner(owner: LifecycleOwner?) {
@@ -104,12 +106,14 @@ class MyVideoView : VideoView<MyExoMediaPlayer>, LifecycleObserver {
 
   @OnLifecycleEvent(Lifecycle.Event.ON_PAUSE)
   private fun onPauseVideo() {
+    isPagePause = true
     pauseIsPlaying = isPlaying
     pause()
   }
 
   @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
   private fun onResumeVideo() {
+    isPagePause = false
     if (pauseIsPlaying) resume()
     pauseIsPlaying = false
   }
@@ -120,6 +124,28 @@ class MyVideoView : VideoView<MyExoMediaPlayer>, LifecycleObserver {
   }
   //</editor-fold>
 
+  //<editor-fold defaultstate="collapsed" desc="解决3.3.2版本isPausedByUser导致点击播放依然暂停的bug">
+  override fun onInfo(what: Int, extra: Int) {
+    when (what) {
+      AbstractPlayer.MEDIA_INFO_BUFFERING_START -> setPlayState(STATE_BUFFERING)
+      AbstractPlayer.MEDIA_INFO_BUFFERING_END -> setPlayState(STATE_BUFFERED)
+      AbstractPlayer.MEDIA_INFO_VIDEO_RENDERING_START -> {
+        setPlayState(STATE_PLAYING)
+        mPlayerContainer.keepScreenOn = true
+        // 视频准备完成之后，activity 如果处于 paused，则暂停播放
+        if (isPagePause) pause()
+      }
+      AbstractPlayer.MEDIA_INFO_VIDEO_ROTATION_CHANGED -> if (mRenderView != null) mRenderView.setVideoRotation(extra)
+    }
+  }
+
+  //打印无法正常播放的地址
+  override fun setPlayerState(playerState: Int) {
+    super.setPlayerState(playerState)
+    if (playerState == STATE_ERROR) "无法播放:$mUrl".logE()
+  }
+  //</editor-fold>
+
   //<editor-fold defaultstate="collapsed" desc="外部调用">
   var mUrlCover: String? = ""
   var mUrlVideo: String? = ""
@@ -127,8 +153,10 @@ class MyVideoView : VideoView<MyExoMediaPlayer>, LifecycleObserver {
   var mNeedHolder: Boolean = true
 
   //设置播放地址
-  fun setPlayUrl(url: String, title: String? = null, cover: String? = null, autoPlay: Boolean = false,
-      isLive: Boolean = false, ratio: Float = 16f / 9, needHolder: Boolean = true) {
+  fun setPlayUrl(
+    url: String, title: String? = null, cover: String? = null, autoPlay: Boolean = false,
+    isLive: Boolean = false, ratio: Float = 16f / 9, needHolder: Boolean = true
+  ) {
     setUrl(url) //设置播放地址
     mUrlVideo = url
     mUrlCover = if (cover.isNullOrBlank()) url else cover
@@ -249,8 +277,8 @@ class MyVideoView : VideoView<MyExoMediaPlayer>, LifecycleObserver {
   //全屏需要Activity，如果是Application创建的，则需要从父控件获取
   override fun getActivity(): Activity? {
     return this.getMyParents().lastOrNull { v -> v.context is Activity }?.let { f -> f.context as Activity }
-        ?: mVideoController?.getMyParents()?.lastOrNull { v -> v.context is Activity }?.let { f -> f.context as Activity }
-        ?: super.getActivity()
+      ?: mVideoController?.getMyParents()?.lastOrNull { v -> v.context is Activity }?.let { f -> f.context as Activity }
+      ?: super.getActivity()
   }
   //</editor-fold>
 }
