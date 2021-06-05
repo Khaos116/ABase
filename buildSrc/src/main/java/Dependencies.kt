@@ -100,7 +100,9 @@ object Deps {
   const val eventBus = "io.github.jeremyliao:live-event-bus-x:1.8.0"
 
   //WebView https://github.com/Justson/AgentWeb
-  const val agentweb = "com.just.agentweb:agentweb:4.1.4"
+  const val agentweb = "com.github.Justson.AgentWeb:agentweb-core:v4.1.9-androidx"
+  const val agentweb_file = "com.github.Justson.AgentWeb:agentweb-filechooser:v4.1.9-androidx"
+  const val agentweb_down = "com.github.Justson:Downloader:v4.1.9-androidx"
 
   //RecyclerView动画 https://github.com/mikepenz/ItemAnimators
   const val rv_anim = "com.mikepenz:itemanimators:1.1.0"
@@ -118,7 +120,7 @@ object Deps {
   const val smart_footer = "com.scwang.smart:refresh-footer-classics:2.0.3"
 
   //手机号判断 https://github.com/google/libphonenumber
-  const val libphonenumber= "com.googlecode.libphonenumber:libphonenumber:8.12.22"
+  const val libphonenumber = "com.googlecode.libphonenumber:libphonenumber:8.12.24"
   //</editor-fold>
 
   //<editor-fold defaultstate="collapsed" desc="调试统计工具">
