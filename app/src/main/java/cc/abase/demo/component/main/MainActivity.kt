@@ -4,7 +4,8 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.os.Build
-import android.view.*
+import android.view.Gravity
+import android.view.View
 import android.widget.FrameLayout
 import androidx.annotation.IntRange
 import androidx.lifecycle.Lifecycle
@@ -91,11 +92,35 @@ class MainActivity : CommBindActivity<ActivityMainBinding>() {
       }
     }
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) { //安卓Q版本以上需要ACCESS_BACKGROUND_LOCATION
-      if (XXPermissions.isGranted(this, Permission.Group.LOCATION)) {
+      val permissions = mutableListOf(Permission.ACCESS_FINE_LOCATION, Permission.ACCESS_COARSE_LOCATION, Permission.ACCESS_BACKGROUND_LOCATION)
+      if (XXPermissions.isGranted(this, permissions)) {
         getLocation()
       } else {
         XXPermissions.with(mActivity)
-            .permission(Permission.Group.LOCATION)
+          .permission(permissions)
+          .request(object : OnPermissionCallback {
+            override fun onGranted(permissions: MutableList<String>?, all: Boolean) {
+              if (all) getLocation() else "获取到部分权限:${permissions.toString()}".logE()
+            }
+
+            override fun onDenied(permissions: MutableList<String>?, never: Boolean) {
+              "被拒绝的权限:${permissions.toString()};never=$never".logE()
+              permissions?.let { p ->
+                if (!never && p.size == 1 && p.first() == Permission.ACCESS_BACKGROUND_LOCATION) {
+                  getLocation()
+                }
+              }
+            }
+          })
+      }
+    } else { //安卓Q版本以前
+      val permissions = mutableListOf(Permission.ACCESS_FINE_LOCATION, Permission.ACCESS_COARSE_LOCATION)
+      if (XXPermissions.isGranted(this, permissions)) {
+        getLocation()
+      } else {
+        ActivityUtils.getTopActivity()?.let { activity ->
+          XXPermissions.with(activity)
+            .permission(permissions)
             .request(object : OnPermissionCallback {
               override fun onGranted(permissions: MutableList<String>?, all: Boolean) {
                 if (all) getLocation() else "获取到部分权限:${permissions.toString()}".logE()
@@ -103,30 +128,8 @@ class MainActivity : CommBindActivity<ActivityMainBinding>() {
 
               override fun onDenied(permissions: MutableList<String>?, never: Boolean) {
                 "被拒绝的权限:${permissions.toString()};never=$never".logE()
-                permissions?.let { p ->
-                  if (!never && p.size == 1 && p.first() == Permission.ACCESS_BACKGROUND_LOCATION) {
-                    getLocation()
-                  }
-                }
               }
             })
-      }
-    } else { //安卓Q版本以前
-      if (XXPermissions.isGranted(this, mutableListOf(Permission.ACCESS_FINE_LOCATION, Permission.ACCESS_COARSE_LOCATION))) {
-        getLocation()
-      } else {
-        ActivityUtils.getTopActivity()?.let { activity ->
-          XXPermissions.with(activity)
-              .permission(mutableListOf(Permission.ACCESS_FINE_LOCATION, Permission.ACCESS_COARSE_LOCATION))
-              .request(object : OnPermissionCallback {
-                override fun onGranted(permissions: MutableList<String>?, all: Boolean) {
-                  if (all) getLocation() else "获取到部分权限:${permissions.toString()}".logE()
-                }
-
-                override fun onDenied(permissions: MutableList<String>?, never: Boolean) {
-                  "被拒绝的权限:${permissions.toString()};never=$never".logE()
-                }
-              })
         }
       }
     }
@@ -145,12 +148,12 @@ class MainActivity : CommBindActivity<ActivityMainBinding>() {
   //<editor-fold defaultstate="collapsed" desc="请求通知权限">
   private fun openNoticePermission() {
     XXPermissions.with(mContext)
-        .permission(Permission.NOTIFICATION_SERVICE)
-        .request(object : OnPermissionCallback {
-          override fun onGranted(permissions: MutableList<String>?, all: Boolean) {}
+      .permission(Permission.NOTIFICATION_SERVICE)
+      .request(object : OnPermissionCallback {
+        override fun onGranted(permissions: MutableList<String>?, all: Boolean) {}
 
-          override fun onDenied(permissions: MutableList<String>?, never: Boolean) {}
-        })
+        override fun onDenied(permissions: MutableList<String>?, never: Boolean) {}
+      })
   }
   //</editor-fold>
 
@@ -164,9 +167,9 @@ class MainActivity : CommBindActivity<ActivityMainBinding>() {
     //先关闭之前显示的
     currentFragment?.let {
       if (it.isAdded) supportFragmentManager
-          .beginTransaction()
-          .setMaxLifecycle(it, Lifecycle.State.STARTED)
-          .commitAllowingStateLoss() //触发Fragment的onPause
+        .beginTransaction()
+        .setMaxLifecycle(it, Lifecycle.State.STARTED)
+        .commitAllowingStateLoss() //触发Fragment的onPause
       FragmentUtils.hide(it)
     }
     //设置现在需要显示的
@@ -177,9 +180,9 @@ class MainActivity : CommBindActivity<ActivityMainBinding>() {
     } else { //添加了就直接显示
       FragmentUtils.show(fragment)
       if (fragment.isAdded) supportFragmentManager
-          .beginTransaction()
-          .setMaxLifecycle(fragment, Lifecycle.State.RESUMED)
-          .commitAllowingStateLoss() //触发Fragment的onResume
+        .beginTransaction()
+        .setMaxLifecycle(fragment, Lifecycle.State.RESUMED)
+        .commitAllowingStateLoss() //触发Fragment的onResume
     }
   }
   //</editor-fold>
