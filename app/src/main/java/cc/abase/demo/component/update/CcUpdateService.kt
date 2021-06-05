@@ -129,25 +129,25 @@ open class CcUpdateService : JobIntentService() {
       val tempFile = File(mFileDir, downLoadName)
       val downSize = if (tempFile.exists()) tempFile.length() else 0L
       RxHttp.get(downloadUrl)
-          .setOkClient(RxHttpConfig.getOkHttpClient().build())
-          .setRangeHeader(downSize) //设置开始下载位置，结束位置默认为文件末尾,如果需要衔接上次的下载进度，则需要传入上次已下载的字节数length
-          .asDownload(tempFile.path, AndroidSchedulers.mainThread()) { progress ->
-            //下载进度回调,0-100，仅在进度有更新时才会回调
-            val currentProgress = progress.progress //当前进度 0-100
-            val currentSize = progress.currentSize //当前已下载的字节大小
-            val totalSize = progress.totalSize //要下载的总字节大小
-            updateProgress(currentSize + downSize, totalSize + downSize)
-          } //指定回调(进度/成功/失败)线程,不指定,默认在请求所在线程回调
-          .subscribe({
-            //下载成功，处理相关逻辑
-            FileUtils.rename(tempFile, apkName)
-            showSuccess(File(mFileDir, apkName).path)
-            AppUtils.installApp(File(mFileDir, apkName).path)
-            NotificationUtils.setNotificationBarVisibility(false)
-          }, {
-            //下载失败，处理相关逻辑
-            showFail(downloadUrl)
-          })
+        .setOkClient(RxHttpConfig.getOkHttpClient().build())
+        .setRangeHeader(downSize) //设置开始下载位置，结束位置默认为文件末尾,如果需要衔接上次的下载进度，则需要传入上次已下载的字节数length
+        .asDownload(tempFile.path, AndroidSchedulers.mainThread()) { progress ->
+          //下载进度回调,0-100，仅在进度有更新时才会回调
+          val currentProgress = progress.progress //当前进度 0-100
+          val currentSize = progress.currentSize //当前已下载的字节大小
+          val totalSize = progress.totalSize //要下载的总字节大小
+          updateProgress(currentSize + downSize, totalSize + downSize)
+        } //指定回调(进度/成功/失败)线程,不指定,默认在请求所在线程回调
+        .subscribe({
+          //下载成功，处理相关逻辑
+          FileUtils.rename(tempFile, apkName)
+          showSuccess(File(mFileDir, apkName).path)
+          AppUtils.installApp(File(mFileDir, apkName).path)
+          NotificationUtils.setNotificationBarVisibility(false)
+        }, {
+          //下载失败，处理相关逻辑
+          showFail(downloadUrl)
+        })
     }
   }
   //</editor-fold>
@@ -156,7 +156,7 @@ open class CcUpdateService : JobIntentService() {
   //显示下载通知
   private fun showNotification() {
     //发送进度
-    LiveEventBus.get(EventKeys.UPDATE_PROGRESS).post(Triple(UpdateEnum.START, 0f, mApkUrl))
+    LiveEventBus.get(EventKeys.UPDATE_PROGRESS, Triple::class.java).post(Triple(UpdateEnum.START, 0f, mApkUrl))
     if (needShowNotification) {
       initRemoteViews()
       mRemoteViews?.let {
@@ -188,7 +188,7 @@ open class CcUpdateService : JobIntentService() {
     mTotalSize = totalSize
     mPercent = offsetSize * 100f / totalSize
     //发送进度
-    LiveEventBus.get(EventKeys.UPDATE_PROGRESS).post(Triple(UpdateEnum.DOWNLOADING, 99.9f.coerceAtMost(mPercent), mApkUrl))
+    LiveEventBus.get(EventKeys.UPDATE_PROGRESS, Triple::class.java).post(Triple(UpdateEnum.DOWNLOADING, 99.9f.coerceAtMost(mPercent), mApkUrl))
     if (mLastTime == 0L || mLastBytes == 0L) {
       mSpeed = offsetSize / 1000
       mLastTime = System.currentTimeMillis()
@@ -225,7 +225,7 @@ open class CcUpdateService : JobIntentService() {
     downApkPackageName = AppUtils.getApkInfo(filePath)?.packageName ?: ""
     downIDs.remove(mApkUrl.hashCode())
     //发送进度
-    LiveEventBus.get(EventKeys.UPDATE_PROGRESS).post(Triple(UpdateEnum.SUCCESS, 100f, mApkUrl))
+    LiveEventBus.get(EventKeys.UPDATE_PROGRESS, Triple::class.java).post(Triple(UpdateEnum.SUCCESS, 100f, mApkUrl))
     if (needShowNotification) {
       initRemoteViews()
       mRemoteViews?.let {
@@ -263,7 +263,7 @@ open class CcUpdateService : JobIntentService() {
   private fun showFail(path: String) {
     downIDs.remove(mApkUrl.hashCode())
     //发送进度
-    LiveEventBus.get(EventKeys.UPDATE_PROGRESS).post(Triple(UpdateEnum.FAIL, -1, mApkUrl))
+    LiveEventBus.get(EventKeys.UPDATE_PROGRESS, Triple::class.java).post(Triple(UpdateEnum.FAIL, -1, mApkUrl))
     if (needShowNotification) {
       initRemoteViews()
       mRemoteViews?.let {
@@ -302,13 +302,13 @@ open class CcUpdateService : JobIntentService() {
   private fun initBuilder(remoteViews: RemoteViews) {
     if (mBuilder == null) {
       mBuilder = NotificationCompat.Builder(Utils.getApp(), updateChannelId)
-          .setWhen(System.currentTimeMillis())
-          .setDefaults(Notification.FLAG_AUTO_CANCEL)
-          .setSound(null)
-          .setOngoing(true) //将Ongoing设为true 那么notification将不能滑动删除
-          .setAutoCancel(false) //将AutoCancel设为true后，当你点击通知栏的notification后，它会自动被取消消失
-          .setContent(remoteViews)
-          .setSmallIcon(R.drawable.ic_notification)
+        .setWhen(System.currentTimeMillis())
+        .setDefaults(Notification.FLAG_AUTO_CANCEL)
+        .setSound(null)
+        .setOngoing(true) //将Ongoing设为true 那么notification将不能滑动删除
+        .setAutoCancel(false) //将AutoCancel设为true后，当你点击通知栏的notification后，它会自动被取消消失
+        .setContent(remoteViews)
+        .setSmallIcon(R.drawable.ic_notification)
     }
   }
   //</editor-fold>

@@ -9,8 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import cc.ab.base.ext.*
 import cc.ab.base.ui.viewmodel.DataState
 import cc.abase.demo.R
-import cc.abase.demo.bean.local.DividerBean
-import cc.abase.demo.bean.local.ProvinceBean
+import cc.abase.demo.bean.local.*
 import cc.abase.demo.component.comm.CommBindTitleActivity
 import cc.abase.demo.component.sticky.viewmodel.StickyViewModel
 import cc.abase.demo.constants.EventKeys
@@ -81,7 +80,7 @@ class StickyActivity : CommBindTitleActivity<ActivityStickyBinding>() {
       it.onItemClick = { bean ->
         if (needChoose) {
           bean.fromTag = mTag
-          LiveEventBus.get(EventKeys.CHOOSE_STICKY).post(bean)
+          LiveEventBus.get(EventKeys.CHOOSE_STICKY, CityBean::class.java).post(bean)
           finish()
         } else bean.regionFullName?.toast()
       }

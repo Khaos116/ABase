@@ -97,7 +97,7 @@ object Deps {
 
   //<editor-fold defaultstate="collapsed" desc="三方常用配置">
   //EventBus https://github.com/JeremyLiao/LiveEventBus
-  const val eventBus = "com.jeremyliao:live-event-bus-x:1.7.3"
+  const val eventBus = "io.github.jeremyliao:live-event-bus-x:1.8.0"
 
   //WebView https://github.com/Justson/AgentWeb
   const val agentweb = "com.just.agentweb:agentweb:4.1.4"
