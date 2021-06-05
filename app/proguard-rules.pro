@@ -275,6 +275,7 @@
 -dontwarn com.yalantis.ucrop**
 -keep class com.yalantis.ucrop** { *; }
 -keep interface com.yalantis.ucrop** { *; }
+-dontwarn org.codehaus.mojo.animal_sniffer.*
 
 #FFmpegMediaMetadataRetriever
 -keep class wseemann.media** { *; }

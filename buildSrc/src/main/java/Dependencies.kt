@@ -148,7 +148,7 @@ object Deps {
 
   //<editor-fold defaultstate="collapsed" desc="三方不常用配置">
   //图片选择器 https://github.com/LuckSiege/PictureSelector
-  const val pic_select = "com.github.LuckSiege.PictureSelector:picture_library:v2.6.1"
+  const val pic_select = "io.github.lucksiege:pictureselector:v2.7.3-rc02"
 
   //Emoji表情 https://github.com/vanniktech/Emoji
   const val emoji = "com.vanniktech:emoji-twitter:0.7.0"
@@ -157,7 +157,7 @@ object Deps {
   const val side_bar = "com.github.D10NGYANG:DL10SideBar:1.0.0"
 
   //FlexboxLayout https://github.com/google/flexbox-layout
-  const val flexbox = "com.google.android:flexbox:2.0.1"
+  const val flexbox = "com.google.android.flexbox:flexbox:3.0.0"
 
   //视频播放相关 https://github.com/Doikki/DKVideoPlayer/wiki
   const val dk_java = "xyz.doikki.android.dkplayer:dkplayer-java:3.3.2"
@@ -172,13 +172,13 @@ object Deps {
   const val pinyin_android = "com.github.promeg:tinypinyin-lexicons-android-cncity:2.0.3" // 可选，适用于Android的中国地区词典
 
   //日期选择器 https://github.com/limxing/DatePickerView
-  const val picker_view = "com.github.limxing:DatePickerView:1.1.0"
+  const val picker_view = "com.github.limxing:DatePickerView:1.1.1"
 
   //@和#效果 https://github.com/sunhapper/SpEditTool
   const val spedit_tool = "com.github.sunhapper.SpEditTool:SpEditText:1.0.4"
 
   //远距离识别二维码 https://github.com/devilsen/CZXing
-  const val czxing = "me.devilsen:czxing:1.0.17"
+  const val czxing = "io.github.devilsen:czxing:1.1.0"
 
   //多渠道读取 https://github.com/Meituan-Dianping/walle
   const val walle = "com.meituan.android.walle:library:1.1.7"
