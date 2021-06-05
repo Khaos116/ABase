@@ -3,7 +3,7 @@ package cc.abase.demo.rxhttp.config
 import cc.abase.demo.constants.api.ApiUrl
 import okhttp3.Cookie
 import okhttp3.HttpUrl.Companion.toHttpUrlOrNull
-import rxhttp.HttpSender
+import rxhttp.RxHttpPlugins
 import rxhttp.wrapper.cookie.ICookieJar
 
 /**
@@ -19,7 +19,7 @@ object RxCookie {
         ?.let { http ->
           Cookie.parse(http, cookie)
               ?.let { cookie ->
-                HttpSender.getOkHttpClient().cookieJar.saveFromResponse(http, mutableListOf(cookie))
+                RxHttpPlugins.getOkHttpClient().cookieJar.saveFromResponse(http, mutableListOf(cookie))
               }
         }
   }
@@ -29,7 +29,7 @@ object RxCookie {
     // HttpUrl.parse(url)
     url.toHttpUrlOrNull()
         ?.let {
-          return HttpSender.getOkHttpClient().cookieJar.loadForRequest(it)
+          return RxHttpPlugins.getOkHttpClient().cookieJar.loadForRequest(it)
               .toMutableList()
         }
     return null
@@ -47,7 +47,7 @@ object RxCookie {
 
   //移除cookie
   private fun removeCookie(url: String = ApiUrl.appBaseUrl, all: Boolean) {
-    (HttpSender.getOkHttpClient().cookieJar as ICookieJar).let {
+    (RxHttpPlugins.getOkHttpClient().cookieJar as ICookieJar).let {
       if (all) it.removeAllCookie()
       // else it.removeCookie(HttpUrl.parse(url))
       else it.removeCookie(url.toHttpUrlOrNull())
