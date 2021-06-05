@@ -20,12 +20,12 @@ object Deps {
 
   //<editor-fold defaultstate="collapsed" desc="Studio-UI基础配置">
   //系统相关 https://maven.aliyun.com/mvn/search
-  const val core_ktx = "androidx.core:core-ktx:1.5.0-rc01"
-  const val activity_ktx = "androidx.activity:activity-ktx:1.3.0-alpha06"
-  const val appcompat = "androidx.appcompat:appcompat:1.3.0-rc01"
-  const val fragment = "androidx.fragment:fragment:1.3.2"
-  const val material = "com.google.android.material:material:1.4.0-alpha02"
-  const val constraint = "androidx.constraintlayout:constraintlayout:2.1.0-beta01"
+  const val core_ktx = "androidx.core:core-ktx:1.6.0-beta02"
+  const val activity_ktx = "androidx.activity:activity-ktx:1.3.0-beta01"
+  const val appcompat = "androidx.appcompat:appcompat:1.4.0-alpha02"
+  const val fragment = "androidx.fragment:fragment:1.4.0-alpha02"
+  const val material = "com.google.android.material:material:1.4.0-rc01"
+  const val constraint = "androidx.constraintlayout:constraintlayout:2.1.0-beta02"
   const val viewmodel = "androidx.lifecycle:lifecycle-viewmodel:2.4.0-alpha01"
   //</editor-fold>
 
