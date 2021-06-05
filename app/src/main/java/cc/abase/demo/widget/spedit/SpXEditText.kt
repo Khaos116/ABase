@@ -4,15 +4,11 @@ import android.content.Context
 import android.text.NoCopySpan
 import android.util.AttributeSet
 import android.view.KeyEvent
-import android.view.inputmethod.EditorInfo
-import android.view.inputmethod.InputConnection
-import android.view.inputmethod.InputConnectionWrapper
+import android.view.inputmethod.*
 import androidx.appcompat.widget.AppCompatEditText
 import com.sunhapper.x.spedit.gif.watcher.GifWatcher
-import com.sunhapper.x.spedit.view.DefaultKeyEventProxy
-import com.sunhapper.x.spedit.view.KeyEventProxy
-import com.sunhapper.x.spedit.view.SpXEditableFactory
-import java.util.*
+import com.sunhapper.x.spedit.view.*
+import java.util.ArrayList
 
 /**
  * Created by sunhapper on 2019/1/25 .
@@ -39,7 +35,7 @@ class SpXEditText : AppCompatEditText {
     return if (temp == null) false else mKeyEventProxy.onKeyEvent(event, temp)
   }
 
-  override fun onCreateInputConnection(outAttrs: EditorInfo?): InputConnection? {
+  override fun onCreateInputConnection(outAttrs: EditorInfo): InputConnection? {
     super.onCreateInputConnection(outAttrs)?.let { ic ->
       return CustomInputConnectionWrapper(ic, true)
     }
@@ -62,12 +58,12 @@ class SpXEditText : AppCompatEditText {
    * @param mutable set `true` to protect this object from being reconfigured to target
    * another [InputConnection].  Note that this is ignored while the target is `null`.
    */
-  (target: InputConnection, mutable: Boolean) : InputConnectionWrapper(target, mutable) {
+    (target: InputConnection, mutable: Boolean) : InputConnectionWrapper(target, mutable) {
 
     override fun deleteSurroundingText(beforeLength: Int, afterLength: Int): Boolean {
       return if (beforeLength == 1 && afterLength == 0) {
         sendKeyEvent(KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_DEL)) && sendKeyEvent(
-            KeyEvent(KeyEvent.ACTION_UP, KeyEvent.KEYCODE_DEL)
+          KeyEvent(KeyEvent.ACTION_UP, KeyEvent.KEYCODE_DEL)
         )
       } else super.deleteSurroundingText(beforeLength, afterLength)
     }
