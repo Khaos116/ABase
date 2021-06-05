@@ -321,3 +321,9 @@
 #远距离识别二维码 https://github.com/devilsen/CZXing
 -keep class me.devilsen.czxing.**
 -keep class me.devilsen.czxing.** { *; }
+
+#AgentWeb https://github.com/Justson/AgentWeb
+-keep class com.just.agentweb.** {
+    *;
+}
+-dontwarn com.just.agentweb.**
