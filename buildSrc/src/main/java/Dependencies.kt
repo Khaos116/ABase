@@ -3,8 +3,8 @@ object Versions {
   internal const val sdkTarget = 30
   internal const val kotlin = "1.5.10"
   internal const val okHttp = "4.9.1"
-  internal const val rxHttp = "2.5.7"
-  internal const val coil = "1.2.0"
+  internal const val rxHttp = "2.6.1"
+  internal const val coil = "1.2.2"
 }
 
 object Deps {
@@ -53,16 +53,16 @@ object Deps {
   const val immersionbar_ktx = "com.gyf.immersionbar:immersionbar-ktx:3.0.0"
 
   //数据存储 https://github.com/Tencent/MMKV
-  const val mmkv = "com.tencent:mmkv-static:1.2.7"
+  const val mmkv = "com.tencent:mmkv-static:1.2.9"
   //</editor-fold>"
 
   //<editor-fold defaultstate="collapsed" desc="三方基础配置">
   //数据解析 https://github.com/google/gson
-  const val gson = "com.google.code.gson:gson:2.8.6"
+  const val gson = "com.google.code.gson:gson:2.8.7"
 
   //协程 https://github.com/Kotlin/kotlinx.coroutines
-  const val coroutine = "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.4.3"
-  const val coroutine_android = "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.4.3"
+  const val coroutine = "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.0"
+  const val coroutine_android = "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.0"
 
   //网络请求 https://github.com/square/okhttp
   const val okhttp = "com.squareup.okhttp3:okhttp:${Versions.okHttp}"
@@ -71,10 +71,10 @@ object Deps {
   const val okhttp_log = "com.ayvytr:okhttploginterceptor:3.0.5"
 
   //RxHttp https://github.com/liujingxing/okhttp-RxHttp
-  const val rxhttp = "com.ljx.rxhttp:rxhttp:${Versions.rxHttp}"
-  const val rxhttp_kapt = "com.ljx.rxhttp:rxhttp-compiler:${Versions.rxHttp}"
-  const val rxlife_coroutine = "com.ljx.rxlife:rxlife-coroutine:2.0.1" //管理协程生命周期，页面销毁，关闭请求
-  const val rxlife_rxjava = "com.ljx.rxlife3:rxlife-rxjava:3.0.0" //管理RxJava3生命周期，页面销毁，关闭请求
+  const val rxhttp = "com.github.liujingxing.rxhttp:rxhttp:${Versions.rxHttp}"
+  const val rxhttp_kapt = "com.github.liujingxing.rxhttp:rxhttp-compiler:${Versions.rxHttp}"
+  const val rxlife_coroutine = "com.github.liujingxing.rxlife:rxlife-coroutine:2.1.0" //管理协程生命周期，页面销毁，关闭请求
+  const val rxlife_rxjava = "com.github.liujingxing.rxlife:rxlife-rxjava3:2.1.0" //管理RxJava3生命周期，页面销毁，关闭请求
 
   //RxAndroid https://github.com/ReactiveX/RxAndroid
   const val rxandroid = "io.reactivex.rxjava3:rxandroid:3.0.0"
@@ -88,11 +88,11 @@ object Deps {
   const val multitype = "com.drakeet.multitype:multitype:4.2.0"
 
   //动态权限 https://github.com/getActivity/XXPermissions
-  const val xxpermissions = "com.hjq:xxpermissions:10.6"
+  const val xxpermissions = "com.github.getActivity:XXPermissions:11.2"
 
   //ViewBinding https://github.com/DylanCaiCoding/ViewBindingKtx/blob/master/README_CN.md
-  const val binding_ktx = "com.github.DylanCaiCoding.ViewBindingKTX:viewbinding-ktx:1.2.0"
-  const val binding_base = "com.github.DylanCaiCoding.ViewBindingKTX:viewbinding-base:1.2.0"
+  const val binding_ktx = "com.github.DylanCaiCoding.ViewBindingKTX:viewbinding-ktx:1.2.1"
+  const val binding_base = "com.github.DylanCaiCoding.ViewBindingKTX:viewbinding-base:1.2.1"
   //</editor-fold>
 
   //<editor-fold defaultstate="collapsed" desc="三方常用配置">
