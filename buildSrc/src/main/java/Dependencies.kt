@@ -125,7 +125,7 @@ object Deps {
 
   //<editor-fold defaultstate="collapsed" desc="调试统计工具">
   //模拟器检测 https://github.com/happylishang/CacheEmulatorChecker
-  const val emulator = "com.snail:antifake:1.4"
+  const val emulator = "io.github.happylishang:antifake:1.5.0"
 
   //Google分析统计工具 https://console.firebase.google.com/
   //const val gms_gradle = "com.google.gms:google-services:4.3.4"
@@ -138,10 +138,10 @@ object Deps {
   const val leakcanary = "com.squareup.leakcanary:leakcanary-android:2.7"
 
   //UI调试 https://github.com/YvesCheung/UInspector
-  const val uinspector = "com.github.YvesCheung.UInspector:Uinspector:2.0.2"
+  const val uinspector = "com.github.YvesCheung.UInspector:Uinspector:2.0.5"
 
   //bugly https://bugly.qq.com/docs/user-guide/instruction-manual-android/?v=20190916214340
-  const val bugly_crash = "com.tencent.bugly:crashreport:3.3.91"
+  const val bugly_crash = "com.tencent.bugly:crashreport:3.3.92"
   const val bugly_native = "com.tencent.bugly:nativecrashreport:3.9.1"
   const val plugin_bugly = "com.tencent.bugly:symtabfileuploader:2.2.1" //bugly的mapping上传
   //</editor-fold>
