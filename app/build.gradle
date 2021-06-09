@@ -239,7 +239,6 @@ dependencies {
   //implementation project(':shelllib')
   implementation Deps.walle
   implementation Deps.emoji
-  implementation Deps.startup
   implementation Deps.dk_java
   implementation Deps.dk_ui
   implementation Deps.dk_exo

@@ -30,8 +30,11 @@ object Deps {
   //</editor-fold>
 
   //<editor-fold defaultstate="collapsed" desc="AndroidX基础配置">
-  //启动初始化 https://developer.android.google.cn/topic/libraries/app-startup
+  //启动初始化 https://developer.android.google.cn/topic/libraries/app-startup【注:由于出现在三星手机上不进入初始化，所以改为三方的android-startup】
   const val startup = "androidx.startup:startup-runtime:1.1.0-beta01"
+
+  //https://github.com/idisfkj/android-startup/blob/master/README-ch.md【由于在三星手机上，AndroidX自带的startup存在不初始化的问题，所以改用这个】
+  const val android_startup = "io.github.idisfkj:android-startup:1.0.62"
 
   //如果 minSdkVersion 设置为 21 或更高值则直接在build.gradle配置multiDexEnabled true即可，小于21的才需要配置到Application
   //分包 https://developer.android.google.cn/studio/build/multidex?hl=zh_cn#mdex-gradle

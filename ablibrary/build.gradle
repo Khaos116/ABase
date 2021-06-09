@@ -44,7 +44,7 @@ dependencies {
   debugImplementation Deps.uinspector
   api Deps.kotlin_stdlib
   api Deps.timber
-  api Deps.startup
+  api Deps.android_startup
   api Deps.appcompat
   api Deps.material
   api Deps.fragment
