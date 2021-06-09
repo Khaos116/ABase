@@ -281,6 +281,9 @@
         android:authorities="${applicationId}.android_startup"
         android:exported="false">
       <meta-data
+          android:name="cc.abase.demo.startup.AppStartupConfig"
+          android:value="android.startup.provider.config"/>
+      <meta-data
           android:name="cc.abase.demo.startup.AppLastInit"
           android:value="android.startup"/>
     </provider>
