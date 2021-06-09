@@ -3,7 +3,6 @@ package cc.abase.demo.component.splash
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.content.Intent
-import android.view.LayoutInflater
 import android.view.ViewGroup
 import cc.ab.base.ext.*
 import cc.abase.demo.component.comm.CommBindActivity
@@ -24,6 +23,20 @@ import kotlinx.coroutines.*
  * @date: 2019/10/8 10:03
  */
 class SplashActivity : CommBindActivity<ActivitySplashBinding>() {
+  //<editor-fold defaultstate="collapsed" desc="测试静态模块和StartUp的启动顺序">
+  companion object {
+    val mSysTime = getSysTime()
+    private fun getSysTime(): Long {
+      "初始化完成后，第一个页面静态模块加载".logE()
+      return System.currentTimeMillis()
+    }
+  }
+
+  override fun onCreateBefore() {
+    "初始化完成后，第一个非静态模块加载".logE()
+  }
+  //</editor-fold>
+
   //<editor-fold defaultstate="collapsed" desc="变量">
   //一个小时变一张图
   private val randomImg = TimeUtils.millis2String(System.currentTimeMillis()).split(" ")[1].split(":")[0].toInt()
@@ -98,25 +111,25 @@ class SplashActivity : CommBindActivity<ActivitySplashBinding>() {
     hasSDPermission = XXPermissions.isGranted(mContext, Permission.MANAGE_EXTERNAL_STORAGE)
     if (!hasSDPermission) {
       XXPermissions.with(this)
-          .permission(Permission.MANAGE_EXTERNAL_STORAGE)
-          .request(object : OnPermissionCallback {
-            override fun onGranted(granted: MutableList<String>, all: Boolean) {
-              if (XXPermissions.isGranted(mContext, Permission.MANAGE_EXTERNAL_STORAGE)) {
-                hasSDPermission = true
-                goNextPage()
-              } else {
-                "没有SD卡权限,不能使用APP".toast()
-                XXPermissions.startPermissionActivity(mContext, Permission.MANAGE_EXTERNAL_STORAGE)
-                finish()
-              }
-            }
-
-            override fun onDenied(denied: MutableList<String>, quick: Boolean) {
+        .permission(Permission.MANAGE_EXTERNAL_STORAGE)
+        .request(object : OnPermissionCallback {
+          override fun onGranted(granted: MutableList<String>, all: Boolean) {
+            if (XXPermissions.isGranted(mContext, Permission.MANAGE_EXTERNAL_STORAGE)) {
+              hasSDPermission = true
+              goNextPage()
+            } else {
               "没有SD卡权限,不能使用APP".toast()
               XXPermissions.startPermissionActivity(mContext, Permission.MANAGE_EXTERNAL_STORAGE)
               finish()
             }
-          })
+          }
+
+          override fun onDenied(denied: MutableList<String>, quick: Boolean) {
+            "没有SD卡权限,不能使用APP".toast()
+            XXPermissions.startPermissionActivity(mContext, Permission.MANAGE_EXTERNAL_STORAGE)
+            finish()
+          }
+        })
     } else {
       goNextPage()
     }
@@ -128,8 +141,8 @@ class SplashActivity : CommBindActivity<ActivitySplashBinding>() {
   private fun checkReOpenHome(): Boolean {
     // 避免从桌面启动程序后，会重新实例化入口类的activity
     if (!this.isTaskRoot && intent != null // 判断当前activity是不是所在任务栈的根
-        && intent.hasCategory(Intent.CATEGORY_LAUNCHER)
-        && Intent.ACTION_MAIN == intent.action
+      && intent.hasCategory(Intent.CATEGORY_LAUNCHER)
+      && Intent.ACTION_MAIN == intent.action
     ) {
       finish()
       return true

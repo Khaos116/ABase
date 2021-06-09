@@ -20,7 +20,7 @@ class UtilsInit : AndroidStartup<Int>() {
   override fun callCreateOnMainThread(): Boolean = false
 
   //是否需要在主线程进行等待其完成:如果返回true，将在主线程等待，并且阻塞主线程
-  override fun waitOnMainThread(): Boolean = true
+  override fun waitOnMainThread(): Boolean = false
   //</editor-fold>
 
   //<editor-fold defaultstate="collapsed" desc="初始化">
@@ -34,7 +34,7 @@ class UtilsInit : AndroidStartup<Int>() {
 
   //<editor-fold defaultstate="collapsed" desc="依赖">
   override fun dependencies(): List<Class<out Startup<*>>> {
-    return mutableListOf(TimberInit::class.java)
+    return mutableListOf(AutoSizeInit::class.java)
   }
   //</editor-fold>
 }
