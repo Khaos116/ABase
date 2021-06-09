@@ -3,7 +3,6 @@ package cc.abase.demo.startup
 import android.app.Application
 import android.content.Context
 import android.graphics.Color
-import androidx.startup.Initializer
 import cc.ab.base.ext.logI
 import cc.ab.base.startup.MmkvInit
 import cc.abase.demo.component.login.LoginActivity
@@ -12,6 +11,8 @@ import cc.abase.demo.component.splash.GuideActivity
 import cc.abase.demo.component.splash.SplashActivity
 import cc.abase.demo.widget.smart.MidaMusicHeader
 import com.billy.android.swipe.SmartSwipeBack
+import com.rousetime.android_startup.AndroidStartup
+import com.rousetime.android_startup.Startup
 import com.scwang.smart.refresh.layout.SmartRefreshLayout
 
 /**
@@ -19,35 +20,8 @@ import com.scwang.smart.refresh.layout.SmartRefreshLayout
  * Date:2020/12/19
  * Time:15:52
  */
-class SmartInit : Initializer<Int> {
-  //不需要侧滑的页面
-  private val list = listOf(
-      SplashActivity::class.java.name,
-      MainActivity::class.java.name,
-      GuideActivity::class.java.name,
-      LoginActivity::class.java.name,
-  )
-
-  override fun create(context: Context): Int {
-    //仿手机QQ的手势滑动返回
-    //SmartSwipeBack.activityStayBack(application, null);
-    //仿微信带联动效果的透明侧滑返回
-    //SmartSwipeBack.activitySlidingBack(application, null);
-    //侧滑开门样式关闭activity
-    //SmartSwipeBack.activityDoorBack(application, null);
-    //侧滑百叶窗样式关闭activity
-    //SmartSwipeBack.activityShuttersBack(application, null);
-    //仿小米MIUI系统的贝塞尔曲线返回效果
-    //SmartSwipeBack.activityBezierBack(application, null);
-    SmartSwipeBack.activitySlidingBack(context.applicationContext as Application) { activity -> !list.contains(activity.javaClass.name) }
-    "初始化完成".logI()
-    return 0
-  }
-
-  override fun dependencies(): MutableList<Class<out Initializer<*>>> {
-    return mutableListOf(MmkvInit::class.java)
-  }
-
+class SmartInit : AndroidStartup<Int>() {
+  //<editor-fold defaultstate="collapsed" desc="配置">
   //静态代码段可以防止内存泄露
   companion object {
     init {
@@ -67,4 +41,45 @@ class SmartInit : Initializer<Int> {
       SmartRefreshLayout.setDefaultRefreshFooterCreator { context, _ -> cc.abase.demo.widget.smart.ClassicsFooter(context) }
     }
   }
+
+  //不需要侧滑的页面
+  private val list = listOf(
+    SplashActivity::class.java.name,
+    MainActivity::class.java.name,
+    GuideActivity::class.java.name,
+    LoginActivity::class.java.name,
+  )
+  //</editor-fold>
+
+  //<editor-fold defaultstate="collapsed" desc="初始化线程问题">
+  //create()方法调时所在的线程：如果callCreateOnMainThread返回true，则表示在主线程中初始化，会导致waitOnMainThread返回值失效；当返回false时，才会判断waitOnMainThread的返回值
+  override fun callCreateOnMainThread(): Boolean = true
+
+  //是否需要在主线程进行等待其完成:如果返回true，将在主线程等待，并且阻塞主线程
+  override fun waitOnMainThread(): Boolean = true
+  //</editor-fold>
+
+  //<editor-fold defaultstate="collapsed" desc="初始化">
+  override fun create(context: Context): Int {
+    //仿手机QQ的手势滑动返回
+    //SmartSwipeBack.activityStayBack(application, null);
+    //仿微信带联动效果的透明侧滑返回
+    //SmartSwipeBack.activitySlidingBack(application, null);
+    //侧滑开门样式关闭activity
+    //SmartSwipeBack.activityDoorBack(application, null);
+    //侧滑百叶窗样式关闭activity
+    //SmartSwipeBack.activityShuttersBack(application, null);
+    //仿小米MIUI系统的贝塞尔曲线返回效果
+    //SmartSwipeBack.activityBezierBack(application, null);
+    SmartSwipeBack.activitySlidingBack(context.applicationContext as Application) { activity -> !list.contains(activity.javaClass.name) }
+    "初始化完成".logI()
+    return 0
+  }
+  //</editor-fold>
+
+  //<editor-fold defaultstate="collapsed" desc="依赖">
+  override fun dependencies(): List<Class<out Startup<*>>> {
+    return mutableListOf(MmkvInit::class.java)
+  }
+  //</editor-fold>
 }
