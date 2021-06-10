@@ -1,5 +1,6 @@
 package cc.ab.base.ext
 
+import android.content.Intent
 import android.net.Uri
 import android.view.Gravity
 import coil.util.CoilUtils
@@ -69,7 +70,7 @@ fun String?.isVideoUrl(): Boolean {
     false
   } else {
     Pattern.compile(".*?(avi|rmvb|rm|asf|divx|mpg|mpeg|mpe|wmv|mp4|mkv|vob)")
-        .matcher(this.toLowerCase(Locale.getDefault())).matches()
+      .matcher(this.toLowerCase(Locale.getDefault())).matches()
   }
 }
 
@@ -104,4 +105,17 @@ fun String?.getCoilCacheFile(): File? {
 //读取Host
 fun String?.getHost(): String {
   return if (this.isNullOrBlank()) "" else Uri.parse(this).host ?: this
+}
+
+//打开外部链接
+fun String?.openOutLink() {
+  if (!this.isNullOrBlank()) {
+    try {
+      val newUrl = if (this.startsWith("http", true)) this else "http://$this"
+      val intent = Intent(Intent.ACTION_VIEW, Uri.parse(newUrl))
+      ActivityUtils.getTopActivity()?.startActivity(intent)
+    } catch (e: Exception) {
+      e.printStackTrace()
+    }
+  }
 }
