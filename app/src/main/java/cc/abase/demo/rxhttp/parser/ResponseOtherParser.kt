@@ -1,12 +1,10 @@
 package cc.abase.demo.rxhttp.parser
 
-import com.blankj.utilcode.util.GsonUtils
 import rxhttp.wrapper.annotation.Parser
-import rxhttp.wrapper.exception.ParseException
 import rxhttp.wrapper.parse.AbstractParser
+import rxhttp.wrapper.utils.convert
 import java.io.IOException
 import java.lang.reflect.Type
-import java.nio.charset.StandardCharsets
 
 /**
  * Description:
@@ -37,17 +35,25 @@ open class ResponseOtherParser<T> : AbstractParser<T> {
 
   @Throws(IOException::class)
   override fun onParse(response: okhttp3.Response): T {
-    //读取返回结果
-    var result: String? = null
-    val body = response.body
-    if (body != null) {
-      val source = body.source()
-      source.request(Long.MAX_VALUE)
-      result = source.buffer.clone().readString(StandardCharsets.UTF_8)
-    }
-    //判断结果
-    if (result == null || result.isEmpty()) throw ParseException("500", "服务器没有数据", response)
+    //------------------------自己处理Start(能处理结果不影响response.body的后续调用)------------------------//
+    ////读取返回结果
+    //var result: String? = null
+    //val body = response.body
+    //if (body != null) {
+    //  val source = body.source()
+    //  source.request(Long.MAX_VALUE)
+    //  result = source.buffer.clone().readString(StandardCharsets.UTF_8)
+    //}
+    ////判断结果
+    //if (result == null || result.isEmpty()) throw ParseException("500", "服务器没有数据", response)
+    //val responseOther: T = GsonUtils.fromJson(result, mType)
+    //------------------------自己处理End(能处理结果不影响response的后续调用)------------------------//
+
+    //---------------------------------交给框架处理Start(后续无法再使用response.body)---------------------------------//
     //转换类型
-    return GsonUtils.fromJson(result, mType)
+    val responseOther: T = response.convert(mType)
+    //---------------------------------交给框架处理End---------------------------------//
+
+    return responseOther
   }
 }
