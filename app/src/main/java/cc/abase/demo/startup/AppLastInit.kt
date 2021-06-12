@@ -11,7 +11,7 @@ import kotlinx.coroutines.GlobalScope
 
 /**
  * 由于发现AndroidX的StartUp在三星手机上出现了不会走初始化的情况，所以改为了第三方的StartUp
- * Author:CASE https://github.com/idisfkj/android-startup/blob/master/README-ch.md
+ * Author:Khaos https://github.com/idisfkj/android-startup/blob/master/README-ch.md
  * Date:2020/12/19
  * Time:15:03
  */

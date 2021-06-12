@@ -191,7 +191,7 @@ class VideoCompressActivity : CommBindTitleActivity<ActivityVideoCompressBinding
           }
         }
       } else {
-        LogUtils.e("CASE:onActivityResult:other")
+        LogUtils.e("Khaos:onActivityResult:other")
       }
     }
   }

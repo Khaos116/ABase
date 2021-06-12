@@ -9,7 +9,7 @@ import com.dylanc.viewbinding.base.inflateBindingWithGeneric
 
 /**
  * @Description 使用BaseViewHolder嵌套ViewBinding解决findViewById问题
- * @Author：CASE
+ * @Author：Khaos
  * @Date：2021/2/20
  * @Time：10:42
  */

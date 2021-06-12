@@ -7,7 +7,7 @@ import com.blankj.utilcode.util.LogUtils
 
 /**
  * @Description
- * @Author：CASE
+ * @Author：Khaos
  * @Date：2021/1/12
  * @Time：16:58
  */
@@ -46,7 +46,7 @@ object UserManager {
   //更新Token
   fun setToken(token: String, url: String = ApiUrl.appBaseUrl) {
     if (token.isNotBlank() && token != this.token) {
-      LogUtils.e("CASE:更新Token为:${token}")
+      LogUtils.e("Khaos:更新Token为:${token}")
       this.token = token
       MMkvUtils.setToken(token)
       RxCookie.setCookie(token, url)

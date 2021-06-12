@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName
 
 /**
  * @Description https://github.com/YeEeck/NetworkTool/blob/master/app/src/main/java/com/yeck/networktool/MainActivity.java
- * @Author：CASE
+ * @Author：Khaos
  * @Date：2021-06-02
  * @Time：20:53
  */

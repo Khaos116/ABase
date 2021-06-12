@@ -24,7 +24,7 @@ import okhttp3.OkHttpClient;
  * 3.尽量只对测试渠道的设置抓包
  * 4.如果OkHttpClient是单利，启动APP后才设置代理，则需要杀掉APP后重新打开
  * 5.如果打开了代理，又不能正确读取设置代理，则会出现无法访问的情况
- * Author:CASE
+ * Author:Khaos
  * Date:19-7-16
  * Time:下午4:49
  */

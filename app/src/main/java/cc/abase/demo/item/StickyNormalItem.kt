@@ -8,7 +8,7 @@ import cc.abase.demo.bean.local.CityBean
 import cc.abase.demo.databinding.ItemStickyNormalBinding
 
 /**
- * Author:CASE
+ * Author:Khaos
  * Date:2021/1/4
  * Time:10:30
  */

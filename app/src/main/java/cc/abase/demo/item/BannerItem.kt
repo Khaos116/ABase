@@ -14,7 +14,7 @@ import cc.abase.demo.databinding.ItemBannerImgBinding
 import com.blankj.utilcode.util.ScreenUtils
 
 /**
- * Author:CASE
+ * Author:Khaos
  * Date:2020-11-25
  * Time:15:49
  */

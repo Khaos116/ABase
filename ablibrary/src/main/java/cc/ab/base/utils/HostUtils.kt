@@ -10,7 +10,7 @@ import kotlin.coroutines.resumeWithException
 
 /**
  * @Description 获取响应速度最快的Host
- * @Author：CASE
+ * @Author：Khaos
  * @Date：2021-05-26
  * @Time：11:40
  */

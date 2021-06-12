@@ -8,7 +8,7 @@ import cc.abase.demo.bean.local.DividerBean
 import cc.abase.demo.databinding.ItemDividerBinding
 
 /**
- * Author:CASE
+ * Author:Khaos
  * Date:2020-11-25
  * Time:15:35
  */

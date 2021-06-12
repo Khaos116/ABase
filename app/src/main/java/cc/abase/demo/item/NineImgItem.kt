@@ -9,7 +9,7 @@ import cc.ab.base.ui.item.BaseViewHolder
 import cc.abase.demo.databinding.ItemNineImgBinding
 
 /**
- * Author:CASE
+ * Author:Khaos
  * Date:2020-11-25
  * Time:15:44
  */

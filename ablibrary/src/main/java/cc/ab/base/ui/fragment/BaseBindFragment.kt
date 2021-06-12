@@ -13,7 +13,7 @@ import kotlinx.coroutines.*
 
 /**
  * @Description 由于进行了异步XML加载，所以如果重写了onResume、onPause等生命周期方法，需要谨慎使用viewBinding
- * @Author：CASE
+ * @Author：Khaos
  * @Date：2021/3/15
  * @Time：18:28
  */

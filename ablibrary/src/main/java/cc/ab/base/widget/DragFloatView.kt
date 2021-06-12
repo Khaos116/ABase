@@ -15,7 +15,7 @@ import kotlin.math.abs
 
 /**
  * @Description 1.尽量添加到"android.R.id.content"这个父控件 2.页面关闭时,需要把本控件从父控件移除,防止父控件监听没有移除
- * @Author：CASE
+ * @Author：Khaos
  * @Date：2021/1/14
  * @Time：9:55
  */

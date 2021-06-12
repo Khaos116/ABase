@@ -8,7 +8,7 @@ import com.rousetime.android_startup.Startup
 import timber.log.Timber
 
 /**
- * Author:CASE
+ * Author:Khaos
  * Date:2020/12/19
  * Time:15:11
  */

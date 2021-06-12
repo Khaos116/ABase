@@ -7,7 +7,7 @@ import java.util.concurrent.LinkedBlockingQueue;
 
 /**
  * @Description Google服务通过广告id获取设备唯一id【只有手机有谷歌服务才能获取到】
- * @Author：CASE
+ * @Author：Khaos
  * @Date：2021/2/25
  * @Time：15:48
  */

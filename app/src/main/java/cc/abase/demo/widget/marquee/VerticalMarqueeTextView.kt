@@ -15,7 +15,7 @@ import cc.abase.demo.widget.MarqueeTextView
 
 /**
  * @Description
- * @Author：CASE
+ * @Author：Khaos
  * @Date：2021/1/13
  * @Time：13:08
  */

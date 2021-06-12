@@ -6,7 +6,7 @@ import okhttp3.Interceptor.Chain
 
 /** https://www.jianshu.com/p/dbda0bb8d541
  * @Description 图片网络缓存设置时长
- * @Author：CASE
+ * @Author：Khaos
  * @Date：2021/2/20
  * @Time：20:01
  */

@@ -13,31 +13,31 @@ import java.util.Locale
 import java.util.regex.Pattern
 
 /**
- * Author:CASE
+ * Author:Khaos
  * Date:2020-9-28
  * Time:19:01
  */
 inline fun String?.logE() {
   if (!this.isNullOrBlank()) {
-    Timber.e("CASE-$this")
+    Timber.e("Khaos-$this")
   }
 }
 
 inline fun String?.logW() {
   if (!this.isNullOrBlank()) {
-    Timber.w("CASE-$this")
+    Timber.w("Khaos-$this")
   }
 }
 
 inline fun String?.logI() {
   if (!this.isNullOrBlank()) {
-    Timber.i("CASE-$this")
+    Timber.i("Khaos-$this")
   }
 }
 
 inline fun String?.logD() {
   if (!this.isNullOrBlank()) {
-    Timber.d("CASE-$this")
+    Timber.d("Khaos-$this")
   }
 }
 

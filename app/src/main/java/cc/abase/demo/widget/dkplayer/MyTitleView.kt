@@ -16,7 +16,7 @@ import xyz.doikki.videoplayer.util.PlayerUtils
 /**
  * 1.解决竖向全屏适配状态栏
  * 2.解决非列表中不显示电量和时间
- * Author:CASE
+ * Author:Khaos
  * Date:2020/12/24
  * Time:18:41
  */

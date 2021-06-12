@@ -121,7 +121,7 @@ class TokenInterceptor : Interceptor {
             .add("username", MMkvUtils.getAccount())
             .add("password", EncryptUtils.encryptMD5ToString(MMkvUtils.getPassword()))
             .execute(SimpleParser[String::class.java])
-        LogUtils.e("CASE:自动登录登录刷新Token")
+        LogUtils.e("Khaos:自动登录登录刷新Token")
         SESSION_KEY_REFRESH_TIME = System.currentTimeMillis()
         true
       } catch (e: IOException) {

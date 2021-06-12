@@ -16,7 +16,7 @@ import xyz.doikki.videoplayer.player.VideoViewManager
 import java.io.File
 
 /**
- * Author:CASE
+ * Author:Khaos
  * Date:2020/12/23
  * Time:13:04
  */

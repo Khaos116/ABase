@@ -14,7 +14,7 @@ import cc.abase.demo.databinding.ItemGankParentBinding
 import com.drakeet.multitype.MultiTypeAdapter
 
 /**
- * Author:CASE
+ * Author:Khaos
  * Date:2021年1月8日
  * Time:16:23:13
  */

@@ -8,7 +8,7 @@ import cc.abase.demo.bean.local.ProvinceBean
 import cc.abase.demo.databinding.ItemStickyTopBinding
 
 /**
- * Author:CASE
+ * Author:Khaos
  * Date:2021/1/4
  * Time:10:29
  */

@@ -20,7 +20,7 @@ import xyz.doikki.videoplayer.util.PlayerUtils
 
 /**
  * 为了监听手指按压和抬起,使用倍速播放
- * Author:CASE
+ * Author:Khaos
  * Date:2020/12/30
  * Time:10:16
  */

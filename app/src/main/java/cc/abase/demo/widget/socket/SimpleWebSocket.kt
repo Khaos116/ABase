@@ -10,7 +10,7 @@ import java.util.concurrent.TimeUnit
 
 /**
  * @Description https://github.com/fomin-zhu/websocket/blob/master/app/src/main/java/com/fomin/websocket/WebSocketManager.java
- * @Author：CASE
+ * @Author：Khaos
  * @Date：2021/1/13
  * @Time：17:16
  */

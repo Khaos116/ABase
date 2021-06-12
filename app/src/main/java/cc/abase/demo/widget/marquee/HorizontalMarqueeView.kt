@@ -17,7 +17,7 @@ import kotlinx.android.extensions.LayoutContainer
 /**
  * 参考：https://github.com/leiyun1993/AutoScrollLayout
  * @Description 横向滚动跑马灯
- * @Author：CASE
+ * @Author：Khaos
  * @Date：2021/3/2
  * @Time：9:56
  */

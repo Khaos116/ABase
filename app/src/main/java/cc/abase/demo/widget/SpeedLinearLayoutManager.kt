@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView.State
 /**
  * 修改滑动速度
  * @see com.google.android.material.datepicker.SmoothCalendarLayoutManager
- * @Author:CASE
+ * @Author:Khaos
  * @Date:2021/1/5
  * @Time:19:26
  */

@@ -14,7 +14,7 @@ import java.util.Locale
 /**
  * https://blog.csdn.net/weixin_43870026/article/details/87353345
  * @Description Rxhttp下载图片到DCIM/Pictures相册
- * @Author：CASE
+ * @Author：Khaos
  * @Date：2021/2/6
  * @Time：13:52
  */

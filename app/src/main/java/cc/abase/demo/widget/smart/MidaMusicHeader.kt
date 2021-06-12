@@ -16,7 +16,7 @@ import com.scwang.smart.refresh.layout.simple.SimpleComponent
 
 /**
  * @description: 小黑人动画的下拉刷新的头(艾美咪哒项目)
- * @Author:CASE
+ * @Author:Khaos
  * @Date:2021年1月5日
  * @Time:18:54:13
  */

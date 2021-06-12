@@ -5,7 +5,7 @@ import kotlin.math.pow
 
 /**
  * @Description 少量数组的组合计算工具
- * @Author：CASE
+ * @Author：Khaos
  * @Date：2021-04-16
  * @Time：21:26
  */

@@ -5,7 +5,7 @@ import xyz.doikki.videoplayer.player.PlayerFactory
 
 /**
  * VideoViewManager需要设置为自己的播放器工厂
- * Author:CASE
+ * Author:Khaos
  * Date:2020/12/23
  * Time:15:29
  */

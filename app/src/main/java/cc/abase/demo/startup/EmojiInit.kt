@@ -8,7 +8,7 @@ import com.vanniktech.emoji.EmojiManager
 import com.vanniktech.emoji.twitter.TwitterEmojiProvider
 
 /**
- * Author:CASE
+ * Author:Khaos
  * Date:2020/12/19
  * Time:15:51
  */

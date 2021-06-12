@@ -20,7 +20,7 @@ import java.io.File
 
 /**
  * 将大部分控制封装后对外简单使用
- * Author:CASE
+ * Author:Khaos
  * Date:2020/12/23
  * Time:13:16
  */

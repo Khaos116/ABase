@@ -11,7 +11,7 @@ import java.io.IOException;
  * </GradleProjectSettings>
  *
  * @Description JAVA实现美团多渠道打包(供服务器参考)
- * @Author：CASE
+ * @Author：Khaos
  * @Date：2021/3/9
  * @Time：18:12
  */
@@ -21,14 +21,14 @@ public class JavaExeWalle {
   //walle-cli-all.jar的存放目录
   private static String pathJar = "C:\\Users\\Administrator\\Desktop\\APK\\walle-cli-all.jar";
   //项目最新版本的APK存放地址，每次发版后更换为最新的APK地址【需要为最新的APK】
-  private static String pathOriginApk = "C:\\Users\\Administrator\\Desktop\\APK\\release\\CASE.apk";
+  private static String pathOriginApk = "C:\\Users\\Administrator\\Desktop\\APK\\release\\Khaos.apk";
   //每个包含渠道信息的APK文件目录
   private static String pathDestDirApk = "C:\\Users\\Administrator\\Desktop\\APK" + File.separator + serviceApkVersion;
 
   public static void main(String[] args) {
     //H5调用分享，先本地生成最后的下载链接，再异步生成对应的渠道APK即可
     boolean suiji = System.currentTimeMillis() % 2 == 0L;
-    String h5ShowApkDownPath = shareChannel(suiji ? "CASE" : "YiHui");
+    String h5ShowApkDownPath = shareChannel(suiji ? "Khaos" : "YiHui");
     //将生成预生成的地址返回给H5显示为二维码
     System.out.println("H5页面显示的二维码下载链接:" + h5ShowApkDownPath);
   }

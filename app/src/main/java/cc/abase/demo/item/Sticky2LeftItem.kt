@@ -7,7 +7,7 @@ import cc.ab.base.ui.item.BaseViewHolder
 import cc.abase.demo.databinding.ItemSticky2LeftBinding
 
 /**
- * Author:CASE
+ * Author:Khaos
  * Date:2021/1/4
  * Time:14:42
  */

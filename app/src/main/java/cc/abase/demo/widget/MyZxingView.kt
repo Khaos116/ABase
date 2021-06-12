@@ -11,7 +11,7 @@ import me.devilsen.czxing.view.ScanView
 
 /**
  * @Description
- * @Author：CASE
+ * @Author：Khaos
  * @Date：2021/1/26
  * @Time：17:15
  */

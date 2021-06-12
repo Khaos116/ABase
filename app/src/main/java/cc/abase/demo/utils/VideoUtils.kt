@@ -2,17 +2,12 @@ package cc.abase.demo.utils
 
 import cc.ab.base.config.PathConfig
 import cc.ab.base.ext.launchError
-import com.blankj.utilcode.util.FileUtils
-import com.blankj.utilcode.util.LogUtils
-import com.blankj.utilcode.util.Utils
+import com.blankj.utilcode.util.*
 import com.hjq.permissions.Permission
 import com.hjq.permissions.XXPermissions
 import com.iceteck.silicompressorr.CompressCall
 import com.iceteck.silicompressorr.SiliCompressor
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.*
 import java.io.File
 
 /**
@@ -36,9 +31,9 @@ object VideoUtils {
   init {
     if (XXPermissions.isGranted(Utils.getApp(), Permission.MANAGE_EXTERNAL_STORAGE)) {
       if (!File(outParentVideo).exists())
-        LogUtils.e("CASE:创建Video文件夹:${File(outParentVideo).mkdirs()}")
+        LogUtils.e("Khaos:创建Video文件夹:${File(outParentVideo).mkdirs()}")
       if (!File(outParentImgs).exists())
-        LogUtils.e("CASE:创建Temp文件夹:${File(outParentImgs).mkdirs()}")
+        LogUtils.e("Khaos:创建Temp文件夹:${File(outParentImgs).mkdirs()}")
     }
   }
   //</editor-fold>
@@ -49,7 +44,7 @@ object VideoUtils {
       result: ((suc: Boolean, info: String) -> Unit)? = null,
       pro: ((progress: Float) -> Unit)? = null) {
     if (CompressCall.progressCall != null) {
-      LogUtils.e("CASE:正在压缩中")
+      LogUtils.e("Khaos:正在压缩中")
       return
     }
     disposableCompress?.cancel()
@@ -66,8 +61,8 @@ object VideoUtils {
         if (File(resultPath).exists()) {
           CompressCall.release()
           result?.invoke(true, resultPath)
-          LogUtils.e("\nCASE:视频压缩前大小:${FileUtils.getSize(originFile)}")
-          LogUtils.e("\nCASE:视频压缩后大小:${FileUtils.getSize(resultPath)}\n")
+          LogUtils.e("\nKhaos:视频压缩前大小:${FileUtils.getSize(originFile)}")
+          LogUtils.e("\nKhaos:视频压缩后大小:${FileUtils.getSize(resultPath)}\n")
         } else {
           CompressCall.release()
           result?.invoke(false, "压缩失败")

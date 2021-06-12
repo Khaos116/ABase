@@ -15,7 +15,7 @@ import xyz.doikki.videoplayer.util.PlayerUtils
 
 /**
  * 解决竖向视频全屏问题
- * Author:CASE
+ * Author:Khaos
  * Date:2020/12/24
  * Time:17:50
  */

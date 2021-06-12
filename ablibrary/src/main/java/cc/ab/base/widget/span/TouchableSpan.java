@@ -8,7 +8,7 @@ import org.jetbrains.annotations.NotNull;
 
 /**
  * 为多个TouchableSpan分别添加点击变色
- * Author:CASE
+ * Author:Khaos
  * Date:2016/6/1
  * Time:14:06
  */

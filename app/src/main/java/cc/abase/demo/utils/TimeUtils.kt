@@ -64,7 +64,7 @@ object TimeUtils {
   //<editor-fold defaultstate="collapsed" desc="2021年4月5日22:46:47新增转换">
   /**
    * 带时区的时间转换为本地时间显示
-   * @author CASE
+   * @author Khaos
    * @param time GTM带时区的时间格式(格式为[yyyy-MM-dd|yyyyMMdd][T(hh:mm[:ss[.sss]]|hhmm[ss[.sss]])]?[Z|[+-]hh[:mm]]])
    * @return 返回yyyy-MM-dd HH:mm:ss格式的时间
    */
@@ -75,7 +75,7 @@ object TimeUtils {
 
   /**
    * GMT时间转本地时间
-   * @author CASE
+   * @author Khaos
    * @param time GMT时间(格式为格式为yyyy-MM-dd HH:mm:ss)
    * @param offSet GMT的时区(默认为0时区)
    * @return 返回yyyy-MM-dd HH:mm:ss格式的时间
@@ -101,7 +101,7 @@ object TimeUtils {
 
   /**
    * 本地时间转指定GMT时区时间
-   * @author CASE
+   * @author Khaos
    * @param time 本地时间(格式为yyyy-MM-dd HH:mm:ss)
    * @param offSet GMT时区(如:北京+8，纽约-5，默认为0时区)
    * @return 返回yyyy-MM-dd HH:mm:ss格式的时间
@@ -118,7 +118,7 @@ object TimeUtils {
 
   /**
    * 本地时间转指定GMT时区时间
-   * @author CASE
+   * @author Khaos
    * @param date 本地时间
    * @param offSet GMT时区(如:北京+8，纽约-5，默认为0时区)
    * @param offSet GMT时区(如:北京+8，纽约-5，默认为0时区)

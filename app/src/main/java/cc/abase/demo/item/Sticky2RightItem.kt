@@ -8,7 +8,7 @@ import cc.abase.demo.bean.local.UserScoreBean
 import cc.abase.demo.databinding.ItemSticky2BottomBinding
 
 /**
- * Author:CASE
+ * Author:Khaos
  * Date:2021/1/4
  * Time:14:44
  */

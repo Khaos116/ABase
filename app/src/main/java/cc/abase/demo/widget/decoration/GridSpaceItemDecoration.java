@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager;
  * @author jingbin
  * 原文地址：https://github.com/youlookwhat/ByRecyclerView
  *
- * 修改By CASE 2020年11月21日17:52:11(注意拖拽"上"+"下"会有1/2的间距)
+ * 修改By Khaos 2020年11月21日17:52:11(注意拖拽"上"+"下"会有1/2的间距)
  * 是否处于第一行和最后一行参考：https://github.com/airbnb/epoxy/blob/master/epoxy-adapter/src/main/java/com/airbnb/epoxy/EpoxyItemSpacingDecorator.java
  */
 public class GridSpaceItemDecoration extends RecyclerView.ItemDecoration {
@@ -37,7 +37,7 @@ public class GridSpaceItemDecoration extends RecyclerView.ItemDecoration {
   /**
    * 尾部 不显示间距的item个数 默认不处理最后一个item的间距
    */
-  private int mEndFromSize = 0;//CASE修改为默认0
+  private int mEndFromSize = 0;//Khaos修改为默认0
   /**
    * 瀑布流 头部第一个整行的position
    */
@@ -77,7 +77,7 @@ public class GridSpaceItemDecoration extends RecyclerView.ItemDecoration {
   @Override
   public void getItemOffsets(@NonNull Rect outRect, @NonNull View view, @NonNull RecyclerView parent,
       @NonNull RecyclerView.State state) {
-    //<editor-fold defaultstate="collapsed" desc="CASE添加的代码1">
+    //<editor-fold defaultstate="collapsed" desc="Khaos添加的代码1">
     outRect.setEmpty();
     int position = parent.getChildAdapterPosition(view);
     if (position == RecyclerView.NO_POSITION) {
@@ -120,7 +120,7 @@ public class GridSpaceItemDecoration extends RecyclerView.ItemDecoration {
       }
       // 减掉不设置间距的position,得到从0开始的position
       position = position - mStartFromSize;
-      if (mIncludeEdge || isIncludeStartEnd) {//CASE添加的代码2"||isIncludeStartEnd"
+      if (mIncludeEdge || isIncludeStartEnd) {//Khaos添加的代码2"||isIncludeStartEnd"
         /*
          *示例：
          * spacing = 10 ；spanCount = 3
@@ -193,7 +193,7 @@ public class GridSpaceItemDecoration extends RecyclerView.ItemDecoration {
         }
       }
     }
-    //<editor-fold defaultstate="collapsed" desc="CASE添加的代码3">
+    //<editor-fold defaultstate="collapsed" desc="Khaos添加的代码3">
     if (layoutManager instanceof GridLayoutManager) {//只处理上下间距，左右交给原本处理即可
       if (isDragGrid) {
         outRect.top = mSpacing / 2;
@@ -238,7 +238,7 @@ public class GridSpaceItemDecoration extends RecyclerView.ItemDecoration {
     return this;
   }
 
-  //<editor-fold defaultstate="collapsed" desc="CASE添加的代码4">
+  //<editor-fold defaultstate="collapsed" desc="Khaos添加的代码4">
   private boolean isInFirstRow;//是否在第一行
   private boolean isInLastRow;//是否在最后一行，如果只有一行isInFirstRow和isInLastRow都为true
   private boolean isIncludeStartEnd;//是否包含最前面和最后面

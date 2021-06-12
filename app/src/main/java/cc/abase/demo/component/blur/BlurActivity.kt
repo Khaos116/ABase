@@ -12,7 +12,7 @@ import cc.abase.demo.databinding.ActivityBlurBinding
 
 /**
  * @Description
- * @Author：CASE
+ * @Author：Khaos
  * @Date：2021/1/9
  * @Time：10:04
  */

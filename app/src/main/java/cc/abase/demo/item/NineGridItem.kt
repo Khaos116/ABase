@@ -16,7 +16,7 @@ import com.blankj.utilcode.util.SizeUtils
 import com.drakeet.multitype.MultiTypeAdapter
 
 /**
- * Author:CASE
+ * Author:Khaos
  * Date:2020-11-25
  * Time:15:46
  */

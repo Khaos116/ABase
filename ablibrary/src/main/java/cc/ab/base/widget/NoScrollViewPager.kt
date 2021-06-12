@@ -10,7 +10,7 @@ import androidx.viewpager.widget.ViewPager
 import java.lang.reflect.Field
 
 /**
- * Author:CASE
+ * Author:Khaos
  * Date:2020-10-10
  * Time:10:10
  */

@@ -7,7 +7,7 @@ import com.rousetime.android_startup.provider.StartupProviderConfig
 
 /**
  * @Description
- * @Author：CASE
+ * @Author：Khaos
  * @Date：2021-06-09
  * @Time：22:25
  */

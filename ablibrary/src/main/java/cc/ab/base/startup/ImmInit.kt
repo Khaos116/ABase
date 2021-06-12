@@ -9,7 +9,7 @@ import com.rousetime.android_startup.Startup
 
 /**
  * @Description 输入法内存泄漏
- * @Author：CASE
+ * @Author：Khaos
  * @Date：2021/1/15
  * @Time：16:45
  */

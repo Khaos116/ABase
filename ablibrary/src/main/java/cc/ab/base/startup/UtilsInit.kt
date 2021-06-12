@@ -10,7 +10,7 @@ import com.rousetime.android_startup.AndroidStartup
 import com.rousetime.android_startup.Startup
 
 /**
- * Author:CASE
+ * Author:Khaos
  * Date:2020/12/19
  * Time:15:08
  */

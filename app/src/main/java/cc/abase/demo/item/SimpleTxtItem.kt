@@ -10,7 +10,7 @@ import cc.abase.demo.bean.local.SimpleTxtBean
 import cc.abase.demo.databinding.ItemSimpleTextBinding
 
 /**
- * Author:CASE
+ * Author:Khaos
  * Date:2021/1/2
  * Time:15:22
  */

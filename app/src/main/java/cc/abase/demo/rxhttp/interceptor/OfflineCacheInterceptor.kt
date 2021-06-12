@@ -7,7 +7,7 @@ import okhttp3.Interceptor.Chain
 
 /** https://www.jianshu.com/p/dbda0bb8d541
  * @Description 图片访问缓存
- * @Author：CASE
+ * @Author：Khaos
  * @Date：2021/2/20
  * @Time：16:39
  */

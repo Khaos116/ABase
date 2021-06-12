@@ -24,14 +24,14 @@ object PermissionUtils {
   @Synchronized
   fun hasSDPermission(): Boolean {
     val parent = File(PathUtils.getExternalStoragePath())
-    val file = File(parent, "CASE_TEST.txt")
+    val file = File(parent, "Khaos_TEST.txt")
     return try {
       if (!parent.exists()) parent.mkdirs()
       if (!file.exists()) file.createNewFile()
       FileUtils.delete(file)
     } catch (e: Exception) {
       e.printStackTrace()
-      LogUtils.e("CASE:SD卡权限异常:${e.message}")
+      LogUtils.e("Khaos:SD卡权限异常:${e.message}")
       false
     }
   }
@@ -53,7 +53,7 @@ object PermissionUtils {
     } catch (e: Exception) {
       if (camera != null) camera.release()
       e.printStackTrace()
-      LogUtils.e("CASE:拍照权限异常:${e.message}")
+      LogUtils.e("Khaos:拍照权限异常:${e.message}")
       false
     }
   }
@@ -76,7 +76,7 @@ object PermissionUtils {
       )
     } catch (e: Exception) {
       e.printStackTrace()
-      LogUtils.e("CASE:录音权限异常:${e.message}")
+      LogUtils.e("Khaos:录音权限异常:${e.message}")
     }
     if (audioRecord == null) {
       return false
@@ -88,7 +88,7 @@ object PermissionUtils {
       e.printStackTrace()
       //可能情况一
       audioRecord.release()
-      LogUtils.e("CASE:录音权限异常:${e.message}")
+      LogUtils.e("Khaos:录音权限异常:${e.message}")
     }
 
     // 检测是否在录音中,6.0以下会返回此状态
@@ -99,7 +99,7 @@ object PermissionUtils {
         audioRecord.release()
       } catch (e: Exception) {
         e.printStackTrace()
-        LogUtils.e("CASE:录音权限异常:${e.message}")
+        LogUtils.e("Khaos:录音权限异常:${e.message}")
       }
       return false
     }
@@ -116,7 +116,7 @@ object PermissionUtils {
       audioRecord.release()
     } catch (e: Exception) {
       e.printStackTrace()
-      LogUtils.e("CASE:录音权限异常:${e.message}")
+      LogUtils.e("Khaos:录音权限异常:${e.message}")
     }
     return true
   }
@@ -142,7 +142,7 @@ object PermissionUtils {
       true
     } catch (e: Exception) {
       e.printStackTrace()
-      LogUtils.e("CASE:定位权限异常:${e.message}")
+      LogUtils.e("Khaos:定位权限异常:${e.message}")
       false
     }
   }
@@ -178,7 +178,7 @@ object PermissionUtils {
       true
     } catch (e: Exception) {
       e.printStackTrace()
-      LogUtils.e("CASE:定位权限异常:${e.message}")
+      LogUtils.e("Khaos:定位权限异常:${e.message}")
       false
     }
   }

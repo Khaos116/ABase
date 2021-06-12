@@ -9,7 +9,7 @@ import cc.abase.demo.databinding.DialogCommBinding
 import com.blankj.utilcode.util.ScreenUtils
 
 /**
- * Author:CASE
+ * Author:Khaos
  * Date:2020-10-13
  * Time:09:51
  */

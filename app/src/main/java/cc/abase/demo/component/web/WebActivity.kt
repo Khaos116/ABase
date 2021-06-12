@@ -9,9 +9,7 @@ import android.net.Uri
 import android.net.http.SslError
 import android.view.*
 import android.webkit.*
-import cc.ab.base.ext.logE
-import cc.ab.base.ext.logI
-import cc.ab.base.ext.toast
+import cc.ab.base.ext.*
 import cc.ab.base.widget.engine.ImageEngine
 import cc.abase.demo.R
 import cc.abase.demo.component.comm.CommBindTitleActivity
@@ -25,7 +23,6 @@ import com.just.agentweb.DefaultWebClient
 import com.luck.picture.lib.PictureSelector
 import com.luck.picture.lib.config.PictureConfig
 import com.luck.picture.lib.config.PictureMimeType
-import com.tencent.bugly.proguard.u
 import java.io.File
 
 /**
@@ -228,7 +225,7 @@ class WebActivity : CommBindTitleActivity<ActivityWebBinding>() {
       override fun shouldOverrideUrlLoading(view: WebView?, url: String?): Boolean {
         view?.settings?.cacheMode = WebSettings.LOAD_DEFAULT
         url?.let { u ->
-          if (u.startsWith("CASE://")) {
+          if (u.startsWith("Khaos://")) {
             //自己处理跳转拦截，需要自己处理返回true
             return true
           } else "Web内部跳转Url=$u".logI()

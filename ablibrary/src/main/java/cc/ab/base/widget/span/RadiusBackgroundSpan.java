@@ -7,7 +7,7 @@ import com.blankj.utilcode.util.SizeUtils;
 /**
  * Description: https://blog.csdn.net/industriously/article/details/53493392?utm_source=blogxgwz9
  *
- * @author: khaos
+ * @author: Khaos
  * @date: 2020/1/4 20:02
  */
 public class RadiusBackgroundSpan extends ReplacementSpan {

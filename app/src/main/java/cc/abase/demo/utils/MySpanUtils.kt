@@ -10,7 +10,7 @@ import com.blankj.utilcode.util.ColorUtils
 import com.blankj.utilcode.util.SizeUtils
 
 /**
- * Author:CASE
+ * Author:Khaos
  * Date:2020-10-20
  * Time:18:31
  */

@@ -3,7 +3,7 @@ package cc.ab.base.ui.viewmodel
 /**
  * https://www.cnblogs.com/Jetictors/p/8157969.html
  * 密封类 用来表示受限的类继承结构
- * Author:CASE
+ * Author:Khaos
  * Date:2020-11-30
  * Time:15:46
  */

@@ -10,7 +10,7 @@ import com.cc.countsdk.utils.CountInfoUtils
 
 /**
  * @Description
- * @Author：CASE
+ * @Author：Khaos
  * @Date：2021/2/17
  * @Time：16:15
  */

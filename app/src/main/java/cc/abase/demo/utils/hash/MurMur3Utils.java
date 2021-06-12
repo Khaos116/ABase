@@ -7,7 +7,7 @@ import java.math.BigInteger;
 
 /**
  * @Description MurMur3 加密工具 https://github.com/tamtam180/MurmurHash-For-Java
- * @Author：CASE
+ * @Author：Khaos
  * @Date：2021-05-03
  * @Time：14:17
  */
@@ -36,11 +36,11 @@ public class MurMur3Utils {
     for (long value : x64_128Array) x64_128Sb.append(String.format("%016x", value));//https://www.cnblogs.com/wlv1314/p/12188545.html
     String x64_128 = x64_128Sb.toString();
     //打印结果
-    Log.e("CASE", "\n============================================================================================\n");
-    Log.e("CASE", "MurMur3_X86_32位计算结果:" + x86_32);
-    Log.e("CASE", "MurMur3_X86_128位计算结果:" + x86_128);
-    Log.e("CASE", "MurMur3_X64_128位计算结果:" + x64_128);
-    Log.e("CASE", "\n============================================================================================\n");
+    Log.e("Khaos", "\n============================================================================================\n");
+    Log.e("Khaos", "MurMur3_X86_32位计算结果:" + x86_32);
+    Log.e("Khaos", "MurMur3_X86_128位计算结果:" + x86_128);
+    Log.e("Khaos", "MurMur3_X64_128位计算结果:" + x64_128);
+    Log.e("Khaos", "\n============================================================================================\n");
   }
   //</editor-fold>
 

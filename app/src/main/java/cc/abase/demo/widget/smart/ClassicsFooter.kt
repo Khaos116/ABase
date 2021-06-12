@@ -7,7 +7,7 @@ import android.view.View
 import com.scwang.smart.refresh.footer.ClassicsFooter
 
 /**
- * Author:CASE
+ * Author:Khaos
  * Date:2020-11-27
  * Time:16:04
  */

@@ -1,5 +1,5 @@
-<templateSet group="CASE-KOTLIN">
-  <template name="logk" value="android.util.Log.e(&quot;CASE&quot;, &quot;$content$&quot;)$END$" description="打印警告" toReformat="true" toShortenFQNames="true">
+<templateSet group="Khaos-KOTLIN">
+  <template name="logk" value="android.util.Log.e(&quot;Khaos&quot;, &quot;$content$&quot;)$END$" description="打印警告" toReformat="true" toShortenFQNames="true">
     <variable name="content" expression="" defaultValue="" alwaysStopAt="true" />
     <context>
       <option name="KOTLIN_STATEMENT" value="true" />
@@ -11,14 +11,14 @@
       <option name="KOTLIN" value="true" />
     </context>
   </template>
-  <template name="kaceTime" value="/** $DATE$ $TIME$ by case */" description="注释时间" toReformat="false" toShortenFQNames="true">
+  <template name="kaceTime" value="/** $DATE$ $TIME$ by Khaos */" description="注释时间" toReformat="false" toShortenFQNames="true">
     <variable name="DATE" expression="date()" defaultValue="" alwaysStopAt="true" />
     <variable name="TIME" expression="time()" defaultValue="" alwaysStopAt="true" />
     <context>
       <option name="KOTLIN" value="true" />
     </context>
   </template>
-  <template name="kaseFile" value="/**&#10; * Author:CASE&#10; * Date:$DATE$&#10; * Time:$TIME$&#10; */" description="类注释" toReformat="false" toShortenFQNames="true">
+  <template name="kaseFile" value="/**&#10; * Author:Khaos&#10; * Date:$DATE$&#10; * Time:$TIME$&#10; */" description="类注释" toReformat="false" toShortenFQNames="true">
     <variable name="DATE" expression="date()" defaultValue="" alwaysStopAt="true" />
     <variable name="TIME" expression="time()" defaultValue="" alwaysStopAt="true" />
     <context>
@@ -30,7 +30,7 @@
       <option name="KOTLIN" value="true" />
     </context>
   </template>
-  <template name="logt" value="timber.log.Timber.e(&quot;CASE-$content$&quot;)$END$" description="Timber打印" toReformat="false" toShortenFQNames="true">
+  <template name="logt" value="timber.log.Timber.e(&quot;Khaos-$content$&quot;)$END$" description="Timber打印" toReformat="false" toShortenFQNames="true">
     <variable name="content" expression="" defaultValue="" alwaysStopAt="true" />
     <context>
       <option name="JAVA_STATEMENT" value="true" />

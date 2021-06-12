@@ -18,7 +18,7 @@ import xyz.doikki.videocontroller.StandardVideoController
 
 /**
  * @Description
- * @Author：CASE
+ * @Author：Khaos
  * @Date：2021/3/15
  * @Time：17:57
  */

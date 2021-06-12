@@ -11,7 +11,7 @@ import com.dylanc.viewbinding.base.inflateBindingWithGeneric
 
 /**
  * @Description
- * @Author：CASE
+ * @Author：Khaos
  * @Date：2021/3/16
  * @Time：18:18
  */

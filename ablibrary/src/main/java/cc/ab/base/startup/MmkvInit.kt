@@ -7,7 +7,7 @@ import com.rousetime.android_startup.Startup
 import com.tencent.mmkv.MMKV
 
 /**
- * Author:CASE
+ * Author:Khaos
  * Date:2020/12/19
  * Time:15:45
  */

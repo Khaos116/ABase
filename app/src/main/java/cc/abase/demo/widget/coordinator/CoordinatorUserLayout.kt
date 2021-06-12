@@ -11,7 +11,7 @@ import com.google.android.material.appbar.AppBarLayout
 import net.lucode.hackware.magicindicator.MagicIndicator
 
 /**
- * Author:CASE
+ * Author:Khaos
  * Date:2020-10-20
  * Time:19:34
  */

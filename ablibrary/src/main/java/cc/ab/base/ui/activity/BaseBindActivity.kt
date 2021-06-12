@@ -19,7 +19,7 @@ import kotlinx.coroutines.*
  * 2.https://blog.csdn.net/u010976213/article/details/104501830
  * 注:目前发现MyVideoView和DLSideBar使用ViewBinding在XML加载存在问题，所以改为代码动态加载
  * @Description 由于进行了异步XML加载，所以如果重写了onResume、onPause等生命周期方法，需要谨慎使用viewBinding
- * @Author：CASE
+ * @Author：Khaos
  * @Date：2021/3/15
  * @Time：16:20
  */

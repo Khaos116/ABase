@@ -9,7 +9,7 @@ import android.widget.TextView;
 
 /**
  * 用于点击ClickableSpan时多个按钮分别变色
- * Author:CASE
+ * Author:Khaos
  * Date:2016/6/1
  * Time:14:09
  */
