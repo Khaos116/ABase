@@ -10,7 +10,7 @@ import cc.abase.demo.bean.local.PicEntity
 object ImageUrls {
 
   //码云
-  //  val prefix = "https://gitee.com/CASE_CAI/img/raw/master/"
+  //  val prefix = "https://gitee.com/khaos116/img/raw/master/"
   //gitlab
   private const val prefix = "https://gitlab.com/case2578/img/raw/master/"
 
