@@ -14,7 +14,7 @@ import cc.abase.demo.component.comm.CommViewModel
 import cc.abase.demo.rxhttp.repository.GankRepository
 
 /**
- * Author:case
+ * Author:Khaos
  * Date:2020/8/21
  * Time:9:52
  */

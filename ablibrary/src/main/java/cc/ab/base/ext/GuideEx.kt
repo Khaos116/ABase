@@ -10,7 +10,7 @@ import cc.ab.base.R
 /**
  * description : 新手引导相关扩展
  *
- * @author : case
+ * @author : Khaos
  * @date : 2019/3/12 14:58
  */
 /**显示引导:必须传view或者viewId*/
@@ -18,7 +18,7 @@ import cc.ab.base.R
 /**
  * description :Guide的位置
  *
- * @author : case
+ * @author : Khaos
  * @date : 2019/3/12 11:09
  */
 enum class GuidePosition(value: Int) {

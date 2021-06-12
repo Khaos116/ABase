@@ -16,7 +16,7 @@ import cc.abase.demo.sticky.StickyAnyAdapter
 import cc.abase.demo.sticky.StickyHeaderLinearLayoutManager
 
 /**
- * Author:case
+ * Author:Khaos
  * Date:2020/8/12
  * Time:20:48
  */

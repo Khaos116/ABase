@@ -22,7 +22,7 @@ import com.luck.picture.lib.widget.longimage.*
 import java.lang.ref.WeakReference
 
 /**
- * Author:case
+ * Author:Khaos
  * Date:2020/8/28
  * Time:15:32
  */

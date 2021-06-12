@@ -1,8 +1,6 @@
 package cc.abase.demo.component.main.fragment
 
 import android.graphics.Color
-import android.view.LayoutInflater
-import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import cc.ab.base.ui.viewmodel.DataState
 import cc.ab.base.widget.engine.ImageEngine
@@ -18,7 +16,7 @@ import com.luck.picture.lib.PictureSelector
 import com.luck.picture.lib.entity.LocalMedia
 
 /**
- * Author:case
+ * Author:Khaos
  * Date:2020/8/12
  * Time:20:48
  */
