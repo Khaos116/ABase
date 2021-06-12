@@ -12,7 +12,7 @@ object ImageUrls {
   //码云
   //  val prefix = "https://gitee.com/khaos116/img/raw/master/"
   //gitlab
-  private const val prefix = "https://gitlab.com/case2578/img/raw/master/"
+  private const val prefix = "https://gitlab.com/khaos116/img/raw/master/"
 
   //增加背景图
   const val image_1125x642 = "${prefix}user_top_bg.png"
