@@ -41,9 +41,6 @@ class SplashActivity : CommBindActivity<ActivitySplashBinding>() {
   //一个小时变一张图
   private val randomImg = TimeUtils.millis2String(System.currentTimeMillis()).split(" ")[1].split(":")[0].toInt()
 
-  //是否有SD卡读写权限
-  private var hasSDPermission = false
-
   //动画是否结束
   private var animIsFinished = false
 
@@ -107,27 +104,38 @@ class SplashActivity : CommBindActivity<ActivitySplashBinding>() {
       viewBinding.root.addView(lav, ViewGroup.LayoutParams(-1, -1))
       mJob = GlobalScope.launchError { withContext(Dispatchers.IO) { delay(1000) }.let { mLottieAnimationView?.playAnimation() } }
     }
+  }
+  //</editor-fold>
+
+  //<editor-fold defaultstate="collapsed" desc="SD卡权限处理">
+  //是否有SD卡读写权限
+  private var hasSDPermission = false
+  private var mJobSetting: Job? = null
+  private var hasGoSetting = false
+  private fun checkSDPermission() {
     //请求SD卡权限
     hasSDPermission = XXPermissions.isGranted(mContext, Permission.MANAGE_EXTERNAL_STORAGE)
     if (!hasSDPermission) {
       XXPermissions.with(this)
         .permission(Permission.MANAGE_EXTERNAL_STORAGE)
         .request(object : OnPermissionCallback {
-          override fun onGranted(granted: MutableList<String>, all: Boolean) {
-            if (XXPermissions.isGranted(mContext, Permission.MANAGE_EXTERNAL_STORAGE)) {
-              hasSDPermission = true
-              goNextPage()
-            } else {
-              "没有SD卡权限,不能使用APP".toast()
-              XXPermissions.startPermissionActivity(mContext, Permission.MANAGE_EXTERNAL_STORAGE)
-              finish()
-            }
+          override fun onGranted(permissions: MutableList<String>, all: Boolean) {
+            hasSDPermission = true
+            goNextPage()
           }
 
-          override fun onDenied(denied: MutableList<String>, quick: Boolean) {
-            "没有SD卡权限,不能使用APP".toast()
-            XXPermissions.startPermissionActivity(mContext, Permission.MANAGE_EXTERNAL_STORAGE)
-            finish()
+          override fun onDenied(permissions: MutableList<String>, never: Boolean) {
+            if (never && mJobSetting == null) { //打开APP发现被永久拒绝或者点击了永久拒绝
+              mJobSetting = GlobalScope.launchError {
+                "必须要给予SD卡权限才能使用".toast()
+                withContext(Dispatchers.IO) { delay(2000) }.let {
+                  XXPermissions.startPermissionActivity(mContext, permissions)
+                  hasGoSetting = true
+                }
+              }
+            } else if (!never || (never && hasGoSetting)) { //正常拒绝直接关闭,或者从权限回来发现还是没给
+              finish()
+            }
           }
         })
     } else {
@@ -169,8 +177,13 @@ class SplashActivity : CommBindActivity<ActivitySplashBinding>() {
   //</editor-fold>
 
   //<editor-fold defaultstate="collapsed" desc="生命周期">
+  override fun onResume() {
+    super.onResume()
+    checkSDPermission()
+  }
+
   //禁止返回
-  //override fun onBackPressed() {}
+  override fun onBackPressed() {}
 
   override fun finish() {
     mLottieAnimationView?.pauseAnimation()
