@@ -35,12 +35,12 @@
 **[DatePickerView](https://github.com/limxing/DatePickerView)**|基于RecyclerView的滚轮选择器(Koltin编写)
 **[SpEditTool](https://github.com/sunhapper/SpEditTool)**|微博@和#变色效果
 **[DiscreteScrollView](https://github.com/yarolegovich/DiscreteScrollView)**|实现无限轮播Banner、ViewPager横竖屏滑动等
-**[Walle](https://github.com/Meituan-Dianping/walle)**|美团瓦力打包([Bat批量打包](https://github.com/caiyoufei/ABase/tree/master/bat_channel)+[说明](https://www.jianshu.com/p/d41dad812048))
+**[Walle](https://github.com/Meituan-Dianping/walle)**|美团瓦力打包([Bat批量打包](https://github.com/khaos116/ABase/tree/master/bat_channel)+[说明](https://www.jianshu.com/p/d41dad812048))
 **====================**|==========================================
 
 //================================================================//
 ##  Banner效果图  
-![横向Banner](https://github.com/caiyoufei/ABase/blob/master/image/horizontal_banner.gif)![纵向Banner](https://github.com/caiyoufei/ABase/blob/master/image/vertical_banner.gif)  
+![横向Banner](https://github.com/khaos116/ABase/blob/master/image/horizontal_banner.gif)![纵向Banner](https://github.com/khaos116/ABase/blob/master/image/vertical_banner.gif)  
 
 //================================================================//
 ##  BannerItem代码配置
@@ -73,44 +73,44 @@ override fun fillData(holder: BaseViewHolder<ItemBannerBinding>, item: MutableLi
 
 //================================================================//
 ##  所有效果
-![所有效果](https://github.com/caiyoufei/ABase/blob/master/image/all_effect.png)
+![所有效果](https://github.com/khaos116/ABase/blob/master/image/all_effect.png)
 
 //================================================================//
 ##  聊天Emoji效果图
-![聊天Emoji](https://github.com/caiyoufei/ABase/blob/master/image/emoji_chat.gif)
+![聊天Emoji](https://github.com/khaos116/ABase/blob/master/image/emoji_chat.gif)
 
 //================================================================//
 ##  Coil加载视频封面和压缩视频
-![封面和压缩](https://github.com/caiyoufei/ABase/blob/master/image/video_cover_compress.gif)
+![封面和压缩](https://github.com/khaos116/ABase/blob/master/image/video_cover_compress.gif)
 
 //================================================================//
 ##  控件高斯模糊效果
-![高斯模糊](https://github.com/caiyoufei/ABase/blob/master/image/blur.png)
+![高斯模糊](https://github.com/khaos116/ABase/blob/master/image/blur.png)
 
 //================================================================//
 ##  Sticky吸顶效果
-![吸顶效果](https://github.com/caiyoufei/ABase/blob/master/image/sticky.gif)![吸顶效果](https://github.com/caiyoufei/ABase/blob/master/image/sticky2.gif)
+![吸顶效果](https://github.com/khaos116/ABase/blob/master/image/sticky.gif)![吸顶效果](https://github.com/khaos116/ABase/blob/master/image/sticky2.gif)
 
 //================================================================//
 ##  学生成绩单滑动吸顶效果
-![成绩单吸顶效果](https://github.com/caiyoufei/ABase/blob/master/image/sticky_score.gif)
+![成绩单吸顶效果](https://github.com/khaos116/ABase/blob/master/image/sticky_score.gif)
 
 //================================================================//
 ##  @或#效果
-![高斯模糊](https://github.com/caiyoufei/ABase/blob/master/image/at_topic.gif)
+![高斯模糊](https://github.com/khaos116/ABase/blob/master/image/at_topic.gif)
 
 //================================================================//
 ##  Coordinator嵌套刷新
-![Coordinator嵌套刷新](https://github.com/caiyoufei/ABase/blob/master/image/coordinator_refresh.gif)
+![Coordinator嵌套刷新](https://github.com/khaos116/ABase/blob/master/image/coordinator_refresh.gif)
 
 //================================================================//
 ##  MultiType展开和收缩效果
-![MultiType展开和收缩效果](https://github.com/caiyoufei/ABase/blob/master/image/epoxy_expand.gif)
+![MultiType展开和收缩效果](https://github.com/khaos116/ABase/blob/master/image/epoxy_expand.gif)
 
 //================================================================//
 ##  MultiType列表视频播放
-![列表视频播放](https://github.com/caiyoufei/ABase/blob/master/image/video_list_play.gif)
+![列表视频播放](https://github.com/khaos116/ABase/blob/master/image/video_list_play.gif)
 
 //================================================================//
 ##  VerticalViewPager抖音播放效果
-![抖音播放效果](https://github.com/caiyoufei/ABase/blob/master/image/play_pager.gif)
+![抖音播放效果](https://github.com/khaos116/ABase/blob/master/image/play_pager.gif)
