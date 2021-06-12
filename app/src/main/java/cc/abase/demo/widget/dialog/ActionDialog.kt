@@ -10,7 +10,7 @@ import com.blankj.utilcode.util.StringUtils
 
 /**
  * Description:
- * @author: CASE
+ * @author: Khaos
  * @date: 2019/9/24 13:03
  */
 class ActionDialog : BaseBindFragmentDialog<DialogActionBinding>() {

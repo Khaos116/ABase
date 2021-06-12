@@ -1,7 +1,7 @@
 package cc.abase.demo.config
 
 /**
- * @author: CASE
+ * @author: Khaos
  * @date: 2020/3/5 9:41
  */
 class AppConfig {

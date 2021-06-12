@@ -17,7 +17,7 @@ import java.io.File
 
 /**
  * Description:
- * @author: CASE
+ * @author: Khaos
  * @date: 2019/10/28 11:24
  */
 object VideoUtils {

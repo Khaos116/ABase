@@ -18,7 +18,7 @@ import com.google.android.flexbox.*
 
 /**
  * Description:https://www.jianshu.com/p/a8edc312fa3d
- * @author: CASE
+ * @author: Khaos
  * @date: 2020/3/12 17:53
  */
 class FlexboxActivity : CommBindTitleActivity<ActivityFlexboxBinding>() {

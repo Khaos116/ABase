@@ -4,7 +4,7 @@ import cc.abase.demo.bean.local.PicEntity
 
 /**
  * Description:随时图片模拟地址
- * @author: CASE
+ * @author: Khaos
  * @date: 2019/9/29 18:12
  */
 object ImageUrls {

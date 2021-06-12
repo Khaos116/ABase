@@ -4,7 +4,7 @@ import cc.abase.demo.utils.RandomName
 
 /**
  * Description:
- * @author: CASE
+ * @author: Khaos
  * @date: 2020/4/21 14:55
  */
 data class UserStickyBean(

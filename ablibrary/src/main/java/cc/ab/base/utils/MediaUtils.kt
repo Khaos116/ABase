@@ -7,7 +7,7 @@ import java.net.URLConnection
 
 /**
  * Description: https://www.oschina.net/question/571282_223549
- * @author: CASE
+ * @author: Khaos
  * @date: 2019/11/2 18:09
  */
 object MediaUtils {

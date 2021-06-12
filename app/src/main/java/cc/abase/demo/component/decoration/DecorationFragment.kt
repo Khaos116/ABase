@@ -16,7 +16,7 @@ import com.drakeet.multitype.MultiTypeAdapter
 
 /**
  * Description:
- * @author: CASE
+ * @author: Khaos
  * @date: 2020/4/16 9:54
  */
 class DecorationFragment private constructor() : CommBindFragment<FragmentDecorationBinding>() {

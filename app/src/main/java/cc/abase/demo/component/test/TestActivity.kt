@@ -1,6 +1,5 @@
 package cc.abase.demo.component.test
 
-import android.view.LayoutInflater
 import cc.ab.base.ui.viewmodel.DataState
 import cc.abase.demo.R
 import cc.abase.demo.component.comm.CommBindTitleActivity
@@ -10,7 +9,7 @@ import com.blankj.utilcode.util.StringUtils
 
 /**
  * Description:
- * @author: CASE
+ * @author: Khaos
  * @date: 2020/5/7 9:41
  */
 class TestActivity : CommBindTitleActivity<ActivityTestBinding>() {

@@ -2,7 +2,7 @@ package cc.abase.demo.bean.local
 
 /**
  * Description:
- * @author: CASE
+ * @author: Khaos
  * @date: 2019/12/12 11:45
  */
 class VideoBean(

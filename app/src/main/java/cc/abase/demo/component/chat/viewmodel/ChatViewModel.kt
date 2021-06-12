@@ -7,7 +7,7 @@ import cc.abase.demo.component.comm.CommViewModel
 
 /**
  * Description:
- * @author: CASE
+ * @author: Khaos
  * @date: 2019/10/17 16:42
  */
 class ChatViewModel : CommViewModel() {

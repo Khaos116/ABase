@@ -10,7 +10,7 @@ import cc.abase.demo.R
 
 /**
  * Description:
- * @author: CASE
+ * @author: Khaos
  * @date: 2020/4/21 18:42
  */
 class LineView @kotlin.jvm.JvmOverloads constructor(

@@ -19,7 +19,7 @@ import kotlinx.coroutines.*
 
 /**
  * Description:
- * @author: CASE
+ * @author: Khaos
  * @date: 2019/11/26 18:13
  */
 class StickyViewModel : CommViewModel() {

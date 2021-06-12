@@ -48,7 +48,7 @@ import java.util.Locale
 
 /**
  * Description:
- * @author: CASE
+ * @author: Khaos
  * @date: 2019/9/30 18:13
  */
 class MineFragment private constructor() : CommBindFragment<FragmentMineBinding>() {

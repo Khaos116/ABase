@@ -12,7 +12,7 @@ import kotlinx.coroutines.*
 
 /**
  * Description:
- * @author: CASE
+ * @author: Khaos
  * @date: 2020/3/23 18:00
  */
 class MarqueeActivity : CommBindTitleActivity<ActivityMarqueeBinding>() {

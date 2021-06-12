@@ -2,8 +2,6 @@ package cc.abase.demo.component.simple
 
 import android.graphics.Color
 import android.view.Gravity
-import android.view.LayoutInflater
-import android.view.ViewGroup
 import androidx.lifecycle.rxLifeScope
 import cc.ab.base.ext.noMoreData
 import cc.abase.demo.bean.local.DividerBean
@@ -16,13 +14,11 @@ import cc.abase.demo.widget.SpeedLinearLayoutManager
 import cc.abase.demo.widget.smart.MidaMusicHeader
 import com.drakeet.multitype.MultiTypeAdapter
 import com.scwang.smart.refresh.layout.api.RefreshLayout
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.*
 
 /**
  * Description:
- * @author: CASE
+ * @author: Khaos
  * @date: 2019/11/19 14:44
  */
 class SimpleFragment private constructor() : CommBindFragment<FragmentSimpleBinding>() {

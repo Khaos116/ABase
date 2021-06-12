@@ -16,7 +16,7 @@ import com.sunhapper.x.spedit.mention.span.BreakableSpan
  * 1.ForegroundColorSpan为前景文字颜色
  * 2.IntegratedBgSpan为选中删除背景颜色
  *
- * @author: CASE
+ * @author: Khaos
  * @date: 2019/10/4 13:38
  */
 data class AtBean(

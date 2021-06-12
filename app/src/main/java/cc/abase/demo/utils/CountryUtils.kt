@@ -4,7 +4,7 @@ import cc.abase.demo.bean.local.CountryEntity
 
 /**
  * Description:
- * @author: CASE
+ * @author: Khaos
  * @date: 2019/11/28 15:25
  */
 object CountryUtils {

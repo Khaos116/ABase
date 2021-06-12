@@ -25,7 +25,7 @@ import java.util.Locale
  * Description:
  * 1.https://blog.csdn.net/houson_c/article/details/78461751
  * 2.https://www.cnblogs.com/yongfengnice/p/10945591.html
- * @author: CASE
+ * @author: Khaos
  * @date: 2019/10/30 9:45
  */
 open class CcUpdateService : JobIntentService() {

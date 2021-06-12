@@ -5,7 +5,7 @@ import android.content.pm.PackageManager
 
 /**
  * Description:
- * @author: CASE
+ * @author: Khaos
  * @date: 2019/10/8 10:02
  */
 open class TestApplication : Application() {

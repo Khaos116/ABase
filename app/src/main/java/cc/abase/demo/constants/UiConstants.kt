@@ -2,7 +2,7 @@ package cc.abase.demo.constants
 
 /**
  * Description:
- * @author: CASE
+ * @author: Khaos
  * @date: 2019/10/10 15:34
  */
 interface UiConstants {

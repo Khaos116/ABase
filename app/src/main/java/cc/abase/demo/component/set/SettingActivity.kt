@@ -2,7 +2,6 @@ package cc.abase.demo.component.set
 
 import android.content.Context
 import android.content.Intent
-import android.view.LayoutInflater
 import cc.ab.base.ext.*
 import cc.abase.demo.component.comm.CommBindTitleActivity
 import cc.abase.demo.component.login.LoginActivity
@@ -15,7 +14,7 @@ import kotlinx.coroutines.*
 
 /**
  * Description:
- * @author: CASE
+ * @author: Khaos
  * @date: 2020/3/5 17:04
  */
 class SettingActivity : CommBindTitleActivity<ActivitySettingBinding>() {

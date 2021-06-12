@@ -11,7 +11,7 @@ import com.blankj.utilcode.util.*
 
 /**
  * Description:
- * @author: CASE
+ * @author: Khaos
  * @date: 2019/9/24 9:44
  */
 //屏幕宽度

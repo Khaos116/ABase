@@ -4,7 +4,7 @@ import cc.abase.demo.bean.wan.ArticleBean
 
 /**
  * Description:
- * @author: CASE
+ * @author: Khaos
  * @date: 2019/10/13 18:08
  */
 data class ArticleDataBean(

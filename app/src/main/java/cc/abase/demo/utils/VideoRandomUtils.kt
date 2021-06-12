@@ -5,7 +5,7 @@ import cc.abase.demo.bean.local.VideoBean
 
 /**
  * Description:
- * @author: CASE
+ * @author: Khaos
  * @date: 2019/12/12 11:49
  */
 object VideoRandomUtils {

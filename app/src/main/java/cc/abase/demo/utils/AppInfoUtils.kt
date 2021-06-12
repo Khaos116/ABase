@@ -12,7 +12,7 @@ import java.io.InputStreamReader
 
 /**
  * Description:
- * @author: CASE
+ * @author: Khaos
  * @date: 2019/11/6 17:29
  */
 object AppInfoUtils {

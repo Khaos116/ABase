@@ -11,7 +11,7 @@ import java.util.Date
 
 /**
  * Description:
- * @author: CASE
+ * @author: Khaos
  * @date: 2020/2/20 18:43
  */
 class DateSelDialog : BaseBindFragmentDialog<DialogDateSelBinding>() {

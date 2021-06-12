@@ -11,7 +11,7 @@ import java.lang.reflect.Type
 
 /**
  * Description:
- * @author: CASE
+ * @author: Khaos
  * @date: 2020/6/26 16:01
  */
 @Parser(name = "ResponseWan", wrappers = [MutableList::class, BasePageList::class])

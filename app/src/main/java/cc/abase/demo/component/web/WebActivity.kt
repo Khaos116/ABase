@@ -30,7 +30,7 @@ import java.io.File
 
 /**
  * Description: 如果需要js对接，参考添加BridgeWebView https://github.com/lzyzsd/JsBridge
- * @author: CASE
+ * @author: Khaos
  * @date: 2019/10/3 15:25
  */
 class WebActivity : CommBindTitleActivity<ActivityWebBinding>() {

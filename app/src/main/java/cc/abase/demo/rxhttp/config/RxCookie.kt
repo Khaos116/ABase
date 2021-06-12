@@ -8,7 +8,7 @@ import rxhttp.wrapper.cookie.ICookieJar
 
 /**
  * Description:
- * @author: CASE
+ * @author: Khaos
  * @date: 2020/3/4 18:08
  */
 object RxCookie {

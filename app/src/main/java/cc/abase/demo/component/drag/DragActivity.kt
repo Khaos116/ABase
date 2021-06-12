@@ -26,7 +26,7 @@ import com.luck.picture.lib.entity.LocalMedia
 
 /**
  * Description:item拖拽效果
- * @author: CASE
+ * @author: Khaos
  * @date: 2019/11/30 20:48
  */
 class DragActivity : CommBindTitleActivity<ActivityDragBinding>() {

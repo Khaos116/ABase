@@ -2,7 +2,7 @@ package cc.ab.base.net.http.response
 
 /**
  * Description:
- * @author: CASE
+ * @author: Khaos
  * @date: 2020/3/5 19:12
  */
 data class BasePageList<out T>(

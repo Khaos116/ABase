@@ -4,7 +4,7 @@ import android.content.res.Resources
 
 /**
  * Description:
- * @author: CASE
+ * @author: Khaos
  * @date: 19-5-15 上午11:59
  */
 class CCSizeUtils {

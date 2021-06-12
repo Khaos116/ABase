@@ -4,7 +4,7 @@ import cc.ab.base.net.http.response.PicBean
 
 /**
  * Description:
- * @author: CASE
+ * @author: Khaos
  * @date: 2019/9/30 20:28
  */
 data class GankAndroidBean(

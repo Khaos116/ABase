@@ -3,7 +3,7 @@ package cc.ab.base.utils;
 /**
  * Description:https://blog.csdn.net/haiyoushui123456/article/details/84338494
  *
- * @author: CASE
+ * @author: Khaos
  * @date: 2020/3/28 17:44
  */
 public class PaiLieZuHeUtils {

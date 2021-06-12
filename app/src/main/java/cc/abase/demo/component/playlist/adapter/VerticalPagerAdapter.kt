@@ -11,7 +11,7 @@ import com.blankj.utilcode.util.ScreenUtils
 
 /**
  * Description:
- * @author: CASE
+ * @author: Khaos
  * @date: 2019/12/13 11:56
  */
 class VerticalPagerAdapter(list: List<VideoBean>) : PagerAdapter() {

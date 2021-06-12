@@ -16,7 +16,7 @@ import kotlin.math.*
  *      澳大利亚中部时间：Central Standard Time (Australia) UT+9:30
  *      中国标准时间：China Standard Time UT+8:00
  *      古巴标准时间：Cuba Standard Time UT-4:00
- * @author: CASE
+ * @author: Khaos
  * @date: 2019/10/3 18:20
  */
 object TimeUtils {

@@ -6,7 +6,7 @@ import com.blankj.utilcode.util.NetworkUtils
 
 /**
  * Description:
- * @author: CASE
+ * @author: Khaos
  * @date: 2019/10/1 16:52
  */
 object NetUtils {

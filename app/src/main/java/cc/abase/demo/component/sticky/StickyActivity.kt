@@ -23,7 +23,7 @@ import com.jeremyliao.liveeventbus.LiveEventBus
 
 /**
  * Description:
- * @author: CASE
+ * @author: Khaos
  * @date: 2019/11/26 16:54
  */
 class StickyActivity : CommBindTitleActivity<ActivityStickyBinding>() {

@@ -20,7 +20,7 @@ import kotlinx.coroutines.withContext
 
 /**
  * Description:
- * @author: CASE
+ * @author: Khaos
  * @date: 2019/10/10 21:03
  */
 class RegisterActivity : CommBindTitleActivity<ActivityRegisterBinding>() {

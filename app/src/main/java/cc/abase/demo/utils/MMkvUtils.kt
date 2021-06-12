@@ -6,7 +6,7 @@ import com.tencent.mmkv.MMKV
 
 /**
  * Description:
- * @author: CASE
+ * @author: Khaos
  * @date: 2019/10/10 15:14
  */
 object MMkvUtils {

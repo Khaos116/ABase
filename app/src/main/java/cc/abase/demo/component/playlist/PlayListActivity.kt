@@ -24,7 +24,7 @@ import com.drakeet.multitype.MultiTypeAdapter
 
 /**
  * Description:https://github.com/dueeeke/DKVideoPlayer
- * @author: CASE
+ * @author: Khaos
  * @date: 2019/12/12 11:32
  */
 class PlayListActivity : CommBindTitleActivity<ActivityPlayListBinding>() {

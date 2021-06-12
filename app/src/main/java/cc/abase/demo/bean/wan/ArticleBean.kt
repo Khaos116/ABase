@@ -4,7 +4,7 @@ import com.blankj.utilcode.util.TimeUtils
 
 /**
  * Description:
- * @author: CASE
+ * @author: Khaos
  * @date: 2019/10/13 18:10
  */
 data class ArticleBean(

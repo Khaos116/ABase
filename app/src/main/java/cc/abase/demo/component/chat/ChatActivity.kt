@@ -25,7 +25,7 @@ import kotlin.math.max
 
 /**
  * Description:
- * @author: CASE
+ * @author: Khaos
  * @date: 2019/10/17 16:36
  */
 class ChatActivity : CommBindTitleActivity<ActivityChatBinding>() {

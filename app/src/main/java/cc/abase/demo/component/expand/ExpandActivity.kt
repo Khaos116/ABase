@@ -19,7 +19,7 @@ import com.blankj.utilcode.util.StringUtils
 import com.drakeet.multitype.MultiTypeAdapter
 
 /**
- * @author: CASE
+ * @author: Khaos
  * @date: 2019/12/6 21:24
  */
 class ExpandActivity : CommBindTitleActivity<ActivityExpandBinding>() {

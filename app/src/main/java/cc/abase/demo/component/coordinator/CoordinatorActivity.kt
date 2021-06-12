@@ -29,7 +29,7 @@ import kotlin.math.min
 
 /**
  * Description:
- * @author: CASE
+ * @author: Khaos
  * @date: 2019/12/6 10:16
  */
 class CoordinatorActivity : CommBindActivity<ActivityCoordinatorBinding>() {

@@ -5,7 +5,7 @@ import android.util.AttributeSet
 
 /**
  * Description:
- * @author: CASE
+ * @author: Khaos
  * @date: 2020/5/12 21:03
  */
 class ClassicFooter @kotlin.jvm.JvmOverloads constructor(

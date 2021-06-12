@@ -2,7 +2,7 @@ package cc.abase.demo.constants
 
 /**
  * Description:
- * @author: CASE
+ * @author: Khaos
  * @date: 2019/10/30 10:02
  */
 interface IntConstants {

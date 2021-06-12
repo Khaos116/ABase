@@ -12,7 +12,7 @@ import rxhttp.wrapper.cahce.CacheMode
 
 /**
  * Description:
- * @author: CASE
+ * @author: Khaos
  * @date: 2020/3/5 18:10
  */
 object WanRepository {

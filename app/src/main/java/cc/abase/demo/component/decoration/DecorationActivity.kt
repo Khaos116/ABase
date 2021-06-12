@@ -4,7 +4,6 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.Typeface
-import android.view.LayoutInflater
 import androidx.fragment.app.FragmentPagerAdapter
 import cc.abase.demo.R
 import cc.abase.demo.component.comm.CommBindTitleActivity
@@ -13,7 +12,7 @@ import com.blankj.utilcode.util.StringUtils
 
 /**
  * Description:分割线展示
- * @author: CASE
+ * @author: Khaos
  * @date: 2020/2/19 14:20
  */
 @Suppress("DEPRECATION")

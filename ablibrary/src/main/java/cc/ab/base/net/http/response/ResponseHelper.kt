@@ -6,7 +6,7 @@ import java.lang.reflect.Type
 
 /**
  * Description:https://blog.csdn.net/quan648997767/article/details/86537930
- * @author: CASE
+ * @author: Khaos
  * @date: 2019/10/12 20:15
  */
 abstract class ResponseHelper<T> {

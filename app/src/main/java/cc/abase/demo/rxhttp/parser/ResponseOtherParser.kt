@@ -8,7 +8,7 @@ import java.lang.reflect.Type
 
 /**
  * Description:
- * @author: CASE
+ * @author: Khaos
  * @date: 2021年6月2日21:03:55
  */
 @Parser(name = "ResponseOther", wrappers = [MutableList::class])

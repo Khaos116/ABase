@@ -3,7 +3,6 @@ package cc.abase.demo.component.spedit
 import android.content.Context
 import android.content.Intent
 import android.text.TextUtils
-import android.view.LayoutInflater
 import cc.ab.base.ext.*
 import cc.ab.base.utils.CcInputHelper
 import cc.abase.demo.R
@@ -22,7 +21,7 @@ import com.jeremyliao.liveeventbus.LiveEventBus
 
 /**
  * Description:@或者#变色效果
- * @author: CASE
+ * @author: Khaos
  * @date: 2019/11/30 20:49
  */
 class SpeditActivity : CommBindTitleActivity<ActivitySpeditBinding>() {

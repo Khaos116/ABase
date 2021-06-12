@@ -2,7 +2,7 @@ package com.iceteck.silicompressorr
 
 /**
  * Description:
- * @author: CASE
+ * @author: Khaos
  * @date: 2020/5/5 16:56
  */
 object CompressCall {

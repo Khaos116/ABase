@@ -2,7 +2,7 @@ package cc.abase.demo.constants.api
 
 /**
  * Description:干货集中营相关开发api地址
- * @author: CASE
+ * @author: Khaos
  * @date: 2019/10/8 18:48
  */
 object GankUrls {

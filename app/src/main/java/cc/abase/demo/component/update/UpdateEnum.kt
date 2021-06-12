@@ -2,7 +2,7 @@ package cc.abase.demo.component.update
 
 /**
  * Description:
- * @author: CASE
+ * @author: Khaos
  * @date: 2019/10/30 10:39
  */
 enum class UpdateEnum {

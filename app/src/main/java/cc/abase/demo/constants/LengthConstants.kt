@@ -2,7 +2,7 @@ package cc.abase.demo.constants
 
 /**
  * Description:
- * @author: CASE
+ * @author: Khaos
  * @date: 2019/10/11 22:08
  */
 interface LengthConstants {

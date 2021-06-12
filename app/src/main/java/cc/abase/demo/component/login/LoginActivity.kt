@@ -28,7 +28,7 @@ import java.util.Locale
 
 /**
  * Description:
- * @author: CASE
+ * @author: Khaos
  * @date: 2019/10/10 14:58
  */
 class LoginActivity : CommBindActivity<ActivityLoginBinding>() {

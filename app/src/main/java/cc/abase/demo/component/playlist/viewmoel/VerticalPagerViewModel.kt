@@ -16,7 +16,7 @@ import kotlinx.coroutines.delay
 
 /**
  * Description:
- * @author: CASE
+ * @author: Khaos
  * @date: 2019/12/12 11:37
  */
 class VerticalPagerViewModel : CommViewModel() {

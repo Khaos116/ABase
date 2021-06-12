@@ -15,7 +15,7 @@ import xyz.doikki.videoplayer.player.VideoViewManager
 
 /**
  * Description: 视频源 https://miao101.com/
- * @author: CASE
+ * @author: Khaos
  * @date: 2019/11/2 9:51
  */
 class VideoDetailActivity : CommBindActivity<ActivityVideoDetailBinding>() {

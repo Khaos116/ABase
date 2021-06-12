@@ -2,7 +2,7 @@ package cc.abase.demo.bean.local
 
 /**
  * Description:
- * @author: CASE
+ * @author: Khaos
  * @date: 2020/4/21 14:54
  */
 data class UserScoreBean(

@@ -16,7 +16,7 @@ import rxhttp.wrapper.cahce.CacheMode
 
 /**
  * Description:
- * @author: CASE
+ * @author: Khaos
  * @date: 2020/3/4 16:03
  */
 object UserRepository {

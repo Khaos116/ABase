@@ -7,7 +7,7 @@ import com.sunhapper.x.spedit.view.KeyEventProxy
 
 /**
  * Description:
- * @author: CASE
+ * @author: Khaos
  * @date: 2019/12/5 19:37
  */
 class MySelectDeleteKeyEventProxy : KeyEventProxy {

@@ -20,7 +20,7 @@ import kotlinx.coroutines.*
 
 /**
  * Description:
- * @author: CASE
+ * @author: Khaos
  * @date: 2020/4/21 14:34
  */
 class StickyActivity2 : CommBindTitleActivity<ActivitySticky2Binding>() {

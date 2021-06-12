@@ -6,7 +6,7 @@ import com.blankj.utilcode.util.FileUtils
 
 /**
  * Description:
- * @author: CASE
+ * @author: Khaos
  * @date: 2020/3/30 10:25
  */
 object CacheUtils {

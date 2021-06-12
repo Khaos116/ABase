@@ -9,7 +9,7 @@ import java.util.HashMap
 
 /**
  * Description:统一请求头拦截处理，如添加header和token等
- * @author: CASE
+ * @author: Khaos
  * @date: 2019/9/30 21:01
  */
 object HeaderManger {

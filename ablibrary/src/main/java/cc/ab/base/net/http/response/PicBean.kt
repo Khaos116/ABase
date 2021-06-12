@@ -7,7 +7,7 @@ import android.os.Parcelable.Creator
 
 /**
  * Description:
- * @author: CASE
+ * @author: Khaos
  * @date: 2019/10/4 13:44
  */
 data class PicBean(

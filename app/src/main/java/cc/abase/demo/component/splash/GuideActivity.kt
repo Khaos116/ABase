@@ -18,7 +18,7 @@ import com.gyf.immersionbar.ktx.immersionBar
 
 /**
  * Description:
- * @author: CASE
+ * @author: Khaos
  * @date: 2019/10/11 15:11
  */
 class GuideActivity : CommBindActivity<ActivityGuideBinding>() {

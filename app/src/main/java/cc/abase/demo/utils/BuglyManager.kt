@@ -13,7 +13,7 @@ import com.tencent.bugly.crashreport.CrashReport
 
 /**
  * Description:
- * @author: CASE
+ * @author: Khaos
  * @date: 2019/11/6 17:41
  */
 object BuglyManager {

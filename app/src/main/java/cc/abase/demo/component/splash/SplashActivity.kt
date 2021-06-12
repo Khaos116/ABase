@@ -19,7 +19,7 @@ import kotlinx.coroutines.*
 
 /**
  * Description:
- * @author: CASE
+ * @author: Khaos
  * @date: 2019/10/8 10:03
  */
 class SplashActivity : CommBindActivity<ActivitySplashBinding>() {

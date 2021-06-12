@@ -16,7 +16,7 @@ import java.util.ArrayList
 
 /**
  * Description:
- * @author: CASE
+ * @author: Khaos
  * @date: 2019/10/4 13:30
  */
 object SpeditUtil {

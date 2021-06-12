@@ -2,7 +2,7 @@ package cc.abase.demo.bean.wan
 
 /**
  * Description:
- * @author: CASE
+ * @author: Khaos
  * @date: 2019/10/13 17:46
  */
 data class BannerBean(

@@ -2,7 +2,7 @@ package cc.abase.demo.bean.local
 
 /**
  * Description:
- * @author: CASE
+ * @author: Khaos
  * @date: 2019/11/26 18:17
  */
 data class CityBean(

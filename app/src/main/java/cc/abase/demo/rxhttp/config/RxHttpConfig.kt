@@ -16,7 +16,7 @@ import java.util.concurrent.TimeUnit
 
 /**
  * Description:
- * @author: CASE
+ * @author: Khaos
  * @date: 2020/3/4 15:13
  */
 object RxHttpConfig {

@@ -12,7 +12,7 @@ import androidx.annotation.RequiresApi
 
 /**
  * Description:
- * @author: CASE
+ * @author: Khaos
  * @date: 2020/7/24 18:12
  */
 @Suppress("DEPRECATION")

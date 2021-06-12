@@ -20,7 +20,7 @@ import com.scwang.smart.refresh.layout.wrapper.RefreshHeaderWrapper
 
 /**
  * Description:
- * @author: CASE
+ * @author: Khaos
  * @date: 2019/12/12 11:33
  */
 class VerticalPagerActivity : CommBindActivity<ActivityPlayPagerBinding>() {

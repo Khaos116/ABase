@@ -2,7 +2,7 @@
 //
 // /**
 //  * Description:
-//  * @author: CASE
+//  * @author: Khaos
 //  * @date: 2019/9/30 20:34
 //  */
 // data class GankResponse<out T>(
