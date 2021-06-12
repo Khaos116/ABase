@@ -1,5 +1,5 @@
 <templateSet group="Khaos-JAVA">
-  <template name="KhaosFile" value="/**&#10; * Author:Khaos&#10; * Date:$DATE$&#10; * Time:$TIME$&#10; */" description="类注释" toReformat="false" toShortenFQNames="true">
+  <template name="KhaosFile" value="/**&#10; * Author:caiyoufei&#10; * Date:$DATE$&#10; * Time:$TIME$&#10; */" description="类注释" toReformat="false" toShortenFQNames="true">
     <variable name="DATE" expression="date()" defaultValue="" alwaysStopAt="true" />
     <variable name="TIME" expression="time()" defaultValue="" alwaysStopAt="true" />
     <context>
@@ -12,7 +12,7 @@
       <option name="JAVA_CODE" value="true" />
     </context>
   </template>
-  <template name="KhaosTime" value="/** $DATE$ $TIME$ by Khaos */" description="注释时间" toReformat="false" toShortenFQNames="true">
+  <template name="KhaosTime" value="/** $DATE$ $TIME$ by case */" description="注释时间" toReformat="false" toShortenFQNames="true">
     <variable name="DATE" expression="date()" defaultValue="" alwaysStopAt="true" />
     <variable name="TIME" expression="time()" defaultValue="" alwaysStopAt="true" />
     <context>
@@ -124,7 +124,7 @@
       <option name="JAVA_CODE" value="true" />
     </context>
   </template>
-  <template name="logc" value="android.util.Log.e(&quot;Khaos&quot;, &quot;$content$&quot;)$END$;" description="Log.e(TAG，String))" toReformat="false" toShortenFQNames="true">
+  <template name="logk" value="android.util.Log.e(&quot;Khaos&quot;, &quot;$content$&quot;)$END$;" description="Log.e(TAG，String))" toReformat="false" toShortenFQNames="true">
     <variable name="content" expression="" defaultValue="" alwaysStopAt="true" />
     <context>
       <option name="JAVA_CODE" value="true" />
