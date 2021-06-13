@@ -32,6 +32,7 @@ class VideoDetailActivity : CommBindActivity<ActivityVideoDetailBinding>() {
       Pair("https://v3.dious.cc/20210527/hq83F1Vq/index.m3u8", "不良人4(第六集)"),
       Pair("https://v3.dious.cc/20210527/S8c0zImb/index.m3u8", "不良人4(第七集)"),
       Pair("https://v3.dious.cc/20210603/a6JxY1mK/index.m3u8", "不良人4(第八集)"),
+      Pair("https://v3.dious.cc/20210610/a9B0XUbP/index.m3u8", "不良人4(第九集)"),
     )
     private const val INTENT_KEY_VIDEO_URL = "INTENT_KEY_VIDEO_URL"
     fun startActivity(context: Context, videoUrl: String?) {
