@@ -163,9 +163,9 @@ object Deps {
   const val flexbox = "com.google.android.flexbox:flexbox:3.0.0"
 
   //视频播放相关 https://github.com/Doikki/DKVideoPlayer/wiki
-  const val dk_java = "xyz.doikki.android.dkplayer:dkplayer-java:3.3.2"
-  const val dk_ui = "xyz.doikki.android.dkplayer:dkplayer-ui:3.3.2"
-  const val dk_exo = "xyz.doikki.android.dkplayer:player-exo:3.3.2"
+  const val dk_java = "xyz.doikki.android.dkplayer:dkplayer-java:3.3.3"
+  const val dk_ui = "xyz.doikki.android.dkplayer:dkplayer-ui:3.3.3"
+  const val dk_exo = "xyz.doikki.android.dkplayer:player-exo:3.3.3"
 
   //https://github.com/airbnb/lottie-android
   const val lottie = "com.airbnb.android:lottie:3.7.0"
