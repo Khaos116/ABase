@@ -2,8 +2,9 @@ package cc.ab.base.ext
 
 import android.annotation.SuppressLint
 import android.graphics.Color
-import android.view.View
-import android.view.ViewManager
+import android.graphics.Rect
+import android.view.*
+import androidx.coordinatorlayout.widget.ViewGroupUtils
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.LifecycleOwner
@@ -55,19 +56,19 @@ fun View.pressEffectAlpha(pressAlpha: Float = 0.7f) {
 
 //设置按下效果为改变背景色
 fun View.pressEffectBgColor(
-    bgColor: Int = Color.parseColor("#f7f7f7"),
-    topLeftRadiusDp: Float = 0f,
-    topRightRadiusDp: Float = 0f,
-    bottomRightRadiusDp: Float = 0f,
-    bottomLeftRadiusDp: Float = 0f
+  bgColor: Int = Color.parseColor("#f7f7f7"),
+  topLeftRadiusDp: Float = 0f,
+  topRightRadiusDp: Float = 0f,
+  bottomRightRadiusDp: Float = 0f,
+  bottomLeftRadiusDp: Float = 0f
 ) {
   PressEffectHelper.bgColorEffect(
-      this,
-      bgColor,
-      topLeftRadiusDp,
-      topRightRadiusDp,
-      bottomRightRadiusDp,
-      bottomLeftRadiusDp
+    this,
+    bgColor,
+    topLeftRadiusDp,
+    topRightRadiusDp,
+    bottomRightRadiusDp,
+    bottomLeftRadiusDp
   )
 }
 
@@ -116,4 +117,43 @@ fun View?.getMyFragment(): Fragment? {
 //获取生命周期管理
 fun View?.getMyLifecycleOwner(): LifecycleOwner? {
   return (this?.getMyFragment()) ?: (this?.context as? LifecycleOwner) ?: ((this?.parent as? View)?.context as? LifecycleOwner)
+}
+
+//扩大点击范围(https://github.com/wisdomtl/Layout_DSL/blob/master/app/src/main/java/taylor/com/dsl/Layout.kt)[原文：https://juejin.cn/post/6968237652017414151]
+@SuppressLint("RestrictedApi")
+fun View?.expand(dx: Int, dy: Int) {
+  if (this == null) return
+  val parentView = parent as? ViewGroup ?: return
+  if (parentView.touchDelegate == null) parentView.touchDelegate = MultiTouchDelegate(delegateView = this)
+  post {
+    val rect = Rect()
+    ViewGroupUtils.getDescendantRect(parentView, this, rect)
+    rect.inset(-dx, -dy)
+    (parentView.touchDelegate as? MultiTouchDelegate)?.delegateViewMap?.put(this, rect)
+  }
+}
+//按压处理代理
+private class MultiTouchDelegate(bound: Rect? = null, delegateView: View) : TouchDelegate(bound, delegateView) {
+  val delegateViewMap = mutableMapOf<View, Rect>()
+  private var delegateView: View? = null
+
+  override fun onTouchEvent(event: MotionEvent): Boolean {
+    val x = event.x.toInt()
+    val y = event.y.toInt()
+    var handled = false
+    when (event.actionMasked) {
+      MotionEvent.ACTION_DOWN -> delegateView = findDelegateViewUnder(x, y)
+      MotionEvent.ACTION_CANCEL -> delegateView = null
+    }
+    delegateView?.let {
+      event.setLocation(it.width / 2f, it.height / 2f)
+      handled = it.dispatchTouchEvent(event)
+    }
+    return handled
+  }
+
+  private fun findDelegateViewUnder(x: Int, y: Int): View? {
+    delegateViewMap.forEach { entry -> if (entry.value.contains(x, y)) return entry.key }
+    return null
+  }
 }
