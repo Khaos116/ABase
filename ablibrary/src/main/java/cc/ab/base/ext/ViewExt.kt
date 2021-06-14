@@ -10,6 +10,7 @@ import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.LifecycleOwner
 import cc.ab.base.R
 import cc.ab.base.utils.PressEffectHelper
+import java.lang.ref.WeakReference
 
 /**
  * Description:
@@ -129,13 +130,18 @@ fun View?.expand(dx: Int, dy: Int) {
     val rect = Rect()
     ViewGroupUtils.getDescendantRect(parentView, this, rect)
     rect.inset(-dx, -dy)
-    (parentView.touchDelegate as? MultiTouchDelegate)?.delegateViewMap?.put(this, rect)
+    (parentView.touchDelegate as? MultiTouchDelegate)?.delegateViewMap?.get()?.put(this, rect)
   }
 }
+
 //按压处理代理
 private class MultiTouchDelegate(bound: Rect? = null, delegateView: View) : TouchDelegate(bound, delegateView) {
-  val delegateViewMap = mutableMapOf<View, Rect>()
   private var delegateView: View? = null
+  var delegateViewMap = WeakReference(mutableMapOf<View, Rect>())
+    get() {
+      if (field.get() == null) field = WeakReference(mutableMapOf())
+      return field
+    }
 
   override fun onTouchEvent(event: MotionEvent): Boolean {
     val x = event.x.toInt()
@@ -143,7 +149,7 @@ private class MultiTouchDelegate(bound: Rect? = null, delegateView: View) : Touc
     var handled = false
     when (event.actionMasked) {
       MotionEvent.ACTION_DOWN -> delegateView = findDelegateViewUnder(x, y)
-      MotionEvent.ACTION_CANCEL -> delegateView = null
+      MotionEvent.ACTION_CANCEL, MotionEvent.ACTION_UP -> delegateView = null
     }
     delegateView?.let {
       event.setLocation(it.width / 2f, it.height / 2f)
@@ -153,7 +159,7 @@ private class MultiTouchDelegate(bound: Rect? = null, delegateView: View) : Touc
   }
 
   private fun findDelegateViewUnder(x: Int, y: Int): View? {
-    delegateViewMap.forEach { entry -> if (entry.value.contains(x, y)) return entry.key }
+    delegateViewMap.get()?.forEach { entry -> if (entry.value.contains(x, y)) return entry.key }
     return null
   }
 }
