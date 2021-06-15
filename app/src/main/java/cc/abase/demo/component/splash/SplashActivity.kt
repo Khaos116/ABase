@@ -5,6 +5,7 @@ import android.animation.AnimatorListenerAdapter
 import android.content.Intent
 import android.view.ViewGroup
 import cc.ab.base.ext.*
+import cc.ab.base.utils.PermissionUtils
 import cc.abase.demo.component.comm.CommBindActivity
 import cc.abase.demo.component.login.LoginActivity
 import cc.abase.demo.component.main.MainActivity
@@ -115,6 +116,19 @@ class SplashActivity : CommBindActivity<ActivitySplashBinding>() {
   private fun checkSDPermission() {
     //请求SD卡权限
     hasSDPermission = XXPermissions.isGranted(mContext, Permission.MANAGE_EXTERNAL_STORAGE)
+    if (hasSDPermission) {
+      hasSDPermission = PermissionUtils.hasSDPermission()
+      if (!hasSDPermission) {
+        mJobSetting = GlobalScope.launchError {
+          "必须要给予SD卡权限才能使用".toast()
+          withContext(Dispatchers.IO) { delay(2000) }.let {
+            XXPermissions.startPermissionActivity(mContext, Permission.MANAGE_EXTERNAL_STORAGE)
+            hasGoSetting = true
+          }
+        }
+        return
+      }
+    }
     if (!hasSDPermission) {
       XXPermissions.with(this)
         .permission(Permission.MANAGE_EXTERNAL_STORAGE)
