@@ -1,5 +1,6 @@
 package cc.abase.demo.component.drag
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
@@ -89,6 +90,7 @@ class DragActivity : CommBindTitleActivity<ActivityDragBinding>() {
   //</editor-fold>
 
   //<editor-fold defaultstate="collapsed" desc="去选图">
+  @SuppressLint("SourceLockedOrientationActivity")
   private fun go2ImgSel() {
     val datas = multiTypeAdapter.items.toMutableList().filter { f -> f is String && f.isNotBlank() }
     val list = mutableListOf<LocalMedia>()
