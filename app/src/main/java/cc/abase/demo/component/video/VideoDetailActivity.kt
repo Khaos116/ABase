@@ -14,7 +14,7 @@ import com.hjq.permissions.*
 import xyz.doikki.videoplayer.player.VideoViewManager
 
 /**
- * Description: 视频源 https://miao101.com/
+ * Description:
  * @author: Khaos
  * @date: 2019/11/2 9:51
  */
@@ -24,15 +24,26 @@ class VideoDetailActivity : CommBindActivity<ActivityVideoDetailBinding>() {
     //视频地址
     private val moveUrlPairs = mutableListOf(
       Pair("http://vfx.mtime.cn/Video/2019/03/18/mp4/190318231014076505.mp4", "叶问预览片"),
-      Pair("https://v3.dious.cc/20210429/CnNHtUZs/index.m3u8", "不良人4(第一集)"),
-      Pair("https://v3.dious.cc/20210429/euEFOXZ2/index.m3u8", "不良人4(第二集)"),
-      Pair("https://v3.dious.cc/20210506/CXr0LMp8/index.m3u8", "不良人4(第三集)"),
-      Pair("https://v3.dious.cc/20210513/zodnofSz/index.m3u8", "不良人4(第四集)"),
-      Pair("https://v3.dious.cc/20210520/KJjHTrV9/index.m3u8", "不良人4(第五集)"),
-      Pair("https://v3.dious.cc/20210527/hq83F1Vq/index.m3u8", "不良人4(第六集)"),
-      Pair("https://v3.dious.cc/20210527/S8c0zImb/index.m3u8", "不良人4(第七集)"),
-      Pair("https://v3.dious.cc/20210603/a6JxY1mK/index.m3u8", "不良人4(第八集)"),
-      Pair("https://v3.dious.cc/20210610/a9B0XUbP/index.m3u8", "不良人4(第九集)"),
+      //视频源 https://miao101.com/
+      //Pair("https://v3.dious.cc/20210429/CnNHtUZs/index.m3u8", "不良人4(第一集)"),
+      //Pair("https://v3.dious.cc/20210429/euEFOXZ2/index.m3u8", "不良人4(第二集)"),
+      //Pair("https://v3.dious.cc/20210506/CXr0LMp8/index.m3u8", "不良人4(第三集)"),
+      //Pair("https://v3.dious.cc/20210513/zodnofSz/index.m3u8", "不良人4(第四集)"),
+      //Pair("https://v3.dious.cc/20210520/KJjHTrV9/index.m3u8", "不良人4(第五集)"),
+      //Pair("https://v3.dious.cc/20210527/hq83F1Vq/index.m3u8", "不良人4(第六集)"),
+      //Pair("https://v3.dious.cc/20210527/S8c0zImb/index.m3u8", "不良人4(第七集)"),
+      //Pair("https://v3.dious.cc/20210603/a6JxY1mK/index.m3u8", "不良人4(第八集)"),
+      //Pair("https://v3.dious.cc/20210610/a9B0XUbP/index.m3u8", "不良人4(第九集)"),
+      //视频源 https://www.baogougou.net/
+      Pair("https://vod3.buycar5.cn/20210429/XafBNy9D/index.m3u8", "不良人4(第一集)"),
+      Pair("https://vod3.buycar5.cn/20210429/AiAwxTcl/index.m3u8", "不良人4(第二集)"),
+      Pair("https://vod3.buycar5.cn/20210506/fIA1Vs8Y/index.m3u8", "不良人4(第三集)"),
+      Pair("https://vod3.buycar5.cn/20210513/gfbKcZpL/index.m3u8", "不良人4(第四集)"),
+      Pair("https://vod3.buycar5.cn/20210520/jj432kHf/index.m3u8", "不良人4(第五集)"),
+      Pair("https://vod3.buycar5.cn/20210527/Eu6t4c5y/index.m3u8", "不良人4(第六集)"),
+      Pair("https://vod3.buycar5.cn/20210527/K4CStLay/index.m3u8", "不良人4(第七集)"),
+      Pair("https://vod3.buycar5.cn/20210603/treYkqfe/index.m3u8", "不良人4(第八集)"),
+      Pair("https://vod8.wenshibaowenbei.com/20210610/usZID09t/index.m3u8", "不良人4(第九集)"),
     )
     private const val INTENT_KEY_VIDEO_URL = "INTENT_KEY_VIDEO_URL"
     fun startActivity(context: Context, videoUrl: String?) {
