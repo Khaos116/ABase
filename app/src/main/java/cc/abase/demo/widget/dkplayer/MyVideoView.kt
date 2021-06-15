@@ -53,7 +53,7 @@ class MyVideoView : VideoView<MyExoMediaPlayer>, LifecycleObserver {
   private var backIv: ImageView
 
   //播放完成的回调
-  private var mCallComplete: ((url: String?) -> Unit)? = null
+  var mCallComplete: ((url: String?) -> Unit)? = null
   //</editor-fold>
 
   //<editor-fold defaultstate="collapsed" desc="初始化">
