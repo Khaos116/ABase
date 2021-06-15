@@ -142,10 +142,10 @@ class MyVideoView : VideoView<MyExoMediaPlayer>, LifecycleObserver {
   //}
 
   //打印无法正常播放的地址
-  override fun setPlayerState(playerState: Int) {
-    super.setPlayerState(playerState)
-    if (playerState == STATE_ERROR) "无法播放:$mUrl".logE()
-    else if (playerState == STATE_PLAYBACK_COMPLETED) mCallComplete?.invoke(mUrlVideo)
+  override fun setPlayState(playState: Int) {
+    super.setPlayState(playState)
+    if (playState == STATE_ERROR) "无法播放:$mUrl".logE()
+    else if (playState == STATE_PLAYBACK_COMPLETED) mCallComplete?.invoke(mUrlVideo)
   }
   //</editor-fold>
 
