@@ -9,7 +9,7 @@ import cc.abase.demo.bean.local.VideoBean
  * @date: 2019/12/12 11:49
  */
 object VideoRandomUtils {
-  //视频资源封面和播放地址
+  //视频资源封面和播放地址  https://www.yugaopian.cn/allmovies + 猫眼电影
   private var resourceList = mutableListOf(
       Pair(
           "温暖的抱抱 2020-12-31",
