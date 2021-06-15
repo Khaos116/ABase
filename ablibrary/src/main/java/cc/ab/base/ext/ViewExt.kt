@@ -14,8 +14,7 @@ import java.lang.ref.WeakReference
 
 /**
  * Description:
- * @author: Khaos
- * @date: 2019/9/24 10:39
+ * @author: Khaos * @date: 2019/9/24 10:39
  */
 //点击事件
 @SuppressLint("CheckResult")
@@ -49,6 +48,21 @@ fun View.visibleGone(visible: Boolean) = if (visible) visible() else gone()
 
 //显示或者不显示但占位
 fun View.visibleInvisible(visible: Boolean) = if (visible) visible() else invisible()
+
+//是否显示
+fun View.isVisible(): Boolean {
+  return this.visibility == View.VISIBLE
+}
+
+//是否不显示，但占位
+fun View.isInvisible(): Boolean {
+  return this.visibility == View.INVISIBLE
+}
+
+//是否不显示，不占位
+fun View.isGone(): Boolean {
+  return this.visibility == View.GONE
+}
 
 //设置按下效果为改变透明度
 fun View.pressEffectAlpha(pressAlpha: Float = 0.7f) {
