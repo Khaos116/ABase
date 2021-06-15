@@ -119,3 +119,11 @@ fun String?.openOutLink() {
     }
   }
 }
+
+//正则获取两个符号之间的内容，只查找第一个
+@Suppress("ConvertToStringTemplate")
+fun String?.findBySymbols(start: String = "(", end: String = ")"): String {
+  if (this.isNullOrBlank()) return ""
+  val matcher = Pattern.compile("(?<=\\" + start + ")(\\S+)(?=\\" + end + ")").matcher(this)
+  return if (matcher.find()) matcher.group() else ""
+}
