@@ -3,12 +3,16 @@ package cc.abase.demo.component.video
 import android.content.Context
 import android.content.Intent
 import android.view.ViewGroup
+import androidx.recyclerview.widget.GridLayoutManager
 import cc.ab.base.ext.*
 import cc.abase.demo.component.comm.CommBindActivity
 import cc.abase.demo.constants.StringConstants
 import cc.abase.demo.databinding.ActivityVideoDetailBinding
+import cc.abase.demo.item.VideoJiItem
+import cc.abase.demo.widget.decoration.GridSpaceItemDecoration
 import cc.abase.demo.widget.dkplayer.MyVideoView
 import cc.abase.demo.widget.dkplayer.pipfloat.PIPManager
+import com.drakeet.multitype.MultiTypeAdapter
 import com.gyf.immersionbar.ktx.immersionBar
 import com.hjq.permissions.*
 import xyz.doikki.videoplayer.player.VideoViewManager
@@ -50,9 +54,7 @@ class VideoDetailActivity : CommBindActivity<ActivityVideoDetailBinding>() {
     private const val INTENT_KEY_VIDEO_URL = "INTENT_KEY_VIDEO_URL"
     fun startActivity(context: Context, videoUrl: String?) {
       val intent = Intent(context, VideoDetailActivity::class.java)
-      val index = (System.currentTimeMillis() % moveUrlPairs.size).toInt()
-      val defaultUrl = moveUrlPairs[index].first
-      intent.putExtra(INTENT_KEY_VIDEO_URL, if (videoUrl.isNullOrBlank()) defaultUrl else videoUrl)
+      if (!videoUrl.isNullOrBlank()) intent.putExtra(INTENT_KEY_VIDEO_URL, videoUrl)
       context.startActivity(intent)
     }
   }
@@ -76,6 +78,28 @@ class VideoDetailActivity : CommBindActivity<ActivityVideoDetailBinding>() {
   //<editor-fold defaultstate="collapsed" desc="初始化View">
   override fun initView() {
     videoDetailVideoView = VideoViewManager.instance().get(StringConstants.Tag.FLOAT_PLAY) as MyVideoView
+    var url = intent.getStringExtra(INTENT_KEY_VIDEO_URL)
+    if (url == null) {
+      //多类型适配器
+      val multiTypeAdapter = MultiTypeAdapter()
+      multiTypeAdapter.register(VideoJiItem { p ->
+        videoDetailVideoView.release()
+        videoDetailVideoView.setPlayUrl(p.first, title = p.second, autoPlay = true)
+      })
+      viewBinding.videoDetailRecycler.layoutManager = GridLayoutManager(this, 5)
+      viewBinding.videoDetailRecycler.addItemDecoration(GridSpaceItemDecoration(10.dp2px()))
+      viewBinding.videoDetailRecycler.adapter = multiTypeAdapter
+      val listDatas = moveUrlPairs.filter { p -> p.second.contains("不良人") }.also { l -> l.firstOrNull()?.let { ss -> url = ss.first } }
+      multiTypeAdapter.items = listDatas
+      //不是最后一集，播放完成后自动播放下一集
+      videoDetailVideoView.mCallComplete = { u ->
+        val index = listDatas.indexOfFirst { p -> p.first == u }
+        if (index >= 0 && index < listDatas.size - 1) {
+          videoDetailVideoView.release()
+          videoDetailVideoView.setPlayUrl(listDatas[index + 1].first, title = listDatas[index + 1].second, autoPlay = true)
+        }
+      }
+    }
     viewBinding.videoDetailBack.pressEffectAlpha()
     viewBinding.videoDetailFloat.pressEffectAlpha()
     viewBinding.videoDetailBack.click { onBackPressed() }
@@ -104,7 +128,6 @@ class VideoDetailActivity : CommBindActivity<ActivityVideoDetailBinding>() {
       videoDetailVideoView.getMyController().setPlayState(videoDetailVideoView.currentPlayState)
     } else {
       mPIPManager.actClass = VideoDetailActivity::class.java
-      val url = intent.getStringExtra(INTENT_KEY_VIDEO_URL)
       url?.let { videoDetailVideoView.setPlayUrl(url = it, title = moveUrlPairs.firstOrNull { p -> p.first == it }?.second) }
     }
     viewBinding.videoDetailVideoViewParent.addView(videoDetailVideoView, ViewGroup.LayoutParams(-1, -1))
