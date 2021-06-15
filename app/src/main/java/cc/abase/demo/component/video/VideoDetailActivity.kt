@@ -23,7 +23,9 @@ class VideoDetailActivity : CommBindActivity<ActivityVideoDetailBinding>() {
   companion object {
     //视频地址
     private val moveUrlPairs = mutableListOf(
-      Pair("http://vfx.mtime.cn/Video/2019/03/18/mp4/190318231014076505.mp4", "叶问预览片"),
+      //视频源 https://www.yugaopian.cn/allmovies + http://www.mtime.com/
+      Pair("https://vfx.mtime.cn/Video/2021/04/04/mp4/210404085426055137.mp4", "黑寡妇预告片"),
+      Pair("https://vfx.mtime.cn/Video/2021/06/07/mp4/210607160841583113.mp4", "繁花预告片"),
       //视频源 https://miao101.com/
       //Pair("https://v3.dious.cc/20210429/CnNHtUZs/index.m3u8", "不良人4(第一集)"),
       //Pair("https://v3.dious.cc/20210429/euEFOXZ2/index.m3u8", "不良人4(第二集)"),
