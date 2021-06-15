@@ -1,7 +1,7 @@
 package cc.abase.demo.item
 
 import android.annotation.SuppressLint
-import android.view.*
+import android.view.View
 import android.widget.ImageView
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -21,8 +21,8 @@ import com.drakeet.multitype.MultiTypeAdapter
  * Time:15:46
  */
 class NineGridItem(
-    private var parentView: View? = null,
-    private val onItemImgClick: ((url: String, position: Int, iv: ImageView, list: MutableList<String>) -> Unit)? = null,
+  private var parentView: View? = null,
+  private val onItemImgClick: ((url: String, position: Int, iv: ImageView, list: MutableList<String>) -> Unit)? = null,
 ) : BaseBindItemView<GridImageBean, ItemNineGridBinding>() {
   //<editor-fold defaultstate="collapsed" desc="变量">
   //Item间距
@@ -46,7 +46,7 @@ class NineGridItem(
     val count = if (list.size == 1) 1 else if (list.size == 2 || list.size == 4) 2 else 3
     recyclerView.layoutManager = GridLayoutManager(holder.itemView.context, count)
     if (recyclerView.itemDecorationCount > 0) recyclerView.removeItemDecorationAt(0)
-    recyclerView.addItemDecoration(GridSpaceItemDecoration(spaceItem).setDragGridEdge(false))
+    recyclerView.addItemDecoration(GridSpaceItemDecoration(spaceItem, false, false, false))
     val multiTypeAdapter = MultiTypeAdapter()
     multiTypeAdapter.register(NineImgItem { url, position, iv -> onItemImgClick?.invoke(url, position, iv, list) })
     recyclerView.adapter = multiTypeAdapter
@@ -57,8 +57,8 @@ class NineGridItem(
     if (canDrag) {
       //拖拽开始---->>>先置空，防止复用的时候一样的RecyclerView导致不执行attachToRecyclerView
       ItemTouchHelper(GridItemTouchHelperCallback(multiTypeAdapter).also { call -> helperCallback = call })
-          .apply { attachToRecyclerView(recyclerView) }
-          .let { helper = it }
+        .apply { attachToRecyclerView(recyclerView) }
+        .let { helper = it }
       //拖拽结束---<<<
     }
   }

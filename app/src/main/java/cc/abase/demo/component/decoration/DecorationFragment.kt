@@ -1,7 +1,7 @@
 package cc.abase.demo.component.decoration
 
 import android.graphics.Color
-import android.view.*
+import android.view.Gravity
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.GridLayoutManager.SpanSizeLookup
 import cc.ab.base.ext.dp2px
@@ -46,7 +46,7 @@ class DecorationFragment private constructor() : CommBindFragment<FragmentDecora
     //页面重建View不再重新设置
     if (viewBinding.decorRecycler.itemDecorationCount == 0) {
       val decorator = if (mType != 8) {
-        GridSpaceItemDecoration(20).setNoDragGridEdge(
+        GridSpaceItemDecoration(20,
             //前4个没有，后4个有
             mType >= 4,
             //没有-没有-有-有；没有-没有-有-有；

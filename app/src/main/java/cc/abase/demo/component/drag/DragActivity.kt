@@ -5,7 +5,6 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.ActivityInfo
 import android.graphics.Color
-import android.view.LayoutInflater
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.ItemTouchHelper
 import cc.ab.base.ext.*
@@ -57,12 +56,14 @@ class DragActivity : CommBindTitleActivity<ActivityDragBinding>() {
     viewBinding.dragRecycler.layoutManager = GridLayoutManager(mContext, 3)
     viewBinding.dragRecycler.setPadding(spaceItem, viewBinding.dragRecycler.paddingTop, spaceItem, viewBinding.dragRecycler.paddingBottom)
     if (viewBinding.dragRecycler.itemDecorationCount > 0) viewBinding.dragRecycler.removeItemDecorationAt(0)
-    viewBinding.dragRecycler.addItemDecoration(GridSpaceItemDecoration(spaceItem).setDragGridEdge(false))
+    viewBinding.dragRecycler.addItemDecoration(GridSpaceItemDecoration(spaceItem, false, false, false))
     //适配器注册
-    multiTypeAdapter.register(NineImgItem(
+    multiTypeAdapter.register(
+      NineImgItem(
         onDelClick = { url, p, v -> removeSelect(url) },
         onItemChildClick = { url, p, v -> if (url.isBlank()) go2ImgSel() else showPic(url) }, //为空代表点击选择添加
-    ))
+      )
+    )
     //默认+
     val items = mutableListOf<Any>()
     items.add("")
@@ -70,7 +71,8 @@ class DragActivity : CommBindTitleActivity<ActivityDragBinding>() {
     viewBinding.dragRecycler.adapter = multiTypeAdapter
     val mParent = viewBinding.root
     //拖拽
-    ItemTouchHelper(GridItemTouchHelperCallback(
+    ItemTouchHelper(
+      GridItemTouchHelperCallback(
         mAdapter = multiTypeAdapter,
         dragBgColor = Color.parseColor("#f7f7f7"),
         dragStart = { mParent.bringChildToFront(viewBinding.dragRecycler) },
@@ -81,7 +83,8 @@ class DragActivity : CommBindTitleActivity<ActivityDragBinding>() {
         canMove = { p ->
           val hasAdd = multiTypeAdapter.items.toMutableList().any { a -> a is String && a.isBlank() }
           if (!hasAdd) true else p < multiTypeAdapter.items.size - 1
-        })).attachToRecyclerView(viewBinding.dragRecycler)
+        })
+    ).attachToRecyclerView(viewBinding.dragRecycler)
   }
   //</editor-fold>
 
@@ -92,15 +95,15 @@ class DragActivity : CommBindTitleActivity<ActivityDragBinding>() {
     datas.forEach { d -> list.add(LocalMedia().also { lm -> lm.path = d as String }) }
     //https://github.com/LuckSiege/PictureSelector/wiki/PictureSelector-Api%E8%AF%B4%E6%98%8E
     PictureSelector.create(this)
-        .openGallery(PictureMimeType.ofImage())
-        .imageEngine(ImageEngine())
-        .isGif(false)
-        .isPageStrategy(true, PictureConfig.MAX_PAGE_SIZE, true) //过滤掉已损坏的图片
-        .selectionData(list) //过滤掉添加操作的图片
-        .maxSelectNum(MAX_IMG_SIZE)
-        .queryMaxFileSize(5f)
-        .setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
-        .forResult(PictureConfig.CHOOSE_REQUEST)
+      .openGallery(PictureMimeType.ofImage())
+      .imageEngine(ImageEngine())
+      .isGif(false)
+      .isPageStrategy(true, PictureConfig.MAX_PAGE_SIZE, true) //过滤掉已损坏的图片
+      .selectionData(list) //过滤掉添加操作的图片
+      .maxSelectNum(MAX_IMG_SIZE)
+      .queryMaxFileSize(5f)
+      .setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
+      .forResult(PictureConfig.CHOOSE_REQUEST)
   }
   //</editor-fold>
 
@@ -160,10 +163,10 @@ class DragActivity : CommBindTitleActivity<ActivityDragBinding>() {
     datas.forEach { d -> list.add(LocalMedia().also { lm -> lm.path = d as String }) }
     //https://github.com/LuckSiege/PictureSelector/wiki/PictureSelector-Api%E8%AF%B4%E6%98%8E
     PictureSelector.create(this)
-        .themeStyle(R.style.picture_default_style)
-        .isNotPreviewDownload(true)
-        .imageEngine(ImageEngine())
-        .openExternalPreview2(0.coerceAtLeast(index), list)
+      .themeStyle(R.style.picture_default_style)
+      .isNotPreviewDownload(true)
+      .imageEngine(ImageEngine())
+      .openExternalPreview2(0.coerceAtLeast(index), list)
   }
   //</editor-fold>
 }

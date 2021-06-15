@@ -2,11 +2,10 @@ package cc.abase.demo.widget.decoration;
 
 import android.graphics.Rect;
 import android.view.View;
-
 import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.recyclerview.widget.StaggeredGridLayoutManager;
+import androidx.recyclerview.widget.*;
+import cc.ab.base.ext.StringExtKt;
+import com.blankj.utilcode.util.GsonUtils;
 
 /**
  * 给 GridLayoutManager or StaggeredGridLayoutManager 设置间距，可设置去除首尾间距个数
@@ -25,11 +24,7 @@ public class GridSpaceItemDecoration extends RecyclerView.ItemDecoration {
   /**
    * 间距
    */
-  private int mSpacing;
-  /**
-   * 距屏幕周围是否也有间距
-   */
-  private boolean mIncludeEdge;
+  private final int mSpacing;
   /**
    * 头部 不显示间距的item个数
    */
@@ -43,41 +38,37 @@ public class GridSpaceItemDecoration extends RecyclerView.ItemDecoration {
    */
   private int fullPosition = -1;
 
+  /**
+   * 默认四周都包含了间距
+   *
+   * @param spacing 间距px
+   */
   public GridSpaceItemDecoration(int spacing) {
-    this(spacing, true);
-  }
-
-  /**
-   * @param spacing item 间距
-   * @param includeEdge item 距屏幕周围是否也有间距
-   */
-  public GridSpaceItemDecoration(int spacing, boolean includeEdge) {
     this.mSpacing = spacing;
-    this.mIncludeEdge = includeEdge;
+    this.isIncludeStartEnd = true;
+    this.isIncludeTop = true;
+    this.isIncludeBottom = true;
   }
 
   /**
-   * 已不需要手动设置spanCount
+   * 单独为每个方向设置间距
+   *
+   * @param spacing 间距px
+   * @param hasStartEnd 是否包含左右间距
+   * @param hasTop 是否包含上面间距
+   * @param hasBottom 是否包含下面间距
    */
-  @Deprecated
-  public GridSpaceItemDecoration(int spanCount, int spacing) {
-    this(spanCount, spacing, true);
-  }
-
-  /**
-   * 已不需要手动设置spanCount
-   */
-  @Deprecated
-  public GridSpaceItemDecoration(int spanCount, int spacing, boolean includeEdge) {
-    this.mSpanCount = spanCount;
+  public GridSpaceItemDecoration(int spacing, boolean hasStartEnd, boolean hasTop, boolean hasBottom) {
     this.mSpacing = spacing;
-    this.mIncludeEdge = includeEdge;
+    this.isIncludeStartEnd = hasStartEnd;
+    this.isIncludeTop = hasTop;
+    this.isIncludeBottom = hasBottom;
   }
 
   @Override
   public void getItemOffsets(@NonNull Rect outRect, @NonNull View view, @NonNull RecyclerView parent,
       @NonNull RecyclerView.State state) {
-    //<editor-fold defaultstate="collapsed" desc="Khaos添加的代码1">
+    //<editor-fold defaultstate="collapsed" desc="Khaos添加的代码">
     outRect.setEmpty();
     int position = parent.getChildAdapterPosition(view);
     if (position == RecyclerView.NO_POSITION) {
@@ -120,7 +111,7 @@ public class GridSpaceItemDecoration extends RecyclerView.ItemDecoration {
       }
       // 减掉不设置间距的position,得到从0开始的position
       position = position - mStartFromSize;
-      if (mIncludeEdge || isIncludeStartEnd) {//Khaos添加的代码2"||isIncludeStartEnd"
+      if (isIncludeStartEnd) {//Khaos修改的代码
         /*
          *示例：
          * spacing = 10 ；spanCount = 3
@@ -193,16 +184,12 @@ public class GridSpaceItemDecoration extends RecyclerView.ItemDecoration {
         }
       }
     }
-    //<editor-fold defaultstate="collapsed" desc="Khaos添加的代码3">
+    //<editor-fold defaultstate="collapsed" desc="Khaos添加的代码">
     if (layoutManager instanceof GridLayoutManager) {//只处理上下间距，左右交给原本处理即可
-      if (isDragGrid) {
-        outRect.top = mSpacing / 2;
-        outRect.bottom = mSpacing / 2;
-      } else {
-        outRect.top = isInFirstRow ? (isIncludeTop ? mSpacing : 0) : mSpacing / 2;
-        outRect.bottom = isInLastRow ? (isIncludeBottom ? mSpacing : 0) : mSpacing / 2;
-      }
+      outRect.top = isInFirstRow ? (isIncludeTop ? mSpacing : 0) : mSpacing / 2;
+      outRect.bottom = isInLastRow ? (isIncludeBottom ? mSpacing : 0) : mSpacing / 2;
     }
+    StringExtKt.logE("position=" + position + ",outRect=" + GsonUtils.toJson(outRect));
     //</editor-fold>
   }
 
@@ -238,33 +225,12 @@ public class GridSpaceItemDecoration extends RecyclerView.ItemDecoration {
     return this;
   }
 
-  //<editor-fold defaultstate="collapsed" desc="Khaos添加的代码4">
+  //<editor-fold defaultstate="collapsed" desc="Khaos添加的代码(最后一行的判断做了修改)">
   private boolean isInFirstRow;//是否在第一行
   private boolean isInLastRow;//是否在最后一行，如果只有一行isInFirstRow和isInLastRow都为true
-  private boolean isIncludeStartEnd;//是否包含最前面和最后面
-  private boolean isIncludeTop;//是否包含最上面
-  private boolean isIncludeBottom;//是否包含最下面
-  private boolean isDragGrid;//是否是可拖动的grid模式，如果为true则最顶部和最底部默认也是有间距的
-
-  public GridSpaceItemDecoration setDragGridEdge(boolean includeStartEnd) {
-    this.isDragGrid = true;
-    this.isIncludeStartEnd = includeStartEnd;
-    this.mIncludeEdge = includeStartEnd;
-    this.isIncludeTop = false;
-    this.isIncludeBottom = false;
-    mEndFromSize = 0;
-    return this;
-  }
-
-  public GridSpaceItemDecoration setNoDragGridEdge(boolean includeStartEnd, boolean includeTop, boolean includeBottom) {
-    this.isDragGrid = false;
-    this.isIncludeStartEnd = includeStartEnd;
-    this.mIncludeEdge = includeStartEnd;
-    this.isIncludeTop = includeTop;
-    this.isIncludeBottom = includeBottom;
-    mEndFromSize = 0;
-    return this;
-  }
+  private final boolean isIncludeStartEnd;//是否包含最前面和最后面
+  private final boolean isIncludeTop;//是否包含最上面
+  private final boolean isIncludeBottom;//是否包含最下面
 
   private void calculatePositionDetails(RecyclerView parent, int position, RecyclerView.LayoutManager layout) {
     if (layout instanceof GridLayoutManager) {
@@ -288,15 +254,31 @@ public class GridSpaceItemDecoration extends RecyclerView.ItemDecoration {
     return true;
   }
 
+  //由于原文的判断存在问题(最后一排不全的情况下)，所以做修改处理
   private boolean isInLastRow(int position, int itemCount, GridLayoutManager.SpanSizeLookup spanSizeLookup, int spanCount) {
-    int totalSpan = 0;
-    for (int i = itemCount - 1; i >= position; i--) {
-      totalSpan += spanSizeLookup.getSpanSize(i);
-      if (totalSpan > spanCount) {
-        return false;
+    //如果总数小于每行数量，则全满足最后一行
+    if (itemCount <= spanCount) return true;
+    if (itemCount % spanCount != 0) {//最后一排不满的情况
+      //找到第一行到倒数第二行的数量
+      int mostCount = itemCount / spanCount * spanCount;
+      int totalSpan = 0;
+      for (int i = 0; i <= position; i++) {
+        totalSpan += spanSizeLookup.getSpanSize(i);
+        if (totalSpan > mostCount) {
+          return true;
+        }
       }
+      return false;
+    } else {//最后一排满的情况
+      int totalSpan = 0;
+      for (int i = itemCount - 1; i >= position; i--) {
+        totalSpan += spanSizeLookup.getSpanSize(i);
+        if (totalSpan > spanCount) {
+          return false;
+        }
+      }
+      return true;
     }
-    return true;
   }
   //</editor-fold>
 }
