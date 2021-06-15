@@ -156,6 +156,7 @@ class MyVideoView : VideoView<MyExoMediaPlayer>, LifecycleObserver {
     url: String, title: String? = null, cover: String? = null, autoPlay: Boolean = false,
     isLive: Boolean = false, ratio: Float = 16f / 9, needHolder: Boolean = true
   ) {
+    if (mMediaPlayer == null) initPlayer()
     setUrl(url) //设置播放地址
     mUrlVideo = url
     mUrlCover = if (cover.isNullOrBlank()) url else cover
