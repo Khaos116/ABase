@@ -4,8 +4,6 @@ import android.graphics.Rect;
 import android.view.View;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.*;
-import cc.ab.base.ext.StringExtKt;
-import com.blankj.utilcode.util.GsonUtils;
 
 /**
  * 给 GridLayoutManager or StaggeredGridLayoutManager 设置间距，可设置去除首尾间距个数
@@ -189,7 +187,7 @@ public class GridSpaceItemDecoration extends RecyclerView.ItemDecoration {
       outRect.top = isInFirstRow ? (isIncludeTop ? mSpacing : 0) : mSpacing / 2;
       outRect.bottom = isInLastRow ? (isIncludeBottom ? mSpacing : 0) : mSpacing / 2;
     }
-    StringExtKt.logE("position=" + position + ",outRect=" + GsonUtils.toJson(outRect));
+    //StringExtKt.logE("position=" + position + ",outRect=" + GsonUtils.toJson(outRect));
     //</editor-fold>
   }
 
