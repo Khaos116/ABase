@@ -51,6 +51,9 @@ class MyVideoView : VideoView<MyExoMediaPlayer>, LifecycleObserver {
 
   //返回按钮
   private var backIv: ImageView
+
+  //播放完成的回调
+  private var mCallComplete: ((url: String?) -> Unit)? = null
   //</editor-fold>
 
   //<editor-fold defaultstate="collapsed" desc="初始化">
@@ -142,6 +145,7 @@ class MyVideoView : VideoView<MyExoMediaPlayer>, LifecycleObserver {
   override fun setPlayerState(playerState: Int) {
     super.setPlayerState(playerState)
     if (playerState == STATE_ERROR) "无法播放:$mUrl".logE()
+    else if (playerState == STATE_PLAYBACK_COMPLETED) mCallComplete?.invoke(mUrlVideo)
   }
   //</editor-fold>
 
