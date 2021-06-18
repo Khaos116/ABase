@@ -19,7 +19,7 @@ import com.blankj.utilcode.util.SizeUtils
 
 @SuppressLint("PrivateResource", "CustomViewStyleable")
 class DrawableEditText(context: Context, attributeSet: AttributeSet?) :
-    AppCompatEditText(context, attributeSet) {
+  AppCompatEditText(context, attributeSet) {
   private var leftWidth = -1
   private var leftHeight = -1
   private var topWidth = -1
@@ -60,17 +60,17 @@ class DrawableEditText(context: Context, attributeSet: AttributeSet?) :
     var drawableStart: Drawable? = null
     var drawableEnd: Drawable? = null
     arrayHelper.getResourceId(R.styleable.AppCompatTextHelper_android_drawableLeft, -1)
-        .takeIf { it != -1 }?.apply { drawableLeft = ContextCompat.getDrawable(context, this) }
+      .takeIf { it != -1 }?.apply { drawableLeft = ContextCompat.getDrawable(context, this) }
     arrayHelper.getResourceId(R.styleable.AppCompatTextHelper_android_drawableStart, -1)
-        .takeIf { it != -1 }?.apply { drawableStart = ContextCompat.getDrawable(context, this) }
+      .takeIf { it != -1 }?.apply { drawableStart = ContextCompat.getDrawable(context, this) }
     arrayHelper.getResourceId(R.styleable.AppCompatTextHelper_android_drawableTop, -1)
-        .takeIf { it != -1 }?.apply { drawableTop = ContextCompat.getDrawable(context, this) }
+      .takeIf { it != -1 }?.apply { drawableTop = ContextCompat.getDrawable(context, this) }
     arrayHelper.getResourceId(R.styleable.AppCompatTextHelper_android_drawableBottom, -1)
-        .takeIf { it != -1 }?.apply { drawableBottom = ContextCompat.getDrawable(context, this) }
+      .takeIf { it != -1 }?.apply { drawableBottom = ContextCompat.getDrawable(context, this) }
     arrayHelper.getResourceId(R.styleable.AppCompatTextHelper_android_drawableEnd, -1)
-        .takeIf { it != -1 }?.apply { drawableEnd = ContextCompat.getDrawable(context, this) }
+      .takeIf { it != -1 }?.apply { drawableEnd = ContextCompat.getDrawable(context, this) }
     arrayHelper.getResourceId(R.styleable.AppCompatTextHelper_android_drawableRight, -1)
-        .takeIf { it != -1 }?.apply { drawableRight = ContextCompat.getDrawable(context, this) }
+      .takeIf { it != -1 }?.apply { drawableRight = ContextCompat.getDrawable(context, this) }
 
     arrayHelper.recycle()
 
@@ -91,21 +91,25 @@ class DrawableEditText(context: Context, attributeSet: AttributeSet?) :
   }
 
   override fun setCompoundDrawablesWithIntrinsicBounds(left: Drawable?, top: Drawable?, right: Drawable?, bottom: Drawable?) {
-    left?.setBounds(0, 0,
-        if (leftWidth != -1) leftWidth else left.intrinsicWidth,
-        if (leftHeight != -1) leftHeight else left.intrinsicHeight
+    left?.setBounds(
+      0, 0,
+      if (leftWidth != -1) leftWidth else left.intrinsicWidth,
+      if (leftHeight != -1) leftHeight else left.intrinsicHeight
     )
-    top?.setBounds(0, 0,
-        if (topWidth != -1) topWidth else top.intrinsicWidth,
-        if (topHeight != -1) topHeight else top.intrinsicHeight
+    top?.setBounds(
+      0, 0,
+      if (topWidth != -1) topWidth else top.intrinsicWidth,
+      if (topHeight != -1) topHeight else top.intrinsicHeight
     )
-    right?.setBounds(0, 0,
-        if (rightWidth != -1) rightWidth else right.intrinsicWidth,
-        if (rightHeight != -1) rightHeight else right.intrinsicHeight
+    right?.setBounds(
+      0, 0,
+      if (rightWidth != -1) rightWidth else right.intrinsicWidth,
+      if (rightHeight != -1) rightHeight else right.intrinsicHeight
     )
-    bottom?.setBounds(0, 0,
-        if (bottomWidth != -1) bottomWidth else bottom.intrinsicWidth,
-        if (bottomHeight != -1) bottomHeight else bottom.intrinsicHeight
+    bottom?.setBounds(
+      0, 0,
+      if (bottomWidth != -1) bottomWidth else bottom.intrinsicWidth,
+      if (bottomHeight != -1) bottomHeight else bottom.intrinsicHeight
     )
     leftD = left
     topD = top
@@ -117,10 +121,10 @@ class DrawableEditText(context: Context, attributeSet: AttributeSet?) :
   override fun onTouchEvent(event: MotionEvent?): Boolean {
     event?.let { e ->
       if (compoundDrawables[2] != null && (e.action == MotionEvent.ACTION_DOWN || e.action == MotionEvent.ACTION_UP)) {
-        val eventX = event.x.toInt()
-        val eventY = event.y.toInt()
+        val eventX = event.rawX.toInt()
+        val eventY = event.rawY.toInt()
         val rect = Rect()
-        getLocalVisibleRect(rect)
+        getGlobalVisibleRect(rect)
         rect.left = rect.right - rightWidth - paddingEnd
         if (rect.contains(eventX, eventY)) {
           if (e.action == MotionEvent.ACTION_UP) setText("")
