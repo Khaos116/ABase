@@ -22,6 +22,8 @@
     <item name="android:windowBackground">@android:color/transparent</item>
     <!-- 是否允许对话框的背景变暗 -->
     <item name="android:backgroundDimEnabled">true</item>
+    <!--填充状态栏，否则导致键盘弹起问题-->
+    <item name="android:windowTranslucentStatus">true</item>
   </style>
 
   <style name="CollapsingTextAppearance" parent="Base.TextAppearance.AppCompat.Widget.ActionBar.Title"/>
