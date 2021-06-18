@@ -5,8 +5,23 @@
 
   </style>
   <!-- 启动页风格 -->
-  <style name="SplashTheme" parent="BaseAppTheme">
+  <style name="SplashTheme" parent="AppTheme">
     <item name="android:windowBackground">@drawable/icon_splash_bg</item>
+  </style>
+
+  <!--透明Activity-->
+  <style name="TransActivityTheme" parent="AppTheme">
+    <item name="android:windowFrame">@null</item>
+    <item name="android:statusBarColor">@android:color/transparent</item>
+    <!-- 是否浮现在activity之上 -->
+    <!-- 半透明 -->
+    <item name="android:windowIsTranslucent">true</item>
+    <!-- 无标题 -->
+    <item name="android:windowNoTitle">true</item>
+    <!-- 背景透明 -->
+    <item name="android:windowBackground">@android:color/transparent</item>
+    <!-- 是否允许对话框的背景变暗 -->
+    <item name="android:backgroundDimEnabled">true</item>
   </style>
 
   <style name="CollapsingTextAppearance" parent="Base.TextAppearance.AppCompat.Widget.ActionBar.Title"/>
