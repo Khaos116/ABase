@@ -74,6 +74,7 @@ dependencies {
   api Deps.pic_select
   api Deps.coil
   api Deps.coil_gif
+  api Deps.coil_svg
   api Deps.coil_video_file
   api Deps.xxpermissions
   api Deps.rv_anim
