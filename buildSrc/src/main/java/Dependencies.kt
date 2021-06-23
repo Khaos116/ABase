@@ -89,7 +89,7 @@ object Deps {
   const val coil_video_file = "io.coil-kt:coil-video:${Versions.coil}"
 
   //多类型适配器 https://github.com/drakeet/MultiType
-  const val multitype = "com.drakeet.multitype:multitype:4.2.0"
+  const val multitype = "com.drakeet.multitype:multitype:4.3.0"
 
   //动态权限 https://github.com/getActivity/XXPermissions
   const val xxpermissions = "com.github.getActivity:XXPermissions:11.2"
