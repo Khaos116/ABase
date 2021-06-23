@@ -92,11 +92,11 @@ object Deps {
   const val multitype = "com.drakeet.multitype:multitype:4.3.0"
 
   //动态权限 https://github.com/getActivity/XXPermissions
-  const val xxpermissions = "com.github.getActivity:XXPermissions:11.2"
+  const val xxpermissions = "com.github.getActivity:XXPermissions:11.5"
 
   //ViewBinding https://github.com/DylanCaiCoding/ViewBindingKtx/blob/master/README_CN.md
-  const val binding_ktx = "com.github.DylanCaiCoding.ViewBindingKTX:viewbinding-ktx:1.2.1"
-  const val binding_base = "com.github.DylanCaiCoding.ViewBindingKTX:viewbinding-base:1.2.1"
+  const val binding_ktx = "com.github.DylanCaiCoding.ViewBindingKTX:viewbinding-ktx:1.2.2"
+  const val binding_base = "com.github.DylanCaiCoding.ViewBindingKTX:viewbinding-base:1.2.2"
   //</editor-fold>
 
   //<editor-fold defaultstate="collapsed" desc="三方常用配置">
@@ -123,8 +123,8 @@ object Deps {
   const val smart_header = "com.scwang.smart:refresh-header-classics:2.0.3"
   const val smart_footer = "com.scwang.smart:refresh-footer-classics:2.0.3"
 
-  //手机号判断 https://github.com/google/libphonenumber
-  const val libphonenumber = "com.googlecode.libphonenumber:libphonenumber:8.12.24"
+  //手机号判断 https://github.com/google/libphonenumber/wiki/Android-Studio-setup
+  const val libphonenumber = "com.googlecode.libphonenumber:libphonenumber:8.12.25"
   //</editor-fold>
 
   //<editor-fold defaultstate="collapsed" desc="调试统计工具">
@@ -152,7 +152,7 @@ object Deps {
 
   //<editor-fold defaultstate="collapsed" desc="三方不常用配置">
   //图片选择器 https://github.com/LuckSiege/PictureSelector
-  const val pic_select = "io.github.lucksiege:pictureselector:v2.7.3-rc02"
+  const val pic_select = "io.github.lucksiege:pictureselector:v2.7.3-rc03"
 
   //Emoji表情 https://github.com/vanniktech/Emoji
   const val emoji = "com.vanniktech:emoji-twitter:0.7.0"
