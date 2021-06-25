@@ -189,6 +189,9 @@ object Deps {
 
   //手势解锁 https://github.com/ihsg/PatternLocker
   const val pattern_locker = "com.github.ihsg:PatternLocker:2.5.7"
+
+  //万能阴影布局 https://github.com/lihangleo2/ShadowLayout
+  const val shadow_layout = "com.github.lihangleo2:ShadowLayout:3.2.0"
   //</editor-fold>
 
   //<editor-fold defaultstate="collapsed" desc="其他">
