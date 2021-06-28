@@ -70,22 +70,26 @@ object MMkvUtils {
 
   //<editor-fold defaultstate="collapsed" desc="账号">
   private const val USER_ACCOUNT = "USER_ACCOUNT"
+  private var mAccount: String? = null
   fun getAccount(): String {
-    return mMMKVDefault?.decodeString(USER_ACCOUNT, "") ?: ""
+    return mAccount ?: mMMKVDefault?.decodeString(USER_ACCOUNT, "")?.also { a -> mAccount = a } ?: ""
   }
 
   fun setAccount(account: String) {
+    mAccount = account
     mMMKVDefault?.encode(USER_ACCOUNT, account)
   }
   //</editor-fold>
 
   //<editor-fold defaultstate="collapsed" desc="密码">
   private const val USER_PWD = "USER_PWD"
+  private var mPassword: String? = null
   fun getPassword(): String {
-    return mMMKVDefault?.decodeString(USER_PWD, "") ?: ""
+    return mPassword ?: mMMKVDefault?.decodeString(USER_PWD, "")?.also { p -> mPassword = p } ?: ""
   }
 
   fun setPassword(pwd: String) {
+    mPassword = pwd
     mMMKVDefault?.encode(USER_PWD, pwd)
   }
   //</editor-fold>
