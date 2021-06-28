@@ -2,6 +2,8 @@ package cc.abase.demo.rxhttp.parser
 
 import cc.ab.base.net.http.response.BasePageList
 import cc.ab.base.net.http.response.BaseResponse
+import cc.abase.demo.config.GlobalErrorHandle
+import cc.abase.demo.constants.ErrorCode
 import rxhttp.wrapper.annotation.Parser
 import rxhttp.wrapper.exception.ParseException
 import rxhttp.wrapper.parse.AbstractParser
@@ -62,7 +64,14 @@ open class ResponseWanParser<T> : AbstractParser<T> {
     //获取data字段
     val data = responseWan.data
     //code不等于0，说明数据不正确，抛出异常
-    if (responseWan.errorCode != 0 || data == null) throw ParseException(responseWan.errorCode.toString(), responseWan.errorMsg, response)
+    if (responseWan.errorCode != 0 || data == null) {
+      if (responseWan.errorCode == ErrorCode.NO_LOGIN) {
+        GlobalErrorHandle.dealGlobalErrorCode(responseWan.errorCode)
+        throw ParseException(ErrorCode.ALREADY_DEAL.toString(), responseWan.errorMsg, response)
+      } else {
+        throw ParseException(responseWan.errorCode.toString(), responseWan.errorMsg, response)
+      }
+    }
     return data
   }
 }

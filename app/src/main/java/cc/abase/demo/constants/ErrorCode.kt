@@ -7,6 +7,7 @@ package cc.abase.demo.constants
  */
 interface ErrorCode {
   companion object {
-    const val NO_LOGIN = -1001//未登录
+    const val ALREADY_DEAL = -8888 //已全局处理
+    const val NO_LOGIN = -1001 //未登录
   }
 }
