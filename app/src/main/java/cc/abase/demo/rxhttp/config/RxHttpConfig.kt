@@ -3,6 +3,7 @@ package cc.abase.demo.rxhttp.config
 import cc.ab.base.config.PathConfig
 import cc.ab.base.utils.CharlesUtils
 import cc.abase.demo.config.HeaderManger
+import cc.abase.demo.constants.api.WanUrls
 import cc.abase.demo.rxhttp.interceptor.TokenInterceptor
 import com.ayvytr.okhttploginterceptor.LoggingInterceptor
 import okhttp3.OkHttpClient
@@ -34,7 +35,6 @@ object RxHttpConfig {
     "Accept",
     "Content-Type",
     "Charset",
-    "request_time",
   )
 
   //初始化RxHttp https://github.com/liujingxing/rxhttp/wiki
@@ -49,13 +49,11 @@ object RxHttpConfig {
       .setOnParamAssembly { p: Param<*> -> //设置公共参数/请求头回调
         p.add("platform", "RxHttp")
         p.addAllHeader(HeaderManger.getStaticHeaders()) //添加公共参数
-        //添加Token
-        if (HeaderManger.noTokenUrls.filter { u ->
-            (p.httpUrl).toString().contains(u, true)
-          }.isNullOrEmpty()) {
-          HeaderManger.getTokenPair()?.let { p.addHeader(it.first, it.second) }
+        if (p.httpUrl.host == WanUrls.HOST) { //只给WanAndroid的接口添加Token
+          if (!HeaderManger.noTokenUrls.any { s -> (p.httpUrl).toString().contains(s, true) }) { //如果没有在排除列表，则添加
+            HeaderManger.getTokenPair()?.let { p.addHeader(it.first, it.second) }
+          }
         }
-        p.add("request_time", System.currentTimeMillis()) //添加请求时间，方便更新token
         p
       }
   }
