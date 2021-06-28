@@ -10,6 +10,7 @@ import android.media.*
 import android.net.Uri
 import android.os.Build
 import androidx.core.app.ActivityCompat
+import cc.ab.base.ext.logE
 import com.blankj.utilcode.util.*
 import java.io.File
 
@@ -23,7 +24,7 @@ object PermissionUtils {
   @SuppressLint("MissingPermission")
   @Synchronized
   fun hasSDPermission(): Boolean {
-    val parent = File(PathUtils.getExternalStoragePath())
+    val parent = File(PathUtils.getExternalDownloadsPath())
     val file = File(parent, "Khaos_TEST.txt")
     return try {
       if (!parent.exists()) parent.mkdirs()
@@ -31,7 +32,7 @@ object PermissionUtils {
       FileUtils.delete(file)
     } catch (e: Exception) {
       e.printStackTrace()
-      LogUtils.e("Khaos:SD卡权限异常:${e.message}")
+      "SD卡权限异常:${e.message}".logE()
       false
     }
   }
@@ -51,9 +52,9 @@ object PermissionUtils {
       camera.release()
       true
     } catch (e: Exception) {
-      if (camera != null) camera.release()
+      camera?.release()
       e.printStackTrace()
-      LogUtils.e("Khaos:拍照权限异常:${e.message}")
+      "拍照权限异常:${e.message}".logE()
       false
     }
   }
@@ -63,20 +64,20 @@ object PermissionUtils {
   @Synchronized
   fun hasRecordPermission(): Boolean {
     val minBufferSize = AudioRecord.getMinBufferSize(
-        44100,
-        AudioFormat.CHANNEL_IN_STEREO,
-        AudioFormat.ENCODING_PCM_16BIT
+      44100,
+      AudioFormat.CHANNEL_IN_STEREO,
+      AudioFormat.ENCODING_PCM_16BIT
     )
     var audioRecord: AudioRecord? = null
     try {
       audioRecord = AudioRecord(
-          MediaRecorder.AudioSource.MIC, 44100,
-          AudioFormat.CHANNEL_IN_STEREO,
-          AudioFormat.ENCODING_PCM_16BIT, minBufferSize
+        MediaRecorder.AudioSource.MIC, 44100,
+        AudioFormat.CHANNEL_IN_STEREO,
+        AudioFormat.ENCODING_PCM_16BIT, minBufferSize
       )
     } catch (e: Exception) {
       e.printStackTrace()
-      LogUtils.e("Khaos:录音权限异常:${e.message}")
+      "录音权限异常:${e.message}".logE()
     }
     if (audioRecord == null) {
       return false
@@ -88,7 +89,7 @@ object PermissionUtils {
       e.printStackTrace()
       //可能情况一
       audioRecord.release()
-      LogUtils.e("Khaos:录音权限异常:${e.message}")
+      "录音权限异常:${e.message}".logE()
     }
 
     // 检测是否在录音中,6.0以下会返回此状态
@@ -99,7 +100,7 @@ object PermissionUtils {
         audioRecord.release()
       } catch (e: Exception) {
         e.printStackTrace()
-        LogUtils.e("Khaos:录音权限异常:${e.message}")
+        "录音权限异常:${e.message}".logE()
       }
       return false
     }
@@ -116,7 +117,7 @@ object PermissionUtils {
       audioRecord.release()
     } catch (e: Exception) {
       e.printStackTrace()
-      LogUtils.e("Khaos:录音权限异常:${e.message}")
+      "录音权限异常:${e.message}".logE()
     }
     return true
   }
@@ -127,22 +128,22 @@ object PermissionUtils {
   fun hasLocationPermission(): Boolean {
     val c = Utils.getApp()
     val permission =
-        ActivityCompat.checkSelfPermission(c, Manifest.permission.ACCESS_FINE_LOCATION)
+      ActivityCompat.checkSelfPermission(c, Manifest.permission.ACCESS_FINE_LOCATION)
     if (permission < 0) {
-      if (permission == -1) LogUtils.e("定位权限被拒绝")
-      if (permission == -2) LogUtils.e("定位权限被永久拒绝")
+      if (permission == -1) "定位权限被拒绝".logE()
+      if (permission == -2) "定位权限被永久拒绝".logE()
       return false
     }
     val mLocationManager = c.getSystemService(Context.LOCATION_SERVICE) as LocationManager
     return try {
       mLocationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER)
-          ?.let {
-            LogUtils.e("getLastKnownLocation=$it")
-          }
+        ?.let {
+          "getLastKnownLocation=$it".logE()
+        }
       true
     } catch (e: Exception) {
       e.printStackTrace()
-      LogUtils.e("Khaos:定位权限异常:${e.message}")
+      "定位权限异常:${e.message}".logE()
       false
     }
   }
@@ -152,10 +153,10 @@ object PermissionUtils {
   fun locationEnable(): Boolean {
     val c = Utils.getApp()
     val permission =
-        ActivityCompat.checkSelfPermission(c, Manifest.permission.ACCESS_FINE_LOCATION)
+      ActivityCompat.checkSelfPermission(c, Manifest.permission.ACCESS_FINE_LOCATION)
     if (permission < 0) {
-      if (permission == -1) LogUtils.e("定位权限被拒绝")
-      if (permission == -2) LogUtils.e("定位权限被永久拒绝")
+      if (permission == -1) "定位权限被拒绝".logE()
+      if (permission == -2) "定位权限被永久拒绝".logE()
       return false
     }
     val mLocationManager = c.getSystemService(Context.LOCATION_SERVICE) as LocationManager
@@ -172,13 +173,13 @@ object PermissionUtils {
     if (provider.isNullOrBlank()) return false
     return try {
       mLocationManager.getLastKnownLocation(provider)
-          ?.let {
-            LogUtils.e("getLastKnownLocation=$it")
-          }
+        ?.let {
+          "getLastKnownLocation=$it".logE()
+        }
       true
     } catch (e: Exception) {
       e.printStackTrace()
-      LogUtils.e("Khaos:定位权限异常:${e.message}")
+      "定位权限异常:${e.message}".logE()
       false
     }
   }
