@@ -8,7 +8,6 @@ import android.content.pm.ActivityInfo
 import android.media.MediaMetadataRetriever
 import android.text.method.ScrollingMovementMethod
 import android.view.Gravity
-import android.view.LayoutInflater
 import android.widget.FrameLayout
 import android.widget.ScrollView
 import cc.ab.base.ext.*
@@ -20,7 +19,6 @@ import cc.abase.demo.databinding.ActivityVideoCompressBinding
 import cc.abase.demo.utils.VideoUtils
 import cc.abase.demo.widget.dkplayer.MyVideoView
 import com.blankj.utilcode.util.FileUtils
-import com.blankj.utilcode.util.LogUtils
 import com.luck.picture.lib.PictureSelector
 import com.luck.picture.lib.config.PictureConfig
 import com.luck.picture.lib.config.PictureMimeType
@@ -191,7 +189,7 @@ class VideoCompressActivity : CommBindTitleActivity<ActivityVideoCompressBinding
           }
         }
       } else {
-        LogUtils.e("Khaos:onActivityResult:other")
+        "onActivityResult:other".logE()
       }
     }
   }

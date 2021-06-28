@@ -47,7 +47,7 @@ fun Context.toast(msg: String?, duration: Int = Toast.LENGTH_SHORT) =
   if (!msg.isNullOrBlank()) {
     AmToast.showCenterToast(this, msg, duration)
   } else {
-    LogUtils.e("toast内容为空")
+    "toast内容为空".logE()
   }
 
 //Toast 文字资源

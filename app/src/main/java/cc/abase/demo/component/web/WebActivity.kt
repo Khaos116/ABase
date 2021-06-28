@@ -160,7 +160,7 @@ class WebActivity : CommBindTitleActivity<ActivityWebBinding>() {
   //<editor-fold defaultstate="collapsed" desc="JS交互">
   //private fun initJsBridge(webView: BridgeWebView) {
   //webView.setDefaultHandler(BridgeHandler { data, function ->
-  //    LogUtils.e("Js交互未指定方法data：$data")
+  //    "Js交互未指定方法data：$data".logE()
   //    function.onCallBack("reaponse 返回的数据")
   //})
   //webView.registerHandler(JsBridgeMethod.METHOD_NATIVE, object:BridgeHandler{})

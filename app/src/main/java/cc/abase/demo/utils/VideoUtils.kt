@@ -2,7 +2,9 @@ package cc.abase.demo.utils
 
 import cc.ab.base.config.PathConfig
 import cc.ab.base.ext.launchError
-import com.blankj.utilcode.util.*
+import cc.ab.base.ext.logE
+import com.blankj.utilcode.util.FileUtils
+import com.blankj.utilcode.util.Utils
 import com.hjq.permissions.Permission
 import com.hjq.permissions.XXPermissions
 import com.iceteck.silicompressorr.CompressCall
@@ -31,20 +33,22 @@ object VideoUtils {
   init {
     if (XXPermissions.isGranted(Utils.getApp(), Permission.MANAGE_EXTERNAL_STORAGE)) {
       if (!File(outParentVideo).exists())
-        LogUtils.e("Khaos:创建Video文件夹:${File(outParentVideo).mkdirs()}")
+        "创建Video文件夹:${File(outParentVideo).mkdirs()}".logE()
       if (!File(outParentImgs).exists())
-        LogUtils.e("Khaos:创建Temp文件夹:${File(outParentImgs).mkdirs()}")
+        "创建Temp文件夹:${File(outParentImgs).mkdirs()}".logE()
     }
   }
   //</editor-fold>
 
   //<editor-fold defaultstate="collapsed" desc="外部调用">
   //开始压缩
-  fun startCompressed(originFile: File,
-      result: ((suc: Boolean, info: String) -> Unit)? = null,
-      pro: ((progress: Float) -> Unit)? = null) {
+  fun startCompressed(
+    originFile: File,
+    result: ((suc: Boolean, info: String) -> Unit)? = null,
+    pro: ((progress: Float) -> Unit)? = null
+  ) {
     if (CompressCall.progressCall != null) {
-      LogUtils.e("Khaos:正在压缩中")
+      "Khaos:正在压缩中".logE()
       return
     }
     disposableCompress?.cancel()
@@ -61,8 +65,8 @@ object VideoUtils {
         if (File(resultPath).exists()) {
           CompressCall.release()
           result?.invoke(true, resultPath)
-          LogUtils.e("\nKhaos:视频压缩前大小:${FileUtils.getSize(originFile)}")
-          LogUtils.e("\nKhaos:视频压缩后大小:${FileUtils.getSize(resultPath)}\n")
+          "视频压缩前大小:${FileUtils.getSize(originFile)}".logE()
+          "Khaos:视频压缩后大小:${FileUtils.getSize(resultPath)}".logE()
         } else {
           CompressCall.release()
           result?.invoke(false, "压缩失败")
@@ -196,14 +200,14 @@ object VideoUtils {
       FileUtils.deleteAllInDir(outParentVideo)
     } else {
       File(outParentVideo).listFiles()
-          ?.let { files ->
-            for (file in files) {
-              if (file == keepFile) {
-                continue
-              }
-              FileUtils.delete(file)
+        ?.let { files ->
+          for (file in files) {
+            if (file == keepFile) {
+              continue
             }
+            FileUtils.delete(file)
           }
+        }
     }
   }
   //</editor-fold>

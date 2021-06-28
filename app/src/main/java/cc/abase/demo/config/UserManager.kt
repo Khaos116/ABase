@@ -1,9 +1,7 @@
 package cc.abase.demo.config
 
-import cc.abase.demo.constants.api.ApiUrl
-import cc.abase.demo.rxhttp.config.RxCookie
+import cc.ab.base.ext.logE
 import cc.abase.demo.utils.MMkvUtils
-import com.blankj.utilcode.util.LogUtils
 
 /**
  * @Description
@@ -44,12 +42,11 @@ object UserManager {
   }
 
   //更新Token
-  fun setToken(token: String, url: String = ApiUrl.appBaseUrl) {
+  fun setToken(token: String) {
     if (token.isNotBlank() && token != this.token) {
-      LogUtils.e("Khaos:更新Token为:${token}")
+     "更新Token为:${token}".logE()
       this.token = token
       MMkvUtils.setToken(token)
-      RxCookie.setCookie(token, url)
     }
   }
   //</editor-fold>

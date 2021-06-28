@@ -2,8 +2,8 @@ package cc.ab.base.utils
 
 import android.text.InputFilter
 import android.widget.EditText
+import cc.ab.base.ext.logE
 import cc.ab.base.ext.toast
-import com.blankj.utilcode.util.LogUtils
 
 /**
  *description: 通用的输入限制工具类.
@@ -38,15 +38,15 @@ object CcInputHelper {
       startBanWordsList = mutableListOf("\n", " "),
       startBanWordsCallBack = {
         if (it == "\n") {
-          LogUtils.e("AimyFunInputHelper 开头禁止输入换行")
+          "CcInputHelper 开头禁止输入换行".logE()
         } else if (it == " ") {
-          LogUtils.e("AimyFunInputHelper 开头禁止输入空格")
+          "CcInputHelper 开头禁止输入空格".logE()
         }
       },
       maxCharMap = mapOf('\n' to maxEnter),
       maxCharCallBack = { char, num ->
         if (char == '\n' && num > 0) {
-          editText.context.toast("换行超出限制")
+          "换行超出限制".toast()
         }
       },
       inputLengthCallBack = inputLengthCallBack
@@ -66,20 +66,20 @@ object CcInputHelper {
       editText = editText,
       maxCount = maxCount,
       maxCountCallback = {
-        editText.context.toast("字数超出限制")
+        "字数超出限制".toast()
       },
       startBanWordsList = mutableListOf("\n", " "),
       startBanWordsCallBack = {
         if (it == "\n") {
-          LogUtils.e("AimyFunInputHelper 开头禁止输入换行")
+          "CcInputHelper 开头禁止输入换行".logE()
         } else if (it == " ") {
-          LogUtils.e("AimyFunInputHelper 开头禁止输入空格")
+          "CcInputHelper 开头禁止输入空格".logE()
         }
       },
       maxCharMap = mapOf('\n' to maxEnter),
       maxCharCallBack = { char, num ->
         if (char == '\n' && num > 0) {
-          editText.context.toast("换行超出限制")
+          "换行超出限制".toast()
         }
       },
       inputCountCallBack = inputCountCallBack
@@ -105,11 +105,11 @@ object CcInputHelper {
     editText: EditText,
     maxLength: Int = -1,
     maxLengthCallback: (() -> Unit)? = {
-      editText.context.toast("字数超出限制")
+      "字数超出限制".toast()
     },
     maxCount: Int = -1,
     maxCountCallback: (() -> Unit)? = {
-      editText.context.toast("字数超出限制")
+      "字数超出限制".toast()
     },
     isCenterCopyClipMax: Boolean = false,
     banWordsList: List<String>? = null,
