@@ -24,7 +24,7 @@ object PermissionUtils {
   @SuppressLint("MissingPermission")
   @Synchronized
   fun hasSDPermission(): Boolean {
-    val parent = File(PathUtils.getExternalDownloadsPath())
+    val parent = File(PathUtils.getExternalDownloadsPath())//测试在小米手机上永久拒绝权限后，手动打开，通过XXpermission判断是有权限的，但是共享目录无法访问
     val file = File(parent, "Khaos_TEST.txt")
     return try {
       if (!parent.exists()) parent.mkdirs()
