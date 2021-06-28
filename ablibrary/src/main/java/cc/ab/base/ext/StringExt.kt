@@ -127,3 +127,8 @@ fun String?.findBySymbols(start: String = "(", end: String = ")"): String {
   val matcher = Pattern.compile("(?<=\\" + start + ")(\\S+)(?=\\" + end + ")").matcher(this)
   return if (matcher.find()) matcher.group() else ""
 }
+
+//多空格替换 "AA   BB  CC"->"AA-BB-CC"
+fun String?.replaceSpace(replacement: String = "-"): String {
+  return this?.trim()?.replace("\\s+".toRegex(), replacement) ?: ""
+}
