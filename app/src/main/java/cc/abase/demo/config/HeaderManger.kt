@@ -1,6 +1,5 @@
 package cc.abase.demo.config
 
-import cc.abase.demo.constants.api.GankUrls
 import cc.abase.demo.constants.api.WanUrls
 import cc.abase.demo.utils.MMkvUtils
 import com.blankj.utilcode.util.AppUtils
@@ -34,12 +33,11 @@ object HeaderManger {
     return if (token.isNullOrBlank()) null else Pair("Cookie", token)
   }
 
-  //不需要Token的接口
+  //不需要Token的接口(只针对需要Token的Host)
   val noTokenUrls = listOf(
-      WanUrls.User.LOGIN,
-      WanUrls.User.REGISTER,
-      WanUrls.Home.BANNER,
-      WanUrls.Home.ARTICLE,
-      GankUrls.ANDROID,
+    WanUrls.User.LOGIN,
+    WanUrls.User.REGISTER,
+    WanUrls.Home.BANNER,
+    WanUrls.Home.ARTICLE,
   )
 }
