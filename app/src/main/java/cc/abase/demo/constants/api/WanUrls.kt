@@ -7,6 +7,8 @@ package cc.abase.demo.constants.api
  * @date: 2019/10/9 21:31
  */
 object WanUrls {
+  const val HOST = "www.wanandroid.com" //WanAndroid的Host
+
   object User {
     //登录
     val LOGIN get() = "${ApiUrl.appBaseUrl}user/login" //POST：username,password
