@@ -113,16 +113,16 @@ class WebActivity : CommBindTitleActivity<ActivityWebBinding>() {
     webView.overScrollMode = View.OVER_SCROLL_NEVER
     webView.scrollBarStyle = View.SCROLLBARS_INSIDE_INSET
     agentBuilder = AgentWeb.with(this)
-        .setAgentWebParent(viewBinding.root, ViewGroup.LayoutParams(-1, -1)) //添加到父容器
-        .useDefaultIndicator(ColorUtils.getColor(R.color.colorPrimary)) //设置进度条颜色
-        //.setWebViewClient(getWebViewClient())//监听结束，适配宽度
-        .setWebViewClient(getWebViewClientSSL()) //SSL
-        .setWebChromeClient(webChromeClient) //监听标题
-        .setWebView(webView) //真正的webview
-        .setMainFrameErrorView(R.layout.agentweb_error_page, -1) //失败的布局
-        .setSecurityType(AgentWeb.SecurityType.STRICT_CHECK)
-        .setOpenOtherPageWays(DefaultWebClient.OpenOtherPageWays.ASK) //打开其他应用时，弹窗咨询用户是否前往其他应用
-        .interceptUnkownUrl() //拦截找不到相关页面的Scheme
+      .setAgentWebParent(viewBinding.root, ViewGroup.LayoutParams(-1, -1)) //添加到父容器
+      .useDefaultIndicator(ColorUtils.getColor(R.color.colorPrimary)) //设置进度条颜色
+      //.setWebViewClient(getWebViewClient())//监听结束，适配宽度
+      .setWebViewClient(getWebViewClientSSL()) //SSL
+      .setWebChromeClient(webChromeClient) //监听标题
+      .setWebView(webView) //真正的webview
+      .setMainFrameErrorView(R.layout.agentweb_error_page, -1) //失败的布局
+      .setSecurityType(AgentWeb.SecurityType.STRICT_CHECK)
+      .setOpenOtherPageWays(DefaultWebClient.OpenOtherPageWays.ASK) //打开其他应用时，弹窗咨询用户是否前往其他应用
+      .interceptUnkownUrl() //拦截找不到相关页面的Scheme
     //给WebView添加Header
     val headers = HeaderManger.getStaticHeaders()
     agentBuilder?.additionalHttpHeader(webUrl, headers)
@@ -232,6 +232,15 @@ class WebActivity : CommBindTitleActivity<ActivityWebBinding>() {
         }
         return super.shouldOverrideUrlLoading(view, url)
       }
+
+      override fun onReceivedError(view: WebView?, request: WebResourceRequest?, error: WebResourceError?) {
+        super.onReceivedError(view, request, error)
+        error?.let { e ->
+          if (e.errorCode == 330 && e.description.toString().uppercase().contains("ERR_CONTENT_DECODING_FAILED")) {
+            "Android WebView暂不支持Br压缩方式，请联系H5相关人员".toast()
+          }
+        }
+      }
     }
   }
   //</editor-fold>
@@ -240,17 +249,17 @@ class WebActivity : CommBindTitleActivity<ActivityWebBinding>() {
   private fun go2SelMedia(chooseMode: Int) {
     //https://github.com/LuckSiege/PictureSelector/wiki/PictureSelector-Api%E8%AF%B4%E6%98%8E
     PictureSelector.create(this)
-        .openGallery(chooseMode)
-        .imageEngine(ImageEngine())
-        .isGif(false)
-        .isCamera(false)
-        .isEnableCrop(true)
-        .isPageStrategy(true, PictureConfig.MAX_PAGE_SIZE, true) //过滤掉已损坏的
-        .maxSelectNum(1)
-        .queryMaxFileSize(if (chooseMode == PictureMimeType.ofImage()) 5f else 500f)
-        .isPreviewVideo(true)
-        .setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
-        .forResult(PictureConfig.CHOOSE_REQUEST)
+      .openGallery(chooseMode)
+      .imageEngine(ImageEngine())
+      .isGif(false)
+      .isCamera(false)
+      .isEnableCrop(true)
+      .isPageStrategy(true, PictureConfig.MAX_PAGE_SIZE, true) //过滤掉已损坏的
+      .maxSelectNum(1)
+      .queryMaxFileSize(if (chooseMode == PictureMimeType.ofImage()) 5f else 500f)
+      .isPreviewVideo(true)
+      .setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
+      .forResult(PictureConfig.CHOOSE_REQUEST)
   }
   //</editor-fold>
 
