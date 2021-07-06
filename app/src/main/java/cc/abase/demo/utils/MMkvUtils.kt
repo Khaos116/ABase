@@ -44,6 +44,19 @@ object MMkvUtils {
   fun setNeedGuide(need: Boolean = true) {
     mMMKVDefault?.encode(GUIDE_SPLASH, need)
   }
+  //</editor-fold>
+
+  //<editor-fold defaultstate="collapsed" desc="夜间模式">
+  private const val DARK_MODE = "KKMV_KEY_DARK_MODE"
+  private var isDarkMode: Boolean? = null
+  fun getDarkMode(): Boolean {
+    return isDarkMode ?: mMMKVDefault?.decodeBool(DARK_MODE, false)?.also { b -> isDarkMode = b } ?: false
+  }
+
+  fun setDarkMode(dark: Boolean = true) {
+    isDarkMode = dark
+    mMMKVDefault?.encode(DARK_MODE, dark)
+  }
   //</editor-fold>.
 
   //<editor-fold defaultstate="collapsed" desc="UID">
