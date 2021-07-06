@@ -20,7 +20,7 @@ import com.luck.picture.lib.entity.LocalMedia
  * Date:2020/8/12
  * Time:20:48
  */
-class GankFragment private constructor() : CommBindFragment<FragmentGankBinding>() {
+class GankFragment : CommBindFragment<FragmentGankBinding>() {
   //<editor-fold defaultstate="collapsed" desc="外部获取实例">
   companion object {
     fun newInstance(): GankFragment {
@@ -51,17 +51,17 @@ class GankFragment private constructor() : CommBindFragment<FragmentGankBinding>
     multiTypeAdapter.register(DividerItem())
     multiTypeAdapter.register(EmptyErrorItem() { mViewModel.refresh() })
     multiTypeAdapter.register(GankParentItem(
-        onImgClick = { _, p, _, list ->
-          val tempList = mutableListOf<LocalMedia>()
-          list.forEach { s -> tempList.add(LocalMedia().also { it.path = s }) }
-          //https://github.com/LuckSiege/PictureSelector/wiki/PictureSelector-Api%E8%AF%B4%E6%98%8E
-          //开始预览
-          PictureSelector.create(this)
-              .themeStyle(R.style.picture_default_style)
-              .isNotPreviewDownload(true)
-              .imageEngine(ImageEngine())
-              .openExternalPreview(p, tempList)
-        }
+      onImgClick = { _, p, _, list ->
+        val tempList = mutableListOf<LocalMedia>()
+        list.forEach { s -> tempList.add(LocalMedia().also { it.path = s }) }
+        //https://github.com/LuckSiege/PictureSelector/wiki/PictureSelector-Api%E8%AF%B4%E6%98%8E
+        //开始预览
+        PictureSelector.create(this)
+          .themeStyle(R.style.picture_default_style)
+          .isNotPreviewDownload(true)
+          .imageEngine(ImageEngine())
+          .openExternalPreview(p, tempList)
+      }
     ).also { it.onItemClick = { bean -> bean.url?.let { u -> WebActivity.startActivity(mActivity, u) } } })
     //监听加载结果
     mViewModel.androidLiveData.observe(this) {

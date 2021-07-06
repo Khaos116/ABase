@@ -3,7 +3,7 @@ package cc.abase.demo.component.main.fragment
 import android.app.Activity
 import android.content.Intent
 import android.graphics.Color
-import android.view.*
+import android.view.Gravity
 import androidx.lifecycle.rxLifeScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import cc.ab.base.ext.*
@@ -51,7 +51,7 @@ import java.util.Locale
  * @author: Khaos
  * @date: 2019/9/30 18:13
  */
-class MineFragment private constructor() : CommBindFragment<FragmentMineBinding>() {
+class MineFragment : CommBindFragment<FragmentMineBinding>() {
   //<editor-fold defaultstate="collapsed" desc="外部获取实例">
   companion object {
     fun newInstance() = MineFragment()
@@ -74,27 +74,27 @@ class MineFragment private constructor() : CommBindFragment<FragmentMineBinding>
 
   //菜单列表
   private val menuList = mutableListOf(
-      Pair(R.string.chat_title.xmlToString(), ChatActivity::class.java),
-      Pair(R.string.video_compress_title.xmlToString(), VideoCompressActivity::class.java),
-      Pair(R.string.update_app.xmlToString(), CcUpdateService::class.java),
-      Pair(R.string.title_sticky.xmlToString(), StickyActivity::class.java),
-      Pair(R.string.title_sticky2.xmlToString(), StickyActivity2::class.java),
-      Pair(R.string.title_drag.xmlToString(), DragActivity::class.java),
-      Pair(R.string.title_spedit.xmlToString(), SpeditActivity::class.java),
-      Pair(R.string.coordinator_refresh.xmlToString(), CoordinatorActivity::class.java),
-      Pair(R.string.expandable.xmlToString(), ExpandActivity::class.java),
-      Pair(R.string.title_play_list.xmlToString(), PlayListActivity::class.java),
-      Pair(R.string.title_play_pager.xmlToString(), VerticalPagerActivity::class.java),
-      Pair(R.string.title_vertical_page.xmlToString(), RecyclerPagerActivity::class.java),
-      Pair(R.string.title_decoration.xmlToString(), DecorationActivity::class.java),
-      Pair(R.string.title_flexbox.xmlToString(), FlexboxActivity::class.java),
-      Pair(R.string.title_marquee.xmlToString(), MarqueeActivity::class.java),
-      Pair(R.string.title_blur.xmlToString(), BlurActivity::class.java),
-      Pair(R.string.title_zxing.xmlToString(), ZxingActivity::class.java),
-      Pair(R.string.title_pattern_locker.xmlToString(), PatternLockerActivity::class.java),
-      Pair(R.string.title_count.xmlToString(), CountActivity::class.java),
-      Pair(R.string.title_bottom_sheet.xmlToString(), BottomSheetActivity::class.java),
-      Pair(R.string.title_test.xmlToString(), TestActivity::class.java),
+    Pair(R.string.chat_title.xmlToString(), ChatActivity::class.java),
+    Pair(R.string.video_compress_title.xmlToString(), VideoCompressActivity::class.java),
+    Pair(R.string.update_app.xmlToString(), CcUpdateService::class.java),
+    Pair(R.string.title_sticky.xmlToString(), StickyActivity::class.java),
+    Pair(R.string.title_sticky2.xmlToString(), StickyActivity2::class.java),
+    Pair(R.string.title_drag.xmlToString(), DragActivity::class.java),
+    Pair(R.string.title_spedit.xmlToString(), SpeditActivity::class.java),
+    Pair(R.string.coordinator_refresh.xmlToString(), CoordinatorActivity::class.java),
+    Pair(R.string.expandable.xmlToString(), ExpandActivity::class.java),
+    Pair(R.string.title_play_list.xmlToString(), PlayListActivity::class.java),
+    Pair(R.string.title_play_pager.xmlToString(), VerticalPagerActivity::class.java),
+    Pair(R.string.title_vertical_page.xmlToString(), RecyclerPagerActivity::class.java),
+    Pair(R.string.title_decoration.xmlToString(), DecorationActivity::class.java),
+    Pair(R.string.title_flexbox.xmlToString(), FlexboxActivity::class.java),
+    Pair(R.string.title_marquee.xmlToString(), MarqueeActivity::class.java),
+    Pair(R.string.title_blur.xmlToString(), BlurActivity::class.java),
+    Pair(R.string.title_zxing.xmlToString(), ZxingActivity::class.java),
+    Pair(R.string.title_pattern_locker.xmlToString(), PatternLockerActivity::class.java),
+    Pair(R.string.title_count.xmlToString(), CountActivity::class.java),
+    Pair(R.string.title_bottom_sheet.xmlToString(), BottomSheetActivity::class.java),
+    Pair(R.string.title_test.xmlToString(), TestActivity::class.java),
   )
   //</editor-fold>
 
@@ -113,9 +113,9 @@ class MineFragment private constructor() : CommBindFragment<FragmentMineBinding>
           } else if (second is CcUpdateService) {
             clickCount++
             CcUpdateService.startIntent(
-                path = if (clickCount % 2 == 0) apkUrk else apkUrk2,
-                apk_name = if (clickCount % 2 == 0) "应用变量" else "币安",
-                showNotification = true
+              path = if (clickCount % 2 == 0) apkUrk else apkUrk2,
+              apk_name = if (clickCount % 2 == 0) "应用变量" else "币安",
+              showNotification = true
             )
           }
         }

@@ -1,8 +1,6 @@
 package cc.abase.demo.component.main.fragment
 
 import android.graphics.Color
-import android.view.LayoutInflater
-import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import cc.ab.base.ui.viewmodel.DataState
 import cc.abase.demo.bean.local.EmptyErrorBean
@@ -20,7 +18,7 @@ import cc.abase.demo.sticky.StickyHeaderLinearLayoutManager
  * Date:2020/8/12
  * Time:20:48
  */
-class WanFragment private constructor() : CommBindFragment<FragmentWanBinding>() {
+class WanFragment : CommBindFragment<FragmentWanBinding>() {
 
   //<editor-fold defaultstate="collapsed" desc="外部获取实例">
   companion object {
