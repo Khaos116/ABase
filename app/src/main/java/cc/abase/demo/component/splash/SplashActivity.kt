@@ -103,7 +103,7 @@ class SplashActivity : CommBindActivity<ActivitySplashBinding>() {
         }
       })
       viewBinding.root.addView(lav, ViewGroup.LayoutParams(-1, -1))
-      mJob = GlobalScope.launchError { withContext(Dispatchers.IO) { delay(1000) }.let { mLottieAnimationView?.playAnimation() } }
+      mJob = launchError { withContext(Dispatchers.IO) { delay(1000) }.let { mLottieAnimationView?.playAnimation() } }
     }
   }
   //</editor-fold>
@@ -119,7 +119,7 @@ class SplashActivity : CommBindActivity<ActivitySplashBinding>() {
     if (hasSDPermission) {
       hasSDPermission = PermissionUtils.hasSDPermission()
       if (!hasSDPermission) {
-        mJobSetting = GlobalScope.launchError {
+        mJobSetting = launchError {
           "必须要给予SD卡权限才能使用".toast()
           withContext(Dispatchers.IO) { delay(2000) }.let {
             XXPermissions.startPermissionActivity(mContext, Permission.MANAGE_EXTERNAL_STORAGE)
@@ -140,7 +140,7 @@ class SplashActivity : CommBindActivity<ActivitySplashBinding>() {
 
           override fun onDenied(permissions: MutableList<String>, never: Boolean) {
             if (never && mJobSetting == null) { //打开APP发现被永久拒绝或者点击了永久拒绝
-              mJobSetting = GlobalScope.launchError {
+              mJobSetting = launchError {
                 "必须要给予SD卡权限才能使用".toast()
                 withContext(Dispatchers.IO) { delay(2000) }.let {
                   XXPermissions.startPermissionActivity(mContext, permissions)

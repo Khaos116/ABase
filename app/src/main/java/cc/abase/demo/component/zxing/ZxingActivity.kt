@@ -6,7 +6,6 @@ import android.content.Intent
 import android.content.pm.ActivityInfo
 import android.graphics.BitmapFactory
 import android.util.TypedValue
-import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
@@ -141,7 +140,7 @@ class ZxingActivity : CommBindTitleActivity<ActivityZxingBinding>() {
             ?.let { medias ->
               if (medias.isNotEmpty()) {
                 mJob?.cancel()
-                mJob = GlobalScope.launchError {
+                mJob = launchError {
                   withContext(Dispatchers.IO) {
                     BitmapUtil.getDecodeAbleBitmap(medias.first().realPath)?.let { bit ->
                       // 这个方法因为要做bitmap的变换，所以比较耗时，推荐放到子线程执行
@@ -164,7 +163,7 @@ class ZxingActivity : CommBindTitleActivity<ActivityZxingBinding>() {
 
   //<editor-fold defaultstate="collapsed" desc="展示结果">
   private fun showResult(msg: String) {
-    GlobalScope.launchError {
+    launchError {
       val tv = TextView(mContext)
       tv.setTextColor(R.color.magenta.xmlToColor())
       tv.setTextSize(TypedValue.COMPLEX_UNIT_SP, 15f)

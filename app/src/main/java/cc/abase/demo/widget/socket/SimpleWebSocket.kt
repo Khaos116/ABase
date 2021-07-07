@@ -108,7 +108,7 @@ class SimpleWebSocket {
       mWebSocket?.close(1001, "重连主动关闭连接")
       mWebSocket = null
       mOkHttpClient.dispatcher.cancelAll()
-      mJobRetry = GlobalScope.launchError(context = Dispatchers.IO, handler = { _, e ->
+      mJobRetry = launchError(context = Dispatchers.IO, handler = { _, e ->
         "重试异常URL=$mUrlWebSocket,error=${e.message ?: "null"}".logE()
       }) {
         delay(mTimeRetry)
@@ -130,7 +130,7 @@ class SimpleWebSocket {
 
   //接收消息后通过LiveData回调出去
   private fun dealReceiveMessage(msg: String) {
-    mJobDealMsg = GlobalScope.launchError(Dispatchers.Main) {
+    mJobDealMsg = launchError(Dispatchers.Main) {
       withContext(Dispatchers.IO) { //异步线程进行数据转换
         "WebSocket消息:$msg".logI()
         val temp = mutableListOf<String>()
@@ -154,7 +154,7 @@ class SimpleWebSocket {
   //开始每30秒读取一次消息
   @Synchronized private fun startLoop(delay: Long = 30 * 1000) {
     stopLoop()
-    mJobCountDown = GlobalScope.launchError(handler = { _, _ -> startLoop() }) {
+    mJobCountDown = launchError(handler = { _, _ -> startLoop() }) {
       withContext(Dispatchers.IO) { delay(delay) }.let {
         if (isActive) {
           when {

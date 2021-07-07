@@ -157,7 +157,7 @@ class RecyclerPagerActivity : CommBindTitleActivity<ActivtyVerticalpageBinding>(
   //<editor-fold defaultstate="collapsed" desc="模拟数据获取">
   private fun loadData(time: Long = 1500L, lastId: Long = 0, call: ((list: MutableList<VerticalPageBean>) -> Unit)? = null) {
     if (disposableRequest != null && disposableRequest?.isActive == true) return
-    disposableRequest = GlobalScope.launchError {
+    disposableRequest = launchError {
       withContext(Dispatchers.IO) {
         delay(time)
         val list = mutableListOf<VerticalPageBean>()

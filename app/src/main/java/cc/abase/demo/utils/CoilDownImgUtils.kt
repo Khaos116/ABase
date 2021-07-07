@@ -139,7 +139,7 @@ object CoilDownImgUtils {
       call.invoke(false, true, "", "相册不能访问")
       return
     }
-    GlobalScope.launchError(handler = { _, e -> call.invoke(false, true, "", e.message ?: "下载出错，请重试") }) {
+    launchError(handler = { _, e -> call.invoke(false, true, "", e.message ?: "下载出错，请重试") }) {
       call.invoke(true, false, "", "开始下载")
       withContext(Dispatchers.IO) { delay(500) }.let { //延迟500ms，方便显示loading
         val fileName = TimeUtils.millis2String(System.currentTimeMillis(), "yyyyMMdd_HHmmss") //保存到相册的文件名

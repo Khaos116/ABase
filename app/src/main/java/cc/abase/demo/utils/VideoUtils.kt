@@ -53,9 +53,9 @@ object VideoUtils {
     }
     disposableCompress?.cancel()
     CompressCall.progressCall = { path, progress ->
-      if (originFile.path == path) GlobalScope.launchError(Dispatchers.Main) { pro?.invoke(progress) }
+      if (originFile.path == path) launchError(Dispatchers.Main) { pro?.invoke(progress) }
     }
-    disposableCompress = GlobalScope.launchError(handler = { _, _ ->
+    disposableCompress = launchError(handler = { _, _ ->
       CompressCall.release()
       result?.invoke(false, "压缩失败")
     }) {

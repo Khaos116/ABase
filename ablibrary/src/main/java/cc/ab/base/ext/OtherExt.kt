@@ -84,7 +84,7 @@ fun Color.randomAlpha(): Int {
 
 /**需要明确的一点是，通过 async 启动的协程出现未捕获的异常时会忽略
  * CoroutineExceptionHandler，这与 launch 的设计思路是不同的。*/
-inline fun GlobalScope.launchError(
+inline fun launchError(
   context: CoroutineContext = Dispatchers.Main,
   crossinline handler: (CoroutineContext, Throwable) -> Unit = { _, e -> e.message.logE() },
   start: CoroutineStart = CoroutineStart.DEFAULT,

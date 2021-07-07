@@ -15,7 +15,7 @@ import java.io.File
 object MediaMetadataRetrieverUtils {
   //获取网络视频封面
   fun getNetVideoCover(retriever: MediaMetadataRetriever, cacheFile: File, url: String, call: (bit: Bitmap?) -> Unit) {
-    GlobalScope.launchError(Dispatchers.IO, handler = { _, _ ->
+    launchError(Dispatchers.IO, handler = { _, _ ->
       retriever.release()
       GlobalScope.launch(Dispatchers.Main) { call.invoke(null) }
     }) {

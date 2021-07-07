@@ -17,14 +17,14 @@ import kotlin.coroutines.resumeWithException
 object HostUtils {
   //获取响应最快的host
   fun getFastestHost(callBack: (host: String) -> Unit, vararg hosts: String) {
-    GlobalScope.launchError { select<String> { for (host in hosts) async { pingHost(host) }.onAwait { it } }.let(callBack) }
+    launchError { select<String> { for (host in hosts) async { pingHost(host) }.onAwait { it } }.let(callBack) }
   }
 
   //如果可以ping通则返回当前Host，否则抛出错误，防止拿到不可用的host
   @Throws(Exception::class)
   private suspend fun pingHost(host: String): String {
     return suspendCancellableCoroutine { con ->
-      GlobalScope.launchError(Dispatchers.IO, handler = { _, e -> con.resumeWithException(e) }) {
+      launchError(Dispatchers.IO, handler = { _, e -> con.resumeWithException(e) }) {
         val time = System.currentTimeMillis()
         //val response = RxHttp.get("https://${host}").setCacheMode(CacheMode.ONLY_NETWORK).awaitOkResponse()
         //if (response.isSuccessful) {

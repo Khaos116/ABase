@@ -7,7 +7,6 @@ import cc.abase.demo.rxhttp.repository.OtherRepository
 import com.blankj.utilcode.util.NetworkUtils
 import com.rousetime.android_startup.AndroidStartup
 import com.rousetime.android_startup.Startup
-import kotlinx.coroutines.GlobalScope
 
 /**
  * 由于发现AndroidX的StartUp在三星手机上出现了不会走初始化的情况，所以改为了第三方的StartUp
@@ -52,7 +51,7 @@ class AppLastInit : AndroidStartup<Int>() {
 
   //<editor-fold defaultstate="collapsed" desc="获取外网ip">
   private fun getNetIp() {
-    GlobalScope.launchError {
+    launchError {
       val ipBean = OtherRepository.getNetIp()
       "外网IP=${ipBean.query};地址=${ipBean.country}".logI()
     }

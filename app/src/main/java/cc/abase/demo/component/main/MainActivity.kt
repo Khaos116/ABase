@@ -10,6 +10,8 @@ import android.widget.FrameLayout
 import androidx.annotation.IntRange
 import androidx.lifecycle.Lifecycle
 import cc.ab.base.ext.*
+import cc.ab.base.utils.ping.*
+import cc.ab.base.utils.ping.Ping.PingListener
 import cc.ab.base.widget.DragFloatView
 import cc.abase.demo.R
 import cc.abase.demo.component.comm.CommBindActivity
@@ -17,8 +19,8 @@ import cc.abase.demo.component.comm.CommBindFragment
 import cc.abase.demo.component.main.fragment.*
 import cc.abase.demo.databinding.ActivityMainBinding
 import cc.abase.demo.widget.dialog.commAlertDialog
-import com.blankj.utilcode.util.ActivityUtils
-import com.blankj.utilcode.util.FragmentUtils
+import com.blankj.utilcode.constant.TimeConstants
+import com.blankj.utilcode.util.*
 import com.hjq.permissions.*
 
 class MainActivity : CommBindActivity<ActivityMainBinding>() {
@@ -135,6 +137,30 @@ class MainActivity : CommBindActivity<ActivityMainBinding>() {
     }
     //关闭其他所有页面
     ActivityUtils.finishOtherActivities(javaClass)
+    //测试ping的速度
+    if (NetworkUtils.isConnected()) {
+      Ping.onAddress("www.baidu.com")
+        .setTimeOutMillis(1 * TimeConstants.SEC)
+        .setTimes(5)
+        .doPing(object : PingListener {
+          override fun onResult(pingResult: PingResult) {
+            if (pingResult.isReachable) {
+              "Ping耗时=${String.format("%.2f ms", pingResult.getTimeTaken())}".logE()
+            } else {
+              "Ping失败:${pingResult.error}".logE()
+            }
+          }
+
+          override fun onFinished(pingStats: PingStats) {
+            "Ping的次数=${pingStats.noPings};丢包=${pingStats.packetsLost}".logE()
+            "Ping完成${(String.format("Min/Avg/Max Time: %.2f/%.2f/%.2f ms", pingStats.minTimeTaken, pingStats.averageTimeTaken, pingStats.maxTimeTaken))}".logE()
+          }
+
+          override fun onError(e: Exception) {
+            "Ping异常:${e.message}".logE()
+          }
+        })
+    }
   }
   //</editor-fold>
 
