@@ -11,7 +11,6 @@ import androidx.annotation.IntRange
 import androidx.lifecycle.Lifecycle
 import cc.ab.base.ext.*
 import cc.ab.base.utils.ping.*
-import cc.ab.base.utils.ping.Ping.PingListener
 import cc.ab.base.widget.DragFloatView
 import cc.abase.demo.R
 import cc.abase.demo.component.comm.CommBindActivity
@@ -40,6 +39,9 @@ class MainActivity : CommBindActivity<ActivityMainBinding>() {
   //子列表合集，方便外部调用选中那个
   private val fragmentList = mutableListOf<CommBindFragment<*>>()
   private var floatView: DragFloatView? = null
+
+  //ping
+  private var mSocketPing: PingBySocket = PingBySocket()
   //</editor-fold>
 
   //<editor-fold defaultstate="collapsed" desc="初始化View">
@@ -137,27 +139,63 @@ class MainActivity : CommBindActivity<ActivityMainBinding>() {
     }
     //关闭其他所有页面
     ActivityUtils.finishOtherActivities(javaClass)
+    pingTest()
+  }
+  //</editor-fold>
+
+  //<editor-fold defaultstate="collapsed" desc="测试ping">
+  private fun pingTest() {
     //测试ping的速度
     if (NetworkUtils.isConnected()) {
-      Ping.onAddress("www.baidu.com")
+      val sb1 = StringBuilder("\n")
+      val sb2 = StringBuilder("\n")
+      val host = "www.baidu.com"
+      Ping.onAddress(host)
         .setTimeOutMillis(1 * TimeConstants.SEC)
         .setTimes(5)
-        .doPing(object : PingListener {
+        .doPing(object : Ping.PingListener {
           override fun onResult(pingResult: PingResult) {
             if (pingResult.isReachable) {
-              "Ping耗时=${String.format("%.2f ms", pingResult.getTimeTaken())}".logE()
+              sb1.append("Ping耗时=${String.format("%.0f ms", pingResult.getTimeTaken())}").append("\n")
             } else {
-              "Ping失败:${pingResult.error}".logE()
+              sb1.append("Ping失败:${pingResult.error}").append("\n")
             }
           }
 
           override fun onFinished(pingStats: PingStats) {
-            "Ping的次数=${pingStats.noPings};丢包=${pingStats.packetsLost}".logE()
-            "Ping完成${(String.format("Min/Avg/Max Time: %.2f/%.2f/%.2f ms", pingStats.minTimeTaken, pingStats.averageTimeTaken, pingStats.maxTimeTaken))}".logE()
+            sb1.append("Ping的次数=${pingStats.noPings};丢包=${pingStats.packetsLost}").append("\n")
+            sb1.append(
+              "Ping完成${String.format("Min/Avg/Max Time: %.0f/%.0f/%.0f ms", pingStats.minTimeTaken, pingStats.averageTimeTaken, pingStats.maxTimeTaken)}"
+            ).append("\n")
+            sb1.toString().logE()
           }
 
           override fun onError(e: Exception) {
             "Ping异常:${e.message}".logE()
+          }
+        })
+      mSocketPing.onAddress(host)
+        .setTimeOutMillis(1 * TimeConstants.SEC)
+        .setTimes(5)
+        .doPing(object : PingBySocket.PingListener {
+          override fun onResult(pingResult: PingResult) {
+            if (pingResult.isReachable) {
+              sb2.append("SocketPing耗时=${String.format("%.0f ms", pingResult.getTimeTaken())}").append("\n")
+            } else {
+              sb2.append("SocketPing失败:${pingResult.error}").append("\n")
+            }
+          }
+
+          override fun onFinished(pingStats: PingStats) {
+            sb2.append("SocketPing的次数=${pingStats.noPings};丢包=${pingStats.packetsLost}").append("\n")
+            sb2.append(
+              "SocketPing完成${String.format("Min/Avg/Max Time: %.0f/%.0f/%.0f ms", pingStats.minTimeTaken, pingStats.averageTimeTaken, pingStats.maxTimeTaken)}"
+            ).append("\n")
+            sb2.toString().logE()
+          }
+
+          override fun onError(e: Exception) {
+            "SocketPing异常:${e.message}".logE()
           }
         })
     }
@@ -246,11 +284,13 @@ class MainActivity : CommBindActivity<ActivityMainBinding>() {
   //<editor-fold defaultstate="collapsed" desc="生命周期">
   override fun finish() {
     super.finish()
+    mSocketPing.release()
     floatView?.release()
     floatView = null
   }
 
   override fun onDestroy() {
+    mSocketPing.release()
     floatView?.release()
     floatView = null
     super.onDestroy()
