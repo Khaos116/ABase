@@ -134,8 +134,8 @@ class PingBySocket {
   }
 
   interface PingListener {
-    fun onResult(pingResult: PingResult?)
-    fun onFinished(pingStats: PingStats?)
-    fun onError(e: Exception?)
+    fun onResult(pingResult: PingResult)
+    fun onFinished(pingStats: PingStats)
+    fun onError(e: Exception)
   }
 }
