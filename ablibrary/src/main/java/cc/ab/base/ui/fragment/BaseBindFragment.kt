@@ -50,7 +50,7 @@ abstract class BaseBindFragment<T : ViewBinding> : Fragment() {
 
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
     super.onViewCreated(view, savedInstanceState)
-    if (_binding == null) mJobLoading = GlobalScope.launch(context = Dispatchers.Main + CoroutineExceptionHandler { _, _ -> }) {
+    if (_binding == null) mJobLoading = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate).launch(context = Dispatchers.Main + CoroutineExceptionHandler { _, _ -> }) {
       withContext(Dispatchers.IO) { initBinding() }.let {
         mRootLayout?.removeAllViews()
         mRootLayout?.addView(viewBinding.root, ViewGroup.LayoutParams(-1, -1))

@@ -232,7 +232,7 @@ object PressEffectHelper {
 
   private fun longClick(view: View) {
     cancelLongClick()
-    longPressDisposable = GlobalScope.launch(Dispatchers.Main) {
+    longPressDisposable = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate).launch(Dispatchers.Main) {
       delay(LONGPRESS_TIME)
       if (isActive) {
         isLongClick = true

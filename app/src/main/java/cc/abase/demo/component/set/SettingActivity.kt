@@ -30,7 +30,7 @@ class SettingActivity : CommBindTitleActivity<ActivitySettingBinding>() {
     viewBinding.settingLogout.pressEffectAlpha()
     viewBinding.setCacheLayout.click {
       if (mJob2?.isCompleted == false) return@click
-      mJob2 = GlobalScope.launch(Dispatchers.Main) {
+      mJob2 = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate).launch(Dispatchers.Main) {
         showActionLoading("缓存清理中")
         val size = CacheUtils.clearCache()
         delay(1000)
@@ -47,7 +47,7 @@ class SettingActivity : CommBindTitleActivity<ActivitySettingBinding>() {
     viewBinding.setVersionTv.text = AppUtils.getAppVersionName()
     viewBinding.setVersionLayout.setOnClickListener { if (++clickCount == 10) viewBinding.settingAppInfo.text = AppInfoUtils.getAppInfo() }
     //读取缓存大小
-    mJob1 = GlobalScope.launch(Dispatchers.Main) {
+    mJob1 = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate).launch(Dispatchers.Main) {
       val size = CacheUtils.getCacheSize()
       if (isActive) viewBinding.setCacheSize.text = size
     }

@@ -17,13 +17,13 @@ object MediaMetadataRetrieverUtils {
   fun getNetVideoCover(retriever: MediaMetadataRetriever, cacheFile: File, url: String, call: (bit: Bitmap?) -> Unit) {
     launchError(Dispatchers.IO, handler = { _, _ ->
       retriever.release()
-      GlobalScope.launch(Dispatchers.Main) { call.invoke(null) }
+      CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate).launch(Dispatchers.Main) { call.invoke(null) }
     }) {
       retriever.setDataSource(url, HashMap())
       //以微秒为单位
       val bit = retriever.getFrameAtTime(0, MediaMetadataRetriever.OPTION_CLOSEST_SYNC)
       retriever.release()
-      GlobalScope.launch(Dispatchers.Main) { call.invoke(bit) }
+      CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate).launch(Dispatchers.Main) { call.invoke(bit) }
       //缓存封面
       bit?.let { b -> ImageUtils.save(b, cacheFile, Bitmap.CompressFormat.PNG) }
     }

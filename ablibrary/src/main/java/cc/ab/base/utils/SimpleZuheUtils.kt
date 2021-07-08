@@ -15,7 +15,7 @@ object SimpleZuheUtils {
    * https://zhenbianshu.github.io/2019/01/charming_alg_permutation_and_combination.html
    */
   inline fun <reified T> combinationAll(list: List<T>, crossinline callBack: (List<List<T>>) -> Unit) {
-    GlobalScope.launch(context = Dispatchers.Main) {
+    CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate).launch(context = Dispatchers.Main) {
       withContext(Dispatchers.IO) {
         val result: MutableList<List<T>> = mutableListOf()
         var i = 1
@@ -34,7 +34,7 @@ object SimpleZuheUtils {
 
   fun combinationOuZ(list: List<Double>, price: Double = 1.0, callBack: (List<Pair<String, Double>>) -> Unit) {
     combinationAll(list) { lParent ->
-      GlobalScope.launch(context = Dispatchers.Main) {
+      CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate).launch(context = Dispatchers.Main) {
         withContext(Dispatchers.IO) {
           val size = list.size
           val result = mutableListOf<Pair<String, Double>>()
@@ -52,7 +52,7 @@ object SimpleZuheUtils {
 
   fun combinationXiangG(list: List<Double>, price: Double = 1.0, callBack: (List<Pair<String, Double>>) -> Unit) {
     combinationAll(list) { lParent ->
-      GlobalScope.launch(context = Dispatchers.Main) {
+      CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate).launch(context = Dispatchers.Main) {
         withContext(Dispatchers.IO) {
           val size = list.size
           val result = mutableListOf<Pair<String, Double>>()

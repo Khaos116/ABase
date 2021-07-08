@@ -43,7 +43,7 @@ object NetSpeedUtils : LifecycleObserver {
     mTv = WeakReference(tv)
     mReceive = receive
     mJob?.cancel()
-    mJob = GlobalScope.launch(Dispatchers.Main) {
+    mJob = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate).launch(Dispatchers.Main) {
       getNetSpeed()
       while (isActive) {
         delay(1000)

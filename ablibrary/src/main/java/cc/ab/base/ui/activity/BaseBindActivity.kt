@@ -45,7 +45,7 @@ abstract class BaseBindActivity<T : ViewBinding> : AppCompatActivity() {
     setContentView(baseBinding.root)
     baseBinding.baseStatusView.visibleGone(fillStatus())
     //异步加载布局，可以实现快速打开页面
-    mJobLoading = GlobalScope.launch(context = Dispatchers.Main + CoroutineExceptionHandler { _, e -> e.logE() }) {
+    mJobLoading = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate).launch(context = Dispatchers.Main + CoroutineExceptionHandler { _, e -> e.logE() }) {
       withContext(Dispatchers.IO) { initBinding() }.let {
         baseBinding.root.addView(viewBinding.root, ViewGroup.LayoutParams(-1, -1))
         initView()

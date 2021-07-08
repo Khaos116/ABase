@@ -2,7 +2,6 @@ package cc.abase.demo.component.marquee
 
 import android.content.Context
 import android.content.Intent
-import android.view.LayoutInflater
 import cc.ab.base.ext.toast
 import cc.abase.demo.R
 import cc.abase.demo.component.comm.CommBindTitleActivity
@@ -41,7 +40,7 @@ class MarqueeActivity : CommBindTitleActivity<ActivityMarqueeBinding>() {
   private fun startCountdown() {
     launchJob?.cancel()
     //使用协程进行倒计时
-    launchJob = GlobalScope.launch(Dispatchers.Main) {
+    launchJob = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate).launch(Dispatchers.Main) {
       if (isActive) {
         for (i in 60 downTo 1) {
           viewBinding.marqueeTime.text = i.toString()
