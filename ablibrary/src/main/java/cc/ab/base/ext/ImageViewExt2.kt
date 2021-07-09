@@ -2,6 +2,7 @@ package cc.ab.base.ext
 
 import android.media.MediaMetadataRetriever
 import android.widget.ImageView
+import androidx.annotation.DrawableRes
 import androidx.annotation.FloatRange
 import cc.ab.base.R
 import cc.ab.base.config.PathConfig
@@ -59,8 +60,10 @@ fun ImageView.loadImgHorizontal(url: String?, holderRatio: Float = 720f / 400, h
 }
 
 //横向高斯模糊+黑白图片加载
-fun ImageView.loadImgHorizontalBlur(url: String?, holderRatio: Float = 720f / 400, hasHolder: Boolean = true,
-    @FloatRange(from = 0.0, to = 25.0) blurRadius: Float = 0f, blackWhite: Boolean = false) {
+fun ImageView.loadImgHorizontalBlur(
+  url: String?, holderRatio: Float = 720f / 400, hasHolder: Boolean = true,
+  @FloatRange(from = 0.0, to = 25.0) blurRadius: Float = 0f, blackWhite: Boolean = false
+) {
   if (url.isNullOrBlank()) {
     this.clearLoad()
     if (hasHolder) this.load(PlaceHolderUtils.getErrorHolder(holderRatio))
@@ -90,14 +93,39 @@ fun ImageView.loadImgHorizontalBlur(url: String?, holderRatio: Float = 720f / 40
   }
 }
 
+//加载高斯模糊资源
+fun ImageView.loadImgBlurRes(
+  @DrawableRes resId: Int, holderRatio: Float = 720f / 400, hasHolder: Boolean = true,
+  @FloatRange(from = 0.0, to = 25.0) blurRadius: Float = 0f, blackWhite: Boolean = false
+) {
+  val build = fun ImageRequest.Builder.() {
+    if (hasHolder) {
+      crossfade(duration)
+      placeholder(PlaceHolderUtils.getLoadingHolder(holderRatio))
+      error(PlaceHolderUtils.getErrorHolder(holderRatio))
+    } else {
+      crossfade(false)
+    }
+    if (blurRadius > 0 || blackWhite) {
+      val list = mutableListOf<Transformation>()
+      if (blurRadius > 0) list.add(BlurTransformation(context, blurRadius))
+      if (blackWhite) list.add(GrayscaleTransformation())
+      transformations(list)
+    }
+  }
+  this.load(resId, builder = build)
+}
+
 //竖向图片加载
 fun ImageView.loadImgVertical(url: String?, holderRatio: Float = 720f / 1280, hasHolder: Boolean = true) {
   this.loadImgVerticalBlur(url, holderRatio, hasHolder)
 }
 
 //竖向高斯模糊+黑白图片加载
-fun ImageView.loadImgVerticalBlur(url: String?, holderRatio: Float = 720f / 1280, hasHolder: Boolean = true,
-    @FloatRange(from = 0.0, to = 25.0) blurRadius: Float = 0f, blackWhite: Boolean = false) {
+fun ImageView.loadImgVerticalBlur(
+  url: String?, holderRatio: Float = 720f / 1280, hasHolder: Boolean = true,
+  @FloatRange(from = 0.0, to = 25.0) blurRadius: Float = 0f, blackWhite: Boolean = false
+) {
   if (url.isNullOrBlank()) {
     this.clearLoad()
     if (hasHolder) this.load(PlaceHolderUtils.getErrorHolder(holderRatio))
@@ -156,17 +184,17 @@ fun ImageView.loadCacheFileFullScreen(url: String?, holderRatio: Float = 720f / 
         this.load(f, context.imageLoader)
       } else { //文件不存在，进行下载
         Utils.getApp().imageLoader.enqueue(
-            ImageRequest.Builder(Utils.getApp()).data(u).target(
-                onStart = {
-                  "缓存图片开始下载".logE()
-                },
-                onSuccess = {
-                  "缓存图片下载成功".logE()
-                },
-                onError = {
-                  "缓存图片下载失败:${u}".logE()
-                }
-            ).build()
+          ImageRequest.Builder(Utils.getApp()).data(u).target(
+            onStart = {
+              "缓存图片开始下载".logE()
+            },
+            onSuccess = {
+              "缓存图片下载成功".logE()
+            },
+            onError = {
+              "缓存图片下载失败:${u}".logE()
+            }
+          ).build()
         )
       }
     }
