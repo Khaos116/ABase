@@ -1,37 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <declare-styleable name="ExoVideoView">
-        <attr name="corner_radius" />
-    </declare-styleable>
-    <declare-styleable name="GeneralRoundImageView">
-        <attr name="corner_radius" />
-    </declare-styleable>
-    <string-array name="a_z">
-        <item>\u0041</item>
-        <item>\u0042</item>
-        <item>\u0043</item>
-        <item>\u0044</item>
-        <item>\u0045</item>
-        <item>\u0046</item>
-        <item>\u0047</item>
-        <item>\u0048</item>
-        <item>\u0049</item>
-        <item>\u004a</item>
-        <item>\u004b</item>
-        <item>\u004c</item>
-        <item>\u004d</item>
-        <item>\u004e</item>
-        <item>\u004f</item>
-        <item>\u0050</item>
-        <item>\u0051</item>
-        <item>\u0052</item>
-        <item>\u0053</item>
-        <item>\u0054</item>
-        <item>\u0055</item>
-        <item>\u0056</item>
-        <item>\u0057</item>
-        <item>\u0058</item>
-        <item>\u0059</item>
-        <item>\u005a</item>
-    </string-array>
+  <declare-styleable name="ExoVideoView">
+    <attr name="corner_radius"/>
+  </declare-styleable>
+  <declare-styleable name="GeneralRoundImageView">
+    <attr name="corner_radius"/>
+  </declare-styleable>
+  <string-array name="a_z">
+    <item>\u0041</item>
+    <item>\u0042</item>
+    <item>\u0043</item>
+    <item>\u0044</item>
+    <item>\u0045</item>
+    <item>\u0046</item>
+    <item>\u0047</item>
+    <item>\u0048</item>
+    <item>\u0049</item>
+    <item>\u004a</item>
+    <item>\u004b</item>
+    <item>\u004c</item>
+    <item>\u004d</item>
+    <item>\u004e</item>
+    <item>\u004f</item>
+    <item>\u0050</item>
+    <item>\u0051</item>
+    <item>\u0052</item>
+    <item>\u0053</item>
+    <item>\u0054</item>
+    <item>\u0055</item>
+    <item>\u0056</item>
+    <item>\u0057</item>
+    <item>\u0058</item>
+    <item>\u0059</item>
+    <item>\u005a</item>
+  </string-array>
+
+  <array name="default_colors">
+    <item>@color/purple</item>
+    <item>@color/red</item>
+    <item>@color/green</item>
+    <item>@color/blue</item>
+  </array>
 </resources>

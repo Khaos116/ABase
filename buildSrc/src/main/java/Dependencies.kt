@@ -192,6 +192,9 @@ object Deps {
 
   //万能阴影布局 https://github.com/lihangleo2/ShadowLayout
   const val shadow_layout = "com.github.lihangleo2:ShadowLayout:3.2.0"
+
+  //四角颜色的渐变背景  https://github.com/GIGAMOLE/QuatroGrade
+  const val quatroGrade = "com.github.GIGAMOLE:QuatroGrade:1.0.0"
   //</editor-fold>
 
   //<editor-fold defaultstate="collapsed" desc="其他">

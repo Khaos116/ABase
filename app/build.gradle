@@ -258,4 +258,5 @@ dependencies {
   implementation Deps.emulator
   implementation Deps.czxing
   implementation Deps.pattern_locker
+  implementation Deps.quatroGrade
 }
