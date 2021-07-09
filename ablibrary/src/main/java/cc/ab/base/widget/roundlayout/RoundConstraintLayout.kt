@@ -1,4 +1,4 @@
-package cc.ab.base.widget
+package cc.ab.base.widget.roundlayout
 
 import android.content.Context
 import android.graphics.*
@@ -7,13 +7,13 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import cc.ab.base.R
 
 /**
- * 优势：四个角可以单独配置也可以统一配置,如果四个角统一，请使用GeneralRoundConstraintLayout(可以解决抗锯齿问题)
- * 劣势：不抗锯齿
- * 其他：如果四个角一致，使用GeneralRoundConstraintLayout即可
+ *适用性：
+ * 1.需要不同圆角，又想解决抗锯齿，选择RoundRectView【不支持设置背景】
+ * 2.需要不同圆角，抗锯齿无所谓，选择RoundConstraintLayout【抗锯齿性能差】
+ * 3.四个角圆角一致，选择GeneralRoundConstraintLayout【不支持单圆角设置】
+ *
  * 原文说明：https://blog.csdn.net/ldld1717/article/details/106652831
- * author: lllddd
- * created on: 2020/6/9 10:55
- * description: https://github.com/leidongld/RoundCornerDemmo
+ * 原文: https://github.com/leidongld/RoundCornerDemmo
  */
 class RoundConstraintLayout @kotlin.jvm.JvmOverloads constructor(c: Context, a: AttributeSet? = null, d: Int = 0) : ConstraintLayout(c, a, d) {
   private var mCorners: Float = 0f

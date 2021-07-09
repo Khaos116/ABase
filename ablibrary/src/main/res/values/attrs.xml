@@ -69,4 +69,17 @@
     <attr name="leftBottomCorner" format="dimension"/>
     <attr name="rightBottomCorner" format="dimension"/>
   </declare-styleable>
+
+  <!--ShapeOfView-->
+  <declare-styleable name="ShapeOfView">
+    <attr name="shape_clip_drawable" format="reference"/>
+  </declare-styleable>
+  <declare-styleable name="RoundRectView">
+    <attr name="shape_roundRect_topLeftRadius" format="dimension"/>
+    <attr name="shape_roundRect_topRightRadius" format="dimension"/>
+    <attr name="shape_roundRect_bottomLeftRadius" format="dimension"/>
+    <attr name="shape_roundRect_bottomRightRadius" format="dimension"/>
+    <attr name="shape_roundRect_borderWidth" format="dimension"/>
+    <attr name="shape_roundRect_borderColor" format="color"/>
+  </declare-styleable>
 </resources>

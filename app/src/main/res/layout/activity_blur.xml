@@ -7,22 +7,33 @@
     android:layout_height="match_parent"
     >
 
-  <cc.ab.base.widget.RoundConstraintLayout
+  <cc.ab.base.widget.round.shapes.RoundRectView
       android:layout_width="match_parent"
       android:layout_height="match_parent"
       android:layout_margin="5dp"
-      android:background="@color/purple_DA70D6"
-      android:padding="15dp"
-      app:leftTopCorner="20dp"
-      app:rightBottomCorner="20dp"
+      app:shape_roundRect_bottomRightRadius="20dp"
+      app:shape_roundRect_topLeftRadius="20dp"
       >
+
+    <View
+        android:layout_width="0dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_height="0dp"
+        android:background="@color/purple_DA70D6"
+        />
 
     <ImageView
         android:id="@+id/blurIv1"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="15dp"
         android:contentDescription="@null"
         android:scaleType="fitXY"
+        android:layout_marginTop="15dp"
         app:layout_constraintDimensionRatio="1125:642 "
         app:layout_constraintTop_toTopOf="parent"
         tools:background="@color/cyan_40E0D0"
@@ -33,6 +44,8 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginTop="5dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="15dp"
         android:contentDescription="@null"
         android:scaleType="fitXY"
         app:layout_constraintDimensionRatio="1125:642"
@@ -47,10 +60,18 @@
         android:layout_marginTop="5dp"
         android:contentDescription="@null"
         android:scaleType="fitXY"
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="15dp"
+        app:layout_constraintBottom_toTopOf="@id/vBottom"
         app:layout_constraintDimensionRatio="1125:642"
         app:layout_constraintTop_toBottomOf="@id/blurIv2"
         app:round="8dp"
         tools:background="@color/cyan_40E0D0"
         />
-  </cc.ab.base.widget.RoundConstraintLayout>
+    <View
+        android:id="@+id/vBottom"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_width="match_parent"
+        android:layout_height="15dp"/>
+  </cc.ab.base.widget.round.shapes.RoundRectView>
 </androidx.core.widget.NestedScrollView>

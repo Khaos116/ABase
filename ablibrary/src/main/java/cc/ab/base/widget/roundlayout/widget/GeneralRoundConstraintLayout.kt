@@ -10,6 +10,11 @@ import cc.ab.base.widget.roundlayout.abs.GeneralRoundViewImpl
 import cc.ab.base.widget.roundlayout.abs.IRoundView
 
 /**
+ *适用性：
+ * 1.需要不同圆角，又想解决抗锯齿，选择RoundRectView【不支持设置背景】
+ * 2.需要不同圆角，抗锯齿无所谓，选择RoundConstraintLayout【抗锯齿性能差】
+ * 3.四个角圆角一致，选择GeneralRoundConstraintLayout【不支持单圆角设置】
+ *
  * GeneralRoundConstraintLayout
  * @author minminaya
  * @email minminaya@gmail.com
