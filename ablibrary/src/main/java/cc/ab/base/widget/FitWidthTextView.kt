@@ -1,4 +1,4 @@
-package cc.abase.demo.widget
+package cc.ab.base.widget
 
 import android.content.Context
 import android.graphics.Canvas
