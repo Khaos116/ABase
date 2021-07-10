@@ -11,7 +11,7 @@ import java.util.regex.Matcher
 import java.util.regex.Pattern
 
 /**
- * @Description 间距中英文符号换行参差不齐的问题
+ * @Description 解决中英文符号换行参差不齐的问题
  * @Author：Khaos
  * @Date：2021-07-10
  * @Time：14:59
