@@ -29,7 +29,7 @@ class FitWidthTextView @kotlin.jvm.JvmOverloads constructor(
   private var mPaint = TextPaint()
 
   //段间距 倍数(需要大于1且大于行间距】(文字绘制高度 * 倍数 = 绘制间距)
-  var mParagraphMultiplier: Float = 1.8f
+  var mParagraphMultiplier: Float = 1.0f
 
   //段行缩进空格(中文情况下的缩进，非中文会自动切换)
   var mParagraphSpace: String = "        "
@@ -123,13 +123,15 @@ class FitWidthTextView @kotlin.jvm.JvmOverloads constructor(
       if (char.toString() == "\n") { //处理换行
         if (content.isBlank()) continue //第一个就是换行，则不处理
         sbSpace.delete(0, sbSpace.length) //遇到换行全部清除(删除换行前面的空格)
+        val temp = content.toString().replace(" ", "") //解决换行+空格+换行+空格的问题
+        if (temp.isNotEmpty() && temp.substring(temp.length - 1, temp.length) == "\n") continue //不能连续换行
         content.append("\n") //添加换行
         if (tempSpace.isNotEmpty()) content.append(tempSpace) //添加缩进
       } else if (char.toString() == " " || char.toString() == "\r" || char.toString() == "\t") { //防止连续空格太多
         if (content.isBlank()) continue //第一个就是空格，换行，跳格等便不处理
         if (sbSpace.length < mMaxConsecutiveSpace) sbSpace.append(" ")
       } else { //正常添加
-        if (sbSpace.isNotBlank()) {
+        if (sbSpace.isNotEmpty()) {
           content.append(sbSpace)
           sbSpace.delete(0, sbSpace.length) //添加空格后清除
         }
@@ -154,9 +156,11 @@ class FitWidthTextView @kotlin.jvm.JvmOverloads constructor(
     //循环测量长度，并拆分
     for (i in content.indices) {
       val char = content.subSequence(i, i + 1)
+      //是否要添加每行开头的空格
+      val isParagraph = true //temList.isEmpty() || temList[temList.size - 1].toString() == "\n"
       if (char.toString() == "\n") { //遇到换行符，直接添加之前的和换行
         if (i > start) {
-          temList.add(dealBreakLine(content.subSequence(start, i)))
+          temList.add(dealBreakLine(isParagraph, content.subSequence(start, i)))
           totalHeight += lineHeight + lineHeight * (lineSpacingMultiplier - 1f) //文字高度+行间距
         }
         temList.add("\n")
@@ -170,14 +174,14 @@ class FitWidthTextView @kotlin.jvm.JvmOverloads constructor(
         val w = mPaint.measureText(content, i, i + 1)
         when {
           tempWidth + w > maxWidth -> { //换行
-            temList.add(dealBreakLine(content.subSequence(start, i)))
+            temList.add(dealBreakLine(isParagraph, content.subSequence(start, i)))
             totalHeight += lineHeight + lineHeight * (lineSpacingMultiplier - 1f)  //文字高度+行间距
             tempWidth = w
             start = i
           }
           else -> { //不换行
             if (i == content.indices.last) { //最后一行
-              temList.add(dealBreakLine(content.subSequence(start, content.length)))
+              temList.add(dealBreakLine(isParagraph, content.subSequence(start, content.length)))
               totalHeight += lineHeight //最后一行不添加行间距
             } else { //非最后一行，长度累加即可
               tempWidth += w
@@ -191,19 +195,28 @@ class FitWidthTextView @kotlin.jvm.JvmOverloads constructor(
     return totalHeight + paddingTop + paddingBottom
   }
 
-  //换行处理
-  private fun dealBreakLine(cs: CharSequence): SpannableStringBuilder {
+  /**
+   * 换行处理
+   * @param isParagraph 是否是段落
+   */
+  private fun dealBreakLine(isParagraph: Boolean, cs: CharSequence): SpannableStringBuilder {
     val sb = SpannableStringBuilder()
     for (index in cs.indices) {
       val c = cs.subSequence(index, index + 1)
-      if (c.toString() != "\r" && c.toString() != "\n") sb.append(c)
+      if (c.toString() != "\r" && c.toString() != "\n") { //换行不添加
+        if (c.toString() == " ") { //空格
+          if (sb.isNotEmpty() || isParagraph) sb.append(c) //空格不在首字母才添加，或者是段首
+        } else { //非空格直接添加
+          sb.append(c)
+        }
+      }
     }
     return sb
   }
 
   //判断是否包含中文
-  fun isContainChinese(str: String): Boolean {
-    val p: Pattern = Pattern.compile("[u4e00-u9fa5]")
+  private fun isContainChinese(str: String): Boolean {
+    val p: Pattern = Pattern.compile("[\\u4e00-\\u9fa5]")
     val m: Matcher = p.matcher(str)
     return m.find()
   }
