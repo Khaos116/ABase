@@ -37,7 +37,7 @@
       tools:text="LiveData 数据倒灌：别问，问就是不可预期"
       />
 
-  <TextView
+  <cc.ab.base.widget.FitWidthTextView
       android:id="@+id/itemGankDes"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
@@ -48,7 +48,7 @@
       android:textSize="12sp"
       app:layout_constraintStart_toStartOf="parent"
       app:layout_constraintTop_toBottomOf="@id/itemGankTitle"
-      tools:text="介绍 LiveData 数据倒灌现象，以及 SingleLiveEvent 的完美替代解决方案"
+      tools:text="This is a TextView that is compatible with Chinese and English punctuation and line breaks. Emoji expressions have not been processed yet"
       />
 
   <TextView

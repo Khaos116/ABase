@@ -1,7 +1,5 @@
 package cc.abase.demo.item
 
-import android.view.LayoutInflater
-import android.view.ViewGroup
 import cc.ab.base.ext.setNumberNo00
 import cc.ab.base.ui.item.BaseBindItemView
 import cc.ab.base.ui.item.BaseViewHolder
@@ -19,7 +17,8 @@ class GankItem : BaseBindItemView<GankAndroidBean, ItemGankBinding>() {
     val viewBinding = holder.viewBinding
     viewBinding.itemGankTime.text = item.publishedAt
     viewBinding.itemGankTitle.text = item.title
-    viewBinding.itemGankDes.text = item.desc
+    viewBinding.itemGankDes.mFirstParagraphSpace = viewBinding.itemGankDes.mParagraphSpace
+    viewBinding.itemGankDes.text = item.desc ?: ""
     viewBinding.itemGankSeeCounts.setNumberNo00(item.views.toDouble())
     viewBinding.itemGankStoreCounts.setNumberNo00(item.stars.toDouble())
     viewBinding.itemGankPraiseCounts.setNumberNo00(item.likeCounts.toDouble())
