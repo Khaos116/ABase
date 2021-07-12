@@ -37,7 +37,7 @@
       tools:text="LiveData 数据倒灌：别问，问就是不可预期"
       />
 
-  <cc.ab.base.widget.FitWidthTextView
+  <cc.ab.base.widget.fittext.FitWidthTextView
       android:id="@+id/itemGankDes"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
