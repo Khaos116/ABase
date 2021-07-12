@@ -1,4 +1,4 @@
-package cc.ab.base.widget
+package cc.ab.base.widget.fittext
 
 import android.content.Context
 import android.graphics.Canvas
@@ -7,6 +7,7 @@ import android.text.SpannableStringBuilder
 import android.text.TextPaint
 import android.util.AttributeSet
 import androidx.appcompat.widget.AppCompatTextView
+import cc.ab.base.widget.fittext.emoji.EmojiManager
 import java.util.regex.Matcher
 import java.util.regex.Pattern
 
@@ -82,9 +83,7 @@ class FitWidthTextView @kotlin.jvm.JvmOverloads constructor(
           //canvas.drawLine(paddingStart * 1f, drawHeight, (width - paddingEnd) * 1f, drawHeight, mPaint)
           mPaint.color = currentTextColor
           if (s.length > 1 && !s.startsWith("  ")) {
-            canvas.drawText(s, 2, s.length, mPaint.measureText(s, 0, 2) + paddingStart * 1f, drawHeight + offSet, mPaint)
-            //mPaint.color = Color.RED//缩进间距的文字颜色
-            canvas.drawText(s, 0, 2, paddingStart * 1f, drawHeight + offSet, mPaint)
+            canvas.drawText(s, 0, s.length, paddingStart * 1f, drawHeight + offSet, mPaint)
           } else {
             canvas.drawText(s, 0, s.length, paddingStart * 1f, drawHeight + offSet, mPaint)
           }
@@ -109,8 +108,15 @@ class FitWidthTextView @kotlin.jvm.JvmOverloads constructor(
   //</editor-fold>
 
   //<editor-fold defaultstate="collapsed" desc="内部工具">
+  private var mLastCs: CharSequence = ""
+  private var mLastAvailableWidth: Int = 0
+  private var mLastHeight: Float = 0f
+
   //测量高度
   private fun measureContentHeight(text: CharSequence, availableWidth: Int): Float {
+    if (mLastCs == text && mLastAvailableWidth == availableWidth) return mLastHeight
+    mLastCs = text
+    mLastAvailableWidth = availableWidth
     //没有中文缩进自动减半
     var tempSpaceFirst = mFirstParagraphSpace
     if (mFirstParagraphSpace.length > 2 && !isContainChinese(text.toString())) {
@@ -145,12 +151,12 @@ class FitWidthTextView @kotlin.jvm.JvmOverloads constructor(
         content.append(char)
       }
     }
+    //找出所有emoji表情
+    val emojis = EmojiManager.getInstance().findAllEmojis(content)
     //临时列表
     val temList = mutableListOf<CharSequence>()
     //最大可用宽度，需要减去paddingStart和paddingEnd
-    val maxWidth = if (availableWidth <= 0) {
-      context.resources.displayMetrics.widthPixels - paddingStart - paddingEnd
-    } else availableWidth
+    val maxWidth = if (availableWidth <= 0) context.resources.displayMetrics.widthPixels - paddingStart - paddingEnd else availableWidth
     //每行拆分相对于原始数据的开始位置
     var start = 0
     //总高度
@@ -175,9 +181,17 @@ class FitWidthTextView @kotlin.jvm.JvmOverloads constructor(
         val w = mPaint.measureText(content, start, i + 1)
         when {
           w > maxWidth -> { //换行
-            temList.add(dealBreakLine(content.subSequence(start, i)))
-            totalHeight += lineHeight + lineHeight * (lineSpacingMultiplier - 1f)  //文字高度+行间距
-            start = i
+            //优先判断是否会分隔Emoji
+            val emojiRange = emojis.firstOrNull { e -> i in e.start until e.end }
+            if (emojiRange != null) { //如果Emoji被拆分了
+              temList.add(dealBreakLine(content.subSequence(start, emojiRange.start)))
+              totalHeight += lineHeight + lineHeight * (lineSpacingMultiplier - 1f)  //文字高度+行间距
+              start = emojiRange.start
+            } else {
+              temList.add(dealBreakLine(content.subSequence(start, i)))
+              totalHeight += lineHeight + lineHeight * (lineSpacingMultiplier - 1f)  //文字高度+行间距
+              start = i
+            }
           }
           else -> { //不换行
             if (i == content.indices.last) { //最后一行
@@ -190,7 +204,8 @@ class FitWidthTextView @kotlin.jvm.JvmOverloads constructor(
     }
     mLineList.clear()
     mLineList.addAll(temList)
-    return totalHeight + paddingTop + paddingBottom
+    mLastHeight = totalHeight + paddingTop + paddingBottom
+    return mLastHeight
   }
 
   //换行处理
@@ -211,11 +226,5 @@ class FitWidthTextView @kotlin.jvm.JvmOverloads constructor(
     val m: Matcher = p.matcher(str)
     return m.find()
   }
-
-  //判断是否是正常字符
-  private fun isNormalChar(c: Char): Boolean {
-    return c == '\t' || c in '\u0020'..'\u007e'
-  }
-
   //</editor-fold>
 }

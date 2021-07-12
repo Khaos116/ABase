@@ -1,0 +1,2 @@
+使用Emoji工具的目的：用于从字符串中查找Emoji表情位置，方便解决最后一个是Emoji导致拆分的bug
+参考地址：https://github.com/vanniktech/Emoji
