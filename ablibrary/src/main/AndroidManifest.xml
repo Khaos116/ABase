@@ -49,13 +49,6 @@
         android:name="notch.config"
         android:value="portrait|landscape"/>
     <!--vivo和oppo没有找到相关配置信息-->
-    <!--https://blog.csdn.net/qq_40909351/article/details/106726204-->
-    <provider
-        android:name="androidx.startup.InitializationProvider"
-        android:authorities="${applicationId}.androidx-startup"
-        android:exported="false"
-        tools:node="merge">
-    </provider>
   </application>
 </manifest>
 
