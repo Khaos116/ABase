@@ -1,10 +1,10 @@
 object Versions {
   internal const val sdkMin = 23
   internal const val sdkTarget = 30
-  internal const val kotlin = "1.5.10"
+  internal const val kotlin = "1.5.21"
   internal const val okHttp = "4.9.1"
-  internal const val rxHttp = "2.6.2"
-  internal const val coil = "1.2.2"
+  internal const val rxHttp = "2.6.5"
+  internal const val coil = "1.3.0"
 }
 
 object Deps {
@@ -12,7 +12,7 @@ object Deps {
   //根目录gradle https://maven.aliyun.com/mvn/search 使用ViewBinding最低3.6.0
   const val plugin_android_gradle = "com.android.tools.build:gradle:4.2.2"
   const val plugin_kotlin_gradle = "org.jetbrains.kotlin:kotlin-gradle-plugin:${Versions.kotlin}"
-  const val plugin_r8_gradle = "com.android.tools:r8:2.2.60" //更新R8版本，解决正式版无法打包的问题 https://github.com/square/okhttp/issues/4604
+  const val plugin_r8_gradle = "com.android.tools:r8:2.2.64" //更新R8版本，解决正式版无法打包的问题 https://github.com/square/okhttp/issues/4604
 
   //使用kotlin
   const val kotlin_stdlib = "org.jetbrains.kotlin:kotlin-stdlib:${Versions.kotlin}"
@@ -20,13 +20,13 @@ object Deps {
 
   //<editor-fold defaultstate="collapsed" desc="Studio-UI基础配置">
   //系统相关 https://maven.aliyun.com/mvn/search
-  const val core_ktx = "androidx.core:core-ktx:1.6.0-beta02"
-  const val activity_ktx = "androidx.activity:activity-ktx:1.3.0-beta01"
-  const val appcompat = "androidx.appcompat:appcompat:1.4.0-alpha02"
-  const val fragment = "androidx.fragment:fragment:1.4.0-alpha02"
-  const val material = "com.google.android.material:material:1.4.0-rc01"
+  const val core_ktx = "androidx.core:core-ktx:1.7.0-alpha01"
+  const val activity_ktx = "androidx.activity:activity-ktx:1.3.0-rc02"
+  const val appcompat = "androidx.appcompat:appcompat:1.4.0-alpha03"
+  const val fragment = "androidx.fragment:fragment:1.4.0-alpha04"
+  const val material = "com.google.android.material:material:1.5.0-alpha01"
   const val constraint = "androidx.constraintlayout:constraintlayout:2.1.0-beta02"
-  const val viewmodel = "androidx.lifecycle:lifecycle-viewmodel:2.4.0-alpha01"
+  const val viewmodel = "androidx.lifecycle:lifecycle-viewmodel:2.4.0-alpha02"
   //</editor-fold>
 
   //<editor-fold defaultstate="collapsed" desc="AndroidX基础配置">
