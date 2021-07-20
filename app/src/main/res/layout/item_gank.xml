@@ -62,6 +62,7 @@
       android:textSize="10sp"
       app:layout_constraintStart_toStartOf="parent"
       app:layout_constraintTop_toBottomOf="@id/itemGankDes"
+      tools:ignore="SmallSp"
       />
 
   <TextView
@@ -73,6 +74,7 @@
       app:layout_constraintBottom_toBottomOf="@id/itemGankSeeHint"
       app:layout_constraintStart_toEndOf="@id/itemGankSeeHint"
       app:layout_constraintTop_toTopOf="@id/itemGankSeeHint"
+      tools:ignore="SmallSp"
       tools:text="12"
       />
 
@@ -90,6 +92,7 @@
       app:layout_constraintEnd_toEndOf="parent"
       app:layout_constraintStart_toStartOf="parent"
       app:layout_constraintTop_toTopOf="@id/itemGankSeeHint"
+      tools:ignore="SmallSp"
       />
 
   <TextView
@@ -101,6 +104,7 @@
       app:layout_constraintBottom_toBottomOf="@id/itemGankStoreHint"
       app:layout_constraintStart_toEndOf="@id/itemGankStoreHint"
       app:layout_constraintTop_toTopOf="@id/itemGankStoreHint"
+      tools:ignore="SmallSp"
       tools:text="122"
       />
 
@@ -114,6 +118,7 @@
       app:layout_constraintBottom_toBottomOf="@id/itemGankSeeHint"
       app:layout_constraintEnd_toStartOf="@id/itemGankPraiseCounts"
       app:layout_constraintTop_toTopOf="@id/itemGankSeeHint"
+      tools:ignore="SmallSp"
       />
 
   <TextView
@@ -127,6 +132,7 @@
       app:layout_constraintBottom_toBottomOf="@id/itemGankPraiseHint"
       app:layout_constraintEnd_toEndOf="parent"
       app:layout_constraintTop_toTopOf="@id/itemGankPraiseHint"
+      tools:ignore="SmallSp"
       tools:text="1222"
       />
 </androidx.constraintlayout.widget.ConstraintLayout>
