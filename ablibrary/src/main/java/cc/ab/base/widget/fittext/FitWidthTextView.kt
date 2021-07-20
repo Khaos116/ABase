@@ -266,11 +266,11 @@ class FitWidthTextView @kotlin.jvm.JvmOverloads constructor(
             }
             val w2 = mPaint.measureText(remainSb, 0, i + 1)
             if (w2 == 0f) continue //可能测量到空制符
-            if (w2 > availableWidth) { //需要换行了
+            if (w2 >= availableWidth * 1f) { //需要换行了
               //优先判断是否会分隔Emoji
               val emojiRange = emojis.firstOrNull { e -> i in e.start until e.end }
               //文本裁切结束位置
-              var end = i
+              var end = i + (if (w2 == availableWidth * 1f) 1 else 0) //多一个字符刚好，则添加最后一个字符到本行
               if (emojiRange != null) { //如果Emoji被拆分了
                 //测试是否可用完整显示，如果不行就拆到下一行(有可能不完整的Emoji放不下，完整的反而可用放下)
                 val w3 = mPaint.measureText(remainSb, 0, emojiRange.end)
