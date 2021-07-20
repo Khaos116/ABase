@@ -56,12 +56,11 @@ inline fun RecyclerView.onClick(crossinline function: (view: View) -> Unit) {
   }
 }
 
-//RecyclerView点击事件传递给父控件
+//点击事件传递给父控件
 @SuppressLint("ClickableViewAccessibility")
-inline fun RecyclerView.click2Parent(parentView: View? = null) {
-  val recyclerView = this
-  (parentView ?: (recyclerView.parent as? View))?.let { p ->
-    recyclerView.setOnTouchListener { _, event -> p.onTouchEvent(event) }
+inline fun View.click2Parent(parentView: View? = null) {
+  (parentView ?: (this.parent as? View))?.let { p ->
+    this.setOnTouchListener { _, event -> p.onTouchEvent(event) }
   }
 }
 
