@@ -30,15 +30,8 @@ object Deps {
   //</editor-fold>
 
   //<editor-fold defaultstate="collapsed" desc="AndroidX基础配置">
-  //启动初始化 https://developer.android.google.cn/topic/libraries/app-startup【注:由于出现在三星手机上不进入初始化，所以改为三方的android-startup】
-  const val startup = "androidx.startup:startup-runtime:1.1.0-beta01"
-
   //https://github.com/idisfkj/android-startup/blob/master/README-ch.md【由于在三星手机上，AndroidX自带的startup存在不初始化的问题，所以改用这个】
-  const val android_startup = "io.github.idisfkj:android-startup:1.0.62"
-
-  //如果 minSdkVersion 设置为 21 或更高值则直接在build.gradle配置multiDexEnabled true即可，小于21的才需要配置到Application
-  //分包 https://developer.android.google.cn/studio/build/multidex?hl=zh_cn#mdex-gradle
-  const val multidex = "androidx.multidex:multidex:2.0.1"
+  const val android_startup = "io.github.idisfkj:android-startup:1.0.7"
   //</editor-fold>
 
   //<editor-fold defaultstate="collapsed" desc="三方必须基础配置"
@@ -56,7 +49,7 @@ object Deps {
   const val immersionbar_ktx = "com.gyf.immersionbar:immersionbar-ktx:3.0.0"
 
   //数据存储 https://github.com/Tencent/MMKV
-  const val mmkv = "com.tencent:mmkv-static:1.2.9"
+  const val mmkv = "com.tencent:mmkv-static:1.2.10"
   //</editor-fold>"
 
   //<editor-fold defaultstate="collapsed" desc="三方基础配置">
@@ -64,8 +57,8 @@ object Deps {
   const val gson = "com.google.code.gson:gson:2.8.7"
 
   //协程 https://github.com/Kotlin/kotlinx.coroutines
-  const val coroutine = "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.0"
-  const val coroutine_android = "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.0"
+  const val coroutine = "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.1"
+  const val coroutine_android = "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.1"
 
   //网络请求 https://github.com/square/okhttp
   const val okhttp = "com.squareup.okhttp3:okhttp:${Versions.okHttp}"
@@ -92,7 +85,7 @@ object Deps {
   const val multitype = "com.drakeet.multitype:multitype:4.3.0"
 
   //动态权限 https://github.com/getActivity/XXPermissions
-  const val xxpermissions = "com.github.getActivity:XXPermissions:11.5"
+  const val xxpermissions = "com.github.getActivity:XXPermissions:11.6"
 
   //ViewBinding https://github.com/DylanCaiCoding/ViewBindingKtx/blob/master/README_CN.md
   const val binding_ktx = "com.github.DylanCaiCoding.ViewBindingKTX:viewbinding-ktx:1.2.2"
@@ -124,7 +117,7 @@ object Deps {
   const val smart_footer = "com.scwang.smart:refresh-footer-classics:2.0.3"
 
   //手机号判断 https://github.com/google/libphonenumber/wiki/Android-Studio-setup
-  const val libphonenumber = "com.googlecode.libphonenumber:libphonenumber:8.12.25"
+  const val libphonenumber = "com.googlecode.libphonenumber:libphonenumber:8.12.27"
   //</editor-fold>
 
   //<editor-fold defaultstate="collapsed" desc="调试统计工具">
@@ -152,7 +145,7 @@ object Deps {
 
   //<editor-fold defaultstate="collapsed" desc="三方不常用配置">
   //图片选择器 https://github.com/LuckSiege/PictureSelector
-  const val pic_select = "io.github.lucksiege:pictureselector:v2.7.3-rc03"
+  const val pic_select = "io.github.lucksiege:pictureselector:v2.7.3-rc06"
 
   //Emoji表情 https://github.com/vanniktech/Emoji
   const val emoji = "com.vanniktech:emoji-twitter:0.7.0"
@@ -169,7 +162,7 @@ object Deps {
   const val dk_exo = "xyz.doikki.android.dkplayer:player-exo:3.3.3"
 
   //https://github.com/airbnb/lottie-android
-  const val lottie = "com.airbnb.android:lottie:3.7.0"
+  const val lottie = "com.airbnb.android:lottie:3.7.2"
 
   //中文转拼音 https://github.com/promeG/TinyPinyin
   const val pinyin = "com.github.promeg:tinypinyin:2.0.3" // TinyPinyin核心包，约80KB
