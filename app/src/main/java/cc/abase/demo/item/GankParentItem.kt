@@ -1,8 +1,6 @@
 package cc.abase.demo.item
 
 import android.annotation.SuppressLint
-import android.view.LayoutInflater
-import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.recyclerview.widget.LinearLayoutManager
 import cc.ab.base.ext.click2Parent
@@ -19,7 +17,7 @@ import com.drakeet.multitype.MultiTypeAdapter
  * Time:16:23:13
  */
 class GankParentItem(
-    private val onImgClick: ((url: String, position: Int, iv: ImageView, list: MutableList<String>) -> Unit)? = null,
+  private val onImgClick: ((url: String, position: Int, iv: ImageView, list: MutableList<String>) -> Unit)? = null,
 ) : BaseBindItemView<GankAndroidBean, ItemGankParentBinding>() {
   //<editor-fold defaultstate="collapsed" desc="数据填充">
   @SuppressLint("ClickableViewAccessibility")
@@ -33,7 +31,7 @@ class GankParentItem(
     recyclerView.adapter = null
     recyclerView.layoutManager = LinearLayoutManager(recyclerView.context)
     val multiTypeAdapter = MultiTypeAdapter()
-    multiTypeAdapter.register(GankItem())
+    multiTypeAdapter.register(GankItem(holder.itemView))
     multiTypeAdapter.register(NineGridItem(parentView = holder.itemView) { url, p, iv, list -> onImgClick?.invoke(url, p, iv, list) })
     recyclerView.adapter = multiTypeAdapter
     multiTypeAdapter.items = items
