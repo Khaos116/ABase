@@ -31,7 +31,7 @@
       android:paddingBottom="5dp"
       android:textColor="@color/colorAccent"
       app:layout_constraintEnd_toEndOf="parent"
-      app:layout_constraintTop_toTopOf="@id/itemArticleTime"
+      app:layout_constraintTop_toTopOf="@id/itemArticleCapterName"
       tools:text="2020-07-16 13:29:11"
       />
 
@@ -47,7 +47,7 @@
       android:textSize="14sp"
       android:textStyle="bold"
       app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintTop_toBottomOf="@id/itemArticleTime"
+      app:layout_constraintTop_toBottomOf="@id/itemArticleCapterName"
       tools:text="自定义控件通用库 WidgetCase"
       />
 
