@@ -78,4 +78,5 @@
   <string name="empty_zxing">二维码内容不能为空</string>
   <string name="zxing_camera_permission">扫码需要摄像头权限</string>
   <string name="open_bottom_sheet_dialog">打开BottomSheetDialog</string>
+  <string name="title_coil">Coil特殊图片加载</string>
 </resources>

@@ -8,8 +8,7 @@ import cc.abase.demo.rxhttp.interceptor.NetCacheInterceptor
 import cc.abase.demo.rxhttp.interceptor.OfflineCacheInterceptor
 import coil.Coil
 import coil.ImageLoader
-import coil.decode.GifDecoder
-import coil.decode.ImageDecoderDecoder
+import coil.decode.*
 import coil.fetch.VideoFrameFileFetcher
 import coil.fetch.VideoFrameUriFetcher
 import coil.util.CoilUtils
@@ -44,8 +43,11 @@ class CoilInit : AndroidStartup<Int>() {
       .componentRegistry {
         add(VideoFrameFileFetcher(context))
         add(VideoFrameUriFetcher(context))
-        if (Build.VERSION.SDK_INT >= 28) {
-          add(ImageDecoderDecoder())
+        add(VideoFrameDecoder(context))
+        add(SvgDecoder(context))
+        //animated WebP (Android 9.0+), animated HEIF (Android 11.0+)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+          add(ImageDecoderDecoder(context))
         } else {
           add(GifDecoder())
         }

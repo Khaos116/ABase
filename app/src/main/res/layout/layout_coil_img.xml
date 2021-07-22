@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    >
+
+  <cc.ab.base.widget.fittext.FitWidthTextView
+      android:id="@+id/tv"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:background="@color/cyan_40E0D0"
+      android:minHeight="5dp"
+      android:padding="5dp"
+      app:layout_constraintTop_toTopOf="parent"
+      tools:text="https://raw.githubusercontent.com/nokiatech/heif/gh-pages/content/images/autumn_1440x960.heic"
+      />
+
+  <androidx.constraintlayout.utils.widget.ImageFilterView
+      android:id="@+id/iv"
+      android:layout_width="match_parent"
+      android:layout_height="0dp"
+      android:scaleType="fitCenter"
+      app:layout_constraintDimensionRatio="720:360"
+      app:layout_constraintTop_toBottomOf="@id/tv"
+      tools:background="@color/purple"
+      />
+
+  <View
+      android:layout_width="match_parent"
+      android:layout_height="1dp"
+      android:background="@color/magenta"
+      app:layout_constraintTop_toBottomOf="@id/iv"
+      />
+</androidx.constraintlayout.widget.ConstraintLayout>

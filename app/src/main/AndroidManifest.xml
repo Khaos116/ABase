@@ -260,6 +260,14 @@
         android:screenOrientation="portrait"
         android:windowSoftInputMode="adjustPan|stateHidden"
         tools:ignore="LockedOrientationActivity"/>
+    <!--Fragment父控件-->
+    <activity
+        android:name=".component.comm.FragmentParentActivity"
+        android:configChanges="screenLayout|orientation"
+        android:launchMode="standard"
+        android:screenOrientation="portrait"
+        android:windowSoftInputMode="adjustPan|stateHidden"
+        tools:ignore="LockedOrientationActivity"/>
     <!--测试专用页面-->
     <activity
         android:name=".component.test.TestActivity"

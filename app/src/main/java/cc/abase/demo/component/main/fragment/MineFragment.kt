@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Intent
 import android.graphics.Color
 import android.view.Gravity
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.rxLifeScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import cc.ab.base.ext.*
@@ -12,7 +13,9 @@ import cc.abase.demo.bean.local.SimpleTxtBean
 import cc.abase.demo.component.blur.BlurActivity
 import cc.abase.demo.component.bottomsheet.BottomSheetActivity
 import cc.abase.demo.component.chat.ChatActivity
+import cc.abase.demo.component.coil.CoilFragment
 import cc.abase.demo.component.comm.CommBindFragment
+import cc.abase.demo.component.comm.FragmentParentActivity
 import cc.abase.demo.component.coordinator.CoordinatorActivity
 import cc.abase.demo.component.count.CountActivity
 import cc.abase.demo.component.decoration.DecorationActivity
@@ -94,11 +97,13 @@ class MineFragment : CommBindFragment<FragmentMineBinding>() {
     Pair(R.string.title_pattern_locker.xmlToString(), PatternLockerActivity::class.java),
     Pair(R.string.title_count.xmlToString(), CountActivity::class.java),
     Pair(R.string.title_bottom_sheet.xmlToString(), BottomSheetActivity::class.java),
+    Pair(R.string.title_coil.xmlToString(), CoilFragment::class.java),
     Pair(R.string.title_test.xmlToString(), TestActivity::class.java),
   )
   //</editor-fold>
 
   //<editor-fold defaultstate="collapsed" desc="懒加载">
+  @Suppress("UNCHECKED_CAST")
   override fun lazyInit() {
     mRootLayout?.setBackgroundColor(Color.WHITE)
     //分割线
@@ -107,16 +112,21 @@ class MineFragment : CommBindFragment<FragmentMineBinding>() {
     multiTypeAdapter.register(SimpleTxtItem().also {
       it.onItemClick = { stb ->
         stb.cls?.let { cls ->
-          val second = cls.newInstance()
-          if (second is Activity) {
-            mActivity.startActivity(Intent(mContext, cls))
-          } else if (second is CcUpdateService) {
-            clickCount++
-            CcUpdateService.startIntent(
-              path = if (clickCount % 2 == 0) apkUrk else apkUrk2,
-              apk_name = if (clickCount % 2 == 0) "应用变量" else "币安",
-              showNotification = true
-            )
+          when (val second = cls.newInstance()) {
+            is Activity -> {
+              mActivity.startActivity(Intent(mContext, cls))
+            }
+            is CcUpdateService -> {
+              clickCount++
+              CcUpdateService.startIntent(
+                path = if (clickCount % 2 == 0) apkUrk else apkUrk2,
+                apk_name = if (clickCount % 2 == 0) "应用变量" else "币安",
+                showNotification = true
+              )
+            }
+            is Fragment -> {
+              FragmentParentActivity.startFragment(mContext, second.javaClass)
+            }
           }
         }
       }
