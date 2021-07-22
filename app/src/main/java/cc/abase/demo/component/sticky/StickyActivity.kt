@@ -55,7 +55,7 @@ class StickyActivity : CommBindTitleActivity<ActivityStickyBinding>() {
 
   //适配器
   private var multiTypeAdapter: StickyAnyAdapter = object : StickyAnyAdapter(stickyBgColor = topBg, noStickyBgColor = topBg) {
-    override fun isStickyHeader(position: Int) = items[position] is ProvinceBean
+    override fun isStickyHeader(position: Int) = this.items.size > position && this.items[position] is ProvinceBean
   }
   //</editor-fold>
 
