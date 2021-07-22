@@ -32,10 +32,12 @@ class FragmentParentActivity : CommBindActivity<ActivityFragmentParentBinding>()
   }
   //</editor-fold>
 
+  //<editor-fold defaultstate="collapsed" desc="变量">
   //内嵌Fragment的名字(全路径)，可以根据他来关闭Activity
   var mFragmentName: String = ""
-  //<editor-fold defaultstate="collapsed" desc="注释">
+  //</editor-fold>
 
+  //<editor-fold defaultstate="collapsed" desc="初始化">
   @Suppress("UNCHECKED_CAST")
   override fun initView() {
     (intent.getSerializableExtra(INTENT_KEY_CLASS) as? Class<out Fragment>)?.let { c ->
