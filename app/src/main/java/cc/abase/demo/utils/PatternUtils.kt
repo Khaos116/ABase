@@ -5,7 +5,7 @@ import java.util.regex.Pattern
 
 /**
  * @Description editText.filters = arrayOf(PatternUtils.禁止换行, InputFilter.LengthFilter(30))
- * @Author：CASE
+ * @Author：Khaos
  * @Date：2021-07-27
  * @Time：18:20
  */

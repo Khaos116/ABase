@@ -10,7 +10,7 @@ import com.blankj.utilcode.util.ScreenUtils
 
 /**
  * @Description Coil加载特殊图片测试
- * @Author：CASE
+ * @Author：khaos
  * @Date：2021-07-22
  * @Time：13:44
  */
