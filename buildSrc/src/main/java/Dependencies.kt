@@ -23,9 +23,9 @@ object Deps {
   const val core_ktx = "androidx.core:core-ktx:1.7.0-alpha01"
   const val activity_ktx = "androidx.activity:activity-ktx:1.3.0-rc02"
   const val appcompat = "androidx.appcompat:appcompat:1.4.0-alpha03"
-  const val fragment = "androidx.fragment:fragment:1.4.0-alpha04"
+  const val fragment = "androidx.fragment:fragment:1.4.0-alpha05"
   const val material = "com.google.android.material:material:1.5.0-alpha01"
-  const val constraint = "androidx.constraintlayout:constraintlayout:2.1.0-beta02"
+  const val constraint = "androidx.constraintlayout:constraintlayout:2.1.0-rc01"
   const val viewmodel = "androidx.lifecycle:lifecycle-viewmodel:2.4.0-alpha02"
   //</editor-fold>
 
