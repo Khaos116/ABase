@@ -131,7 +131,10 @@ class DrawableEditText(context: Context, attributeSet: AttributeSet?) :
         getGlobalVisibleRect(rect)
         rect.left = rect.right - rightWidth - paddingEnd
         if (rect.contains(eventX, eventY)) {
-          if (e.action == MotionEvent.ACTION_UP) setText("")
+          if (e.action == MotionEvent.ACTION_UP) {
+            if (!hasFocus()) requestFocus()
+            setText("")
+          }
           return true
         }
       }
