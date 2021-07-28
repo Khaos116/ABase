@@ -145,6 +145,9 @@ class ChatActivity : CommBindTitleActivity<ActivityChatBinding>() {
         //点击哪些View需要关闭键盘同时响应点击
         if (!isTouchViewOut(viewBindingTitle.commTitleBack, it)) { //多个View通过||连接
           KeyboardUtils.hideSoftInput(mActivity)
+          //super.dispatchTouchEvent可能偶发不触发点击事件，所以手动处理点击
+          viewBindingTitle.commTitleBack.performClick()
+          return true
         }
         //没有点击到对于View则关闭键盘
         else if (isTouchViewOut(viewBinding.chatInputLayout, it)) { //多个View通过&&连接
