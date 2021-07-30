@@ -5,6 +5,7 @@ import android.content.Intent
 import android.graphics.Color
 import android.view.*
 import androidx.core.widget.addTextChangedListener
+import androidx.core.widget.doAfterTextChanged
 import androidx.recyclerview.widget.LinearLayoutManager
 import cc.ab.base.ext.*
 import cc.ab.base.ui.viewmodel.DataState
@@ -59,7 +60,7 @@ class ChatActivity : CommBindTitleActivity<ActivityChatBinding>() {
     viewBinding.chatRecycler.adapter = multiTypeAdapter
     viewBinding.chatSend.isEnabled = false
     viewBinding.chatSend.alpha = UiConstants.disable_alpha
-    viewBinding.chatEdit.addTextWatcher {
+    viewBinding.chatEdit.doAfterTextChanged {
       viewBinding.chatSend.isEnabled = !it.isNullOrBlank()
       viewBinding.chatSend.alpha = if (it.isNullOrBlank()) UiConstants.disable_alpha else 1f
     }

@@ -2,7 +2,7 @@ package cc.abase.demo.component.login
 
 import android.content.Context
 import android.content.Intent
-import android.view.LayoutInflater
+import androidx.core.widget.doAfterTextChanged
 import androidx.lifecycle.rxLifeScope
 import cc.ab.base.ext.*
 import cc.ab.base.utils.CcInputHelper
@@ -68,8 +68,8 @@ class LoginActivity : CommBindActivity<ActivityLoginBinding>() {
     PressEffectHelper.alphaEffect(viewBinding.loginRegister)
     CcInputHelper.wrapCommCountLimit(viewBinding.loginEditAccount, LengthConstants.MAX_LEN_ACC, 0)
     CcInputHelper.wrapCommCountLimit(viewBinding.loginEditPassword, LengthConstants.MAX_LEN_PASS, 0)
-    viewBinding.loginEditAccount.addTextWatcher { checkSubmit() }
-    viewBinding.loginEditPassword.addTextWatcher { checkSubmit() }
+    viewBinding.loginEditAccount.doAfterTextChanged { checkSubmit() }
+    viewBinding.loginEditPassword.doAfterTextChanged { checkSubmit() }
     viewBinding.loginSubmit.click {
       showActionLoading()
       rxLifeScope.launch({

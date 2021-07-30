@@ -3,7 +3,7 @@ package cc.abase.demo.component.login
 import android.content.Context
 import android.content.Intent
 import android.text.TextUtils
-import android.view.LayoutInflater
+import androidx.core.widget.doAfterTextChanged
 import androidx.lifecycle.rxLifeScope
 import cc.ab.base.ext.*
 import cc.ab.base.utils.CcInputHelper
@@ -40,9 +40,9 @@ class RegisterActivity : CommBindTitleActivity<ActivityRegisterBinding>() {
     CcInputHelper.wrapCommCountLimit(viewBinding.registerEditAccount, LengthConstants.MAX_LEN_ACC, 0)
     CcInputHelper.wrapCommCountLimit(viewBinding.registerEditPassword1, LengthConstants.MAX_LEN_PASS, 0)
     CcInputHelper.wrapCommCountLimit(viewBinding.registerEditPassword2, LengthConstants.MAX_LEN_PASS, 0)
-    viewBinding.registerEditAccount.addTextWatcher { checkSubmit() }
-    viewBinding.registerEditPassword1.addTextWatcher { checkSubmit() }
-    viewBinding.registerEditPassword2.addTextWatcher { checkSubmit() }
+    viewBinding.registerEditAccount.doAfterTextChanged { checkSubmit() }
+    viewBinding.registerEditPassword1.doAfterTextChanged { checkSubmit() }
+    viewBinding.registerEditPassword2.doAfterTextChanged { checkSubmit() }
     viewBinding.registerSubmit.click {
       showActionLoading()
       rxLifeScope.launch({

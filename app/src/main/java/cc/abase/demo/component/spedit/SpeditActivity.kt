@@ -3,6 +3,7 @@ package cc.abase.demo.component.spedit
 import android.content.Context
 import android.content.Intent
 import android.text.TextUtils
+import androidx.core.widget.doAfterTextChanged
 import cc.ab.base.ext.*
 import cc.ab.base.utils.CcInputHelper
 import cc.abase.demo.R
@@ -49,7 +50,7 @@ class SpeditActivity : CommBindTitleActivity<ActivitySpeditBinding>() {
     viewBinding.speditResult.click { mContext.toast(viewBinding.speditResult.text.toString()) }
     //监听长度输入
     viewBinding.speditLen.text = String.format("0/%s", MAX_LENGTH)
-    viewBinding.speditInput.addTextWatcher {
+    viewBinding.speditInput.doAfterTextChanged {
       viewBinding.speditLen.text = String.format(
           "%s/$MAX_LENGTH", CcInputHelper.getRealLength(it?.toString() ?: "")
       )
