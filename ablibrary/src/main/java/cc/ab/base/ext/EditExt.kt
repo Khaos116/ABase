@@ -5,8 +5,6 @@ import android.text.TextWatcher
 import android.widget.EditText
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.coroutineScope
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.*
 
@@ -15,8 +13,6 @@ import kotlinx.coroutines.flow.*
  * @author: Khaos
  * @date: 2019/10/10 22:35
  */
-@FlowPreview
-@ExperimentalCoroutinesApi
 fun EditText.onDebounceTextChanges(life: Lifecycle, time: Long = 600, onStart: Boolean = false, afterChange: (String) -> Unit) {
   //防止搜索一样的内容
   var lastSearchStr: String? = null
@@ -31,7 +27,7 @@ fun EditText.onDebounceTextChanges(life: Lifecycle, time: Long = 600, onStart: B
     addTextChangedListener(listener)
     awaitClose { removeTextChangedListener(listener) }
   }
-  if (onStart) call.onStart { emit(text) }//添加监听时发送控件的文本信息(否则只有变化时才会回调)
+  if (onStart) call.onStart { emit(text) } //添加监听时发送控件的文本信息(否则只有变化时才会回调)
   call.debounce(time).onEach {
     val result = it?.toString() ?: ""
     if (lastSearchStr != result) {
