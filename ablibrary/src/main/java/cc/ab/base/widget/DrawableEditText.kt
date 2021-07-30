@@ -75,7 +75,8 @@ class DrawableEditText(context: Context, attributeSet: AttributeSet?) :
     arrayHelper.recycle()
 
     if (drawableEnd == null && drawableRight == null) {
-      rightD = ContextCompat.getDrawable(context, R.drawable.close_edit)
+      rightD = ContextCompat.getDrawable(context, R.drawable.clear_edit)
+      //rightD?.colorFilter = PorterDuffColorFilter(Color.parseColor("#BABABA"), PorterDuff.Mode.SRC_ATOP)
       rightWidth = SizeUtils.dp2px(18f)
       rightHeight = SizeUtils.dp2px(18f)
     } else {
