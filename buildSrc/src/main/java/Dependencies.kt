@@ -27,6 +27,7 @@ object Deps {
   const val material = "com.google.android.material:material:1.5.0-alpha01"
   const val constraint = "androidx.constraintlayout:constraintlayout:2.1.0-rc01"
   const val viewmodel = "androidx.lifecycle:lifecycle-viewmodel:2.4.0-alpha02"
+  const val lifecycle = "androidx.lifecycle:lifecycle-runtime-ktx:2.4.0-alpha02"
   //</editor-fold>
 
   //<editor-fold defaultstate="collapsed" desc="AndroidX基础配置">

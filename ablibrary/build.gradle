@@ -51,6 +51,7 @@ dependencies {
   api Deps.core_ktx
   api Deps.constraint
   api Deps.viewmodel
+  api Deps.lifecycle
   api Deps.utilcodex
   api Deps.eventBus
   api Deps.coroutine
