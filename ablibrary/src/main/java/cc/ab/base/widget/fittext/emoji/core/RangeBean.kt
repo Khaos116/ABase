@@ -1,5 +1,7 @@
 package cc.ab.base.widget.fittext.emoji.core
 
+import android.text.style.ClickableSpan
+
 /**
  * @Description
  * @Author：Khaos
@@ -17,4 +19,6 @@ data class Range(
   val type: Int = 0, //0普通;1背景色;2前景色;3背景和前景色
   val bgColor: Int = 0, //背景色
   val foreColor: Int = 0, //前景色
+  val split: Boolean = false, //是否被分隔成了多行
+  var clickSpan: ClickableSpan? = null, //带点击的span
 )
