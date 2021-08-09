@@ -3,6 +3,7 @@ package cc.ab.base.widget.fittext
 import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Canvas
+import android.graphics.Paint
 import android.text.*
 import android.text.style.*
 import android.util.AttributeSet
@@ -48,7 +49,7 @@ class FitWidthTextView @kotlin.jvm.JvmOverloads constructor(
   private var mLineList = mutableListOf<RangeBean>()
 
   //用于测量字符宽度
-  private var mPaint = TextPaint()
+  private var mPaint = TextPaint(Paint.ANTI_ALIAS_FLAG) //抗锯齿
 
   //段间距 倍数(需要大于1且大于行间距】(文字绘制高度 * 倍数 = 绘制间距)
   var mParagraphMultiplier: Float = 1.0f
@@ -129,7 +130,7 @@ class FitWidthTextView @kotlin.jvm.JvmOverloads constructor(
               val w = mPaint.measureText(s, rFore.start, rFore.end)
               if ((rFore.clickSpan as? MyClickSpan)?.showUnderLine == true) {
                 //绘制下划线
-                canvas.drawLine(start, drawHeight + lineHeight - 1, start + w, drawHeight + lineHeight - 1, mPaint)
+                canvas.drawRect(start, drawHeight + lineHeight - 1.3f, start + w, drawHeight + lineHeight, mPaint)
               }
               canvas.drawText(s, rFore.start, rFore.end, start, drawHeight + offSet, mPaint)
             }
@@ -482,10 +483,14 @@ class FitWidthTextView @kotlin.jvm.JvmOverloads constructor(
           }
         }
         MotionEvent.ACTION_UP, MotionEvent.ACTION_CANCEL -> { //响应对应的pan事件
-          mPressRanges.firstOrNull { r -> r.clickSpan != null }?.clickSpan?.onClick(this)
-          mPressRanges.clear()
-          invalidate()
-          return true
+          return if (mPressRanges.isNotEmpty()) {
+            mPressRanges.firstOrNull { r -> r.clickSpan != null }?.clickSpan?.onClick(this)
+            mPressRanges.clear()
+            invalidate()
+            true
+          } else {
+            super.onTouchEvent(event)
+          }
         }
         else -> {
         }
