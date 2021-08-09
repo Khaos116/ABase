@@ -6,6 +6,7 @@ import android.graphics.Canvas
 import android.text.*
 import android.text.style.*
 import android.util.AttributeSet
+import android.view.MotionEvent
 import androidx.appcompat.widget.AppCompatTextView
 import cc.ab.base.widget.fittext.emoji.EmojiManager
 import cc.ab.base.widget.fittext.emoji.core.Range
@@ -31,7 +32,7 @@ import java.util.regex.Pattern
  *    5.由于采用的for循环处理文本，所以如果文本太长可能导致ANR，需要自己修改处理文本部分
  *    6.为了防止多次测量文本高度，采用了临时变量的方式防止重复测量，如果遇到测量问题，可能需要修改
  *    7.由于Emoji一直在更新，所以可能遇到Emoji数据显示不全的问题，这需要更新Emoji库
- *    8.只支持前景和背景色改变的Span
+ *    8.支持前景和背景色改变的Span、MyClickSpan
  *
  * @Author：Khaos
  * @Date：2021-07-10
@@ -98,6 +99,7 @@ class FitWidthTextView @kotlin.jvm.JvmOverloads constructor(
       val lineHeight = fontMetrics.bottom - fontMetrics.top
       //每行累计高度
       var drawHeight = paddingTop * 1f
+      //遍历绘制文本
       l.forEach { b ->
         val s = b.sb
         if (s.toString() != "\n") {
@@ -106,20 +108,30 @@ class FitWidthTextView @kotlin.jvm.JvmOverloads constructor(
             if (rangeBg.type == 1 || rangeBg.type == 3) {
               mPaint.color = rangeBg.bgColor
               val start = paddingStart * 1f + mPaint.measureText(s, 0, rangeBg.start)
-              val end = start + paddingStart * 1f + mPaint.measureText(s, rangeBg.start, rangeBg.end)
+              val end = paddingStart * 1f + mPaint.measureText(s, 0, rangeBg.end)
               canvas.drawRect(start, drawHeight, end, drawHeight + lineHeight, mPaint)
             }
           }
           //分段绘制文本
-          for (rangeFore in b.ranges) {
-            if (rangeFore.type == 2 || rangeFore.type == 3) { //绘制有前景色的文本
-              mPaint.color = rangeFore.foreColor
-              val start = paddingStart * 1f + mPaint.measureText(s, 0, rangeFore.start)
-              canvas.drawText(s, rangeFore.start, rangeFore.end, start, drawHeight + offSet, mPaint)
+          for (rFore in b.ranges) {
+            if (rFore.type == 2 || rFore.type == 3) { //绘制有前景色的文本
+              mPaint.color = rFore.foreColor
+              val start = paddingStart * 1f + mPaint.measureText(s, 0, rFore.start)
+              canvas.drawText(s, rFore.start, rFore.end, start, drawHeight + offSet, mPaint)
             } else { //绘制普通文本
-              mPaint.color = currentTextColor
-              val start = paddingStart * 1f + mPaint.measureText(s, 0, rangeFore.start)
-              canvas.drawText(s, rangeFore.start, rangeFore.end, start, drawHeight + offSet, mPaint)
+              val first = mPressRanges.firstOrNull { r -> r == rFore } //判断是否是按压状态
+              mPaint.color = when {
+                first != null -> (first.clickSpan as? MyClickSpan)?.mPressSpanColor ?: currentTextColor
+                rFore.clickSpan != null -> (rFore.clickSpan as? MyClickSpan)?.mNormalSpanColor ?: currentTextColor
+                else -> currentTextColor
+              }
+              val start = paddingStart * 1f + mPaint.measureText(s, 0, rFore.start)
+              val w = mPaint.measureText(s, rFore.start, rFore.end)
+              if ((rFore.clickSpan as? MyClickSpan)?.showUnderLine == true) {
+                //绘制下划线
+                canvas.drawLine(start, drawHeight + lineHeight - 1, start + w, drawHeight + lineHeight - 1, mPaint)
+              }
+              canvas.drawText(s, rFore.start, rFore.end, start, drawHeight + offSet, mPaint)
             }
           }
           drawHeight += lineHeight + lineHeight * (lineSpacingMultiplier - 1f)
@@ -192,6 +204,8 @@ class FitWidthTextView @kotlin.jvm.JvmOverloads constructor(
             splits.add(RangeBean(txt, mutableListOf(Range(type = 1, bgColor = span.backgroundColor))))
           } else if (span is ForegroundColorSpan) {
             splits.add(RangeBean(txt, mutableListOf(Range(type = 2, foreColor = span.foregroundColor))))
+          } else if (span is ClickableSpan) {
+            splits.add(RangeBean(txt, mutableListOf(Range(type = 4, clickSpan = span))))
           } else {
             splits.add(RangeBean(dealSpaceBreak(txt, tempSpace)))
           }
@@ -252,8 +266,8 @@ class FitWidthTextView @kotlin.jvm.JvmOverloads constructor(
               }.toMutableList()
               //分隔成2个span
               if (cutSpan != null) {
-                val span1 = cutSpan.copy(end = txt.length)
-                val span2 = cutSpan.copy(start = 0, end = cutSpan.end - (txt.length + 1))
+                val span1 = cutSpan.copy(end = txt.length, split = true)
+                val span2 = cutSpan.copy(start = 0, end = cutSpan.end - (txt.length + 1), split = true)
                 splitRange.add(span1) //添加到最后
                 remainRange.add(0, span2) //添加到最前面
               }
@@ -295,8 +309,8 @@ class FitWidthTextView @kotlin.jvm.JvmOverloads constructor(
               }.toMutableList()
               //分隔成2个span
               if (cutSpan != null) {
-                val span1 = cutSpan.copy(end = txt.length)
-                val span2 = cutSpan.copy(start = 0, end = cutSpan.end - txt.length)
+                val span1 = cutSpan.copy(end = txt.length, split = true)
+                val span2 = cutSpan.copy(start = 0, end = cutSpan.end - txt.length, split = true)
                 splitRange.add(span1) //添加到最后
                 remainRange.add(0, span2) //添加到最前面
               }
@@ -326,11 +340,11 @@ class FitWidthTextView @kotlin.jvm.JvmOverloads constructor(
         val newList = mutableListOf<Range>()
         var index = 0
         for (range in bean.ranges) {
-          if (range.start > index) newList.add(Range(index, range.start))
+          if (range.start > index) newList.add(Range(index, range.start)) //普通文字
           newList.add(range)
           index = range.end
         }
-        if (index < bean.sb.length) newList.add(Range(index, bean.sb.length))
+        if (index < bean.sb.length) newList.add(Range(index, bean.sb.length)) //普通文字
         bean.ranges.clear()
         bean.ranges.addAll(newList)
       }
@@ -375,6 +389,109 @@ class FitWidthTextView @kotlin.jvm.JvmOverloads constructor(
     val p: Pattern = Pattern.compile("[\\u4e00-\\u9fa5]")
     val m: Matcher = p.matcher(str)
     return m.find()
+  }
+  //</editor-fold>
+
+  //<editor-fold defaultstate="collapsed" desc="点击处理">
+  //按压的当前行文字
+  private var mPressRanges: MutableList<Range> = mutableListOf()
+
+  @SuppressLint("ClickableViewAccessibility")
+  override fun onTouchEvent(event: MotionEvent?): Boolean {
+    if (mLineList.isNotEmpty()) event?.let { ev ->
+      when (ev.action and MotionEvent.ACTION_MASK) {
+        MotionEvent.ACTION_DOWN -> {
+          //清除上次的数据
+          mPressRanges.clear()
+          //按压位置
+          val x = ev.x
+          val y = ev.y
+          //计算正常绘制行高
+          val fontMetrics = mPaint.fontMetrics
+          val lineHeight = fontMetrics.bottom - fontMetrics.top
+          //第一行开始位置的顶部
+          var drawHeight = paddingTop * 1f
+          //点击的该行文字
+          var clickRangeBean: RangeBean? = null
+          for (b in mLineList) { //遍历通过高度找到该行文字
+            val s = b.sb
+            drawHeight += if (s.toString() != "\n") {
+              lineHeight + lineHeight * (lineSpacingMultiplier - 1f)
+            } else {
+              if (mParagraphMultiplier > lineSpacingMultiplier) lineHeight * (mParagraphMultiplier - lineSpacingMultiplier) else 0f
+            }
+            clickRangeBean = b
+            if (drawHeight >= y) break
+          }
+          clickRangeBean?.let { range -> //找到对应的span
+            //找到所有clickSpan的范围
+            val clickRanges = mutableListOf<Range>()
+            (range.sb as? SpannableStringBuilder)?.let { ssb ->
+              ssb.getSpans(0, ssb.length, MyClickSpan::class.java)?.forEach { clickSpan ->
+                clickRanges.add(Range(ssb.getSpanStart(clickSpan), ssb.getSpanEnd(clickSpan)))
+              }
+            }
+            if (clickRanges.isNotEmpty()) for (i in 0 until range.ranges.size) {
+              val r = range.ranges[i]
+              if (r.type == 4) { //clickSpan才进行处理
+                val start = paddingStart * 1f + mPaint.measureText(range.sb, 0, r.start)
+                val end = paddingStart * 1f + mPaint.measureText(range.sb, 0, r.end)
+                if (x in start..end) { //找到range
+                  val clickRange = clickRanges.firstOrNull { t -> r.start >= t.start && r.end <= t.end }
+                  if (clickRange != null) { //如果处于clickSpan的范围
+                    mPressRanges.add(r)
+                    if (r.split) { //被拆分的，需要找到多行
+                      val index = mLineList.indexOf(range)
+                      if (r.start == 0 && index > 0) { //上面是被拆分的
+                        for (j in index - 1 downTo 0) {
+                          val line = mLineList[j]
+                          val rt = line.ranges.last()
+                          if (rt.split) mPressRanges.add(0, rt)
+                          if (line.ranges.size > 1) break //如果有多段，则不可能还是同一个拆分
+                        }
+                      }
+                      if (r.end == range.sb.length && index < mLineList.size - 1) { //下面可能是被拆分的
+                        for (j in index + 1 until mLineList.size) {
+                          val line = mLineList[j]
+                          val rt = line.ranges.first()
+                          if (rt.split) mPressRanges.add(rt)
+                          if (line.ranges.size > 1) break //如果有多段，则不可能还是同一个拆分
+                        }
+                      }
+                    }
+                    invalidate()
+                    return true
+                  } else {
+                    break
+                  }
+                }
+              }
+            }
+          }
+        }
+        MotionEvent.ACTION_MOVE -> {
+          val x = ev.x
+          val y = ev.y
+          val outRange = x < paddingStart || x > width - paddingEnd || y < paddingTop || y > height - paddingBottom
+          return if (outRange) { //如果移动超出文字绘制范围则取消点击判断
+            mPressRanges.clear()
+            invalidate()
+            false
+          } else {
+            super.onTouchEvent(event)
+          }
+        }
+        MotionEvent.ACTION_UP, MotionEvent.ACTION_CANCEL -> { //响应对应的pan事件
+          mPressRanges.firstOrNull { r -> r.clickSpan != null }?.clickSpan?.onClick(this)
+          mPressRanges.clear()
+          invalidate()
+          return true
+        }
+        else -> {
+        }
+      }
+    }
+    return super.onTouchEvent(event)
   }
   //</editor-fold>
 }
