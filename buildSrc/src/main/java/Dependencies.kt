@@ -4,7 +4,7 @@ object Versions {
   internal const val kotlin = "1.5.21"
   internal const val okHttp = "4.9.1"
   internal const val rxHttp = "2.6.5"
-  internal const val coil = "1.3.0"
+  internal const val coil = "1.3.2"
 }
 
 object Deps {
@@ -21,13 +21,13 @@ object Deps {
   //<editor-fold defaultstate="collapsed" desc="Studio-UI基础配置">
   //系统相关 https://maven.aliyun.com/mvn/search
   const val core_ktx = "androidx.core:core-ktx:1.7.0-alpha01"
-  const val activity_ktx = "androidx.activity:activity-ktx:1.3.0-rc02"
+  const val activity_ktx = "androidx.activity:activity-ktx:1.3.1"
   const val appcompat = "androidx.appcompat:appcompat:1.4.0-alpha03"
-  const val fragment = "androidx.fragment:fragment:1.4.0-alpha05"
+  const val fragment = "androidx.fragment:fragment:1.4.0-alpha06"
   const val material = "com.google.android.material:material:1.5.0-alpha01"
   const val constraint = "androidx.constraintlayout:constraintlayout:2.1.0-rc01"
-  const val viewmodel = "androidx.lifecycle:lifecycle-viewmodel:2.4.0-alpha02"
-  const val lifecycle = "androidx.lifecycle:lifecycle-runtime-ktx:2.4.0-alpha02"
+  const val viewmodel = "androidx.lifecycle:lifecycle-viewmodel:2.4.0-alpha03"
+  const val lifecycle = "androidx.lifecycle:lifecycle-runtime-ktx:2.4.0-alpha03"
   //</editor-fold>
 
   //<editor-fold defaultstate="collapsed" desc="AndroidX基础配置">
@@ -89,8 +89,8 @@ object Deps {
   const val xxpermissions = "com.github.getActivity:XXPermissions:11.6"
 
   //ViewBinding https://github.com/DylanCaiCoding/ViewBindingKtx/blob/master/README_CN.md
-  const val binding_ktx = "com.github.DylanCaiCoding.ViewBindingKTX:viewbinding-ktx:1.2.2"
-  const val binding_base = "com.github.DylanCaiCoding.ViewBindingKTX:viewbinding-base:1.2.2"
+  const val binding_ktx = "com.github.DylanCaiCoding.ViewBindingKTX:viewbinding-ktx:1.2.3"
+  const val binding_base = "com.github.DylanCaiCoding.ViewBindingKTX:viewbinding-base:1.2.3"
   //</editor-fold>
 
   //<editor-fold defaultstate="collapsed" desc="三方常用配置">
@@ -118,7 +118,7 @@ object Deps {
   const val smart_footer = "com.scwang.smart:refresh-footer-classics:2.0.3"
 
   //手机号判断 https://github.com/google/libphonenumber/wiki/Android-Studio-setup
-  const val libphonenumber = "com.googlecode.libphonenumber:libphonenumber:8.12.27"
+  const val libphonenumber = "com.googlecode.libphonenumber:libphonenumber:8.12.29"
   //</editor-fold>
 
   //<editor-fold defaultstate="collapsed" desc="调试统计工具">
@@ -139,8 +139,8 @@ object Deps {
   const val uinspector = "com.github.YvesCheung.UInspector:Uinspector:2.0.5"
 
   //bugly https://bugly.qq.com/docs/user-guide/instruction-manual-android/?v=20190916214340
-  const val bugly_crash = "com.tencent.bugly:crashreport:3.3.92"
-  const val bugly_native = "com.tencent.bugly:nativecrashreport:3.9.1"
+  const val bugly_crash = "com.tencent.bugly:crashreport:3.4.4"
+  const val bugly_native = "com.tencent.bugly:nativecrashreport:3.9.2"
   const val plugin_bugly = "com.tencent.bugly:symtabfileuploader:2.2.1" //bugly的mapping上传
   //</editor-fold>
 
@@ -158,12 +158,12 @@ object Deps {
   const val flexbox = "com.google.android.flexbox:flexbox:3.0.0"
 
   //视频播放相关 https://github.com/Doikki/DKVideoPlayer/wiki
-  const val dk_java = "xyz.doikki.android.dkplayer:dkplayer-java:3.3.3"
-  const val dk_ui = "xyz.doikki.android.dkplayer:dkplayer-ui:3.3.3"
-  const val dk_exo = "xyz.doikki.android.dkplayer:player-exo:3.3.3"
+  const val dk_java = "xyz.doikki.android.dkplayer:dkplayer-java:3.3.5"
+  const val dk_ui = "xyz.doikki.android.dkplayer:dkplayer-ui:3.3.5"
+  const val dk_exo = "xyz.doikki.android.dkplayer:player-exo:3.3.5"
 
   //https://github.com/airbnb/lottie-android
-  const val lottie = "com.airbnb.android:lottie:3.7.2"
+  const val lottie = "com.airbnb.android:lottie:4.0.0"
 
   //中文转拼音 https://github.com/promeG/TinyPinyin
   const val pinyin = "com.github.promeg:tinypinyin:2.0.3" // TinyPinyin核心包，约80KB
@@ -185,7 +185,7 @@ object Deps {
   const val pattern_locker = "com.github.ihsg:PatternLocker:2.5.7"
 
   //万能阴影布局 https://github.com/lihangleo2/ShadowLayout
-  const val shadow_layout = "com.github.lihangleo2:ShadowLayout:3.2.0"
+  const val shadow_layout = "com.github.lihangleo2:ShadowLayout:3.2.1"
 
   //四角颜色的渐变背景  https://github.com/GIGAMOLE/QuatroGrade
   const val quatroGrade = "com.github.GIGAMOLE:QuatroGrade:1.0.0"
