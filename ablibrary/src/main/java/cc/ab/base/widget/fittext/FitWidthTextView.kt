@@ -147,12 +147,6 @@ class FitWidthTextView @kotlin.jvm.JvmOverloads constructor(
   }
   //</editor-fold>
 
-  //<editor-fold defaultstate="collapsed" desc="初始化">
-  init {
-    mPaint.isAntiAlias = true
-  }
-  //</editor-fold>
-
   //<editor-fold defaultstate="collapsed" desc="内部工具">
   private var mLastCs: CharSequence = ""
   private var mLastAvailableWidth: Int = 0
@@ -394,7 +388,7 @@ class FitWidthTextView @kotlin.jvm.JvmOverloads constructor(
   //</editor-fold>
 
   //<editor-fold defaultstate="collapsed" desc="点击处理">
-  //按压的当前行文字
+  //按压的ClickSpan范围
   private var mPressRanges: MutableList<Range> = mutableListOf()
 
   @SuppressLint("ClickableViewAccessibility")
