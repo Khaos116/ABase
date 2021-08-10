@@ -48,6 +48,8 @@ android {
         ]
       }
     }
+    //APK生成名称
+    //archivesBaseName = "Abase-v$versionCode"
   }
   compileOptions {
     sourceCompatibility JavaVersion.VERSION_1_8
