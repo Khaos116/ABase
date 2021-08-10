@@ -49,7 +49,11 @@ class VideoDetailActivity : CommBindActivity<ActivityVideoDetailBinding>() {
       Pair("https://vod3.buycar5.cn/20210527/Eu6t4c5y/index.m3u8", "不良人4(第六集)"),
       Pair("https://vod3.buycar5.cn/20210527/K4CStLay/index.m3u8", "不良人4(第七集)"),
       Pair("https://vod3.buycar5.cn/20210603/treYkqfe/index.m3u8", "不良人4(第八集)"),
-      Pair("https://vod8.wenshibaowenbei.com/20210610/usZID09t/index.m3u8", "不良人4(第九集)"),
+      Pair("https://v3.dious.cc/20210610/a9B0XUbP/index.m3u8", "不良人4(第九集)"),
+      Pair("https://v3.dious.cc/20210617/3YEoWQnq/index.m3u8", "不良人4(第十集)"),
+      Pair("https://v3.dious.cc/20210624/fzTZaa7z/index.m3u8", "不良人4(第十一集)"),
+      Pair("https://v10.dious.cc/20210701/YjTZjO5D/index.m3u8", "不良人4(第十二集)"),
+      Pair("https://v10.dious.cc/20210708/WV8p1Zgl/index.m3u8", "不良人4(第十三集)"),
     )
     private const val INTENT_KEY_VIDEO_URL = "INTENT_KEY_VIDEO_URL"
     fun startActivity(context: Context, videoUrl: String?) {
@@ -86,7 +90,7 @@ class VideoDetailActivity : CommBindActivity<ActivityVideoDetailBinding>() {
         videoDetailVideoView.release()
         videoDetailVideoView.setPlayUrl(p.first, title = p.second, autoPlay = true)
       })
-      viewBinding.videoDetailRecycler.layoutManager = GridLayoutManager(this, 5)
+      viewBinding.videoDetailRecycler.layoutManager = GridLayoutManager(this, 4)
       viewBinding.videoDetailRecycler.addItemDecoration(GridSpaceItemDecoration(10.dp2px()))
       viewBinding.videoDetailRecycler.adapter = multiTypeAdapter
       val listDatas = moveUrlPairs.filter { p -> p.second.contains("不良人") }.also { l -> l.firstOrNull()?.let { ss -> url = ss.first } }
