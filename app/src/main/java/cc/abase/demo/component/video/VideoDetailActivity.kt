@@ -75,13 +75,12 @@ class VideoDetailActivity : CommBindActivity<ActivityVideoDetailBinding>() {
   //</editor-fold>
 
   //<editor-fold defaultstate="collapsed" desc="变量">
-  private lateinit var videoDetailVideoView: MyVideoView
   private var mPIPManager = PIPManager.getInstance()
   //</editor-fold>
 
   //<editor-fold defaultstate="collapsed" desc="初始化View">
   override fun initView() {
-    videoDetailVideoView = VideoViewManager.instance().get(StringConstants.Tag.FLOAT_PLAY) as MyVideoView
+    val videoDetailVideoView = VideoViewManager.instance().get(StringConstants.Tag.FLOAT_PLAY) as MyVideoView
     var url = intent.getStringExtra(INTENT_KEY_VIDEO_URL)
     if (url == null) {
       //多类型适配器
@@ -127,9 +126,6 @@ class VideoDetailActivity : CommBindActivity<ActivityVideoDetailBinding>() {
     }
     if (mPIPManager.isStartFloatWindow) {
       mPIPManager.stopFloatWindow()
-      videoDetailVideoView.setVideoController(videoDetailVideoView.getMyController())
-      videoDetailVideoView.getMyController().setPlayerState(videoDetailVideoView.currentPlayerState)
-      videoDetailVideoView.getMyController().setPlayState(videoDetailVideoView.currentPlayState)
     } else {
       mPIPManager.actClass = VideoDetailActivity::class.java
       url?.let { videoDetailVideoView.setPlayUrl(url = it, title = moveUrlPairs.firstOrNull { p -> p.first == it }?.second) }
