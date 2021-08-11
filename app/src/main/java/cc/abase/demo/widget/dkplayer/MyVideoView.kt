@@ -2,6 +2,7 @@ package cc.abase.demo.widget.dkplayer
 
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.app.Application
 import android.content.Context
 import android.net.Uri
 import android.util.AttributeSet
@@ -11,6 +12,7 @@ import androidx.annotation.DrawableRes
 import androidx.lifecycle.*
 import cc.ab.base.ext.*
 import cc.abase.demo.R
+import cc.abase.demo.widget.dkplayer.pipfloat.FloatView
 import xyz.doikki.videocontroller.StandardVideoController
 import xyz.doikki.videocontroller.component.*
 import xyz.doikki.videoplayer.player.VideoView
@@ -44,13 +46,13 @@ class MyVideoView : VideoView<MyExoMediaPlayer>, LifecycleObserver {
   private var vodCV: MyVodControlView = MyVodControlView(mCon)
 
   //封面
-  private var coverIv: ImageView
+  private lateinit var coverIv: ImageView
 
   //标题
-  private var titleView: MyTitleView
+  private lateinit var titleView: MyTitleView
 
   //返回按钮
-  private var backIv: ImageView
+  private lateinit var backIv: ImageView
 
   //播放完成的回调
   var mCallComplete: ((url: String?) -> Unit)? = null
@@ -60,32 +62,7 @@ class MyVideoView : VideoView<MyExoMediaPlayer>, LifecycleObserver {
   init {
     //方便判断
     if (id <= 0) id = cc.ab.base.R.id.id_my_video_view
-    //根据屏幕方向自动进入/退出全屏
-    controller.setEnableOrientation(false)
-    //1.准备播放界面
-    controller.addControlComponent(PrepareView(mCon).also { p ->
-      coverIv = p.findViewById(R.id.thumb) //封面
-      coverIv.scaleType = ImageView.ScaleType.FIT_CENTER
-      p.findViewById<View>(R.id.start_play).setOnClickListener { //点击播放
-        if (!mUrl.isNullOrBlank()) start()
-      }
-    })
-    //2.自动完成播放界面
-    controller.addControlComponent(CompleteView(mCon))
-    //3.错误界面
-    controller.addControlComponent(ErrorView(mCon))
-    //4.标题
-    controller.addControlComponent(MyTitleView(mCon).also { tv ->
-      titleView = tv
-      backIv = tv.findViewById(R.id.back)
-      backIv.setOnClickListener { if (isFullScreen) onBackPressed() else PlayerUtils.scanForActivity(context)?.onBackPressed() }
-    })
-    //5.滑动控制视图
-    controller.addControlComponent(GestureView(mCon))
-    //设置控制器到播放器
-    setVideoController(controller)
-    //默认不在列表中使用
-    setInList(false)
+    reInitController(mCon)
   }
   //</editor-fold>
 
@@ -140,7 +117,6 @@ class MyVideoView : VideoView<MyExoMediaPlayer>, LifecycleObserver {
   //    AbstractPlayer.MEDIA_INFO_VIDEO_ROTATION_CHANGED -> if (mRenderView != null) mRenderView.setVideoRotation(extra)
   //  }
   //}
-
   //打印无法正常播放的地址
   override fun setPlayState(playState: Int) {
     super.setPlayState(playState)
@@ -262,13 +238,69 @@ class MyVideoView : VideoView<MyExoMediaPlayer>, LifecycleObserver {
   //<editor-fold defaultstate="collapsed" desc="自感应生命周期">
   override fun onAttachedToWindow() {
     super.onAttachedToWindow()
+    if (parent !is FloatView && controller.context is Application) { //添加到非悬浮播放时
+      (parent as? View)?.context?.let { c -> reInitController(c) }
+    }
     setLifecycleOwner(getMyLifecycleOwner())
   }
 
   override fun onDetachedFromWindow() {
+    val p = parent
     super.onDetachedFromWindow()
     setLifecycleOwner(null)
+    if (p !is FloatView && controller.context !is Application) { //不是从悬浮移除
+      context?.let { c -> reInitController(c.applicationContext) }
+    }
     onPauseVideo()
+  }
+
+  //进入页面和画中画的上下文不一样
+  private fun reInitController(con: Context) {
+    val live = controller.getLiveControlView()
+    val vod = controller.getVodControlView()
+    controller.removeAllControlComponent()
+    controller.removeAllViews()
+    controller = MyStandardController(con)
+    //根据屏幕方向自动进入/退出全屏
+    controller.setEnableOrientation(false)
+    //1.准备播放界面
+    controller.addControlComponent(PrepareView(con).also { p ->
+      coverIv = p.findViewById(R.id.thumb) //封面
+      coverIv.scaleType = ImageView.ScaleType.FIT_CENTER
+      p.findViewById<View>(R.id.start_play).setOnClickListener { //点击播放
+        if (!mUrl.isNullOrBlank()) start()
+      }
+    })
+    //2.自动完成播放界面
+    controller.addControlComponent(CompleteView(con))
+    //3.错误界面
+    controller.addControlComponent(ErrorView(con))
+    //4.标题
+    controller.addControlComponent(MyTitleView(con).also { tv ->
+      titleView = tv
+      backIv = tv.findViewById(R.id.back)
+      backIv.setOnClickListener { if (isFullScreen) onBackPressed() else PlayerUtils.scanForActivity(context)?.onBackPressed() }
+    })
+    //5.滑动控制视图
+    controller.addControlComponent(GestureView(con))
+    //从画中画恢复回来的播放控制
+    if (live != null) {
+      controller.addControlComponent(liveCV)
+    } else if (vod != null) {
+      controller.addControlComponent(vodCV)
+    }
+    //设置控制器到播放器
+    setVideoController(controller)
+    //默认不在列表中使用
+    setInList(false)
+    if (mCurrentPlayState != STATE_IDLE) { //当前播放器的状态
+      if (mCurrentPlayState != PLAYER_FULL_SCREEN) {
+        controller.setPlayerState(PLAYER_NORMAL)
+        controller.setPlayState(PLAYER_NORMAL)
+      }
+      controller.setPlayerState(mCurrentPlayState)
+      controller.setPlayState(mCurrentPlayState)
+    }
   }
   //</editor-fold>
 
