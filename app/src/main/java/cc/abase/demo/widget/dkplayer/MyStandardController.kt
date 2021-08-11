@@ -14,6 +14,9 @@ import cc.abase.demo.constants.StringConstants
 import com.blankj.utilcode.util.BarUtils
 import com.blankj.utilcode.util.VibrateUtils
 import xyz.doikki.videocontroller.StandardVideoController
+import xyz.doikki.videocontroller.component.LiveControlView
+import xyz.doikki.videocontroller.component.VodControlView
+import xyz.doikki.videoplayer.controller.IControlComponent
 import xyz.doikki.videoplayer.player.VideoView
 import xyz.doikki.videoplayer.player.VideoViewManager
 import xyz.doikki.videoplayer.util.PlayerUtils
@@ -63,6 +66,24 @@ class MyStandardController : StandardVideoController {
   override fun slideToChangeVolume(deltaY: Float) {
     super.slideToChangeVolume(deltaY)
     cancelSpeedShow()
+  }
+  //</editor-fold>
+
+  //<editor-fold defaultstate="collapsed" desc="播放控制器">
+  fun getLiveControlView(): LiveControlView? {
+    for (component in mControlComponents) {
+      val k: IControlComponent = component.key
+      if (k is LiveControlView) return k
+    }
+    return null
+  }
+
+  fun getVodControlView(): VodControlView? {
+    for (component in mControlComponents) {
+      val k: IControlComponent = component.key
+      if (k is VodControlView) return k
+    }
+    return null
   }
   //</editor-fold>
 
