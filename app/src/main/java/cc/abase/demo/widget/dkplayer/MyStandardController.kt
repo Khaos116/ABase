@@ -150,12 +150,13 @@ class MyStandardController : StandardVideoController {
   //修复退出全屏找不到Activity添加播放器的bug
   override fun stopFullScreen(): Boolean {
     if (mActivity == null) mActivity = this.getMyParents().lastOrNull { v -> v.context is Activity }?.let { f -> f.context as Activity }
-        ?: VideoViewManager.instance().get(StringConstants.Tag.FLOAT_PLAY).getMyParents().lastOrNull { v -> v.context is Activity }
-            ?.let { f -> f.context as Activity } ?: PlayerUtils.scanForActivity(context)
+      ?: VideoViewManager.instance().get(StringConstants.Tag.FLOAT_PLAY).getMyParents().lastOrNull { v -> v.context is Activity }
+        ?.let { f -> f.context as Activity } ?: PlayerUtils.scanForActivity(context)
     return super.stopFullScreen()
   }
   //</editor-fold>
 
+  //<editor-fold defaultstate="collapsed" desc="取消倍速">
   //开始拖动进度条会调用这个方法，所以需要取消倍速
   override fun stopProgress() {
     super.stopProgress()
