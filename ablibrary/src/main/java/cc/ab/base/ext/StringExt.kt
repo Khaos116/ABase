@@ -9,7 +9,6 @@ import okhttp3.Cache
 import okhttp3.HttpUrl.Companion.toHttpUrlOrNull
 import timber.log.Timber
 import java.io.File
-import java.util.Locale
 import java.util.regex.Pattern
 
 /**
@@ -59,18 +58,18 @@ fun String?.isNetImageUrl(): Boolean {
   } else if (!this.startsWith("http", true)) {
     false
   } else {
-    Pattern.compile(".*?(gif|jpeg|png|jpg|bmp)").matcher(this.toLowerCase(Locale.getDefault())).matches()
+    Pattern.compile(".*?(gif|jpeg|png|jpg|bmp)").matcher(this.lowercase()).matches()
   }
 }
 
 fun String?.isVideoUrl(): Boolean {
   return if (this.isNullOrBlank()) {
     false
-  } else if (!this.toLowerCase(Locale.getDefault()).startsWith("http", true)) {
+  } else if (!this.lowercase().startsWith("http", true)) {
     false
   } else {
     Pattern.compile(".*?(avi|rmvb|rm|asf|divx|mpg|mpeg|mpe|wmv|mp4|mkv|vob)")
-      .matcher(this.toLowerCase(Locale.getDefault())).matches()
+      .matcher(this.lowercase()).matches()
   }
 }
 
@@ -78,7 +77,7 @@ fun String?.isLiveUrl(): Boolean {
   return if (this.isNullOrBlank()) {
     false
   } else {
-    this.toLowerCase(Locale.getDefault()).run {
+    this.lowercase().run {
       startsWith("rtmp") || startsWith("rtsp")
     }
   }

@@ -15,7 +15,7 @@ class MyExoMediaPlayer(context: Context) : ExoMediaPlayer(context) {
   //<editor-fold defaultstate="collapsed" desc="重写是为了视频的边播边存">
   @SuppressLint("DefaultLocale")
   override fun setDataSource(path: String?, headers: MutableMap<String, String>?) {
-    mMediaSource = mMediaSourceHelper.getMediaSource(path, headers, path?.toLowerCase()?.startsWith("http") == true)
+    mMediaSource = mMediaSourceHelper.getMediaSource(path, headers, path?.lowercase()?.startsWith("http") == true)
   }
   //</editor-fold>
 }

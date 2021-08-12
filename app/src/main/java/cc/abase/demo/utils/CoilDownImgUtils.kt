@@ -9,7 +9,6 @@ import com.blankj.utilcode.util.TimeUtils
 import kotlinx.coroutines.*
 import okhttp3.internal.and
 import java.io.*
-import java.util.Locale
 
 /**
  * https://blog.csdn.net/weixin_43870026/article/details/87353345
@@ -102,9 +101,9 @@ object CoilDownImgUtils {
       input = FileInputStream(filePath)
       val b = ByteArray(10)
       input.read(b, 0, b.size)
-      val fileCode: String = bytesToHexString(b).toLowerCase(Locale.getDefault())
+      val fileCode: String = bytesToHexString(b).lowercase()
       if (fileCode.length > 5) for (t in FILE_TYPE_MAP.keys) {
-        val keyLower = t.toLowerCase(Locale.getDefault())
+        val keyLower = t.lowercase()
         // 验证前5个字符比较
         if (keyLower.startsWith(fileCode.substring(0, 5)) || fileCode.substring(0, 5).startsWith(keyLower)) {
           res = FILE_TYPE_MAP[keyLower]

@@ -160,7 +160,7 @@ fun String?.isPhoneNumber(countryCode: String = "CN"): Boolean {
   if (this.isNullOrBlank()) return false
   val phoneUtil = PhoneNumberUtil.getInstance()
   return try {
-    val numberProto: Phonenumber.PhoneNumber = phoneUtil.parse(this, countryCode.toUpperCase())
+    val numberProto: Phonenumber.PhoneNumber = phoneUtil.parse(this, countryCode.uppercase())
     phoneUtil.isValidNumber(numberProto)
   } catch (e: Exception) {
     e.printStackTrace()

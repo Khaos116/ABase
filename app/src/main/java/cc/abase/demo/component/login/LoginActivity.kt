@@ -24,7 +24,6 @@ import com.google.gson.reflect.TypeToken
 import com.tencent.mmkv.MMKV
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import java.util.Locale
 
 /**
  * Description:
@@ -279,13 +278,13 @@ class LoginActivity : CommBindActivity<ActivityLoginBinding>() {
           append(hexStr)
         }
       }
-      toString().toUpperCase(Locale.getDefault())
+      toString().uppercase()
     }
   }
 
   /** 将 16 进制字符串 [String] 转换为字节数组 [ByteArray] */
   private fun String.toHexByteArray(): ByteArray {
-    val hexString = toUpperCase(Locale.getDefault())
+    val hexString = this.uppercase()
     val len = hexString.length / 2
     val charArray = hexString.toCharArray()
     val byteArray = ByteArray(len)
