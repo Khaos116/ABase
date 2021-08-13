@@ -57,7 +57,7 @@ class MainActivity : CommBindActivity<ActivityMainBinding>() {
     selectFragment(0)
     setSelectIndex(0)
     //切换
-    viewBinding.mainNavigation.setOnNavigationItemSelectedListener {
+    viewBinding.mainNavigation.setOnItemSelectedListener {
       when (it.itemId) {
         R.id.menu_main_home -> selectFragment(0)
         R.id.menu_main_dyn -> selectFragment(1)
