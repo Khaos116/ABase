@@ -9,6 +9,7 @@ import androidx.core.widget.doAfterTextChanged
 import androidx.recyclerview.widget.LinearLayoutManager
 import cc.ab.base.ext.*
 import cc.ab.base.ui.viewmodel.DataState
+import cc.ab.base.widget.livedata.MyObserver
 import cc.abase.demo.R
 import cc.abase.demo.bean.local.DividerBean
 import cc.abase.demo.bean.local.SimpleTxtBean
@@ -71,7 +72,7 @@ class ChatActivity : CommBindTitleActivity<ActivityChatBinding>() {
     initEmoji()
     viewBinding.chatEdit.requestFocus()
     //监听加载结果
-    viewModel.chatLiveData.observe(this) {
+    viewModel.chatLiveData.observe(this, MyObserver {
       if (it is DataState.SuccessMore) {
         val isBottom = !viewBinding.chatRecycler.canScrollVertically(1)
         val items = multiTypeAdapter.items.toMutableList()
@@ -89,7 +90,7 @@ class ChatActivity : CommBindTitleActivity<ActivityChatBinding>() {
           if (isBottom) scrollChatBottom()
         }
       }
-    }
+    })
     //判断手机号
     viewBinding.chatEdit.addTextChangedListener {
       if (it?.toString()?.isPhoneNumber("CN") == true) {

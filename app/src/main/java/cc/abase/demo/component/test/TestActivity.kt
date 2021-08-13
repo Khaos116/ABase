@@ -1,6 +1,8 @@
 package cc.abase.demo.component.test
 
+import android.annotation.SuppressLint
 import cc.ab.base.ui.viewmodel.DataState
+import cc.ab.base.widget.livedata.MyObserver
 import cc.abase.demo.R
 import cc.abase.demo.component.comm.CommBindTitleActivity
 import cc.abase.demo.component.test.viewmodel.TestViewModel
@@ -18,12 +20,18 @@ class TestActivity : CommBindTitleActivity<ActivityTestBinding>() {
   //</editor-fold>
 
   //<editor-fold defaultstate="collapsed" desc="初始化View">
+  @SuppressLint("SetTextI18n")
   override fun initContentView() {
     setTitleText(StringUtils.getString(R.string.title_test))
     viewBinding.testTv1.text = "Rxjava"
     viewBinding.testTv2.text = "协程"
-    viewModel.timeLiveData1.observe(this) { if (it is DataState.SuccessRefresh) viewBinding.testTv1.append("\n时间1=${it.data}") }
-    viewModel.timeLiveData2.observe(this) { if (it is DataState.SuccessRefresh) viewBinding.testTv2.append("\n时间2=${it.data}") }
+    viewModel.timeLiveData1.observe(this, MyObserver {
+      if (it is DataState.SuccessRefresh) viewBinding.testTv1.append("\n时间1=${it.data}")
+    })
+    viewModel.timeLiveData2.observe(this, MyObserver {
+      if (it is DataState.SuccessRefresh) viewBinding.testTv2.append("\n时间2=${it.data}")
+    }
+    )
     viewModel.startGetTime()
   }
   //</editor-fold>

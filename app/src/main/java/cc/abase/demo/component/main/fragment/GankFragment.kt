@@ -4,6 +4,7 @@ import android.graphics.Color
 import androidx.recyclerview.widget.LinearLayoutManager
 import cc.ab.base.ui.viewmodel.DataState
 import cc.ab.base.widget.engine.ImageEngine
+import cc.ab.base.widget.livedata.MyObserver
 import cc.abase.demo.R
 import cc.abase.demo.bean.local.*
 import cc.abase.demo.component.comm.CommBindFragment
@@ -64,7 +65,7 @@ class GankFragment : CommBindFragment<FragmentGankBinding>() {
       }
     ).also { it.onItemClick = { bean -> bean.url?.let { u -> WebActivity.startActivity(mActivity, u) } } })
     //监听加载结果
-    mViewModel.androidLiveData.observe(this) {
+    mViewModel.androidLiveData.observe(this, MyObserver {
       mViewModel.handleRefresh(viewBinding.gankRefreshLayout, it)
       //正常数据处理
       var items = mutableListOf<Any>()
@@ -102,7 +103,7 @@ class GankFragment : CommBindFragment<FragmentGankBinding>() {
         multiTypeAdapter.items = items
         multiTypeAdapter.notifyDataSetChanged()
       }
-    }
+    })
     //请求数据
     mViewModel.refresh()
   }

@@ -2,13 +2,13 @@ package cc.abase.demo.component.playlist
 
 import android.content.Context
 import android.content.Intent
-import android.view.LayoutInflater
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import cc.ab.base.ext.mContext
 import cc.ab.base.ext.removeParent
 import cc.ab.base.ui.viewmodel.DataState
+import cc.ab.base.widget.livedata.MyObserver
 import cc.abase.demo.R
 import cc.abase.demo.bean.local.NoMoreBean
 import cc.abase.demo.bean.local.VideoBean
@@ -64,7 +64,7 @@ class PlayListActivity : CommBindTitleActivity<ActivityPlayListBinding>() {
     viewBinding.playListRecycler.adapter = multiTypeAdapter
     viewBinding.playListRecycler.addOnChildAttachStateChangeListener(object : RecyclerView.OnChildAttachStateChangeListener {
       override fun onChildViewDetachedFromWindow(view: View) { //非全屏滑出去释放掉
-        if (view.findViewById<View>(R.id.itemVideoContainer) != null) {//有可能是其他View，所以要判断
+        if (view.findViewById<View>(R.id.itemVideoContainer) != null) { //有可能是其他View，所以要判断
           val binding = ItemListVideoBinding.bind(view)
           binding.itemVideoContainer.getChildAt(0)?.let { if (it == mVideoView && mVideoView?.isFullScreen == false) releaseVideoView() }
         }
@@ -73,7 +73,7 @@ class PlayListActivity : CommBindTitleActivity<ActivityPlayListBinding>() {
       override fun onChildViewAttachedToWindow(view: View) {
       }
     })
-    viewModel.videoLiveData.observe(this) {
+    viewModel.videoLiveData.observe(this, MyObserver {
       when (it) {
         is DataState.Start -> showLoadingView()
         is DataState.Complete -> dismissLoadingView()
@@ -89,7 +89,7 @@ class PlayListActivity : CommBindTitleActivity<ActivityPlayListBinding>() {
         else -> {
         }
       }
-    }
+    })
     viewModel.loadData()
   }
   //</editor-fold>

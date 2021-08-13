@@ -3,10 +3,10 @@ package cc.abase.demo.component.expand
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
-import android.view.LayoutInflater
 import cc.ab.base.ext.mContext
 import cc.ab.base.ext.toast
 import cc.ab.base.ui.viewmodel.DataState
+import cc.ab.base.widget.livedata.MyObserver
 import cc.abase.demo.R
 import cc.abase.demo.bean.local.DividerBean
 import cc.abase.demo.bean.local.ProvinceBean
@@ -76,12 +76,12 @@ class ExpandActivity : CommBindTitleActivity<ActivityExpandBinding>() {
     multiTypeAdapter.register(DividerItem())
     viewBinding.expandRecycler.layoutManager = SpeedLinearLayoutManager(mContext)
     viewBinding.expandRecycler.adapter = multiTypeAdapter
-    viewModel.cityLiveData.observe(this) {
+    viewModel.cityLiveData.observe(this, MyObserver {
       if (it is DataState.SuccessRefresh) fillData(it.data ?: mutableListOf())
-    }
-    viewModel.countryLiveData.observe(this) {
+    })
+    viewModel.countryLiveData.observe(this, MyObserver {
       if (it is DataState.SuccessRefresh) fillData(it.data ?: mutableListOf())
-    }
+    })
     showLoadingView()
     //随机加载数据
     if (System.currentTimeMillis() % 2 == 0L) {

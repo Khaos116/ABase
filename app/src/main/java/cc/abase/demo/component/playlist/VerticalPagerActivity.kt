@@ -8,6 +8,7 @@ import android.view.ViewGroup.MarginLayoutParams
 import androidx.viewpager.widget.ViewPager
 import cc.ab.base.ext.*
 import cc.ab.base.ui.viewmodel.DataState
+import cc.ab.base.widget.livedata.MyObserver
 import cc.abase.demo.bean.local.VideoBean
 import cc.abase.demo.component.comm.CommBindActivity
 import cc.abase.demo.component.playlist.adapter.VerticalPagerAdapter
@@ -81,7 +82,7 @@ class VerticalPagerActivity : CommBindActivity<ActivityPlayPagerBinding>() {
     viewBinding.verticalPagerRefresh.setRefreshHeader(RefreshHeaderWrapper(View(mContext))) //使用简单的header以节约内存
     viewBinding.verticalPagerRefresh.setEnableLoadMore(false) //暂时禁止上拉加载
     viewBinding.verticalPagerRefresh.setOnLoadMoreListener { viewModel.loadMore() }
-    viewModel.videoLiveData.observe(this) {
+    viewModel.videoLiveData.observe(this, MyObserver {
       when (it) {
         is DataState.SuccessRefresh -> {
           mVideoList = it.data ?: mutableListOf()
@@ -119,7 +120,7 @@ class VerticalPagerActivity : CommBindActivity<ActivityPlayPagerBinding>() {
         else -> {
         }
       }
-    }
+    })
     viewModel.loadData()
   }
   //</editor-fold>

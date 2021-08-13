@@ -3,6 +3,7 @@ package cc.abase.demo.component.main.fragment
 import android.graphics.Color
 import androidx.recyclerview.widget.LinearLayoutManager
 import cc.ab.base.ui.viewmodel.DataState
+import cc.ab.base.widget.livedata.MyObserver
 import cc.abase.demo.bean.local.EmptyErrorBean
 import cc.abase.demo.bean.local.LoadingBean
 import cc.abase.demo.component.comm.CommBindFragment
@@ -63,7 +64,7 @@ class WanFragment : CommBindFragment<FragmentWanBinding>() {
       }
     })
     //文章列表监听
-    mViewModel.articleLiveData.observe(this) {
+    mViewModel.articleLiveData.observe(this, MyObserver {
       mViewModel.handleRefresh(viewBinding.wanRefreshLayout, it)
       //正常数据处理
       var items = mutableListOf<Any>()
@@ -104,16 +105,17 @@ class WanFragment : CommBindFragment<FragmentWanBinding>() {
         stickyAdapter.items = items
         stickyAdapter.notifyDataSetChanged()
       }
-    }
+    })
     //banner监听
-    mViewModel.bannerLiveData.observe(this) {
+    mViewModel.bannerLiveData.observe(this, MyObserver {
       if (it is DataState.Complete) { //如果banner刷新靠后，则请求完成后重新刷一下文章列表
         val articleData = mViewModel.articleLiveData.value
         if (articleData is DataState.Complete) {
+          mViewModel.articleLiveData.value = DataState.SuccessRefresh(newData = articleData.data)
           mViewModel.articleLiveData.value = DataState.Complete(totalData = articleData.data, hasMore = articleData.hasMore)
         }
       }
-    }
+    })
     //请求数据
     mViewModel.refresh()
   }

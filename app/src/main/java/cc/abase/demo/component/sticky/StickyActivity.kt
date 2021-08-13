@@ -4,10 +4,10 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.view.LayoutInflater
-import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import cc.ab.base.ext.*
 import cc.ab.base.ui.viewmodel.DataState
+import cc.ab.base.widget.livedata.MyObserver
 import cc.abase.demo.R
 import cc.abase.demo.bean.local.*
 import cc.abase.demo.component.comm.CommBindTitleActivity
@@ -89,8 +89,8 @@ class StickyActivity : CommBindTitleActivity<ActivityStickyBinding>() {
     viewBinding.stickyRecycler.adapter = multiTypeAdapter
     needChoose = intent.getBooleanExtra(INTENT_KEY_CHOOSE, false)
     mTag = intent.getStringExtra(INTENT_KEY_TAG) ?: ""
-    viewModel.countryLiveData.observe(this, observer)
-    viewModel.cityLiveData.observe(this, observer)
+    viewModel.countryLiveData.observe(this, myObserver)
+    viewModel.cityLiveData.observe(this, myObserver)
     //随机加载数据
     if (System.currentTimeMillis() % 2 == 0L) {
       viewModel.loadCountry()
@@ -101,7 +101,7 @@ class StickyActivity : CommBindTitleActivity<ActivityStickyBinding>() {
   //</editor-fold>
 
   //<editor-fold defaultstate="collapsed" desc="监听加载结果">
-  private val observer = Observer<DataState<MutableList<ProvinceBean>>?> {
+  private val myObserver = MyObserver<DataState<MutableList<ProvinceBean>>?> {
     when (it) {
       is DataState.SuccessRefresh -> {
         val items = mutableListOf<Any>()
