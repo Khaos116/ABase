@@ -246,6 +246,7 @@ class WebActivity : CommBindTitleActivity<ActivityWebBinding>() {
   //</editor-fold>
 
   //<editor-fold defaultstate="collapsed" desc="选择图片、视频">
+  @SuppressLint("SourceLockedOrientationActivity")
   private fun go2SelMedia(chooseMode: Int) {
     //https://github.com/LuckSiege/PictureSelector/wiki/PictureSelector-Api%E8%AF%B4%E6%98%8E
     PictureSelector.create(this)

@@ -49,7 +49,7 @@ class VideoCompressActivity : CommBindTitleActivity<ActivityVideoCompressBinding
   //播放器(由于ViewBinding加载XML存在问题，所以改为代码加载)
   private lateinit var videoCompressPlayer: MyVideoView
 
-  @SuppressLint("SetTextI18n")
+  @SuppressLint("SetTextI18n", "SourceLockedOrientationActivity")
   override fun initContentView() {
     setTitleText(R.string.video_compress_title.xmlToString())
     viewBinding.videoCompressCompress.alpha = UiConstants.disable_alpha

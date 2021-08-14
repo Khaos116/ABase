@@ -1,5 +1,6 @@
 package cc.abase.demo.component.zxing
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
@@ -113,6 +114,7 @@ class ZxingActivity : CommBindTitleActivity<ActivityZxingBinding>() {
   //</editor-fold>
 
   //<editor-fold defaultstate="collapsed" desc="图库选择二维码图片">
+  @SuppressLint("SourceLockedOrientationActivity")
   private fun go2SelImg() {
     viewBinding.zxingContainer.removeAllViews()
     //https://github.com/LuckSiege/PictureSelector/wiki/PictureSelector-Api%E8%AF%B4%E6%98%8E
