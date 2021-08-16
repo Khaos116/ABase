@@ -20,7 +20,6 @@ import cc.abase.demo.sticky.StickyHeaderLinearLayoutManager
  * Time:20:48
  */
 class WanFragment : CommBindFragment<FragmentWanBinding>() {
-
   //<editor-fold defaultstate="collapsed" desc="外部获取实例">
   companion object {
     fun newInstance(): WanFragment {
@@ -45,6 +44,7 @@ class WanFragment : CommBindFragment<FragmentWanBinding>() {
   //<editor-fold defaultstate="collapsed" desc="懒加载">
   override
   fun lazyInit() {
+    mActivity.window?.setBackgroundDrawable(null)
     mRootLayout?.setBackgroundColor(Color.WHITE)
     viewBinding.wanRefreshLayout.setEnableScrollContentWhenLoaded(false) //加载更多完成整体下移，手动上滑显示更多内容
     viewBinding.wanRefreshLayout.setOnRefreshListener { mViewModel.refresh() }

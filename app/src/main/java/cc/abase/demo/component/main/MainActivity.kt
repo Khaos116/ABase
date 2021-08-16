@@ -46,7 +46,6 @@ class MainActivity : CommBindActivity<ActivityMainBinding>() {
 
   //<editor-fold defaultstate="collapsed" desc="初始化View">
   override fun initView() {
-    viewBinding.root.post { window.setBackgroundDrawable(null) }
     baseBinding.baseStatusView.setBackgroundColor(Color.WHITE)
     //添加子页面
     fragmentList.clear()
