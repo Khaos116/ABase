@@ -49,6 +49,7 @@ object VideoUtils {
   ) {
     if (CompressCall.progressCall != null) {
       "Khaos:正在压缩中".logE()
+      result?.invoke(false, "压缩失败")
       return
     }
     disposableCompress?.cancel()
