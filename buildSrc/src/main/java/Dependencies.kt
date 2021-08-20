@@ -37,7 +37,7 @@ object Deps {
 
   //<editor-fold defaultstate="collapsed" desc="三方必须基础配置"
   //log打印 https://github.com/JakeWharton/timber
-  const val timber = "com.jakewharton.timber:timber:4.7.1"
+  const val timber = "com.jakewharton.timber:timber:5.0.1"
 
   //工具类 https://github.com/Blankj/AndroidUtilCode/blob/master/lib/utilcode/README-CN.md
   const val utilcodex = "com.blankj:utilcodex:1.30.6"
