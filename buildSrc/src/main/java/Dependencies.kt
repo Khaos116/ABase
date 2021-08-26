@@ -1,9 +1,9 @@
 object Versions {
   internal const val sdkMin = 23
   internal const val sdkTarget = 30
-  internal const val kotlin = "1.5.21"
+  internal const val kotlin = "1.5.30"
   internal const val okHttp = "4.9.1"
-  internal const val rxHttp = "2.6.5"
+  internal const val rxHttp = "2.6.6"
   internal const val coil = "1.3.2"
 }
 
@@ -24,7 +24,7 @@ object Deps {
   const val activity_ktx = "androidx.activity:activity-ktx:1.3.1"
   const val appcompat = "androidx.appcompat:appcompat:1.4.0-alpha03"
   const val fragment = "androidx.fragment:fragment:1.4.0-alpha06"
-  const val material = "com.google.android.material:material:1.5.0-alpha01"
+  const val material = "com.google.android.material:material:1.5.0-alpha02"
   const val constraint = "androidx.constraintlayout:constraintlayout:2.1.0-rc01"
   const val viewmodel = "androidx.lifecycle:lifecycle-viewmodel:2.4.0-alpha03"
   const val lifecycle = "androidx.lifecycle:lifecycle-runtime-ktx:2.4.0-alpha03"
@@ -55,7 +55,7 @@ object Deps {
 
   //<editor-fold defaultstate="collapsed" desc="三方基础配置">
   //数据解析 https://github.com/google/gson
-  const val gson = "com.google.code.gson:gson:2.8.7"
+  const val gson = "com.google.code.gson:gson:2.8.8"
 
   //协程 https://github.com/Kotlin/kotlinx.coroutines
   const val coroutine = "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.1"
@@ -86,11 +86,11 @@ object Deps {
   const val multitype = "com.drakeet.multitype:multitype:4.3.0"
 
   //动态权限 https://github.com/getActivity/XXPermissions
-  const val xxpermissions = "com.github.getActivity:XXPermissions:11.6"
+  const val xxpermissions = "com.github.getActivity:XXPermissions:12.0"
 
   //ViewBinding https://github.com/DylanCaiCoding/ViewBindingKtx/blob/master/README_CN.md
-  const val binding_ktx = "com.github.DylanCaiCoding.ViewBindingKTX:viewbinding-ktx:1.2.3"
-  const val binding_base = "com.github.DylanCaiCoding.ViewBindingKTX:viewbinding-base:1.2.3"
+  const val binding_ktx = "com.github.DylanCaiCoding.ViewBindingKTX:viewbinding-ktx:1.2.4"
+  const val binding_base = "com.github.DylanCaiCoding.ViewBindingKTX:viewbinding-base:1.2.4"
   //</editor-fold>
 
   //<editor-fold defaultstate="collapsed" desc="三方常用配置">
@@ -118,7 +118,7 @@ object Deps {
   const val smart_footer = "com.scwang.smart:refresh-footer-classics:2.0.3"
 
   //手机号判断 https://github.com/google/libphonenumber/wiki/Android-Studio-setup
-  const val libphonenumber = "com.googlecode.libphonenumber:libphonenumber:8.12.29"
+  const val libphonenumber = "com.googlecode.libphonenumber:libphonenumber:8.12.31"
   //</editor-fold>
 
   //<editor-fold defaultstate="collapsed" desc="调试统计工具">
@@ -146,7 +146,7 @@ object Deps {
 
   //<editor-fold defaultstate="collapsed" desc="三方不常用配置">
   //图片选择器 https://github.com/LuckSiege/PictureSelector
-  const val pic_select = "io.github.lucksiege:pictureselector:v2.7.3-rc06"
+  const val pic_select = "io.github.lucksiege:pictureselector:v2.7.3-rc07"
 
   //Emoji表情 https://github.com/vanniktech/Emoji
   const val emoji = "com.vanniktech:emoji-twitter:0.7.0"

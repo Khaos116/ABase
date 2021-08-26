@@ -12,6 +12,7 @@ import androidx.lifecycle.Lifecycle
 import cc.ab.base.ext.*
 import cc.ab.base.utils.ping.*
 import cc.ab.base.widget.DragFloatView
+import cc.abase.demo.BuildConfig
 import cc.abase.demo.R
 import cc.abase.demo.component.comm.CommBindActivity
 import cc.abase.demo.component.comm.CommBindFragment
