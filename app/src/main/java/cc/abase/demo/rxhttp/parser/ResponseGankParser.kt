@@ -42,11 +42,8 @@ open class ResponseGankParser<T> : AbstractParser<T> {
     //val type: Type = ParameterizedTypeImpl[GankResponse::class.java, mType]
     ////读取返回结果
     //var result: String? = null
-    //val body = response.body
-    //if (body != null) {
-    //  val source = body.source()
-    //  source.request(Long.MAX_VALUE)
-    //  result = source.buffer.clone().readString(StandardCharsets.UTF_8)
+    //if (response.body?.contentType()?.isParsable() == true) {
+    //  result = response.peekBody(Long.MAX_VALUE).string()
     //}
     ////判断结果
     //if (result == null || result.isEmpty()) throw ParseException("500", "服务器没有数据", response)

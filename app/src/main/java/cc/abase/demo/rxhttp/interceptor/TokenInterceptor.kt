@@ -3,10 +3,10 @@ package cc.abase.demo.rxhttp.interceptor
 import cc.abase.demo.config.*
 import cc.abase.demo.constants.ErrorCode
 import cc.abase.demo.constants.api.WanUrls
+import cc.abase.demo.rxhttp.parser.isParsable
 import cc.abase.demo.utils.MMkvUtils
 import com.blankj.utilcode.util.EncryptUtils
 import okhttp3.*
-import okhttp3.internal.readBomAsCharset
 import org.json.JSONObject
 import rxhttp.RxHttp
 import rxhttp.wrapper.parse.OkResponseParser
@@ -35,27 +35,20 @@ class TokenInterceptor : Interceptor {
       false
     }
     //确定需要自动登录才进行数据处理
-    if (needAutoLogin) {
-      //处理登录过期
-      response.body?.let { body ->
-        body.source().let { source ->
-          source.request(Long.MAX_VALUE)
-          val charset = source.readBomAsCharset(body.contentType()?.charset(Charsets.UTF_8) ?: Charsets.UTF_8)
-          source.buffer.clone().readString(charset).let { json ->
-            val jsonObject = try {
-              JSONObject(json)
-            } catch (e: Exception) {
-              JSONObject("{}")
-            }
-            //判断Token过期
-            if (jsonObject.has("errorCode") && jsonObject.optInt("errorCode") == ErrorCode.NO_LOGIN) {
-              val username = MMkvUtils.getAccount()
-              val password = MMkvUtils.getPassword()
-              val suc = autoLogin(username, password)
-              //如果自动登录成功，则需要更新旧请求的token，重新发起请求
-              if (suc) return chain.proceed(request.newBuilder().also { b -> HeaderManger.getTokenPair()?.let { p -> b.header(p.first, p.second) } }.build())
-            }
-          }
+    if (needAutoLogin && response.body?.contentType()?.isParsable() == true) {
+      response.peekBody(Long.MAX_VALUE).string().let { json ->
+        val jsonObject = try {
+          JSONObject(json)
+        } catch (e: Exception) {
+          JSONObject("{}")
+        }
+        //判断Token过期
+        if (jsonObject.has("errorCode") && jsonObject.optInt("errorCode") == ErrorCode.NO_LOGIN) {
+          val username = MMkvUtils.getAccount()
+          val password = MMkvUtils.getPassword()
+          val suc = autoLogin(username, password)
+          //如果自动登录成功，则需要更新旧请求的token，重新发起请求
+          if (suc) return chain.proceed(request.newBuilder().also { b -> HeaderManger.getTokenPair()?.let { p -> b.header(p.first, p.second) } }.build())
         }
       }
     }
