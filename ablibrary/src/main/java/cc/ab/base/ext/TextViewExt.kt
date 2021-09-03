@@ -23,7 +23,7 @@ fun TextView.setNumberNo00(num: Double) {
       String.format("%dw", tenThousand)
     }
   } else {
-    val decimalFormat = DecimalFormat("##########.##########")
+    val decimalFormat = DecimalFormat("#########0.##########")
     decimalFormat.format(num)
   }
 }
@@ -40,7 +40,7 @@ fun TextView.getNumberNo00ZH(num: Double): String {
       String.format("%d万", tenThousand)
     }
   } else {
-    val decimalFormat = DecimalFormat("##########.##########")
+    val decimalFormat = DecimalFormat("#########0.##########")
     decimalFormat.format(num)
   }
 }

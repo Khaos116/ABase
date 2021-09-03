@@ -71,6 +71,6 @@ fun Number?.toStart0(): String {
 
 //删除默尾0
 fun Number?.delEnd0(): String {
-  return if (this == null) "0" else DecimalFormat("##########.##########").format(this.toDouble())
+  return if (this == null) "0" else DecimalFormat("#########0.##########").format(this.toDouble())
 }
 //</editor-fold>
