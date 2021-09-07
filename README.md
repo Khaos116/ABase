@@ -3,7 +3,8 @@
 使用了[干货集中营开源API](http://gank.io/api)和[玩Android开源API](https://www.wanandroid.com/blog/show/2)  
 可以使用[Build Scan](https://scans.gradle.com/)(Terminal下执行gradlew build --scan)分析[构建情况](https://scans.gradle.com/s/htlaaoofzhtz6)(相关配置在settings.gradle中)  
 注：测试发现多渠道Build Scan貌似无法成功，可以关闭多渠道到进行Build Scan
-三方库|描述
+
+三方库|描述  
 :---------------------------:|:---------------------------:
 **[Timber](https://github.com/JakeWharton/timber)**|JakeWharton大神的Log打印工具
 **[AndroidUtilCode](https://github.com/Blankj/AndroidUtilCode/blob/master/lib/utilcode/README-CN.md)**|超强工具合集
