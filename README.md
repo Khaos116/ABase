@@ -4,7 +4,7 @@
 可以使用[Build Scan](https://scans.gradle.com/)(Terminal下执行gradlew build --scan)分析[构建情况](https://scans.gradle.com/s/htlaaoofzhtz6)(相关配置在settings.gradle中)  
 注：测试发现多渠道Build Scan貌似无法成功，可以关闭多渠道到进行Build Scan
 三方库|描述
-:-:|:-:
+:---------------------------:|:---------------------------:
 **[Timber](https://github.com/JakeWharton/timber)**|JakeWharton大神的Log打印工具
 **[AndroidUtilCode](https://github.com/Blankj/AndroidUtilCode/blob/master/lib/utilcode/README-CN.md)**|超强工具合集
 **[AndroidAutoSize](https://github.com/JessYanCoding/AndroidAutoSize)**|今日头条UI适配方案
@@ -37,7 +37,7 @@
 **[SpEditTool](https://github.com/sunhapper/SpEditTool)**|微博@和#变色效果
 **[DiscreteScrollView](https://github.com/yarolegovich/DiscreteScrollView)**|实现无限轮播Banner、ViewPager横竖屏滑动等
 **[Walle](https://github.com/Meituan-Dianping/walle)**|美团瓦力打包([Bat批量打包](https://github.com/khaos116/ABase/tree/master/bat_channel)+[说明](https://www.jianshu.com/p/d41dad812048))
-**====================**|==========================================
+=============================|=============================
 
 //================================================================//
 ##  Banner效果图  
