@@ -38,7 +38,7 @@
 **[SpEditTool](https://github.com/sunhapper/SpEditTool)**|微博@和#变色效果
 **[DiscreteScrollView](https://github.com/yarolegovich/DiscreteScrollView)**|实现无限轮播Banner、ViewPager横竖屏滑动等
 **[Walle](https://github.com/Meituan-Dianping/walle)**|美团瓦力打包([Bat批量打包](https://github.com/khaos116/ABase/tree/master/bat_channel)+[说明](https://www.jianshu.com/p/d41dad812048))
-=============================|=============================
+===============================|===============================
 
 //================================================================//
 ##  Banner效果图  
