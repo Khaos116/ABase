@@ -81,8 +81,8 @@ class DrawableEditText(context: Context, attributeSet: AttributeSet?) :
       rightHeight = SizeUtils.dp2px(18f)
     } else {
       rightD = drawableEnd ?: drawableRight
-      if (rightWidth == 0) rightWidth = SizeUtils.dp2px(18f)
-      if (rightHeight == 0) rightHeight = SizeUtils.dp2px(18f)
+      if (rightWidth <= 0) rightWidth = SizeUtils.dp2px(18f)
+      if (rightHeight <= 0) rightHeight = SizeUtils.dp2px(18f)
     }
 
     minHeight = rightHeight
