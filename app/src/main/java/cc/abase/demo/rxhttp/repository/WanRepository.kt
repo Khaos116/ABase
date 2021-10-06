@@ -9,6 +9,7 @@ import cc.abase.demo.constants.api.WanUrls
 import rxhttp.RxHttp
 import rxhttp.toResponseWan
 import rxhttp.wrapper.cahce.CacheMode
+import rxhttp.wrapper.coroutines.Await
 
 /**
  * Description:
@@ -18,20 +19,18 @@ import rxhttp.wrapper.cahce.CacheMode
 object WanRepository {
 
   //获取Banner
-  suspend fun banner(readCache: Boolean = true): MutableList<BannerBean> {
+  suspend fun banner(readCache: Boolean = true): Await<MutableList<BannerBean>> {
     return RxHttp.get(WanUrls.Home.BANNER)
-        .setCacheValidTime(TimeConstants.HOME_CACHE) //设置缓存时长
-        .setCacheMode(if (readCache) CacheMode.READ_CACHE_FAILED_REQUEST_NETWORK else CacheMode.ONLY_NETWORK) //先读取缓存，失败再请求数据
-        .toResponseWan<MutableList<BannerBean>>()
-        .await()
+      .setCacheValidTime(TimeConstants.HOME_CACHE) //设置缓存时长
+      .setCacheMode(if (readCache) CacheMode.READ_CACHE_FAILED_REQUEST_NETWORK else CacheMode.ONLY_NETWORK) //先读取缓存，失败再请求数据
+      .toResponseWan<MutableList<BannerBean>>()
   }
 
   //获取文章列表
-  suspend fun article(@IntRange(from = 0) page: Int, readCache: Boolean = true): BasePageList<ArticleBean> {
+  suspend fun article(@IntRange(from = 0) page: Int, readCache: Boolean = true): Await<BasePageList<ArticleBean>> {
     return RxHttp.get(String.format(WanUrls.Home.ARTICLE, page))
-        .setCacheValidTime(TimeConstants.HOME_CACHE) //设置缓存时长
-        .setCacheMode(if (readCache) CacheMode.READ_CACHE_FAILED_REQUEST_NETWORK else CacheMode.ONLY_NETWORK) //先读取缓存，失败再请求数据
-        .toResponseWan<BasePageList<ArticleBean>>()
-        .await()
+      .setCacheValidTime(TimeConstants.HOME_CACHE) //设置缓存时长
+      .setCacheMode(if (readCache) CacheMode.READ_CACHE_FAILED_REQUEST_NETWORK else CacheMode.ONLY_NETWORK) //先读取缓存，失败再请求数据
+      .toResponseWan<BasePageList<ArticleBean>>()
   }
 }

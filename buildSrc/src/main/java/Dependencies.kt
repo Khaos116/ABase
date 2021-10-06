@@ -26,8 +26,10 @@ object Deps {
   const val fragment = "androidx.fragment:fragment:1.4.0-alpha06"
   const val material = "com.google.android.material:material:1.5.0-alpha02"
   const val constraint = "androidx.constraintlayout:constraintlayout:2.1.0-rc01"
-  const val viewmodel = "androidx.lifecycle:lifecycle-viewmodel:2.4.0-alpha03"
-  const val lifecycle = "androidx.lifecycle:lifecycle-runtime-ktx:2.4.0-alpha03"
+  //lifecycleScope只能在Activity、Fragment中使用，会绑定Activity和Fragment的生命周期
+  const val lifecycle = "androidx.lifecycle:lifecycle-runtime-ktx:2.3.1"
+  //viewModelScope只能在ViewModel中使用，绑定ViewModel的生命周期
+  const val viewmodel = "androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.1"
   //</editor-fold>
 
   //<editor-fold defaultstate="collapsed" desc="AndroidX基础配置">
