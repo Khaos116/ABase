@@ -3,7 +3,7 @@ object Versions {
   internal const val sdkTarget = 30
   internal const val kotlin = "1.5.30"
   internal const val okHttp = "4.9.1"
-  internal const val rxHttp = "2.6.6"
+  internal const val rxHttp = "2.7.0"
   internal const val coil = "1.3.2"
 }
 
@@ -58,8 +58,8 @@ object Deps {
   const val gson = "com.google.code.gson:gson:2.8.8"
 
   //协程 https://github.com/Kotlin/kotlinx.coroutines
-  const val coroutine = "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.1"
-  const val coroutine_android = "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.1"
+  const val coroutine = "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.2"
+  const val coroutine_android = "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.2"
 
   //网络请求 https://github.com/square/okhttp
   const val okhttp = "com.squareup.okhttp3:okhttp:${Versions.okHttp}"
@@ -70,9 +70,11 @@ object Deps {
   //RxHttp https://github.com/liujingxing/okhttp-RxHttp
   const val rxhttp = "com.github.liujingxing.rxhttp:rxhttp:${Versions.rxHttp}"
   const val rxhttp_kapt = "com.github.liujingxing.rxhttp:rxhttp-compiler:${Versions.rxHttp}"
-  const val rxlife_coroutine = "com.github.liujingxing.rxlife:rxlife-coroutine:2.1.0" //管理协程生命周期，页面销毁，关闭请求
-  const val rxlife_rxjava = "com.github.liujingxing.rxlife:rxlife-rxjava3:2.1.0" //管理RxJava3生命周期，页面销毁，关闭请求
+  const val rxlife_coroutine = "com.github.liujingxing.rxlife:rxlife-coroutine:2.2.0" //管理协程生命周期，页面销毁，关闭请求
+  const val rxlife_rxjava = "com.github.liujingxing.rxlife:rxlife-rxjava3:2.2.1" //管理RxJava3生命周期，页面销毁，关闭请求
 
+  //RxJava https://github.com/ReactiveX/RxJava
+  const val rxjava = "io.reactivex.rxjava3:rxjava:3.1.1"
   //RxAndroid https://github.com/ReactiveX/RxAndroid
   const val rxandroid = "io.reactivex.rxjava3:rxandroid:3.0.0"
 
@@ -86,7 +88,7 @@ object Deps {
   const val multitype = "com.drakeet.multitype:multitype:4.3.0"
 
   //动态权限 https://github.com/getActivity/XXPermissions
-  const val xxpermissions = "com.github.getActivity:XXPermissions:12.0"
+  const val xxpermissions = "com.github.getActivity:XXPermissions:12.3"
 
   //ViewBinding https://github.com/DylanCaiCoding/ViewBindingKtx/blob/master/README_CN.md
   const val binding_ktx = "com.github.DylanCaiCoding.ViewBindingKTX:viewbinding-ktx:1.2.4"

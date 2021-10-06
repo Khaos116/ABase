@@ -69,6 +69,7 @@ dependencies {
   api Deps.smart_footer
   api Deps.okhttp
   api Deps.okhttp_log
+  api Deps.rxjava
   api Deps.rxandroid
   api Deps.gson
   api Deps.mmkv
