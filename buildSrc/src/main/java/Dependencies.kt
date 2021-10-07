@@ -20,12 +20,12 @@ object Deps {
 
   //<editor-fold defaultstate="collapsed" desc="Studio-UI基础配置">
   //系统相关 https://maven.aliyun.com/mvn/search
-  const val core_ktx = "androidx.core:core-ktx:1.7.0-alpha01"
+  const val core_ktx = "androidx.core:core-ktx:1.6.0"
   const val activity_ktx = "androidx.activity:activity-ktx:1.3.1"
-  const val appcompat = "androidx.appcompat:appcompat:1.4.0-alpha03"
-  const val fragment = "androidx.fragment:fragment:1.4.0-alpha06"
-  const val material = "com.google.android.material:material:1.5.0-alpha02"
-  const val constraint = "androidx.constraintlayout:constraintlayout:2.1.0-rc01"
+  const val appcompat = "androidx.appcompat:appcompat:1.3.1"
+  const val fragment = "androidx.fragment:fragment:1.3.6"
+  const val material = "com.google.android.material:material:1.4.0"
+  const val constraint = "androidx.constraintlayout:constraintlayout:2.1.1"
   //lifecycleScope只能在Activity、Fragment中使用，会绑定Activity和Fragment的生命周期
   const val lifecycle = "androidx.lifecycle:lifecycle-runtime-ktx:2.3.1"
   //viewModelScope只能在ViewModel中使用，绑定ViewModel的生命周期
@@ -72,7 +72,6 @@ object Deps {
   //RxHttp https://github.com/liujingxing/okhttp-RxHttp
   const val rxhttp = "com.github.liujingxing.rxhttp:rxhttp:${Versions.rxHttp}"
   const val rxhttp_kapt = "com.github.liujingxing.rxhttp:rxhttp-compiler:${Versions.rxHttp}"
-  const val rxlife_coroutine = "com.github.liujingxing.rxlife:rxlife-coroutine:2.2.0" //管理协程生命周期，页面销毁，关闭请求
   const val rxlife_rxjava = "com.github.liujingxing.rxlife:rxlife-rxjava3:2.2.1" //管理RxJava3生命周期，页面销毁，关闭请求
 
   //RxJava https://github.com/ReactiveX/RxJava

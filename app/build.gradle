@@ -250,7 +250,6 @@ dependencies {
   implementation Deps.spedit_tool
   implementation Deps.rxhttp
   kapt Deps.rxhttp_kapt
-  implementation Deps.rxlife_coroutine
   implementation Deps.rxlife_rxjava
   implementation Deps.picker_view
   implementation Deps.flexbox
