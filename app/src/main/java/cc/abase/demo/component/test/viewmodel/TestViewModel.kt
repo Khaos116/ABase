@@ -1,15 +1,14 @@
 package cc.abase.demo.component.test.viewmodel
 
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.rxLifeScope
+import androidx.lifecycle.viewModelScope
 import cc.ab.base.ui.viewmodel.DataState
 import cc.abase.demo.component.comm.CommViewModel
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Flowable
 import io.reactivex.rxjava3.disposables.Disposable
 import io.reactivex.rxjava3.schedulers.Schedulers
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.delay
+import kotlinx.coroutines.*
 import java.util.concurrent.TimeUnit
 
 /**
@@ -46,7 +45,7 @@ class TestViewModel : CommViewModel() {
   //协程倒计时
   private fun startTime2() {
     disposable2?.cancel()
-    disposable2 = rxLifeScope.launch {
+    disposable2 = viewModelScope.launch {
       var count = 1
       timeLiveData2.value = DataState.SuccessRefresh(newData = count.toString(),hasMore = false)
       while (count < 20) {

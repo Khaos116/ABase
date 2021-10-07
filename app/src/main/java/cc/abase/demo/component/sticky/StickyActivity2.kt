@@ -2,8 +2,7 @@ package cc.abase.demo.component.sticky
 
 import android.content.Context
 import android.content.Intent
-import android.view.LayoutInflater
-import androidx.lifecycle.rxLifeScope
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.OnScrollListener
@@ -56,7 +55,7 @@ class StickyActivity2 : CommBindTitleActivity<ActivitySticky2Binding>() {
       //停止惯性滚动
       viewBinding.sticky2Recycler1.stopInertiaRolling()
       viewBinding.sticky2Recycler2.stopInertiaRolling()
-      rxLifeScope.launch {
+      lifecycleScope.launch {
         withContext(Dispatchers.IO) { delay(2000) }.let {
           fillData(originDatas.takeLast(40).toMutableList(), true)
           viewBinding.sticky2RefreshLayout.finishLoadMore(true)
@@ -75,7 +74,7 @@ class StickyActivity2 : CommBindTitleActivity<ActivitySticky2Binding>() {
     viewBinding.sticky2Recycler1.adapter = leftAdapter
     viewBinding.sticky2Recycler2.adapter = rightAdapter
     showLoadingView()
-    rxLifeScope.launch {
+    lifecycleScope.launch {
       withContext(Dispatchers.IO) {
         delay(2000)
         val temp = mutableListOf<UserStickyBean>()

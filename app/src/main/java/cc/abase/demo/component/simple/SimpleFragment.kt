@@ -2,7 +2,7 @@ package cc.abase.demo.component.simple
 
 import android.graphics.Color
 import android.view.Gravity
-import androidx.lifecycle.rxLifeScope
+import androidx.lifecycle.lifecycleScope
 import cc.ab.base.ext.noMoreData
 import cc.abase.demo.bean.local.DividerBean
 import cc.abase.demo.bean.local.SimpleTxtBean
@@ -52,17 +52,17 @@ class SimpleFragment private constructor() : CommBindFragment<FragmentSimpleBind
       override fun onFinish(refreshLayout: RefreshLayout, success: Boolean) = 0
     })
     viewBinding.simpleRefresh.setOnRefreshListener {
-      rxLifeScope.launch {
+      lifecycleScope.launch {
         withContext(Dispatchers.IO) { delay(2000) }.let {
           val list = mutableListOf<String>()
           val size = multiTypeAdapter.items.size / 2
           for (i in size + 10 downTo size + 1) list.add(
-              "这是${
-                when (mType) {
-                  1 -> "Smart"
-                  else -> "Normal"
-                }
-              }测试数据${i}"
+            "这是${
+              when (mType) {
+                1 -> "Smart"
+                else -> "Normal"
+              }
+            }测试数据${i}"
           )
           val items = mutableListOf<Any>()
           list.forEach {
@@ -80,12 +80,12 @@ class SimpleFragment private constructor() : CommBindFragment<FragmentSimpleBind
     }
     val datas = mutableListOf<String>()
     for (i in 20 downTo 1) datas.add(
-        "这是${
-          when (mType) {
-            1 -> "Smart"
-            else -> "Normal"
-          }
-        }测试数据${i}"
+      "这是${
+        when (mType) {
+          1 -> "Smart"
+          else -> "Normal"
+        }
+      }测试数据${i}"
     )
     val items = mutableListOf<Any>()
     datas.forEach {
