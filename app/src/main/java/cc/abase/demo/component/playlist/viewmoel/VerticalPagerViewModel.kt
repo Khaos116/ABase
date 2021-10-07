@@ -47,7 +47,7 @@ class VerticalPagerViewModel : CommViewModel() {
       videoLiveData.value = SuccessMore(
         newData = result,
         totalData = if (old.isNullOrEmpty()) result else (old + result).toMutableList(),
-        hasMore = result.size >= 4
+        hasMore = old?.size ?: 0 + result.size >= 24
       )
     }
   }
