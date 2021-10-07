@@ -41,7 +41,6 @@ class WanViewModel : CommViewModel() {
 
   //<editor-fold defaultstate="collapsed" desc="内部处理">
   private var currentPage = 0
-  private var hasMore = false
 
   //请求banner(有数据就不再请求了)
   private fun requestBanner() {
@@ -53,7 +52,7 @@ class WanViewModel : CommViewModel() {
           bannerLiveData.value = Start(oldData = old)
         }
         .awaitResult {
-          bannerLiveData.value = SuccessRefresh(newData = it)
+          bannerLiveData.value = SuccessRefresh(newData = it, hasMore = false)
         }
         .onFailure { e ->
           bannerLiveData.value = FailRefresh(oldData = old, exc = e)
@@ -72,11 +71,15 @@ class WanViewModel : CommViewModel() {
         }
         .awaitResult { response ->
           val result = response.datas?.toMutableList() ?: mutableListOf()
-          hasMore = response.curPage < response.total
+          val hasMore = response.curPage < response.total
           currentPage = page
           //可以直接更新UI
-          articleLiveData.value = if (page == 0) SuccessRefresh(newData = result)
-          else SuccessMore(newData = result, totalData = if (old.isNullOrEmpty()) result else (old + result).toMutableList())
+          articleLiveData.value = if (page == 0) SuccessRefresh(newData = result, hasMore = hasMore)
+          else SuccessMore(
+            newData = result,
+            totalData = if (old.isNullOrEmpty()) result else (old + result).toMutableList(),
+            hasMore = hasMore
+          )
         }.onFailure { e ->
           articleLiveData.value = if (page == 0) FailRefresh(oldData = old, exc = e) else FailMore(oldData = old, exc = e)
         }

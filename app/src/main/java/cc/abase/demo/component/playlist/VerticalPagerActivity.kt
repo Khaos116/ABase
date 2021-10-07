@@ -6,7 +6,13 @@ import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup.MarginLayoutParams
 import androidx.viewpager.widget.ViewPager
-import cc.ab.base.ext.*
+import cc.ab.base.ext.click
+import cc.ab.base.ext.hasMoreData
+import cc.ab.base.ext.mContext
+import cc.ab.base.ext.mStatusBarHeight
+import cc.ab.base.ext.noMoreData
+import cc.ab.base.ext.pressEffectAlpha
+import cc.ab.base.ext.removeParent
 import cc.ab.base.ui.viewmodel.DataState
 import cc.ab.base.widget.livedata.MyObserver
 import cc.abase.demo.bean.local.VideoBean
@@ -104,9 +110,13 @@ class VerticalPagerActivity : CommBindActivity<ActivityPlayPagerBinding>() {
         is DataState.Start -> {
           if (it.data.isNullOrEmpty()) showLoadingView()
         }
-        is DataState.Complete -> {
-          dismissLoadingView()
-          hasMore = it.hasMore
+        else -> {
+        }
+      }
+      if (it?.isComplete() == true) {
+        dismissLoadingView()
+        it.hasMore()?.let { m ->
+          hasMore = m
           if (viewBinding.verticalPagerViewPager.currentItem == mVideoList.size - 1) {
             if (hasMore) {
               viewBinding.verticalPagerRefresh.hasMoreData()
@@ -116,8 +126,6 @@ class VerticalPagerActivity : CommBindActivity<ActivityPlayPagerBinding>() {
           } else {
             viewBinding.verticalPagerRefresh.setEnableLoadMore(false)
           }
-        }
-        else -> {
         }
       }
     })

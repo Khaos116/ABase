@@ -1,20 +1,27 @@
 package cc.abase.demo.component.sticky
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.view.LayoutInflater
 import androidx.recyclerview.widget.LinearLayoutManager
-import cc.ab.base.ext.*
+import cc.ab.base.ext.mActivity
+import cc.ab.base.ext.mContext
+import cc.ab.base.ext.toast
 import cc.ab.base.ui.viewmodel.DataState
 import cc.ab.base.widget.livedata.MyObserver
 import cc.abase.demo.R
-import cc.abase.demo.bean.local.*
+import cc.abase.demo.bean.local.CityBean
+import cc.abase.demo.bean.local.DividerBean
+import cc.abase.demo.bean.local.ProvinceBean
 import cc.abase.demo.component.comm.CommBindTitleActivity
 import cc.abase.demo.component.sticky.viewmodel.StickyViewModel
 import cc.abase.demo.constants.EventKeys
 import cc.abase.demo.databinding.ActivityStickyBinding
-import cc.abase.demo.item.*
+import cc.abase.demo.item.DividerItem
+import cc.abase.demo.item.StickyNormalItem
+import cc.abase.demo.item.StickyTopItem
 import cc.abase.demo.sticky.StickyAnyAdapter
 import cc.abase.demo.sticky.StickyHeaderLinearLayoutManager
 import com.blankj.utilcode.util.StringUtils
@@ -101,6 +108,7 @@ class StickyActivity : CommBindTitleActivity<ActivityStickyBinding>() {
   //</editor-fold>
 
   //<editor-fold defaultstate="collapsed" desc="监听加载结果">
+  @SuppressLint("NotifyDataSetChanged")
   private val myObserver = MyObserver<DataState<MutableList<ProvinceBean>>?> {
     when (it) {
       is DataState.SuccessRefresh -> {
@@ -119,11 +127,11 @@ class StickyActivity : CommBindTitleActivity<ActivityStickyBinding>() {
       is DataState.Start -> {
         showLoadingView()
       }
-      is DataState.Complete -> {
-        dismissLoadingView()
-      }
       else -> {
       }
+    }
+    if (it?.isComplete() == true) {
+      dismissLoadingView()
     }
   }
   //</editor-fold>

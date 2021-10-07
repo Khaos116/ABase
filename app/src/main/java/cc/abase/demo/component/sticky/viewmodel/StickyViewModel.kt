@@ -3,7 +3,6 @@ package cc.abase.demo.component.sticky.viewmodel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.rxLifeScope
 import cc.ab.base.ui.viewmodel.DataState
-import cc.ab.base.ui.viewmodel.DataState.Complete
 import cc.ab.base.ui.viewmodel.DataState.FailRefresh
 import cc.ab.base.ui.viewmodel.DataState.Start
 import cc.ab.base.ui.viewmodel.DataState.SuccessRefresh
@@ -15,7 +14,9 @@ import com.blankj.utilcode.util.GsonUtils
 import com.blankj.utilcode.util.ResourceUtils
 import com.github.promeg.pinyinhelper.Pinyin
 import com.google.gson.reflect.TypeToken
-import kotlinx.coroutines.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.withContext
 
 /**
  * Description:
@@ -40,13 +41,11 @@ class StickyViewModel : CommViewModel() {
         //按照拼音排序
         list.sortBy { pb -> pb.pinYinFirst }
         list
-      }.let { cityLiveData.value = SuccessRefresh(newData = it) }
+      }.let { cityLiveData.value = SuccessRefresh(newData = it, hasMore = false) }
     }, { e ->
       cityLiveData.value = FailRefresh(oldData = old, exc = e)
     }, {
       cityLiveData.value = Start(oldData = old)
-    }, {
-      cityLiveData.value = Complete(totalData = cityLiveData.value?.data, hasMore = false)
     })
   }
 
@@ -73,31 +72,29 @@ class StickyViewModel : CommViewModel() {
           //新的header
           if (province.regionName != country.pinyinFirst) {
             province = province.copy(
-                id = index.toLong(),
-                pinYinFirst = country.pinyinFirst,
-                regionName = country.pinyinFirst,
-                cmsRegionDtoList = mutableListOf()
+              id = index.toLong(),
+              pinYinFirst = country.pinyinFirst,
+              regionName = country.pinyinFirst,
+              cmsRegionDtoList = mutableListOf()
             )
             result.add(province)
           }
           //子列表
           province.cmsRegionDtoList?.add(
-              CityBean(
-                  id = index.toLong(),
-                  pinYinFirst = country.pinyinFirst,
-                  regionFullName = country.name_zh,
-                  regionCode = "+${country.country_phone_code}"
-              )
+            CityBean(
+              id = index.toLong(),
+              pinYinFirst = country.pinyinFirst,
+              regionFullName = country.name_zh,
+              regionCode = "+${country.country_phone_code}"
+            )
           )
         }
         result
-      }.let { countryLiveData.value = SuccessRefresh(newData = it) }
+      }.let { countryLiveData.value = SuccessRefresh(newData = it, hasMore = false) }
     }, { e ->
       countryLiveData.value = FailRefresh(oldData = old, exc = e)
     }, {
       countryLiveData.value = Start(oldData = old)
-    }, {
-      countryLiveData.value = Complete(totalData = countryLiveData.value?.data, hasMore = false)
     })
   }
 }

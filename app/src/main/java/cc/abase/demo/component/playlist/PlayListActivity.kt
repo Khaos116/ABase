@@ -1,5 +1,6 @@
 package cc.abase.demo.component.playlist
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.view.View
@@ -52,6 +53,7 @@ class PlayListActivity : CommBindTitleActivity<ActivityPlayListBinding>() {
   //</editor-fold>
 
   //<editor-fold defaultstate="collapsed" desc="初始化View">
+  @SuppressLint("NotifyDataSetChanged")
   override fun initContentView() {
     setTitleText(StringUtils.getString(R.string.title_play_list))
     multiTypeAdapter.register(VideoListItem { startPlay(multiTypeAdapter.items.indexOf(it)) })
@@ -76,7 +78,6 @@ class PlayListActivity : CommBindTitleActivity<ActivityPlayListBinding>() {
     viewModel.videoLiveData.observe(this, MyObserver {
       when (it) {
         is DataState.Start -> showLoadingView()
-        is DataState.Complete -> dismissLoadingView()
         is DataState.SuccessRefresh -> {
           val items = mutableListOf<Any>()
           it.data?.let { list ->
@@ -88,6 +89,9 @@ class PlayListActivity : CommBindTitleActivity<ActivityPlayListBinding>() {
         }
         else -> {
         }
+      }
+      if (it?.isComplete() == true) {
+        dismissLoadingView()
       }
     })
     viewModel.loadData()

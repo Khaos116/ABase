@@ -35,12 +35,12 @@ class TestViewModel : CommViewModel() {
   private fun startTime1() {
     disposable1?.dispose()
     disposable1 = Flowable.intervalRange(1, count, 0, 500, TimeUnit.MILLISECONDS)
-        .subscribeOn(Schedulers.io())
-        .unsubscribeOn(Schedulers.io())
-        .observeOn(AndroidSchedulers.mainThread())
-        .doOnNext { timeLiveData1.value = DataState.SuccessRefresh(newData = it.toString()) }
-        .doOnComplete { }
-        .subscribe()
+      .subscribeOn(Schedulers.io())
+      .unsubscribeOn(Schedulers.io())
+      .observeOn(AndroidSchedulers.mainThread())
+      .doOnNext { timeLiveData1.value = DataState.SuccessRefresh(newData = it.toString(), hasMore = false) }
+      .doOnComplete { }
+      .subscribe()
   }
 
   //协程倒计时
@@ -48,11 +48,11 @@ class TestViewModel : CommViewModel() {
     disposable2?.cancel()
     disposable2 = rxLifeScope.launch {
       var count = 1
-      timeLiveData2.value = DataState.SuccessRefresh(newData = count.toString())
+      timeLiveData2.value = DataState.SuccessRefresh(newData = count.toString(),hasMore = false)
       while (count < 20) {
         delay(500)
         count++
-        timeLiveData2.value = DataState.SuccessRefresh(newData = count.toString())
+        timeLiveData2.value = DataState.SuccessRefresh(newData = count.toString(), hasMore = false)
       }
     }
   }

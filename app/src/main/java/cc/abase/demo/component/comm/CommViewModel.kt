@@ -4,7 +4,6 @@ import cc.ab.base.ext.logE
 import cc.ab.base.ui.viewmodel.BaseViewModel
 import cc.ab.base.ui.viewmodel.DataState
 import com.scwang.smart.refresh.layout.SmartRefreshLayout
-import com.scwang.smart.refresh.layout.constant.RefreshState
 
 /**
  * Author:Khaos
@@ -18,18 +17,23 @@ abstract class CommViewModel : BaseViewModel() {
       is DataState.SuccessRefresh -> { //刷新成功，如果有数据则可以拉出"加载更多"或者"没有更多"
         refreshLayout?.setEnableRefresh(true) //允许下拉刷新(空数据重新刷新)
         refreshLayout?.setEnableLoadMore(!dataState.data.isNullOrEmpty()) //列表数据不为空才能上拉
-      }
-      is DataState.SuccessMore -> refreshLayout?.finishLoadMore() //加载更多成功
-      is DataState.FailMore -> {
-        refreshLayout?.finishLoadMore(false) //加载更多失败
-        dataState.exc.logE()
-      }
-      is DataState.Complete -> { //请求完成
+        refreshLayout?.setNoMoreData(!dataState.hasMore)//判断是否还有更多
         refreshLayout?.finishRefresh() //结束刷新(不论成功还是失败)
-        refreshLayout?.setNoMoreData(!dataState.hasMore) //判断是否还有更多
-        if (refreshLayout?.state == RefreshState.Loading) refreshLayout.finishLoadMore() //加载更多太快可能出现加载更多不消失，所以纠正
       }
-      is DataState.FailRefresh -> dataState.exc.logE()
+      is DataState.FailRefresh -> {
+        dataState.exc.logE()
+        refreshLayout?.finishRefresh() //结束刷新(不论成功还是失败)
+      }
+      is DataState.SuccessMore -> {
+        refreshLayout?.setNoMoreData(!dataState.hasMore) //判断是否还有更多
+        refreshLayout?.finishLoadMore()
+        //if (refreshLayout?.state == RefreshState.Loading) refreshLayout.finishLoadMore() //加载更多太快可能出现加载更多不消失，所以纠正
+      } //加载更多成功
+      is DataState.FailMore -> {
+        dataState.exc.logE()
+        refreshLayout?.finishLoadMore(false) //加载更多失败
+        //if (refreshLayout?.state == RefreshState.Loading) refreshLayout.finishLoadMore() //加载更多太快可能出现加载更多不消失，所以纠正
+      }
       else -> {
       }
     }

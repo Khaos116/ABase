@@ -44,9 +44,17 @@ class GankViewModel : CommViewModel() {
         }
         .awaitResult { result ->
           currentPage = page
+          val more = !result.isNullOrEmpty() && result.size % pageSize == 0
           //可以直接更新UI
-          androidLiveData.value = if (page == 1) SuccessRefresh(newData = result)
-          else SuccessMore(newData = result, totalData = if (old.isNullOrEmpty()) result else (old + result).toMutableList())
+          androidLiveData.value = if (page == 1) SuccessRefresh(
+            newData = result,
+            hasMore = more
+          )
+          else SuccessMore(
+            newData = result,
+            totalData = if (old.isNullOrEmpty()) result else (old + result).toMutableList(),
+            hasMore = more
+          )
         }
         .onFailure { e ->
           androidLiveData.value = if (page == 1) FailRefresh(oldData = old, exc = e) else FailMore(oldData = old, exc = e)

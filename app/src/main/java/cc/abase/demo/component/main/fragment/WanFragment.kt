@@ -10,7 +10,10 @@ import cc.abase.demo.component.comm.CommBindFragment
 import cc.abase.demo.component.main.viewmodel.WanViewModel
 import cc.abase.demo.component.web.WebActivity
 import cc.abase.demo.databinding.FragmentWanBinding
-import cc.abase.demo.item.*
+import cc.abase.demo.item.ArticleItem
+import cc.abase.demo.item.BannerItem
+import cc.abase.demo.item.EmptyErrorItem
+import cc.abase.demo.item.LoadingItem
 import cc.abase.demo.sticky.StickyAnyAdapter
 import cc.abase.demo.sticky.StickyHeaderLinearLayoutManager
 
@@ -108,11 +111,12 @@ class WanFragment : CommBindFragment<FragmentWanBinding>() {
     })
     //banner监听
     mViewModel.bannerLiveData.observe(this, MyObserver {
-      if (it is DataState.Complete) { //如果banner刷新靠后，则请求完成后重新刷一下文章列表
+      if (it?.isComplete() == true) { //如果banner刷新靠后，则请求完成后重新刷一下文章列表
         val articleData = mViewModel.articleLiveData.value
-        if (articleData is DataState.Complete) {
-          mViewModel.articleLiveData.value = DataState.SuccessRefresh(newData = articleData.data)
-          mViewModel.articleLiveData.value = DataState.Complete(totalData = articleData.data, hasMore = articleData.hasMore)
+        if (articleData?.isComplete() == true) {
+          articleData.hasMore()?.let { m ->
+            mViewModel.articleLiveData.value = DataState.SuccessRefresh(newData = articleData.data, hasMore = m)
+          }
         }
       }
     })
