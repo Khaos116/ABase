@@ -123,7 +123,7 @@ object Deps {
   const val smart_footer = "com.scwang.smart:refresh-footer-classics:2.0.3"
 
   //手机号判断 https://github.com/google/libphonenumber/wiki/Android-Studio-setup
-  const val libphonenumber = "com.googlecode.libphonenumber:libphonenumber:8.12.31"
+  const val libphonenumber = "com.googlecode.libphonenumber:libphonenumber:8.12.34"
   //</editor-fold>
 
   //<editor-fold defaultstate="collapsed" desc="调试统计工具">
@@ -141,7 +141,7 @@ object Deps {
   const val leakcanary = "com.squareup.leakcanary:leakcanary-android:2.7"
 
   //UI调试 https://github.com/YvesCheung/UInspector
-  const val uinspector = "com.github.YvesCheung.UInspector:Uinspector:2.0.5"
+  const val uinspector = "com.github.YvesCheung.UInspector:Uinspector:2.0.8"
 
   //bugly https://bugly.qq.com/docs/user-guide/instruction-manual-android/?v=20190916214340
   const val bugly_crash = "com.tencent.bugly:crashreport:3.4.4"
@@ -151,10 +151,10 @@ object Deps {
 
   //<editor-fold defaultstate="collapsed" desc="三方不常用配置">
   //图片选择器 https://github.com/LuckSiege/PictureSelector
-  const val pic_select = "io.github.lucksiege:pictureselector:v2.7.3-rc07"
+  const val pic_select = "io.github.lucksiege:pictureselector:v2.7.3-rc08"
 
   //Emoji表情 https://github.com/vanniktech/Emoji
-  const val emoji = "com.vanniktech:emoji-twitter:0.7.0"
+  const val emoji = "com.vanniktech:emoji-twitter:0.8.0"
 
   //SideBar https://github.com/D10NGYANG/DL10SideBar
   const val side_bar = "com.github.D10NGYANG:DL10SideBar:1.0.0"
@@ -168,7 +168,7 @@ object Deps {
   const val dk_exo = "xyz.doikki.android.dkplayer:player-exo:3.3.5"
 
   //https://github.com/airbnb/lottie-android
-  const val lottie = "com.airbnb.android:lottie:4.0.0"
+  const val lottie = "com.airbnb.android:lottie:4.2.0"
 
   //中文转拼音 https://github.com/promeG/TinyPinyin
   const val pinyin = "com.github.promeg:tinypinyin:2.0.3" // TinyPinyin核心包，约80KB
@@ -190,7 +190,7 @@ object Deps {
   const val pattern_locker = "com.github.ihsg:PatternLocker:2.5.7"
 
   //万能阴影布局 https://github.com/lihangleo2/ShadowLayout
-  const val shadow_layout = "com.github.lihangleo2:ShadowLayout:3.2.1"
+  const val shadow_layout = "com.github.lihangleo2:ShadowLayout:3.2.3"
 
   //四角颜色的渐变背景  https://github.com/GIGAMOLE/QuatroGrade
   const val quatroGrade = "com.github.GIGAMOLE:QuatroGrade:1.0.0"
