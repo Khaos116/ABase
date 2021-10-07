@@ -22,7 +22,8 @@ object Deps {
   //系统相关 https://maven.aliyun.com/mvn/search
   const val core_ktx = "androidx.core:core-ktx:1.6.0"
   const val activity_ktx = "androidx.activity:activity-ktx:1.3.1"
-  const val appcompat = "androidx.appcompat:appcompat:1.3.1"
+  //appcompat版本太低出现 Didn't find class "androidx.startup.InitializationProvider"
+  const val appcompat = "androidx.appcompat:appcompat:1.4.0-alpha03"
   const val fragment = "androidx.fragment:fragment:1.3.6"
   const val material = "com.google.android.material:material:1.4.0"
   const val constraint = "androidx.constraintlayout:constraintlayout:2.1.1"
@@ -72,6 +73,7 @@ object Deps {
   //RxHttp https://github.com/liujingxing/okhttp-RxHttp
   const val rxhttp = "com.github.liujingxing.rxhttp:rxhttp:${Versions.rxHttp}"
   const val rxhttp_kapt = "com.github.liujingxing.rxhttp:rxhttp-compiler:${Versions.rxHttp}"
+  const val rxlife_coroutine = "com.github.liujingxing.rxlife:rxlife-coroutine:2.2.0" //管理协程生命周期，页面销毁，关闭请求
   const val rxlife_rxjava = "com.github.liujingxing.rxlife:rxlife-rxjava3:2.2.1" //管理RxJava3生命周期，页面销毁，关闭请求
 
   //RxJava https://github.com/ReactiveX/RxJava
