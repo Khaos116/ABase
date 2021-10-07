@@ -1,11 +1,12 @@
 package cc.abase.demo.component.main.fragment
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
 import android.graphics.Color
 import android.view.Gravity
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.rxLifeScope
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import cc.ab.base.ext.*
 import cc.abase.demo.R
@@ -45,8 +46,8 @@ import cc.abase.demo.widget.dialog.dateSelDialog
 import com.blankj.utilcode.util.ColorUtils
 import com.drakeet.multitype.MultiTypeAdapter
 import com.jeremyliao.liveeventbus.LiveEventBus
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.launch
+import rxhttp.awaitResult
 import java.util.Locale
 
 /**
@@ -103,6 +104,7 @@ class MineFragment : CommBindFragment<FragmentMineBinding>() {
   //</editor-fold>
 
   //<editor-fold defaultstate="collapsed" desc="懒加载">
+  @SuppressLint("NotifyDataSetChanged")
   @Suppress("UNCHECKED_CAST")
   override fun lazyInit() {
     mRootLayout?.setBackgroundColor(Color.WHITE)
@@ -152,21 +154,24 @@ class MineFragment : CommBindFragment<FragmentMineBinding>() {
       })
     }
     //获取积分
-    rxLifeScope.launch({
-      withContext(Dispatchers.IO) { UserRepository.myIntegral() }.let {
-        viewBinding.mineIntegral.text = String.format(R.string.my_integral.xmlToString(), it.coinCount)
-        multiTypeAdapter.items = items
-        multiTypeAdapter.notifyDataSetChanged()
-      }
-    }, { e ->
-      e.toast()
-      viewBinding.mineIntegral.text = String.format(R.string.my_integral.xmlToString(), 0)
-      multiTypeAdapter.items = items
-      multiTypeAdapter.notifyDataSetChanged()
-    }, {}, {
-      dismissLoadingView()
-      viewBinding.root.visible()
-    })
+    lifecycleScope.launch {
+      UserRepository.myIntegral()
+        .awaitResult {
+          viewBinding.mineIntegral.text = String.format(R.string.my_integral.xmlToString(), it.coinCount)
+          multiTypeAdapter.items = items
+          multiTypeAdapter.notifyDataSetChanged()
+          dismissLoadingView()
+          viewBinding.root.visible()
+        }
+        .onFailure { e ->
+          e.toast()
+          viewBinding.mineIntegral.text = String.format(R.string.my_integral.xmlToString(), 0)
+          multiTypeAdapter.items = items
+          multiTypeAdapter.notifyDataSetChanged()
+          dismissLoadingView()
+          viewBinding.root.visible()
+        }
+    }
     //监听加载进度
     LiveEventBus.get(EventKeys.UPDATE_PROGRESS, Triple(UpdateEnum.START, 0f, "").javaClass).observe(this) {
       when (it.first) {

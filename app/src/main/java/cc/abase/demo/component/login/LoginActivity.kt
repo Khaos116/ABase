@@ -3,7 +3,7 @@ package cc.abase.demo.component.login
 import android.content.Context
 import android.content.Intent
 import androidx.core.widget.doAfterTextChanged
-import androidx.lifecycle.rxLifeScope
+import androidx.lifecycle.lifecycleScope
 import cc.ab.base.ext.*
 import cc.ab.base.utils.CcInputHelper
 import cc.ab.base.utils.PressEffectHelper
@@ -22,8 +22,8 @@ import cc.abase.demo.widget.dialog.commAlertDialog
 import com.blankj.utilcode.util.*
 import com.google.gson.reflect.TypeToken
 import com.tencent.mmkv.MMKV
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.*
+import rxhttp.awaitResult
 
 /**
  * Description:
@@ -71,23 +71,25 @@ class LoginActivity : CommBindActivity<ActivityLoginBinding>() {
     viewBinding.loginEditPassword.doAfterTextChanged { checkSubmit() }
     viewBinding.loginSubmit.click {
       showActionLoading()
-      rxLifeScope.launch({
+      lifecycleScope.launch {
         val account = viewBinding.loginEditAccount.text.toString()
         val password = viewBinding.loginEditPassword.text.toString()
-        withContext(Dispatchers.IO) { UserRepository.login(account, password) }.let { user ->
-          "登录成功:${user.nickname}".logI()
-          mmkv?.clearAll()
-          saveBiometric(account, password)
-        }
-      }, { e ->
-        e.toast()
-      }, {}, {
-        dismissActionLoading()
-      })
+        UserRepository.login(account, password)
+          .awaitResult { user ->
+            "登录成功:${user.nickname}".logI()
+            mmkv?.clearAll()
+            saveBiometric(account, password)
+            dismissActionLoading()
+          }
+          .onFailure { e ->
+            e.toast()
+            dismissActionLoading()
+          }
+      }
     }
     viewBinding.loginRegister.click { RegisterActivity.startActivity(mContext) }
     //键盘弹窗直接处理登录操作View位置
-    extKeyBoard { statusHeight, navigationHeight, keyBoardHeight ->
+    extKeyBoard { _, _, keyBoardHeight ->
       if (keyBoardHeight > 0) {
         viewBinding.loginRegister.invisible()
         val array1 = intArrayOf(0, 0)
@@ -191,22 +193,24 @@ class LoginActivity : CommBindActivity<ActivityLoginBinding>() {
         GsonUtils.fromJson<MutableMap<String, String>>(loginInfo, type)?.let { map ->
           map.toList().firstOrNull()?.let { pair ->
             showActionLoading()
-            rxLifeScope.launch({
+            lifecycleScope.launch {
               val account = pair.first
               val password = pair.second
-              withContext(Dispatchers.IO) { UserRepository.login(account, password) }.let { user ->
-                "登录成功:${user.nickname}".logI()
-                MainActivity.startActivity(mContext)
-              }
-            }, { e ->
-              e.toast()
-            }, {}, {
-              dismissActionLoading()
-            })
+              UserRepository.login(account, password)
+                .awaitResult { user ->
+                  "登录成功:${user.nickname}".logI()
+                  MainActivity.startActivity(mContext)
+                  dismissActionLoading()
+                }
+                .onFailure { e ->
+                  e.toast()
+                  dismissActionLoading()
+                }
+            }
           }
         }
       }
-    }, { code, msg ->
+    }, { code, _ ->
       if (AppUtils.isAppForeground()) {
         failCount++
         if (code == BiometricInterface.ERROR_FAILED && failCount <= 5) {

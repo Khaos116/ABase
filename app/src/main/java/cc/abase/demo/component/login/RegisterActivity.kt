@@ -4,7 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.text.TextUtils
 import androidx.core.widget.doAfterTextChanged
-import androidx.lifecycle.rxLifeScope
+import androidx.lifecycle.lifecycleScope
 import cc.ab.base.ext.*
 import cc.ab.base.utils.CcInputHelper
 import cc.abase.demo.R
@@ -15,8 +15,8 @@ import cc.abase.demo.constants.UiConstants
 import cc.abase.demo.databinding.ActivityRegisterBinding
 import cc.abase.demo.rxhttp.repository.UserRepository
 import com.blankj.utilcode.util.StringUtils
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.launch
+import rxhttp.awaitResult
 
 /**
  * Description:
@@ -45,23 +45,23 @@ class RegisterActivity : CommBindTitleActivity<ActivityRegisterBinding>() {
     viewBinding.registerEditPassword2.doAfterTextChanged { checkSubmit() }
     viewBinding.registerSubmit.click {
       showActionLoading()
-      rxLifeScope.launch({
-        withContext(Dispatchers.IO) {
-          UserRepository.register(
-              viewBinding.registerEditAccount.text.toString(),
-              viewBinding.registerEditPassword1.text.toString(),
-              viewBinding.registerEditPassword2.text.toString()
-          )
-        }.let {
-          MainActivity.startActivity(mContext)
-        }
-      }, { e ->
-        e.toast()
-      }, {}, {
-        dismissActionLoading()
-      })
+      lifecycleScope.launch {
+        UserRepository.register(
+          viewBinding.registerEditAccount.text.toString(),
+          viewBinding.registerEditPassword1.text.toString(),
+          viewBinding.registerEditPassword2.text.toString()
+        )
+          .awaitResult {
+            MainActivity.startActivity(mContext)
+            dismissActionLoading()
+          }
+          .onFailure { e ->
+            e.toast()
+            dismissActionLoading()
+          }
+      }
     }
-    extKeyBoard { statusHeight, navigationHeight, keyBoardHeight ->
+    extKeyBoard { _, _, keyBoardHeight ->
       if (keyBoardHeight > 0) {
         val array1 = intArrayOf(0, 0)
         val array2 = intArrayOf(0, 0)
@@ -115,8 +115,8 @@ class RegisterActivity : CommBindTitleActivity<ActivityRegisterBinding>() {
       viewBinding.registerInputPassword2.hint = ""
     }
     val enable = textAcc.length >= LengthConstants.MIN_LEN_ACC &&
-        textPass1.length >= LengthConstants.MIN_LEN_PASS &&
-        TextUtils.equals(viewBinding.registerEditPassword1.text, viewBinding.registerEditPassword2.text)
+      textPass1.length >= LengthConstants.MIN_LEN_PASS &&
+      TextUtils.equals(viewBinding.registerEditPassword1.text, viewBinding.registerEditPassword2.text)
     viewBinding.registerSubmit.isEnabled = enable
     viewBinding.registerSubmit.alpha = if (enable) 1f else UiConstants.disable_alpha
     if (enable) {
