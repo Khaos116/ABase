@@ -4,6 +4,9 @@ import cc.ab.base.ext.logE
 import cc.ab.base.ui.viewmodel.BaseViewModel
 import cc.ab.base.ui.viewmodel.DataState
 import com.scwang.smart.refresh.layout.SmartRefreshLayout
+import kotlinx.coroutines.CoroutineExceptionHandler
+import kotlinx.coroutines.Dispatchers
+import kotlin.coroutines.CoroutineContext
 
 /**
  * Author:Khaos
@@ -37,5 +40,15 @@ abstract class CommViewModel : BaseViewModel() {
       else -> {
       }
     }
+  }
+
+  //处理Main异常
+  fun getMainContext(handler: (CoroutineContext, Throwable) -> Unit): CoroutineContext {
+    return Dispatchers.Main + CoroutineExceptionHandler(handler)
+  }
+
+  //处理IO异常
+  fun getIOContext(handler: (CoroutineContext, Throwable) -> Unit): CoroutineContext {
+    return Dispatchers.IO + CoroutineExceptionHandler(handler)
   }
 }
