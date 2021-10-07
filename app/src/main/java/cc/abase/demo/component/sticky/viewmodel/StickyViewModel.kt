@@ -1,11 +1,9 @@
 package cc.abase.demo.component.sticky.viewmodel
 
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.rxLifeScope
+import androidx.lifecycle.viewModelScope
 import cc.ab.base.ui.viewmodel.DataState
-import cc.ab.base.ui.viewmodel.DataState.FailRefresh
-import cc.ab.base.ui.viewmodel.DataState.Start
-import cc.ab.base.ui.viewmodel.DataState.SuccessRefresh
+import cc.ab.base.ui.viewmodel.DataState.*
 import cc.abase.demo.bean.local.CityBean
 import cc.abase.demo.bean.local.ProvinceBean
 import cc.abase.demo.component.comm.CommViewModel
@@ -14,9 +12,7 @@ import com.blankj.utilcode.util.GsonUtils
 import com.blankj.utilcode.util.ResourceUtils
 import com.github.promeg.pinyinhelper.Pinyin
 import com.google.gson.reflect.TypeToken
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.*
 
 /**
  * Description:
@@ -33,20 +29,19 @@ class StickyViewModel : CommViewModel() {
     val old = cityLiveData.value?.data
     //读取城市数据
     if (cityLiveData.value is Start || !old.isNullOrEmpty()) return
-    rxLifeScope.launch({
+    viewModelScope.launch(getMainContext { _, e ->
+      cityLiveData.value = FailRefresh(oldData = old, exc = e)
+    }) {
+      cityLiveData.value = Start(oldData = old)
+      delay(delay)
       withContext(Dispatchers.IO) {
-        delay(delay)
         val json = ResourceUtils.readAssets2String("city.json")
         val list = GsonUtils.fromJson<MutableList<ProvinceBean>>(json, object : TypeToken<MutableList<ProvinceBean>>() {}.type)
         //按照拼音排序
         list.sortBy { pb -> pb.pinYinFirst }
         list
       }.let { cityLiveData.value = SuccessRefresh(newData = it, hasMore = false) }
-    }, { e ->
-      cityLiveData.value = FailRefresh(oldData = old, exc = e)
-    }, {
-      cityLiveData.value = Start(oldData = old)
-    })
+    }
   }
 
   //加载国家
@@ -54,9 +49,12 @@ class StickyViewModel : CommViewModel() {
     val old = countryLiveData.value?.data
     //读取城市数据
     if (countryLiveData.value is Start || !old.isNullOrEmpty()) return
-    rxLifeScope.launch({
+    viewModelScope.launch(getMainContext { _, e ->
+      countryLiveData.value = FailRefresh(oldData = old, exc = e)
+    }) {
+      countryLiveData.value = Start(oldData = old)
+      delay(delay)
       withContext(Dispatchers.IO) {
-        delay(delay)
         val list = CountryUtils.countries.filter { !it.country_phone_code.startsWith("-") }.toMutableList()
         for (entity in list) {
           val pinyin = Pinyin.toPinyin(entity.name_zh, "")
@@ -91,10 +89,6 @@ class StickyViewModel : CommViewModel() {
         }
         result
       }.let { countryLiveData.value = SuccessRefresh(newData = it, hasMore = false) }
-    }, { e ->
-      countryLiveData.value = FailRefresh(oldData = old, exc = e)
-    }, {
-      countryLiveData.value = Start(oldData = old)
-    })
+    }
   }
 }
