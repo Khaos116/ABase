@@ -12,10 +12,10 @@ sealed class DataState<T>(val data: T? = null) {
   class Start<T>(oldData: T?) : DataState<T>(data = oldData) {}
 
   //刷新成功
-  class SuccessRefresh<T>(newData: T?, hasMore: Boolean) : DataState<T>(data = newData) {}
+  class SuccessRefresh<T>(newData: T?, val hasMore: Boolean) : DataState<T>(data = newData) {}
 
   //加载更多成功
-  class SuccessMore<T>(val newData: T?, totalData: T?, hasMore: Boolean) : DataState<T>(data = totalData) {}
+  class SuccessMore<T>(val newData: T?, totalData: T?, val hasMore: Boolean) : DataState<T>(data = totalData) {}
 
   //刷新失败
   class FailRefresh<T>(oldData: T?, val exc: Throwable?) : DataState<T>(data = oldData) {}
@@ -25,4 +25,16 @@ sealed class DataState<T>(val data: T? = null) {
 
   //判断是否数据可能改变
   fun dataMaybeChange() = (this is Start || this is SuccessRefresh || this is SuccessMore || this is FailRefresh)
+
+  //是否请求结束
+  fun isComplete() = this is SuccessRefresh || this is SuccessMore || this is FailRefresh || this is FailMore
+
+  //是否有更多
+  fun hasMore(): Boolean? {
+    return when (this) {
+      is SuccessRefresh -> this.hasMore
+      is SuccessMore -> this.hasMore
+      else -> null
+    }
+  }
 }
