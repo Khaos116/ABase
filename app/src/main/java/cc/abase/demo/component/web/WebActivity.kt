@@ -7,9 +7,13 @@ import android.content.Intent
 import android.content.pm.ActivityInfo
 import android.net.Uri
 import android.net.http.SslError
-import android.view.*
+import android.view.MotionEvent
+import android.view.View
+import android.view.ViewGroup
 import android.webkit.*
-import cc.ab.base.ext.*
+import cc.ab.base.ext.logE
+import cc.ab.base.ext.logI
+import cc.ab.base.ext.toast
 import cc.ab.base.widget.engine.ImageEngine
 import cc.abase.demo.R
 import cc.abase.demo.component.comm.CommBindTitleActivity
@@ -215,6 +219,14 @@ class WebActivity : CommBindTitleActivity<ActivityWebBinding>() {
     return object : com.just.agentweb.WebViewClient() {
       override fun onReceivedSslError(view: WebView?, handler: SslErrorHandler, error: SslError?) {
         handler.proceed()
+      }
+
+      override fun onPageFinished(view: WebView?, url: String?) {
+        //默认打开聊天
+        //view?.loadUrl("javascript:window.HubSpotConversations.widget.open()")
+        //默认关闭聊天窗口
+        //view?.loadUrl("javascript:window.HubSpotConversations.widget.close()")
+        super.onPageFinished(view, url)
       }
 
       @Suppress("DEPRECATION")
