@@ -41,9 +41,13 @@ fun EditText.onDebounceTextChanges(life: Lifecycle, time: Long = 600, onStart: B
 }
 
 fun EditText?.showPwd() {
-  this?.transformationMethod = PasswordTransformationMethod.getInstance()
+  this?.transformationMethod = HideReturnsTransformationMethod.getInstance()
 }
 
 fun EditText?.hidePwd() {
-  this?.transformationMethod = HideReturnsTransformationMethod.getInstance()
+  this?.transformationMethod = PasswordTransformationMethod.getInstance()
+}
+
+fun EditText?.isShowPwd(): Boolean {
+  return this?.transformationMethod == HideReturnsTransformationMethod.getInstance()
 }
