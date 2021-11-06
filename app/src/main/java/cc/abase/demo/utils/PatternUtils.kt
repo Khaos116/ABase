@@ -9,7 +9,7 @@ import java.util.regex.Pattern
  * @Date：2021-07-27
  * @Time：18:20
  */
-class PatternUtils {
+object PatternUtils {
   //4-9个字符，前2位必须为字母，数字可选，不支持符号
   fun isAccountMatcher(str: String): Boolean {
     return Pattern.matches("^[A-Za-z]{2}[0-9A-Za-z]{2,7}$", str)
