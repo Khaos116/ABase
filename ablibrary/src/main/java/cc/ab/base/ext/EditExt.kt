@@ -2,6 +2,8 @@ package cc.ab.base.ext
 
 import android.text.Editable
 import android.text.TextWatcher
+import android.text.method.HideReturnsTransformationMethod
+import android.text.method.PasswordTransformationMethod
 import android.widget.EditText
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.coroutineScope
@@ -36,4 +38,12 @@ fun EditText.onDebounceTextChanges(life: Lifecycle, time: Long = 600, onStart: B
       afterChange.invoke(result)
     }
   }.launchIn(life.coroutineScope)
+}
+
+fun EditText?.showPwd() {
+  this?.transformationMethod = PasswordTransformationMethod.getInstance()
+}
+
+fun EditText?.hidePwd() {
+  this?.transformationMethod = HideReturnsTransformationMethod.getInstance()
 }
