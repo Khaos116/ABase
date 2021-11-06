@@ -7,13 +7,9 @@ import android.content.Intent
 import android.content.pm.ActivityInfo
 import android.net.Uri
 import android.net.http.SslError
-import android.view.MotionEvent
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.webkit.*
-import cc.ab.base.ext.logE
-import cc.ab.base.ext.logI
-import cc.ab.base.ext.toast
+import cc.ab.base.ext.*
 import cc.ab.base.widget.engine.ImageEngine
 import cc.abase.demo.R
 import cc.abase.demo.component.comm.CommBindTitleActivity
@@ -117,16 +113,16 @@ class WebActivity : CommBindTitleActivity<ActivityWebBinding>() {
     webView.overScrollMode = View.OVER_SCROLL_NEVER
     webView.scrollBarStyle = View.SCROLLBARS_INSIDE_INSET
     agentBuilder = AgentWeb.with(this)
-      .setAgentWebParent(viewBinding.root, ViewGroup.LayoutParams(-1, -1)) //添加到父容器
-      .useDefaultIndicator(ColorUtils.getColor(R.color.colorPrimary)) //设置进度条颜色
-      //.setWebViewClient(getWebViewClient())//监听结束，适配宽度
-      .setWebViewClient(getWebViewClientSSL()) //SSL
-      .setWebChromeClient(webChromeClient) //监听标题
-      .setWebView(webView) //真正的webview
-      .setMainFrameErrorView(R.layout.agentweb_error_page, -1) //失败的布局
-      .setSecurityType(AgentWeb.SecurityType.STRICT_CHECK)
-      .setOpenOtherPageWays(DefaultWebClient.OpenOtherPageWays.ASK) //打开其他应用时，弹窗咨询用户是否前往其他应用
-      .interceptUnkownUrl() //拦截找不到相关页面的Scheme
+        .setAgentWebParent(viewBinding.root, ViewGroup.LayoutParams(-1, -1)) //添加到父容器
+        .useDefaultIndicator(ColorUtils.getColor(R.color.colorPrimary)) //设置进度条颜色
+        //.setWebViewClient(getWebViewClient())//监听结束，适配宽度
+        .setWebViewClient(getWebViewClientSSL()) //SSL
+        .setWebChromeClient(webChromeClient) //监听标题
+        .setWebView(webView) //真正的webview
+        .setMainFrameErrorView(R.layout.agentweb_error_page, -1) //失败的布局
+        .setSecurityType(AgentWeb.SecurityType.STRICT_CHECK)
+        .setOpenOtherPageWays(DefaultWebClient.OpenOtherPageWays.ASK) //打开其他应用时，弹窗咨询用户是否前往其他应用
+        .interceptUnkownUrl() //拦截找不到相关页面的Scheme
     //给WebView添加Header
     val headers = HeaderManger.getStaticHeaders()
     agentBuilder?.additionalHttpHeader(webUrl, headers)
@@ -142,7 +138,9 @@ class WebActivity : CommBindTitleActivity<ActivityWebBinding>() {
     }
 
     //Web调用图片、视频选择
-    override fun onShowFileChooser(webView: WebView?, filePathCallback: ValueCallback<Array<Uri>>?, fileChooserParams: FileChooserParams?): Boolean {
+    override fun onShowFileChooser(webView: WebView?,
+        filePathCallback: ValueCallback<Array<Uri>>?,
+        fileChooserParams: FileChooserParams?): Boolean {
       fileChooserParams?.acceptTypes?.firstOrNull()?.let { type ->
         mUploadCall = filePathCallback
         when {
@@ -224,10 +222,21 @@ class WebActivity : CommBindTitleActivity<ActivityWebBinding>() {
       override fun onPageFinished(view: WebView?, url: String?) {
         //默认打开聊天
         //view?.loadUrl("javascript:window.HubSpotConversations.widget.open()")
+        //view?.loadUrl(HUB_CODE)
         //默认关闭聊天窗口
         //view?.loadUrl("javascript:window.HubSpotConversations.widget.close()")
         super.onPageFinished(view, url)
       }
+
+      private val HUB_CODE = "javascript:window.addEventListener(\"message\", function( event ) {\n" +
+          "    if (event.origin === 'https://app.hubspot.com') {\n" +
+          "        var data = JSON.parse(event.data);\n" +
+          "        console.log(data);\n" +
+          "        if (data.type === 'open-change' && data.data.isOpen === false) {\n" +
+          "            window.location.href = 'js://webview?event=close';\n" +
+          "        }\n" +
+          "    }\n" +
+          "});"
 
       @Suppress("DEPRECATION")
       override fun shouldOverrideUrlLoading(view: WebView?, request: WebResourceRequest?): Boolean {
@@ -237,7 +246,10 @@ class WebActivity : CommBindTitleActivity<ActivityWebBinding>() {
       override fun shouldOverrideUrlLoading(view: WebView?, url: String?): Boolean {
         view?.settings?.cacheMode = WebSettings.LOAD_DEFAULT
         url?.let { u ->
-          if (u.startsWith("Khaos://")) {
+          if (url.startsWith("js://webview?event=close")) { // 用户关闭会话回调
+            onBackPressed()
+            return true
+          } else if (u.startsWith("Khaos://")) {
             //自己处理跳转拦截，需要自己处理返回true
             return true
           } else "Web内部跳转Url=$u".logI()
@@ -262,17 +274,17 @@ class WebActivity : CommBindTitleActivity<ActivityWebBinding>() {
   private fun go2SelMedia(chooseMode: Int) {
     //https://github.com/LuckSiege/PictureSelector/wiki/PictureSelector-Api%E8%AF%B4%E6%98%8E
     PictureSelector.create(this)
-      .openGallery(chooseMode)
-      .imageEngine(ImageEngine())
-      .isGif(false)
-      .isCamera(false)
-      .isEnableCrop(true)
-      .isPageStrategy(true, PictureConfig.MAX_PAGE_SIZE, true) //过滤掉已损坏的
-      .maxSelectNum(1)
-      .queryMaxFileSize(if (chooseMode == PictureMimeType.ofImage()) 5f else 500f)
-      .isPreviewVideo(true)
-      .setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
-      .forResult(PictureConfig.CHOOSE_REQUEST)
+        .openGallery(chooseMode)
+        .imageEngine(ImageEngine())
+        .isGif(false)
+        .isCamera(false)
+        .isEnableCrop(true)
+        .isPageStrategy(true, PictureConfig.MAX_PAGE_SIZE, true) //过滤掉已损坏的
+        .maxSelectNum(1)
+        .queryMaxFileSize(if (chooseMode == PictureMimeType.ofImage()) 5f else 500f)
+        .isPreviewVideo(true)
+        .setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
+        .forResult(PictureConfig.CHOOSE_REQUEST)
   }
   //</editor-fold>
 
