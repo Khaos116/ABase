@@ -33,7 +33,8 @@ android {
     //允许使用SVG
     //vectorDrawables.useSupportLibrary = true
     multiDexEnabled true
-    resConfigs "zh", "en" //保留中文和英文资源(如果随便写一种没有的语言，则只会打默认的文字资源到APK)
+    //resConfigs "zh-rCN", "zh-rTW", "zh-rHK", "en-rUS", "en-rGB"
+    resConfigs "zh-rCN","en-rUS" //保留中文和英文资源(如果随便写一种没有的语言，则只会打默认的文字资源到APK)
     ndk { abiFilters 'armeabi-v7a' } //, 'arm64-v8a'
     //资源文件名冲突，引用包重复，文件名显示的格式与文件本身的格式不对应
     //aaptOptions.cruncherEnabled = false
