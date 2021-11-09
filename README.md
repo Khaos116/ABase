@@ -1,5 +1,6 @@
 # ABase(采用AndroidX)
 ### <table><tr><td bgcolor=#FF00FF>使用了[干货集中营开源API](http://gank.io/api)和[玩Android开源API](https://www.wanandroid.com/blog/show/2) </td></tr></table>  
+### <table><tr><td bgcolor=#FF0000>2021年11月9日发现干货集中营暂时无法访问</td></tr></table>
 可以使用[Build Scan](https://scans.gradle.com/)(Terminal下执行gradlew build --scan)分析[构建情况](https://scans.gradle.com/s/htlaaoofzhtz6)(相关配置在settings.gradle中)  
 注：测试发现多渠道Build Scan貌似无法成功，可以关闭多渠道到进行Build Scan
 
