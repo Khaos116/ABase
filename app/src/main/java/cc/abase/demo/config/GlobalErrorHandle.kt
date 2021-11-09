@@ -12,11 +12,13 @@ import com.blankj.utilcode.util.ActivityUtils
  * @date: 2019/11/19 19:33
  */
 object GlobalErrorHandle {
+  //需要全局的处理
   var globalErrorCodes = mutableListOf(
       ErrorCode.NO_LOGIN //未登录
   )
 
-  fun dealGlobalErrorCode(errorCode: Int) {
+  //全局处理判断，如果处理后，则将code改为已全局处理，否则使用原来的code
+  fun dealGlobalErrorCode(errorCode: Int): Int  {
     val activity = ActivityUtils.getTopActivity()
     activity?.let { ac ->
       when (errorCode) {
@@ -31,5 +33,6 @@ object GlobalErrorHandle {
         }
       }
     }
+    return if (globalErrorCodes.any { a -> a == errorCode }) ErrorCode.ALREADY_DEAL else errorCode
   }
 }

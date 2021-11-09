@@ -3,7 +3,7 @@ package cc.abase.demo.rxhttp.parser
 import cc.ab.base.net.http.response.GankResponse
 import rxhttp.wrapper.annotation.Parser
 import rxhttp.wrapper.exception.ParseException
-import rxhttp.wrapper.parse.AbstractParser
+import rxhttp.wrapper.parse.TypeParser
 import rxhttp.wrapper.utils.convertTo
 import java.io.IOException
 import java.lang.reflect.Type
@@ -14,25 +14,11 @@ import java.lang.reflect.Type
  * @date: 2020/6/26 11:13
  */
 @Parser(name = "ResponseGank", wrappers = [MutableList::class])
-open class ResponseGankParser<T> : AbstractParser<T> {
-  /**
-   * 此构造方法适用于任意Class对象，但更多用于带泛型的Class对象，如：List<Student>
-   *
-   * 用法:
-   * Java: .asParser(new ResponseParser<List<Student>>(){})
-   * Kotlin: .asParser(object : ResponseParser<List<Student>>() {})
-   *
-   * 注：此构造方法一定要用protected关键字修饰，否则调用此构造方法将拿不到泛型类型
-   */
+open class ResponseGankParser<T> : TypeParser<T> {
+  //该构造方法是必须的
   protected constructor() : super()
 
-  /**
-   * 此构造方法仅适用于不带泛型的Class对象，如: Student.class
-   *
-   * 用法
-   * Java: .asParser(new ResponseParser<>(Student.class))   或者  .asResponse(Student.class)
-   * Kotlin: .asParser(ResponseParser(Student::class.java)) 或者  .asResponse<Student>()
-   */
+  //如果依赖了RxJava，该构造方法也是必须的/
   constructor(type: Type) : super(type)
 
   @Throws(IOException::class)
@@ -52,13 +38,15 @@ open class ResponseGankParser<T> : AbstractParser<T> {
     //------------------------自己处理End(能处理结果不影响response的后续调用)------------------------//
 
     //---------------------------------交给框架处理Start(后续无法再使用response.body)---------------------------------//
-    val responseGank: GankResponse<T> = response.convertTo(GankResponse::class.java, mType)
+    val responseGank: GankResponse<T> = response.convertTo(GankResponse::class.java, *types)
     //---------------------------------交给框架处理End---------------------------------//
 
     //获取data字段
     val data = responseGank.data
     //code不等于0，说明数据不正确，抛出异常
-    if (responseGank.error() || data == null) throw ParseException("-1", if (responseGank.error()) "接口error" else "数据返回错误", response)
+    if (responseGank.error() || data == null) {
+      throw ParseException("-1", if (responseGank.error()) "接口error" else "数据返回错误", response)
+    }
     return data
   }
 }
