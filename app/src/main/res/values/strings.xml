@@ -1,7 +1,7 @@
 <resources>
-  <string name="main_home">首页</string>
-  <string name="main_dyn">动态</string>
-  <string name="main_mine">我的</string>
+  <string name="main_home">Wan</string>
+  <string name="main_dyn">Gank</string>
+  <string name="main_mine">Mine</string>
   <string name="net_error_retry">网络异常，点击屏幕重试</string>
   <string name="net_fail_retry">加载失败，点击屏幕重试</string>
   <string name="no_data">该模块暂时还没有数据哦</string>
