@@ -56,7 +56,7 @@ class CommAlertDialog : BaseBindFragmentDialog<DialogCommBinding>() {
     if (boldContent == true) viewBinding.commAlertContent.typeface = Typeface.defaultFromStyle(Typeface.BOLD)
     viewBinding.commContentLl.visibleGone(!content.isNullOrBlank())
     //取消
-    cancelText.let { viewBinding.commAlertCancel.text = it }
+    cancelText?.let { viewBinding.commAlertCancel.text = it }
     cancelTextColor?.let { viewBinding.commAlertCancel.setTextColor(it) }
     if (boldCancel == true) viewBinding.commAlertCancel.typeface = Typeface.defaultFromStyle(Typeface.BOLD)
     //确定
