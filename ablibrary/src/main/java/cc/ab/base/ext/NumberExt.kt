@@ -74,3 +74,10 @@ fun Number?.delEnd0(): String {
   return if (this == null) "0" else DecimalFormat("#########0.##########").format(this.toDouble())
 }
 //</editor-fold>
+
+//<editor-fold defaultstate="collapsed" desc="转为银行卡格式">
+//转为银行卡格式,4位一个空格
+fun String?.toBankNumber(): String {
+  return if (this.isNullOrBlank()) "" else this.replace(" ", "").replace("(.{4})".toRegex(), "$1 ")
+}
+//</editor-fold>
