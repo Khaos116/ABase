@@ -47,7 +47,7 @@ class GeneralRoundConstraintLayout : ConstraintLayout, IRoundView {
 
   private fun init(view: View, context: Context, attributeSet: AttributeSet?) {
     generalRoundViewImpl = GeneralRoundViewImpl(view, context, attributeSet, R.styleable.GeneralRoundConstraintLayout,
-        R.styleable.GeneralRoundRelativeLayout_corner_radius
+        R.styleable.GeneralRoundConstraintLayout_corner_radius
     )
   }
 
