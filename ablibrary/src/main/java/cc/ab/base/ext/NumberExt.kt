@@ -78,6 +78,6 @@ fun Number?.delEnd0(): String {
 //<editor-fold defaultstate="collapsed" desc="转为银行卡格式">
 //转为银行卡格式,4位一个空格
 fun String?.toBankNumber(): String {
-  return if (this.isNullOrBlank()) "" else this.replace(" ", "").replace("(.{4})".toRegex(), "$1 ")
+  return if (this.isNullOrBlank()) "" else this.replace(" ", "").replace("(.{4})".toRegex(), "$1 ").trim()
 }
 //</editor-fold>
