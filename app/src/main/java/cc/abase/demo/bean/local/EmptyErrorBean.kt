@@ -9,4 +9,7 @@ data class EmptyErrorBean(
   val isError: Boolean = true,
   val isEmpty: Boolean = false,
   val msg: String? = ""
-)
+) {
+  var width: Int = 0
+  var height: Int = 0
+}

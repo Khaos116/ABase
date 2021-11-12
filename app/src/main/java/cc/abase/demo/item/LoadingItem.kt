@@ -18,8 +18,8 @@ class LoadingItem(
   override fun fillData(holder: BaseViewHolder<ItemLoadingBinding>, item: LoadingBean) {
     val viewBinding = holder.viewBinding
     viewBinding.root.layoutParams.let { lp ->
-      if (width > 0) lp.width = width
-      if (height > 0) lp.height = height
+      if (item.width > 0) lp.width = width else if (width > 0) lp.width = width
+      if (item.height > 0) lp.height = height else if (height > 0) lp.height = height
     }
     if (!item.msg.isNullOrBlank()) viewBinding.itemLoadingTv.text = item.msg
   }

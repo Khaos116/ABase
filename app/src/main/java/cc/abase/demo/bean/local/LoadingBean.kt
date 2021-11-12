@@ -5,4 +5,7 @@ package cc.abase.demo.bean.local
  * Date:2020/8/21
  * Time:20:44
  */
-data class LoadingBean(val msg: String? = "")
+data class LoadingBean(val msg: String? = ""){
+  var width: Int = 0
+  var height: Int = 0
+}
