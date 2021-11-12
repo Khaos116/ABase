@@ -1,6 +1,6 @@
 package cc.abase.demo.component.comm
 
-import cc.ab.base.ext.logE
+import cc.ab.base.ext.*
 import cc.ab.base.ui.viewmodel.BaseViewModel
 import cc.ab.base.ui.viewmodel.DataState
 import com.scwang.smart.refresh.layout.SmartRefreshLayout
@@ -20,7 +20,7 @@ abstract class CommViewModel : BaseViewModel() {
       is DataState.SuccessRefresh -> { //刷新成功，如果有数据则可以拉出"加载更多"或者"没有更多"
         refreshLayout?.setEnableRefresh(true) //允许下拉刷新(空数据重新刷新)
         refreshLayout?.setEnableLoadMore(!dataState.data.isNullOrEmpty()) //列表数据不为空才能上拉
-        refreshLayout?.setNoMoreData(!dataState.hasMore)//判断是否还有更多
+        if (dataState.hasMore) refreshLayout?.hasMoreData() else refreshLayout?.noMoreData()
         refreshLayout?.finishRefresh() //结束刷新(不论成功还是失败)
       }
       is DataState.FailRefresh -> {
@@ -28,14 +28,12 @@ abstract class CommViewModel : BaseViewModel() {
         refreshLayout?.finishRefresh() //结束刷新(不论成功还是失败)
       }
       is DataState.SuccessMore -> {
-        refreshLayout?.setNoMoreData(!dataState.hasMore) //判断是否还有更多
         refreshLayout?.finishLoadMore()
-        //if (refreshLayout?.state == RefreshState.Loading) refreshLayout.finishLoadMore() //加载更多太快可能出现加载更多不消失，所以纠正
+        if (dataState.hasMore) refreshLayout?.hasMoreData() else refreshLayout?.noMoreData()
       } //加载更多成功
       is DataState.FailMore -> {
         dataState.exc.logE()
         refreshLayout?.finishLoadMore(false) //加载更多失败
-        //if (refreshLayout?.state == RefreshState.Loading) refreshLayout.finishLoadMore() //加载更多太快可能出现加载更多不消失，所以纠正
       }
       else -> {
       }
