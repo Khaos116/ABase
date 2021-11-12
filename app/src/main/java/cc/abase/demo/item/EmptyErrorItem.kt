@@ -1,7 +1,5 @@
 package cc.abase.demo.item
 
-import android.view.LayoutInflater
-import android.view.ViewGroup
 import cc.ab.base.ext.*
 import cc.ab.base.ui.item.BaseBindItemView
 import cc.ab.base.ui.item.BaseViewHolder
@@ -18,11 +16,17 @@ import com.blankj.utilcode.util.StringUtils
  * Time:15:37
  */
 class EmptyErrorItem(
-    private val callRetry: (() -> Unit)? = null
+  private val width: Int = 0,
+  private val height: Int = 0,
+  private val callRetry: (() -> Unit)? = null
 ) : BaseBindItemView<EmptyErrorBean, ItemEmptyErrorBinding>() {
   //<editor-fold defaultstate="collapsed" desc="数据填充">
   override fun fillData(holder: BaseViewHolder<ItemEmptyErrorBinding>, item: EmptyErrorBean) {
     val viewBinding = holder.viewBinding
+    viewBinding.root.layoutParams.let { lp ->
+      if (width > 0) lp.width = width
+      if (height > 0) lp.height = height
+    }
     viewBinding.itemEmptyErrorTv.text = if (!item.msg.isNullOrBlank()) {
       item.msg
     } else if (!item.isError) {
