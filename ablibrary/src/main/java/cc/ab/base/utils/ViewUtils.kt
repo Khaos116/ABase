@@ -22,8 +22,7 @@ object ViewUtils {
     }
     val childWidthSpec = ViewGroup.getChildMeasureSpec(0, 0 + 0, params.width)
     val lpHeight = params.height
-    val childHeightSpec: Int
-    childHeightSpec = if (lpHeight > 0) {
+    val childHeightSpec: Int = if (lpHeight > 0) {
       View.MeasureSpec.makeMeasureSpec(
           lpHeight,
           View.MeasureSpec.EXACTLY
@@ -35,22 +34,6 @@ object ViewUtils {
       )
     }
     v.measure(childWidthSpec, childHeightSpec)
-  }
-
-  //测量view宽度
-  fun measureVieWidth(view: View): Int {
-    val width = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED)
-    val height = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED)
-    view.measure(width, height)
-    return view.measuredWidth
-  }
-
-  //测量view高度
-  fun measureViewHeight(view: View): Int {
-    val width = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED)
-    val height = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED)
-    view.measure(width, height)
-    return view.measuredHeight
   }
 
   //通过drawingCache获取bitmap(效果同copyByCanvas2方法)
