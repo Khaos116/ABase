@@ -311,4 +311,21 @@ class WebActivity : CommBindTitleActivity<ActivityWebBinding>() {
     }
   }
   //</editor-fold>
+
+  //<editor-fold defaultstate="collapsed" desc="生命周期">
+  override fun onResume() {
+    super.onResume()
+    agentWeb?.webLifeCycle?.onResume()
+  }
+
+  override fun onPause() {
+    super.onPause()
+    agentWeb?.webLifeCycle?.onPause()
+  }
+
+  override fun onDestroy() {
+    super.onDestroy()
+    agentWeb?.webLifeCycle?.onDestroy()
+  }
+  //</editor-fold>
 }
