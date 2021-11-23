@@ -51,3 +51,7 @@ fun EditText?.hidePwd() {
 fun EditText?.isShowPwd(): Boolean {
   return this?.transformationMethod == HideReturnsTransformationMethod.getInstance()
 }
+
+fun EditText?.selectionEnd() {
+  this?.setSelection(this.text.length)
+}
