@@ -32,6 +32,11 @@ object PatternUtils {
     return Pattern.matches("^[A-Za-z]+$", str)
   }
 
+  //是否包含中文
+  fun hasChinese(str: String): Boolean {
+    return Pattern.compile("[\\u4E00-\\u9FA5]").matcher(str).find()
+  }
+
   val 数字格式 = InputFilter { source, _, _, _, _, _ ->
     val p = Pattern.compile("^[0-9]+$")
     val m = p.matcher(source.toString())
