@@ -14,6 +14,7 @@ import cc.abase.demo.config.UserManager
 import cc.abase.demo.constants.LengthConstants
 import cc.abase.demo.constants.UiConstants
 import cc.abase.demo.databinding.ActivityLoginBinding
+import cc.abase.demo.ext.toast2
 import cc.abase.demo.rxhttp.repository.UserRepository
 import cc.abase.demo.utils.AppInfoUtils
 import cc.abase.demo.utils.MMkvUtils
@@ -82,7 +83,7 @@ class LoginActivity : CommBindActivity<ActivityLoginBinding>() {
             dismissActionLoading()
           }
           .onFailure { e ->
-            e.toast()
+            e.toast2()
             dismissActionLoading()
           }
       }
@@ -203,7 +204,7 @@ class LoginActivity : CommBindActivity<ActivityLoginBinding>() {
                   dismissActionLoading()
                 }
                 .onFailure { e ->
-                  e.toast()
+                  e.toast2()
                   dismissActionLoading()
                 }
             }

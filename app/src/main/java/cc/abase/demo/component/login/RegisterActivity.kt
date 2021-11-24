@@ -13,6 +13,7 @@ import cc.abase.demo.component.main.MainActivity
 import cc.abase.demo.constants.LengthConstants
 import cc.abase.demo.constants.UiConstants
 import cc.abase.demo.databinding.ActivityRegisterBinding
+import cc.abase.demo.ext.toast2
 import cc.abase.demo.rxhttp.repository.UserRepository
 import com.blankj.utilcode.util.StringUtils
 import kotlinx.coroutines.launch
@@ -56,7 +57,7 @@ class RegisterActivity : CommBindTitleActivity<ActivityRegisterBinding>() {
             dismissActionLoading()
           }
           .onFailure { e ->
-            e.toast()
+            e.toast2()
             dismissActionLoading()
           }
       }

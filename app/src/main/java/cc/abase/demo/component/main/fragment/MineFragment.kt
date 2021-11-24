@@ -39,6 +39,7 @@ import cc.abase.demo.component.video.VideoCompressActivity
 import cc.abase.demo.component.zxing.ZxingActivity
 import cc.abase.demo.constants.EventKeys
 import cc.abase.demo.databinding.FragmentMineBinding
+import cc.abase.demo.ext.toast2
 import cc.abase.demo.item.SimpleTxtItem
 import cc.abase.demo.rxhttp.repository.UserRepository
 import cc.abase.demo.widget.decoration.SpacesItemDecoration
@@ -164,7 +165,7 @@ class MineFragment : CommBindFragment<FragmentMineBinding>() {
           viewBinding.root.visible()
         }
         .onFailure { e ->
-          e.toast()
+          e.toast2()
           viewBinding.mineIntegral.text = String.format(R.string.my_integral.xmlToString(), 0)
           multiTypeAdapter.items = items
           multiTypeAdapter.notifyDataSetChanged()

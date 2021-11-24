@@ -3,7 +3,7 @@ package cc.abase.demo.config
 import cc.ab.base.ext.toast
 import cc.abase.demo.R
 import cc.abase.demo.component.login.LoginActivity
-import cc.abase.demo.constants.ErrorCode
+import cc.abase.demo.constants.MyErrorCode
 import com.blankj.utilcode.util.ActivityUtils
 
 /**
@@ -14,7 +14,7 @@ import com.blankj.utilcode.util.ActivityUtils
 object GlobalErrorHandle {
   //需要全局的处理
   var globalErrorCodes = mutableListOf(
-      ErrorCode.NO_LOGIN //未登录
+      MyErrorCode.NO_LOGIN //未登录
   )
 
   //全局处理判断，如果处理后，则将code改为已全局处理，否则使用原来的code
@@ -23,7 +23,7 @@ object GlobalErrorHandle {
     activity?.let { ac ->
       when (errorCode) {
         //未登录
-        ErrorCode.NO_LOGIN -> {
+        MyErrorCode.NO_LOGIN -> {
           ac.runOnUiThread {
             ac.toast(R.string.need_login)
             LoginActivity.startActivity(ac)
@@ -33,6 +33,6 @@ object GlobalErrorHandle {
         }
       }
     }
-    return if (globalErrorCodes.any { a -> a == errorCode }) ErrorCode.ALREADY_DEAL else errorCode
+    return if (globalErrorCodes.any { a -> a == errorCode }) MyErrorCode.ALREADY_DEAL else errorCode
   }
 }

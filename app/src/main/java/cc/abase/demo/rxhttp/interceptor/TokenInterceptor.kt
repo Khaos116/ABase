@@ -1,7 +1,7 @@
 package cc.abase.demo.rxhttp.interceptor
 
 import cc.abase.demo.config.*
-import cc.abase.demo.constants.ErrorCode
+import cc.abase.demo.constants.MyErrorCode
 import cc.abase.demo.constants.api.WanUrls
 import cc.abase.demo.rxhttp.parser.isParsable
 import cc.abase.demo.utils.MMkvUtils
@@ -43,7 +43,7 @@ class TokenInterceptor : Interceptor {
           JSONObject("{}")
         }
         //判断Token过期
-        if (jsonObject.has("errorCode") && jsonObject.optInt("errorCode") == ErrorCode.NO_LOGIN) {
+        if (jsonObject.has("errorCode") && jsonObject.optInt("errorCode") == MyErrorCode.NO_LOGIN) {
           val username = MMkvUtils.getAccount()
           val password = MMkvUtils.getPassword()
           val suc = autoLogin(username, password)
