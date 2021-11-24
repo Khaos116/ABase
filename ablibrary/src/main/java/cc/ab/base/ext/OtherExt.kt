@@ -81,6 +81,8 @@ fun Color.randomAlpha(): Int {
   return Color.argb(a, r, g, b)
 }
 
+/**需要明确的一点是，通过 async 启动的协程出现未捕获的异常时会忽略
+ * CoroutineExceptionHandler，这与 launch 的设计思路是不同的。*/
 inline fun launchError(
   context: CoroutineContext = Dispatchers.Main,//如果使用了IO线程，则异常的时候需要注意也在IO线程
   crossinline handler: (CoroutineContext, Throwable) -> Unit = { _, e -> e.message.logE() },
@@ -89,16 +91,6 @@ inline fun launchError(
 ): Job {
   return CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
     .launch(context + CoroutineExceptionHandler(handler), start, block)
-}
-
-inline fun launchErrorAsync(
-  context: CoroutineContext = Dispatchers.Main,//如果使用了IO线程，则异常的时候需要注意也在IO线程
-  crossinline handler: (CoroutineContext, Throwable) -> Unit = { _, e -> e.message.logE() },
-  start: CoroutineStart = CoroutineStart.DEFAULT,
-  noinline block: suspend CoroutineScope.() -> Unit
-): Job {
-  return CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
-    .async(context + CoroutineExceptionHandler(handler), start, block)
 }
 
 //打印异常
