@@ -41,13 +41,15 @@ inline fun String?.logD() {
 }
 
 inline fun CharSequence?.toast() {
-  if (!this.isNullOrBlank() && AppUtils.isAppForeground()) {
+  if (!this.isNullOrBlank() && AppUtils.isAppForeground() && this.toString().lowercase() != "null") {
+    ToastUtils.cancel()
     ToastUtils.make().setGravity(Gravity.CENTER, 0, 0).show(this)
   }
 }
 
 inline fun CharSequence?.toastLong() {
-  if (!this.isNullOrBlank() && AppUtils.isAppForeground()) {
+  if (!this.isNullOrBlank() && AppUtils.isAppForeground() && this.toString().lowercase() != "null") {
+    ToastUtils.cancel()
     ToastUtils.make().setDurationIsLong(true).setGravity(Gravity.CENTER, 0, 0).show(this)
   }
 }
