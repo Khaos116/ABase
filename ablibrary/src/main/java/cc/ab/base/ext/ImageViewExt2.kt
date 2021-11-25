@@ -18,6 +18,7 @@ import okhttp3.HttpUrl.Companion.toHttpUrlOrNull
 import java.io.File
 
 /**
+ * 如果需要对加载的图片进行截屏，可能需要设置非硬件加载：allowHardware(false)
  * Author:Khaos
  * Date:2020/8/12
  * Time:18:28
