@@ -5,6 +5,7 @@ import android.animation.AnimatorListenerAdapter
 import android.content.Intent
 import android.view.ViewGroup
 import cc.ab.base.ext.*
+import cc.ab.base.utils.FixResources
 import cc.ab.base.utils.PermissionUtils
 import cc.abase.demo.component.comm.CommBindActivity
 import cc.abase.demo.component.login.LoginActivity
@@ -71,6 +72,7 @@ class SplashActivity : CommBindActivity<ActivitySplashBinding>() {
   //<editor-fold defaultstate="collapsed" desc="初始化View">
   private var isFirstSize = true
   override fun initView() {
+    FixResources.fixResources(application)
     hasFinish = checkReOpenHome()
     if (hasFinish) return
     //页面无缝过渡后重置背景，不然会导致页面显示出现问题。主要解决由于window背景设置后的一些问题
