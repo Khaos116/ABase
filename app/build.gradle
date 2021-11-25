@@ -123,6 +123,11 @@ android {
       proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
     }
   }
+
+  //解决com.android.tools.lint.client.api.Vendor https://stackoverflow.com/questions/24098494/applintvitalrelease-error-when-generating-signed-apk
+  lintOptions {
+    checkReleaseBuilds false
+  }
 }
 
 //打包处理
