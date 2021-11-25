@@ -11,7 +11,7 @@ class SizeUtils {
        */
     fun dip2px(context: Context, dipValue: Float): Float {
       val displayMetrics = context.applicationContext.resources.displayMetrics
-      return dipValue * displayMetrics.density + 0.5f
+      return (dipValue * displayMetrics.density + 0.5f).toInt().toFloat()
     }
   }
 }
