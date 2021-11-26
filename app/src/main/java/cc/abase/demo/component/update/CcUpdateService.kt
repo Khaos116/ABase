@@ -2,6 +2,8 @@ package cc.abase.demo.component.update
 
 import android.app.*
 import android.content.*
+import android.content.res.Resources
+import android.graphics.BitmapFactory
 import android.os.Build
 import android.text.*
 import android.text.style.ForegroundColorSpan
@@ -308,6 +310,7 @@ open class CcUpdateService : JobIntentService() {
         .setOngoing(true) //将Ongoing设为true 那么notification将不能滑动删除
         .setAutoCancel(false) //将AutoCancel设为true后，当你点击通知栏的notification后，它会自动被取消消失
         .setContent(remoteViews)
+        .setLargeIcon(BitmapFactory.decodeResource(Resources.getSystem(), R.drawable.ic_notification))
         .setSmallIcon(R.drawable.ic_notification)
     }
   }
