@@ -147,7 +147,9 @@ abstract class CommBindActivity<T : ViewBinding> : BaseBindActivity<T>() {
     if (!msg.isNullOrBlank()) errorView?.text = msg
     if (retry != null) errorView?.click { if (NetUtils.checkNetToast()) retry.invoke() } else errorView?.setOnClickListener(null)
     if (errorView?.parent == null) {
-      val prams = FrameLayout.LayoutParams(-1, height)
+      errorView?.minWidth = height
+      errorView?.minHeight = height
+      val prams = FrameLayout.LayoutParams(-1, -1)
       prams.gravity = gravity
       errorView?.translationY = transY
       errorView?.setBackgroundColor(bgColor)
