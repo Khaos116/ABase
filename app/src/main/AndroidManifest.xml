@@ -3,12 +3,14 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="cc.abase.demo">
-  <!--JobIntentService处理了亮屏/锁屏，因此要此权限-->
-  <uses-permission android:name="android.permission.WAKE_LOCK"/>
   <!--通知栏收起权限-->
   <uses-permission android:name="android.permission.EXPAND_STATUS_BAR"/>
   <!--APP安装权限-->
   <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES"/>
+  <!-- Android 11 获取包名 需要 -->
+  <uses-permission
+      android:name="android.permission.QUERY_ALL_PACKAGES"
+      tools:ignore="QueryAllPackagesPermission"/>
   <!--bugly-->
   <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
   <uses-permission android:name="android.permission.INTERNET"/>
@@ -277,10 +279,7 @@
         android:windowSoftInputMode="adjustPan|stateHidden"
         tools:ignore="LockedOrientationActivity"/>
     <!-- APK更新 -->
-    <service
-        android:name=".component.update.CcUpdateService"
-        android:exported="true"
-        android:permission="android.permission.BIND_JOB_SERVICE"/>
+    <service android:name=".component.update.CcUpdateService"/>
     <!-- 点击通知栏的操作 -->
     <receiver android:name=".component.update.NotificationBroadcastReceiver"/>
     <!--https://github.com/idisfkj/android-startup/blob/master/README-ch.md-->
