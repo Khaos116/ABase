@@ -5,7 +5,7 @@ import android.text.*
 import android.view.View
 import android.widget.EditText
 import cc.ab.base.ext.toast
-import cc.ab.base.utils.CcInputHelper
+import cc.ab.base.utils.MyInputHelper
 import cc.ab.base.widget.span.ClickPreventableTextView
 import cc.ab.base.widget.span.TouchableSpan
 import cc.abase.demo.R
@@ -26,8 +26,8 @@ object SpeditUtil {
   fun insertUser(editText: SpXEditText, userName: String, uid: Long, maxLen: Int) {
     editText.text?.let { ed ->
       val insertUser = AtBean(uid, userName)
-      if (maxLen - CcInputHelper.getRealLength(ed.toString()) <
-          CcInputHelper.getRealLength(insertUser.displayText)
+      if (maxLen - MyInputHelper.getRealLength(ed.toString()) <
+          MyInputHelper.getRealLength(insertUser.displayText)
       ) {
         Utils.getApp()
             .toast(R.string.over_max_len)
@@ -142,8 +142,8 @@ object SpeditUtil {
         dend: Int
     ): CharSequence {
       source?.let {
-        if (CcInputHelper.getRealLength(source) +
-            (if (dest == null) 0 else CcInputHelper.getRealLength(dest)) > maxLen
+        if (MyInputHelper.getRealLength(source) +
+            (if (dest == null) 0 else MyInputHelper.getRealLength(dest)) > maxLen
         ) {
           Utils.getApp()
               .toast(R.string.over_max_len)

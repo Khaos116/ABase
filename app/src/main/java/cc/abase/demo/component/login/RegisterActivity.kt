@@ -6,7 +6,7 @@ import android.text.TextUtils
 import androidx.core.widget.doAfterTextChanged
 import androidx.lifecycle.lifecycleScope
 import cc.ab.base.ext.*
-import cc.ab.base.utils.CcInputHelper
+import cc.ab.base.utils.MyInputHelper
 import cc.abase.demo.R
 import cc.abase.demo.component.comm.CommBindTitleActivity
 import cc.abase.demo.component.main.MainActivity
@@ -38,9 +38,9 @@ class RegisterActivity : CommBindTitleActivity<ActivityRegisterBinding>() {
   override fun initContentView() {
     setTitleText(StringUtils.getString(R.string.login_register_hint))
     checkSubmit()
-    CcInputHelper.wrapCommCountLimit(viewBinding.registerEditAccount, LengthConstants.MAX_LEN_ACC, 0)
-    CcInputHelper.wrapCommCountLimit(viewBinding.registerEditPassword1, LengthConstants.MAX_LEN_PASS, 0)
-    CcInputHelper.wrapCommCountLimit(viewBinding.registerEditPassword2, LengthConstants.MAX_LEN_PASS, 0)
+    MyInputHelper.wrapCommCountLimit(viewBinding.registerEditAccount, LengthConstants.MAX_LEN_ACC, 0)
+    MyInputHelper.wrapCommCountLimit(viewBinding.registerEditPassword1, LengthConstants.MAX_LEN_PASS, 0)
+    MyInputHelper.wrapCommCountLimit(viewBinding.registerEditPassword2, LengthConstants.MAX_LEN_PASS, 0)
     viewBinding.registerEditAccount.doAfterTextChanged { checkSubmit() }
     viewBinding.registerEditPassword1.doAfterTextChanged { checkSubmit() }
     viewBinding.registerEditPassword2.doAfterTextChanged { checkSubmit() }

@@ -5,7 +5,7 @@ import android.content.Intent
 import androidx.core.widget.doAfterTextChanged
 import androidx.lifecycle.lifecycleScope
 import cc.ab.base.ext.*
-import cc.ab.base.utils.CcInputHelper
+import cc.ab.base.utils.MyInputHelper
 import cc.ab.base.utils.PressEffectHelper
 import cc.abase.demo.R
 import cc.abase.demo.component.comm.CommBindActivity
@@ -66,8 +66,8 @@ class LoginActivity : CommBindActivity<ActivityLoginBinding>() {
     }
     checkSubmit()
     PressEffectHelper.alphaEffect(viewBinding.loginRegister)
-    CcInputHelper.wrapCommCountLimit(viewBinding.loginEditAccount, LengthConstants.MAX_LEN_ACC, 0)
-    CcInputHelper.wrapCommCountLimit(viewBinding.loginEditPassword, LengthConstants.MAX_LEN_PASS, 0)
+    MyInputHelper.wrapCommCountLimit(viewBinding.loginEditAccount, LengthConstants.MAX_LEN_ACC, 0)
+    MyInputHelper.wrapCommCountLimit(viewBinding.loginEditPassword, LengthConstants.MAX_LEN_PASS, 0)
     viewBinding.loginEditAccount.doAfterTextChanged { checkSubmit() }
     viewBinding.loginEditPassword.doAfterTextChanged { checkSubmit() }
     viewBinding.loginSubmit.click {

@@ -5,7 +5,7 @@ import android.content.Intent
 import android.text.TextUtils
 import androidx.core.widget.doAfterTextChanged
 import cc.ab.base.ext.*
-import cc.ab.base.utils.CcInputHelper
+import cc.ab.base.utils.MyInputHelper
 import cc.abase.demo.R
 import cc.abase.demo.bean.local.AtBean
 import cc.abase.demo.bean.local.CityBean
@@ -52,7 +52,7 @@ class SpeditActivity : CommBindTitleActivity<ActivitySpeditBinding>() {
     viewBinding.speditLen.text = String.format("0/%s", MAX_LENGTH)
     viewBinding.speditInput.doAfterTextChanged {
       viewBinding.speditLen.text = String.format(
-          "%s/$MAX_LENGTH", CcInputHelper.getRealLength(it?.toString() ?: "")
+          "%s/$MAX_LENGTH", MyInputHelper.getRealLength(it?.toString() ?: "")
       )
     }
     LiveEventBus.get(EventKeys.CHOOSE_STICKY, CityBean::class.java).observe(this) {

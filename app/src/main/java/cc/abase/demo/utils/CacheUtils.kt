@@ -1,7 +1,7 @@
 package cc.abase.demo.utils
 
 import cc.ab.base.config.PathConfig
-import cc.ab.base.utils.CCSizeUtils
+import cc.ab.base.utils.MySizeUtils
 import com.blankj.utilcode.util.FileUtils
 
 /**
@@ -20,7 +20,7 @@ object CacheUtils {
     val size6 = FileUtils.getLength(PathConfig.DOWNLOAD_DIR)
     val size7 = FileUtils.getLength(PathConfig.TEMP_IMG_DIR)
     val size8 = FileUtils.getLength(PathConfig.TEMP_VIDEO_DIR)
-    return CCSizeUtils.getPrintSize(size1 + size2 + size3 + size4 + size5 + size6 + size7 + size8)
+    return MySizeUtils.getPrintSize(size1 + size2 + size3 + size4 + size5 + size6 + size7 + size8)
   }
 
   //清理缓存，清理后返回清理后的大小，需要在异步线程执行
