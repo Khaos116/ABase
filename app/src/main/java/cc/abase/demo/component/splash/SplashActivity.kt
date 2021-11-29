@@ -5,7 +5,6 @@ import android.animation.AnimatorListenerAdapter
 import android.content.Intent
 import android.view.ViewGroup
 import cc.ab.base.ext.*
-import cc.ab.base.utils.FixResources
 import cc.ab.base.utils.PermissionUtils
 import cc.abase.demo.component.comm.CommBindActivity
 import cc.abase.demo.component.login.LoginActivity
@@ -46,9 +45,6 @@ class SplashActivity : CommBindActivity<ActivitySplashBinding>() {
   //动画是否结束
   private var animIsFinished = false
 
-  //是否需要关闭页面
-  private var hasFinish = false
-
   //延迟执行动画
   private var mJob: Job? = null
 
@@ -69,12 +65,14 @@ class SplashActivity : CommBindActivity<ActivitySplashBinding>() {
   }
   //</editor-fold>
 
+  //<editor-fold defaultstate="collapsed" desc="由于是异步加载XML，所以如果已经打开过APP就不能让程序继续走onCreate">
+  override fun isOpenAgainFromHome(): Boolean {
+    return checkReOpenHome()
+  }
+  //</editor-fold>
   //<editor-fold defaultstate="collapsed" desc="初始化View">
   private var isFirstSize = true
   override fun initView() {
-    FixResources.fixResources(application)
-    hasFinish = checkReOpenHome()
-    if (hasFinish) return
     //页面无缝过渡后重置背景，不然会导致页面显示出现问题。主要解决由于window背景设置后的一些问题
     window.setBackgroundDrawable(null)
     viewBinding.root.viewTreeObserver.addOnGlobalLayoutListener {
@@ -88,7 +86,6 @@ class SplashActivity : CommBindActivity<ActivitySplashBinding>() {
 
   //<editor-fold defaultstate="collapsed" desc="View尺寸拿到之后获取权限和添加动画">
   private fun initAfterSize() {
-    if (hasFinish) return
     mLottieAnimationView = LottieAnimationView(mContext)
     mLottieAnimationView?.let { lav ->
       lav.setAnimation("welcome2021.json")
