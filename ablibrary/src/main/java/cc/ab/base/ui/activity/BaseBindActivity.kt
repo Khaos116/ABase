@@ -6,8 +6,8 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewbinding.ViewBinding
 import cc.ab.base.databinding.BaseActivityBinding
-import cc.ab.base.ext.logE
-import cc.ab.base.ext.visibleGone
+import cc.ab.base.ext.*
+import cc.ab.base.utils.FixResources
 import com.dylanc.viewbinding.base.inflateBindingWithGeneric
 import com.dylanc.viewbinding.inflateBinding
 import com.gyf.immersionbar.ktx.immersionBar
@@ -38,6 +38,13 @@ abstract class BaseBindActivity<T : ViewBinding> : AppCompatActivity() {
 
   //<editor-fold defaultstate="collapsed" desc="创建">
   override fun onCreate(savedInstanceState: Bundle?) {
+    FixResources.fixInActivityOnCreate(this)
+    if (isOpenAgainFromHome()) {
+      "回到桌面二次打开PP，不需要走加载流程，直接关闭".logI()
+      super.onCreate(savedInstanceState)
+      finish()
+      return
+    }
     baseBinding = inflateBinding(layoutInflater)
     this.onCreateBefore()
     this.initStatus()
@@ -84,6 +91,9 @@ abstract class BaseBindActivity<T : ViewBinding> : AppCompatActivity() {
       super.onBackPressed()
     }
   }
+
+  //专门处理从桌面重新打开APP的BUG
+  open fun isOpenAgainFromHome(): Boolean = false
   //</editor-fold>
 
   //<editor-fold defaultstate="collapsed" desc="释放异步耗时">
