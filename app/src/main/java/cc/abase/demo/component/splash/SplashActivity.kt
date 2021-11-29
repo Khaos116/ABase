@@ -161,14 +161,9 @@ class SplashActivity : CommBindActivity<ActivitySplashBinding>() {
   //https://www.cnblogs.com/xqz0618/p/thistaskroot.html
   private fun checkReOpenHome(): Boolean {
     // 避免从桌面启动程序后，会重新实例化入口类的activity
-    if (!this.isTaskRoot && intent != null // 判断当前activity是不是所在任务栈的根
-      && intent.hasCategory(Intent.CATEGORY_LAUNCHER)
-      && Intent.ACTION_MAIN == intent.action
-    ) {
-      finish()
-      return true
-    }
-    return false
+    return (!this.isTaskRoot && intent != null // 判断当前activity是不是所在任务栈的根
+        && intent.hasCategory(Intent.CATEGORY_LAUNCHER)
+        && Intent.ACTION_MAIN == intent.action)
   }
   //</editor-fold>
 
