@@ -10,7 +10,7 @@ import cc.ab.base.ext.toast
  *@date 2018/12/24 20:57.
  *@author: YangYang.
  */
-object CcInputHelper {
+object MyInputHelper {
 
   /**
    * 通用的输入限制
