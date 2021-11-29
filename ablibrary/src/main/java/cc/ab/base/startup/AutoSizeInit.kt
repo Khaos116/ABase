@@ -1,7 +1,9 @@
 package cc.ab.base.startup
 
+import android.app.Application
 import android.content.Context
 import cc.ab.base.ext.logI
+import cc.ab.base.utils.FixResources
 import com.rousetime.android_startup.AndroidStartup
 import com.rousetime.android_startup.Startup
 import me.jessyan.autosize.AutoSizeConfig
@@ -24,6 +26,8 @@ class AutoSizeInit : AndroidStartup<Int>() {
   override fun create(context: Context): Int {
     //字体sp不跟随系统大小变化
     AutoSizeConfig.getInstance().isExcludeFontScale = true
+    //修复AutoSizeConfig中的尺寸信息
+    FixResources.fixInApplicationOnCreate(context as Application)
     "初始化完成".logI()
     return 0
   }
