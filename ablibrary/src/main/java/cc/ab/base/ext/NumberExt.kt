@@ -1,28 +1,28 @@
 package cc.ab.base.ext
 
-import com.blankj.utilcode.util.SizeUtils
+import android.content.res.Resources
 import java.math.RoundingMode
 import java.text.DecimalFormat
 
 //<editor-fold defaultstate="collapsed" desc="尺寸转换">
 //dp->px
 fun Number.dp2px(): Int {
-  return SizeUtils.dp2px(this.toFloat())
+  return (this.toFloat() * (Resources.getSystem().displayMetrics.widthPixels / 360f)).toInt()
 }
 
 //sp->px
 fun Number.sp2px(): Int {
-  return SizeUtils.sp2px(this.toFloat())
+  return (this.toFloat() * (Resources.getSystem().displayMetrics.widthPixels / 360f)).toInt()
 }
 
 //px->dp
 fun Number.px2dp(): Int {
-  return SizeUtils.px2dp(this.toFloat())
+  return (this.toFloat() / (Resources.getSystem().displayMetrics.widthPixels / 360f)).toInt()
 }
 
 //px->sp
 fun Number.px2sp(): Int {
-  return SizeUtils.px2sp(this.toFloat())
+  return (this.toFloat() / (Resources.getSystem().displayMetrics.widthPixels / 360f)).toInt()
 }
 //</editor-fold>
 
