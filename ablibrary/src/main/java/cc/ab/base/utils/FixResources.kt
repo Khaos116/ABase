@@ -7,6 +7,7 @@ import kotlin.math.min
 
 /**
  * ☆☆☆☆由于在第一个页面无法获取正确的值，所以最好不要直接在第一页面的变量直接使用SizeUtils.dp2px为变量赋值☆☆☆☆
+ * ☆☆☆横屏时注意：TextView.setTextSize(TypedValue.COMPLEX_UNIT_SP,xx)可能存在转换问题，尽量使用TypedValue.COMPLEX_UNIT_PX☆☆☆
  * 部分手机在AutoSizeConfig适配后下面2个值会获取的不一样(第一个页面onCreate时在Application拿到正确的，Resources拿到是错误的)，
  * 导致SizeUtils.dp2px转换的值不一样，所以SizeUtils.dp2px不能直接使用，需要纠正使用
  * Resources.getSystem().displayMetrics.density
