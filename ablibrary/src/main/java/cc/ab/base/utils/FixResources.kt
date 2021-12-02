@@ -3,6 +3,7 @@ package cc.ab.base.utils
 import android.app.Activity
 import android.app.Application
 import android.content.res.Resources
+import kotlin.math.min
 
 /**
  * ☆☆☆☆由于在第一个页面无法获取正确的值，所以最好不要直接在第一页面的变量直接使用SizeUtils.dp2px为变量赋值☆☆☆☆
@@ -19,7 +20,8 @@ object FixResources {
   @Synchronized fun fixInActivityOnCreate(activity: Activity) {
     //获取参数
     val displayMetrics = activity.applicationContext.resources.displayMetrics
-    val targetDensity: Float = displayMetrics.widthPixels / 360f
+    val width = min(displayMetrics.widthPixels, displayMetrics.heightPixels)
+    val targetDensity: Float = width / 360f
     val appScaleDensity = displayMetrics.scaledDensity
     val appDensity = displayMetrics.density
     //计算目标值 density，scaleDensity，densityDpi
@@ -37,7 +39,8 @@ object FixResources {
   @Synchronized fun fixInApplicationOnCreate(application: Application) {
     //获取参数
     val displayMetrics = application.resources.displayMetrics
-    val targetDensity: Float = displayMetrics.widthPixels / 360f
+    val width = min(displayMetrics.widthPixels, displayMetrics.heightPixels)
+    val targetDensity: Float = width / 360f
     val appScaleDensity = displayMetrics.scaledDensity
     val appDensity = displayMetrics.density
     //计算目标值 density，scaleDensity，densityDpi

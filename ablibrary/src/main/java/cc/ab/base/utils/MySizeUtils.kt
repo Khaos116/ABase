@@ -1,6 +1,7 @@
 package cc.ab.base.utils
 
 import android.content.res.Resources
+import kotlin.math.min
 
 /**
  * Description:
@@ -10,12 +11,15 @@ import android.content.res.Resources
 class MySizeUtils {
   companion object {
     fun dp2px(dp: Float): Int {
-      return (dp * Resources.getSystem().displayMetrics.widthPixels / 360f).toInt()
+      val width = min(Resources.getSystem().displayMetrics.widthPixels, Resources.getSystem().displayMetrics.heightPixels)
+      return (dp * width / 360f).toInt()
     }
 
     fun dp2px(dp: Int): Int {
-      return (dp * Resources.getSystem().displayMetrics.widthPixels / 360f).toInt()
+      val width = min(Resources.getSystem().displayMetrics.widthPixels, Resources.getSystem().displayMetrics.heightPixels)
+      return (dp * width / 360f).toInt()
     }
+
     //由于在华为snxau手机上使用Formatter.formatFileSize获取的大小会显示"兆字节",所以采用手动计算
     fun getPrintSize(fileSize: Long): String {
       var size = fileSize

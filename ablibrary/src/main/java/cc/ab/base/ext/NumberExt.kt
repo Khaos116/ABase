@@ -3,26 +3,31 @@ package cc.ab.base.ext
 import android.content.res.Resources
 import java.math.RoundingMode
 import java.text.DecimalFormat
+import kotlin.math.min
 
 //<editor-fold defaultstate="collapsed" desc="尺寸转换">
 //dp->px
 fun Number.dp2px(): Int {
-  return (this.toFloat() * (Resources.getSystem().displayMetrics.widthPixels / 360f)).toInt()
+  val width = min(Resources.getSystem().displayMetrics.widthPixels, Resources.getSystem().displayMetrics.heightPixels)
+  return (this.toFloat() * (width / 360f)).toInt()
 }
 
 //sp->px
 fun Number.sp2px(): Int {
-  return (this.toFloat() * (Resources.getSystem().displayMetrics.widthPixels / 360f)).toInt()
+  val width = min(Resources.getSystem().displayMetrics.widthPixels, Resources.getSystem().displayMetrics.heightPixels)
+  return (this.toFloat() * (width / 360f)).toInt()
 }
 
 //px->dp
 fun Number.px2dp(): Int {
-  return (this.toFloat() / (Resources.getSystem().displayMetrics.widthPixels / 360f)).toInt()
+  val width = min(Resources.getSystem().displayMetrics.widthPixels, Resources.getSystem().displayMetrics.heightPixels)
+  return (this.toFloat() * (width / 360f)).toInt()
 }
 
 //px->sp
 fun Number.px2sp(): Int {
-  return (this.toFloat() / (Resources.getSystem().displayMetrics.widthPixels / 360f)).toInt()
+  val width = min(Resources.getSystem().displayMetrics.widthPixels, Resources.getSystem().displayMetrics.heightPixels)
+  return (this.toFloat() * (width / 360f)).toInt()
 }
 //</editor-fold>
 
