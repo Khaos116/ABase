@@ -12,26 +12,28 @@ import cc.ab.base.R
  */
 //显示状态栏和虚拟导航栏(不再填充内容)
 @Suppress("DEPRECATION")
-fun Activity.showStatusAndNaviBar(window: Window) {
-  var uiOptions = window.decorView.systemUiVisibility
-  uiOptions = uiOptions and View.SYSTEM_UI_FLAG_FULLSCREEN.inv() //显示状态栏
-  uiOptions = uiOptions and View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN.inv() //不再填充状态栏
-  uiOptions = uiOptions and View.SYSTEM_UI_FLAG_HIDE_NAVIGATION.inv() //显示虚拟导航键
-  uiOptions = uiOptions and View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION.inv() //不再填充导航栏
-  uiOptions = uiOptions and View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY.inv() //取消不会通过触摸屏幕调出导航栏
-  window.decorView.systemUiVisibility = uiOptions
+fun Window.showStatusAndNaviBar() {
+  val uiOptions = (View.SYSTEM_UI_FLAG_LAYOUT_STABLE //稳定布局，主要是在全屏和非全屏切换时，布局不要有大的变化
+      and View.SYSTEM_UI_FLAG_FULLSCREEN.inv() //显示状态栏
+      and View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN.inv() //不再填充状态栏
+      and View.SYSTEM_UI_FLAG_HIDE_NAVIGATION.inv() //显示虚拟导航键
+      and View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION.inv() //不再填充导航栏
+      and View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY.inv()) //取消不会通过触摸屏幕调出导航栏
+  this.decorView.systemUiVisibility = uiOptions
+  this.clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN) //清除全屏
 }
 
 //隐藏状态栏和虚拟导航键(内容填充到虚拟导航键) https://blog.csdn.net/QQxiaoqiang1573/article/details/79867127
 @Suppress("DEPRECATION")
-fun Activity.hideStatusAndNaviBar(window: Window) {
-  var uiOptions = window.decorView.systemUiVisibility
-  uiOptions = uiOptions or View.SYSTEM_UI_FLAG_FULLSCREEN //隐藏状态栏
-  uiOptions = uiOptions or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN //拓展布局到状态栏后面
-  uiOptions = uiOptions or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION //隐藏导航栏，用户点击屏幕会显示导航栏
-  uiOptions = uiOptions or View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION //拓展布局到导航栏后面
-  uiOptions = uiOptions or View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY //沉浸模式，用户可以交互的界面。同时，用户上下拉系统栏时，会自动隐藏系统栏
-  window.decorView.systemUiVisibility = uiOptions
+fun Window.hideStatusAndNaviBar() {
+  val uiOptions = (View.SYSTEM_UI_FLAG_LAYOUT_STABLE //稳定布局，主要是在全屏和非全屏切换时，布局不要有大的变化
+      or View.SYSTEM_UI_FLAG_FULLSCREEN //隐藏状态栏
+      or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN //拓展布局到状态栏后面
+      or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION //隐藏导航栏，用户点击屏幕会显示导航栏
+      or View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION //拓展布局到导航栏后面
+      or View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY) //沉浸模式，用户可以交互的界面。同时，用户上下拉系统栏时，会自动隐藏系统栏
+  this.decorView.systemUiVisibility = uiOptions
+  this.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN) //全屏
 }
 
 //常亮
