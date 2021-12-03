@@ -6,6 +6,7 @@ import android.widget.FrameLayout
 import cc.ab.base.R
 
 /**
+ * 避免DialogFragment弹出时显示底部NavigationBar的办法：https://www.jianshu.com/p/6d48fd0ce177
  * Description:
  * @author: Khaos
  * @date: 2019/9/20 16:36
