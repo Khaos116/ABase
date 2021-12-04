@@ -1,8 +1,11 @@
 package cc.ab.base.utils
 
-import android.app.Activity
 import android.app.Application
+import android.content.Context
 import android.content.res.Resources
+import cc.ab.base.ext.logE
+import com.blankj.utilcode.util.SizeUtils
+import me.jessyan.autosize.utils.AutoSizeUtils
 import kotlin.math.min
 
 /**
@@ -18,9 +21,9 @@ import kotlin.math.min
  */
 object FixResources {
   //测试发现在第一页面的OnCreate方法中都无法获取正常的值，所以为了保证拿到正确的值，在每个页面都执行以下
-  @Synchronized fun fixInActivityOnCreate(activity: Activity) {
+  @Synchronized fun fixInAttachOrCreate(context: Context) {
     //获取参数
-    val displayMetrics = activity.applicationContext.resources.displayMetrics
+    val displayMetrics = context.applicationContext.resources.displayMetrics
     val width = min(displayMetrics.widthPixels, displayMetrics.heightPixels)
     val targetDensity: Float = width / 360f
     val appScaleDensity = displayMetrics.scaledDensity
@@ -29,11 +32,19 @@ object FixResources {
     val targetScaleDensity: Float = targetDensity * (appScaleDensity / appDensity)
     val targetDensityDpi = (targetDensity * 160).toInt()
     //替换Resources的density scaleDensity，densityDpi
-    mutableListOf(displayMetrics, Resources.getSystem().displayMetrics, activity.resources.displayMetrics).forEach { dm ->
+    mutableListOf(displayMetrics, Resources.getSystem().displayMetrics, context.resources.displayMetrics).forEach { dm ->
       dm.density = targetDensity
       dm.scaledDensity = targetScaleDensity
       dm.densityDpi = targetDensityDpi
     }
+  }
+
+  //测试转换
+  fun testDp2px(context: Context) {
+    val dp201 = SizeUtils.dp2px(20f)
+    val dp202 = AutoSizeUtils.dp2px(context, 20f)
+    val dp203 = AutoSizeUtils.dp2px(context.applicationContext, 20f)
+    "Resources.getSystem()的dp20=$dp201,Activity的dp20=$dp202,application的dp20=$dp203".logE()
   }
 
   //尽量保证在application中也初始化一次
