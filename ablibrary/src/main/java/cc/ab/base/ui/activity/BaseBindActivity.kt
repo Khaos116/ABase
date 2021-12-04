@@ -38,7 +38,7 @@ abstract class BaseBindActivity<T : ViewBinding> : AppCompatActivity() {
 
   //<editor-fold defaultstate="collapsed" desc="创建">
   override fun onCreate(savedInstanceState: Bundle?) {
-    FixResources.fixInActivityOnCreate(this)
+    FixResources.fixDp2Px(mContext)
     if (isOpenAgainFromHome()) {
       "回到桌面二次打开PP，不需要走加载流程，直接关闭".logI()
       super.onCreate(savedInstanceState)
@@ -46,10 +46,12 @@ abstract class BaseBindActivity<T : ViewBinding> : AppCompatActivity() {
       return
     }
     baseBinding = inflateBinding(layoutInflater)
+    baseBinding.root.post { FixResources.fixDp2Px(mContext) }
     this.onCreateBefore()
     this.initStatus()
     super.onCreate(savedInstanceState)
     setContentView(baseBinding.root)
+    FixResources.fixDp2Px(mContext)
     baseBinding.baseStatusView.visibleGone(fillStatus())
     //异步加载布局，可以实现快速打开页面
     mJobLoading = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate).launch(context = Dispatchers.Main + CoroutineExceptionHandler { _, e -> e.logE() }) {
