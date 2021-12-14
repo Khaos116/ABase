@@ -18,7 +18,7 @@ import java.lang.reflect.Type
  * @author: Khaos
  * @date: 2020/6/26 16:01
  */
-@Parser(name = "ResponseWan", wrappers = [MutableList::class, BasePageList::class])
+@Parser(name = "ResponseWan", wrappers = [BasePageList::class])
 open class ResponseWanParser<T> : TypeParser<T> {
   //该构造方法是必须的
   protected constructor() : super()

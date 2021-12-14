@@ -13,7 +13,7 @@ import java.lang.reflect.Type
  * @author: Khaos
  * @date: 2020/6/26 11:13
  */
-@Parser(name = "ResponseGank", wrappers = [MutableList::class])
+@Parser(name = "ResponseGank")
 open class ResponseGankParser<T> : TypeParser<T> {
   //该构造方法是必须的
   protected constructor() : super()
