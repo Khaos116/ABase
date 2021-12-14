@@ -72,7 +72,7 @@ object Deps {
 
   //RxHttp https://github.com/liujingxing/okhttp-RxHttp
   const val rxhttp = "com.github.liujingxing.rxhttp:rxhttp:${Versions.rxHttp}"
-  const val rxhttp_kapt = "com.github.liujingxing.rxhttp:rxhttp-compiler:${Versions.rxHttp}"
+  const val rxhttp_ksp = "com.github.liujingxing.rxhttp:rxhttp-compiler:${Versions.rxHttp}"
   const val rxlife_rxjava = "com.github.liujingxing.rxlife:rxlife-rxjava3:2.2.1"//管理RxJava3生命周期，页面销毁，关闭请求
 
   //RxJava https://github.com/ReactiveX/RxJava
