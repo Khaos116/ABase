@@ -4,7 +4,6 @@ apply from: "config.gradle"
 buildscript {
   repositories {
     google()
-    jcenter()
     mavenCentral()
     maven { url 'https://jitpack.io' }
     maven { url 'https://dl.google.com/dl/android/maven2/' }
@@ -30,36 +29,6 @@ buildscript {
     classpath Deps.plugin_kotlin_gradle
     classpath Deps.plugin_r8_gradle
     classpath Deps.plugin_bugly
-  }
-}
-
-allprojects {
-  repositories {
-    google()
-    jcenter()
-    mavenCentral()
-    maven { url 'https://jitpack.io' }
-    maven { url 'https://dl.google.com/dl/android/maven2/' }
-    maven {
-      url 'https://maven.google.com'
-      name 'google'
-    }
-    //-----------国内通用-----------
-    maven { url 'https://maven.aliyun.com/repository/gradle-plugin' }
-    maven { url 'https://maven.aliyun.com/repository/jcenter' }
-    maven { url 'https://maven.aliyun.com/repository/central' }
-    maven { url 'https://maven.aliyun.com/repository/public' }
-    maven { url 'https://maven.aliyun.com/repository/google' }
-    maven { url 'https://maven.aliyun.com/repository/apache-snapshots' }
-    maven { url 'https://maven.aliyun.com/repository/spring' }
-    maven { url 'https://maven.aliyun.com/repository/releases' }
-    maven { url 'https://maven.aliyun.com/repository/snapshots' }
-    maven { url 'https://maven.aliyun.com/repository/grails-core' }
-    maven { url 'https://maven.aliyun.com/repository/mapr-public' }
-  }
-  tasks.withType(Javadoc) {
-    options.addStringOption('Xdoclint:none', '-quiet')
-    options.addStringOption('encoding', 'UTF-8')
   }
 }
 

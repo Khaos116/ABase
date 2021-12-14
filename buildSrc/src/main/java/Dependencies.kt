@@ -1,18 +1,18 @@
 object Versions {
   internal const val sdkMin = 23
-  internal const val sdkTarget = 30
-  internal const val kotlin = "1.5.30"
-  internal const val okHttp = "4.9.1"
-  internal const val rxHttp = "2.7.0"
-  internal const val coil = "1.3.2"
+  internal const val sdkTarget = 31
+  internal const val kotlin = "1.6.0"
+  internal const val okHttp = "4.9.3"
+  internal const val rxHttp = "2.8.0"
+  internal const val coil = "1.4.0"
 }
 
 object Deps {
   //<editor-fold defaultstate="collapsed" desc="Studio基础配置">
   //根目录gradle https://maven.aliyun.com/mvn/search 使用ViewBinding最低3.6.0
-  const val plugin_android_gradle = "com.android.tools.build:gradle:4.2.2"
+  const val plugin_android_gradle = "com.android.tools.build:gradle:7.0.2"
   const val plugin_kotlin_gradle = "org.jetbrains.kotlin:kotlin-gradle-plugin:${Versions.kotlin}"
-  const val plugin_r8_gradle = "com.android.tools:r8:2.2.64" //更新R8版本，解决正式版无法打包的问题 https://github.com/square/okhttp/issues/4604
+  const val plugin_r8_gradle = "com.android.tools:r8:3.0.73" //更新R8版本，解决正式版无法打包的问题 https://github.com/square/okhttp/issues/4604
 
   //使用kotlin
   const val kotlin_stdlib = "org.jetbrains.kotlin:kotlin-stdlib:${Versions.kotlin}"
@@ -20,17 +20,17 @@ object Deps {
 
   //<editor-fold defaultstate="collapsed" desc="Studio-UI基础配置">
   //系统相关 https://maven.aliyun.com/mvn/search
-  const val core_ktx = "androidx.core:core-ktx:1.6.0"
-  const val activity_ktx = "androidx.activity:activity-ktx:1.3.1"
+  const val core_ktx = "androidx.core:core-ktx:1.7.0"
+  const val activity_ktx = "androidx.activity:activity-ktx:1.4.0"
   //appcompat版本太低出现 Didn't find class "androidx.startup.InitializationProvider"
-  const val appcompat = "androidx.appcompat:appcompat:1.4.0-alpha03"
-  const val fragment = "androidx.fragment:fragment:1.3.6"
+  const val appcompat = "androidx.appcompat:appcompat:1.4.0"
+  const val fragment = "androidx.fragment:fragment:1.4.0"
   const val material = "com.google.android.material:material:1.4.0"
-  const val constraint = "androidx.constraintlayout:constraintlayout:2.1.1"
+  const val constraint = "androidx.constraintlayout:constraintlayout:2.1.2"
   //lifecycleScope只能在Activity、Fragment中使用，会绑定Activity和Fragment的生命周期
-  const val lifecycle = "androidx.lifecycle:lifecycle-runtime-ktx:2.3.1"
+  const val lifecycle = "androidx.lifecycle:lifecycle-runtime-ktx:2.4.0"
   //viewModelScope只能在ViewModel中使用，绑定ViewModel的生命周期
-  const val viewmodel = "androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.1"
+  const val viewmodel = "androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.0"
   //</editor-fold>
 
   //<editor-fold defaultstate="collapsed" desc="AndroidX基础配置">
@@ -43,7 +43,7 @@ object Deps {
   const val timber = "com.jakewharton.timber:timber:5.0.1"
 
   //工具类 https://github.com/Blankj/AndroidUtilCode/blob/master/lib/utilcode/README-CN.md
-  const val utilcodex = "com.blankj:utilcodex:1.30.6"
+  const val utilcodex = "com.blankj:utilcodex:1.31.0"
 
   //UI适配 https://github.com/JessYanCoding/AndroidAutoSize
   const val autosize = "me.jessyan:autosize:1.2.1"
@@ -58,11 +58,11 @@ object Deps {
 
   //<editor-fold defaultstate="collapsed" desc="三方基础配置">
   //数据解析 https://github.com/google/gson
-  const val gson = "com.google.code.gson:gson:2.8.8"
+  const val gson = "com.google.code.gson:gson:2.8.9"
 
   //协程 https://github.com/Kotlin/kotlinx.coroutines
-  const val coroutine = "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.2"
-  const val coroutine_android = "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.2"
+  const val coroutine = "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.0-RC"
+  const val coroutine_android = "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.0-RC"
 
   //网络请求 https://github.com/square/okhttp
   const val okhttp = "com.squareup.okhttp3:okhttp:${Versions.okHttp}"
@@ -73,11 +73,10 @@ object Deps {
   //RxHttp https://github.com/liujingxing/okhttp-RxHttp
   const val rxhttp = "com.github.liujingxing.rxhttp:rxhttp:${Versions.rxHttp}"
   const val rxhttp_kapt = "com.github.liujingxing.rxhttp:rxhttp-compiler:${Versions.rxHttp}"
-  const val rxlife_coroutine = "com.github.liujingxing.rxlife:rxlife-coroutine:2.2.0" //管理协程生命周期，页面销毁，关闭请求
-  const val rxlife_rxjava = "com.github.liujingxing.rxlife:rxlife-rxjava3:2.2.1" //管理RxJava3生命周期，页面销毁，关闭请求
+  const val rxlife_rxjava = "com.github.liujingxing.rxlife:rxlife-rxjava3:2.2.1"//管理RxJava3生命周期，页面销毁，关闭请求
 
   //RxJava https://github.com/ReactiveX/RxJava
-  const val rxjava = "io.reactivex.rxjava3:rxjava:3.1.1"
+  const val rxjava = "io.reactivex.rxjava3:rxjava:3.1.3"
   //RxAndroid https://github.com/ReactiveX/RxAndroid
   const val rxandroid = "io.reactivex.rxjava3:rxandroid:3.0.0"
 
@@ -91,11 +90,11 @@ object Deps {
   const val multitype = "com.drakeet.multitype:multitype:4.3.0"
 
   //动态权限 https://github.com/getActivity/XXPermissions
-  const val xxpermissions = "com.github.getActivity:XXPermissions:12.3"
+  const val xxpermissions = "com.github.getActivity:XXPermissions:13.2"
 
   //ViewBinding https://github.com/DylanCaiCoding/ViewBindingKtx/blob/master/README_CN.md
-  const val binding_ktx = "com.github.DylanCaiCoding.ViewBindingKTX:viewbinding-ktx:1.2.4"
-  const val binding_base = "com.github.DylanCaiCoding.ViewBindingKTX:viewbinding-base:1.2.4"
+  const val binding_ktx = "com.github.DylanCaiCoding.ViewBindingKTX:viewbinding-ktx:1.2.6"
+  const val binding_base = "com.github.DylanCaiCoding.ViewBindingKTX:viewbinding-base:1.2.6"
   //</editor-fold>
 
   //<editor-fold defaultstate="collapsed" desc="三方常用配置">
@@ -103,9 +102,9 @@ object Deps {
   const val eventBus = "io.github.jeremyliao:live-event-bus-x:1.8.0"
 
   //WebView https://github.com/Justson/AgentWeb
-  const val agentweb = "com.github.Justson.AgentWeb:agentweb-core:v4.1.9-androidx"
-  const val agentweb_file = "com.github.Justson.AgentWeb:agentweb-filechooser:v4.1.9-androidx"
-  const val agentweb_down = "com.github.Justson:Downloader:v4.1.9-androidx"
+  const val agentweb = "com.github.Justson.AgentWeb:agentweb-core:v5.0.0-alpha.1-androidx"
+  const val agentweb_file = "com.github.Justson.AgentWeb:agentweb-filechooser:v5.0.0-alpha.1-androidx"
+  const val agentweb_down = "com.github.Justson:Downloader:v5.0.0-androidx"
 
   //RecyclerView动画 https://github.com/mikepenz/ItemAnimators
   const val rv_anim = "com.mikepenz:itemanimators:1.1.0"
@@ -123,7 +122,7 @@ object Deps {
   const val smart_footer = "com.scwang.smart:refresh-footer-classics:2.0.3"
 
   //手机号判断 https://github.com/google/libphonenumber/wiki/Android-Studio-setup
-  const val libphonenumber = "com.googlecode.libphonenumber:libphonenumber:8.12.34"
+  const val libphonenumber = "com.googlecode.libphonenumber:libphonenumber:8.12.38"
   //</editor-fold>
 
   //<editor-fold defaultstate="collapsed" desc="调试统计工具">
@@ -151,7 +150,7 @@ object Deps {
 
   //<editor-fold defaultstate="collapsed" desc="三方不常用配置">
   //图片选择器 https://github.com/LuckSiege/PictureSelector
-  const val pic_select = "io.github.lucksiege:pictureselector:v2.7.3-rc08"
+  const val pic_select = "io.github.lucksiege:pictureselector:v2.7.3-rc10"
 
   //Emoji表情 https://github.com/vanniktech/Emoji
   const val emoji = "com.vanniktech:emoji-twitter:0.8.0"

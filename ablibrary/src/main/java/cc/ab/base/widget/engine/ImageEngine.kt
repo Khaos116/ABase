@@ -146,9 +146,9 @@ class ImageEngine : com.luck.picture.lib.engine.ImageEngine {
   }
 
   //已废弃
-  override fun loadImage(context: Context, url: String, imageView: ImageView, longImageView: SubsamplingScaleImageView?) {
-    loadImage(context, url, imageView, longImageView, null)
-  }
+//  override fun loadImage(context: Context, url: String, imageView: ImageView, longImageView: SubsamplingScaleImageView?) {
+//    loadImage(context, url, imageView, longImageView, null)
+//  }
 
   //加载相册目录
   override fun loadFolderImage(context: Context, url: String, imageView: ImageView) {
@@ -157,13 +157,13 @@ class ImageEngine : com.luck.picture.lib.engine.ImageEngine {
   }
 
   //加载gif
-  override fun loadAsGifImage(context: Context, url: String, imageView: ImageView) {
-    if (imageView.scaleType == ScaleType.CENTER_CROP) {
-      imageView.loadImgSquare(url)
-    } else {
-      imageView.loadImgVertical(url, 720f / 1280)
-    }
-  }
+//  override fun loadAsGifImage(context: Context, url: String, imageView: ImageView) {
+//    if (imageView.scaleType == ScaleType.CENTER_CROP) {
+//      imageView.loadImgSquare(url)
+//    } else {
+//      imageView.loadImgVertical(url, 720f / 1280)
+//    }
+//  }
 
   //加载图片列表图片
   override fun loadGridImage(context: Context, url: String, imageView: ImageView) {
