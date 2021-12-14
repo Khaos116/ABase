@@ -1,10 +1,10 @@
 //===================版本配置===================//
-//测试版(只有第一位可以大于等于10)
-def version_Name_D = "1.0.4"
-def version_Code_D = (version_Name_D.replace(".", "")).toInteger()
-//正式版(只有第一位可以大于等于10)
-def version_Name_R = "1.0.4"
-def version_Code_R = (version_Name_R.replace(".", "")).toInteger()
+//S1版(只有第一位可以大于等于10)
+def versionNameS1 = "1.0.4"
+def versionCodeS1 = (versionNameS1.replace(".", "")).toInteger()
+//S2版(只有第一位可以大于等于10)
+def versionNameS2 = "1.0.4"
+def versionCodeS2 = (versionNameS2.replace(".", "")).toInteger()
 //Bugly相关
 def buglyAppIdDebug = "c6e450ad19"
 def buglyAppKeyDebug = "54ece6d9-fcb0-4ce2-8dae-b86efb65617c"
@@ -12,21 +12,20 @@ def buglyAppIdRelease = "c6e450ad19"
 def buglyAppKeyRelease = "54ece6d9-fcb0-4ce2-8dae-b86efb65617c"
 ext {
   android = [
-      applicationName_D: "ABase测试",
-      applicationId_D: "com.abase.dev",
-      versionName_D: version_Name_D,
-      versionCode_D: version_Code_D,
+      applicationName: "ABase",
+      applicationId: "com.abase",
 
-      applicationName_R: "ABase2021",
-      applicationId_R: "com.abase.rel",
-      versionName_R: version_Name_R,
-      versionCode_R: version_Code_R,
+      versionNameS1: versionNameS1,
+      versionCodeS1: versionCodeS1,
 
-      buglyId_D: buglyAppIdDebug,
-      buglyKey_D: buglyAppKeyDebug,
+      versionNameS2: versionNameS2,
+      versionCodeS2: versionCodeS2,
 
-      buglyId_R: buglyAppIdRelease,
-      buglyKey_R: buglyAppKeyRelease,
+      buglyIdDebug: buglyAppIdDebug,
+      buglyKeyDebug: buglyAppKeyDebug,
+
+      buglyIdRelease: buglyAppIdRelease,
+      buglyKeyRelease: buglyAppKeyRelease,
 
       buildTime: new Date().format("yyyyMMdd_HHmm"), //编译日期
       computer: Math.abs((System.getProperty("user.name") + "@" + InetAddress.localHost.hostName).hashCode()),
