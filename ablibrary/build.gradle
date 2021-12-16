@@ -1,86 +1,86 @@
 plugins {
-  id 'com.android.library'
-  id 'kotlin-android'
-  id 'kotlin-kapt'
-  //id 'kotlin-parcelize' //https://weilu.blog.csdn.net/article/details/109557820
+    id 'com.android.library'
+    id 'kotlin-android'
+    id 'kotlin-kapt'
+    //id 'kotlin-parcelize' //https://weilu.blog.csdn.net/article/details/109557820
 }
 
 android {
-  compileSdkVersion Versions.sdkTarget
-  //buildFeatures编译问题 https://www.freesion.com/article/90591379803/ https://blog.csdn.net/choimroc/article/details/104756365
-  //com.android.tools.build:gradle:version < 4.1.2
-  //viewBinding { enabled = true }
-  //com.android.tools.build:gradle:version >=4.1.2
-  buildFeatures { viewBinding = true }
-  defaultConfig {
-    minSdkVersion Versions.sdkMin
-    targetSdkVersion Versions.sdkTarget
-    versionCode 1
-    versionName "1.0"
-    multiDexEnabled true
-    resConfigs "zh", "en" //保留中文和英文资源
-    ndk { abiFilters 'armeabi-v7a' } //, 'arm64-v8a'
-  }
-
-  //lambda表达式需要
-  compileOptions {
-    sourceCompatibility JavaVersion.VERSION_1_8
-    targetCompatibility JavaVersion.VERSION_1_8
-  }
-
-  //部分DSL需要
-  kotlinOptions { jvmTarget = "1.8" }
-
-  buildTypes {
-    release {
-      minifyEnabled false
-      proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+    compileSdkVersion Versions.sdkTarget
+    //buildFeatures编译问题 https://www.freesion.com/article/90591379803/ https://blog.csdn.net/choimroc/article/details/104756365
+    //com.android.tools.build:gradle:version < 4.1.2
+    //viewBinding { enabled = true }
+    //com.android.tools.build:gradle:version >=4.1.2
+    buildFeatures { viewBinding true }
+    defaultConfig {
+        minSdkVersion Versions.sdkMin
+        targetSdkVersion Versions.sdkTarget
+        versionCode 1
+        versionName "1.0"
+        multiDexEnabled true
+        resConfigs "zh", "en" //保留中文和英文资源
+        ndk { abiFilters 'armeabi-v7a' } //, 'arm64-v8a'
     }
-  }
+
+    //lambda表达式需要
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    //部分DSL需要
+    kotlinOptions { jvmTarget = "1.8" }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
 }
 
 dependencies {
-  implementation fileTree(dir: 'libs', include: ['*.jar'])
-  debugImplementation Deps.uinspector
-  api Deps.kotlin_stdlib
-  api Deps.timber
-  api Deps.android_startup
-  api Deps.appcompat
-  api Deps.material
-  api Deps.fragment
-  api Deps.core_ktx
-  api Deps.constraint
-  api Deps.viewmodel
-  api Deps.lifecycle
-  api Deps.utilcodex
-  api Deps.eventBus
-  api Deps.coroutine
-  api Deps.coroutine_android
-  api Deps.multitype
-  api Deps.immersionbar
-  api Deps.immersionbar_ktx
-  api Deps.autosize
-  api Deps.lottie
-  api Deps.agentweb
-  api Deps.swipe
-  api Deps.swipex
-  api Deps.smart_refresh
-  api Deps.smart_header
-  api Deps.smart_footer
-  api Deps.okhttp
-  api Deps.okhttp_log
-  api Deps.rxjava
-  api Deps.rxandroid
-  api Deps.gson
-  api Deps.mmkv
-  api Deps.pic_select
-  api Deps.coil
-  api Deps.coil_gif
-  api Deps.coil_svg
-  api Deps.coil_video_file
-  api Deps.xxpermissions
-  api Deps.rv_anim
-  api Deps.libphonenumber
-  api Deps.binding_ktx
-  api Deps.binding_base
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    debugImplementation Deps.uinspector
+    api Deps.kotlin_stdlib
+    api Deps.timber
+    api Deps.android_startup
+    api Deps.appcompat
+    api Deps.material
+    api Deps.fragment
+    api Deps.core_ktx
+    api Deps.constraint
+    api Deps.viewmodel
+    api Deps.lifecycle
+    api Deps.utilcodex
+    api Deps.eventBus
+    api Deps.coroutine
+    api Deps.coroutine_android
+    api Deps.multitype
+    api Deps.immersionbar
+    api Deps.immersionbar_ktx
+    api Deps.autosize
+    api Deps.lottie
+    api Deps.agentweb
+    api Deps.swipe
+    api Deps.swipex
+    api Deps.smart_refresh
+    api Deps.smart_header
+    api Deps.smart_footer
+    api Deps.okhttp
+    api Deps.okhttp_log
+    api Deps.rxjava
+    api Deps.rxandroid
+    api Deps.gson
+    api Deps.mmkv
+    api Deps.pic_select
+    api Deps.coil
+    api Deps.coil_gif
+    api Deps.coil_svg
+    api Deps.coil_video_file
+    api Deps.xxpermissions
+    api Deps.rv_anim
+    api Deps.libphonenumber
+    api Deps.binding_ktx
+    api Deps.binding_base
 }
