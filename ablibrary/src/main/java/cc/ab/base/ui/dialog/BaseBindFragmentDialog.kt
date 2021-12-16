@@ -205,7 +205,7 @@ abstract class BaseBindFragmentDialog<T : ViewBinding> : DialogFragment() {
 
   //<editor-fold defaultstate="collapsed" desc="需要执行动画后的关闭，自己重写">
   protected open fun dismissAfterAnim() {
-    dismissAllowingStateLoss()
+    if (isCancelable) dismissAllowingStateLoss()
   }
   //</editor-fold>
 
