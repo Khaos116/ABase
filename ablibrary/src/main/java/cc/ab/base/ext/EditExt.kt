@@ -7,6 +7,7 @@ import android.text.method.PasswordTransformationMethod
 import android.widget.EditText
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.coroutineScope
+import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.*
 
@@ -15,6 +16,7 @@ import kotlinx.coroutines.flow.*
  * @author: Khaos
  * @date: 2019/10/10 22:35
  */
+@FlowPreview
 fun EditText.onDebounceTextChanges(life: Lifecycle, time: Long = 600, onStart: Boolean = false, afterChange: (String) -> Unit) {
   //防止搜索一样的内容
   var lastSearchStr: String? = null
