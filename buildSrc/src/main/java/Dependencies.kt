@@ -117,9 +117,9 @@ object Deps {
   const val swipex = "com.billy.android:smart-swipe-x:1.1.0"
 
   //下拉刷新 https://github.com/scwang90/SmartRefreshLayout
-  const val smart_refresh = "com.scwang.smart:refresh-layout-kernel:2.0.3"
-  const val smart_header = "com.scwang.smart:refresh-header-classics:2.0.3"
-  const val smart_footer = "com.scwang.smart:refresh-footer-classics:2.0.3"
+  const val smart_refresh = "io.github.scwang90:refresh-layout-kernel:2.0.5"
+  const val smart_header = "io.github.scwang90:refresh-header-classics:2.0.5"
+  const val smart_footer = "io.github.scwang90:refresh-footer-classics:2.0.5"
 
   //手机号判断 https://github.com/google/libphonenumber/wiki/Android-Studio-setup
   const val libphonenumber = "com.googlecode.libphonenumber:libphonenumber:8.12.38"
