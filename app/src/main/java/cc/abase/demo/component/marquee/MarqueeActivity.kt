@@ -24,7 +24,7 @@ class MarqueeActivity : CommBindTitleActivity<ActivityMarqueeBinding>() {
   }
 
   override fun initContentView() {
-    setTitleText(StringUtils.getString(R.string.title_marquee))
+    setTitleText(StringUtils.getString(R.string.跑马灯))
     viewBinding.marqueeContent1.text = "这是一个很长很长的测试跑马灯效果的描述文字，如果不够长，我再添加一点文字！"
     viewBinding.marqueeContent2.text = "这是一个很长很长的测试跑马灯效果的描述文字，如果不够长，我再添加一点文字，我再添加一点文字！"
     val list = mutableListOf<String>()

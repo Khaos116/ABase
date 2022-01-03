@@ -55,7 +55,7 @@ class PlayListActivity : CommBindTitleActivity<ActivityPlayListBinding>() {
   //<editor-fold defaultstate="collapsed" desc="初始化View">
   @SuppressLint("NotifyDataSetChanged")
   override fun initContentView() {
-    setTitleText(StringUtils.getString(R.string.title_play_list))
+    setTitleText(StringUtils.getString(R.string.列表中视频播放))
     multiTypeAdapter.register(VideoListItem { startPlay(multiTypeAdapter.items.indexOf(it)) })
     multiTypeAdapter.register(NoMoreItem())
     //播放相关

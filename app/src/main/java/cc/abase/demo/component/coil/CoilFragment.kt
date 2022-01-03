@@ -18,7 +18,7 @@ class CoilFragment : CommBindFragment<FragmentCoilBinding>() {
   @SuppressLint("SetTextI18n")
   override fun lazyInit() {
     viewBinding.flTitle.commTitleBack.pressEffectAlpha()
-    viewBinding.flTitle.commTitleText.text = R.string.title_coil.xmlToString()
+    viewBinding.flTitle.commTitleText.text = R.string.Coil特殊图片加载.xmlToString()
     viewBinding.flTitle.commTitleBack.click { mActivity.onBackPressed() }
     val ration = ScreenUtils.getScreenWidth() / 200f
     val urls = mutableListOf(

@@ -6,7 +6,6 @@ import android.graphics.Color
 import android.text.TextUtils.TruncateAt
 import android.util.TypedValue
 import android.view.Gravity
-import android.view.LayoutInflater
 import android.widget.TextView
 import cc.ab.base.ext.*
 import cc.abase.demo.R
@@ -44,7 +43,7 @@ class FlexboxActivity : CommBindTitleActivity<ActivityFlexboxBinding>() {
   )
 
   override fun initContentView() {
-    setTitleText(StringUtils.getString(R.string.title_flexbox))
+    setTitleText(StringUtils.getString(R.string.FlexboxLayout))
     //主轴项目排列方向
     viewBinding.flexboxLayout.flexDirection = FlexDirection.ROW //主轴为水平方向，起点在左端
     //换行方式

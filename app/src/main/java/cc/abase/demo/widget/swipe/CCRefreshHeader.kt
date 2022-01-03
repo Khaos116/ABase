@@ -37,12 +37,12 @@ class CCRefreshHeader(context: Context) : SmartSwipeRefreshHeader {
   }
 
   override fun onStartDragging() {
-    headerTv?.text = StringUtils.getString(R.string.pull_to_refresh)
+    headerTv?.text = StringUtils.getString(R.string.下拉刷新)
   }
 
   override fun onDataLoading() {
     headerLav?.playAnimation()
-    headerTv?.text = StringUtils.getString(R.string.refresh_loading_data)
+    headerTv?.text = StringUtils.getString(R.string.数据加载中)
   }
 
   override fun getView(): View {
@@ -55,9 +55,9 @@ class CCRefreshHeader(context: Context) : SmartSwipeRefreshHeader {
   ) {
     headerTv?.text = StringUtils.getString(
             if (progress < 1) {
-              R.string.pull_to_refresh
+              R.string.下拉刷新
             } else {
-              R.string.release_to_refresh
+              R.string.释放刷新
             }
         )
   }

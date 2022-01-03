@@ -14,7 +14,7 @@
       android:layout_height="260dp"
       android:background="@drawable/shape_stroke1_corner8_gray"
       android:gravity="start"
-      android:hint="@string/spedit_input_hint"
+      android:hint="@string/在这里输入内容"
       android:padding="8dp"
       />
 
@@ -34,7 +34,7 @@
         android:paddingTop="10dp"
         android:paddingEnd="15dp"
         android:paddingBottom="10dp"
-        android:text="选择@或#效果"
+        android:text="@string/选AT或井效果"
         android:textColor="@color/white"
         />
 
@@ -49,7 +49,7 @@
         android:paddingTop="10dp"
         android:paddingEnd="15dp"
         android:paddingBottom="10dp"
-        android:text="展示显示效果"
+        android:text="@string/展示显示效果"
         android:textColor="@color/white"
         />
 

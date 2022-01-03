@@ -1,5 +1,7 @@
 package cc.abase.demo.bean.wan
 
+import cc.ab.base.ext.xmlToString
+import cc.abase.demo.R
 import com.blankj.utilcode.util.TimeUtils
 
 /**
@@ -49,7 +51,7 @@ data class ArticleBean(
         } else if (superChapterName.isNullOrBlank()) {
           chapterName?.trim() ?: ""
         } else {
-          "未知"
+          R.string.未知.xmlToString()
         }
       }
       return field
@@ -61,7 +63,7 @@ data class ArticleBean(
         field = when {
           author.isNullOrBlank() -> shareUser?.trim() ?: ""
           shareUser.isNullOrBlank() -> author?.trim() ?: ""
-          else -> "未知"
+          else -> R.string.未知.xmlToString()
         }
       }
       return field

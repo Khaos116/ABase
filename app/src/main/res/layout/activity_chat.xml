@@ -72,7 +72,7 @@
         android:contentDescription="@null"
         android:padding="10dp"
         android:src="@drawable/svg_send"
-        android:text="@string/chat_send"
+        android:text="@string/发送"
         />
   </LinearLayout>
 

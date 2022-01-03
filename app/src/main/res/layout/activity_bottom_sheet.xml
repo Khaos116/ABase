@@ -15,7 +15,7 @@
       android:paddingTop="8dp"
       android:paddingEnd="20dp"
       android:paddingBottom="8dp"
-      android:text="@string/open_bottom_sheet_dialog"
+      android:text="@string/打开BottomSheetDialog"
       android:textColor="@color/white"
       />
 </FrameLayout>

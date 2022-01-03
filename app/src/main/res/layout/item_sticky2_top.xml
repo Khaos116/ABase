@@ -16,7 +16,7 @@
         android:layout_height="40dp"
         android:background="@color/gray_CCCCCC"
         android:gravity="center"
-        android:text="语文"
+        android:text="@string/语文"
         android:textColor="@color/black"
         android:textSize="16sp"
         />
@@ -32,7 +32,7 @@
         android:layout_height="40dp"
         android:background="@color/gray_CCCCCC"
         android:gravity="center"
-        android:text="数学"
+        android:text="@string/数学"
         android:textColor="@color/black"
         android:textSize="16sp"
         />
@@ -48,7 +48,7 @@
         android:layout_height="40dp"
         android:background="@color/gray_CCCCCC"
         android:gravity="center"
-        android:text="英语"
+        android:text="@string/英语"
         android:textColor="@color/black"
         android:textSize="16sp"
         />
@@ -64,7 +64,7 @@
         android:layout_height="40dp"
         android:background="@color/gray_CCCCCC"
         android:gravity="center"
-        android:text="物理"
+        android:text="@string/物理"
         android:textColor="@color/black"
         android:textSize="16sp"
         />
@@ -80,7 +80,7 @@
         android:layout_height="40dp"
         android:background="@color/gray_CCCCCC"
         android:gravity="center"
-        android:text="化学"
+        android:text="@string/化学"
         android:textColor="@color/black"
         android:textSize="16sp"
         />
@@ -96,7 +96,7 @@
         android:layout_height="40dp"
         android:background="@color/gray_CCCCCC"
         android:gravity="center"
-        android:text="生物"
+        android:text="@string/生物"
         android:textColor="@color/black"
         android:textSize="16sp"
         />
@@ -112,7 +112,7 @@
         android:layout_height="40dp"
         android:background="@color/gray_CCCCCC"
         android:gravity="center"
-        android:text="政治"
+        android:text="@string/政治"
         android:textColor="@color/black"
         android:textSize="16sp"
         />
@@ -128,7 +128,7 @@
         android:layout_height="40dp"
         android:background="@color/gray_CCCCCC"
         android:gravity="center"
-        android:text="历史"
+        android:text="@string/历史"
         android:textColor="@color/black"
         android:textSize="16sp"
         />
@@ -144,7 +144,7 @@
         android:layout_height="40dp"
         android:background="@color/gray_CCCCCC"
         android:gravity="center"
-        android:text="地理"
+        android:text="@string/地理"
         android:textColor="@color/black"
         android:textSize="16sp"
         />
@@ -160,7 +160,7 @@
         android:layout_height="40dp"
         android:background="@color/gray_CCCCCC"
         android:gravity="center"
-        android:text="总分"
+        android:text="@string/总分"
         android:textColor="@color/black"
         android:textSize="16sp"
         />

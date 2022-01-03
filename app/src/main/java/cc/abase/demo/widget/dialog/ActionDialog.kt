@@ -15,7 +15,7 @@ import com.blankj.utilcode.util.StringUtils
  */
 class ActionDialog : BaseBindFragmentDialog<DialogActionBinding>() {
   //默认提示语
-  var hintText: String = StringUtils.getString(R.string.action_loading)
+  var hintText: String = StringUtils.getString(R.string.加载中)
 
   override fun initView() {
     viewBinding.dialogActionHint.text = hintText

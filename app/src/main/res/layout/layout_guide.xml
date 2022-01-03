@@ -28,7 +28,7 @@
       android:background="@drawable/shape_half_dark_green"
       android:gravity="center"
       android:padding="12dp"
-      android:text="@string/guide_go"
+      android:text="@string/立即体验"
       android:textColor="@color/white"
       android:textSize="18sp"
       android:visibility="gone"

@@ -51,7 +51,7 @@ class VideoCompressActivity : CommBindTitleActivity<ActivityVideoCompressBinding
 
   @SuppressLint("SetTextI18n", "SourceLockedOrientationActivity")
   override fun initContentView() {
-    setTitleText(R.string.video_compress_title.xmlToString())
+    setTitleText(R.string.视频压缩与封面获取.xmlToString())
     viewBinding.videoCompressCompress.alpha = UiConstants.disable_alpha
     viewBinding.videoCompressCompress.isEnabled = false
     videoCompressPlayer = MyVideoView(mContext)

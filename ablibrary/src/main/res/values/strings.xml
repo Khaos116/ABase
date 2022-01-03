@@ -1,3 +1,6 @@
 <resources>
     <string name="app_name">ABLibrary</string>
+    <string name="换行超出限制">换行超出限制</string>
+    <string name="字数超出限制">字数超出限制</string>
+    <string name="万">万</string>
 </resources>

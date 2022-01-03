@@ -45,7 +45,7 @@ abstract class CommBindActivity<T : ViewBinding> : BaseBindActivity<T>() {
     mContentView.post(runShowLoading)
   }
 
-  protected fun showNoDataView() = showErrorView(R.string.no_data.xmlToString())
+  protected fun showNoDataView() = showErrorView(R.string.该模块暂时还没有数据哦.xmlToString())
 
   protected fun showErrorView(msg: String? = "", reTry: (() -> Unit)? = null) {
     removeAllCallbacks()
@@ -139,7 +139,7 @@ abstract class CommBindActivity<T : ViewBinding> : BaseBindActivity<T>() {
       errorView = TextView(mContext)
       errorView?.run {
         this.isClickable = true
-        this.text = if (NetworkUtils.isConnected()) R.string.net_fail_retry.xmlToString() else R.string.net_error_retry.xmlToString()
+        this.text = if (NetworkUtils.isConnected()) R.string.加载失败点击屏幕重试.xmlToString() else R.string.网络异常点击屏幕重试.xmlToString()
         this.gravity = Gravity.CENTER
         this.setTextColor(R.color.gray.xmlToColor())
       }

@@ -1,6 +1,5 @@
 package cc.abase.demo.component.count
 
-import android.view.LayoutInflater
 import cc.ab.base.ext.xmlToString
 import cc.abase.demo.R
 import cc.abase.demo.component.comm.CommBindTitleActivity
@@ -17,7 +16,7 @@ import com.cc.countsdk.utils.CountInfoUtils
 class CountActivity : CommBindTitleActivity<ActivityCountBinding>() {
   //<editor-fold defaultstate="collapsed" desc="初始化View">
   override fun initContentView() {
-    setTitleText(R.string.title_count.xmlToString())
+    setTitleText(R.string.统计信息展示.xmlToString())
     viewBinding.countTv.text = StringBuilder()
         .append("统计key:").append(CountInfoUtils.getCountKey()).append("\n\n")
         .append("AppInfo:\n").append(

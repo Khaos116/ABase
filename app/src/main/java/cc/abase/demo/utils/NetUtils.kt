@@ -13,7 +13,7 @@ object NetUtils {
   //无网络则吐司
   fun checkNetToast(): Boolean {
     if (!NetworkUtils.isConnected()) {
-      R.string.no_network.xmlToast()
+      R.string.似乎已断开网络连接.xmlToast()
       return false
     }
     return true

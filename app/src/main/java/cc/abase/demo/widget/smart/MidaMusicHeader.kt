@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.widget.TextView
 import androidx.annotation.ColorInt
+import cc.ab.base.ext.xmlToString
 import cc.abase.demo.R
 import com.airbnb.lottie.LottieAnimationView
 import com.scwang.smart.refresh.layout.api.*
@@ -50,13 +51,13 @@ open class MidaMusicHeader @kotlin.jvm.JvmOverloads constructor(c: Context, a: A
   override fun onStateChanged(refreshLayout: RefreshLayout, oldState: RefreshState, newState: RefreshState) {
     when (newState) {
       RefreshState.None -> { //恢复初始状态
-        headerTv?.text = "下拉刷新"
+        headerTv?.text = R.string.下拉刷新.xmlToString()
         headerLav?.cancelAnimation()
         headerLav?.progress = 0f
       }
-      RefreshState.PullDownToRefresh -> headerTv?.text = "下拉刷新"
-      RefreshState.ReleaseToRefresh -> headerTv?.text = "释放刷新"
-      RefreshState.Refreshing -> headerTv?.text = "刷新中..."
+      RefreshState.PullDownToRefresh -> headerTv?.text = R.string.下拉刷新.xmlToString()
+      RefreshState.ReleaseToRefresh -> headerTv?.text = R.string.释放刷新.xmlToString()
+      RefreshState.Refreshing -> headerTv?.text = R.string.刷新中.xmlToString()
       else -> {
       }
     }

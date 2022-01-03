@@ -13,7 +13,7 @@
         android:layout_margin="5dp"
         android:background="@color/white_FAEBD7"
         android:gravity="center"
-        android:hint="请输入要生二维码的文字"
+        android:hint="@string/请输入要生二维码的文字"
         android:singleLine="true"
         android:textColor="@color/red_FF00FF"
         android:textColorHint="@color/gray_808A87"
@@ -27,7 +27,7 @@
         android:layout_margin="5dp"
         android:background="@color/blue_03A89E"
         android:gravity="center"
-        android:text="生成二维码"
+        android:text="@string/生成二维码"
         android:textColor="@color/white"
         tools:ignore="HardcodedText" />
 
@@ -38,7 +38,7 @@
         android:layout_margin="5dp"
         android:background="@color/brown_F4A460"
         android:gravity="center"
-        android:text="解析二维码"
+        android:text="@string/解析二维码"
         android:textColor="@color/white"
         tools:ignore="HardcodedText" />
 
@@ -49,7 +49,7 @@
         android:layout_margin="5dp"
         android:background="@color/blue_6A5ACD"
         android:gravity="center"
-        android:text="扫描二维码"
+        android:text="@string/扫描二维码"
         android:textColor="@color/white"
         tools:ignore="HardcodedText" />
 

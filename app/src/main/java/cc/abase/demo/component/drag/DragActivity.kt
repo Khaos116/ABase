@@ -53,7 +53,7 @@ class DragActivity : CommBindTitleActivity<ActivityDragBinding>() {
 
   //<editor-fold defaultstate="collapsed" desc="初始化View">
   override fun initContentView() {
-    setTitleText(StringUtils.getString(R.string.title_drag))
+    setTitleText(StringUtils.getString(R.string.九宫格拖拽效果))
     viewBinding.dragRecycler.layoutManager = GridLayoutManager(mContext, 3)
     viewBinding.dragRecycler.setPadding(spaceItem, viewBinding.dragRecycler.paddingTop, spaceItem, viewBinding.dragRecycler.paddingBottom)
     if (viewBinding.dragRecycler.itemDecorationCount > 0) viewBinding.dragRecycler.removeItemDecorationAt(0)

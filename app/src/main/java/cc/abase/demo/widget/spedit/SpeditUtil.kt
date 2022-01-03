@@ -30,12 +30,12 @@ object SpeditUtil {
           MyInputHelper.getRealLength(insertUser.displayText)
       ) {
         Utils.getApp()
-            .toast(R.string.over_max_len)
+            .toast(R.string.字数超出限制)
       } else if (!hasIn(editText, uid)) {
         insertUserSpan(ed, insertUser.spannableString)
       } else {
         Utils.getApp()
-            .toast(R.string.already_at)
+            .toast(R.string.你已经AT过Ta啦)
       }
     }
   }
@@ -146,7 +146,7 @@ object SpeditUtil {
             (if (dest == null) 0 else MyInputHelper.getRealLength(dest)) > maxLen
         ) {
           Utils.getApp()
-              .toast(R.string.over_max_len)
+              .toast(R.string.字数超出限制)
           return ""
         }
       }

@@ -37,7 +37,7 @@ class SpeditActivity : CommBindTitleActivity<ActivitySpeditBinding>() {
   private val MAX_LENGTH = 200
 
   override fun initContentView() {
-    setTitleText(StringUtils.getString(R.string.title_spedit))
+    setTitleText(StringUtils.getString(R.string.AT展示效果))
     //点击效果
     viewBinding.speditChoose.pressEffectAlpha()
     //删除效果

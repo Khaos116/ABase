@@ -25,7 +25,7 @@ object GlobalErrorHandle {
         //未登录
         MyErrorCode.NO_LOGIN -> {
           ac.runOnUiThread {
-            ac.toast(R.string.need_login)
+            ac.toast(R.string.登录过期请重新登录)
             LoginActivity.startActivity(ac)
           }
         }

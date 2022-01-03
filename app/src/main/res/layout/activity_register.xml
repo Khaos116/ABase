@@ -28,7 +28,7 @@
         android:id="@+id/registerEditAccount"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/login_account_hint"
+        android:hint="@string/请输入用户名"
         android:inputType="textPersonName|textEmailAddress"
         android:maxLines="1"
         />
@@ -51,7 +51,7 @@
         android:id="@+id/registerEditPassword1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/login_password_hint"
+        android:hint="@string/请输入密码"
         android:inputType="textPassword"
         android:maxLines="1"
         />
@@ -74,7 +74,7 @@
         android:id="@+id/registerEditPassword2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/login_password_again_hint"
+        android:hint="@string/再次请输入密码"
         android:inputType="textPassword"
         android:maxLines="1"
         />
@@ -88,7 +88,7 @@
       android:background="@drawable/shape_half_dark_green"
       android:gravity="center"
       android:padding="12dp"
-      android:text="@string/login_register_hint"
+      android:text="@string/注册"
       android:textColor="@color/white"
       android:textSize="18sp"
       app:layout_constraintBottom_toBottomOf="parent"

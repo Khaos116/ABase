@@ -45,7 +45,7 @@ class StickyActivity2 : CommBindTitleActivity<ActivitySticky2Binding>() {
 
   //<editor-fold defaultstate="collapsed" desc="初始化View">
   override fun initContentView() {
-    setTitleText(StringUtils.getString(R.string.title_sticky2))
+    setTitleText(StringUtils.getString(R.string.学生成绩单效果))
     //同步两个列表
     initScrollListener()
     //加载更多

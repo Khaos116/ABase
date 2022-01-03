@@ -42,7 +42,7 @@ class ExpandActivity : CommBindTitleActivity<ActivityExpandBinding>() {
 
   //<editor-fold defaultstate="collapsed" desc="初始化View">
   override fun initContentView() {
-    setTitleText(StringUtils.getString(R.string.expandable))
+    setTitleText(StringUtils.getString(R.string.列表收缩展开效果))
     multiTypeAdapter.register(StickyTopItem().also {
       it.onItemClick = { pb ->
         val items = multiTypeAdapter.items.toMutableList()

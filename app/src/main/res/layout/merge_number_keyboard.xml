@@ -93,7 +93,7 @@
       android:layout_height="0dp"
       android:background="@drawable/shape_gray_light_right_bottom5"
       android:gravity="center"
-      android:text="收起"
+      android:text="@string/收起"
       android:textColor="@color/black"
       android:textSize="19sp"
       android:textStyle="bold"

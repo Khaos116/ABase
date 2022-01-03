@@ -12,7 +12,7 @@
       android:background="@drawable/shape_corner5_top_gray"
       android:gravity="center"
       android:padding="8dp"
-      android:text="@string/title_bottom_sheet"
+      android:text="@string/BottomSheetDialog"
       />
 
   <View

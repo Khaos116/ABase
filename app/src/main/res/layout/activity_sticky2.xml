@@ -34,7 +34,7 @@
           android:layout_height="match_parent"
           android:gravity="end"
           android:padding="5dp"
-          android:text="科目"
+          android:text="@string/科目"
           android:textColor="@color/red"
           android:textSize="14sp"
           />
@@ -44,7 +44,7 @@
           android:layout_height="match_parent"
           android:gravity="bottom"
           android:padding="5dp"
-          android:text="姓名"
+          android:text="@string/姓名"
           android:textColor="@color/red"
           android:textSize="14sp"
           />

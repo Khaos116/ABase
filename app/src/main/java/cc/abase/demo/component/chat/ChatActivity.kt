@@ -51,7 +51,7 @@ class ChatActivity : CommBindTitleActivity<ActivityChatBinding>() {
   //<editor-fold defaultstate="collapsed" desc="初始化View">
   override fun initContentView() {
     window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_UNCHANGED)
-    setTitleText(getString(R.string.chat_title))
+    setTitleText(getString(R.string.聊天模拟))
     //注册多类型
     multiTypeAdapter.register(SimpleTxtItem())
     multiTypeAdapter.register(DividerItem())

@@ -31,7 +31,7 @@ class DecorationActivity : CommBindTitleActivity<ActivityDecorationBinding>() {
     mutableListOf("TAB1", "TAB2", "TAB3", "TAB4", "TAB5", "TAB6", "TAB7", "TAB8", "TAB9")
 
   override fun initContentView() {
-    setTitleText(StringUtils.getString(R.string.title_decoration))
+    setTitleText(StringUtils.getString(R.string.列表分割线效果))
     fragments.clear()
     fragments.add(DecorationFragment.newInstance(0))
     fragments.add(DecorationFragment.newInstance(1))

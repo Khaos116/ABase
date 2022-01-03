@@ -36,7 +36,7 @@ class RegisterActivity : CommBindTitleActivity<ActivityRegisterBinding>() {
 
   //<editor-fold defaultstate="collapsed" desc="初始化View">
   override fun initContentView() {
-    setTitleText(StringUtils.getString(R.string.login_register_hint))
+    setTitleText(StringUtils.getString(R.string.注册))
     checkSubmit()
     MyInputHelper.wrapCommCountLimit(viewBinding.registerEditAccount, LengthConstants.MAX_LEN_ACC, 0)
     MyInputHelper.wrapCommCountLimit(viewBinding.registerEditPassword1, LengthConstants.MAX_LEN_PASS, 0)
@@ -95,23 +95,23 @@ class RegisterActivity : CommBindTitleActivity<ActivityRegisterBinding>() {
     val textPass1 = viewBinding.registerEditPassword1.text
     val textPass2 = viewBinding.registerEditPassword2.text
     if (textAcc.isEmpty()) {
-      viewBinding.registerInputAccount.hint = StringUtils.getString(R.string.login_account_hint)
+      viewBinding.registerInputAccount.hint = StringUtils.getString(R.string.请输入用户名)
     } else if (textAcc.isNotEmpty() && textAcc.length < LengthConstants.MIN_LEN_ACC) {
-      viewBinding.registerInputAccount.hint = StringUtils.getString(R.string.login_account_short)
+      viewBinding.registerInputAccount.hint = StringUtils.getString(R.string.用户名太短)
     } else {
       viewBinding.registerInputAccount.hint = ""
     }
     if (textPass1.isEmpty()) {
-      viewBinding.registerInputPassword1.hint = StringUtils.getString(R.string.login_password_hint)
+      viewBinding.registerInputPassword1.hint = StringUtils.getString(R.string.请输入密码)
     } else if (textPass1.isNotEmpty() && textPass1.length < LengthConstants.MIN_LEN_PASS) {
-      viewBinding.registerInputPassword1.hint = StringUtils.getString(R.string.login_password_short)
+      viewBinding.registerInputPassword1.hint = StringUtils.getString(R.string.密码太短)
     } else {
       viewBinding.registerInputPassword1.hint = ""
     }
     if (textPass2.isEmpty()) {
-      viewBinding.registerInputPassword2.hint = StringUtils.getString(R.string.login_password_again_hint)
+      viewBinding.registerInputPassword2.hint = StringUtils.getString(R.string.再次请输入密码)
     } else if (!TextUtils.equals(textPass1, textPass2)) {
-      viewBinding.registerInputPassword2.hint = StringUtils.getString(R.string.login_password_not_same)
+      viewBinding.registerInputPassword2.hint = StringUtils.getString(R.string.两次输入的密码不一致)
     } else {
       viewBinding.registerInputPassword2.hint = ""
     }

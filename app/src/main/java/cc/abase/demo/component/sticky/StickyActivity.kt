@@ -68,7 +68,7 @@ class StickyActivity : CommBindTitleActivity<ActivityStickyBinding>() {
 
   //<editor-fold defaultstate="collapsed" desc="初始化View">
   override fun initContentView() {
-    setTitleText(StringUtils.getString(R.string.title_sticky))
+    setTitleText(StringUtils.getString(R.string.Sticky吸顶效果))
     val manager = StickyHeaderLinearLayoutManager<StickyAnyAdapter>(mActivity, LinearLayoutManager.VERTICAL, false)
     viewBinding.stickyRecycler.layoutManager = manager
     //由于自定义的DLSideBar里面dialog存在ViewBinding无法直接调用的异常(XML里面无法加载)，所以改为动态添加

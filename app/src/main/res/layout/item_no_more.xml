@@ -6,7 +6,7 @@
     android:layout_height="40dp"
     android:background="@color/gray_CCCCCC"
     android:gravity="center"
-    android:text="@string/no_more_data"
+    android:text="@string/没有更多数据了"
     android:textColor="@color/gray_444444"
     android:textSize="14sp"
     />

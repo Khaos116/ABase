@@ -2,7 +2,6 @@ package cc.abase.demo.component.blur
 
 import android.content.Context
 import android.content.Intent
-import android.view.LayoutInflater
 import cc.ab.base.ext.loadImgHorizontalBlur
 import cc.ab.base.ext.xmlToString
 import cc.abase.demo.R
@@ -27,7 +26,7 @@ class BlurActivity : CommBindTitleActivity<ActivityBlurBinding>() {
 
   //<editor-fold defaultstate="collapsed" desc="初始化View">
   override fun initContentView() {
-    setTitleText(R.string.title_blur.xmlToString())
+    setTitleText(R.string.高斯模糊.xmlToString())
     val url = ImageUrls.image_1125x642
     viewBinding.blurIv1.loadImgHorizontalBlur(url, holderRatio = 1125f / 642, blurRadius = 5f)
     viewBinding.blurIv2.loadImgHorizontalBlur(url, holderRatio = 1125f / 642, blurRadius = 10f, blackWhite = true)

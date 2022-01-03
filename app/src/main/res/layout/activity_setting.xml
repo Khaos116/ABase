@@ -21,7 +21,7 @@
         android:gravity="center_vertical"
         android:paddingStart="12dp"
         android:paddingEnd="100dp"
-        android:text="@string/clear_cache"
+        android:text="@string/清理缓存"
         />
 
     <TextView
@@ -55,7 +55,7 @@
         android:gravity="center_vertical"
         android:paddingStart="12dp"
         android:paddingEnd="100dp"
-        android:text="@string/version_info"
+        android:text="@string/版本信息"
         />
 
     <TextView
@@ -90,7 +90,7 @@
       android:layout_marginEnd="12dp"
       android:background="@drawable/shape_half_dark_green"
       android:gravity="center"
-      android:text="@string/login_out"
+      android:text="@string/退出"
       android:textColor="@color/white"
       android:textSize="20sp"
       />

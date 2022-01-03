@@ -34,7 +34,7 @@ class BottomSheetActivity : CommBindTitleActivity<ActivityBottomSheetBinding>() 
 
   //<editor-fold defaultstate="collapsed" desc="初始化View">
   override fun initContentView() {
-    setTitleText(R.string.title_bottom_sheet.xmlToString())
+    setTitleText(R.string.BottomSheetDialog.xmlToString())
     viewBinding.bottomSheetBtn.pressEffectAlpha()
     viewBinding.bottomSheetBtn.click {
       if (mBottomSheetDialog == null) initBottomSheet()

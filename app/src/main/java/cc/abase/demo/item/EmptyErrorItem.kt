@@ -30,12 +30,12 @@ class EmptyErrorItem(
     viewBinding.itemEmptyErrorTv.text = if (!item.msg.isNullOrBlank()) {
       item.msg
     } else if (!item.isError) {
-      StringUtils.getString(R.string.no_data)
+      StringUtils.getString(R.string.该模块暂时还没有数据哦)
     } else {
       if (NetworkUtils.isConnected()) {
-        StringUtils.getString(R.string.net_fail_retry)
+        StringUtils.getString(R.string.加载失败点击屏幕重试)
       } else {
-        StringUtils.getString(R.string.net_error_retry)
+        StringUtils.getString(R.string.网络异常点击屏幕重试)
       }
     }
     if (callRetry != null && item.isError) {

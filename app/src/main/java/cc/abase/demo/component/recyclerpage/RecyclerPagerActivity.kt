@@ -63,7 +63,7 @@ class RecyclerPagerActivity : CommBindTitleActivity<ActivtyVerticalpageBinding>(
   //<editor-fold defaultstate="collapsed" desc="View初始化">
   override fun initContentView() {
     //设置标题
-    setTitleText(StringUtils.getString(R.string.title_vertical_page))
+    setTitleText(StringUtils.getString(R.string.RecyclerView仿抖音))
     //初始化列表
     viewBinding.vvpDSV.setOrientation(DSVOrientation.VERTICAL)
     viewBinding.vvpDSV.addOnItemChangedListener { viewHolder, position, end ->
