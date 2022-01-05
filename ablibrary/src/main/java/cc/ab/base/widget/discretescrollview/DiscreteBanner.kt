@@ -181,6 +181,7 @@ class DiscreteBanner<T, V : ViewBinding> @kotlin.jvm.JvmOverloads constructor(
   //设置点击事件
   fun setOnItemClick(click: OnItemClickListener<T>): DiscreteBanner<T, V> {
     itemClick = click
+    mPagerAdapter?.onItemClickListener = click
     return this
   }
 
@@ -203,7 +204,7 @@ class DiscreteBanner<T, V : ViewBinding> @kotlin.jvm.JvmOverloads constructor(
     stopPlay()
     this.mData = datas
     this.mPagerAdapter = adapter
-    adapter.onItemClickListener = itemClick
+    if (itemClick != null) adapter.onItemClickListener = itemClick
     if (looper) {
       mPagerAdapter?.let {
         this.mLooperAdapter = InfiniteScrollAdapter.wrap(it)
