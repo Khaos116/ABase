@@ -14,6 +14,7 @@ import cc.ab.base.R
 import cc.ab.base.ext.getMyLifecycleOwner
 import cc.ab.base.ui.item.BaseViewHolder
 import cc.ab.base.widget.discretescrollview.adapter.DiscretePageAdapter
+import cc.ab.base.widget.discretescrollview.listener.OnItemClickListener
 import com.blankj.utilcode.util.SizeUtils
 import kotlin.math.abs
 
@@ -178,7 +179,7 @@ class DiscreteBanner<T, V : ViewBinding> @kotlin.jvm.JvmOverloads constructor(
   }
 
   //设置点击事件
-  fun setOnItemClick(click: (position: Int, t: T) -> Unit): DiscreteBanner<T, V> {
+  fun setOnItemClick(click: OnItemClickListener<T>): DiscreteBanner<T, V> {
     itemClick = click
     return this
   }
@@ -194,7 +195,7 @@ class DiscreteBanner<T, V : ViewBinding> @kotlin.jvm.JvmOverloads constructor(
   }
 
   //点击banner
-  private var itemClick: ((position: Int, t: T) -> Unit)? = null
+  private var itemClick: OnItemClickListener<T>? = null
 
   //设置数据
   @Suppress("UNCHECKED_CAST")
@@ -202,6 +203,7 @@ class DiscreteBanner<T, V : ViewBinding> @kotlin.jvm.JvmOverloads constructor(
     stopPlay()
     this.mData = datas
     this.mPagerAdapter = adapter
+    adapter.onItemClickListener = itemClick
     if (looper) {
       mPagerAdapter?.let {
         this.mLooperAdapter = InfiniteScrollAdapter.wrap(it)

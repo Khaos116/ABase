@@ -17,7 +17,7 @@ import com.dylanc.viewbinding.base.inflateBindingWithGeneric
  */
 abstract class DiscretePageAdapter<T, V : ViewBinding>(
   private val datas: MutableList<T> = mutableListOf(),
-  private var onItemClickListener: OnItemClickListener<T>? = null,
+  var onItemClickListener: OnItemClickListener<T>? = null,
 ) : RecyclerView.Adapter<BaseViewHolder<V>>() {
 
   //<editor-fold defaultstate="collapsed" desc="创建ViewHolder">
