@@ -194,6 +194,7 @@ open class CcUpdateService : Service() {
         //下载过程中发现APP被杀了，就自动关闭
         if (ActivityUtils.getActivityList().isNullOrEmpty()) {
             RxHttpPlugins.cancelAll()
+            //stopForeground(true)
             mNotificationManager?.cancelAll()
             mNotificationManager = null
             stopSelf()
@@ -381,6 +382,7 @@ open class CcUpdateService : Service() {
     private fun unregisterAppInstall(cancelAll: Boolean = false) {
         if (cancelAll) {
             mNotificationManager?.cancelAll()
+            //stopForeground(true)
         } else {
             mNotificationManager?.cancel(notificationID)
         }
