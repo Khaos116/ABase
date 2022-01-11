@@ -29,6 +29,11 @@ import com.luck.picture.lib.config.PictureMimeType
 import java.io.File
 
 /**
+ * WebView加载Html 解决图片自适应屏幕宽度问题
+ * Description: https://blog.csdn.net/oZhuiMeng123/article/details/120830455
+ * val head = "<head><meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0, user-scalable=no\"> <style>*{margin:0;padding:0;}img{max-width: 100%; width:auto; height:auto;}</style></head>"
+ * webview.loadDataWithBaseURL(null, "<html>$head<body>$content</body></html>", "text/html", "utf-8", null)
+ *
  * Description: 如果需要js对接，参考添加BridgeWebView https://github.com/lzyzsd/JsBridge
  * @author: Khaos
  * @date: 2019/10/3 15:25
