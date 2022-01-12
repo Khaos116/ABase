@@ -78,7 +78,6 @@ class HtmlWebView @JvmOverloads constructor(
   //<editor-fold defaultstate="collapsed" desc="加载HTML">
   fun loadHtml(html: String, textColor: String = "#FFFFFF") {
     //修改默认文字大小+颜色 https://www.jianshu.com/p/dff75027fbfc
-    val txtStyle = "<style>* {font-size:26px;line-height:30px;}p {color:${textColor};}</style>"
     //解决图片自适应屏幕宽度问题 https://blog.csdn.net/oZhuiMeng123/article/details/120830455
     val head = "<head>" +
         "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0, user-scalable=no\"> " +
