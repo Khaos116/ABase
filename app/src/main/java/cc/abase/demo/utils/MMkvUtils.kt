@@ -2,6 +2,7 @@ package cc.abase.demo.utils
 
 import cc.abase.demo.BuildConfig
 import cc.abase.demo.constants.api.ApiUrl
+import com.blankj.utilcode.util.LanguageUtils
 import com.tencent.mmkv.MMKV
 
 /**
@@ -111,6 +112,18 @@ object MMkvUtils {
   fun clearUserInfo() {
     mMMKVDefault?.removeValueForKey(USER_UID)
     mMMKVDefault?.removeValueForKey(USER_TOKEN)
+  }
+  //</editor-fold>
+
+  //<editor-fold defaultstate="collapsed" desc="设置的语言">
+  private const val LAST_LANGUAGE = "LAST_LANGUAGE"
+  fun getCurrentLanguage(): String {
+    //LanguageUtils.getSystemLanguage()在华为手机上可能读取的内容为(判断时需要注意适配)：zh_CN_#Hans
+    return mMMKVDefault?.decodeString(LAST_LANGUAGE) ?: LanguageUtils.getSystemLanguage().toString()
+  }
+
+  fun setCurrentLanguage(language: String) {
+    mMMKVDefault?.encode(LAST_LANGUAGE, language)
   }
   //</editor-fold>
 }
