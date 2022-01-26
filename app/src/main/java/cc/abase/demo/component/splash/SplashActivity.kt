@@ -94,7 +94,7 @@ class SplashActivity : CommBindActivity<ActivitySplashBinding>() {
     private fun initAfterSize() {
         mLottieAnimationView = LottieAnimationView(mContext)
         mLottieAnimationView?.let { lav ->
-            lav.setAnimation("welcome2021.json")
+            lav.setAnimation("welcome2022.json")
             lav.imageAssetsFolder = "images/"
             lav.setRenderMode(RenderMode.HARDWARE)
             lav.repeatCount = 0
