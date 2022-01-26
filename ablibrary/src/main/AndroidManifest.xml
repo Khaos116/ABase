@@ -28,6 +28,10 @@
       android:resizeableActivity="true"
       android:usesCleartextTraffic="true"
       tools:targetApi="o">
+    <!--https://github.com/getActivity/XXPermissions 表示当前项目已经适配了分区存储特性 -->
+    <meta-data
+      android:name="ScopedStorage"
+      android:value="true" />
     <!--###################今日头条适配###################-->
     <meta-data
         android:name="design_width_in_dp"
