@@ -46,14 +46,14 @@ object Deps {
   const val utilcodex = "com.blankj:utilcodex:1.31.0"
 
   //UI适配 https://github.com/JessYanCoding/AndroidAutoSize
-  const val autosize = "me.jessyan:autosize:1.2.1"
+  const val autosize = "com.github.JessYanCoding:AndroidAutoSize:v1.2.1"
 
   //状态栏适配 https://github.com/gyf-dev/ImmersionBar
-  const val immersionbar = "com.gyf.immersionbar:immersionbar:3.0.0"
-  const val immersionbar_ktx = "com.gyf.immersionbar:immersionbar-ktx:3.0.0"
+  const val immersionbar = "com.geyifeng.immersionbar:immersionbar:3.2.1"
+  const val immersionbar_ktx = "com.geyifeng.immersionbar:immersionbar-ktx:3.2.1"
 
   //数据存储 https://github.com/Tencent/MMKV
-  const val mmkv = "com.tencent:mmkv-static:1.2.10"
+  const val mmkv = "com.tencent:mmkv:1.2.12"
   //</editor-fold>"
 
   //<editor-fold defaultstate="collapsed" desc="三方基础配置">
