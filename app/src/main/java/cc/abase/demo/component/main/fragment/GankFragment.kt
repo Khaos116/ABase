@@ -3,17 +3,21 @@ package cc.abase.demo.component.main.fragment
 import android.graphics.Color
 import androidx.recyclerview.widget.LinearLayoutManager
 import cc.ab.base.ui.viewmodel.DataState
-import cc.ab.base.widget.engine.ImageEngine
+import cc.ab.base.widget.engine.CoilEngine
 import cc.ab.base.widget.livedata.MyObserver
-import cc.abase.demo.R
-import cc.abase.demo.bean.local.*
+import cc.abase.demo.bean.local.DividerBean
+import cc.abase.demo.bean.local.EmptyErrorBean
+import cc.abase.demo.bean.local.LoadingBean
 import cc.abase.demo.component.comm.CommBindFragment
 import cc.abase.demo.component.main.viewmodel.GankViewModel
 import cc.abase.demo.component.web.WebActivity
 import cc.abase.demo.databinding.FragmentGankBinding
-import cc.abase.demo.item.*
+import cc.abase.demo.item.DividerItem
+import cc.abase.demo.item.EmptyErrorItem
+import cc.abase.demo.item.GankParentItem
+import cc.abase.demo.item.LoadingItem
 import com.drakeet.multitype.MultiTypeAdapter
-import com.luck.picture.lib.PictureSelector
+import com.luck.picture.lib.basic.PictureSelector
 import com.luck.picture.lib.entity.LocalMedia
 
 /**
@@ -53,15 +57,15 @@ class GankFragment : CommBindFragment<FragmentGankBinding>() {
     multiTypeAdapter.register(EmptyErrorItem() { mViewModel.refresh() })
     multiTypeAdapter.register(GankParentItem(
       onImgClick = { _, p, _, list ->
-        val tempList = mutableListOf<LocalMedia>()
+        val tempList = arrayListOf<LocalMedia>()
         list.forEach { s -> tempList.add(LocalMedia().also { it.path = s }) }
         //https://github.com/LuckSiege/PictureSelector/wiki/PictureSelector-Api%E8%AF%B4%E6%98%8E
         //开始预览
         PictureSelector.create(this)
-          .themeStyle(R.style.picture_default_style)
-          .isNotPreviewDownload(true)
-          .imageEngine(ImageEngine())
-          .openExternalPreview(p, tempList)
+          .openPreview()
+          .isHidePreviewDownload(true)
+          .setImageEngine(CoilEngine())
+          .startActivityPreview(p, false, tempList)
       }
     ).also { it.onItemClick = { bean -> bean.url?.let { u -> WebActivity.startActivity(mActivity, u) } } })
     //监听加载结果
