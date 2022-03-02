@@ -10,9 +10,9 @@ object Versions {
 object Deps {
   //<editor-fold defaultstate="collapsed" desc="Studio基础配置">
   //根目录gradle https://maven.aliyun.com/mvn/search 使用ViewBinding最低3.6.0
-  const val plugin_android_gradle = "com.android.tools.build:gradle:7.0.4"
+  const val plugin_android_gradle = "com.android.tools.build:gradle:7.1.2"
   const val plugin_kotlin_gradle = "org.jetbrains.kotlin:kotlin-gradle-plugin:${Versions.kotlin}"
-  const val plugin_r8_gradle = "com.android.tools:r8:3.0.73" //更新R8版本，解决正式版无法打包的问题 https://github.com/square/okhttp/issues/4604
+  const val plugin_r8_gradle = "com.android.tools:r8:3.1.51" //更新R8版本，解决正式版无法打包的问题 https://github.com/square/okhttp/issues/4604
 
   //使用kotlin
   const val kotlin_stdlib = "org.jetbrains.kotlin:kotlin-stdlib:${Versions.kotlin}"
@@ -23,19 +23,19 @@ object Deps {
   const val core_ktx = "androidx.core:core-ktx:1.7.0"
   const val activity_ktx = "androidx.activity:activity-ktx:1.4.0"
   //appcompat版本太低出现 Didn't find class "androidx.startup.InitializationProvider"
-  const val appcompat = "androidx.appcompat:appcompat:1.4.0"
-  const val fragment = "androidx.fragment:fragment:1.4.0"
-  const val material = "com.google.android.material:material:1.4.0"
-  const val constraint = "androidx.constraintlayout:constraintlayout:2.1.2"
+  const val appcompat = "androidx.appcompat:appcompat:1.4.1"
+  const val fragment = "androidx.fragment:fragment:1.4.1"
+  const val material = "com.google.android.material:material:1.5.0"
+  const val constraint = "androidx.constraintlayout:constraintlayout:2.1.3"
   //lifecycleScope只能在Activity、Fragment中使用，会绑定Activity和Fragment的生命周期
-  const val lifecycle = "androidx.lifecycle:lifecycle-runtime-ktx:2.4.0"
+  const val lifecycle = "androidx.lifecycle:lifecycle-runtime-ktx:2.4.1"
   //viewModelScope只能在ViewModel中使用，绑定ViewModel的生命周期
-  const val viewmodel = "androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.0"
+  const val viewmodel = "androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.1"
   //</editor-fold>
 
   //<editor-fold defaultstate="collapsed" desc="AndroidX基础配置">
   //https://github.com/idisfkj/android-startup/blob/master/README-ch.md【由于在三星手机上，AndroidX自带的startup存在不初始化的问题，所以改用这个】
-  const val android_startup = "io.github.idisfkj:android-startup:1.0.7"
+  const val android_startup = "io.github.idisfkj:android-startup:1.1.0"
   //</editor-fold>
 
   //<editor-fold defaultstate="collapsed" desc="三方必须基础配置"
