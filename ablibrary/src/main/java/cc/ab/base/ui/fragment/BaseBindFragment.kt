@@ -3,12 +3,14 @@ package cc.ab.base.ui.fragment
 import android.app.Activity
 import android.content.Context
 import android.os.Bundle
-import android.view.*
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.widget.FrameLayout
 import androidx.fragment.app.Fragment
 import androidx.viewbinding.ViewBinding
 import cc.ab.base.ext.logI
-import com.dylanc.viewbinding.base.inflateBindingWithGeneric
+import com.dylanc.viewbinding.base.ViewBindingUtil
 import kotlinx.coroutines.*
 
 /**
@@ -62,7 +64,7 @@ abstract class BaseBindFragment<T : ViewBinding> : Fragment() {
 
   //<editor-fold defaultstate="collapsed" desc="由于要读取泛型，所以必须要放到泛型类下面调用，不能放到协程中">
   private fun initBinding() {
-    _binding = this.inflateBindingWithGeneric(layoutInflater, mRootLayout, false)
+    _binding = ViewBindingUtil.inflateWithGeneric(this, layoutInflater, mRootLayout, false)
   }
   //</editor-fold>
 

@@ -3,7 +3,7 @@ object Versions {
   internal const val sdkTarget = 31
   internal const val kotlin = "1.6.10"
   internal const val okHttp = "4.9.3"
-  internal const val rxHttp = "2.8.1"
+  internal const val rxHttp = "2.8.4"
   internal const val coil = "1.4.0"
 }
 
@@ -22,13 +22,16 @@ object Deps {
   //系统相关 https://maven.aliyun.com/mvn/search
   const val core_ktx = "androidx.core:core-ktx:1.7.0"
   const val activity_ktx = "androidx.activity:activity-ktx:1.4.0"
+
   //appcompat版本太低出现 Didn't find class "androidx.startup.InitializationProvider"
   const val appcompat = "androidx.appcompat:appcompat:1.4.1"
   const val fragment = "androidx.fragment:fragment:1.4.1"
   const val material = "com.google.android.material:material:1.5.0"
   const val constraint = "androidx.constraintlayout:constraintlayout:2.1.3"
+
   //lifecycleScope只能在Activity、Fragment中使用，会绑定Activity和Fragment的生命周期
   const val lifecycle = "androidx.lifecycle:lifecycle-runtime-ktx:2.4.1"
+
   //viewModelScope只能在ViewModel中使用，绑定ViewModel的生命周期
   const val viewmodel = "androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.1"
   //</editor-fold>
@@ -58,17 +61,17 @@ object Deps {
 
   //<editor-fold defaultstate="collapsed" desc="三方基础配置">
   //数据解析 https://github.com/google/gson
-  const val gson = "com.google.code.gson:gson:2.8.9"
+  const val gson = "com.google.code.gson:gson:2.9.0"
 
   //协程 https://github.com/Kotlin/kotlinx.coroutines
-  const val coroutine = "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.0-RC"
-  const val coroutine_android = "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.0-RC"
+  const val coroutine = "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.0"
+  const val coroutine_android = "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.0"
 
   //网络请求 https://github.com/square/okhttp
   const val okhttp = "com.squareup.okhttp3:okhttp:${Versions.okHttp}"
 
   //日志json打印 https://github.com/Ayvytr/OKHttpLogInterceptor
-  const val okhttp_log = "com.ayvytr:okhttploginterceptor:3.0.5"
+  const val okhttp_log = "io.github.ayvytr:okhttploginterceptor:3.0.6"
 
   //RxHttp https://github.com/liujingxing/okhttp-RxHttp
   const val rxhttp = "com.github.liujingxing.rxhttp:rxhttp:${Versions.rxHttp}"
@@ -77,6 +80,7 @@ object Deps {
 
   //RxJava https://github.com/ReactiveX/RxJava
   const val rxjava = "io.reactivex.rxjava3:rxjava:3.1.3"
+
   //RxAndroid https://github.com/ReactiveX/RxAndroid
   const val rxandroid = "io.reactivex.rxjava3:rxandroid:3.0.0"
 
@@ -90,11 +94,11 @@ object Deps {
   const val multitype = "com.drakeet.multitype:multitype:4.3.0"
 
   //动态权限 https://github.com/getActivity/XXPermissions
-  const val xxpermissions = "com.github.getActivity:XXPermissions:13.2"
+  const val xxpermissions = "com.github.getActivity:XXPermissions:13.5"
 
   //ViewBinding https://github.com/DylanCaiCoding/ViewBindingKtx/blob/master/README_CN.md
-  const val binding_ktx = "com.github.DylanCaiCoding.ViewBindingKTX:viewbinding-ktx:1.2.6"
-  const val binding_base = "com.github.DylanCaiCoding.ViewBindingKTX:viewbinding-base:1.2.6"
+  const val binding_ktx = "com.github.DylanCaiCoding.ViewBindingKTX:viewbinding-ktx:2.0.2"
+  const val binding_base = "com.github.DylanCaiCoding.ViewBindingKTX:viewbinding-base:2.0.2"
   //</editor-fold>
 
   //<editor-fold defaultstate="collapsed" desc="三方常用配置">

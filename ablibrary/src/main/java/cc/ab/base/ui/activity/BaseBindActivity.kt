@@ -6,9 +6,12 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewbinding.ViewBinding
 import cc.ab.base.databinding.BaseActivityBinding
-import cc.ab.base.ext.*
+import cc.ab.base.ext.logE
+import cc.ab.base.ext.logI
+import cc.ab.base.ext.mContext
+import cc.ab.base.ext.visibleGone
 import cc.ab.base.utils.FixResources
-import com.dylanc.viewbinding.base.inflateBindingWithGeneric
+import com.dylanc.viewbinding.base.ViewBindingUtil
 import com.dylanc.viewbinding.inflateBinding
 import com.gyf.immersionbar.ktx.immersionBar
 import kotlinx.coroutines.*
@@ -65,7 +68,7 @@ abstract class BaseBindActivity<T : ViewBinding> : AppCompatActivity() {
 
   //<editor-fold defaultstate="collapsed" desc="由于要读取泛型，所以必须要放到泛型类下面调用，不能放到协程中">
   private fun initBinding() {
-    _binding = this.inflateBindingWithGeneric(layoutInflater)
+    _binding = ViewBindingUtil.inflateWithGeneric(this, layoutInflater)
   }
   //</editor-fold>
 

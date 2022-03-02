@@ -12,7 +12,7 @@ import androidx.viewbinding.ViewBinding
 import cc.ab.base.ext.dp2px
 import cc.ab.base.ext.mDialogTimes
 import com.blankj.utilcode.util.ActivityUtils
-import com.dylanc.viewbinding.base.inflateBindingWithGeneric
+import com.dylanc.viewbinding.base.ViewBindingUtil
 
 /**
  * @Description
@@ -57,7 +57,7 @@ abstract class BaseBindFragmentDialog<T : ViewBinding> : DialogFragment() {
 
   override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
     setMyStyle()
-    _binding = this.inflateBindingWithGeneric(inflater, container, false)
+    _binding = ViewBindingUtil.inflateWithGeneric(this, inflater, container, false)
     return viewBinding.root
   }
 

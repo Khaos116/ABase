@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import androidx.viewbinding.ViewBinding
 import cc.ab.base.ext.click
 import com.drakeet.multitype.ItemViewBinder
-import com.dylanc.viewbinding.base.inflateBindingWithGeneric
+import com.dylanc.viewbinding.base.ViewBindingUtil
 
 /**
  * @Description 使用BaseViewHolder嵌套ViewBinding解决findViewById问题
@@ -20,7 +20,7 @@ abstract class BaseBindItemView<T, V : ViewBinding>(var onItemClick: ((item: T) 
 
   //<editor-fold defaultstate="collapsed" desc="创建ViewHolder">
   override fun onCreateViewHolder(inflater: LayoutInflater, parent: ViewGroup): BaseViewHolder<V> {
-    return BaseViewHolder(this.inflateBindingWithGeneric(inflater, parent, false))
+    return BaseViewHolder(ViewBindingUtil.inflateWithGeneric(this, inflater, parent, false))
   }
   //</editor-fold>
 

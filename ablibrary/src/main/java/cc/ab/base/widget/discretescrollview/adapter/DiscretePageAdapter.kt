@@ -7,7 +7,7 @@ import androidx.viewbinding.ViewBinding
 import cc.ab.base.ext.*
 import cc.ab.base.ui.item.BaseViewHolder
 import cc.ab.base.widget.discretescrollview.listener.OnItemClickListener
-import com.dylanc.viewbinding.base.inflateBindingWithGeneric
+import com.dylanc.viewbinding.base.ViewBindingUtil
 
 /**
  * @Description
@@ -22,7 +22,7 @@ abstract class DiscretePageAdapter<T, V : ViewBinding>(
 
   //<editor-fold defaultstate="collapsed" desc="创建ViewHolder">
   override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder<V> {
-    return BaseViewHolder(this.inflateBindingWithGeneric(LayoutInflater.from(parent.context), parent, false))
+    return BaseViewHolder(ViewBindingUtil.inflateWithGeneric(this, LayoutInflater.from(parent.context), parent, false))
   }
   //</editor-fold>
 
