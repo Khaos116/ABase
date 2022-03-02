@@ -1,7 +1,6 @@
 package cc.abase.demo.component.video
 
 import android.annotation.SuppressLint
-import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.content.pm.ActivityInfo
@@ -11,17 +10,20 @@ import android.view.Gravity
 import android.widget.FrameLayout
 import android.widget.ScrollView
 import cc.ab.base.ext.*
-import cc.ab.base.widget.engine.ImageEngine
+import cc.ab.base.widget.engine.CoilEngine
 import cc.abase.demo.R
 import cc.abase.demo.component.comm.CommBindTitleActivity
 import cc.abase.demo.constants.UiConstants
 import cc.abase.demo.databinding.ActivityVideoCompressBinding
 import cc.abase.demo.utils.VideoUtils
 import cc.abase.demo.widget.dkplayer.MyVideoView
+import com.blankj.utilcode.constant.MemoryConstants
 import com.blankj.utilcode.util.FileUtils
-import com.luck.picture.lib.PictureSelector
+import com.luck.picture.lib.basic.PictureSelector
 import com.luck.picture.lib.config.PictureConfig
-import com.luck.picture.lib.config.PictureMimeType
+import com.luck.picture.lib.config.SelectMimeType
+import com.luck.picture.lib.entity.LocalMedia
+import com.luck.picture.lib.interfaces.OnResultCallbackListener
 import java.io.File
 
 /**
@@ -68,15 +70,25 @@ class VideoCompressActivity : CommBindTitleActivity<ActivityVideoCompressBinding
       mHeadInfo = ""
       //https://github.com/LuckSiege/PictureSelector/wiki/PictureSelector-Api%E8%AF%B4%E6%98%8E
       PictureSelector.create(this)
-        .openGallery(PictureMimeType.ofVideo())
-        .imageEngine(ImageEngine())
-        .isCamera(false)
+        .openGallery(SelectMimeType.ofVideo())
+        .setImageEngine(CoilEngine())
         .isPageStrategy(true, PictureConfig.MAX_PAGE_SIZE, true) //过滤掉已损坏的
-        .maxSelectNum(1)
-        .queryMaxFileSize(1024f)
+        .setMaxSelectNum(1)
+        .setFilterMaxFileSize(1024L * MemoryConstants.MB)
         .isPreviewVideo(true)
         .setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
-        .forResult(PictureConfig.CHOOSE_REQUEST)
+        .forResult(object : OnResultCallbackListener<LocalMedia> {
+          override fun onResult(result: ArrayList<LocalMedia>?) {
+            if (!result.isNullOrEmpty()) {
+              val path = result.first().path
+              val file = path.toFile()
+              if (file?.exists() == true) parseVideo(file.path)
+            }
+          }
+
+          override fun onCancel() {
+          }
+        })
     }
     //内部可滚动 https://www.jianshu.com/p/7a02253cd23e
     viewBinding.videoCompressResult.movementMethod = ScrollingMovementMethod.getInstance()
@@ -174,24 +186,6 @@ class VideoCompressActivity : CommBindTitleActivity<ActivityVideoCompressBinding
       height = videoHeight.toInt()
     }
     return Pair(width, height)
-  }
-
-  override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-    super.onActivityResult(requestCode, resultCode, data)
-    data?.let {
-      if (requestCode == PictureConfig.CHOOSE_REQUEST && resultCode == Activity.RESULT_OK) {
-        // 图片、视频、音频选择结果回调
-        PictureSelector.obtainMultipleResult(data)?.let { medias ->
-          if (medias.isNotEmpty()) {
-            val path = medias.first().path
-            val file = path.toFile()
-            if (file?.exists() == true) parseVideo(file.path)
-          }
-        }
-      } else {
-        "onActivityResult:other".logE()
-      }
-    }
   }
 
   //<editor-fold defaultstate="collapsed" desc="生命周期">
