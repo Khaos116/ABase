@@ -126,7 +126,7 @@ object Deps {
   const val smart_footer = "io.github.scwang90:refresh-footer-classics:2.0.5"
 
   //手机号判断 https://github.com/google/libphonenumber/wiki/Android-Studio-setup
-  const val libphonenumber = "com.googlecode.libphonenumber:libphonenumber:8.12.38"
+  const val libphonenumber = "com.googlecode.libphonenumber:libphonenumber:8.12.44"
   //</editor-fold>
 
   //<editor-fold defaultstate="collapsed" desc="调试统计工具">
@@ -141,13 +141,13 @@ object Deps {
   //const val crashlytics_ktx = "com.google.firebase:firebase-crashlytics-ktx"
 
   //内存泄漏检测 https://square.github.io/leakcanary/getting_started/
-  const val leakcanary = "com.squareup.leakcanary:leakcanary-android:2.7"
+  const val leakcanary = "com.squareup.leakcanary:leakcanary-android:2.8.1"
 
   //UI调试 https://github.com/YvesCheung/UInspector
-  const val uinspector = "com.github.YvesCheung.UInspector:Uinspector:2.0.8"
+  const val uinspector = "io.github.yvescheung:Uinspector:2.0.11"
 
   //bugly https://bugly.qq.com/docs/user-guide/instruction-manual-android/?v=20190916214340
-  const val bugly_crash = "com.tencent.bugly:crashreport:3.4.4"
+  const val bugly_crash = "com.tencent.bugly:crashreport:4.0.0"
   const val bugly_native = "com.tencent.bugly:nativecrashreport:3.9.2"
   const val plugin_bugly = "com.tencent.bugly:symtabfileuploader:2.2.1" //bugly的mapping上传
   //</editor-fold>
