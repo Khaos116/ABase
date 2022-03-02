@@ -5,6 +5,7 @@ object Versions {
   internal const val okHttp = "4.9.3"
   internal const val rxHttp = "2.8.4"
   internal const val coil = "1.4.0"
+  internal const val picSel = "3.0.5"
 }
 
 object Deps {
@@ -154,7 +155,10 @@ object Deps {
 
   //<editor-fold defaultstate="collapsed" desc="三方不常用配置">
   //图片选择器 https://github.com/LuckSiege/PictureSelector
-  const val pic_select = "io.github.lucksiege:pictureselector:v2.7.3-rc10"
+  const val pic_select = "io.github.lucksiege:pictureselector:v${Versions.picSel}"
+  const val pic_camerax = "io.github.lucksiege:camerax:v${Versions.picSel}"
+  const val pic_compress = "io.github.lucksiege:compress:v${Versions.picSel}"
+  const val pic_ucrop = "io.github.lucksiege:ucrop:v${Versions.picSel}"
 
   //Emoji表情 https://github.com/vanniktech/Emoji
   const val emoji = "com.vanniktech:emoji-twitter:0.8.0"
@@ -171,7 +175,7 @@ object Deps {
   const val dk_exo = "xyz.doikki.android.dkplayer:player-exo:3.3.5"
 
   //https://github.com/airbnb/lottie-android
-  const val lottie = "com.airbnb.android:lottie:4.2.0"
+  const val lottie = "com.airbnb.android:lottie:5.0.2"
 
   //中文转拼音 https://github.com/promeG/TinyPinyin
   const val pinyin = "com.github.promeg:tinypinyin:2.0.3" // TinyPinyin核心包，约80KB
@@ -193,7 +197,7 @@ object Deps {
   const val pattern_locker = "com.github.ihsg:PatternLocker:2.5.7"
 
   //万能阴影布局 https://github.com/lihangleo2/ShadowLayout
-  const val shadow_layout = "com.github.lihangleo2:ShadowLayout:3.2.3"
+  const val shadow_layout = "com.github.lihangleo2:ShadowLayout:3.2.4"
 
   //四角颜色的渐变背景  https://github.com/GIGAMOLE/QuatroGrade
   const val quatroGrade = "com.github.GIGAMOLE:QuatroGrade:1.0.0"

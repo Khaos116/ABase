@@ -74,6 +74,9 @@ dependencies {
     api Deps.gson
     api Deps.mmkv
     api Deps.pic_select
+    api Deps.pic_camerax
+    api Deps.pic_compress
+    api Deps.pic_ucrop
     api Deps.coil
     api Deps.coil_gif
     api Deps.coil_svg
