@@ -1,28 +1,31 @@
 package cc.abase.demo.component.drag
 
 import android.annotation.SuppressLint
-import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.content.pm.ActivityInfo
 import android.graphics.Color
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.ItemTouchHelper
-import cc.ab.base.ext.*
-import cc.ab.base.widget.engine.ImageEngine
+import cc.ab.base.ext.mContext
+import cc.ab.base.ext.removeParent
+import cc.ab.base.widget.engine.CoilEngine
 import cc.abase.demo.R
 import cc.abase.demo.component.comm.CommBindTitleActivity
 import cc.abase.demo.databinding.ActivityDragBinding
 import cc.abase.demo.drag.GridItemTouchHelperCallback
 import cc.abase.demo.item.NineImgItem
 import cc.abase.demo.widget.decoration.GridSpaceItemDecoration
+import com.blankj.utilcode.constant.MemoryConstants
 import com.blankj.utilcode.util.SizeUtils
 import com.blankj.utilcode.util.StringUtils
 import com.drakeet.multitype.MultiTypeAdapter
-import com.luck.picture.lib.PictureSelector
+import com.luck.picture.lib.basic.PictureSelector
 import com.luck.picture.lib.config.PictureConfig
-import com.luck.picture.lib.config.PictureMimeType
+import com.luck.picture.lib.config.SelectMimeType
 import com.luck.picture.lib.entity.LocalMedia
+import com.luck.picture.lib.interfaces.OnResultCallbackListener
+
 
 /**
  * Description:item拖拽效果
@@ -95,17 +98,24 @@ class DragActivity : CommBindTitleActivity<ActivityDragBinding>() {
     val datas = multiTypeAdapter.items.toMutableList().filter { f -> f is String && f.isNotBlank() }
     val list = mutableListOf<LocalMedia>()
     datas.forEach { d -> list.add(LocalMedia().also { lm -> lm.path = d as String }) }
-    //https://github.com/LuckSiege/PictureSelector/wiki/PictureSelector-Api%E8%AF%B4%E6%98%8E
+    //https://github.com/LuckSiege/PictureSelector/wiki/PictureSelector-3.0-%E5%8A%9F%E8%83%BDapi%E8%AF%B4%E6%98%8E
     PictureSelector.create(this)
-      .openGallery(PictureMimeType.ofImage())
-      .imageEngine(ImageEngine())
+      .openGallery(SelectMimeType.ofImage())
+      .setImageEngine(CoilEngine())
       .isGif(false)
       .isPageStrategy(true, PictureConfig.MAX_PAGE_SIZE, true) //过滤掉已损坏的图片
-      .selectionData(list) //过滤掉添加操作的图片
-      .maxSelectNum(MAX_IMG_SIZE)
-      .queryMaxFileSize(5f)
+      .setSelectedData(list) //过滤掉添加操作的图片
+      .setMaxSelectNum(MAX_IMG_SIZE)
+      .setFilterMaxFileSize(5L * MemoryConstants.MB)
       .setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
-      .forResult(PictureConfig.CHOOSE_REQUEST)
+      .forResult(object : OnResultCallbackListener<LocalMedia> {
+        override fun onResult(result: ArrayList<LocalMedia>?) {
+          if (!result.isNullOrEmpty()) setSelectMedias(result)
+        }
+
+        override fun onCancel() {
+        }
+      })
   }
   //</editor-fold>
 
@@ -142,33 +152,19 @@ class DragActivity : CommBindTitleActivity<ActivityDragBinding>() {
   }
   //</editor-fold>
 
-  //<editor-fold defaultstate="collapsed" desc="选择图片的回调">
-  override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-    super.onActivityResult(requestCode, resultCode, data)
-    data?.let {
-      if (requestCode == PictureConfig.CHOOSE_REQUEST && resultCode == Activity.RESULT_OK) {
-        // 图片、视频、音频选择结果回调
-        PictureSelector.obtainMultipleResult(data)?.let { medias ->
-          if (medias.isNotEmpty()) setSelectMedias(medias)
-        }
-      } else "onActivityResult:other".logE()
-    }
-  }
-  //</editor-fold>
-
   //<editor-fold defaultstate="collapsed" desc="预览图片">
   //预览图片
   private fun showPic(url: String) {
     val datas = multiTypeAdapter.items.toMutableList().filter { f -> f is String && f.isNotBlank() }
     val index = datas.indexOfFirst { f -> f == url }
-    val list = mutableListOf<LocalMedia>()
+    val list = arrayListOf<LocalMedia>()
     datas.forEach { d -> list.add(LocalMedia().also { lm -> lm.path = d as String }) }
-    //https://github.com/LuckSiege/PictureSelector/wiki/PictureSelector-Api%E8%AF%B4%E6%98%8E
+    //https://github.com/LuckSiege/PictureSelector/wiki/PictureSelector-3.0-%E5%8A%9F%E8%83%BDapi%E8%AF%B4%E6%98%8E
     PictureSelector.create(this)
-      .themeStyle(R.style.picture_default_style)
-      .isNotPreviewDownload(true)
-      .imageEngine(ImageEngine())
-      .openExternalPreview2(0.coerceAtLeast(index), list)
+      .openPreview()
+      .isHidePreviewDownload(true)
+      .setImageEngine(CoilEngine())
+      .startActivityPreview(0.coerceAtLeast(index), false, list)
   }
   //</editor-fold>
 }
