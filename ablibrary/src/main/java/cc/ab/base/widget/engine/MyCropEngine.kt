@@ -13,7 +13,7 @@ import java.io.File
 
 /**
  * https://github.com/LuckSiege/PictureSelector/wiki/PictureSelector-3.0-%E5%A6%82%E4%BD%95%E8%A3%81%E5%89%AA%EF%BC%9F
- * Author:BoLuo
+ * Author:Khaos116
  * Date:2022/3/2
  * Time:19:06
  */

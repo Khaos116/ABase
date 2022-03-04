@@ -18,7 +18,7 @@ import com.yalantis.ucrop.UCropImageEngine
 import java.lang.ref.WeakReference
 
 /**
- * Author:BoLuo
+ * Author:Khaos116
  * Date:2022/3/2
  * Time:18:59
  */
