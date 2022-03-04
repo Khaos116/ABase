@@ -256,27 +256,17 @@ public class GridSpaceItemDecoration extends RecyclerView.ItemDecoration {
   private boolean isInLastRow(int position, int itemCount, GridLayoutManager.SpanSizeLookup spanSizeLookup, int spanCount) {
     //如果总数小于每行数量，则全满足最后一行
     if (itemCount <= spanCount) return true;
-    if (itemCount % spanCount != 0) {//最后一排不满的情况
-      //找到第一行到倒数第二行的数量
-      int mostCount = itemCount / spanCount * spanCount;
-      int totalSpan = 0;
-      for (int i = 0; i <= position; i++) {
-        totalSpan += spanSizeLookup.getSpanSize(i);
-        if (totalSpan > mostCount) {
-          return true;
-        }
+    //最后一行的数量(能整除表示是满行，否则最后一行不满)
+    int lastRowCount = itemCount % spanCount == 0 ? spanCount : itemCount % spanCount;
+    int totalSpan = 0;
+    //从最后一个位置到当前position，判断有多少个，如果大于最后一行的数量，则返回非最后一行
+    for (int i = itemCount - 1; i >= position; i--) {
+      totalSpan += spanSizeLookup.getSpanSize(i);
+      if (totalSpan > lastRowCount) {
+        return false;
       }
-      return false;
-    } else {//最后一排满的情况
-      int totalSpan = 0;
-      for (int i = itemCount - 1; i >= position; i--) {
-        totalSpan += spanSizeLookup.getSpanSize(i);
-        if (totalSpan > spanCount) {
-          return false;
-        }
-      }
-      return true;
     }
+    return true;
   }
   //</editor-fold>
 }
