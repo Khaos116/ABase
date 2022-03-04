@@ -47,7 +47,7 @@ class DecorationFragment private constructor() : CommBindFragment<FragmentDecora
     if (viewBinding.decorRecycler.itemDecorationCount == 0) {
       val decorator = if (mType != 8) {
         GridItemDecoration(
-          20,
+          24,
           //前4个没有，后4个有
           mType >= 4,
           //没有-没有-有-有；没有-没有-有-有；
@@ -57,20 +57,31 @@ class DecorationFragment private constructor() : CommBindFragment<FragmentDecora
         )
       } else {
         mSpanCount = 6
-        GridItemDecoration(20)
+        GridItemDecoration(24)
       }
       val layoutManager = GridLayoutManager(mContext, mSpanCount)
+      val list = mutableListOf(
+        intArrayOf(1, 5),
+        intArrayOf(2, 4),
+        intArrayOf(3, 3)
+      )
+      val arr3 = list[((Math.random() * 100).toInt()) % list.size]
+      list.remove(arr3)
+      val arr2 = list[((Math.random() * 100).toInt()) % list.size]
+      list.remove(arr2)
+      val arr1 = list[0]
       val spanSizeLookup = object : SpanSizeLookup() {
         override fun getSpanSize(position: Int): Int {
-          return if (mType != 8) 1 else when (position % 8) {
+          return if (mType != 8) 1 else when (position % 16) {
             0 -> 6
-            1 -> 3
-            2 -> 3
-            3 -> 2
-            4 -> 4
-            5 -> 2
-            6 -> 2
-            else -> 2
+            1 -> arr1[0]
+            2 -> arr1[1]
+            3 -> arr2[0]
+            4 -> arr2[1]
+            5 -> arr3[0]
+            6 -> arr3[1]
+            13, 14, 15 -> 2
+            else -> 1
           }
         }
       }
@@ -80,8 +91,9 @@ class DecorationFragment private constructor() : CommBindFragment<FragmentDecora
       viewBinding.decorRecycler.addItemDecoration(decorator)
     }
     val items = mutableListOf<Any>()
-    for (i in 1..30) {
-      items.add(SimpleTxtBean(txt = "我是第${i}个元素").also { stb ->
+    val rom = (Math.random() * 50).toInt()
+    for (i in 0 until 30 + rom) {
+      items.add(SimpleTxtBean(txt = "index=${i}").also { stb ->
         stb.textSizePx = 12.dp2px() * 1f
         stb.gravity = Gravity.CENTER
       })
