@@ -10,7 +10,7 @@ import cc.abase.demo.bean.local.SimpleTxtBean
 import cc.abase.demo.component.comm.CommBindFragment
 import cc.abase.demo.databinding.FragmentDecorationBinding
 import cc.abase.demo.item.SimpleTxtItem
-import cc.abase.demo.widget.decoration.GridSpaceItemDecoration
+import cc.abase.demo.widget.decoration.GridItemDecoration
 import com.blankj.utilcode.util.KeyboardUtils
 import com.drakeet.multitype.MultiTypeAdapter
 
@@ -46,26 +46,30 @@ class DecorationFragment private constructor() : CommBindFragment<FragmentDecora
     //页面重建View不再重新设置
     if (viewBinding.decorRecycler.itemDecorationCount == 0) {
       val decorator = if (mType != 8) {
-        GridSpaceItemDecoration(20,
-            //前4个没有，后4个有
-            mType >= 4,
-            //没有-没有-有-有；没有-没有-有-有；
-            mType == 2 || mType == 3 || mType == 6 || mType == 7,
-            //没有-有-没有-有;没有-有-没有-有;
-            mType == 1 || mType == 3 || mType == 5 || mType == 7)
+        GridItemDecoration(
+          20,
+          //前4个没有，后4个有
+          mType >= 4,
+          //没有-没有-有-有；没有-没有-有-有；
+          mType == 2 || mType == 3 || mType == 6 || mType == 7,
+          //没有-有-没有-有;没有-有-没有-有;
+          mType == 1 || mType == 3 || mType == 5 || mType == 7
+        )
       } else {
         mSpanCount = 6
-        GridSpaceItemDecoration(20)
+        GridItemDecoration(20)
       }
       val layoutManager = GridLayoutManager(mContext, mSpanCount)
       val spanSizeLookup = object : SpanSizeLookup() {
         override fun getSpanSize(position: Int): Int {
-          return if (mType != 8) 1 else when (position % 6) {
+          return if (mType != 8) 1 else when (position % 8) {
             0 -> 6
             1 -> 3
             2 -> 3
             3 -> 2
-            4 -> 2
+            4 -> 4
+            5 -> 2
+            6 -> 2
             else -> 2
           }
         }
