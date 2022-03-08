@@ -1,13 +1,14 @@
 package cc.abase.demo.bean.readhub
 
 /**
- * Author:BoLuo
+ * Author:Khaos116
  * Date:2022/3/8
  * Time:16:19
  */
 class TopicBean(
   val id: String? = null,
   val summary: String? = null,
+  val updatedAt: String? = null,
   val order: Long = 0,
   val newsArray: MutableList<TopicTitleBean> = mutableListOf(),
 )
