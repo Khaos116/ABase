@@ -9,6 +9,7 @@ import cc.ab.base.ext.logE
 import com.blankj.utilcode.util.GsonUtils
 
 /**
+ * 初步测试，适用于非均分的情况(由于为了代码看起来逻辑清晰，每次计算都采用了for循环，如果要优化，可以把计算放到一起，以便减少循环次数)
  * Author:Khaos116
  * Date:2022/3/4
  * Time:10:44
