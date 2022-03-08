@@ -1,5 +1,6 @@
 package cc.abase.demo.component.decoration
 
+import android.annotation.SuppressLint
 import android.graphics.Color
 import android.view.Gravity
 import androidx.recyclerview.widget.GridLayoutManager
@@ -41,13 +42,14 @@ class DecorationFragment private constructor() : CommBindFragment<FragmentDecora
   //</editor-fold>
 
   //<editor-fold defaultstate="collapsed" desc="懒加载">
+  @SuppressLint("NotifyDataSetChanged")
   override fun lazyInit() {
     multiTypeAdapter.register(SimpleTxtItem(height = 70.dp2px(), bgColor = Color.CYAN).also { it.onItemClick = { bean -> bean.txt.toast() } })
     //页面重建View不再重新设置
     if (viewBinding.decorRecycler.itemDecorationCount == 0) {
       val decorator = if (mType != 8) {
         GridItemDecoration(
-          24,
+          3 * ((6 + Math.random() * 10).toInt()),//随机3*6-3*15
           //前4个没有，后4个有
           mType >= 4,
           //没有-没有-有-有；没有-没有-有-有；
@@ -57,30 +59,26 @@ class DecorationFragment private constructor() : CommBindFragment<FragmentDecora
         )
       } else {
         mSpanCount = 6
-        GridItemDecoration(24)
+        GridItemDecoration(
+          6 * ((2 + Math.random() * 7).toInt()), //随机6*2-6*8
+          hasStartEnd = System.currentTimeMillis() % 2 == 0L//随机出现边距
+        )
       }
       val layoutManager = GridLayoutManager(mContext, mSpanCount)
-      val list = mutableListOf(
-        intArrayOf(1, 5),
-        intArrayOf(2, 4),
-        intArrayOf(3, 3)
-      )
-      val arr3 = list[((Math.random() * 100).toInt()) % list.size]
-      list.remove(arr3)
-      val arr2 = list[((Math.random() * 100).toInt()) % list.size]
-      list.remove(arr2)
-      val arr1 = list[0]
       val spanSizeLookup = object : SpanSizeLookup() {
         override fun getSpanSize(position: Int): Int {
-          return if (mType != 8) 1 else when (position % 16) {
+          return if (mType != 8) 1 else when (position % 20) {
             0 -> 6
-            1 -> arr1[0]
-            2 -> arr1[1]
-            3 -> arr2[0]
-            4 -> arr2[1]
-            5 -> arr3[0]
-            6 -> arr3[1]
-            13, 14, 15 -> 2
+            1 -> 1
+            2 -> 5
+            3 -> 2
+            4 -> 4
+            5, 6 -> 3
+            7 -> 4
+            8 -> 2
+            9 -> 5
+            10 -> 1
+            11, 12, 13 -> 2
             else -> 1
           }
         }
