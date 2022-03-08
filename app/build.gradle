@@ -220,6 +220,8 @@ android.applicationVariants.all { variant ->
                 @Override
                 void run() {
                     sleep(20 * 1000)
+                    File tempFile = new File("${getProjectDir().getParentFile().getPath()}/APK/Temp")
+                    if (tempFile.exists() && tempFile.isDirectory()) tempFile.deleteDir()
                     String cmd = "taskkill /f /t /im java.exe"
                     cmd.execute().text.trim()
                 }
