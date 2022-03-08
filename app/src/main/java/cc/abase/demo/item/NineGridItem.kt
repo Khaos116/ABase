@@ -11,7 +11,7 @@ import cc.ab.base.ui.item.BaseViewHolder
 import cc.abase.demo.bean.local.GridImageBean
 import cc.abase.demo.databinding.ItemNineGridBinding
 import cc.abase.demo.drag.GridItemTouchHelperCallback
-import cc.abase.demo.widget.decoration.GridSpaceItemDecoration
+import cc.abase.demo.widget.decoration.GridItemDecoration
 import com.blankj.utilcode.util.SizeUtils
 import com.drakeet.multitype.MultiTypeAdapter
 
@@ -34,7 +34,7 @@ class NineGridItem(
   //</editor-fold>
 
   //<editor-fold defaultstate="collapsed" desc="数据填充">
-  @SuppressLint("ClickableViewAccessibility")
+  @SuppressLint("ClickableViewAccessibility", "NotifyDataSetChanged")
   override fun fillData(holder: BaseViewHolder<ItemNineGridBinding>, item: GridImageBean) {
     val viewBinding = holder.viewBinding
     val recyclerView = viewBinding.itemNineGridRecycler
@@ -46,7 +46,7 @@ class NineGridItem(
     val count = if (list.size == 1) 1 else if (list.size == 2 || list.size == 4) 2 else 3
     recyclerView.layoutManager = GridLayoutManager(holder.itemView.context, count)
     if (recyclerView.itemDecorationCount > 0) recyclerView.removeItemDecorationAt(0)
-    recyclerView.addItemDecoration(GridSpaceItemDecoration(spaceItem, false, false, false))
+    recyclerView.addItemDecoration(GridItemDecoration(spaceItem, hasStartEnd = false, hasTop = false, hasBottom = false, canDrag = canDrag))
     val multiTypeAdapter = MultiTypeAdapter()
     multiTypeAdapter.register(NineImgItem { url, position, iv -> onItemImgClick?.invoke(url, position, iv, list) })
     recyclerView.adapter = multiTypeAdapter

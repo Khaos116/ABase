@@ -9,12 +9,14 @@ import cc.abase.demo.component.comm.CommBindActivity
 import cc.abase.demo.constants.StringConstants
 import cc.abase.demo.databinding.ActivityVideoDetailBinding
 import cc.abase.demo.item.VideoJiItem
-import cc.abase.demo.widget.decoration.GridSpaceItemDecoration
+import cc.abase.demo.widget.decoration.GridItemDecoration
 import cc.abase.demo.widget.dkplayer.MyVideoView
 import cc.abase.demo.widget.dkplayer.pipfloat.PIPManager
 import com.drakeet.multitype.MultiTypeAdapter
 import com.gyf.immersionbar.ktx.immersionBar
-import com.hjq.permissions.*
+import com.hjq.permissions.OnPermissionCallback
+import com.hjq.permissions.Permission
+import com.hjq.permissions.XXPermissions
 import xyz.doikki.videoplayer.player.VideoViewManager
 
 /**
@@ -90,7 +92,7 @@ class VideoDetailActivity : CommBindActivity<ActivityVideoDetailBinding>() {
         videoDetailVideoView.setPlayUrl(p.first, title = p.second, autoPlay = true)
       })
       viewBinding.videoDetailRecycler.layoutManager = GridLayoutManager(this, 4)
-      viewBinding.videoDetailRecycler.addItemDecoration(GridSpaceItemDecoration(10.dp2px()))
+      viewBinding.videoDetailRecycler.addItemDecoration(GridItemDecoration(10.dp2px()))
       viewBinding.videoDetailRecycler.adapter = multiTypeAdapter
       val listDatas = moveUrlPairs.filter { p -> p.second.contains("不良人") }.also { l -> l.firstOrNull()?.let { ss -> url = ss.first } }
       multiTypeAdapter.items = listDatas
