@@ -1,5 +1,5 @@
 # ABase(采用AndroidX)
-### <table><tr><td bgcolor=#FF00FF>使用了[干货集中营开源API](http://gank.io/api)和[玩Android开源API](https://www.wanandroid.com/blog/show/2) </td></tr></table>  
+### <table><tr><td bgcolor=#FF00FF>使用了[干货集中营开源API](http://gank.io/api)+[玩Android开源API](https://www.wanandroid.com/blog/show/2)+[ReadHub新闻API](https://readhub.cn/topics)</td></tr></table>
 ### <table><tr><td bgcolor=#FF0000>2021年11月9日发现干货集中营暂时无法访问</td></tr></table>
 ### <table><tr><td bgcolor=#FF0000>2022年3月8日第二个页面暂时替换为ReadHub新闻</td></tr></table>
 可以使用[Build Scan](https://scans.gradle.com/)(Terminal下执行gradlew build --scan)分析[构建情况](https://scans.gradle.com/s/htlaaoofzhtz6)(相关配置在settings.gradle中)
