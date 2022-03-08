@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
+  xmlns:tools="http://schemas.android.com/tools"
+  android:layout_width="match_parent"
+  android:layout_height="wrap_content"
+  android:foreground="?attr/selectableItemBackground"
+  android:paddingTop="5dp">
+
+  <TextView
+    android:id="@+id/itemTopicTime"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:paddingStart="12dp"
+    android:paddingEnd="12dp"
+    android:paddingBottom="5dp"
+    android:textColor="@color/colorAccent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintTop_toTopOf="parent"
+    tools:text="2020-07-16 13:29:11" />
+
+
+  <TextView
+    android:id="@+id/itemTopicTitle"
+    android:layout_width="0dp"
+    android:layout_height="wrap_content"
+    android:ellipsize="end"
+    android:maxLines="2"
+    android:paddingStart="12dp"
+    android:paddingEnd="12dp"
+    android:paddingBottom="5dp"
+    android:textColor="@color/black"
+    android:textSize="14sp"
+    android:textStyle="bold"
+    app:layout_constraintEnd_toStartOf="@id/itemTopicTime"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent"
+    tools:text="自定义控件通用库 WidgetCase自定义控件通用库 WidgetCase自定义控件通用库 WidgetCase自定义控件通用库 WidgetCase" />
+
+  <TextView
+    android:id="@+id/itemTopicDes"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="10dp"
+    android:ellipsize="end"
+    android:maxLines="3"
+    android:paddingStart="12dp"
+    android:paddingEnd="12dp"
+    android:paddingBottom="5dp"
+    android:textColor="@color/gray_444444"
+    android:textSize="12sp"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@id/itemTopicTitle"
+    tools:text="自定义控件通用库：拿来就用，API文档详细，持续集成，长期维护自定义控件通用库：拿来就用，API文档详细，持续集成，长期维护自定义控件通用库：拿来就用，API文档详细，持续集成，长期维护自定义控件通用库：拿来就用，API文档详细，持续集成，长期维护自定义控件通用库：拿来就用，API文档详细，持续集成，长期维护自定义控件通用库：拿来就用，API文档详细，持续集成，长期维护" />
+
+  <View
+    android:id="@+id/itemTopicLine"
+    android:layout_width="match_parent"
+    android:layout_height="1px"
+    android:layout_marginTop="5dp"
+    android:background="@color/blue"
+    app:layout_constraintTop_toBottomOf="@id/itemTopicDes" />
+</androidx.constraintlayout.widget.ConstraintLayout>
