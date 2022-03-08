@@ -15,7 +15,7 @@ import cc.abase.demo.component.comm.CommBindTitleActivity
 import cc.abase.demo.databinding.ActivityDragBinding
 import cc.abase.demo.drag.GridItemTouchHelperCallback
 import cc.abase.demo.item.NineImgItem
-import cc.abase.demo.widget.decoration.GridSpaceItemDecoration
+import cc.abase.demo.widget.decoration.GridItemDecoration
 import com.blankj.utilcode.constant.MemoryConstants
 import com.blankj.utilcode.util.SizeUtils
 import com.blankj.utilcode.util.StringUtils
@@ -58,9 +58,9 @@ class DragActivity : CommBindTitleActivity<ActivityDragBinding>() {
   override fun initContentView() {
     setTitleText(StringUtils.getString(R.string.九宫格拖拽效果))
     viewBinding.dragRecycler.layoutManager = GridLayoutManager(mContext, 3)
-    viewBinding.dragRecycler.setPadding(spaceItem, viewBinding.dragRecycler.paddingTop, spaceItem, viewBinding.dragRecycler.paddingBottom)
+    viewBinding.dragRecycler.setPadding(0, viewBinding.dragRecycler.paddingTop, 0, viewBinding.dragRecycler.paddingBottom)
     if (viewBinding.dragRecycler.itemDecorationCount > 0) viewBinding.dragRecycler.removeItemDecorationAt(0)
-    viewBinding.dragRecycler.addItemDecoration(GridSpaceItemDecoration(spaceItem, false, false, false))
+    viewBinding.dragRecycler.addItemDecoration(GridItemDecoration(spaceItem, canDrag = true))
     //适配器注册
     multiTypeAdapter.register(
       NineImgItem(
