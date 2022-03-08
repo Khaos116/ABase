@@ -22,7 +22,7 @@ android {
         applicationId rootProject.ext.android.applicationId
         versionCode rootProject.ext.android.versionCodeS1
         versionName rootProject.ext.android.versionNameS1
-        resValue "string", "bugly_app_id", rootProject.ext.android.applicationId
+        resValue "string", "bugly_app_id", rootProject.ext.android.buglyIdS1
         resValue "string", "app_name", rootProject.ext.android.applicationName
         resValue "string", "build_time", rootProject.ext.android.buildTime
         buildConfigField "boolean", "APP_IS_RELEASE", "false"
@@ -61,7 +61,7 @@ android {
             applicationIdSuffix ".s1"
             versionCode rootProject.ext.android.versionCodeS1
             versionName rootProject.ext.android.versionNameS1
-            resValue "string", "bugly_app_id", rootProject.ext.android.buglyIdDebug
+            resValue "string", "bugly_app_id", rootProject.ext.android.buglyIdS1
             resValue "string", "app_name", "${rootProject.ext.android.applicationName}-S1"
             resValue "string", "channel", "s1"
             buildConfigField "boolean", "APP_IS_RELEASE", "false"
@@ -79,7 +79,7 @@ android {
             applicationIdSuffix ".s2"
             versionCode rootProject.ext.android.versionCodeS2
             versionName rootProject.ext.android.versionNameS2
-            resValue "string", "bugly_app_id", rootProject.ext.android.buglyIdRelease
+            resValue "string", "bugly_app_id", rootProject.ext.android.buglyIdS2
             resValue "string", "app_name", "${rootProject.ext.android.applicationName}-S2"
             resValue "string", "channel", "s2"
             buildConfigField "boolean", "APP_IS_RELEASE", "true"
@@ -146,12 +146,12 @@ android.applicationVariants.all { variant ->
     //Bygly符号表上传
     def buglyAppId = null
     def buglyAppKey = null
-    if (variant.flavorName == "developerPF") {
-        buglyAppId = rootProject.ext.android.buglyId_D
-        buglyAppKey = rootProject.ext.android.buglyKey_D
-    } else if (variant.flavorName == "releasePF") {
-        buglyAppId = rootProject.ext.android.buglyId_R
-        buglyAppKey = rootProject.ext.android.buglyKey_R
+    if (variant.flavorName == "s1") {
+        buglyAppId = rootProject.ext.android.buglyIdS1
+        buglyAppKey = rootProject.ext.android.buglyKeyS1
+    } else if (variant.flavorName == "s2") {
+        buglyAppId = rootProject.ext.android.buglyIdS2
+        buglyAppKey = rootProject.ext.android.buglyKeyS2
     }
     if (buglyAppId != null) {
         variant.ext.buglyAppId = buglyAppId

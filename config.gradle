@@ -6,28 +6,28 @@ def versionCodeS1 = (versionNameS1.replace(".", "")).toInteger()
 def versionNameS2 = "1.0.5"
 def versionCodeS2 = (versionNameS2.replace(".", "")).toInteger()
 //Bugly相关
-def buglyAppIdDebug = "c6e450ad19"
-def buglyAppKeyDebug = "54ece6d9-fcb0-4ce2-8dae-b86efb65617c"
-def buglyAppIdRelease = "c6e450ad19"
-def buglyAppKeyRelease = "54ece6d9-fcb0-4ce2-8dae-b86efb65617c"
+def buglyAppIdS1 = "c6e450ad19"
+def buglyAppKeyS1 = "54ece6d9-fcb0-4ce2-8dae-b86efb65617c"
+def buglyAppIdS2 = "c6e450ad19"
+def buglyAppKeyS2 = "54ece6d9-fcb0-4ce2-8dae-b86efb65617c"
 ext {
-  android = [
-      applicationName: "ABase",
-      applicationId: "com.abase",
+    android = [
+            applicationName: "ABase",
+            applicationId  : "com.abase",
 
-      versionNameS1: versionNameS1,
-      versionCodeS1: versionCodeS1,
+            versionNameS1  : versionNameS1,
+            versionCodeS1  : versionCodeS1,
 
-      versionNameS2: versionNameS2,
-      versionCodeS2: versionCodeS2,
+            versionNameS2  : versionNameS2,
+            versionCodeS2  : versionCodeS2,
 
-      buglyIdDebug: buglyAppIdDebug,
-      buglyKeyDebug: buglyAppKeyDebug,
+            buglyIdS1      : buglyAppIdS1,
+            buglyKeyS1     : buglyAppKeyS1,
 
-      buglyIdRelease: buglyAppIdRelease,
-      buglyKeyRelease: buglyAppKeyRelease,
+            buglyIdS2      : buglyAppIdS2,
+            buglyKeyS2     : buglyAppKeyS2,
 
-      buildTime: new Date().format("yyyyMMdd_HHmm"), //编译日期
-      computer: Math.abs((System.getProperty("user.name") + "@" + InetAddress.localHost.hostName).hashCode()),
-  ]
+            buildTime      : new Date().format("yyyyMMdd_HHmm"), //编译日期
+            computer       : Math.abs((System.getProperty("user.name") + "@" + InetAddress.localHost.hostName).hashCode()),
+    ]
 }
