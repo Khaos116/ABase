@@ -314,8 +314,8 @@ class WebActivity : CommBindTitleActivity<ActivityWebBinding>() {
       .openGallery(chooseMode)
       .setImageEngine(CoilEngine())
       .isGif(false)
-      .setCompressEngine(MyCompressEngine())
-      .setCropEngine(MyCropEngine())
+      //.setCropEngine(MyCropEngine())//初步测试好像没办法实现先裁切后压缩(SD卡没有找到2个文件同时存在)，所以暂时只进行压缩
+      .setCompressEngine(MyCompressEngine())//本来想先裁切后压缩的，但是同时设置后，只找的到裁切文件，没有压缩文件，所以只进行压缩
       .isPageStrategy(true, PictureConfig.MAX_PAGE_SIZE, true) //过滤掉已损坏的
       .setMaxSelectNum(1)
       .setFilterMaxFileSize((if (chooseMode == SelectMimeType.ofImage()) 5L else 500L) * MemoryConstants.MB)
