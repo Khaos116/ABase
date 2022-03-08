@@ -7,14 +7,15 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.*;
 
 /**
- * 给 GridLayoutManager or StaggeredGridLayoutManager 设置间距，可设置去除首尾间距个数
- *
  * @author jingbin
  * 原文地址：https://github.com/youlookwhat/ByRecyclerView
  * <p>
  * 修改By Khaos 2020年11月21日17:52:11(注意拖拽"上"+"下"会有1/2的间距)
  * 是否处于第一行和最后一行参考：https://github.com/airbnb/epoxy/blob/master/epoxy-adapter/src/main/java/com/airbnb/epoxy/EpoxyItemSpacingDecorator.java
+ * @deprecated 2022年3月8日 如果不使用瀑布流，可以尝试使用GridItemDecoration替换，因为当前不支持非均分的情况
+ * 给 GridLayoutManager or StaggeredGridLayoutManager 设置间距，可设置去除首尾间距个数
  */
+@Deprecated
 public class GridAverageItemDecoration extends RecyclerView.ItemDecoration {
   /**
    * 每行个数
