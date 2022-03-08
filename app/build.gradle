@@ -153,12 +153,14 @@ android.applicationVariants.all { variant ->
         buglyAppId = rootProject.ext.android.buglyIdS2
         buglyAppKey = rootProject.ext.android.buglyKeyS2
     }
-    if (buglyAppId != null) {
-        variant.ext.buglyAppId = buglyAppId
-    }
-    if (buglyAppKey != null) {
-        variant.ext.buglyAppKey = buglyAppKey
-    }
+    //https://github.com/JalenChen/symtabfileuploader/issues/10
+    //由于使用了7.0+的Gradle，导致bugly无法编译，所以暂时屏蔽
+    //if (buglyAppId != null) {
+    //    variant.ext.buglyAppId = buglyAppId
+    //}
+    //if (buglyAppKey != null) {
+    //    variant.ext.buglyAppKey = buglyAppKey
+    //}
     variant.outputs.all { output ->
         //正式版还是测试版
         String typeName = buildType.name
