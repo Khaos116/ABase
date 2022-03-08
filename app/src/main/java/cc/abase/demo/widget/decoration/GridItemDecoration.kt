@@ -9,7 +9,7 @@ import cc.ab.base.ext.logE
 import com.blankj.utilcode.util.GsonUtils
 
 /**
- * 初步测试，适用于非均分的情况(由于为了代码看起来逻辑清晰，每次计算都采用了for循环，如果要优化，可以把计算放到一起，以便减少循环次数)
+ * 初步测试，适用于竖向排列情况的，均分和非均分的情况(由于为了代码看起来逻辑清晰，每次计算都采用了for循环，如果要优化，可以把计算放到一起，以便减少循环次数)
  * Author:Khaos116
  * Date:2022/3/4
  * Time:10:44
@@ -108,9 +108,21 @@ class GridItemDecoration(
           if (mPrintLog) "i=$i,left=${positionRect[i]!![0]},right=${positionRect[i]!![1]}".logE()
         }
         if (mPrintLog) "--------------FOR-ENDED--------------".logE()
-        if (mPrintLog) positionRect[position]?.let { "position=${position}计算的左右间距=${it[0]},${it[1]}".logE() }
-        outRect.left = positionRect[position]!![0]
-        outRect.right = positionRect[position]!![1]
+        positionRect[position]?.let { arr ->
+          if (mPrintLog) "position=${position}计算的左右间距=${arr[0]},${arr[1]}".logE()
+          outRect.left = arr[0]
+          outRect.right = arr[1]
+        }
+        //防止均分的情况没有获取到位置的容错处理,参考：https://github.com/youlookwhat/ByRecyclerView/blob/master/ByRecyclerview/src/main/java/me/jingbin/library/decoration/GridSpaceItemDecoration.java
+        if (positionRect[position] == null && isAverage) {
+          if (hasStartEnd) {
+            outRect.left = (mSpacing - currentColumn * 1f * mSpacing / mSpanCount).toInt()
+            outRect.right = ((currentColumn + 1f) * mSpacing / mSpanCount).toInt()
+          } else {
+            outRect.left = (currentColumn * 1f * mSpacing / mSpanCount).toInt()
+            outRect.right = (mSpacing - (currentColumn + 1f) * mSpacing / mSpanCount).toInt()
+          }
+        }
         if (mPrintLog) "该行列数=$count".logE()
       }
       outRect.top = if (isInFirstRow && !canDrag) if (hasTop) mSpacing else 0 else mSpacing / 2
