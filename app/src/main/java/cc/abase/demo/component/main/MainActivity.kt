@@ -51,7 +51,7 @@ class MainActivity : CommBindActivity<ActivityMainBinding>() {
         //添加子页面
         fragmentList.clear()
         fragmentList.add(WanFragment.newInstance())
-        fragmentList.add(GankFragment.newInstance())
+        fragmentList.add(ReadhubFragment.newInstance())
         fragmentList.add(MineFragment.newInstance())
         //设置选中
         selectFragment(0)
