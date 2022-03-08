@@ -20,6 +20,6 @@ object GankRepository {
     return RxHttp.get(String.format(GankUrls.ANDROID, page, size))
       .setCacheValidTime(TimeConstants.DYN_CACHE) //设置缓存时长
       .setCacheMode(if (readCache) CacheMode.READ_CACHE_FAILED_REQUEST_NETWORK else CacheMode.ONLY_NETWORK) //先读取缓存，失败再请求数据
-      .toResponseGank<MutableList<GankAndroidBean>>()
+      .toResponseGank()
   }
 }
