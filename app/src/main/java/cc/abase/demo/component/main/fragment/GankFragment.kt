@@ -21,6 +21,7 @@ import com.luck.picture.lib.basic.PictureSelector
 import com.luck.picture.lib.entity.LocalMedia
 
 /**
+ * @des 由于Gank.io网站API已经无法访问，所以改为了Readhub新闻，暂时屏蔽Gank.io
  * Author:Khaos
  * Date:2020/8/12
  * Time:20:48
