@@ -2,6 +2,7 @@ package cc.abase.demo.widget.decoration;
 
 import android.graphics.Rect;
 import android.view.View;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.*;
 
@@ -10,11 +11,11 @@ import androidx.recyclerview.widget.*;
  *
  * @author jingbin
  * 原文地址：https://github.com/youlookwhat/ByRecyclerView
- *
+ * <p>
  * 修改By Khaos 2020年11月21日17:52:11(注意拖拽"上"+"下"会有1/2的间距)
  * 是否处于第一行和最后一行参考：https://github.com/airbnb/epoxy/blob/master/epoxy-adapter/src/main/java/com/airbnb/epoxy/EpoxyItemSpacingDecorator.java
  */
-public class GridSpaceItemDecoration extends RecyclerView.ItemDecoration {
+public class GridAverageItemDecoration extends RecyclerView.ItemDecoration {
   /**
    * 每行个数
    */
@@ -41,7 +42,7 @@ public class GridSpaceItemDecoration extends RecyclerView.ItemDecoration {
    *
    * @param spacing 间距px
    */
-  public GridSpaceItemDecoration(int spacing) {
+  public GridAverageItemDecoration(int spacing) {
     this.mSpacing = spacing;
     this.isIncludeStartEnd = true;
     this.isIncludeTop = true;
@@ -51,12 +52,12 @@ public class GridSpaceItemDecoration extends RecyclerView.ItemDecoration {
   /**
    * 单独为每个方向设置间距
    *
-   * @param spacing 间距px
+   * @param spacing     间距px
    * @param hasStartEnd 是否包含左右间距
-   * @param hasTop 是否包含上面间距
-   * @param hasBottom 是否包含下面间距
+   * @param hasTop      是否包含上面间距
+   * @param hasBottom   是否包含下面间距
    */
-  public GridSpaceItemDecoration(int spacing, boolean hasStartEnd, boolean hasTop, boolean hasBottom) {
+  public GridAverageItemDecoration(int spacing, boolean hasStartEnd, boolean hasTop, boolean hasBottom) {
     this.mSpacing = spacing;
     this.isIncludeStartEnd = hasStartEnd;
     this.isIncludeTop = hasTop;
@@ -65,7 +66,7 @@ public class GridSpaceItemDecoration extends RecyclerView.ItemDecoration {
 
   @Override
   public void getItemOffsets(@NonNull Rect outRect, @NonNull View view, @NonNull RecyclerView parent,
-      @NonNull RecyclerView.State state) {
+                             @NonNull RecyclerView.State state) {
     //<editor-fold defaultstate="collapsed" desc="Khaos添加的代码">
     outRect.setEmpty();
     int position = parent.getChildAdapterPosition(view);
@@ -184,8 +185,8 @@ public class GridSpaceItemDecoration extends RecyclerView.ItemDecoration {
     }
     //<editor-fold defaultstate="collapsed" desc="Khaos添加的代码">
     if (layoutManager instanceof GridLayoutManager) {//只处理上下间距，左右交给原本处理即可
-      outRect.top = isInFirstRow ? (isIncludeTop ? mSpacing : 0) : mSpacing / 2;
-      outRect.bottom = isInLastRow ? (isIncludeBottom ? mSpacing : 0) : mSpacing / 2;
+      outRect.top = (isInFirstRow && !canDrag) ? (isIncludeTop ? mSpacing : 0) : mSpacing / 2;
+      outRect.bottom = (isInLastRow && !canDrag) ? (isIncludeBottom ? mSpacing : 0) : mSpacing / 2;
     }
     //StringExtKt.logE("position=" + position + ",outRect=" + GsonUtils.toJson(outRect));
     //</editor-fold>
@@ -196,7 +197,7 @@ public class GridSpaceItemDecoration extends RecyclerView.ItemDecoration {
    *
    * @param startFromSize 一般为HeaderView的个数 + 刷新布局(不一定设置)
    */
-  public GridSpaceItemDecoration setStartFrom(int startFromSize) {
+  public GridAverageItemDecoration setStartFrom(int startFromSize) {
     this.mStartFromSize = startFromSize;
     return this;
   }
@@ -206,7 +207,7 @@ public class GridSpaceItemDecoration extends RecyclerView.ItemDecoration {
    *
    * @param endFromSize 一般为FooterView的个数 + 加载更多布局(不一定设置)
    */
-  public GridSpaceItemDecoration setEndFromSize(int endFromSize) {
+  public GridAverageItemDecoration setEndFromSize(int endFromSize) {
     this.mEndFromSize = endFromSize;
     return this;
   }
@@ -215,9 +216,9 @@ public class GridSpaceItemDecoration extends RecyclerView.ItemDecoration {
    * 设置从哪个位置 结束设置间距
    *
    * @param startFromSize 一般为HeaderView的个数 + 刷新布局(不一定设置)
-   * @param endFromSize 默认为1，一般为FooterView的个数 + 加载更多布局(不一定设置)
+   * @param endFromSize   默认为1，一般为FooterView的个数 + 加载更多布局(不一定设置)
    */
-  public GridSpaceItemDecoration setNoShowSpace(int startFromSize, int endFromSize) {
+  public GridAverageItemDecoration setNoShowSpace(int startFromSize, int endFromSize) {
     this.mStartFromSize = startFromSize;
     this.mEndFromSize = endFromSize;
     return this;
@@ -229,6 +230,7 @@ public class GridSpaceItemDecoration extends RecyclerView.ItemDecoration {
   private final boolean isIncludeStartEnd;//是否包含最前面和最后面
   private final boolean isIncludeTop;//是否包含最上面
   private final boolean isIncludeBottom;//是否包含最下面
+  private final boolean canDrag = false;//是否可以拖拽
 
   private void calculatePositionDetails(RecyclerView parent, int position, RecyclerView.LayoutManager layout) {
     if (layout instanceof GridLayoutManager) {
@@ -254,15 +256,23 @@ public class GridSpaceItemDecoration extends RecyclerView.ItemDecoration {
 
   //由于原文的判断存在问题(最后一排不全的情况下)，所以做修改处理
   private boolean isInLastRow(int position, int itemCount, GridLayoutManager.SpanSizeLookup spanSizeLookup, int spanCount) {
-    //如果总数小于每行数量，则全满足最后一行
-    if (itemCount <= spanCount) return true;
-    //最后一行的数量(能整除表示是满行，否则最后一行不满)
-    int lastRowCount = itemCount % spanCount == 0 ? spanCount : itemCount % spanCount;
+    //最后一个肯定在最后一行
+    if (position >= itemCount - 1) return true;
     int totalSpan = 0;
-    //从最后一个位置到当前position，判断有多少个，如果大于最后一行的数量，则返回非最后一行
-    for (int i = itemCount - 1; i >= position; i--) {
+    for (int i = 0; i < itemCount; i++) {
       totalSpan += spanSizeLookup.getSpanSize(i);
-      if (totalSpan > lastRowCount) {
+    }
+    //如果总数都没有超过每行数量，则肯定属于最后一行
+    if (totalSpan < spanCount) {
+      return true;
+    }
+    //最后一行的数量(能整除表示是满行，否则最后一行不满)
+    int lastRowCount = totalSpan % spanCount == 0 ? spanCount : totalSpan % spanCount;
+    totalSpan = 0;
+    //从最后一个位置到当前position，判断有多少个，如果大于最后一行的数量，则返回非最后一行
+    for (int i = itemCount - 1; i > position; i--) {
+      totalSpan += spanSizeLookup.getSpanSize(i);
+      if (totalSpan >= lastRowCount) {
         return false;
       }
     }
