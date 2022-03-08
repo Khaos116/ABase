@@ -78,6 +78,10 @@ override fun fillData(holder: BaseViewHolder<ItemBannerBinding>, item: MutableLi
 ![所有效果](https://github.com/khaos116/ABase/blob/master/image/all_effect.png)
 
 //================================================================//
+##  非均分Grid分割线效果
+![分割线效果](https://github.com/khaos116/ABase/blob/master/image/decoration.png)
+
+//================================================================//
 ##  聊天Emoji效果图
 ![聊天Emoji](https://github.com/khaos116/ABase/blob/master/image/emoji_chat.gif)
 
