@@ -16,7 +16,7 @@ import rxhttp.wrapper.coroutines.Await
  */
 object ReadhubRepository {
   //获得热门话题
-  suspend fun getTopicList(lastOrder: Int = 0): Await<MutableList<TopicBean>> {
+  suspend fun getTopicList(lastOrder: Long = 0): Await<MutableList<TopicBean>> {
     return RxHttp.get("${ReadhubUrl.Home.TOPIC}?pageSize=20${if (lastOrder <= 0) "" else "&lastCursor=$lastOrder"}")
       .setCacheValidTime(TimeConstants.DYN_CACHE) //设置缓存时长
       .setCacheMode(CacheMode.REQUEST_NETWORK_FAILED_READ_CACHE) //先请求数据，失败再读取缓存

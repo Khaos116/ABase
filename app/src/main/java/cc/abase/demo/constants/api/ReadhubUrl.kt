@@ -1,7 +1,7 @@
 package cc.abase.demo.constants.api
 
 /**
- * Author:BoLuo
+ * Author:Khaos116
  * Date:2022/3/8
  * Time:15:47
  */
