@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  android:orientation="vertical">
+
+  <include
+    android:id="@+id/flTitle"
+    layout="@layout/layout_comm_title" />
+
+  <FrameLayout
+    android:layout_width="280dp"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center_horizontal"
+    android:padding="8dp">
+
+    <cc.abase.demo.widget.VerificationView
+      android:id="@+id/verificationView"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:background="@color/white" />
+  </FrameLayout>
+</LinearLayout>

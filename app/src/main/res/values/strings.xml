@@ -150,4 +150,5 @@
     <string name="关注数">关注数</string>
     <string name="粉丝数">粉丝数</string>
     <string name="收起">收起</string>
+  <string name="滑动验证码">滑动验证码</string>
 </resources>
