@@ -133,6 +133,10 @@ android {
     lintOptions {
         checkReleaseBuilds false
     }
+
+    //防止没有Temp
+    File tempFile = new File("${getProjectDir().getParentFile().getPath()}/APK/Temp")
+    if (!tempFile.exists()) tempFile.mkdirs()
 }
 
 //RxHttp ksp传参方式 https://github.com/liujingxing/okhttp-RxHttp
