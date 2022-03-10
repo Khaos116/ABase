@@ -14,6 +14,7 @@ import android.view.MotionEvent
 import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.TextView
+import cc.abase.demo.R
 
 
 /**
@@ -44,13 +45,13 @@ class VerificationView @kotlin.jvm.JvmOverloads constructor(
   private val lpBg = LayoutParams(-1, -2)
 
   //图片滑块位置
-  private val lpFrame = LayoutParams(30, 30)
+  private val lpFrame = LayoutParams(60, 60)
 
   //提示文字位置
   private val lpHint = LayoutParams(-1, dp2px(30f))
 
   //拖拽滑块位置
-  private val lpDrag = LayoutParams(dp2px(40f), dp2px(40f))
+  private val lpDrag = LayoutParams(dp2px(42f), dp2px(42f))
 
   //图片滑块最大滑动宽度
   private var maxFrameMove: Int = 0
@@ -62,7 +63,7 @@ class VerificationView @kotlin.jvm.JvmOverloads constructor(
   private var ration: Float = 0f
 
   //背景和拖拽滑块的间距
-  private var offSet: Int = dp2px(5f)
+  private var offSet: Int = dp2px(8f)
 
   //滑动是否后回调位置
   var mCallBack: ((dragX: Int) -> Unit)? = null
@@ -79,14 +80,15 @@ class VerificationView @kotlin.jvm.JvmOverloads constructor(
   //<editor-fold defaultstate="collapsed" desc="初始化">
   init {
     //设置文字信息
-    tvHint.setTextSize(TypedValue.COMPLEX_UNIT_PX, dp2px(14f) * 1f)
-    tvHint.setTextColor(Color.parseColor("#a2a3a5"))
-    tvHint.text = "请安住滑块拖动完成拼图"
-    tvHint.background = getHintBg(lpHint.height, Color.parseColor("#dedfe1"))
+    tvHint.setTextSize(TypedValue.COMPLEX_UNIT_PX, dp2px(13f) * 1f)
+    tvHint.setTextColor(Color.parseColor("#abacae"))
+    tvHint.text = "请按住滑块拖动完成拼图"
+    tvHint.background = getHintBg(lpHint.height, Color.parseColor("#dddee0"))
     tvHint.gravity = Gravity.CENTER_VERTICAL
-    tvHint.setPadding(lpDrag.width + dp2px(3f), 0, 0, 0)
+    tvHint.setPadding(lpDrag.width + dp2px(5f), 0, 0, 0)
     //设置拖拽滑块
-    ivDrag.setBackgroundColor(Color.RED)
+    //ivDrag.setBackgroundColor(Color.RED)
+    ivDrag.setImageResource(R.drawable.verifi_drag)
     lpHint.topMargin = (lpBg.height - lpHint.height) / 2
     addListener()
   }
@@ -149,6 +151,7 @@ class VerificationView @kotlin.jvm.JvmOverloads constructor(
     //填充图片
     ivBg.setImageBitmap(bitBg)
     ivFrame.setImageBitmap(bitFrame)
+    resetMove()
   }
   //</editor-fold>
 
