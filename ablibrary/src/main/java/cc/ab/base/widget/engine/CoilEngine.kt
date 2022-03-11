@@ -6,7 +6,7 @@ import android.graphics.BitmapFactory
 import android.media.MediaMetadataRetriever
 import android.widget.ImageView
 import androidx.core.graphics.drawable.toBitmap
-import cc.ab.base.ext.PlaceHolderUtils
+import cc.ab.base.utils.PlaceHolderUtils
 import cc.ab.base.ext.loadImgSquare
 import cc.ab.base.ext.loadImgVertical
 import cc.ab.base.ext.toFile

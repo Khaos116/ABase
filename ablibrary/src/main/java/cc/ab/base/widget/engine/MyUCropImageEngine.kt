@@ -7,7 +7,7 @@ import android.media.MediaMetadataRetriever
 import android.net.Uri
 import android.widget.ImageView
 import androidx.core.graphics.drawable.toBitmap
-import cc.ab.base.ext.PlaceHolderUtils
+import cc.ab.base.utils.PlaceHolderUtils
 import cc.ab.base.ext.loadImgVertical
 import cc.ab.base.ext.toFile
 import cc.ab.base.utils.MediaUtils

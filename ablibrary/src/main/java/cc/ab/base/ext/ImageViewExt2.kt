@@ -7,6 +7,7 @@ import androidx.annotation.FloatRange
 import cc.ab.base.R
 import cc.ab.base.config.PathConfig
 import cc.ab.base.utils.MediaMetadataRetrieverUtils
+import cc.ab.base.utils.PlaceHolderUtils
 import coil.*
 import coil.request.ImageRequest
 import coil.transform.*

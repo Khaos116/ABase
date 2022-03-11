@@ -1,4 +1,4 @@
-package cc.ab.base.ext
+package cc.ab.base.utils
 
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
