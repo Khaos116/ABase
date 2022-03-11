@@ -44,8 +44,8 @@ class AppLastInit : AndroidStartup<Int>() {
   //</editor-fold>
 
   //<editor-fold defaultstate="collapsed" desc="依赖">
-  override fun dependencies(): List<Class<out Startup<*>>> {
-    return mutableListOf(DKPlayerInit::class.java)
+  override fun dependenciesByName(): List<String> {
+    return mutableListOf(DKPlayerInit::class.java.name)
   }
   //</editor-fold>
 

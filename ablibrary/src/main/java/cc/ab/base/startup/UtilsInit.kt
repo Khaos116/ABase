@@ -33,8 +33,8 @@ class UtilsInit : AndroidStartup<Int>() {
   //</editor-fold>
 
   //<editor-fold defaultstate="collapsed" desc="依赖">
-  override fun dependencies(): List<Class<out Startup<*>>> {
-    return mutableListOf(AutoSizeInit::class.java)
+  override fun dependenciesByName(): List<String> {
+    return mutableListOf(AutoSizeInit::class.java.name)
   }
   //</editor-fold>
 }

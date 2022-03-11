@@ -30,7 +30,7 @@ class TimberInit : AndroidStartup<Int>() {
   //</editor-fold>
 
   //<editor-fold defaultstate="collapsed" desc="依赖">
-  override fun dependencies(): List<Class<out Startup<*>>> {
+  override fun dependenciesByName(): List<String> {
     return mutableListOf()
   }
   //</editor-fold>
