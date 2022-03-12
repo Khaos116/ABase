@@ -3,15 +3,13 @@ package cc.abase.demo.widget
 import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Color
+import android.net.http.SslError
 import android.os.Build
 import android.util.AttributeSet
 import android.webkit.*
-import androidx.lifecycle.DefaultLifecycleObserver
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LifecycleOwner
-import cc.ab.base.ext.getMyLifecycleOwner
-import cc.ab.base.ext.logE
-import cc.ab.base.ext.removeParent
+import androidx.lifecycle.*
+import cc.ab.base.ext.*
+import org.jsoup.Jsoup
 
 /**
  * 替换解析抱歉，可以使用Jsoup; https://www.jianshu.com/p/d2acd79c3d32
@@ -35,9 +33,9 @@ class HtmlWebView @JvmOverloads constructor(
     //支持自动适配
     settings.useWideViewPort = true
     settings.loadWithOverviewMode = true
-    settings.setSupportZoom(true) //支持放大缩小
+    settings.setSupportZoom(false) //支持放大缩小
 
-    settings.builtInZoomControls = true //显示缩放按钮
+    settings.builtInZoomControls = false //不显示缩放按钮
 
     settings.blockNetworkImage = true // 把图片加载放在最后来加载渲染
 
@@ -56,6 +54,11 @@ class HtmlWebView @JvmOverloads constructor(
 
     //设置不让其跳转浏览器
     this.webViewClient = object : WebViewClient() {
+      @SuppressLint("WebViewClientOnReceivedSslError")
+      override fun onReceivedSslError(view: WebView?, handler: SslErrorHandler, error: SslError?) {
+        handler.proceed()
+      }
+
       override fun shouldOverrideUrlLoading(view: WebView?, url: String?): Boolean {
         url?.let { u -> view?.loadUrl(u) }
         return false
@@ -77,27 +80,66 @@ class HtmlWebView @JvmOverloads constructor(
   //</editor-fold>
 
   //<editor-fold defaultstate="collapsed" desc="加载HTML">
-  fun loadHtml(html: String, textColor: String = "#FFFFFF") {
-    //修改默认文字大小+颜色 https://www.jianshu.com/p/dff75027fbfc
-    //解决图片自适应屏幕宽度问题 https://blog.csdn.net/oZhuiMeng123/article/details/120830455
-    val head = "<head>" +
-        "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0, user-scalable=no\"> " +
-        "<style>*" +
-        //去除外面边距
-        "{margin:0;padding:0;}" +
-        //设置默认文字大小 + 行高
-        "{font-size:14px;line-height:20px;}" +
-        //设置默认文字颜色
-        "p{color:${textColor};}" +
-        //设置段间距
-        "p{margin: 10px auto}" +
-        //设置图片最大宽度
-        "img{max-width: 100%; width:auto; height:auto;}" +
-        "</style>" +
-        "</head>"
-    this.loadDataWithBaseURL(null, "<html>$head<body>${html}</body></html>", "text/html", "utf-8", null)
+  fun loadHtml(divHtml: String) {
+    val document = Jsoup.parse(divHtml)
+
+    //解决宽度+缩放问题
+    val headElements = document.select("head")
+    for (element in headElements) {
+      //文字缩放
+      element.append("<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0, user-scalable=no\">")
+      //去除外面边距
+      element.append("<style>*{margin:0;padding:0;}</style>")
+    }
+
+    //解决特定情况下，图片外层宽度导致图片无法适配屏幕宽度问题
+    val divElements = document.select("div")
+    for (element in divElements) {
+      val str = element.attributes().toString()
+      if (str.contains("style") && str.contains("width")) {
+        element.attr("style", "width: 100%; height: auto")
+      }
+    }
+
+    //图片宽度适配1
+    val pImgElements = document.select("p:has(img)")
+    for (element in pImgElements) {
+      element.attr("style", "max-width:100%;height:auto")
+    }
+
+    //图片宽度适配2
+    val imgElements = document.select("img")
+    for (element in imgElements) {
+      //重新设置宽高
+      element.attr("style", "max-width:100%;height:auto")
+    }
+
+    //适配文字间距
+    val pElements = document.select("p")
+    for (element in pElements) {
+      val tags = element.getElementsByTag("strong")
+      if (tags.isNullOrEmpty()) {//设置段间距+左右间距
+        element.attr("style", "margin-bottom:10px;margin-left:10px;margin-right:10px")
+        if (element.childrenSize() == 0) {
+          if (element.text().isBlank()) {
+            element.attr("style", "margin-bottom:0px;margin-left:10px;margin-right:10px")
+          } else if (!element.text().startsWith(" ")) {
+            element.text("\u3000\u3000${element.text()}")
+          }
+        }
+      } else {//设置段间距
+        val hasImg = !element.getElementsByTag("img").isNullOrEmpty()
+        if (hasImg) {
+          element.attr("style", "margin-bottom:10px")
+        } else {
+          element.attr("style", "margin-bottom:10px;margin-left:10px;margin-right:10px")
+        }
+      }
+    }
+    val result = document.toString()
+    "\n$result".logD()
+    this.loadDataWithBaseURL(null, result, "text/html", "utf-8", null)
   }
-  //</editor-fold>
 
   //<editor-fold defaultstate="collapsed" desc="自感应生命周期">
   override fun onAttachedToWindow() {
@@ -131,13 +173,13 @@ class HtmlWebView @JvmOverloads constructor(
   override fun onPause(owner: LifecycleOwner) {
     this.onPause()
     this.pauseTimers() //小心这个！！！暂停整个 WebView 所有布局、解析、JS
-    "HtmlWebView:onPause".logE()
+    "HtmlWebView:onPause".logD()
   }
 
   override fun onResume(owner: LifecycleOwner) {
     this.onResume()
     this.resumeTimers()
-    "HtmlWebView:onResume".logE()
+    "HtmlWebView:onResume".logD()
   }
 
   override fun onDestroy(owner: LifecycleOwner) {
@@ -147,7 +189,7 @@ class HtmlWebView @JvmOverloads constructor(
     this.stopLoading()
     this.webChromeClient = null
     this.destroy()
-    "HtmlWebView:onDestroy".logE()
+    "HtmlWebView:onDestroy".logD()
   }
   //</editor-fold>
 }

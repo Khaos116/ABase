@@ -201,6 +201,9 @@ object Deps {
 
   //四角颜色的渐变背景  https://github.com/GIGAMOLE/QuatroGrade
   const val quatroGrade = "com.github.GIGAMOLE:QuatroGrade:1.0.0"
+
+  //https://blog.csdn.net/qq_21154101/article/details/100068269
+  const val jsoup = "org.jsoup:jsoup:1.14.3"
   //</editor-fold>
 
   //<editor-fold defaultstate="collapsed" desc="其他">

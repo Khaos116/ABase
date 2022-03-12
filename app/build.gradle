@@ -267,4 +267,5 @@ dependencies {
     implementation Deps.czxing
     implementation Deps.pattern_locker
     implementation Deps.quatroGrade
+    implementation Deps.jsoup
 }
