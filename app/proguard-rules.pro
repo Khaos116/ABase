@@ -143,6 +143,7 @@
 -keep class cc.ab.base.net.http.response.** { *; }
 -keep class cc.ab.base.widget.engine.** { *; }
 -keep class cc.abase.demo.bean.** { *; }
+-keep class cc.abase.demo.widget.** { *; }
 
 #内部成员和方法不混淆
 
