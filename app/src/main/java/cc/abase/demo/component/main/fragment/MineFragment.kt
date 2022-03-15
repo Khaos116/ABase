@@ -37,6 +37,7 @@ import cc.abase.demo.component.update.CcUpdateService
 import cc.abase.demo.component.update.UpdateEnum
 import cc.abase.demo.component.verification.VerificationFragment
 import cc.abase.demo.component.video.VideoCompressActivity
+import cc.abase.demo.component.web.HtmlFragment
 import cc.abase.demo.component.zxing.ZxingActivity
 import cc.abase.demo.constants.EventKeys
 import cc.abase.demo.databinding.FragmentMineBinding
@@ -102,6 +103,7 @@ class MineFragment : CommBindFragment<FragmentMineBinding>() {
     Pair(R.string.BottomSheetDialog.xmlToString(), BottomSheetActivity::class.java),
     Pair(R.string.Coil特殊图片加载.xmlToString(), CoilFragment::class.java),
     Pair(R.string.滑动验证码.xmlToString(), VerificationFragment::class.java),
+    Pair(R.string.Html代码加载.xmlToString(), HtmlFragment::class.java),
     Pair(R.string.测试专用页面.xmlToString(), TestActivity::class.java),
   )
   //</editor-fold>
