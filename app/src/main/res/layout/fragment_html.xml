@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  android:orientation="vertical">
+
+  <include
+    android:id="@+id/flTitle"
+    layout="@layout/layout_comm_title" />
+  <!--由于XML加载WebView导致出错，所以放到代码中加载-->
+  <FrameLayout
+    android:id="@+id/flWebView2"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" />
+</LinearLayout>
