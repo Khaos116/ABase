@@ -1,4 +1,4 @@
-☆☆注：需要java运行环境☆☆
+☆☆注：需要java运行环境 https://blog.csdn.net/qq_39420519/article/details/118554055☆☆
 1.将签名放入本文件夹
 2.修改"aab转apks.bat"的apk和签名信息
 3.将打包好的abb文件放入本文件夹
