@@ -34,7 +34,7 @@ for %%i in (*.apk) do (
 	echo %date%_%time%  新APK=%~dp0%%~ni%suffix2%%suffix%.apk
 	echo=
 	::APK对齐，使APP在安卓系统中运行速度更快
-  zipalign -v 4 %%~fi %~dp0%%~ni%suffix2%.apk
+  	zipalign -v 4 %%~fi %~dp0%%~ni%suffix2%.apk
 	::执行V2签名写入
 	java -jar apksigner.jar sign  --ks %jksFile%  --ks-key-alias %keyAlias%  --ks-pass pass:%storePassword%  --key-pass pass:%keyPassword%  --out %~dp0%%~ni%suffix2%%suffix%.apk  %~dp0%%~ni%suffix2%.apk
 	echo=
