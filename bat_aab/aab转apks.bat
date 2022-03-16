@@ -25,8 +25,8 @@ for %%i in (*.aab) do (
     echo %date%_%time%  KeyStore密码=%storePassword%
     echo %date%_%time%  Alias对应密码=%keyPassword%
     echo=
-    echo %date%_%time%  原APK=%%~fi
-    echo %date%_%time%  新APK=%~dp0%%~ni%suffix2%%suffix%.apks
+    echo %date%_%time%  原aab=%%~fi
+    echo %date%_%time%  新APKS=%~dp0%%~ni%suffix2%%suffix%.apks
     echo=
     ::执行aab转apks
     ::java -jar bundletool.jar build-apks --bundle="(需要安装的aab路径)xxx.aab" --output="(输出的apks路径)xxx.apks" --overwrite --ks="xxx.keystore" --ks-pass="pass:keystore密钥" --ks-key-alias="别名" --key-pass="pass:别名密钥"
