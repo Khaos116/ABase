@@ -233,7 +233,7 @@ android.applicationVariants.all { variant ->
             }
             //开启线程，在打包完成后20秒杀掉JDK，防止下次运行出现被占用的情况
             def isJenkins = IS_JENKINS ?: false
-            if (!isJenkins) {
+            if (isJenkins.toString() == "false") {
                 new Thread() {
                     @Override
                     void run() {
