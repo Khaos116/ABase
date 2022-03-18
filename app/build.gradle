@@ -182,15 +182,19 @@ android.applicationVariants.all { variant ->
             String bundleFinalizeTaskName = "sign${flavorsName.toUpperCase()}${typeName}Bundle"
             //参考 https://stackoverflow.com/questions/52508720/how-to-change-the-generated-filename-for-app-bundles-with-gradle
             tasks.named(bundleFinalizeTaskName, FinalizeBundleTask.class) {
-                //编译时间
-                String buildEndTime = "${new Date().format("yyyyMMdd_HHmm")}"
-                String aabFileName = "${appName}_${flavorsName}_${typeName}_${versionName}_${buildEndTime}.aab"
-                File aabDir = new File("${getProjectDir().getParentFile().getPath()}/AAB/${flavorsName}/${typeName}")
-                if (!aabDir.exists()) aabDir.mkdirs()
-                File finalFile = new File(aabDir.getPath(), aabFileName)
-                finalBundleFile.set(finalFile)
+                File bundleFile = finalBundleFile.asFile.get()
                 doLast {
+                    //编译时间
+                    String buildEndTime = "${new Date().format("yyyyMMdd_HHmm")}"
+                    String aabFileName = "${appName}_${flavorsName}_${typeName}_${versionName}_${buildEndTime}.aab"
+                    File aabDir = new File("${getProjectDir().getParentFile().getPath()}/AAB/${flavorsName}/${typeName}")
+                    if (!aabDir.exists()) aabDir.mkdirs()
                     println "bundle编译结束=$aabFileName"
+                    project.copy {
+                        from("${bundleFile}")
+                        into("${aabDir.path}")
+                        rename("${bundleFile.name}", "${aabFileName}")
+                    }
                     new Thread() {
                         @Override
                         void run() {
