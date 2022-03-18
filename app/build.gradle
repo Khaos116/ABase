@@ -1,3 +1,5 @@
+import com.android.build.gradle.internal.tasks.FinalizeBundleTask
+
 plugins {
     id 'com.android.application'
     id 'kotlin-android'
@@ -25,7 +27,7 @@ android {
         resValue "string", "bugly_app_id", rootProject.ext.android.buglyIdS1
         resValue "string", "app_name", rootProject.ext.android.applicationName
         resValue "string", "build_time", rootProject.ext.android.buildTime
-        buildConfigField "boolean", "APP_IS_RELEASE", "false"
+        resValue "string", "channel", "s1"
         //允许使用SVG
         //vectorDrawables.useSupportLibrary = true
         multiDexEnabled true
@@ -64,7 +66,6 @@ android {
             resValue "string", "bugly_app_id", rootProject.ext.android.buglyIdS1
             resValue "string", "app_name", "${rootProject.ext.android.applicationName}-S1"
             resValue "string", "channel", "s1"
-            buildConfigField "boolean", "APP_IS_RELEASE", "false"
             //让IDE知道ksp生成的kotlin代码
             kotlin {
                 sourceSets.debug {
@@ -82,7 +83,6 @@ android {
             resValue "string", "bugly_app_id", rootProject.ext.android.buglyIdS2
             resValue "string", "app_name", "${rootProject.ext.android.applicationName}-S2"
             resValue "string", "channel", "s2"
-            buildConfigField "boolean", "APP_IS_RELEASE", "true"
             //让IDE知道ksp生成的kotlin代码
             kotlin {
                 sourceSets.debug {
@@ -137,6 +137,8 @@ android {
     //防止没有Temp
     File tempFile = new File("${getProjectDir().getParentFile().getPath()}/APK/Temp")
     if (!tempFile.exists()) tempFile.mkdirs()
+    File tempFile2 = new File("${getProjectDir().getParentFile().getPath()}/AAB/Temp")
+    if (!tempFile2.exists()) tempFile2.mkdirs()
 }
 
 //RxHttp ksp传参方式 https://github.com/liujingxing/okhttp-RxHttp
@@ -174,64 +176,75 @@ android.applicationVariants.all { variant ->
         //渠道名称
         String flavorsName = variant.productFlavors[0].name
         //应用名称
-        String apkName = "${rootProject.ext.android.applicationName}"
-        //是否不包含内存泄漏工具
-        boolean noTestTools = rootProject.ext.debugNoLeakcanaryAndCopy2ApkDir == "true"
-        //修改默认apk名称
-        String errorApkName = ""
-        if (flavorsName.toLowerCase().contains("s1") && typeName == "Release") {
-            delete("${output.outputFile}")
-            errorApkName = "禁止构建测试渠道的正式包.apk"
-            outputFileName = errorApkName
-        } else if (flavorsName.toLowerCase().contains("s2") && typeName == "Debug") {
-            delete("${output.outputFile}")
-            errorApkName = "禁止构建正式渠道的测试包.apk"
-            outputFileName = errorApkName
-        } else {
-            outputFileName = "${apkName}_${flavorsName}_${versionName}.apk"
+        String appName = "${rootProject.ext.android.applicationName}"
+        //AAB文件只处理正式版
+        if (typeName == "Release") {
+            String bundleFinalizeTaskName = "sign${flavorsName.toUpperCase()}${typeName}Bundle"
+            //参考 https://stackoverflow.com/questions/52508720/how-to-change-the-generated-filename-for-app-bundles-with-gradle
+            tasks.named(bundleFinalizeTaskName, FinalizeBundleTask.class) {
+                //编译时间
+                String buildEndTime = "${new Date().format("yyyyMMdd_HHmm")}"
+                String aabFileName = "${appName}_${flavorsName}_${typeName}_${versionName}_${buildEndTime}.aab"
+                File aabDir = new File("${getProjectDir().getParentFile().getPath()}/AAB/${flavorsName}/${typeName}")
+                if (!aabDir.exists()) aabDir.mkdirs()
+                File finalFile = new File(aabDir.getPath(), aabFileName)
+                finalBundleFile.set(finalFile)
+                doLast {
+                    println "bundle编译结束=$aabFileName"
+                    new Thread() {
+                        @Override
+                        void run() {
+                            sleep(20 * 1000)
+                            File tempFile = new File("${getProjectDir().getParentFile().getPath()}/AAB/Temp")
+                            if (tempFile.exists() && tempFile.isDirectory()) tempFile.deleteDir()
+                            String cmd = "taskkill /f /t /im java.exe"
+                            cmd.execute().text.trim()
+                        }
+                    }.start()
+                }
+            }
         }
-        //打包完成后的重命名和拷贝
+        //打包APK完成后的重命名和拷贝
         assemble.doLast {
             //编译完成的时间
-            String buildEndTime = "${new Date().format("MMddHHmm")}"
-            String fileName = ""
-            if (errorApkName.isBlank()) {
-                fileName = "${apkName}_${flavorsName}_${versionName}_${buildEndTime}.apk"
-            } else {
-                fileName = errorApkName
-            }
+            String buildEndTime = "${new Date().format("yyyyMMdd_HHmm")}"
+            String apkFileName = "${appName}_${flavorsName}_${typeName}_${versionName}_${buildEndTime}.apk"
+            println "assemble编译结束=$apkFileName"
             //把正式版拷贝到项目APK目录
-            if (typeName == "Release" || noTestTools) {
+            if (typeName == "Release") {
                 //创建APK目录(APK+渠道名称)
-                File apkFile = new File("${getProjectDir().getParentFile().getPath()}/APK/${flavorsName}/${typeName}")
-                if (!apkFile.exists()) apkFile.mkdirs()
+                File apkDir = new File("${getProjectDir().getParentFile().getPath()}/APK/${flavorsName}/${typeName}")
+                if (!apkDir.exists()) apkDir.mkdirs()
                 project.copy {
                     from("${output.outputFile}")
-                    into("${apkFile.path}")
-                    rename("${output.outputFile.name}", "${fileName}")
+                    into("${apkDir.path}")
+                    rename("${output.outputFile.name}", "${apkFileName}")
                 }
             } else {
                 //默认运行生成的apk
-                File apkFileDebug = new File("${getProjectDir().getParentFile().getPath()}/APK/Debug")
-                if (apkFileDebug.exists()) apkFileDebug.deleteDir()
-                apkFileDebug.mkdirs()
+                File apkDirDebug = new File("${getProjectDir().getParentFile().getPath()}/APK/Debug")
+                if (apkDirDebug.exists()) apkDirDebug.deleteDir()
+                apkDirDebug.mkdirs()
                 project.copy {
                     from("${output.outputFile}")
-                    into("${apkFileDebug.path}")
-                    rename("${output.outputFile.name}", "${fileName}")
+                    into("${apkDirDebug.path}")
+                    rename("${output.outputFile.name}", "${apkFileName}")
                 }
             }
             //开启线程，在打包完成后20秒杀掉JDK，防止下次运行出现被占用的情况
-            new Thread() {
-                @Override
-                void run() {
-                    sleep(20 * 1000)
-                    File tempFile = new File("${getProjectDir().getParentFile().getPath()}/APK/Temp")
-                    if (tempFile.exists() && tempFile.isDirectory()) tempFile.deleteDir()
-                    String cmd = "taskkill /f /t /im java.exe"
-                    cmd.execute().text.trim()
-                }
-            }.start()
+            def isJenkins = IS_JENKINS ?: false
+            if (!isJenkins) {
+                new Thread() {
+                    @Override
+                    void run() {
+                        sleep(20 * 1000)
+                        File tempFile = new File("${getProjectDir().getParentFile().getPath()}/APK/Temp")
+                        if (tempFile.exists() && tempFile.isDirectory()) tempFile.deleteDir()
+                        String cmd = "taskkill /f /t /im java.exe"
+                        cmd.execute().text.trim()
+                    }
+                }.start()
+            }
         }
     }
 }
@@ -245,7 +258,6 @@ dependencies {
     implementation project(':ablibrary')
     implementation project(':silicompressor')
     debugImplementation Deps.leakcanary
-    //implementation project(':shelllib')
     implementation Deps.walle
     implementation Deps.emoji
     implementation Deps.dk_java
