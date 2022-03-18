@@ -24,7 +24,7 @@ object AppInfoUtils {
       .append("Emulator1：").append(EmulatorDetectUtil.isEmulator(Utils.getApp()).toString()).append("\n")
       .append("Emulator2：").append(DeviceUtils.isEmulator().toString()).append("\n")
       .append("UUID：").append(DeviceUtils.getUniqueDeviceId()).append("\n")
-      .append("Release：").append(BuildConfig.APP_IS_RELEASE.toString()).append("\n")
+      .append("Release：").append((!BuildConfig.DEBUG).toString()).append("\n")
       .append("BuildTime：").append(StringUtils.getString(R.string.build_time)).append("\n")
       .append("VersionName：").append(AppUtils.getAppVersionName()).append("\n")
       .append("VersionCode：").append(AppUtils.getAppVersionCode().toString()).append("\n")

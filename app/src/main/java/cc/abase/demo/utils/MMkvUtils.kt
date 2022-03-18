@@ -23,7 +23,7 @@ object MMkvUtils {
   //<editor-fold defaultstate="collapsed" desc="域名地址(解决动态替换域名问题)">
   private const val APP_BASE_URL = "KKMV_KEY_APP_BASE_URL"
   fun getBaseUrl(): String {
-    return mMMKVDefault?.decodeString(APP_BASE_URL) ?: if (BuildConfig.APP_IS_RELEASE) ApiUrl.baseUrlRelease else ApiUrl.baseUrlDebug
+    return mMMKVDefault?.decodeString(APP_BASE_URL) ?: if (!BuildConfig.DEBUG) ApiUrl.baseUrlRelease else ApiUrl.baseUrlDebug
   }
 
   fun setBaseUrl(url: String?) {

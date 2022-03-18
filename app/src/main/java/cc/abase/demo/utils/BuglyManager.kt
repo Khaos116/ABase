@@ -25,7 +25,7 @@ object BuglyManager {
     CrashReport.putUserData(application, "Emulator1", EmulatorDetectUtil.isEmulator(application).toString())
     CrashReport.putUserData(application, "Emulator2", DeviceUtils.isEmulator().toString())
     CrashReport.putUserData(application, "UUID", DeviceUtils.getUniqueDeviceId())
-    CrashReport.putUserData(application, "Release", "${BuildConfig.APP_IS_RELEASE}")
+    CrashReport.putUserData(application, "Release", "${!BuildConfig.DEBUG}")
     CrashReport.putUserData(application, "BuildTime", R.string.build_time.xmlToString())
     CrashReport.putUserData(application, "VersionName", AppUtils.getAppVersionName())
     CrashReport.putUserData(application, "VersionCode", "${AppUtils.getAppVersionCode()}")
