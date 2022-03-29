@@ -57,12 +57,25 @@ android {
     flavorDimensions "default"
     //公开发布商店渠道配置
     productFlavors {
+        //是否是jenkins打包
+        def isJenkins = IS_JENKINS ?: false
+        //版本名称
+        def vName = VERSION_NAME
+        //版本code
+        def vCode = VERSION_CODE
+        if (vCode == null || !vCode.isInteger()) {
+            vCode = null
+        }
+        if (isJenkins.toString() == "false") {
+            vName = null
+            vCode = null
+        }
         //渠道s1
         s1 {
             dimension "default"
             applicationIdSuffix ".s1"
-            versionCode rootProject.ext.android.versionCodeS1
-            versionName rootProject.ext.android.versionNameS1
+            versionCode vCode ? vCode as int : rootProject.ext.android.versionCodeS1
+            versionName vName ? vName : rootProject.ext.android.versionNameS1
             resValue "string", "bugly_app_id", rootProject.ext.android.buglyIdS1
             resValue "string", "app_name", "${rootProject.ext.android.applicationName}-S1"
             resValue "string", "channel", "s1"
@@ -78,8 +91,8 @@ android {
         s2 {
             dimension "default"
             applicationIdSuffix ".s2"
-            versionCode rootProject.ext.android.versionCodeS2
-            versionName rootProject.ext.android.versionNameS2
+            versionCode vCode ? vCode as int : rootProject.ext.android.versionCodeS2
+            versionName vName ? vName : rootProject.ext.android.versionNameS2
             resValue "string", "bugly_app_id", rootProject.ext.android.buglyIdS2
             resValue "string", "app_name", "${rootProject.ext.android.applicationName}-S2"
             resValue "string", "channel", "s2"
