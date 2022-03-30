@@ -7,7 +7,7 @@ import android.text.Spanned
  * 金额输入限制
  * https://blog.csdn.net/guangdeshishe/article/details/93888388
  * 使用方法：editText.filters = arrayOf(MoneyInputFilter())
- * Author:CASE
+ * Author:Khaos116
  * Date:2021/11/11
  * Time:19:32
  */

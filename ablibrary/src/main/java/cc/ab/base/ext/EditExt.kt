@@ -21,7 +21,7 @@ import kotlinx.coroutines.launch
  * @param time 抖动间隔时间，毫秒
  * @param onStart 是否添加马上回调(主要用于一进入页面就有搜索内容的情况)
  * @param afterChange 输入内容定期回调
- * @author: CASE
+ * @author: Khaos116
  * @date: 2019/10/10 22:35
  */
 @OptIn(InternalCoroutinesApi::class, FlowPreview::class)

@@ -17,7 +17,7 @@ import kotlin.math.min
  * Resources.getSystem().displayMetrics.density
  * Application.resources.displayMetrics.density
  * 注：需要测试一下变量直接采用dp2px拿到的值对不对(调用fixInApplicationOnCreate之后应该是对了的)
- * Author:CASE
+ * Author:Khaos116
  * Date:2021/11/25
  * Time:14:43
  */
