@@ -512,13 +512,14 @@ class SimpleViewpagerIndicator @JvmOverloads constructor(
 
     override fun onPageSelected(position: Int) {
       if (position == mNoClickPosition) {
+        mNoClickCall?.invoke()
         if (position > selectedPosition) { //往左滑,向右选中
           val mAdapter = viewPager.adapter
           var count = 0
           if (mAdapter != null) count = mAdapter.count
           if (position + 1 < count) viewPager.currentItem = position + 1
         } else if (position < selectedPosition) { //往右滑，向左选中
-          if (position > 0) viewPager.currentItem = position - 1
+          if (position > 0) viewPager.currentItem = position - 1 else viewPager.currentItem = 1
         }
         return
       }
