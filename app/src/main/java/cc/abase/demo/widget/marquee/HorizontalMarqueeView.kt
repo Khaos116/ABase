@@ -61,6 +61,7 @@ class HorizontalMarqueeView : FrameLayout, LifecycleObserver {
   fun setNewDatas(list: MutableList<String>) {
     mAdapter.setNewDatas(list)
     postDelayed({ startScroll() }, 100)
+    if (mLifecycle == null) setLifecycleOwner(getMyLifecycleOwner())
   }
 
   //添加新数据
