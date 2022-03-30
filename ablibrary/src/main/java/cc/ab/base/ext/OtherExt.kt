@@ -98,6 +98,7 @@ fun Throwable?.toast() {
 //找到所有子fragment
 fun Fragment.getAllChildFragments(): MutableList<Fragment> {
   val list = mutableListOf<Fragment>()
+  if (!this.isAdded) return list
   val fragments = this.childFragmentManager.fragments
   if (fragments.isNotEmpty()) {
     list.addAll(fragments)
