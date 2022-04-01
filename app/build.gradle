@@ -113,12 +113,16 @@ android {
             storePassword STORE_PASSWORD_ABASE
             keyAlias KEY_ALIAS_ABASE
             keyPassword KEY_PASSWORD_ABASE
+            v1SigningEnabled true
+            v2SigningEnabled true
         }
         release {
             storeFile file(STORE_FILE_ABASE)
             storePassword STORE_PASSWORD_ABASE
             keyAlias KEY_ALIAS_ABASE
             keyPassword KEY_PASSWORD_ABASE
+            v1SigningEnabled true
+            v2SigningEnabled true
         }
     }
 
