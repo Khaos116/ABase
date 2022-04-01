@@ -178,7 +178,7 @@ class SimpleViewpagerIndicator2 @JvmOverloads constructor(
     tabsContainer.removeAllViews()
     tabCount = viewPager.adapter?.count ?: 0
     //创建tab并添加到tabsContainer中
-    for (i in 0 until tabCount) addTab(i, viewPager.adapter?.getPageTitle(i).toString() ?: "")
+    for (i in 0 until tabCount) addTab(i, viewPager.adapter?.getPageTitle(i)?.toString() ?: "")
     //遍历tab，设置tab文字大小和样式
     updateTextStyle()
     //滚动scrollView
