@@ -3,9 +3,7 @@ package cc.ab.base.ui.fragment
 import android.app.Activity
 import android.content.Context
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.FrameLayout
 import androidx.fragment.app.Fragment
 import androidx.viewbinding.ViewBinding
@@ -109,5 +107,13 @@ abstract class BaseBindFragment<T : ViewBinding> : Fragment() {
 
   //<editor-fold defaultstate="collapsed" desc="子类公共方法">
   open fun scroll2Top() {}
+
+  open fun onBackPress(): Boolean {
+    return false
+  }
+
+  open fun dispatchTouchEvent(ev: MotionEvent?): Boolean {
+    return false
+  }
   //</editor-fold>
 }

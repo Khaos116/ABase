@@ -3,7 +3,9 @@ package cc.abase.demo.component.comm
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.view.MotionEvent
 import androidx.fragment.app.Fragment
+import cc.ab.base.ui.fragment.BaseBindFragment
 import cc.abase.demo.databinding.ActivityFragmentParentBinding
 import com.blankj.utilcode.util.ActivityUtils
 
@@ -44,6 +46,28 @@ class FragmentParentActivity : CommBindActivity<ActivityFragmentParentBinding>()
       mFragmentName = c.name ?: ""
       supportFragmentManager.beginTransaction().replace(viewBinding.container.id, c, intent.extras).commitNowAllowingStateLoss()
     }
+  }
+  //</editor-fold>
+
+  //<editor-fold defaultstate="collapsed" desc="获取fragment">
+  fun getCurrentFragment(): Fragment? {
+    return supportFragmentManager.fragments.firstOrNull()
+  }
+  //</editor-fold>
+
+  //<editor-fold defaultstate="collapsed" desc="返回键单独处理">
+  override fun onBackPressed() {
+    val fragment = supportFragmentManager.fragments.firstOrNull()
+    if (fragment is BaseBindFragment<*> && fragment.onBackPress()) return
+    super.onBackPressed()
+  }
+  //</editor-fold>
+
+  //<editor-fold defaultstate="collapsed" desc="交给子类处理点击事件">
+  override fun dispatchTouchEvent(ev: MotionEvent?): Boolean {
+    val childDeal = (getCurrentFragment() as? CommBindFragment<*>)?.dispatchTouchEvent(ev) ?: false
+    if (childDeal) return true
+    return super.dispatchTouchEvent(ev)
   }
   //</editor-fold>
 }
