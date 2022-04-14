@@ -36,7 +36,7 @@ object PressEffectHelper {
       val width = view.width
       val height = view.height
       val contains =
-          rawX > location[0] && rawX < location[0] + width && rawY > location[1] && rawY < location[1] + height
+        rawX > location[0] && rawX < location[0] + width && rawY > location[1] && rawY < location[1] + height
       when (event.action) {
         MotionEvent.ACTION_DOWN -> {
           isDown = true
@@ -99,65 +99,65 @@ object PressEffectHelper {
    * 按下改变背景色的效果
    */
   fun bgColorEffect(
-      view: View,
-      bgColor: Int = Color.parseColor("#f7f7f7"),
-      topLeftRadiusDp: Float = 0f,
-      topRightRadiusDp: Float = 0f,
-      bottomRightRadiusDp: Float = 0f,
-      bottomLeftRadiusDp: Float = 0f
+    view: View,
+    bgColor: Int = Color.parseColor("#f7f7f7"),
+    topLeftRadiusDp: Float = 0f,
+    topRightRadiusDp: Float = 0f,
+    bottomRightRadiusDp: Float = 0f,
+    bottomLeftRadiusDp: Float = 0f
   ) {
     val originalBgColor = view.background
     val pressDrawable: Drawable =
-        if (topLeftRadiusDp == 0f && topRightRadiusDp == 0f && bottomLeftRadiusDp == 0f && bottomRightRadiusDp == 0f) {
-          ColorDrawable(bgColor)
-        } else {
-          val gradientDrawable = GradientDrawable()
-          gradientDrawable.setColor(bgColor)
-          gradientDrawable.cornerRadii =
-              floatArrayOf(
-                  if (topLeftRadiusDp != 0.0f) {
-                    SizeUtils.dp2px(8.0f).toFloat()
-                  } else {
-                    0.0f
-                  }, //top-left-x
-                  if (topLeftRadiusDp != 0.0f) {
-                    SizeUtils.dp2px(8.0f).toFloat()
-                  } else {
-                    0.0f
-                  }, //top-left-y
-                  if (topRightRadiusDp != 0.0f) {
-                    SizeUtils.dp2px(8.0f).toFloat()
-                  } else {
-                    0.0f
-                  }, //top-right-x
-                  if (topRightRadiusDp != 0.0f) {
-                    SizeUtils.dp2px(8.0f).toFloat()
-                  } else {
-                    0.0f
-                  }, //top-right-y
-                  if (bottomRightRadiusDp != 0.0f) {
-                    SizeUtils.dp2px(8.0f).toFloat()
-                  } else {
-                    0.0f
-                  }, //bottom-right-y
-                  if (bottomRightRadiusDp != 0.0f) {
-                    SizeUtils.dp2px(8.0f).toFloat()
-                  } else {
-                    0.0f
-                  }, //bottom-right-y
-                  if (bottomLeftRadiusDp != 0.0f) {
-                    SizeUtils.dp2px(8.0f).toFloat()
-                  } else {
-                    0.0f
-                  }, //bottom-left-x
-                  if (bottomLeftRadiusDp != 0.0f) {
-                    SizeUtils.dp2px(8.0f).toFloat()
-                  } else {
-                    0.0f
-                  } //bottom-left-y
-              )
-          gradientDrawable
-        }
+      if (topLeftRadiusDp == 0f && topRightRadiusDp == 0f && bottomLeftRadiusDp == 0f && bottomRightRadiusDp == 0f) {
+        ColorDrawable(bgColor)
+      } else {
+        val gradientDrawable = GradientDrawable()
+        gradientDrawable.setColor(bgColor)
+        gradientDrawable.cornerRadii =
+          floatArrayOf(
+            if (topLeftRadiusDp != 0.0f) {
+              SizeUtils.dp2px(topLeftRadiusDp).toFloat()
+            } else {
+              0.0f
+            }, //top-left-x
+            if (topLeftRadiusDp != 0.0f) {
+              SizeUtils.dp2px(topLeftRadiusDp).toFloat()
+            } else {
+              0.0f
+            }, //top-left-y
+            if (topRightRadiusDp != 0.0f) {
+              SizeUtils.dp2px(topRightRadiusDp).toFloat()
+            } else {
+              0.0f
+            }, //top-right-x
+            if (topRightRadiusDp != 0.0f) {
+              SizeUtils.dp2px(topRightRadiusDp).toFloat()
+            } else {
+              0.0f
+            }, //top-right-y
+            if (bottomRightRadiusDp != 0.0f) {
+              SizeUtils.dp2px(bottomRightRadiusDp).toFloat()
+            } else {
+              0.0f
+            }, //bottom-right-y
+            if (bottomRightRadiusDp != 0.0f) {
+              SizeUtils.dp2px(bottomRightRadiusDp).toFloat()
+            } else {
+              0.0f
+            }, //bottom-right-y
+            if (bottomLeftRadiusDp != 0.0f) {
+              SizeUtils.dp2px(bottomLeftRadiusDp).toFloat()
+            } else {
+              0.0f
+            }, //bottom-left-x
+            if (bottomLeftRadiusDp != 0.0f) {
+              SizeUtils.dp2px(bottomLeftRadiusDp).toFloat()
+            } else {
+              0.0f
+            } //bottom-left-y
+          )
+        gradientDrawable
+      }
     view.setOnTouchListener { v, event ->
       if (System.currentTimeMillis() - time < 200) {
         return@setOnTouchListener true
@@ -169,7 +169,7 @@ object PressEffectHelper {
       val width = view.width
       val height = view.height
       val contains =
-          rawX > location[0] && rawX < location[0] + width && rawY > location[1] && rawY < location[1] + height
+        rawX > location[0] && rawX < location[0] + width && rawY > location[1] && rawY < location[1] + height
       when (event.action) {
         MotionEvent.ACTION_DOWN -> {
           isDown = true
