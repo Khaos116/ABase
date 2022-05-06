@@ -2,7 +2,6 @@ package cc.ab.base.ext
 
 import android.content.Intent
 import android.net.Uri
-import android.view.Gravity
 import coil.util.CoilUtils
 import com.blankj.utilcode.util.*
 import okhttp3.Cache
@@ -43,14 +42,14 @@ inline fun String?.logD() {
 inline fun CharSequence?.toast() {
   if (!this.isNullOrBlank() && AppUtils.isAppForeground() && this.toString().lowercase() != "null") {
     ToastUtils.cancel()
-    ToastUtils.make().setGravity(Gravity.CENTER, 0, 0).show(this)
+    ToastUtils.showShort(this)
   }
 }
 
 inline fun CharSequence?.toastLong() {
   if (!this.isNullOrBlank() && AppUtils.isAppForeground() && this.toString().lowercase() != "null") {
     ToastUtils.cancel()
-    ToastUtils.make().setDurationIsLong(true).setGravity(Gravity.CENTER, 0, 0).show(this)
+    ToastUtils.showLong(this)
   }
 }
 
