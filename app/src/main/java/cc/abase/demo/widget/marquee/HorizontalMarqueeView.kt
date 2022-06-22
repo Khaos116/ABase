@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Color
 import android.graphics.Typeface
+import android.text.Html
 import android.util.AttributeSet
 import android.util.TypedValue
 import android.view.*
@@ -122,12 +123,16 @@ class HorizontalMarqueeView : FrameLayout, LifecycleObserver {
       it.layoutParams = ViewGroup.LayoutParams(-2, -1)
       it.addView(TextView(it.context).also { tv ->
         tv.setTextColor(mTextColor)
+        tv.maxLines = 1
         tv.gravity = Gravity.CENTER_VERTICAL
         tv.setTextSize(TypedValue.COMPLEX_UNIT_SP, mTextSizeSp)
         tv.setBackgroundColor(mTextColorBg)
         if (mTextBold) tv.typeface = Typeface.defaultFromStyle(Typeface.BOLD)
         tv.setPadding(5.dp2px(), 0, 5.dp2px(), 0)
-      }, MarginLayoutParams(-2, -1).also { p -> p.marginEnd = 20.dp2px() })
+      }, FrameLayout.LayoutParams(-2, -1).also { p -> 
+         p.gravity = Gravity.CENTER_VERTICAL
+         p.marginEnd = 20.dp2px() 
+      })
     })
 
     //绑定数据
@@ -154,7 +159,11 @@ class HorizontalMarqueeView : FrameLayout, LifecycleObserver {
     fun fillData(item: String): MarqueeViewHolder.() -> Unit = {
       if (containerView is MarqueeItemLayout && containerView.childCount > 0) {
         (containerView.getChildAt(0) as? TextView)?.let { tv ->
-          tv.text = item
+          if (item.contains("<p") && item.contains("/p>")) {
+            tv.text = Html.fromHtml(item)
+          } else {
+            tv.text = item
+          }
         }
       }
     }
