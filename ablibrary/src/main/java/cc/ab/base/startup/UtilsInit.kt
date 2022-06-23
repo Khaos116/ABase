@@ -5,6 +5,7 @@ import android.content.Context
 import android.view.Gravity
 import cc.ab.base.config.PathConfig
 import cc.ab.base.ext.logI
+import cc.ab.base.utils.MyGsonUtil
 import com.blankj.utilcode.util.*
 import com.rousetime.android_startup.AndroidStartup
 
@@ -27,6 +28,8 @@ class UtilsInit : AndroidStartup<Int>() {
     Utils.init(context.applicationContext as Application)
     ToastUtils.getDefaultMaker().setGravity(Gravity.CENTER, 0, 0)//默认在底部，改为居中
     CrashUtils.init(PathConfig.CRASH_CACHE_DIR)
+    GsonUtils.setGsonDelegate(MyGsonUtil.buildGson())
+    GsonUtils.setGson("logUtilsGson", MyGsonUtil.buildGson())
     "初始化完成".logI()
     return 0
   }

@@ -42,6 +42,7 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     debugImplementation Deps.uinspector
+    compileOnly(Deps.rxhttp)
     api Deps.kotlin_stdlib
     api Deps.timber
     api Deps.android_startup
