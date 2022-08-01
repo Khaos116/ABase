@@ -63,11 +63,13 @@
 
   <!--圆角ConstraintLayout(可以单独设置每个角，但是不抗锯齿，如果四个角一致，使用GeneralRoundConstraintLayout即可)-->
   <declare-styleable name="RoundConstraintLayout">
-    <attr name="corner" format="dimension"/>
-    <attr name="leftTopCorner" format="dimension"/>
-    <attr name="rightTopCorner" format="dimension"/>
-    <attr name="leftBottomCorner" format="dimension"/>
-    <attr name="rightBottomCorner" format="dimension"/>
+    <attr name="radius_size" format="dimension" />
+    <attr name="radius_left_top_enable" format="boolean" />
+    <attr name="radius_left_bottom_enable" format="boolean" />
+    <attr name="radius_right_top_enable" format="boolean" />
+    <attr name="radius_right_bottom_enable" format="boolean" />
+    <attr name="stroke_width" format="dimension" />
+    <attr name="stroke_color" format="color" />
   </declare-styleable>
 
   <!--ShapeOfView-->
