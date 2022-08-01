@@ -109,11 +109,20 @@ abstract class BaseBindFragment<T : ViewBinding> : Fragment() {
   open fun scroll2Top() {}
 
   open fun onBackPress(): Boolean {
+    val childDeal = (getCurrentFragment() as? BaseBindFragment<*>)?.onBackPress() ?: false
+    if (childDeal) return true
     return false
   }
 
-  open fun dispatchTouchEvent(ev: MotionEvent?): Boolean {
+  //<editor-fold defaultstate="collapsed" desc="触摸传递">
+  open fun dispatchChildTouchEvent(ev: MotionEvent?): Boolean {
+    val childDeal = (getCurrentFragment() as? BaseBindFragment<*>)?.dispatchChildTouchEvent(ev) ?: false
+    if (childDeal) return true
     return false
+  }
+
+  open fun getCurrentFragment(): Fragment? {
+    return childFragmentManager.fragments.firstOrNull { f -> f.isAdded && f.isVisible && f.isResumed }
   }
   //</editor-fold>
 }

@@ -2,14 +2,13 @@ package cc.ab.base.ui.activity
 
 import android.os.Build
 import android.os.Bundle
-import android.view.ViewGroup
+import android.view.*
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import androidx.viewbinding.ViewBinding
 import cc.ab.base.databinding.BaseActivityBinding
-import cc.ab.base.ext.logE
-import cc.ab.base.ext.logI
-import cc.ab.base.ext.mContext
-import cc.ab.base.ext.visibleGone
+import cc.ab.base.ext.*
+import cc.ab.base.ui.fragment.BaseBindFragment
 import cc.ab.base.utils.FixResources
 import com.dylanc.viewbinding.base.ViewBindingUtil
 import com.dylanc.viewbinding.inflateBinding
@@ -88,15 +87,6 @@ abstract class BaseBindActivity<T : ViewBinding> : AppCompatActivity() {
   //是否需要默认填充状态栏,默认填充为白色view
   protected open fun fillStatus() = true
 
-  //解决Android Q内存泄漏，如果重写记得把这个逻辑抄下去
-  override fun onBackPressed() {
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) { //Android Q的bug https://blog.csdn.net/oLengYueZa/article/details/109207492
-      finishAfterTransition()
-    } else {
-      super.onBackPressed()
-    }
-  }
-
   //专门处理从桌面重新打开APP的BUG
   open fun isOpenAgainFromHome(): Boolean = false
   //</editor-fold>
@@ -120,5 +110,41 @@ abstract class BaseBindActivity<T : ViewBinding> : AppCompatActivity() {
   //<editor-fold defaultstate="collapsed" desc="子类必须重新的方法">
   //执行初始化
   protected abstract fun initView()
+  //</editor-fold>
+
+  //<editor-fold defaultstate="collapsed" desc="触摸传递">
+  //解决Android Q内存泄漏，如果重写记得把这个逻辑抄下去
+  override fun onBackPressed() {
+    val childDeal = (getCurrentFragment() as? BaseBindFragment<*>)?.onBackPress() ?: false
+    if (childDeal) return
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) { //Android Q的bug https://blog.csdn.net/oLengYueZa/article/details/109207492
+      finishAfterTransition()
+    } else {
+      super.onBackPressed()
+    }
+  }
+
+  override fun dispatchTouchEvent(ev: MotionEvent?): Boolean {
+    val childDeal = (getCurrentFragment() as? BaseBindFragment<*>)?.dispatchChildTouchEvent(ev) ?: false
+    if (childDeal) return true
+    return super.dispatchTouchEvent(ev)
+  }
+
+  open fun getCurrentFragment(): Fragment? {
+    return supportFragmentManager.fragments.firstOrNull { f -> f.isAdded && f.isVisible && f.isResumed }
+  }
+  //</editor-fold>
+
+  //<editor-fold defaultstate="collapsed" desc="是否点击到View的外面了">
+  // Return whether touch the view.
+  protected fun isTouchViewOut(v: View, event: MotionEvent): Boolean {
+    val l = intArrayOf(0, 0)
+    v.getLocationOnScreen(l)
+    val left = l[0]
+    val top = l[1]
+    val bottom = top + v.height
+    val right = left + v.width
+    return !(event.x > left && event.x < right && event.y > top && event.y < bottom)
+  }
   //</editor-fold>
 }

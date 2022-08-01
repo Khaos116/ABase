@@ -160,16 +160,5 @@ class ChatActivity : CommBindTitleActivity<ActivityChatBinding>() {
     }
     return super.dispatchTouchEvent(ev)
   }
-
-  // Return whether touch the view.
-  private fun isTouchViewOut(v: View, event: MotionEvent): Boolean {
-    val l = intArrayOf(0, 0)
-    v.getLocationInWindow(l)
-    val left = l[0]
-    val top = l[1]
-    val bottom = top + v.height
-    val right = left + v.width
-    return !(event.x > left && event.x < right && event.y > top && event.y < bottom)
-  }
   //</editor-fold>
 }

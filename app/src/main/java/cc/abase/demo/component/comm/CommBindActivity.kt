@@ -203,6 +203,8 @@ abstract class CommBindActivity<T : ViewBinding> : BaseBindActivity<T>() {
 
   //<editor-fold defaultstate="collapsed" desc="退出全屏">
   override fun onBackPressed() {
+    val childDeal = (getCurrentFragment() as? CommBindFragment<*>)?.onBackPress() ?: false
+    if (childDeal) return
     val lockView = findViewById<View>(xyz.doikki.videocontroller.R.id.lock)
     val loadingView = findViewById<View>(xyz.doikki.videocontroller.R.id.loading)
     if (lockView != null && loadingView != null && lockView.parent == loadingView.parent) {

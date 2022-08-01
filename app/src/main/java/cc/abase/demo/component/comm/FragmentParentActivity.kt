@@ -48,26 +48,4 @@ class FragmentParentActivity : CommBindActivity<ActivityFragmentParentBinding>()
     }
   }
   //</editor-fold>
-
-  //<editor-fold defaultstate="collapsed" desc="获取fragment">
-  fun getCurrentFragment(): Fragment? {
-    return supportFragmentManager.fragments.firstOrNull()
-  }
-  //</editor-fold>
-
-  //<editor-fold defaultstate="collapsed" desc="返回键单独处理">
-  override fun onBackPressed() {
-    val fragment = supportFragmentManager.fragments.firstOrNull()
-    if (fragment is BaseBindFragment<*> && fragment.onBackPress()) return
-    super.onBackPressed()
-  }
-  //</editor-fold>
-
-  //<editor-fold defaultstate="collapsed" desc="交给子类处理点击事件">
-  override fun dispatchTouchEvent(ev: MotionEvent?): Boolean {
-    val childDeal = (getCurrentFragment() as? CommBindFragment<*>)?.dispatchTouchEvent(ev) ?: false
-    if (childDeal) return true
-    return super.dispatchTouchEvent(ev)
-  }
-  //</editor-fold>
 }
