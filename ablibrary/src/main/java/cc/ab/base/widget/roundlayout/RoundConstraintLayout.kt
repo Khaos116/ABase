@@ -1,5 +1,5 @@
 package cc.ab.base.widget.roundlayout
-
+import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.*
 import android.util.AttributeSet
@@ -12,54 +12,135 @@ import cc.ab.base.R
  * 2.需要不同圆角，抗锯齿无所谓，选择RoundConstraintLayout【抗锯齿性能差】
  * 3.四个角圆角一致，选择GeneralRoundConstraintLayout【不支持单圆角设置】
  *
- * 原文说明：https://blog.csdn.net/ldld1717/article/details/106652831
- * 原文: https://github.com/leidongld/RoundCornerDemmo
+ * 原文: https://github.com/ttzt777/Android-Demo/blob/52e15a567eb60cbe06f6c715c54f5f0b123edfc5/app/src/main/java/cc/bear3/android/demo/view/round/RoundConstraintLayout.kt
  */
-class RoundConstraintLayout @kotlin.jvm.JvmOverloads constructor(c: Context, a: AttributeSet? = null, d: Int = 0) : ConstraintLayout(c, a, d) {
-  private var mCorners: Float = 0f
-  private var mLeftTopCorner: Float = 0f
-  private var mRightTopCorner: Float = 0f
-  private var mLeftBottomCorner: Float = 0f
-  private var mRightBottomCorner: Float = 0f
-  private var mWidth = 0
-  private var mHeight = 0
+@Suppress("MemberVisibilityCanBePrivate")
+@SuppressLint("CustomViewStyleable")
+class RoundConstraintLayout @JvmOverloads constructor(
+  context: Context,
+  attrs: AttributeSet? = null,
+  defStyleAttr: Int = 0
+) : ConstraintLayout(context, attrs, defStyleAttr) {
+
+  // 圆角弧度 px
+  var radius = 0f
+    set(value) {
+      field = value
+      createPath()
+      invalidate()
+    }
+
+  // 圆角各个角落的开放标志位
+  var leftTopEnable = true
+    set(value) {
+      field = value
+      createPath()
+      invalidate()
+    }
+  var leftBottomEnable = true
+    set(value) {
+      field = value
+      createPath()
+      invalidate()
+    }
+  var rightTopEnable = true
+    set(value) {
+      field = value
+      createPath()
+      invalidate()
+    }
+  var rightBottomEnable = true
+    set(value) {
+      field = value
+      createPath()
+      invalidate()
+    }
+
+  // 边框宽度
+  var strokeWidth = 0f
+    set(value) {
+      field = value
+      strokePaint.strokeWidth = field
+      invalidate()
+    }
+
+  // 边框颜色
+  var strokeColor = 0x00FF_FFFF
+    set(value) {
+      field = value
+      strokePaint.color = field
+      invalidate()
+    }
+
+  private val path by lazy {
+    Path()
+  }
+  private val strokePaint by lazy {
+    Paint(Paint.ANTI_ALIAS_FLAG).apply {
+      style = Paint.Style.STROKE
+      strokeWidth = this@RoundConstraintLayout.strokeWidth
+      color = strokeColor
+    }
+  }
+  private val filter by lazy { PaintFlagsDrawFilter(0, Paint.ANTI_ALIAS_FLAG or Paint.FILTER_BITMAP_FLAG) }
 
   init {
-    val typedArray = context.obtainStyledAttributes(a, R.styleable.RoundConstraintLayout)
-    mCorners = typedArray.getDimension(R.styleable.RoundConstraintLayout_corner, 0f)
-    mLeftTopCorner = typedArray.getDimension(R.styleable.RoundConstraintLayout_leftTopCorner, 0f)
-    mRightTopCorner = typedArray.getDimension(R.styleable.RoundConstraintLayout_rightTopCorner, 0f)
-    mRightBottomCorner = typedArray.getDimension(R.styleable.RoundConstraintLayout_rightBottomCorner, 0f)
-    mLeftBottomCorner = typedArray.getDimension(R.styleable.RoundConstraintLayout_leftBottomCorner, 0f)
-    typedArray.recycle()
-  }
+    attrs?.let {
+      val array = context.obtainStyledAttributes(attrs, R.styleable.RoundConstraintLayout)
 
-  override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
-    super.onMeasure(widthMeasureSpec, heightMeasureSpec)
-    mWidth = measuredWidth
-    mHeight = measuredHeight
-    setMeasuredDimension(mWidth, mHeight)
-  }
+      radius = array.getDimension(R.styleable.RoundConstraintLayout_radius_size, radius)
+      leftTopEnable = array.getBoolean(R.styleable.RoundConstraintLayout_radius_left_top_enable, leftTopEnable)
+      leftBottomEnable = array.getBoolean(R.styleable.RoundConstraintLayout_radius_left_bottom_enable, leftBottomEnable)
+      rightTopEnable = array.getBoolean(R.styleable.RoundConstraintLayout_radius_right_top_enable, rightTopEnable)
+      rightBottomEnable = array.getBoolean(R.styleable.RoundConstraintLayout_radius_right_bottom_enable, rightBottomEnable)
+      strokeWidth = array.getDimension(R.styleable.RoundConstraintLayout_stroke_width, strokeWidth)
+      strokeColor = array.getColor(R.styleable.RoundConstraintLayout_stroke_color, strokeColor)
 
-  private var mPath = Path()
-  private var mRectF = RectF()
-  override fun draw(canvas: Canvas) {
-    canvas.save()
-    mPath = Path()
-    mRectF = RectF(0f, 0f, mWidth.toFloat(), mHeight.toFloat())
-    if (mCorners > 0f) {
-      mPath.addRoundRect(mRectF, mCorners, mCorners, Path.Direction.CCW)
-    } else {
-      val radii = floatArrayOf(
-          mLeftTopCorner, mLeftTopCorner,
-          mRightTopCorner, mRightTopCorner,
-          mRightBottomCorner, mRightBottomCorner,
-          mLeftBottomCorner, mLeftBottomCorner
-      )
-      mPath.addRoundRect(mRectF, radii, Path.Direction.CCW)
+      array.recycle()
     }
-    canvas.clipPath(mPath)
-    super.draw(canvas)
-    canvas.restore()
+
+    //如果你继承的是ViewGroup,注意此行,否则draw方法是不会回调的
+    setWillNotDraw(false)
+  }
+
+  override fun onLayout(changed: Boolean, left: Int, top: Int, right: Int, bottom: Int) {
+    super.onLayout(changed, left, top, right, bottom)
+
+    createPath()
+  }
+
+  override fun onDraw(canvas: Canvas) {
+    if (radius > 0f && (leftTopEnable or leftBottomEnable or rightTopEnable or rightBottomEnable)) {
+      canvas.drawFilter = filter
+      canvas.clipPath(path)
+    }
+
+    super.onDraw(canvas)
+
+    if (strokeWidth > 0f) {
+      canvas.drawPath(path, strokePaint)
+    }
+  }
+
+  private fun createPath() {
+    path.reset()
+    val radiusArray = FloatArray(8)
+    if (leftTopEnable) {
+      radiusArray[0] = radius
+      radiusArray[1] = radius
+    }
+    if (rightTopEnable) {
+      radiusArray[2] = radius
+      radiusArray[3] = radius
+    }
+    if (rightBottomEnable) {
+      radiusArray[4] = radius
+      radiusArray[5] = radius
+    }
+    if (leftBottomEnable) {
+      radiusArray[6] = radius
+      radiusArray[7] = radius
+    }
+    path.addRoundRect(paddingStart.toFloat(), paddingTop.toFloat(), width - paddingEnd.toFloat(), height - paddingBottom.toFloat(), radiusArray, Path.Direction.CW)
   }
 }
