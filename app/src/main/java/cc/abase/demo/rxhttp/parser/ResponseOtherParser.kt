@@ -12,7 +12,7 @@ import java.io.IOException
 import java.lang.reflect.Type
 
 /**
- * Description:
+ * Description: 其他通用结构解析
  * @author: Khaos
  * @date: 2021年6月2日21:03:55
  */
