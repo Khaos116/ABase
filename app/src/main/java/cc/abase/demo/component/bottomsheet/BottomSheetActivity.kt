@@ -15,6 +15,7 @@ import cc.abase.demo.item.SimpleTxtItem
 import com.blankj.utilcode.util.ColorUtils
 import com.drakeet.multitype.MultiTypeAdapter
 import com.dylanc.viewbinding.inflateBinding
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 
 /**
@@ -78,6 +79,8 @@ class BottomSheetActivity : CommBindTitleActivity<ActivityBottomSheetBinding>() 
       bsd.window?.setBackgroundDrawable(ColorDrawable(R.color.black_70.xmlToColor()))
       //设置默认弹窗高度
       bsd.behavior.peekHeight = (mContentView.height * 3 / 5f).toInt()
+      //默认展开
+      bsd.behavior.state = BottomSheetBehavior.STATE_EXPANDED
     }
   }
   //</editor-fold>
