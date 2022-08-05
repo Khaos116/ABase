@@ -53,10 +53,32 @@ abstract class BaseBindFragment<T : ViewBinding> : Fragment() {
     if (_binding == null) mJobLoading = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate).launch(context = Dispatchers.Main + CoroutineExceptionHandler { _, _ -> }) {
       withContext(Dispatchers.IO) { initBinding() }.let {
         mRootLayout?.removeAllViews()
-        mRootLayout?.addView(viewBinding.root, ViewGroup.LayoutParams(-1, -1))
+        initCenterView()
+        val centerView = getCenterView()
+        val centerContainer = getCenterContainer()
+        if (centerView != null && centerContainer != null) {
+          mRootLayout?.addView(centerView, ViewGroup.LayoutParams(-1, -1))
+          centerContainer.addView(viewBinding.root, ViewGroup.LayoutParams(-1, -1))
+        } else {
+          mRootLayout?.addView(viewBinding.root, ViewGroup.LayoutParams(-1, -1))
+        }
         checkFirstLoad()
       }
     }
+  }
+  //</editor-fold>
+
+  //<editor-fold defaultstate="collapsed" desc="中间过渡页面的处理">
+  open fun initCenterView() {//初始化中间View
+
+  }
+
+  open fun getCenterView(): View? {//获取中间View
+    return null
+  }
+
+  open fun getCenterContainer(): ViewGroup? {//获取中间View容器
+    return null
   }
   //</editor-fold>
 
