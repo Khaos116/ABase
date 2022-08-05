@@ -80,6 +80,9 @@ abstract class BaseBindFragment<T : ViewBinding> : Fragment() {
   open fun getCenterContainer(): ViewGroup? {//获取中间View容器
     return null
   }
+
+  //初始化中间view
+  open fun lazyCenterInit() {}
   //</editor-fold>
 
   //<editor-fold defaultstate="collapsed" desc="由于要读取泛型，所以必须要放到泛型类下面调用，不能放到协程中">
@@ -104,6 +107,7 @@ abstract class BaseBindFragment<T : ViewBinding> : Fragment() {
   private fun checkFirstLoad() {
     if (!isLoaded && isOnResume && !isHidden && _binding != null) {
       isLoaded = true
+      lazyCenterInit()
       lazyInit()
       "Fragment:懒加载：${this.javaClass.simpleName}${this.hashCode()}".logI()
     }
