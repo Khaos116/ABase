@@ -5,7 +5,7 @@
 可以使用[Build Scan](https://scans.gradle.com/)(Terminal下执行gradlew build --scan)分析[构建情况](https://scans.gradle.com/s/htlaaoofzhtz6)(相关配置在settings.gradle中)
 注：测试发现多渠道Build Scan貌似无法成功，可以关闭多渠道到进行Build Scan
 
-三方库|描述  
+三方库|描述
 :---------------------------:|:---------------------------:
 **[Timber](https://github.com/JakeWharton/timber)**|JakeWharton大神的Log打印工具
 **[AndroidUtilCode](https://github.com/Blankj/AndroidUtilCode/blob/master/lib/utilcode/README-CN.md)**|超强工具合集
@@ -42,11 +42,11 @@
 ===============================|===============================
 
 //================================================================//
-##  Banner效果图  
-![横向Banner](https://github.com/khaos116/ABase/blob/master/image/horizontal_banner.gif)![纵向Banner](https://github.com/khaos116/ABase/blob/master/image/vertical_banner.gif)  
+## Banner效果图
+![横向Banner](https://github.com/khaos116/ABase/blob/master/image/horizontal_banner.gif)![纵向Banner](https://github.com/khaos116/ABase/blob/master/image/vertical_banner.gif)
 
 //================================================================//
-##  BannerItem代码配置
+## BannerItem代码配置
 ~~~
 override fun fillData(holder: BaseViewHolder<ItemBannerBinding>, item: MutableList<BannerBean>) {
   if (holder.itemView.getTag(R.id.tag_banner) != item) {
@@ -75,49 +75,49 @@ override fun fillData(holder: BaseViewHolder<ItemBannerBinding>, item: MutableLi
 ~~~
 
 //================================================================//
-##  所有效果
+## 所有效果
 ![所有效果](https://github.com/khaos116/ABase/blob/master/image/all_effect.png)
 
 //================================================================//
-##  非均分Grid分割线效果
+## 非均分Grid分割线效果
 ![分割线效果](https://github.com/khaos116/ABase/blob/master/image/decoration.png)
 
 //================================================================//
-##  聊天Emoji效果图
+## 聊天Emoji效果图
 ![聊天Emoji](https://github.com/khaos116/ABase/blob/master/image/emoji_chat.gif)
 
 //================================================================//
-##  Coil加载视频封面和压缩视频
+## Coil加载视频封面和压缩视频
 ![封面和压缩](https://github.com/khaos116/ABase/blob/master/image/video_cover_compress.gif)
 
 //================================================================//
-##  控件高斯模糊效果
+## 控件高斯模糊效果
 ![高斯模糊](https://github.com/khaos116/ABase/blob/master/image/blur.png)
 
 //================================================================//
-##  Sticky吸顶效果
+## Sticky吸顶效果
 ![吸顶效果](https://github.com/khaos116/ABase/blob/master/image/sticky.gif)![吸顶效果](https://github.com/khaos116/ABase/blob/master/image/sticky2.gif)
 
 //================================================================//
-##  学生成绩单滑动吸顶效果
+## 学生成绩单滑动吸顶效果
 ![成绩单吸顶效果](https://github.com/khaos116/ABase/blob/master/image/sticky_score.gif)
 
 //================================================================//
-##  @或#效果
+## @或#效果
 ![高斯模糊](https://github.com/khaos116/ABase/blob/master/image/at_topic.gif)
 
 //================================================================//
-##  Coordinator嵌套刷新
+## Coordinator嵌套刷新
 ![Coordinator嵌套刷新](https://github.com/khaos116/ABase/blob/master/image/coordinator_refresh.gif)
 
 //================================================================//
-##  MultiType展开和收缩效果
+## MultiType展开和收缩效果
 ![MultiType展开和收缩效果](https://github.com/khaos116/ABase/blob/master/image/epoxy_expand.gif)
 
 //================================================================//
-##  MultiType列表视频播放
+## MultiType列表视频播放
 ![列表视频播放](https://github.com/khaos116/ABase/blob/master/image/video_list_play.gif)
 
 //================================================================//
-##  VerticalViewPager抖音播放效果
+## VerticalViewPager抖音播放效果
 ![抖音播放效果](https://github.com/khaos116/ABase/blob/master/image/play_pager.gif)
