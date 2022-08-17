@@ -13,6 +13,7 @@ import cc.abase.demo.R
 import cc.abase.demo.bean.local.SimpleTxtBean
 import cc.abase.demo.component.blur.BlurActivity
 import cc.abase.demo.component.bottomsheet.BottomSheetActivity
+import cc.abase.demo.component.calendar.CalendarFragment
 import cc.abase.demo.component.chat.ChatActivity
 import cc.abase.demo.component.coil.CoilFragment
 import cc.abase.demo.component.comm.CommBindFragment
@@ -51,7 +52,7 @@ import com.drakeet.multitype.MultiTypeAdapter
 import com.jeremyliao.liveeventbus.LiveEventBus
 import kotlinx.coroutines.launch
 import rxhttp.awaitResult
-import java.util.Locale
+import java.util.*
 
 /**
  * Description:
@@ -104,6 +105,7 @@ class MineFragment : CommBindFragment<FragmentMineBinding>() {
     Pair(R.string.Coil特殊图片加载.xmlToString(), CoilFragment::class.java),
     Pair(R.string.滑动验证码.xmlToString(), VerificationFragment::class.java),
     Pair(R.string.Html代码加载.xmlToString(), HtmlFragment::class.java),
+    Pair(R.string.日历选择.xmlToString(), CalendarFragment::class.java),
     Pair(R.string.测试专用页面.xmlToString(), TestActivity::class.java),
   )
   //</editor-fold>

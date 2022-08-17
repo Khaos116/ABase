@@ -301,4 +301,6 @@ dependencies {
     implementation Deps.pattern_locker
     implementation Deps.quatroGrade
     implementation Deps.jsoup
+    implementation Deps.primedatepicker
+    implementation Deps.primecalendar
 }

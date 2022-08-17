@@ -204,6 +204,10 @@ object Deps {
 
   //https://blog.csdn.net/qq_21154101/article/details/100068269
   const val jsoup = "org.jsoup:jsoup:1.14.3"
+
+  //日历 https://github.com/aminography/PrimeDatePicker
+  const val primedatepicker = "com.aminography:primedatepicker:3.6.1"
+  const val primecalendar = "com.aminography:primecalendar:1.7.0"
   //</editor-fold>
 
   //<editor-fold defaultstate="collapsed" desc="其他">

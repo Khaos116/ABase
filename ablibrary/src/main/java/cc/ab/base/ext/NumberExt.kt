@@ -80,6 +80,19 @@ fun Number?.delEnd0(): String {
 }
 //</editor-fold>
 
+//<editor-fold defaultstate="collapsed" desc="保证位数">
+//2位数(0是1位)
+fun Int?.to2Num(): String {
+  return if (this == null || this.toDouble() == 0.0) "0" else DecimalFormat("00").format(this.toDouble())
+}
+//</editor-fold>
+
+//2位数
+fun Int?.to2Num2(): String {
+  return if (this == null || this.toDouble() == 0.0) "00" else DecimalFormat("00").format(this.toDouble())
+}
+//</editor-fold>
+
 //<editor-fold defaultstate="collapsed" desc="转为银行卡格式">
 //转为银行卡格式,4位一个空格
 fun String?.toBankNumber(): String {

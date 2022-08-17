@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  android:background="@color/black_05">
+
+  <LinearLayout
+    android:id="@+id/llDateFloat"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/shape_r20_white"
+    android:clickable="true"
+    android:focusable="true"
+    android:orientation="vertical"
+    android:paddingVertical="12dp"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintTop_toTopOf="parent">
+
+    <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_marginHorizontal="16dp"
+      android:orientation="horizontal">
+
+      <TextView
+        android:id="@+id/tvToday"
+        android:layout_width="0dp"
+        android:layout_height="44dp"
+        android:layout_weight="1"
+        android:background="@drawable/selector_r6_f7_black"
+        android:fontFamily="@font/harmonyos_sans_condensed_medium"
+        android:gravity="center"
+        android:text="@string/今日"
+        android:textColor="@color/selector_gray_white"
+        android:textSize="12sp" />
+
+      <TextView
+        android:id="@+id/tvYesterday"
+        android:layout_width="0dp"
+        android:layout_height="44dp"
+        android:layout_marginStart="10dp"
+        android:layout_weight="1"
+        android:background="@drawable/selector_r6_f7_black"
+        android:fontFamily="@font/harmonyos_sans_condensed_medium"
+        android:gravity="center"
+        android:text="@string/昨日"
+        android:textColor="@color/selector_gray_white"
+        android:textSize="12sp" />
+
+      <TextView
+        android:id="@+id/tvWeek"
+        android:layout_width="0dp"
+        android:layout_height="44dp"
+        android:layout_marginStart="10dp"
+        android:layout_weight="1"
+        android:background="@drawable/selector_r6_f7_black"
+        android:fontFamily="@font/harmonyos_sans_condensed_medium"
+        android:gravity="center"
+        android:text="@string/本周"
+        android:textColor="@color/selector_gray_white"
+        android:textSize="12sp" />
+
+      <TextView
+        android:id="@+id/tvMonth"
+        android:layout_width="0dp"
+        android:layout_height="44dp"
+        android:layout_marginStart="10dp"
+        android:layout_weight="1"
+        android:background="@drawable/selector_r6_f7_black"
+        android:fontFamily="@font/harmonyos_sans_condensed_medium"
+        android:gravity="center"
+        android:text="@string/本月"
+        android:textColor="@color/selector_gray_white"
+        android:textSize="12sp" />
+    </LinearLayout>
+    <!--选择区间-->
+    <LinearLayout
+      android:id="@+id/llDateStartAndEnd"
+      android:layout_width="match_parent"
+      android:layout_height="32dp"
+      android:layout_marginHorizontal="12dp"
+      android:layout_marginTop="12dp"
+      android:baselineAligned="false"
+      android:orientation="horizontal">
+
+      <FrameLayout
+        android:id="@+id/flStartDay"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:background="@drawable/select_half_s1_gray_light_red"
+        android:paddingHorizontal="20dp">
+
+        <TextView
+          android:id="@+id/tvStartDay"
+          android:layout_width="wrap_content"
+          android:layout_height="match_parent"
+          android:gravity="center_vertical"
+          android:includeFontPadding="true"
+          android:text="@string/开始日期"
+          android:textColor="#FF666666"
+          android:textSize="14sp" />
+
+        <ImageView
+          android:id="@+id/ivMore1"
+          android:layout_width="10dp"
+          android:layout_height="10dp"
+          android:layout_gravity="center_vertical|end"
+          android:layout_marginEnd="10dp"
+          android:contentDescription="@null"
+          android:src="@drawable/white_triangle_bottom"
+          app:tint="#333333" />
+      </FrameLayout>
+
+      <FrameLayout
+        android:id="@+id/flEndDay"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_marginStart="24dp"
+        android:layout_weight="1"
+        android:background="@drawable/select_half_s1_gray_light_red"
+        android:paddingHorizontal="20dp">
+
+        <TextView
+          android:id="@+id/tvEndDay"
+          android:layout_width="wrap_content"
+          android:layout_height="match_parent"
+          android:gravity="center_vertical"
+          android:includeFontPadding="true"
+          android:text="@string/结束日期"
+          android:textColor="#FF666666"
+          android:textSize="14sp" />
+
+        <ImageView
+          android:id="@+id/ivMore2"
+          android:layout_width="10dp"
+          android:layout_height="10dp"
+          android:layout_gravity="center_vertical|end"
+          android:layout_marginEnd="10dp"
+          android:contentDescription="@null"
+          android:src="@drawable/white_triangle_bottom"
+          app:tint="#333333" />
+      </FrameLayout>
+    </LinearLayout>
+
+    <cc.ab.base.widget.roundlayout.RoundConstraintLayout
+      android:id="@+id/clCalendar"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_marginHorizontal="12dp"
+      android:layout_marginTop="12dp"
+      android:background="@drawable/shape_r20_stroke1_gray_light"
+      android:paddingBottom="16dp"
+      app:radius_left_bottom_enable="true"
+      app:radius_left_top_enable="true"
+      app:radius_right_bottom_enable="true"
+      app:radius_right_top_enable="true"
+      app:radius_size="20dp">
+
+      <FrameLayout
+        android:id="@+id/flCalendarView"
+        android:layout_width="match_parent"
+        android:layout_height="280dp"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.aminography.primedatepicker.calendarview.PrimeCalendarView
+          android:id="@+id/calendarView"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_gravity="center_vertical"
+          android:layout_margin="1dp"
+          app:layout_constraintTop_toTopOf="parent" />
+      </FrameLayout>
+
+      <ImageView
+        android:id="@+id/ivBeforeMonth"
+        android:layout_width="38dp"
+        android:layout_height="38dp"
+        android:layout_marginStart="1dp"
+        android:layout_marginTop="2dp"
+        android:background="@drawable/shape_r20_white_top"
+        android:contentDescription="@null"
+        android:padding="12dp"
+        android:src="@drawable/icon_more_gray_left"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+      <ImageView
+        android:id="@+id/ivNextMonth"
+        android:layout_width="38dp"
+        android:layout_height="38dp"
+        android:layout_marginEnd="1dp"
+        android:background="@drawable/shape_r20_white_top"
+        android:contentDescription="@null"
+        android:padding="12dp"
+        android:src="@drawable/icon_more_gray"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/ivBeforeMonth" />
+
+      <TextView
+        android:id="@+id/tvCancel"
+        android:layout_width="0dp"
+        android:layout_height="36dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="4dp"
+        android:background="@drawable/shape_r6_s1_333"
+        android:gravity="center"
+        android:text="@string/取消"
+        android:textColor="#FF333333"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toStartOf="@id/tvConfirm"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/flCalendarView" />
+
+      <TextView
+        android:id="@+id/tvConfirm"
+        android:layout_width="0dp"
+        android:layout_height="36dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="12dp"
+        android:background="@drawable/shape_r6_333333"
+        android:gravity="center"
+        android:text="@string/确认"
+        android:textColor="#FFFFFFFF"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/tvCancel"
+        app:layout_constraintTop_toTopOf="@id/tvCancel" />
+    </cc.ab.base.widget.roundlayout.RoundConstraintLayout>
+  </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
