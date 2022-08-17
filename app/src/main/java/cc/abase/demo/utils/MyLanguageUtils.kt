@@ -13,34 +13,29 @@ import java.util.*
  * Time:12:51
  */
 object MyLanguageUtils {
-  //判断中文
+  //判断中文(Hans简体)
   private val chinaLanguages = mutableListOf(
-    //中划线
-    "zh-CN",//中国
-    "zh-CHS",//单一化
-    "zh-Hans",
-    //下划线
-    "zh_CN",
-    "zh_CHS",
-    "zh_Hans",
+    "zh-",
+    "zh_",
   )
 
-  //判断繁体中文
+  //判断繁体(Hant繁体)
   private val traditionalChinese = mutableListOf(
     //中划线
-    "zh-HK",//香港
-    "zh-MO",//澳门
-    "zh-TW",//台湾
-    "zh-CHT",//传统的
-    "zh-SG",//新加坡
-    "zh-Hant",
+    "-HK",//香港
+    "-MO",//澳门
+    "-TW",//台湾
+    "-CHT",//传统的
+    "-SG",//新加坡
+    "-Hant",
     //下划线
-    "zh_HK",
-    "zh_MO",
-    "zh_TW",
-    "zh_CHT",
-    "zh_SG",
-    "zh_Hant",
+    "_HK",
+    "_MO",
+    "_TW",
+    "_CHT",
+    "_SG",
+    "_Hant",
+    "#Hant",
   )
 
   //获取APP当前语言
@@ -57,16 +52,16 @@ object MyLanguageUtils {
 
   //是否是繁体中文
   fun isAppTraditionalChinese(): Boolean {
-    return traditionalChinese.any { getCurrentLanguage().lowercase().contains(it.lowercase()) }
+    return isAppChinese() && traditionalChinese.any { getCurrentLanguage().lowercase().contains(it.lowercase()) }
   }
 
-  //当前语言是否是中文
+  //当前语言是否是简体中文
   fun isAppChinese(): Boolean {
     return chinaLanguages.any { getCurrentLanguage().lowercase().contains(it.lowercase()) }
   }
 
   //是否是英文
   fun isEnglish(): Boolean {
-    return !isAppTraditionalChinese() && !isAppChinese()
+    return !isAppChinese()
   }
 }

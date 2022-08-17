@@ -245,7 +245,7 @@ class CalendarSelDialog : BaseBindFragmentDialog<DialogCalendarSelBinding>() {
     calendarView.maxDateCalendar = CalendarFactory.newInstance(CalendarType.CIVIL)
     calendarView.onDayPickedListener = OnDayPickedListener { _, _, startDay, endDay, _ ->
       if (startDay != null) {
-        if (MyLanguageUtils.isAppChinese() || MyLanguageUtils.isAppTraditionalChinese()) {
+        if (MyLanguageUtils.isAppChinese()) {
           viewBinding.tvStartDay.text = "${startDay.year}-${(startDay.month + 1).to2Num()}-${(startDay.dayOfMonth).to2Num()}"
         } else {
           viewBinding.tvStartDay.text = "${(startDay.dayOfMonth).to2Num()}-${(startDay.month + 1).to2Num()}-${startDay.year}"
@@ -256,7 +256,7 @@ class CalendarSelDialog : BaseBindFragmentDialog<DialogCalendarSelBinding>() {
         mCurrentStartDay = (startDay.dayOfMonth).to2Num()
       }
       if (endDay != null) {
-        if (MyLanguageUtils.isAppChinese() || MyLanguageUtils.isAppTraditionalChinese()) {
+        if (MyLanguageUtils.isAppChinese()) {
           viewBinding.tvEndDay.text = "${endDay.year}-${(endDay.month + 1).to2Num()}-${(endDay.dayOfMonth).to2Num()}"
         } else {
           viewBinding.tvEndDay.text = "${(endDay.dayOfMonth).to2Num()}-${(endDay.month + 1).to2Num()}-${endDay.year}"
