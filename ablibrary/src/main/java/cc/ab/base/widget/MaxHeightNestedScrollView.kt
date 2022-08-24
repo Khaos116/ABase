@@ -9,7 +9,7 @@ import kotlin.math.min
  * @Description 可以设置最大高度的ScrollView；需要在XML设置
  * 1.android:scrollbars="vertical"
  * 2.android:fadeScrollbars="false"
- * 3.android:overScrollMode="ifContentScrolls"
+ * 3.android:overScrollMode="never"
  * 4.android:scrollbarThumbVertical="@drawable/scrollbar_vertical_thumb"
  * 5.android:scrollbarTrackVertical="@drawable/scrollbar_vertical_track"
  * @Author：Khaos
