@@ -6,14 +6,11 @@ import android.content.Intent
 import android.content.pm.ActivityInfo
 import android.net.Uri
 import android.net.http.SslError
-import android.view.MotionEvent
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.webkit.*
 import cc.ab.base.ext.*
 import cc.ab.base.widget.engine.CoilEngine
 import cc.ab.base.widget.engine.MyCompressEngine
-import cc.ab.base.widget.engine.MyCropEngine
 import cc.abase.demo.R
 import cc.abase.demo.component.comm.CommBindTitleActivity
 import cc.abase.demo.config.HeaderManger
@@ -22,9 +19,7 @@ import cc.abase.demo.widget.LollipopFixedWebView
 import com.blankj.utilcode.constant.MemoryConstants
 import com.blankj.utilcode.util.ColorUtils
 import com.blankj.utilcode.util.UriUtils
-import com.hjq.permissions.OnPermissionCallback
-import com.hjq.permissions.Permission
-import com.hjq.permissions.XXPermissions
+import com.hjq.permissions.*
 import com.just.agentweb.AgentWeb
 import com.just.agentweb.DefaultWebClient
 import com.luck.picture.lib.basic.PictureSelector
@@ -117,6 +112,8 @@ class WebActivity : CommBindTitleActivity<ActivityWebBinding>() {
     //        initJsBridge(webView)
     //    }
     //}
+    //解决部分HTML不自动跳转二级页面的BUG
+    viewBinding.root.post { agentWeb?.webLifeCycle?.onResume() }
   }
   //</editor-fold>
 
