@@ -1,11 +1,14 @@
 package cc.ab.base.utils;
 
+import android.view.View;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.google.gson.*;
 
 import java.lang.reflect.Type;
+import java.text.DecimalFormat;
 
 /**
  * 参考：优化参考 https://wenku.baidu.com/view/7bdaa4dbfa0f76c66137ee06eff9aef8941e4866.html
@@ -63,7 +66,7 @@ public class MyGsonUtil {
     return gson;
   }
 
-  //安卓9.0以下在Bean中防止View等对象会造成解析异常闪退，需要设置注解(并且使用excludeFieldsWithoutExposeAnnotation)：@Expose(serialize = false, deserialize = false)
+  //安卓9.0以下在Bean中防止View等对象会造成解析异常闪退，需要自定义ExclusionStrategy进行过滤(测试时使用Expose进行过滤会导致整个解析没有内容，所以改为自定义)
   public static Gson newGson() {
     return new GsonBuilder().disableHtmlEscaping()
         .registerTypeAdapter(String.class, new StringAdapter())
@@ -73,7 +76,18 @@ public class MyGsonUtil {
         .registerTypeAdapter(Double.class, new DoubleDefault0Adapter())
         .registerTypeAdapter(long.class, new LongDefault0Adapter())
         .registerTypeAdapter(Long.class, new LongDefault0Adapter())
-        .excludeFieldsWithoutExposeAnnotation()//处理不需要序列化和反序列化的字段
+        .setExclusionStrategies(new ExclusionStrategy() {
+          @Override
+          public boolean shouldSkipField(FieldAttributes f) {
+            //return f.getName().contains("_");
+            return false;//处理不需要序列化和反序列化的字段
+          }
+
+          @Override
+          public boolean shouldSkipClass(Class<?> clazz) {
+            return clazz == View.class || clazz == DecimalFormat.class;//处理不需要序列化和反序列化的字段类型
+          }
+        })
         .create();
   }
 
