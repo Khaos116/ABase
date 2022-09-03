@@ -63,6 +63,7 @@ public class MyGsonUtil {
     return gson;
   }
 
+  //安卓9.0以下在Bean中防止View等对象会造成解析异常闪退，需要设置注解(并且使用excludeFieldsWithoutExposeAnnotation)：@Expose(serialize = false, deserialize = false)
   public static Gson newGson() {
     return new GsonBuilder().disableHtmlEscaping()
         .registerTypeAdapter(String.class, new StringAdapter())
