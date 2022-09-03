@@ -77,14 +77,7 @@ fun ImageView.loadImgHorizontalBlur(
       return
     }
     val iv = this
-    if (blackWhite) {//由于GrayscaleTransformation会导致加载后图片无法填充满整个ImageView，所以采用ColorMatrix实现黑白效果
-      val cm = ColorMatrix()
-      cm.setSaturation(0f) // 设置饱和度
-      val grayColorFilter = ColorMatrixColorFilter(cm)
-      iv.colorFilter = grayColorFilter // 如果想恢复彩色显示，设置为null即可
-    } else {
-      iv.colorFilter = null
-    }
+    iv.blackWhiteMode(blackWhite)//由于GrayscaleTransformation会导致加载后图片无法填充满整个ImageView，所以采用ColorMatrix实现黑白效果
     val build = fun ImageRequest.Builder.() {
       if (hasHolder) {
         crossfade(duration)
@@ -112,14 +105,7 @@ fun ImageView.loadImgBlurRes(
   @FloatRange(from = 0.0, to = 25.0) blurRadius: Float = 0f, blackWhite: Boolean = false
 ) {
   val iv = this
-  if (blackWhite) {//由于GrayscaleTransformation会导致加载后图片无法填充满整个ImageView，所以采用ColorMatrix实现黑白效果
-    val cm = ColorMatrix()
-    cm.setSaturation(0f) // 设置饱和度
-    val grayColorFilter = ColorMatrixColorFilter(cm)
-    iv.colorFilter = grayColorFilter // 如果想恢复彩色显示，设置为null即可
-  } else {
-    iv.colorFilter = null
-  }
+  iv.blackWhiteMode(blackWhite)//由于GrayscaleTransformation会导致加载后图片无法填充满整个ImageView，所以采用ColorMatrix实现黑白效果
   val build = fun ImageRequest.Builder.() {
     if (hasHolder) {
       crossfade(duration)
@@ -156,14 +142,7 @@ fun ImageView.loadImgVerticalBlur(
       return
     }
     val iv = this
-    if (blackWhite) {//由于GrayscaleTransformation会导致加载后图片无法填充满整个ImageView，所以采用ColorMatrix实现黑白效果
-      val cm = ColorMatrix()
-      cm.setSaturation(0f) // 设置饱和度
-      val grayColorFilter = ColorMatrixColorFilter(cm)
-      iv.colorFilter = grayColorFilter // 如果想恢复彩色显示，设置为null即可
-    } else {
-      iv.colorFilter = null
-    }
+    iv.blackWhiteMode(blackWhite)//由于GrayscaleTransformation会导致加载后图片无法填充满整个ImageView，所以采用ColorMatrix实现黑白效果
     val build = fun ImageRequest.Builder.() {
       if (hasHolder) {
         crossfade(duration)
@@ -253,5 +232,17 @@ fun ImageView.loadNetVideoCover(url: String?, holderRatio: Float = 16f / 9, hasH
         }
       }
     }
+  }
+}
+
+//设置ImageView为黑白模式
+fun ImageView?.blackWhiteMode(blackWhite: Boolean) {
+  if (blackWhite) {
+    val cm = ColorMatrix()
+    cm.setSaturation(0f) // 设置饱和度
+    val grayColorFilter = ColorMatrixColorFilter(cm)
+    this?.colorFilter = grayColorFilter // 如果想恢复彩色显示，设置为null即可
+  } else {
+    this?.colorFilter = null
   }
 }
