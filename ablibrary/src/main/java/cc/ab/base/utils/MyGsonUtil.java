@@ -58,21 +58,22 @@ public class MyGsonUtil {
 
   public static Gson buildGson() {
     if (gson == null) {
-      gson = new GsonBuilder()
-          //<editor-fold defaultstate="collapsed" desc="Khaos116修改的代码">
-          .serializeNulls()
-          //</editor-fold>
-          .disableHtmlEscaping()
-          .registerTypeAdapter(String.class, new StringAdapter())
-          .registerTypeAdapter(int.class, new IntegerDefault0Adapter())
-          .registerTypeAdapter(Integer.class, new IntegerDefault0Adapter())
-          .registerTypeAdapter(double.class, new DoubleDefault0Adapter())
-          .registerTypeAdapter(Double.class, new DoubleDefault0Adapter())
-          .registerTypeAdapter(long.class, new LongDefault0Adapter())
-          .registerTypeAdapter(Long.class, new LongDefault0Adapter())
-          .create();
+      gson = newGson();
     }
     return gson;
+  }
+
+  public static Gson newGson() {
+    return new GsonBuilder().disableHtmlEscaping()
+        .registerTypeAdapter(String.class, new StringAdapter())
+        .registerTypeAdapter(int.class, new IntegerDefault0Adapter())
+        .registerTypeAdapter(Integer.class, new IntegerDefault0Adapter())
+        .registerTypeAdapter(double.class, new DoubleDefault0Adapter())
+        .registerTypeAdapter(Double.class, new DoubleDefault0Adapter())
+        .registerTypeAdapter(long.class, new LongDefault0Adapter())
+        .registerTypeAdapter(Long.class, new LongDefault0Adapter())
+        .excludeFieldsWithoutExposeAnnotation()//处理不需要序列化和反序列化的字段
+        .create();
   }
 
   private static class StringAdapter implements JsonSerializer<String>, JsonDeserializer<String> {
