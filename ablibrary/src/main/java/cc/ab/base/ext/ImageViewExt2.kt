@@ -1,5 +1,7 @@
 package cc.ab.base.ext
 
+import android.graphics.ColorMatrix
+import android.graphics.ColorMatrixColorFilter
 import android.media.MediaMetadataRetriever
 import android.widget.ImageView
 import androidx.annotation.DrawableRes
@@ -10,7 +12,8 @@ import cc.ab.base.utils.MediaMetadataRetrieverUtils
 import cc.ab.base.utils.PlaceHolderUtils
 import coil.*
 import coil.request.ImageRequest
-import coil.transform.*
+import coil.transform.BlurTransformation
+import coil.transform.Transformation
 import coil.util.CoilUtils
 import com.blankj.utilcode.util.EncryptUtils
 import com.blankj.utilcode.util.Utils
@@ -74,6 +77,14 @@ fun ImageView.loadImgHorizontalBlur(
       return
     }
     val iv = this
+    if (blackWhite) {//由于GrayscaleTransformation会导致加载后图片无法填充满整个ImageView，所以采用ColorMatrix实现黑白效果
+      val cm = ColorMatrix()
+      cm.setSaturation(0f) // 设置饱和度
+      val grayColorFilter = ColorMatrixColorFilter(cm)
+      iv.colorFilter = grayColorFilter // 如果想恢复彩色显示，设置为null即可
+    } else {
+      iv.colorFilter = null
+    }
     val build = fun ImageRequest.Builder.() {
       if (hasHolder) {
         crossfade(duration)
@@ -82,10 +93,10 @@ fun ImageView.loadImgHorizontalBlur(
       } else {
         crossfade(false)
       }
-      if (blurRadius > 0 || blackWhite) {
+      if (blurRadius > 0) {//|| blackWhite) {
         val list = mutableListOf<Transformation>()
         if (blurRadius > 0) list.add(BlurTransformation(context, blurRadius))
-        if (blackWhite) list.add(GrayscaleTransformation())
+        //if (blackWhite) list.add(GrayscaleTransformation())
         transformations(list)
       }
       listener(onError = { r, e -> "横向图片加载失败:${r.data},e=${e.message ?: "null"}".logE() }) { _, _ -> iv.setTag(R.id.suc_img, url) }
@@ -100,6 +111,15 @@ fun ImageView.loadImgBlurRes(
   @DrawableRes resId: Int, holderRatio: Float = 720f / 400, hasHolder: Boolean = true,
   @FloatRange(from = 0.0, to = 25.0) blurRadius: Float = 0f, blackWhite: Boolean = false
 ) {
+  val iv = this
+  if (blackWhite) {//由于GrayscaleTransformation会导致加载后图片无法填充满整个ImageView，所以采用ColorMatrix实现黑白效果
+    val cm = ColorMatrix()
+    cm.setSaturation(0f) // 设置饱和度
+    val grayColorFilter = ColorMatrixColorFilter(cm)
+    iv.colorFilter = grayColorFilter // 如果想恢复彩色显示，设置为null即可
+  } else {
+    iv.colorFilter = null
+  }
   val build = fun ImageRequest.Builder.() {
     if (hasHolder) {
       crossfade(duration)
@@ -108,10 +128,10 @@ fun ImageView.loadImgBlurRes(
     } else {
       crossfade(false)
     }
-    if (blurRadius > 0 || blackWhite) {
+    if (blurRadius > 0) {// || blackWhite) {
       val list = mutableListOf<Transformation>()
       if (blurRadius > 0) list.add(BlurTransformation(context, blurRadius))
-      if (blackWhite) list.add(GrayscaleTransformation())
+      //if (blackWhite) list.add(GrayscaleTransformation())
       transformations(list)
     }
   }
@@ -136,6 +156,14 @@ fun ImageView.loadImgVerticalBlur(
       return
     }
     val iv = this
+    if (blackWhite) {//由于GrayscaleTransformation会导致加载后图片无法填充满整个ImageView，所以采用ColorMatrix实现黑白效果
+      val cm = ColorMatrix()
+      cm.setSaturation(0f) // 设置饱和度
+      val grayColorFilter = ColorMatrixColorFilter(cm)
+      iv.colorFilter = grayColorFilter // 如果想恢复彩色显示，设置为null即可
+    } else {
+      iv.colorFilter = null
+    }
     val build = fun ImageRequest.Builder.() {
       if (hasHolder) {
         crossfade(duration)
@@ -144,10 +172,10 @@ fun ImageView.loadImgVerticalBlur(
       } else {
         crossfade(false)
       }
-      if (blurRadius > 0 || blackWhite) {
+      if (blurRadius > 0) {//|| blackWhite) {
         val list = mutableListOf<Transformation>()
         if (blurRadius > 0) list.add(BlurTransformation(context, blurRadius))
-        if (blackWhite) list.add(GrayscaleTransformation())
+        //if (blackWhite) list.add(GrayscaleTransformation())
         transformations(list)
       }
       listener(onError = { r, e -> "竖向图片加载失败:${r.data},e=${e.message ?: "null"}".logE() }) { _, _ -> iv.setTag(R.id.suc_img, url) }
