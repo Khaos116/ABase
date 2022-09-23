@@ -11,7 +11,7 @@ object Versions {
 object Deps {
   //<editor-fold defaultstate="collapsed" desc="Studio基础配置">
   //根目录gradle https://maven.aliyun.com/mvn/search 使用ViewBinding最低3.6.0
-  const val plugin_android_gradle = "com.android.tools.build:gradle:7.1.2"
+  const val plugin_android_gradle = "com.android.tools.build:gradle:7.0.4"
   const val plugin_kotlin_gradle = "org.jetbrains.kotlin:kotlin-gradle-plugin:${Versions.kotlin}"
   const val plugin_r8_gradle = "com.android.tools:r8:3.1.51" //更新R8版本，解决正式版无法打包的问题 https://github.com/square/okhttp/issues/4604
 
