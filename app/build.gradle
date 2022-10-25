@@ -43,12 +43,12 @@ android {
     //APK生成名称
     //archivesBaseName = "Abase-v$versionCode"
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
     }
 
     //部分DSL需要
-    kotlinOptions { jvmTarget = "1.8" }
+    kotlinOptions { jvmTarget = 11 }
 
     //使用LayoutContainer代替findViewById https://www.cnblogs.com/huyang011/p/14184045.html
     //androidExtensions { experimental = true }
@@ -160,7 +160,7 @@ android {
 
 //RxHttp ksp传参方式 https://github.com/liujingxing/okhttp-RxHttp
 ksp {
-    arg("rxhttp_rxjava", "3.1.3")
+    arg("rxhttp_rxjava", "3.1.5")
     arg("rxhttp_package", "rxhttp") //指定RxHttp类包名，非必须
 }
 

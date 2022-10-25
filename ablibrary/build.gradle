@@ -24,12 +24,12 @@ android {
 
     //lambda表达式需要
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
     }
 
     //部分DSL需要
-    kotlinOptions { jvmTarget = "1.8" }
+    kotlinOptions { jvmTarget = 11 }
 
     buildTypes {
         release {
