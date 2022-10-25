@@ -124,6 +124,7 @@ class HorizontalMarqueeView : FrameLayout, LifecycleObserver {
       it.addView(TextView(it.context).also { tv ->
         tv.setTextColor(mTextColor)
         tv.maxLines = 1
+        tv.setSingleLine()//解决富文本换行导致后面的不显示的bug
         tv.gravity = Gravity.CENTER_VERTICAL
         tv.setTextSize(TypedValue.COMPLEX_UNIT_SP, mTextSizeSp)
         tv.setBackgroundColor(mTextColorBg)
