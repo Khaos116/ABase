@@ -5,12 +5,12 @@ import android.animation.AnimatorListenerAdapter
 import android.content.Context
 import android.graphics.Color
 import android.graphics.Paint
-import android.text.Html
 import android.util.AttributeSet
 import android.view.Gravity
 import android.widget.FrameLayout
 import cc.ab.base.ext.dp2px
 import cc.abase.demo.R
+import cc.abase.demo.ext.toHtml
 import cc.abase.demo.widget.MarqueeTextView
 
 /**
@@ -72,7 +72,7 @@ class VerticalMarqueeTextView @kotlin.jvm.JvmOverloads constructor(c: Context, a
   fun updateNotice(notice: CharSequence) {
     //第一次设置
     if (mTv1.text.toString().isBlank() && mTv2.text.toString().isBlank()) {
-      mTv1.text = if (notice.contains("<font")) Html.fromHtml(notice.toString()) else notice
+      mTv1.text = notice.toHtml()
       return
     }
     if (isAnim) return
@@ -80,7 +80,7 @@ class VerticalMarqueeTextView @kotlin.jvm.JvmOverloads constructor(c: Context, a
     val inTv = if (mTv1.translationY == 0f) mTv1 else mTv2
     val outTv = if (inTv == mTv1) mTv2 else mTv1
     outTv.marqueeRepeatLimit = 0
-    outTv.text = if (notice.contains("<font")) Html.fromHtml(notice.toString()) else notice
+    outTv.text = notice.toHtml()
     inTv.animate().translationY(-mHeight).setDuration(500).start()
     outTv.animate().translationY(0f).setDuration(500)
         .setListener(object : AnimatorListenerAdapter() {
