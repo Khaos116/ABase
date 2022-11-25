@@ -40,9 +40,9 @@ object SimpleZuheUtils {
           val result = mutableListOf<Pair<String, Double>>()
           if (size > 1) for (i in 2..size) {
             val lChild = lParent.filter { f -> f.size == i }
-            result.add(Pair("${i}C1", (lChild.sumByDouble { ll -> ll.reduce { acc, d -> acc * d } * price } - lChild.size * price)))
+            result.add(Pair("${i}C1", (lChild.sumOf { ll -> ll.reduce { acc, d -> acc * d } * price } - lChild.size * price)))
           }
-          result.also { r -> r.add(Pair("${size}C${(2.0.pow(size) - size - 1).toInt()}", result.sumByDouble { m -> m.second })) }
+          result.also { r -> r.add(Pair("${size}C${(2.0.pow(size) - size - 1).toInt()}", result.sumOf { m -> m.second })) }
         }.let { r ->
           callBack.invoke(r)
         }
@@ -58,9 +58,9 @@ object SimpleZuheUtils {
           val result = mutableListOf<Pair<String, Double>>()
           if (size > 1) for (i in 2..size) {
             val lChild = lParent.filter { f -> f.size == i }
-            result.add(Pair("${i}C1", (lChild.sumByDouble { ll -> ll.reduce { acc, d -> acc * d } * price })))
+            result.add(Pair("${i}C1", (lChild.sumOf { ll -> ll.reduce { acc, d -> acc * d } * price })))
           }
-          result.also { r -> r.add(Pair("${size}C${(2.0.pow(size) - size - 1).toInt()}", result.sumByDouble { m -> m.second })) }
+          result.also { r -> r.add(Pair("${size}C${(2.0.pow(size) - size - 1).toInt()}", result.sumOf { m -> m.second })) }
         }.let { r ->
           callBack.invoke(r)
         }
