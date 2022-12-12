@@ -164,4 +164,6 @@
   <string name="确认">确认</string>
   <string name="请选择开始日期">请选择开始日期</string>
   <string name="请选择结束日期">请选择结束日期</string>
+  <string name="JS交互调用">JS交互调用</string>
+  <string name="APP调用HTML">APP调用HTML</string>
 </resources>

@@ -303,4 +303,5 @@ dependencies {
     implementation Deps.jsoup
     implementation Deps.primedatepicker
     implementation Deps.primecalendar
+    implementation Deps.jsBridge
 }

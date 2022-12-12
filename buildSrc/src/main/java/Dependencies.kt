@@ -208,6 +208,9 @@ object Deps {
   //日历 https://github.com/aminography/PrimeDatePicker
   const val primedatepicker = "com.aminography:primedatepicker:3.6.1"
   const val primecalendar = "com.aminography:primecalendar:1.7.0"
+
+  //JS交互 https://github.com/lzyzsd/JsBridge
+  const val jsBridge = "com.github.lzyzsd:jsbridge:1.0.4"
   //</editor-fold>
 
   //<editor-fold defaultstate="collapsed" desc="其他">

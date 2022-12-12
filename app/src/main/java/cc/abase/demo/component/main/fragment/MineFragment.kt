@@ -24,6 +24,7 @@ import cc.abase.demo.component.decoration.DecorationActivity
 import cc.abase.demo.component.drag.DragActivity
 import cc.abase.demo.component.expand.ExpandActivity
 import cc.abase.demo.component.flexbox.FlexboxActivity
+import cc.abase.demo.component.js.JSFragment
 import cc.abase.demo.component.locker.PatternLockerActivity
 import cc.abase.demo.component.marquee.MarqueeActivity
 import cc.abase.demo.component.playlist.PlayListActivity
@@ -105,6 +106,7 @@ class MineFragment : CommBindFragment<FragmentMineBinding>() {
     Pair(R.string.Coil特殊图片加载.xmlToString(), CoilFragment::class.java),
     Pair(R.string.滑动验证码.xmlToString(), VerificationFragment::class.java),
     Pair(R.string.Html代码加载.xmlToString(), HtmlFragment::class.java),
+    Pair(R.string.JS交互调用.xmlToString(), JSFragment::class.java),
     Pair(R.string.日历选择.xmlToString(), CalendarFragment::class.java),
     Pair(R.string.测试专用页面.xmlToString(), TestActivity::class.java),
   )

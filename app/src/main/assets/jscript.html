@@ -1,0 +1,93 @@
+<html>
+<head>
+    <meta content="text/html; charset=utf-8" http-equiv="content-type">
+    <title>
+        JS和APP交互
+    </title>
+</head>
+
+<body>
+<p>
+    <xmp id="show">
+    </xmp>
+</p>
+
+<p>
+    <xmp id="init">
+    </xmp>
+</p>
+
+<p>
+    <input type="text" id="text1" value="account"/>
+</p>
+<p>
+    <input type="text" id="text2" value="password"/>
+</p>
+
+<p>
+    <input type="button" id="enter1" value="Html调用APP专用方法" onclick="callApp1();"
+    />
+</p>
+
+<p>
+    <input type="button" id="enter2" value="Html调用APP默认方法" onclick="callApp2();"
+    />
+</p>
+</body>
+<script>
+        function callApp1() {
+            var str1 = document.getElementById("text1").value;
+            var str2 = document.getElementById("text2").value;
+            //HTML通过协定的submitFromWeb参数回调APP->callHandler
+            window.WebViewJavascriptBridge.callHandler(
+                'submitFromWeb'
+                ,'用户名:' + str1 + ';密码:' + str2
+                , function(responseData) {
+                    document.getElementById("show").innerHTML = "APP专用方法反馈给HTML的结果:\n" + responseData
+                }
+            );
+        }
+        function callApp2() {
+            var str1 = document.getElementById("text1").value;
+            var str2 = document.getElementById("text2").value;
+              //HTML通过匿名参数回调APP->send
+            window.WebViewJavascriptBridge.send(
+                '用户名:' + str1 + ';密码:' + str2
+                , function(responseData) {
+                    document.getElementById("show").innerHTML = "APP默认方法反馈给HTML的结果:\n" + responseData
+                }
+            );
+        }
+
+        function connectWebViewJavascriptBridge(callback) {
+            if (window.WebViewJavascriptBridge && WebViewJavascriptBridge.inited) {
+                callback(WebViewJavascriptBridge)
+            } else {
+                document.addEventListener(
+                    'WebViewJavascriptBridgeReady'
+                    , function() {
+                        callback(WebViewJavascriptBridge)
+                    },
+                    false
+                );
+            }
+        }
+
+        connectWebViewJavascriptBridge(function(bridge) {
+            bridge.init(function(message, responseCallback) {
+                if (responseCallback) {
+                    responseCallback(data);
+                }
+            });
+
+            bridge.registerHandler("functionInJs", function(data, responseCallback) {
+                document.getElementById("show").innerHTML = ("HTML读取APP消息:" + data + "\n时间：" + Date.now());
+                if (responseCallback) {
+                    var responseData = "这是HTML反馈给APP的结果";
+                    responseCallback(responseData);
+                }
+            });
+        })
+
+</script>
+</html>
