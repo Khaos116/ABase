@@ -81,8 +81,10 @@ abstract class CommBindFragment<T : ViewBinding> : BaseBindFragment<T>() {
 
   //移除所有监听
   private fun removeAllCallbacks() {
-    viewBinding.root.removeCallbacks(runShowLoading)
-    viewBinding.root.removeCallbacks(runDismissLoading)
+    if (_binding != null) {
+      viewBinding.root.removeCallbacks(runShowLoading)
+      viewBinding.root.removeCallbacks(runDismissLoading)
+    }
   }
   //</editor-fold>
 
