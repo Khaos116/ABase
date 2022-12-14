@@ -1,14 +1,16 @@
 package cc.abase.demo.component.js
 
 import android.annotation.SuppressLint
+import android.net.http.SslError
+import android.webkit.*
 import android.widget.FrameLayout
 import cc.ab.base.ext.*
 import cc.abase.demo.R
 import cc.abase.demo.component.comm.CommBindFragment
 import cc.abase.demo.databinding.FragmentJsBinding
 import com.blankj.utilcode.util.TimeUtils
-import com.github.lzyzsd.jsbridge.BridgeWebView
-import com.github.lzyzsd.jsbridge.CallBackFunction
+import com.github.lzyzsd.jsbridge.*
+
 
 /**
  * JS交互
@@ -26,6 +28,41 @@ class JSFragment : CommBindFragment<FragmentJsBinding>() {
     viewBinding.flTitle.commTitleBack.click { mActivity.onBackPressed() }
     val bridgeWebView = BridgeWebView(mContext)
     viewBinding.flWebView.addView(bridgeWebView, FrameLayout.LayoutParams(-1, -1))
+    bridgeWebView.settings.let { ws ->
+      //支持javascript
+      ws.javaScriptEnabled = true
+      ////设置可以支持缩放
+      //ws.setSupportZoom(true)
+      ////设置内置的缩放控件
+      //ws.builtInZoomControls = true
+      ////隐藏原生的缩放控件
+      //ws.displayZoomControls = false
+      ////扩大比例的缩放
+      //ws.useWideViewPort = true
+      //允许WebView使用File协议
+      ws.allowFileAccess = true
+      ////设置网页字体不跟随系统字体发生改变
+      //ws.textZoom = 100
+      ////自适应屏幕
+      //ws.layoutAlgorithm = WebSettings.LayoutAlgorithm.SINGLE_COLUMN
+      ws.loadWithOverviewMode = true
+      //Cannot call method ‘getItem’ of null
+      ws.domStorageEnabled = true
+      ws.setAppCacheMaxSize(1024 * 1024 * 8)
+      val appCachePath: String = mContext.application.cacheDir.absolutePath
+      ws.setAppCachePath(appCachePath)
+      ws.setAppCacheEnabled(true)
+    }
+    bridgeWebView.webViewClient = object : BridgeWebViewClient(bridgeWebView) {
+      override fun onReceivedSslError(view: WebView?, handler: SslErrorHandler?, error: SslError?) {
+        handler?.proceed()
+      }
+    }
+    bridgeWebView.webChromeClient = object : WebChromeClient() {
+      override fun onProgressChanged(view: WebView?, newProgress: Int) {
+        super.onProgressChanged(view, newProgress)
+      }
+    }
     viewBinding.tvCallJS.click {
       bridgeWebView.callHandler("functionInJs", "这是APP调用JS的传入参数") { s: String? ->
         "APP收到HTML调用回调:\n${s ?: "null"}".toast()
@@ -40,7 +77,6 @@ class JSFragment : CommBindFragment<FragmentJsBinding>() {
       function?.onCallBack("HTML专用调用APP成功 ${TimeUtils.millis2String(System.currentTimeMillis())}")
     }
     val htmlUrl = "file:///android_asset/jscript.html"
-    bridgeWebView.settings.javaScriptEnabled = true
     bridgeWebView.loadUrl(htmlUrl)
   }
   //</editor-fold>
