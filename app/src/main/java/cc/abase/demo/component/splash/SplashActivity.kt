@@ -6,7 +6,6 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.view.ViewGroup
 import cc.ab.base.ext.*
-import cc.ab.base.utils.PermissionUtils
 import cc.abase.demo.component.comm.CommBindActivity
 import cc.abase.demo.component.login.LoginActivity
 import cc.abase.demo.component.main.MainActivity
@@ -94,7 +93,7 @@ class SplashActivity : CommBindActivity<ActivitySplashBinding>() {
   private fun initAfterSize() {
     mLottieAnimationView = LottieAnimationView(mContext)
     mLottieAnimationView?.let { lav ->
-      lav.setAnimation("welcome2022.json")
+      lav.setAnimation("welcome2023.json")
       lav.imageAssetsFolder = "images/"
       lav.setRenderMode(RenderMode.HARDWARE)
       lav.repeatCount = 0
