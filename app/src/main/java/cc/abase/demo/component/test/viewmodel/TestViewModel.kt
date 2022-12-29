@@ -12,6 +12,7 @@ import kotlinx.coroutines.*
 import java.util.concurrent.TimeUnit
 
 /**
+ * 并发请求处理：https://juejin.cn/post/7175854671603433528
  * Description:
  * @author: Khaos
  * @date: 2020/5/7 9:46
