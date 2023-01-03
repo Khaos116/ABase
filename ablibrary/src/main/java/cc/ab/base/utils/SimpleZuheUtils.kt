@@ -44,7 +44,7 @@ object SimpleZuheUtils {
           }
           result.also { r -> r.add(Pair("${size}C${(2.0.pow(size) - size - 1).toInt()}", result.sumOf { m -> m.second })) }
         }.let { r ->
-          callBack.invoke(r)
+          callBack.invoke(r.distinctBy { t -> t.first })
         }
       }
     }
@@ -62,7 +62,7 @@ object SimpleZuheUtils {
           }
           result.also { r -> r.add(Pair("${size}C${(2.0.pow(size) - size - 1).toInt()}", result.sumOf { m -> m.second })) }
         }.let { r ->
-          callBack.invoke(r)
+          callBack.invoke(r.distinctBy { t -> t.first })
         }
       }
     }
