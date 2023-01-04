@@ -3,12 +3,11 @@ package cc.ab.base.ext
 import android.annotation.SuppressLint
 import android.graphics.Color
 import android.os.SystemClock
-import android.view.GestureDetector
+import android.view.*
 import android.view.GestureDetector.SimpleOnGestureListener
-import android.view.MotionEvent
-import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.SimpleItemAnimator
 import com.google.i18n.phonenumbers.PhoneNumberUtil
 import com.google.i18n.phonenumbers.Phonenumber
 import com.scwang.smart.refresh.layout.SmartRefreshLayout
@@ -32,6 +31,11 @@ fun RecyclerView.stopInertiaRolling() {
     e.printStackTrace()
     "RecyclerView惯性滚动停止失败:${e.message}".logI()
   }
+}
+
+//去掉RecyclerView调用notifyItemChanged闪烁
+fun RecyclerView.clearFlashing() {
+  (this.itemAnimator as? SimpleItemAnimator)?.supportsChangeAnimations = false
 }
 
 //RecyclerView点击事件
