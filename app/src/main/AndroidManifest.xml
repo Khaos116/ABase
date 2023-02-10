@@ -313,8 +313,8 @@
         <!-- APK更新 -->
         <service
             android:name=".component.update.CcUpdateService"
-            android:priority="1000"
-            android:exported="false" />
+            android:exported="false"
+            android:priority="1000" />
         <!-- 点击通知栏的操作 -->
         <receiver
             android:name=".component.update.NotificationBroadcastReceiver"
