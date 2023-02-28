@@ -33,6 +33,18 @@
         app:expandedTitleTextAppearance="@style/CollapsingTextAppearance.White21"
         app:layout_scrollFlags="scroll|exitUntilCollapsed|snap"
         >
+      <!--顶部占位高度[Toolbar放到第一位置，否则可能内部无法点击]-->
+      <androidx.appcompat.widget.Toolbar
+        android:id="@+id/coordinatorUserToolbar"
+        android:layout_width="match_parent"
+        android:layout_height="49dp"
+        android:gravity="center_vertical|start"
+        app:contentInsetStart="0dp"
+        app:layout_collapseMode="pin"
+        app:titleMarginStart="49dp"
+        tools:title="这是用户的名字"
+        />
+
       <!--整个头部-->
       <androidx.constraintlayout.widget.ConstraintLayout
           android:id="@+id/coordinatorUserHead"
@@ -47,18 +59,6 @@
             android:layout_height="wrap_content"
             />
       </androidx.constraintlayout.widget.ConstraintLayout>
-
-      <!--顶部占位高度-->
-      <androidx.appcompat.widget.Toolbar
-          android:id="@+id/coordinatorUserToolbar"
-          android:layout_width="match_parent"
-          android:layout_height="49dp"
-          android:gravity="center_vertical|start"
-          app:contentInsetStart="0dp"
-          app:layout_collapseMode="pin"
-          app:titleMarginStart="49dp"
-          tools:title="这是用户的名字"
-          />
     </com.google.android.material.appbar.CollapsingToolbarLayout>
 
     <net.lucode.hackware.magicindicator.MagicIndicator
