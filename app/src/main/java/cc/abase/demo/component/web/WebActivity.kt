@@ -17,11 +17,9 @@ import cc.abase.demo.config.HeaderManger
 import cc.abase.demo.databinding.ActivityWebBinding
 import cc.abase.demo.widget.LollipopFixedWebView
 import com.blankj.utilcode.constant.MemoryConstants
-import com.blankj.utilcode.util.ColorUtils
-import com.blankj.utilcode.util.UriUtils
+import com.blankj.utilcode.util.*
 import com.hjq.permissions.*
-import com.just.agentweb.AgentWeb
-import com.just.agentweb.DefaultWebClient
+import com.just.agentweb.*
 import com.luck.picture.lib.basic.PictureSelector
 import com.luck.picture.lib.config.PictureConfig
 import com.luck.picture.lib.config.SelectMimeType
@@ -355,6 +353,7 @@ class WebActivity : CommBindTitleActivity<ActivityWebBinding>() {
   override fun onDestroy() {
     super.onDestroy()
     agentWeb?.webLifeCycle?.onDestroy()
+    //AgentWebConfig.clearDiskCache(Utils.getApp())
   }
   //</editor-fold>
 }
