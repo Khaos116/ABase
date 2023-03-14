@@ -3,12 +3,13 @@ package cc.abase.demo.widget
 import android.animation.ObjectAnimator
 import android.content.Context
 import android.util.AttributeSet
-import android.view.MotionEvent
-import android.view.ViewConfiguration
+import android.view.*
 import android.view.animation.LinearInterpolator
 import android.widget.FrameLayout
-import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
+import cc.ab.base.widget.livedata.MyObserver
 import cc.abase.demo.config.AppLiveData
+import com.blankj.utilcode.util.ScreenUtils
 import kotlin.math.abs
 
 /**
@@ -23,41 +24,61 @@ class TransFrameLayout @kotlin.jvm.JvmOverloads constructor(
   defStyleAttr: Int = 0
 ) : FrameLayout(context, attrs, defStyleAttr) {
   //<editor-fold defaultstate="collapsed" desc="变量">
-  private var isShowRight: Boolean = false
-  var mType: Int = 0//不一样的类型，不需要同时滑动
-  var needTouchScroll: Boolean = true//默认是开启手指滑动的
+  private var isCanMove = true
+  var mTransType: Int = -1
+    //可能存在多组滑动，每组设置不同类别
+    set(value) {
+      field = value
+      updateTranStatus()
+    }
+
+  //滑动监听
+  private var myObserver = MyObserver { p: Pair<Int, Boolean> ->
+    if (p.first == mTransType && isCanMove) {
+      if (childCount == 2) {
+        startAnim(p.second)
+      }
+    }
+  }
   //</editor-fold>
 
   //<editor-fold defaultstate="collapsed" desc="初始化">
   init {
     isClickable = true
-    AppLiveData.frameLayoutScrollLiveData.value?.let { p ->
-      if (p.first == mType) isShowRight = p.second
-    }
-    AppLiveData.frameLayoutScrollLiveData.observe(context as AppCompatActivity) { p ->
-      if (p.first == mType) {
-        if (childCount == 2) {
-          startAnim(p.second)
-        } else {
-          isShowRight = p.second
-        }
-      }
-    }
+    updateTranStatus()
   }
   //</editor-fold>
 
   //<editor-fold defaultstate="collapsed" desc="尺寸变化时修改位置">
   override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
     super.onSizeChanged(w, h, oldw, oldh)
-    if (childCount == 2 && w > 0) {
+    updateTranStatus()
+    AppLiveData.frameLayoutScrollLiveData.removeObserver(myObserver)
+    if (h > 0 && this.isVisible) AppLiveData.frameLayoutScrollLiveData.observeForever(myObserver)
+  }
+  //</editor-fold>
+
+  //<editor-fold defaultstate="collapsed" desc="隐藏/显示状态处理">
+  override fun setVisibility(visibility: Int) {
+    super.setVisibility(visibility)
+    AppLiveData.frameLayoutScrollLiveData.removeObserver(myObserver)
+    if (visibility == View.VISIBLE && height > 0) AppLiveData.frameLayoutScrollLiveData.observeForever(myObserver)
+  }
+  //</editor-fold>
+
+  //<editor-fold defaultstate="collapsed" desc="更新位移状态">
+  private fun updateTranStatus() {
+    var isShowRight = false
+    AppLiveData.transStateMaps[mTransType]?.let { b -> if (isCanMove) isShowRight = b }
+    if (childCount == 2 && width > 0) {
       val child1 = getChildAt(0)
       val child2 = getChildAt(1)
       if (isShowRight) {
-        child1.translationX = -1f * w
+        child1.translationX = -1f * width
         child2.translationX = 0f
       } else {
         child1.translationX = 0f
-        child2.translationX = 1f * w
+        child2.translationX = 1f * width
       }
     }
   }
@@ -78,7 +99,7 @@ class TransFrameLayout @kotlin.jvm.JvmOverloads constructor(
   //是否触发滑动
   private var hasStartTrans = false
   override fun dispatchTouchEvent(event: MotionEvent?): Boolean {
-    if (childCount == 2 && event != null && needTouchScroll) {
+    if (childCount == 2 && event != null && isCanMove) {
       when (event.action and MotionEvent.ACTION_MASK) {
         MotionEvent.ACTION_DOWN -> {
           mDownX = event.rawX //记录获取按压位置
@@ -94,7 +115,9 @@ class TransFrameLayout @kotlin.jvm.JvmOverloads constructor(
           if (!hasStartTrans) {
             hasStartTrans = abs(mCurrentX - mDownX) >= minMoveDistance
             if (hasStartTrans) { //触发滑动后执行移动
-              AppLiveData.frameLayoutScrollLiveData.value = Pair(mType, mCurrentX <= mDownX)
+              val p = Pair(mTransType, mCurrentX <= mDownX)
+              AppLiveData.frameLayoutScrollLiveData.value = p
+              AppLiveData.transStateMaps[p.first] = p.second
             }
           }
         }
@@ -135,6 +158,32 @@ class TransFrameLayout @kotlin.jvm.JvmOverloads constructor(
         }
       }
     }
+  }
+  //</editor-fold>
+
+  //<editor-fold defaultstate="collapsed" desc="是否禁止滚动">
+  fun setCanTans(tans: Boolean) {
+    isCanMove = tans
+    if (!tans) {
+      mTransType = -1
+      val count = childCount
+      for (i in 0 until count) {
+        getChildAt(i).translationX = if (i == 0) 0f else ScreenUtils.getScreenWidth() * 1f
+      }
+    }
+  }
+  //</editor-fold>
+
+  //<editor-fold defaultstate="collapsed" desc="添加/移除时监听">
+  override fun onDetachedFromWindow() {
+    super.onDetachedFromWindow()
+    AppLiveData.frameLayoutScrollLiveData.removeObserver(myObserver)
+  }
+
+  override fun onAttachedToWindow() {
+    super.onAttachedToWindow()
+    AppLiveData.frameLayoutScrollLiveData.removeObserver(myObserver)
+    if (this.isVisible && height > 0) AppLiveData.frameLayoutScrollLiveData.observeForever(myObserver)
   }
   //</editor-fold>
 }
