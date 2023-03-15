@@ -28,6 +28,8 @@ class HtmlWebView @JvmOverloads constructor(
 ) : WebView(con, attrs, defStyle), DefaultLifecycleObserver {
   //<editor-fold defaultstate="collapsed" desc="初始化">
   init {
+    //字体大小不跟随系统
+    settings.textZoom = 100
     // 设置WebView支持JavaScript
     settings.javaScriptEnabled = true
     //支持自动适配

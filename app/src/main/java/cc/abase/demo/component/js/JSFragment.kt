@@ -29,6 +29,8 @@ class JSFragment : CommBindFragment<FragmentJsBinding>() {
     val bridgeWebView = BridgeWebView(mContext)
     viewBinding.flWebView.addView(bridgeWebView, FrameLayout.LayoutParams(-1, -1))
     bridgeWebView.settings.let { ws ->
+      //字体大小不跟随系统
+      ws.textZoom = 100
       //支持javascript
       ws.javaScriptEnabled = true
       ////设置可以支持缩放
