@@ -81,6 +81,8 @@ class WebActivity : CommBindTitleActivity<ActivityWebBinding>() {
     web?.settings?.let { ws ->
       //字体大小不跟随系统
       ws.textZoom = 100
+      //设置js可以直接打开窗口，如window.open()，默认为false
+      ws.javaScriptCanOpenWindowsAutomatically = true
       //支持javascript
       ws.javaScriptEnabled = true
       //设置可以支持缩放
@@ -95,7 +97,12 @@ class WebActivity : CommBindTitleActivity<ActivityWebBinding>() {
       ws.allowFileAccess = true
       //自适应屏幕
       ws.layoutAlgorithm = WebSettings.LayoutAlgorithm.SINGLE_COLUMN
+      //设置此属性，可任意比例缩放，大视图模式和setUseWideViewPort(true)一起解决网页自适应问题
       ws.loadWithOverviewMode = true
+      //是否使用缓存
+      ws.setAppCacheEnabled(true)
+      //DOM Storage
+      ws.domStorageEnabled = true
     }
     //解决键盘不弹起的BUG
     web?.requestFocus(View.FOCUS_DOWN)
