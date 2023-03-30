@@ -12,6 +12,11 @@ import com.google.i18n.phonenumbers.PhoneNumberUtil
 import com.google.i18n.phonenumbers.Phonenumber
 import com.scwang.smart.refresh.layout.SmartRefreshLayout
 import kotlinx.coroutines.*
+import okhttp3.Response
+import okio.Buffer
+import okio.GzipSource
+import java.nio.charset.Charset
+import java.nio.charset.StandardCharsets
 import kotlin.coroutines.CoroutineContext
 
 /**
@@ -144,4 +149,26 @@ fun String?.isPhoneNumber(countryCode: String = "CN"): Boolean {
     e.printStackTrace()
     false
   }
+}
+
+//参考okhttp自带的打印HttpLoggingInterceptor
+fun Response?.readBodyMyString(): String? {
+  if (this == null) return null
+  val responseBody = this.body ?: return null
+  val contentLength = responseBody.contentLength()
+  val source = responseBody.source()
+  source.request(Long.MAX_VALUE) // Buffer the entire body.
+  var buffer = source.buffer
+  if ("gzip".equals(headers["Content-Encoding"], ignoreCase = true)) {
+    GzipSource(buffer.clone()).use { gzippedResponseBody ->
+      buffer = Buffer()
+      buffer.writeAll(gzippedResponseBody)
+    }
+  }
+  val contentType = responseBody.contentType()
+  val charset: Charset = contentType?.charset(StandardCharsets.UTF_8) ?: StandardCharsets.UTF_8
+  if (contentLength != 0L) {
+    return buffer.clone().readString(charset)
+  }
+  return null
 }

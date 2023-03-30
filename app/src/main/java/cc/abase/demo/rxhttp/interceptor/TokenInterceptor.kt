@@ -1,5 +1,6 @@
 package cc.abase.demo.rxhttp.interceptor
 
+import cc.ab.base.ext.readBodyMyString
 import cc.abase.demo.config.*
 import cc.abase.demo.constants.MyErrorCode
 import cc.abase.demo.constants.api.WanUrls
@@ -35,8 +36,11 @@ class TokenInterceptor : Interceptor {
       false
     }
     //确定需要自动登录才进行数据处理
-    if (needAutoLogin && response.body?.contentType()?.isParsable() == true) {
-      response.peekBody(Long.MAX_VALUE).string().let { json ->
+    val responseBody = response.body
+    if (needAutoLogin && responseBody?.contentType()?.isParsable() == true) {
+      val responseBodyString = response.readBodyMyString()
+      //val  responseBodyString:String = response.peekBody(Long.MAX_VALUE).string()
+      responseBodyString?.let { json ->
         val jsonObject = try {
           JSONObject(json)
         } catch (e: Exception) {
