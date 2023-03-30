@@ -35,7 +35,7 @@ abstract class CommBindActivity<T : ViewBinding> : BaseBindActivity<T>() {
   //</editor-fold>
 
   //<editor-fold defaultstate="collapsed" desc="loading和重试外部调用">
-  //private var loadingView: FlashingTextView? = null
+  //private var loadingView: MyFlashTextView? = null
   private var loadingView: LottieAnimationView? = null
   private var errorView: TextView? = null
 

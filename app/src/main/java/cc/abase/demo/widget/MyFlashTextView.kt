@@ -28,6 +28,9 @@ class MyFlashTextView @kotlin.jvm.JvmOverloads constructor(
 
   //<editor-fold defaultstate="collapsed" desc="绘制">
   override fun onDraw(canvas: Canvas?) {
+    if (!text.toString().contains(R.string.加载中.xmlToString())) {
+      paint.shader = null
+    }
     super.onDraw(canvas)
     if (width > 0 && text.toString().contains(R.string.加载中.xmlToString(), true)) {
       if (mViewWidth != width) {

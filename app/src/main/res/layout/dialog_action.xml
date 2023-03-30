@@ -10,7 +10,7 @@
     android:padding="3dp"
     >
 
-  <cc.abase.demo.widget.FlashingTextView
+  <cc.abase.demo.widget.MyFlashTextView
       android:id="@+id/dialogActionHint"
       android:layout_width="match_parent"
       android:layout_height="0dp"
