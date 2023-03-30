@@ -7,6 +7,7 @@ import cc.abase.demo.R
 import com.blankj.utilcode.util.GsonUtils
 import rxhttp.wrapper.annotation.Parser
 import rxhttp.wrapper.entity.ParameterizedTypeImpl
+import rxhttp.wrapper.exception.HttpStatusCodeException
 import rxhttp.wrapper.exception.ParseException
 import rxhttp.wrapper.parse.TypeParser
 import java.io.IOException
@@ -40,8 +41,10 @@ open class ResponseGankParser<T> : TypeParser<T> {
         throw ParseException("-1", if (responseGank.error()) R.string.接口error.xmlToString() else R.string.数据返回错误.xmlToString(), response)
       }
       return data
+    } else if (response.body?.contentType()?.isParsable() != true) {
+      throw ParseException(response.code.toString(), "ContentType Parsing Exception", response)
     } else {
-      throw ParseException(response.code.toString(), "fail or type error", response)
+      throw HttpStatusCodeException(response)
     }
   }
 }

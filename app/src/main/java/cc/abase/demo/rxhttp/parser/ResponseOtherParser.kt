@@ -5,6 +5,7 @@ import cc.abase.demo.config.GlobalErrorHandle
 import com.blankj.utilcode.util.GsonUtils
 import org.json.JSONObject
 import rxhttp.wrapper.annotation.Parser
+import rxhttp.wrapper.exception.HttpStatusCodeException
 import rxhttp.wrapper.exception.ParseException
 import rxhttp.wrapper.parse.TypeParser
 import timber.log.Timber
@@ -55,8 +56,10 @@ open class ResponseOtherParser<T> : TypeParser<T> {
         e.printStackTrace()
       }
       return GsonUtils.fromJson(result, types.first())
+    } else if (response.body?.contentType()?.isParsable() != true) {
+      throw ParseException(response.code.toString(), "ContentType Parsing Exception", response)
     } else {
-      throw ParseException(response.code.toString(), "fail or type error", response)
+      throw HttpStatusCodeException(response)
     }
   }
 }

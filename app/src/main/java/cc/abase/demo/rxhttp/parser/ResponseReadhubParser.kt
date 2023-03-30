@@ -7,6 +7,7 @@ import cc.abase.demo.R
 import com.blankj.utilcode.util.GsonUtils
 import rxhttp.wrapper.annotation.Parser
 import rxhttp.wrapper.entity.ParameterizedTypeImpl
+import rxhttp.wrapper.exception.HttpStatusCodeException
 import rxhttp.wrapper.exception.ParseException
 import rxhttp.wrapper.parse.TypeParser
 import java.io.IOException
@@ -35,8 +36,10 @@ open class ResponseReadhubParser<T> : TypeParser<T> {
       val type: Type = ParameterizedTypeImpl[ReadhubResponse::class.java, types.first()]
       val responseGank: ReadhubResponse<T> = GsonUtils.fromJson(result, type)
       return responseGank.data ?: throw ParseException("-1", R.string.数据返回错误.xmlToString(), response)
+    } else if (response.body?.contentType()?.isParsable() != true) {
+      throw ParseException(response.code.toString(), "ContentType Parsing Exception", response)
     } else {
-      throw ParseException(response.code.toString(), "fail or type error", response)
+      throw HttpStatusCodeException(response)
     }
   }
 }

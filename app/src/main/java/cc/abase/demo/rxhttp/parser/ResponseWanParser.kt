@@ -7,6 +7,7 @@ import cc.abase.demo.config.GlobalErrorHandle
 import com.blankj.utilcode.util.GsonUtils
 import rxhttp.wrapper.annotation.Parser
 import rxhttp.wrapper.entity.ParameterizedTypeImpl
+import rxhttp.wrapper.exception.HttpStatusCodeException
 import rxhttp.wrapper.exception.ParseException
 import rxhttp.wrapper.parse.TypeParser
 import java.io.IOException
@@ -44,8 +45,10 @@ open class ResponseWanParser<T> : TypeParser<T> {
         throw ParseException(dealCode.toString(), responseWan.errorMsg, response)
       }
       return data
+    } else if (response.body?.contentType()?.isParsable() != true) {
+      throw ParseException(response.code.toString(), "ContentType Parsing Exception", response)
     } else {
-      throw ParseException(response.code.toString(), "fail or type error", response)
+      throw HttpStatusCodeException(response)
     }
   }
 }
