@@ -39,8 +39,8 @@ object TimeUtils {
    * @param utcTime  UTC时间
    */
   fun utc2Local(
-      utcTime: String,
-      offSet: Int? = null //当前时区偏移，如:北京+8，纽约-5，默认为手机自带时区
+    utcTime: String,
+    offSet: Int? = null //当前时区偏移，如:北京+8，纽约-5，默认为手机自带时区
   ): String {
     val utcFormatter = SimpleDateFormat(UTC_FORMAT, Locale.getDefault()) //UTC时间格式
     utcFormatter.timeZone = TimeZone.getTimeZone("UTC")
@@ -137,14 +137,15 @@ object TimeUtils {
   //</editor-fold>
 
   //<editor-fold defaultstate="collapsed" desc="时差计算">
-  private fun getOffset(): Long {
-    val date = Date()
-    val sdf1 = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
-    sdf1.timeZone = TimeZone.getTimeZone("UTC")
-    val sdf2 = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
-    val date1 = sdf1.format(date)
-    val date2 = sdf2.format(date)
-    val off = (sdf2.parse(date2)?.time ?: 0) - (sdf2.parse(date1)?.time ?: 0)
+  private fun getOffset(): Int {
+    val off = TimeZone.getDefault().rawOffset // 获取本地时区与 UTC 时间的差值，单位为毫秒
+    //val date = Date()
+    //val sdf1 = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
+    //sdf1.timeZone = TimeZone.getTimeZone("UTC")
+    //val sdf2 = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
+    //val date1 = sdf1.format(date)
+    //val date2 = sdf2.format(date)
+    //val off = (sdf2.parse(date2)?.time ?: 0) - (sdf2.parse(date1)?.time ?: 0)
     "本地和0时区时差为：${(off / 3600000f)}小时".logE()
     return off
   }
