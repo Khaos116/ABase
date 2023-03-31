@@ -99,3 +99,21 @@ fun String?.toBankNumber(): String {
   return if (this.isNullOrBlank()) "" else this.replace(" ", "").replace("(.{4})".toRegex(), "$1 ").trim()
 }
 //</editor-fold>
+
+//<editor-fold defaultstate="collapsed" desc="处理精度丢失问题">
+fun Number?.toFloatMy(): Float {
+  return if (this == null) {
+    0f
+  } else {
+    return this.toString().toFloatMy()
+  }
+}
+
+fun Number?.toDoubleMy(): Double {
+  return if (this == null) {
+    0.0
+  } else {
+    return this.toString().toDoubleMy()
+  }
+}
+//</editor-fold>

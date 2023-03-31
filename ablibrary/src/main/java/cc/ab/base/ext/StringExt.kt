@@ -8,6 +8,7 @@ import okhttp3.Cache
 import okhttp3.HttpUrl.Companion.toHttpUrlOrNull
 import timber.log.Timber
 import java.io.File
+import java.math.BigDecimal
 import java.util.regex.Pattern
 
 /**
@@ -132,3 +133,39 @@ fun String?.findBySymbols(start: String = "(", end: String = ")"): String {
 fun String?.replaceSpace(replacement: String = "-"): String {
   return this?.trim()?.replace("\\s+".toRegex(), replacement) ?: ""
 }
+
+//<editor-fold defaultstate="collapsed" desc="处理精度丢失问题">
+fun String?.toFloatMy(): Float {
+  return if (this.isNullOrBlank()) {
+    0f
+  } else {
+    return try {
+      if (this.contains(",") && this.contains(".")) {
+        BigDecimal(this.replace(",", "")).toFloat()
+      } else {
+        BigDecimal(this).toFloat()
+      }
+    } catch (e: Exception) {
+      e.printStackTrace()
+      return 0f
+    }
+  }
+}
+
+fun String?.toDoubleMy(): Double {
+  return if (this.isNullOrBlank()) {
+    0.0
+  } else {
+    return try {
+      if (this.contains(",") && this.contains(".")) {
+        BigDecimal(this.replace(",", "")).toDouble()
+      } else {
+        BigDecimal(this).toDouble()
+      }
+    } catch (e: Exception) {
+      e.printStackTrace()
+      return 0.0
+    }
+  }
+}
+//</editor-fold>
