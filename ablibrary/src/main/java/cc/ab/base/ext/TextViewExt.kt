@@ -51,7 +51,7 @@ fun TextView.getNumberNo00ZH(num: Double): String {
 fun TextView.setNumber2Point(num: String, prefix: String = "", suffix: String = "") {
     val decimalFormat = DecimalFormat("#0.00")
     text = prefix + try {
-        decimalFormat.format(num.toDouble())
+        decimalFormat.format(num.toDoubleMy())
     } catch (e: Exception) {
         num
     } + suffix

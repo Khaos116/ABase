@@ -1,5 +1,6 @@
 package cc.ab.base.utils
 
+import cc.ab.base.ext.toDoubleMy
 import kotlinx.coroutines.*
 import kotlin.math.pow
 
@@ -19,9 +20,9 @@ object SimpleZuheUtils {
       withContext(Dispatchers.IO) {
         val result: MutableList<List<T>> = mutableListOf()
         var i = 1
-        while (i < 2.0.pow(list.size.toDouble())) {
+        while (i < 2.0.pow(list.size.toDoubleMy())) {
           val temp: MutableList<T> = mutableListOf()
-          for (j in list.indices) if ((i and 2.0.pow(j.toDouble()).toInt()).toDouble() == 2.0.pow(j.toDouble())) temp.add(list[j])
+          for (j in list.indices) if ((i and 2.0.pow(j.toDoubleMy()).toInt()).toDoubleMy() == 2.0.pow(j.toDoubleMy())) temp.add(list[j])
           result.add(temp)
           i++
         }

@@ -1,8 +1,7 @@
 package cc.abase.demo.item
 
 import android.view.View
-import cc.ab.base.ext.click2Parent
-import cc.ab.base.ext.setNumberNo00
+import cc.ab.base.ext.*
 import cc.ab.base.ui.item.BaseBindItemView
 import cc.ab.base.ui.item.BaseViewHolder
 import cc.abase.demo.bean.gank.GankAndroidBean
@@ -22,9 +21,9 @@ class GankItem(private val parentView: View? = null) : BaseBindItemView<GankAndr
     viewBinding.itemGankTitle.text = item.title
     viewBinding.itemGankDes.mFirstParagraphSpace = viewBinding.itemGankDes.mParagraphSpace
     viewBinding.itemGankDes.text = item.desc ?: ""
-    viewBinding.itemGankSeeCounts.setNumberNo00(item.views.toDouble())
-    viewBinding.itemGankStoreCounts.setNumberNo00(item.stars.toDouble())
-    viewBinding.itemGankPraiseCounts.setNumberNo00(item.likeCounts.toDouble())
+    viewBinding.itemGankSeeCounts.setNumberNo00(item.views.toDoubleMy())
+    viewBinding.itemGankStoreCounts.setNumberNo00(item.stars.toDoubleMy())
+    viewBinding.itemGankPraiseCounts.setNumberNo00(item.likeCounts.toDoubleMy())
   }
   //</editor-fold>
 }

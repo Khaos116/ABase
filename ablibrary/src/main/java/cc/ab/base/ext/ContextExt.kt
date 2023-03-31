@@ -39,7 +39,7 @@ fun Context.dp2px(dp: Float): Int {
 
 //dp转px
 fun Context.dp2px(dp: Int): Int {
-  return SizeUtils.dp2px(dp.toFloat())
+  return SizeUtils.dp2px(dp.toFloatMy())
 }
 
 //Toast 文字

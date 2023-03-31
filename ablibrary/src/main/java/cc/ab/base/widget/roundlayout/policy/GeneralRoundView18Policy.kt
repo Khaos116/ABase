@@ -4,7 +4,7 @@ import android.content.Context
 import android.graphics.*
 import android.util.AttributeSet
 import android.view.View
-import cc.ab.base.widget.roundlayout.policy.AbsRoundViewPolicy
+import cc.ab.base.ext.toFloatMy
 
 /**
  * 通用圆角布局18、19、20版本策略
@@ -37,7 +37,7 @@ class GeneralRoundView18Policy(
     }
 
     override fun onLayout(left: Int, top: Int, right: Int, bottom: Int) {
-        mRectF.set(0f, 0f, mContainer.width.toFloat(), mContainer.height.toFloat())
+        mRectF.set(0f, 0f, mContainer.width.toFloatMy(), mContainer.height.toFloatMy())
         resetRoundPath()
     }
 

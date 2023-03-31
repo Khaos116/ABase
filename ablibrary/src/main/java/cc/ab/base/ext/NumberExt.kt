@@ -9,48 +9,48 @@ import kotlin.math.min
 //dp->px
 fun Number.dp2px(): Int {
   val width = min(Resources.getSystem().displayMetrics.widthPixels, Resources.getSystem().displayMetrics.heightPixels)
-  return (this.toFloat() * (width / 360f)).toInt()
+  return (this.toFloatMy() * (width / 360f)).toInt()
 }
 
 //sp->px
 fun Number.sp2px(): Int {
   val width = min(Resources.getSystem().displayMetrics.widthPixels, Resources.getSystem().displayMetrics.heightPixels)
-  return (this.toFloat() * (width / 360f)).toInt()
+  return (this.toFloatMy() * (width / 360f)).toInt()
 }
 
 //px->dp
 fun Number.px2dp(): Int {
   val width = min(Resources.getSystem().displayMetrics.widthPixels, Resources.getSystem().displayMetrics.heightPixels)
-  return (this.toFloat() * (width / 360f)).toInt()
+  return (this.toFloatMy() * (width / 360f)).toInt()
 }
 
 //px->sp
 fun Number.px2sp(): Int {
   val width = min(Resources.getSystem().displayMetrics.widthPixels, Resources.getSystem().displayMetrics.heightPixels)
-  return (this.toFloat() * (width / 360f)).toInt()
+  return (this.toFloatMy() * (width / 360f)).toInt()
 }
 //</editor-fold>
 
 //<editor-fold defaultstate="collapsed" desc="保留小数">
 //保留2位小数(根据第三位四舍五入)
 fun Number?.to2pointUp(): String {
-  return if (this == null) "0.00" else DecimalFormat("#0.00").also { it.roundingMode = RoundingMode.HALF_UP }.format(this.toDouble())
+  return if (this == null) "0.00" else DecimalFormat("#0.00").also { it.roundingMode = RoundingMode.HALF_UP }.format(this.toDoubleMy())
 }
 
 //保留2位小数(去掉后面的)
 fun Number?.to2pointDown(): String {
-  return if (this == null) "0.00" else DecimalFormat("#0.00").also { it.roundingMode = RoundingMode.DOWN }.format(this.toDouble())
+  return if (this == null) "0.00" else DecimalFormat("#0.00").also { it.roundingMode = RoundingMode.DOWN }.format(this.toDoubleMy())
 }
 
 //保留2位小数+逗号分隔
 fun Number?.to2point2(): String {
-  return if (this == null) "0.00" else DecimalFormat("###,###,###,###,##0.00").format(this.toDouble())
+  return if (this == null) "0.00" else DecimalFormat("###,###,###,###,##0.00").format(this.toDoubleMy())
 }
 
 //保留2位小数
 fun String?.to2point(): String {
   return if (this.isNullOrBlank()) "0.00" else try {
-    DecimalFormat("#0.00").format(this.toDouble())
+    DecimalFormat("#0.00").format(this.toDoubleMy())
   } catch (e: Exception) {
     this
   }
@@ -59,7 +59,7 @@ fun String?.to2point(): String {
 //保留2位小数+逗号分隔
 fun String?.to2point2(): String {
   return if (this.isNullOrBlank()) "0.00" else try {
-    DecimalFormat("###,###,###,###,##0.00").format(this.toDouble())
+    DecimalFormat("###,###,###,###,##0.00").format(this.toDoubleMy())
   } catch (e: Exception) {
     this
   }
@@ -69,27 +69,27 @@ fun String?.to2point2(): String {
 fun Number?.toStart0(): String {
   return when {
     this == null -> "00"
-    this.toDouble() < 10.0 -> String.format("0%s", this)
+    this.toDoubleMy() < 10.0 -> String.format("0%s", this)
     else -> this.toString()
   }
 }
 
 //删除默尾0
 fun Number?.delEnd0(): String {
-  return if (this == null) "0" else DecimalFormat("#########0.##########").format(this.toDouble())
+  return if (this == null) "0" else DecimalFormat("#########0.##########").format(this.toDoubleMy())
 }
 //</editor-fold>
 
 //<editor-fold defaultstate="collapsed" desc="保证位数">
 //2位数(0是1位)
 fun Int?.to2Num(): String {
-  return if (this == null || this.toDouble() == 0.0) "0" else DecimalFormat("00").format(this.toDouble())
+  return if (this == null || this.toDoubleMy() == 0.0) "0" else DecimalFormat("00").format(this.toDoubleMy())
 }
 //</editor-fold>
 
 //2位数
 fun Int?.to2Num2(): String {
-  return if (this == null || this.toDouble() == 0.0) "00" else DecimalFormat("00").format(this.toDouble())
+  return if (this == null || this.toDoubleMy() == 0.0) "00" else DecimalFormat("00").format(this.toDoubleMy())
 }
 //</editor-fold>
 

@@ -4,6 +4,7 @@ import android.graphics.Color
 import android.graphics.drawable.*
 import android.view.MotionEvent
 import android.view.View
+import cc.ab.base.ext.toFloatMy
 import com.blankj.utilcode.util.SizeUtils
 import kotlinx.coroutines.*
 
@@ -116,42 +117,42 @@ object PressEffectHelper {
         gradientDrawable.cornerRadii =
           floatArrayOf(
             if (topLeftRadiusDp != 0.0f) {
-              SizeUtils.dp2px(topLeftRadiusDp).toFloat()
+              SizeUtils.dp2px(topLeftRadiusDp).toFloatMy()
             } else {
               0.0f
             }, //top-left-x
             if (topLeftRadiusDp != 0.0f) {
-              SizeUtils.dp2px(topLeftRadiusDp).toFloat()
+              SizeUtils.dp2px(topLeftRadiusDp).toFloatMy()
             } else {
               0.0f
             }, //top-left-y
             if (topRightRadiusDp != 0.0f) {
-              SizeUtils.dp2px(topRightRadiusDp).toFloat()
+              SizeUtils.dp2px(topRightRadiusDp).toFloatMy()
             } else {
               0.0f
             }, //top-right-x
             if (topRightRadiusDp != 0.0f) {
-              SizeUtils.dp2px(topRightRadiusDp).toFloat()
+              SizeUtils.dp2px(topRightRadiusDp).toFloatMy()
             } else {
               0.0f
             }, //top-right-y
             if (bottomRightRadiusDp != 0.0f) {
-              SizeUtils.dp2px(bottomRightRadiusDp).toFloat()
+              SizeUtils.dp2px(bottomRightRadiusDp).toFloatMy()
             } else {
               0.0f
             }, //bottom-right-y
             if (bottomRightRadiusDp != 0.0f) {
-              SizeUtils.dp2px(bottomRightRadiusDp).toFloat()
+              SizeUtils.dp2px(bottomRightRadiusDp).toFloatMy()
             } else {
               0.0f
             }, //bottom-right-y
             if (bottomLeftRadiusDp != 0.0f) {
-              SizeUtils.dp2px(bottomLeftRadiusDp).toFloat()
+              SizeUtils.dp2px(bottomLeftRadiusDp).toFloatMy()
             } else {
               0.0f
             }, //bottom-left-x
             if (bottomLeftRadiusDp != 0.0f) {
-              SizeUtils.dp2px(bottomLeftRadiusDp).toFloat()
+              SizeUtils.dp2px(bottomLeftRadiusDp).toFloatMy()
             } else {
               0.0f
             } //bottom-left-y

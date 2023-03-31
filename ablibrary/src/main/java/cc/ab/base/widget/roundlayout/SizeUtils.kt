@@ -1,6 +1,7 @@
 package cc.ab.base.widget.roundlayout
 
 import android.content.Context
+import cc.ab.base.ext.toFloatMy
 
 class SizeUtils {
   companion object {
@@ -11,7 +12,7 @@ class SizeUtils {
        */
     fun dip2px(context: Context, dipValue: Float): Float {
       val displayMetrics = context.applicationContext.resources.displayMetrics
-      return (dipValue * displayMetrics.density + 0.5f).toInt().toFloat()
+      return (dipValue * displayMetrics.density + 0.5f).toInt().toFloatMy()
     }
   }
 }

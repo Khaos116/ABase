@@ -12,6 +12,7 @@ import android.widget.*
 import android.widget.LinearLayout.LayoutParams
 import androidx.viewpager.widget.ViewPager
 import androidx.viewpager.widget.ViewPager.OnPageChangeListener
+import cc.ab.base.ext.toFloatMy
 
 /**
  * description: 自定义ViewPager指示器.
@@ -127,18 +128,18 @@ class SimpleViewpagerIndicator @JvmOverloads constructor(
      * 将dp换算为px
      */
     val density = context.resources.displayMetrics.density
-    indicatorHeight = dp2px(indicatorHeight.toFloat())
-    underlineHeight = dp2px(underlineHeight).toFloat()
-    dividerPadding = dp2px(dividerPadding.toFloat())
-    dividerWidth = dp2px(dividerWidth.toFloat())
-    tabTextSize = dp2px(tabTextSize.toFloat())
-    tabPadding = dp2px(tabPadding.toFloat())
-    selectedTabTextSize = dp2px(selectedTabTextSize.toFloat())
-    scrollOffset = dp2px(scrollOffset.toFloat())
-    tabWidth = dp2px(tabWidth.toFloat())
-    tabRound = dp2px(tabRound.toFloat())
-    tabTransY = dp2px(tabTransY).toFloat()
-    textTransY = dp2px(textTransY).toFloat()
+    indicatorHeight = dp2px(indicatorHeight.toFloatMy())
+    underlineHeight = dp2px(underlineHeight).toFloatMy()
+    dividerPadding = dp2px(dividerPadding.toFloatMy())
+    dividerWidth = dp2px(dividerWidth.toFloatMy())
+    tabTextSize = dp2px(tabTextSize.toFloatMy())
+    tabPadding = dp2px(tabPadding.toFloatMy())
+    selectedTabTextSize = dp2px(selectedTabTextSize.toFloatMy())
+    scrollOffset = dp2px(scrollOffset.toFloatMy())
+    tabWidth = dp2px(tabWidth.toFloatMy())
+    tabRound = dp2px(tabRound.toFloatMy())
+    tabTransY = dp2px(tabTransY).toFloatMy()
+    textTransY = dp2px(textTransY).toFloatMy()
     /*
      * 创建tab的容器（LinearLayout）
      */
@@ -155,9 +156,9 @@ class SimpleViewpagerIndicator @JvmOverloads constructor(
     rectPaint.style = FILL
     dividerPaint = Paint()
     dividerPaint.isAntiAlias = true
-    dividerPaint.strokeWidth = dividerWidth.toFloat()
+    dividerPaint.strokeWidth = dividerWidth.toFloatMy()
     measureTextPaint = Paint()
-    measureTextPaint.textSize = selectedTabTextSize.toFloat()
+    measureTextPaint.textSize = selectedTabTextSize.toFloatMy()
 
     /*
      * 创建两个Tab的LayoutParams，一个为宽度包裹内容，一个为宽度等分父控件剩余空间
@@ -214,11 +215,11 @@ class SimpleViewpagerIndicator @JvmOverloads constructor(
     for (i in 0 until tabCount) {
       val tvTab = tabsContainer.getChildAt(i) as TextView
       if (i == selectedPosition) { //被选中的tab
-        tvTab.setTextSize(TypedValue.COMPLEX_UNIT_PX, selectedTabTextSize.toFloat())
+        tvTab.setTextSize(TypedValue.COMPLEX_UNIT_PX, selectedTabTextSize.toFloatMy())
         tvTab.setTypeface(selectedTabTypeface, selectedTabTypefaceStyle)
         tvTab.setTextColor(selectedTabTextColor)
       } else { //未被选中的tab
-        tvTab.setTextSize(TypedValue.COMPLEX_UNIT_PX, tabTextSize.toFloat())
+        tvTab.setTextSize(TypedValue.COMPLEX_UNIT_PX, tabTextSize.toFloatMy())
         tvTab.setTypeface(tabTypeface, tabTypefaceStyle)
         tvTab.setTextColor(tabTextColor)
       }
@@ -260,7 +261,7 @@ class SimpleViewpagerIndicator @JvmOverloads constructor(
      */
     if (showUnderline) {
       rectPaint.color = underlineColor
-      canvas.drawRect(0f, height - underlineHeight, tabsContainer.width.toFloat(), height.toFloat(), rectPaint)
+      canvas.drawRect(0f, height - underlineHeight, tabsContainer.width.toFloatMy(), height.toFloatMy(), rectPaint)
     }
     /*
      * 绘制indicator
@@ -279,40 +280,40 @@ class SimpleViewpagerIndicator @JvmOverloads constructor(
           tabCenter - tabWidth / 2.0f, height - indicatorHeight + tabTransY,
           tabCenter + tabWidth / 2.0f,
           height + tabTransY,
-          tabRound.toFloat(), tabRound.toFloat(), rectPaint
+          tabRound.toFloatMy(), tabRound.toFloatMy(), rectPaint
       )
     } else {
       if (indicatorWrapText) { //indicator与文字等长
         rectPaint.color = indicatorColor
         getTextLocation(currentPosition)
-        var lineLeft = textLocation.left.toFloat()
-        var lineRight = textLocation.right.toFloat()
+        var lineLeft = textLocation.left.toFloatMy()
+        var lineRight = textLocation.right.toFloatMy()
         if (currentPositionOffset > 0f && currentPosition < tabCount - 1) {
           getTextLocation(currentPosition + 1)
-          val nextLeft = textLocation.left.toFloat()
-          val nextRight = textLocation.right.toFloat()
+          val nextLeft = textLocation.left.toFloatMy()
+          val nextRight = textLocation.right.toFloatMy()
           lineLeft += (nextLeft - lineLeft) * currentPositionOffset
           lineRight += (nextRight - lineRight) * currentPositionOffset
         }
         canvas.drawRoundRect(
             lineLeft, height - indicatorHeight + tabTransY, lineRight,
-            height + tabTransY, tabRound.toFloat(), tabRound.toFloat(), rectPaint
+            height + tabTransY, tabRound.toFloatMy(), tabRound.toFloatMy(), rectPaint
         )
       } else { //indicator与tab等长
         rectPaint.color = indicatorColor
         val currentTab = tabsContainer.getChildAt(currentPosition)
-        var lineLeft = currentTab.left.toFloat()
-        var lineRight = currentTab.right.toFloat()
+        var lineLeft = currentTab.left.toFloatMy()
+        var lineRight = currentTab.right.toFloatMy()
         if (currentPositionOffset > 0f && currentPosition < tabCount - 1) {
           val nextTab = tabsContainer.getChildAt(currentPosition + 1)
-          val nextLeft = nextTab.left.toFloat()
-          val nextRight = nextTab.right.toFloat()
+          val nextLeft = nextTab.left.toFloatMy()
+          val nextRight = nextTab.right.toFloatMy()
           lineLeft += (nextLeft - lineLeft) * currentPositionOffset
           lineRight += (nextRight - lineRight) * currentPositionOffset
         }
         canvas.drawRoundRect(
             lineLeft, height - indicatorHeight + tabTransY, lineRight,
-            height + tabTransY, tabRound.toFloat(), tabRound.toFloat(), rectPaint
+            height + tabTransY, tabRound.toFloatMy(), tabRound.toFloatMy(), rectPaint
         )
       }
     }
@@ -325,7 +326,7 @@ class SimpleViewpagerIndicator @JvmOverloads constructor(
       for (i in 0 until tabCount - 1) {
         val tab = tabsContainer.getChildAt(i)
         canvas.drawLine(
-            tab.right.toFloat(), dividerPadding.toFloat(), tab.right.toFloat(), height - dividerPadding.toFloat(), dividerPaint
+            tab.right.toFloatMy(), dividerPadding.toFloatMy(), tab.right.toFloatMy(), height - dividerPadding.toFloatMy(), dividerPaint
         )
       }
     }

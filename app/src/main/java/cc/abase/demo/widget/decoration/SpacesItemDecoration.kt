@@ -10,9 +10,8 @@ import androidx.annotation.DrawableRes
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.RecyclerView.ItemDecoration
-import androidx.recyclerview.widget.RecyclerView.LayoutParams
-import androidx.recyclerview.widget.RecyclerView.State
+import androidx.recyclerview.widget.RecyclerView.*
+import cc.ab.base.ext.toFloatMy
 import cc.abase.demo.R
 import com.blankj.utilcode.util.*
 
@@ -166,7 +165,7 @@ class SpacesItemDecoration @JvmOverloads constructor(private val mOrientation: I
           val right1 = right - mRightBottomPadding
           val top1 = child.bottom + params.bottomMargin
           val bottom1 = top1 + mDividerSpacing
-          canvas.drawRect(left1.toFloat(), top1.toFloat(), right1.toFloat(), bottom1.toFloat(), p)
+          canvas.drawRect(left1.toFloatMy(), top1.toFloatMy(), right1.toFloatMy(), bottom1.toFloatMy(), p)
         }
       }
     }
@@ -211,7 +210,7 @@ class SpacesItemDecoration @JvmOverloads constructor(private val mOrientation: I
           val right1 = left1 + mDividerSpacing
           val top1 = top + mLeftTopPadding
           val bottom1 = bottom - mRightBottomPadding
-          canvas.drawRect(left1.toFloat(), top1.toFloat(), right1.toFloat(), bottom1.toFloat(), p)
+          canvas.drawRect(left1.toFloatMy(), top1.toFloatMy(), right1.toFloatMy(), bottom1.toFloatMy(), p)
         }
       }
     }

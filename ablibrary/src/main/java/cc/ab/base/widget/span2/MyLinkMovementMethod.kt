@@ -5,6 +5,7 @@ import android.text.Spannable
 import android.text.method.LinkMovementMethod
 import android.view.MotionEvent
 import android.widget.TextView
+import cc.ab.base.ext.toFloatMy
 
 /**
  * https://github.com/still-soul/MagicTextView
@@ -77,7 +78,7 @@ object MyLinkMovementMethod : LinkMovementMethod() {
         val layout = textView.layout
         val line = layout.getLineForVertical(y)
         try {
-            var off = layout.getOffsetForHorizontal(line, x.toFloat())
+            var off = layout.getOffsetForHorizontal(line, x.toFloatMy())
             if (x < layout.getLineLeft(line) || x > layout.getLineRight(line)) {
                 off = -1 // 实际上没点到任何内容
             } else if (y < layout.getLineTop(line) || y > layout.getLineBottom(line)) {

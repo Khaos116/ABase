@@ -125,8 +125,8 @@ class ChatActivity : CommBindTitleActivity<ActivityChatBinding>() {
   //监听键盘高度
   private fun changeKeyHeight(height: Int) {
     keOpen = height > 0
-    viewBinding.chatRecycler.translationY = -height.toFloat()
-    viewBinding.chatInputLayout.translationY = -height.toFloat()
+    viewBinding.chatRecycler.translationY = -height.toFloatMy()
+    viewBinding.chatInputLayout.translationY = -height.toFloatMy()
   }
   //</editor-fold>
 

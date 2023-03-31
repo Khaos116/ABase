@@ -5,6 +5,7 @@ import android.graphics.*
 import android.util.AttributeSet
 import androidx.constraintlayout.widget.ConstraintLayout
 import cc.ab.base.R
+import cc.ab.base.ext.toFloatMy
 
 /**
  *适用性：
@@ -141,6 +142,6 @@ class RoundConstraintLayout @JvmOverloads constructor(
       radiusArray[6] = radius
       radiusArray[7] = radius
     }
-    path.addRoundRect(paddingStart.toFloat(), paddingTop.toFloat(), width - paddingEnd.toFloat(), height - paddingBottom.toFloat(), radiusArray, Path.Direction.CW)
+    path.addRoundRect(paddingStart.toFloatMy(), paddingTop.toFloatMy(), width - paddingEnd.toFloatMy(), height - paddingBottom.toFloatMy(), radiusArray, Path.Direction.CW)
   }
 }

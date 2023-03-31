@@ -12,8 +12,7 @@ import android.text.style.ForegroundColorSpan
 import android.widget.RemoteViews
 import androidx.core.app.NotificationCompat
 import cc.ab.base.config.PathConfig
-import cc.ab.base.ext.logE
-import cc.ab.base.ext.xmlToString
+import cc.ab.base.ext.*
 import cc.abase.demo.R
 import cc.abase.demo.constants.EventKeys
 import cc.abase.demo.constants.StringConstants
@@ -334,10 +333,10 @@ open class CcUpdateService : Service() {
   private fun byte2FitMemorySize(byteNum: Long): String {
     return when {
       byteNum < 0 -> "0B"
-      byteNum < MemoryConstants.KB -> DecimalFormat("#########0.##").format(byteNum.toDouble()) + "B"
-      byteNum < MemoryConstants.MB -> DecimalFormat("#########0.##").format(byteNum.toDouble() / MemoryConstants.KB) + "KB"
-      byteNum < MemoryConstants.GB -> DecimalFormat("#########0.##").format(byteNum.toDouble() / MemoryConstants.MB) + "MB"
-      else -> DecimalFormat("#########0.###").format(byteNum.toDouble() / MemoryConstants.GB) + "GB"
+      byteNum < MemoryConstants.KB -> DecimalFormat("#########0.##").format(byteNum.toDoubleMy()) + "B"
+      byteNum < MemoryConstants.MB -> DecimalFormat("#########0.##").format(byteNum.toDoubleMy() / MemoryConstants.KB) + "KB"
+      byteNum < MemoryConstants.GB -> DecimalFormat("#########0.##").format(byteNum.toDoubleMy() / MemoryConstants.MB) + "MB"
+      else -> DecimalFormat("#########0.###").format(byteNum.toDoubleMy() / MemoryConstants.GB) + "GB"
     }
   }
   //</editor-fold>

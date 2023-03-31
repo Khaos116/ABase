@@ -1,6 +1,7 @@
 package cc.ab.base.utils.ping
 
 import cc.ab.base.ext.launchError
+import cc.ab.base.ext.toFloatMy
 import kotlinx.coroutines.*
 import java.io.IOException
 import java.net.*
@@ -76,7 +77,7 @@ class PingBySocket {
             failCount--
             val mResult = PingResult(inetAddress)
             mResult.isReachable = true
-            mResult.timeTaken = mRttTimes[i].toFloat()
+            mResult.timeTaken = mRttTimes[i].toFloatMy()
             withContext(Dispatchers.Main) { if(isActive)listener?.onResult(mResult) }
           }
         }
@@ -97,7 +98,7 @@ class PingBySocket {
             }
           }
           if (count > 0) {
-            val mStats = PingStats(inetAddress, count.toLong(), failCount.toLong(), time.toFloat(), minTime.toFloat(), maxTime.toFloat())
+            val mStats = PingStats(inetAddress, count.toLong(), failCount.toLong(), time.toFloatMy(), minTime.toFloatMy(), maxTime.toFloatMy())
             withContext(Dispatchers.Main) { if(isActive)listener?.onFinished(mStats) }
           }
         }

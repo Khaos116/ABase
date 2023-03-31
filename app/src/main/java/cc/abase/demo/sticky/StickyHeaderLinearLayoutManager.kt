@@ -7,6 +7,7 @@ import android.os.Parcelable
 import android.view.*
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import cc.ab.base.ext.toFloatMy
 import kotlinx.android.parcel.Parcelize
 
 /**
@@ -397,14 +398,14 @@ class StickyHeaderLinearLayoutManager<T>
       VERTICAL -> {
         var y = translationY
         if (reverseLayout) {
-          y += (height - headerView.height).toFloat()
+          y += (height - headerView.height).toFloatMy()
         }
         if (nextHeaderView != null) {
           val bottomMargin = (nextHeaderView.layoutParams as? ViewGroup.MarginLayoutParams)?.bottomMargin ?: 0
           val topMargin = (nextHeaderView.layoutParams as? ViewGroup.MarginLayoutParams)?.topMargin ?: 0
           y = when {
-            reverseLayout -> (nextHeaderView.bottom + bottomMargin).toFloat().coerceAtLeast(y)
-            else -> (nextHeaderView.top - topMargin - headerView.height).toFloat().coerceAtMost(y)
+            reverseLayout -> (nextHeaderView.bottom + bottomMargin).toFloatMy().coerceAtLeast(y)
+            else -> (nextHeaderView.top - topMargin - headerView.height).toFloatMy().coerceAtMost(y)
           }
         }
         return y
@@ -422,14 +423,14 @@ class StickyHeaderLinearLayoutManager<T>
       HORIZONTAL -> {
         var x = translationX
         if (reverseLayout) {
-          x += (width - headerView.width).toFloat()
+          x += (width - headerView.width).toFloatMy()
         }
         if (nextHeaderView != null) {
           val leftMargin = (nextHeaderView.layoutParams as? ViewGroup.MarginLayoutParams)?.leftMargin ?: 0
           val rightMargin = (nextHeaderView.layoutParams as? ViewGroup.MarginLayoutParams)?.rightMargin ?: 0
           x = when {
-            reverseLayout -> (nextHeaderView.right + rightMargin).toFloat().coerceAtLeast(x)
-            else -> (nextHeaderView.left - leftMargin - headerView.width).toFloat().coerceAtMost(x)
+            reverseLayout -> (nextHeaderView.right + rightMargin).toFloatMy().coerceAtLeast(x)
+            else -> (nextHeaderView.left - leftMargin - headerView.width).toFloatMy().coerceAtMost(x)
           }
         }
         return x
