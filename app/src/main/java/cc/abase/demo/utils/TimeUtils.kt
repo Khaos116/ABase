@@ -150,4 +150,31 @@ object TimeUtils {
     return off
   }
   //</editor-fold>
+
+  //<editor-fold defaultstate="collapsed" desc="固定时区时间转换为本地时间">
+  //2023-04-08 12:34:56 +08:00  -> 2023-04-08 11:34:56
+  fun timeZ2Local(dateStr: String): String {
+    return try {
+      val inputFormatter = SimpleDateFormat("yyyy-MM-dd HH:mm:ss Z", Locale.getDefault())
+      val date = inputFormatter.parse(dateStr)
+      val outputFormatter = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
+      outputFormatter.timeZone = TimeZone.getDefault()
+      date?.let { outputFormatter.format(it) } ?: ""
+    } catch (e: Exception) {
+      e.printStackTrace()
+      dateStr
+    }
+  }
+  //</editor-fold>
+
+  //<editor-fold defaultstate="collapsed" desc="特定格式时间转换为时间戳">
+  //2023-04-08T12:34:56 -> 1680932096000
+  fun timeT2Local(dateStr: String): Long {
+    val formatter = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.getDefault())
+    val date = formatter.parse(dateStr)
+    val calendar = Calendar.getInstance()
+    date?.let { calendar.time = it }
+    return calendar.timeInMillis
+  }
+  //</editor-fold>
 }
