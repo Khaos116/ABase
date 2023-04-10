@@ -1,6 +1,5 @@
 package cc.abase.demo.widget
 
-import android.app.Instrumentation
 import android.content.Context
 import android.graphics.Color
 import android.util.AttributeSet
@@ -47,13 +46,15 @@ class NumberKeyboardView @JvmOverloads constructor(c: Context, a: AttributeSet? 
   //<editor-fold defaultstate="collapsed" desc="模拟键盘输入">
   //模拟键盘输入
   private fun performKeyDown(keyCode: Int) {
-    Thread {
-      try {
-        Instrumentation().sendKeyDownUpSync(keyCode)
-      } catch (e: Exception) {
-        e.printStackTrace()
-      }
-    }.start()
+    dispatchKeyEvent(KeyEvent(KeyEvent.ACTION_DOWN, keyCode))
+    //下面的方式在华为荣耀安卓13实现
+    //Thread {
+    //  try {
+    //    Instrumentation().sendKeyDownUpSync(keyCode)
+    //  } catch (e: Exception) {
+    //    e.printStackTrace()
+    //  }
+    //}.start()
   }
   //</editor-fold>
 
