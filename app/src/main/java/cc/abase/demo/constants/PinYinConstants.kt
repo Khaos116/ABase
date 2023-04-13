@@ -43,7 +43,7 @@ object PinYinConstants {
   //ra（轻声）：你咋啦啊（读作nǐzǎlāra）？
   //za（轻声）：这个故事好有意思啊（读作zhègègùshìhǎoyǒuyìsìza）！
 
-  private val _将 = mutableListOf(
+  val _将 = mutableListOf(
     "将功赎罪",
     "奥运健将",
     "将进酒",
@@ -53,7 +53,7 @@ object PinYinConstants {
     "将才",
   )
 
-  private val _薄 = mutableListOf(
+  val _薄 = mutableListOf(
     "薄饼",
     "单薄",
     "薄荷",
@@ -62,13 +62,13 @@ object PinYinConstants {
     "薄厚",
   )
 
-  private val _血 = mutableListOf(
+  val _血 = mutableListOf(
     "鲜血",
     "吐了一口血",
     "血缘",
   )
 
-  private val _和 = mutableListOf(
+  val _和 = mutableListOf(
     "和平",
     "曲高和寡",
     "和了",
@@ -83,7 +83,7 @@ object PinYinConstants {
     "和解",
   )
 
-  private val _啊 = mutableListOf(
+  val _啊 = mutableListOf(
     "啊，好美的风景啊",
     "你啊，真会开玩笑",
     "你在说啥啊？我没听懂",
