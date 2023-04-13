@@ -304,4 +304,5 @@ dependencies {
     implementation Deps.primedatepicker
     implementation Deps.primecalendar
     implementation Deps.jsBridge
+    implementation Deps.hanLP
 }

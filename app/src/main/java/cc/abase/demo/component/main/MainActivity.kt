@@ -18,6 +18,7 @@ import cc.abase.demo.R
 import cc.abase.demo.component.comm.CommBindActivity
 import cc.abase.demo.component.comm.CommBindFragment
 import cc.abase.demo.component.main.fragment.*
+import cc.abase.demo.constants.PinYinConstants
 import cc.abase.demo.databinding.ActivityMainBinding
 import cc.abase.demo.widget.dialog.commAlertDialog
 import com.blankj.utilcode.constant.TimeConstants
@@ -141,6 +142,7 @@ class MainActivity : CommBindActivity<ActivityMainBinding>() {
     //关闭其他所有页面
     ActivityUtils.finishOtherActivities(javaClass)
     pingTest()
+    PinYinConstants.testTrans()
   }
   //</editor-fold>
 

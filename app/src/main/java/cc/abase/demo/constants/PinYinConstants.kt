@@ -1,5 +1,9 @@
 package cc.abase.demo.constants
 
+import cc.ab.base.ext.logE
+import com.blankj.utilcode.util.GsonUtils
+import com.hankcs.hanlp.HanLP
+
 /**
  * 多音字处理
  * //https://baike.baidu.com/tashuo/browse/content?id=6985b0e608a4f4b9c541d03a
@@ -95,4 +99,22 @@ object PinYinConstants {
     "你咋啦啊" to "ra",
     "这个故事好有意思啊" to "za",
   )
+
+  fun testTrans(){
+    PinYinConstants._将.forEach { p ->
+      "${p.first}【${p.second}】 读音:${GsonUtils.toJson(HanLP.convertToPinyinString(p.first, " ", false))}".logE()
+    }
+    PinYinConstants._薄.forEach { p ->
+      "${p.first}【${p.second}】 读音:${GsonUtils.toJson(HanLP.convertToPinyinString(p.first, " ", false))}".logE()
+    }
+    PinYinConstants._血.forEach { p ->
+      "${p.first}【${p.second}】 读音:${GsonUtils.toJson(HanLP.convertToPinyinString(p.first, " ", false))}".logE()
+    }
+    PinYinConstants._和.forEach { p ->
+      "${p.first}【${p.second}】 读音:${GsonUtils.toJson(HanLP.convertToPinyinString(p.first, " ", false))}".logE()
+    }
+    PinYinConstants._啊.forEach { p ->
+      "${p.first}【${p.second}】 读音:${GsonUtils.toJson(HanLP.convertToPinyinString(p.first, " ", false))}".logE()
+    }
+  }
 }

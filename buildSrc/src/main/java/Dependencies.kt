@@ -211,6 +211,9 @@ object Deps {
 
   //JS交互 https://github.com/lzyzsd/JsBridge
   const val jsBridge = "com.github.lzyzsd:jsbridge:1.0.4"
+
+  //HanLP多音字转拼音(大部分正确，少部分还是无法转换，如:将进酒)https://github.com/hankcs/HanLP
+  const val hanLP = "com.hankcs:hanlp:portable-1.8.4"
   //</editor-fold>
 
   //<editor-fold defaultstate="collapsed" desc="其他">
