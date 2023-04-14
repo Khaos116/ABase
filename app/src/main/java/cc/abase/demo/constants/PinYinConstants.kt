@@ -100,21 +100,27 @@ object PinYinConstants {
     "这个故事好有意思啊" to "za",
   )
 
-  fun testTrans(){
-    PinYinConstants._将.forEach { p ->
-      "${p.first}【${p.second}】 读音:${GsonUtils.toJson(HanLP.convertToPinyinString(p.first, " ", false))}".logE()
-    }
-    PinYinConstants._薄.forEach { p ->
-      "${p.first}【${p.second}】 读音:${GsonUtils.toJson(HanLP.convertToPinyinString(p.first, " ", false))}".logE()
-    }
-    PinYinConstants._血.forEach { p ->
-      "${p.first}【${p.second}】 读音:${GsonUtils.toJson(HanLP.convertToPinyinString(p.first, " ", false))}".logE()
-    }
-    PinYinConstants._和.forEach { p ->
-      "${p.first}【${p.second}】 读音:${GsonUtils.toJson(HanLP.convertToPinyinString(p.first, " ", false))}".logE()
-    }
-    PinYinConstants._啊.forEach { p ->
-      "${p.first}【${p.second}】 读音:${GsonUtils.toJson(HanLP.convertToPinyinString(p.first, " ", false))}".logE()
-    }
+  fun testTransHanLP() {
+    PinYinConstants._将.forEach { p -> printHanLP(p) }
+    PinYinConstants._薄.forEach { p -> printHanLP(p) }
+    PinYinConstants._血.forEach { p -> printHanLP(p) }
+    PinYinConstants._和.forEach { p -> printHanLP(p) }
+    PinYinConstants._啊.forEach { p -> printHanLP(p) }
+  }
+
+  fun testTransTiny() {
+    PinYinConstants._将.forEach { p -> printTiny(p) }
+    PinYinConstants._薄.forEach { p -> printTiny(p) }
+    PinYinConstants._血.forEach { p -> printTiny(p) }
+    PinYinConstants._和.forEach { p -> printTiny(p) }
+    PinYinConstants._啊.forEach { p -> printTiny(p) }
+  }
+
+  private fun printHanLP(p: Pair<String, String>) {
+    "${p.first}【${p.second}】 读音:${GsonUtils.toJson(HanLP.convertToPinyinString(p.first, " ", false))}".logE()
+  }
+
+  private fun printTiny(p: Pair<String, String>) {
+    "${p.first}【${p.second}】 读音:${GsonUtils.toJson(com.github.promeg.pinyinhelper.Pinyin.toPinyin(p.first, " ")).lowercase()}".logE()
   }
 }
