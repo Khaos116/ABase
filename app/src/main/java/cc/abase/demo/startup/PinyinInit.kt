@@ -2,10 +2,9 @@ package cc.abase.demo.startup
 
 import android.content.Context
 import cc.ab.base.ext.logI
+import cc.abase.demo.component.pinyin.*
 import com.github.promeg.pinyinhelper.Pinyin
-import com.github.promeg.tinypinyin.lexicons.android.cncity.CnCityDict
 import com.rousetime.android_startup.AndroidStartup
-import com.rousetime.android_startup.Startup
 
 /**
  * Author:Khaos
@@ -23,8 +22,19 @@ class PinyinInit : AndroidStartup<Int>() {
 
   //<editor-fold defaultstate="collapsed" desc="初始化">
   override fun create(context: Context): Int {
-    // 添加中文城市词典
-    Pinyin.init(Pinyin.newConfig().with(CnCityDict.getInstance(context)))
+    //添加词典
+    Pinyin.init(
+      Pinyin.newConfig()
+        .with(PinYinDict1Impl1)
+        .with(PinYinDict1Impl2)
+        .with(PinYinDict1Impl3)
+        .with(PinYinDict2Impl1)
+        .with(PinYinDict1Impl4)
+        .with(PinYinDict1Impl5)
+        .with(PinYinDict1Impl6)
+        .with(PinYinDict1Impl7)
+        .with(PinYinDict1Impl8)
+    )
     "初始化完成".logI()
     return 0
   }
