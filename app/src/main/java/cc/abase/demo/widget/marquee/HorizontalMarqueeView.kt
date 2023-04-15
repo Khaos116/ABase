@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Color
 import android.graphics.Typeface
+import android.text.TextUtils
 import android.util.AttributeSet
 import android.util.TypedValue
 import android.view.*
@@ -15,7 +16,7 @@ import androidx.lifecycle.*
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import cc.ab.base.ext.*
-import cc.abase.demo.ext.toHtml
+import cc.abase.demo.ext.toHtmlSingle
 import kotlinx.android.extensions.LayoutContainer
 
 /**
@@ -124,7 +125,10 @@ class HorizontalMarqueeView : FrameLayout, LifecycleObserver {
       it.addView(TextView(it.context).also { tv ->
         tv.setTextColor(mTextColor)
         tv.maxLines = 1
-        tv.setSingleLine()//解决富文本换行导致后面的不显示的bug
+        tv.ellipsize = TextUtils.TruncateAt.MARQUEE
+        tv.marqueeRepeatLimit = -1
+        tv.isSelected = true
+        //tv.setSingleLine()//SingleLine解决富文本换行后的内容不显示问题，但是部分格式会造成闪退[PARAGRAPH span must end at paragraph boundary]
         tv.gravity = Gravity.CENTER_VERTICAL
         tv.setTextSize(TypedValue.COMPLEX_UNIT_SP, mTextSizeSp)
         tv.setBackgroundColor(mTextColorBg)
@@ -160,7 +164,7 @@ class HorizontalMarqueeView : FrameLayout, LifecycleObserver {
     fun fillData(item: String): MarqueeViewHolder.() -> Unit = {
       if (containerView is MarqueeItemLayout && containerView.childCount > 0) {
         (containerView.getChildAt(0) as? TextView)?.let { tv ->
-          tv.text = item.toHtml()
+          tv.text = item.toHtmlSingle()
         }
       }
     }
