@@ -51,8 +51,11 @@ class WanViewModel : CommViewModel() {
         .onStart {
           bannerLiveData.value = Start(oldData = old)
         }
-        .awaitResult {
+        .awaitResult {//阻塞的回调函数
           bannerLiveData.value = SuccessRefresh(newData = it, hasMore = false)
+        }
+        .onSuccess {//非阻塞的回调函数
+
         }
         .onFailure { e ->
           bannerLiveData.value = FailRefresh(oldData = old, exc = e)
