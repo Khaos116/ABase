@@ -1,5 +1,6 @@
 package cc.ab.base.ui.activity
 
+import android.content.res.Configuration
 import android.os.Build
 import android.os.Bundle
 import android.view.*
@@ -14,6 +15,7 @@ import com.dylanc.viewbinding.base.ViewBindingUtil
 import com.dylanc.viewbinding.inflateBinding
 import com.gyf.immersionbar.ktx.immersionBar
 import kotlinx.coroutines.*
+import me.jessyan.autosize.AutoSize
 
 /**
  * 参考：
@@ -62,6 +64,13 @@ abstract class BaseBindActivity<T : ViewBinding> : AppCompatActivity() {
         initView()
       }
     }
+  }
+  //</editor-fold>
+
+  //<editor-fold defaultstate="collapsed" desc="修复旋转屏幕后字体变大的问题">
+  override fun onConfigurationChanged(newConfig: Configuration) {
+    super.onConfigurationChanged(newConfig)
+    AutoSize.autoConvertDensityOfGlobal(this)
   }
   //</editor-fold>
 
