@@ -11,11 +11,13 @@ import cc.ab.base.databinding.BaseActivityBinding
 import cc.ab.base.ext.*
 import cc.ab.base.ui.fragment.BaseBindFragment
 import cc.ab.base.utils.FixResources
+import com.blankj.utilcode.util.LanguageUtils
 import com.dylanc.viewbinding.base.ViewBindingUtil
 import com.dylanc.viewbinding.inflateBinding
 import com.gyf.immersionbar.ktx.immersionBar
 import kotlinx.coroutines.*
 import me.jessyan.autosize.AutoSize
+import java.util.*
 
 /**
  * 参考：
@@ -67,10 +69,20 @@ abstract class BaseBindActivity<T : ViewBinding> : AppCompatActivity() {
   }
   //</editor-fold>
 
-  //<editor-fold defaultstate="collapsed" desc="修复旋转屏幕后字体变大的问题">
+  //<editor-fold defaultstate="collapsed" desc="修改旋转屏幕后语种和字体大小变化问题">
   override fun onConfigurationChanged(newConfig: Configuration) {
+    val locale = LanguageUtils.getAppliedLanguage() ?: Locale.CHINA
+    setAcLocale(locale)
     super.onConfigurationChanged(newConfig)
     AutoSize.autoConvertDensityOfGlobal(this)
+  }
+
+  private fun setAcLocale(locale: Locale) {
+    Locale.setDefault(locale)
+    val configuration = Configuration()
+    configuration.locale = locale
+    baseContext.resources.updateConfiguration(configuration, baseContext.resources.displayMetrics)
+    resources.updateConfiguration(configuration, baseContext.resources.displayMetrics)
   }
   //</editor-fold>
 
