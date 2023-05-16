@@ -17,9 +17,9 @@
 //    val str = "{\n" +
 //        "    \"region\":\"+86\",\n" +
 //        "    \"memberName\":\"khaos116\",\n" +
-//        "    \"password\":\"696d21dbe226d404f168a024a43d9433\"\n" +
+//        "    \"password\":\"c8675f2476c84c15a5085394ff6d5f\"\n" +
 //        "}";
-//    val key = "192.168.220.6ANDROID||CHROM"
+//    val key = "103.236.191.752f218db206b0b3364"
 //    enCodeSM4(str, EncryptUtils.encryptMD5ToString(key).lowercase())
 //  }
 //
