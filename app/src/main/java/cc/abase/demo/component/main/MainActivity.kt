@@ -142,7 +142,7 @@ class MainActivity : CommBindActivity<ActivityMainBinding>() {
     //关闭其他所有页面
     ActivityUtils.finishOtherActivities(javaClass)
     pingTest()
-    PinYinConstants.testTrans()
+    PinYinConstants.testTransHanLP()
   }
   //</editor-fold>
 
