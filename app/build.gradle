@@ -1,273 +1,302 @@
 import com.android.build.gradle.internal.tasks.FinalizeBundleTask
 
 plugins {
-    id 'com.android.application'
-    id 'kotlin-android'
-    id 'kotlin-kapt'
-    id 'bugly'
-    id 'kotlin-parcelize' //https://weilu.blog.csdn.net/article/details/109557820
-    //1.6.10是Versions.kotlin的值
-    id("com.google.devtools.ksp") version "1.6.10-1.0.2" //https://github.com/liujingxing/rxhttp/blob/master/README_zh.md
+  id 'com.android.application'
+  id 'kotlin-android'
+  id 'kotlin-kapt'
+  id 'bugly'
+  id 'kotlin-parcelize' //https://weilu.blog.csdn.net/article/details/109557820
+  //1.6.10是Versions.kotlin的值
+  id("com.google.devtools.ksp") version "1.6.10-1.0.2" //https://github.com/liujingxing/rxhttp/blob/master/README_zh.md
 }
 
 android {
-    compileSdkVersion Versions.sdkTarget
-    //buildFeatures编译问题 https://www.freesion.com/article/90591379803/ https://blog.csdn.net/choimroc/article/details/104756365
-    //com.android.tools.build:gradle:version < 4.1.2
-    //viewBinding { enabled = true }
-    //com.android.tools.build:gradle:version >=4.1.2
-    buildFeatures { viewBinding true }
-    defaultConfig {
-        //正常配置
-        minSdkVersion Versions.sdkMin
-        targetSdkVersion Versions.sdkTarget
-        applicationId rootProject.ext.android.applicationId
-        versionCode rootProject.ext.android.versionCodeS1
-        versionName rootProject.ext.android.versionNameS1
-        resValue "string", "bugly_app_id", rootProject.ext.android.buglyIdS1
-        resValue "string", "app_name", rootProject.ext.android.applicationName
-        resValue "string", "build_time", rootProject.ext.android.buildTime
-        resValue "string", "channel", "s1"
-        //允许使用SVG
-        //vectorDrawables.useSupportLibrary = true
-        multiDexEnabled true
-        //resConfigs "zh-rCN", "zh-rTW", "zh-rHK", "en-rUS", "en-rGB"
-        resConfigs "zh-rCN", "en-rUS" //保留中文和英文资源(如果随便写一种没有的语言，则只会打默认的文字资源到APK)
-        ndk { abiFilters 'armeabi-v7a' } //, 'arm64-v8a'
-        //资源文件名冲突，引用包重复，文件名显示的格式与文件本身的格式不对应
-        //aaptOptions.cruncherEnabled = false
-        //aaptOptions.useNewCruncher = false
-        //APK生成名称
-        //archivesBaseName = "Abase-v$versionCode"
-    }
+  compileSdkVersion Versions.sdkTarget
+  //buildFeatures编译问题 https://www.freesion.com/article/90591379803/ https://blog.csdn.net/choimroc/article/details/104756365
+  //com.android.tools.build:gradle:version < 4.1.2
+  //viewBinding { enabled = true }
+  //com.android.tools.build:gradle:version >=4.1.2
+  buildFeatures { viewBinding true }
+  defaultConfig {
+    //正常配置
+    minSdkVersion Versions.sdkMin
+    targetSdkVersion Versions.sdkTarget
+    applicationId rootProject.ext.android.applicationId
+    versionCode rootProject.ext.android.versionCodeS1
+    versionName rootProject.ext.android.versionNameS1
+    resValue "string", "bugly_app_id", rootProject.ext.android.buglyIdS1
+    resValue "string", "app_name", rootProject.ext.android.applicationName
+    resValue "string", "build_time", rootProject.ext.android.buildTime
+    resValue "string", "channel", "s1"
+    //允许使用SVG
+    //vectorDrawables.useSupportLibrary = true
+    multiDexEnabled true
+    //resConfigs "zh-rCN", "zh-rTW", "zh-rHK", "en-rUS", "en-rGB"
+    resConfigs "zh-rCN", "en-rUS" //保留中文和英文资源(如果随便写一种没有的语言，则只会打默认的文字资源到APK)
+    ndk { abiFilters 'armeabi-v7a' } //, 'arm64-v8a'
+    //资源文件名冲突，引用包重复，文件名显示的格式与文件本身的格式不对应
+    //aaptOptions.cruncherEnabled = false
+    //aaptOptions.useNewCruncher = false
     //APK生成名称
     //archivesBaseName = "Abase-v$versionCode"
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_11
-        targetCompatibility JavaVersion.VERSION_11
+  }
+  //APK生成名称
+  //archivesBaseName = "Abase-v$versionCode"
+  compileOptions {
+    sourceCompatibility JavaVersion.VERSION_11
+    targetCompatibility JavaVersion.VERSION_11
+  }
+
+  //部分DSL需要
+  kotlinOptions { jvmTarget = 11 }
+
+  //使用LayoutContainer代替findViewById https://www.cnblogs.com/huyang011/p/14184045.html
+  //androidExtensions { experimental = true }
+
+  //多维度 https://blog.csdn.net/chen_xi_hao/article/details/80526049
+  flavorDimensions "default"
+  //公开发布商店渠道配置
+  productFlavors {
+    //是否是jenkins打包
+    def isJenkins = IS_JENKINS ?: false
+    //版本名称
+    def vName = VERSION_NAME
+    //版本code
+    def vCode = VERSION_CODE
+    if (vCode == null || !vCode.isInteger()) {
+      vCode = null
     }
-
-    //部分DSL需要
-    kotlinOptions { jvmTarget = 11 }
-
-    //使用LayoutContainer代替findViewById https://www.cnblogs.com/huyang011/p/14184045.html
-    //androidExtensions { experimental = true }
-
-    //多维度 https://blog.csdn.net/chen_xi_hao/article/details/80526049
-    flavorDimensions "default"
-    //公开发布商店渠道配置
-    productFlavors {
-        //是否是jenkins打包
-        def isJenkins = IS_JENKINS ?: false
-        //版本名称
-        def vName = VERSION_NAME
-        //版本code
-        def vCode = VERSION_CODE
-        if (vCode == null || !vCode.isInteger()) {
-            vCode = null
-        }
-        if (isJenkins.toString() == "false") {
-            vName = null
-            vCode = null
-        }
-        //渠道s1
-        s1 {
-            dimension "default"
-            applicationIdSuffix ".s1"
-            versionCode vCode ? vCode as int : rootProject.ext.android.versionCodeS1
-            versionName vName ? vName : rootProject.ext.android.versionNameS1
-            resValue "string", "bugly_app_id", rootProject.ext.android.buglyIdS1
-            resValue "string", "app_name", "${rootProject.ext.android.applicationName}-S1"
-            resValue "string", "channel", "s1"
-            //让IDE知道ksp生成的kotlin代码
-            kotlin {
-                sourceSets.debug {
-                    //如果通过productFlavors配置了多渠道，则配置 /../ksp/xxxDebug/kotlin
-                    kotlin.srcDir("build/generated/ksp/s1debug/kotlin")
-                }
-            }
-        }
-        //渠道s2
-        s2 {
-            dimension "default"
-            applicationIdSuffix ".s2"
-            versionCode vCode ? vCode as int : rootProject.ext.android.versionCodeS2
-            versionName vName ? vName : rootProject.ext.android.versionNameS2
-            resValue "string", "bugly_app_id", rootProject.ext.android.buglyIdS2
-            resValue "string", "app_name", "${rootProject.ext.android.applicationName}-S2"
-            resValue "string", "channel", "s2"
-            //让IDE知道ksp生成的kotlin代码
-            kotlin {
-                sourceSets.debug {
-                    //如果通过productFlavors配置了多渠道，则配置 /../ksp/xxxDebug/kotlin
-                    kotlin.srcDir("build/generated/ksp/s2debug/kotlin")
-                }
-            }
-        }
+    if (isJenkins.toString() == "false") {
+      vName = null
+      vCode = null
     }
-
-    //配置不同版本的keystore
-    signingConfigs {
-        debug {
-            storeFile file(STORE_FILE_ABASE)
-            storePassword STORE_PASSWORD_ABASE
-            keyAlias KEY_ALIAS_ABASE
-            keyPassword KEY_PASSWORD_ABASE
-            v1SigningEnabled true
-            v2SigningEnabled true
+    //渠道s1
+    s1 {
+      dimension "default"
+      applicationIdSuffix ".s1"
+      versionCode vCode ? vCode as int : rootProject.ext.android.versionCodeS1
+      versionName vName ? vName : rootProject.ext.android.versionNameS1
+      resValue "string", "bugly_app_id", rootProject.ext.android.buglyIdS1
+      resValue "string", "app_name", "${rootProject.ext.android.applicationName}-S1"
+      resValue "string", "channel", "s1"
+      //让IDE知道ksp生成的kotlin代码
+      kotlin {
+        sourceSets.debug {
+          //如果通过productFlavors配置了多渠道，则配置 /../ksp/xxxDebug/kotlin
+          kotlin.srcDir("build/generated/ksp/s1debug/kotlin")
         }
-        release {
-            storeFile file(STORE_FILE_ABASE)
-            storePassword STORE_PASSWORD_ABASE
-            keyAlias KEY_ALIAS_ABASE
-            keyPassword KEY_PASSWORD_ABASE
-            v1SigningEnabled true
-            v2SigningEnabled true
-        }
+      }
     }
-
-    //正式和测试配置
-    buildTypes {
-        debug {
-            debuggable true
-            zipAlignEnabled false
-            shrinkResources false
-            minifyEnabled false
-            signingConfig signingConfigs.debug
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+    //渠道s2
+    s2 {
+      dimension "default"
+      applicationIdSuffix ".s2"
+      versionCode vCode ? vCode as int : rootProject.ext.android.versionCodeS2
+      versionName vName ? vName : rootProject.ext.android.versionNameS2
+      resValue "string", "bugly_app_id", rootProject.ext.android.buglyIdS2
+      resValue "string", "app_name", "${rootProject.ext.android.applicationName}-S2"
+      resValue "string", "channel", "s2"
+      //让IDE知道ksp生成的kotlin代码
+      kotlin {
+        sourceSets.debug {
+          //如果通过productFlavors配置了多渠道，则配置 /../ksp/xxxDebug/kotlin
+          kotlin.srcDir("build/generated/ksp/s2debug/kotlin")
         }
-        release {
-            debuggable false
-            zipAlignEnabled true
-            shrinkResources true
-            minifyEnabled true
-            signingConfig signingConfigs.release
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-        }
+      }
     }
+  }
 
-    //解决com.android.tools.lint.client.api.Vendor https://stackoverflow.com/questions/24098494/applintvitalrelease-error-when-generating-signed-apk
-    lintOptions {
-        checkReleaseBuilds false
+  //配置不同版本的keystore
+  signingConfigs {
+    debug {
+      storeFile file(STORE_FILE_ABASE)
+      storePassword STORE_PASSWORD_ABASE
+      keyAlias KEY_ALIAS_ABASE
+      keyPassword KEY_PASSWORD_ABASE
+      v1SigningEnabled true
+      v2SigningEnabled true
     }
+    release {
+      storeFile file(STORE_FILE_ABASE)
+      storePassword STORE_PASSWORD_ABASE
+      keyAlias KEY_ALIAS_ABASE
+      keyPassword KEY_PASSWORD_ABASE
+      v1SigningEnabled true
+      v2SigningEnabled true
+    }
+  }
 
-    //防止没有Temp
-    File tempFile = new File("${getProjectDir().getParentFile().getPath()}/APK/Temp")
-    if (!tempFile.exists()) tempFile.mkdirs()
-    File tempFile2 = new File("${getProjectDir().getParentFile().getPath()}/AAB/Temp")
-    if (!tempFile2.exists()) tempFile2.mkdirs()
+  //正式和测试配置
+  buildTypes {
+    debug {
+      debuggable true
+      zipAlignEnabled false
+      shrinkResources false
+      minifyEnabled false
+      signingConfig signingConfigs.debug
+      proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+    }
+    release {
+      debuggable false
+      zipAlignEnabled true
+      shrinkResources true
+      minifyEnabled true
+      signingConfig signingConfigs.release
+      proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+    }
+  }
+
+  //解决com.android.tools.lint.client.api.Vendor https://stackoverflow.com/questions/24098494/applintvitalrelease-error-when-generating-signed-apk
+  lintOptions {
+    checkReleaseBuilds false
+  }
+
+  //防止没有Temp
+  File tempFile = new File("${getProjectDir().getParentFile().getPath()}/APK/Temp")
+  if (!tempFile.exists()) tempFile.mkdirs()
+  File tempFile2 = new File("${getProjectDir().getParentFile().getPath()}/AAB/Temp")
+  if (!tempFile2.exists()) tempFile2.mkdirs()
 }
 
 //RxHttp ksp传参方式 https://github.com/liujingxing/okhttp-RxHttp
 ksp {
-    arg("rxhttp_rxjava", "3.1.5")
-    arg("rxhttp_package", "rxhttp") //指定RxHttp类包名，非必须
+  arg("rxhttp_rxjava", "3.1.5")
+  arg("rxhttp_package", "rxhttp") //指定RxHttp类包名，非必须
 }
 
 //打包处理
 android.applicationVariants.all { variant ->
-    //Bygly符号表上传
-    def buglyAppId = null
-    def buglyAppKey = null
-    if (variant.flavorName == "s1") {
-        buglyAppId = rootProject.ext.android.buglyIdS1
-        buglyAppKey = rootProject.ext.android.buglyKeyS1
-    } else if (variant.flavorName == "s2") {
-        buglyAppId = rootProject.ext.android.buglyIdS2
-        buglyAppKey = rootProject.ext.android.buglyKeyS2
-    }
-    //https://github.com/JalenChen/symtabfileuploader/issues/10
-    //由于使用了7.0+的Gradle，导致bugly无法编译，所以暂时屏蔽
-    //if (buglyAppId != null) {
-    //    variant.ext.buglyAppId = buglyAppId
-    //}
-    //if (buglyAppKey != null) {
-    //    variant.ext.buglyAppKey = buglyAppKey
-    //}
-    variant.outputs.all { output ->
-        //正式版还是测试版
-        String typeName = buildType.name
-        typeName = typeName.substring(0, 1).toUpperCase() + typeName.substring(1).toLowerCase()
-        //版本号
-        String versionName = getVersionName()
-        //渠道名称
-        String flavorsName = variant.productFlavors[0].name
-        //应用名称
-        String appName = "${rootProject.ext.android.applicationName}"
-        //AAB文件只处理正式版
-        if (typeName == "Release") {
-            String bundleFinalizeTaskName = "sign${flavorsName.toUpperCase()}${typeName}Bundle"
-            //参考 https://stackoverflow.com/questions/52508720/how-to-change-the-generated-filename-for-app-bundles-with-gradle
-            tasks.named(bundleFinalizeTaskName, FinalizeBundleTask.class) {
-                File bundleFile = finalBundleFile.asFile.get()
-                doLast {
-                    //编译时间
-                    String buildEndTime = "${new Date().format("yyyyMMdd_HHmm")}"
-                    String aabFileName = "${appName}_${flavorsName}_${typeName}_${versionName}_${buildEndTime}.aab"
-                    File aabDir = new File("${getProjectDir().getParentFile().getPath()}/AAB/${flavorsName}/${typeName}")
-                    if (!aabDir.exists()) aabDir.mkdirs()
-                    println "bundle编译结束=$aabFileName"
-                    project.copy {
-                        from("${bundleFile}")
-                        into("${aabDir.path}")
-                        rename("${bundleFile.name}", "${aabFileName}")
-                    }
-                    new Thread() {
-                        @Override
-                        void run() {
-                            sleep(20 * 1000)
-                            File tempFile = new File("${getProjectDir().getParentFile().getPath()}/AAB/Temp")
-                            if (tempFile.exists() && tempFile.isDirectory()) tempFile.deleteDir()
-                            String cmd = "taskkill /f /t /im java.exe"
-                            cmd.execute().text.trim()
-                        }
-                    }.start()
-                }
+  //Bygly符号表上传
+  def buglyAppId = null
+  def buglyAppKey = null
+  if (variant.flavorName == "s1") {
+    buglyAppId = rootProject.ext.android.buglyIdS1
+    buglyAppKey = rootProject.ext.android.buglyKeyS1
+  } else if (variant.flavorName == "s2") {
+    buglyAppId = rootProject.ext.android.buglyIdS2
+    buglyAppKey = rootProject.ext.android.buglyKeyS2
+  }
+  //https://github.com/JalenChen/symtabfileuploader/issues/10
+  //由于使用了7.0+的Gradle，导致bugly无法编译，所以暂时屏蔽
+  //if (buglyAppId != null) {
+  //    variant.ext.buglyAppId = buglyAppId
+  //}
+  //if (buglyAppKey != null) {
+  //    variant.ext.buglyAppKey = buglyAppKey
+  //}
+  variant.outputs.all { output ->
+    //正式版还是测试版
+    String typeName = buildType.name
+    typeName = typeName.substring(0, 1).toUpperCase() + typeName.substring(1).toLowerCase()
+    //版本号
+    String versionName = getVersionName()
+    //渠道名称
+    String flavorsName = variant.productFlavors[0].name
+    //应用名称
+    String appName = "${rootProject.ext.android.applicationName}"
+    //AAB文件只处理正式版
+    if (typeName == "Release") {
+      String bundleFinalizeTaskName = "sign${flavorsName.toUpperCase()}${typeName}Bundle"
+      //参考 https://stackoverflow.com/questions/52508720/how-to-change-the-generated-filename-for-app-bundles-with-gradle
+      tasks.named(bundleFinalizeTaskName, FinalizeBundleTask.class) {
+        File bundleFile = finalBundleFile.asFile.get()
+        doLast {
+          //编译时间
+          String buildEndTime = "${new Date().format("yyyyMMdd_HHmm")}"
+          String aabFileName = "${appName}_${flavorsName}_${typeName}_${versionName}_${buildEndTime}.aab"
+          File aabDir = new File("${getProjectDir().getParentFile().getPath()}/AAB/${flavorsName}/${typeName}")
+          if (!aabDir.exists()) aabDir.mkdirs()
+          println "bundle编译结束=$aabFileName"
+          project.copy {
+            from("${bundleFile}")
+            into("${aabDir.path}")
+            rename("${bundleFile.name}", "${aabFileName}")
+          }
+          //mapping文件处理
+          if (variant.mappingFile != null) {
+            project.copy {
+              from("${variant.mappingFile}")
+              into("${aabDir.path}")
+              rename("${variant.mappingFile.name}", "${aabFileName.replace(".aab", "_mapping.txt")}")
             }
+          }
+          new Thread() {
+            @Override
+            void run() {
+              sleep(20 * 1000)
+              File tempFile = new File("${getProjectDir().getParentFile().getPath()}/AAB/Temp")
+              if (tempFile.exists() && tempFile.isDirectory()) tempFile.deleteDir()
+              String cmd = "taskkill /f /t /im java.exe"
+              cmd.execute().text.trim()
+            }
+          }.start()
         }
-        //打包APK完成后的重命名和拷贝
-        assemble.doLast {
-            //编译完成的时间
-            String buildEndTime = "${new Date().format("yyyyMMdd_HHmm")}"
-            String apkFileName = "${appName}_${flavorsName}_${typeName}_${versionName}_${buildEndTime}.apk"
-            println "assemble编译结束=$apkFileName"
-            //把正式版拷贝到项目APK目录
-            if (typeName == "Release") {
-                //创建APK目录(APK+渠道名称)
-                File apkDir = new File("${getProjectDir().getParentFile().getPath()}/APK/${flavorsName}/${typeName}")
-                if (!apkDir.exists()) apkDir.mkdirs()
-                project.copy {
-                    from("${output.outputFile}")
-                    into("${apkDir.path}")
-                    rename("${output.outputFile.name}", "${apkFileName}")
-                }
-            } else {
-                //默认运行生成的apk
-                File apkDirDebug = new File("${getProjectDir().getParentFile().getPath()}/APK/Debug")
-                if (apkDirDebug.exists()) apkDirDebug.deleteDir()
-                apkDirDebug.mkdirs()
-                project.copy {
-                    from("${output.outputFile}")
-                    into("${apkDirDebug.path}")
-                    rename("${output.outputFile.name}", "${apkFileName}")
-                }
-            }
-            //开启线程，在打包完成后20秒杀掉JDK，防止下次运行出现被占用的情况
-            def isJenkins = IS_JENKINS ?: false
-            if (isJenkins.toString() == "false") {
-                new Thread() {
-                    @Override
-                    void run() {
-                        sleep(20 * 1000)
-                        File tempFile = new File("${getProjectDir().getParentFile().getPath()}/APK/Temp")
-                        if (tempFile.exists() && tempFile.isDirectory()) tempFile.deleteDir()
-                        String cmd = "taskkill /f /t /im java.exe"
-                        cmd.execute().text.trim()
-                    }
-                }.start()
-            }
-        }
+      }
     }
+    //打包APK完成后的重命名和拷贝
+    assemble.doLast {
+      //编译完成的时间
+      String buildEndTime = "${new Date().format("yyyyMMdd_HHmm")}"
+      String apkFileName = "${appName}_${flavorsName}_${typeName}_${versionName}_${buildEndTime}.apk"
+      println "assemble编译结束=$apkFileName"
+      //把正式版拷贝到项目APK目录
+      if (typeName == "Release") {
+        //创建APK目录(APK+渠道名称)
+        File apkDir = new File("${getProjectDir().getParentFile().getPath()}/APK/${flavorsName}/${typeName}")
+        if (!apkDir.exists()) apkDir.mkdirs()
+        project.copy {
+          from("${output.outputFile}")
+          into("${apkDir.path}")
+          rename("${output.outputFile.name}", "${apkFileName}")
+        }
+        //mapping文件处理
+        if (variant.mappingFile != null) {
+          project.copy {
+            from("${variant.mappingFile}")
+            into("${apkDir.path}")
+            rename("${variant.mappingFile.name}", "${apkFileName.replace(".apk", "_mapping.txt")}")
+          }
+        }
+      } else {
+        //默认运行生成的apk
+        File apkDirDebug = new File("${getProjectDir().getParentFile().getPath()}/APK/Debug")
+        if (apkDirDebug.exists()) apkDirDebug.deleteDir()
+        apkDirDebug.mkdirs()
+        project.copy {
+          from("${output.outputFile}")
+          into("${apkDirDebug.path}")
+          rename("${output.outputFile.name}", "${apkFileName}")
+        }
+      }
+      //开启线程，在打包完成后20秒杀掉JDK，防止下次运行出现被占用的情况
+      def isJenkins = IS_JENKINS ?: false
+      if (isJenkins.toString() == "false") {
+        new Thread() {
+          @Override
+          void run() {
+            sleep(20 * 1000)
+            File tempFile = new File("${getProjectDir().getParentFile().getPath()}/APK/Temp")
+            if (tempFile.exists() && tempFile.isDirectory()) tempFile.deleteDir()
+            String cmd = "taskkill /f /t /im java.exe"
+            cmd.execute().text.trim()
+          }
+        }.start()
+      }
+    }
+  }
+}
+
+//删除文件夹
+def deleteFolder(File folder) {
+  if (folder.isDirectory()) {
+    File[] files = folder.listFiles()
+    if (files != null) {
+      for (File file : files) {
+        deleteFolder(file)
+      }
+    }
+  }
+  folder.delete()
 }
 
 //为了在Debug模式下也上传符号表文件
@@ -275,33 +304,33 @@ bugly { debug = true }
 
 //三方依赖
 dependencies {
-    implementation fileTree(dir: "libs", include: ['*.jar', '*.aar'])
-    implementation project(':ablibrary')
-    implementation project(':silicompressor')
-    debugImplementation Deps.leakcanary
-    implementation Deps.walle
-    implementation Deps.emoji
-    implementation Deps.dk_java
-    implementation Deps.dk_ui
-    implementation Deps.dk_exo
-    implementation Deps.side_bar
-    implementation Deps.bugly_crash
-    implementation Deps.bugly_native
-    implementation Deps.pinyin
-    implementation Deps.spedit_tool
-    implementation Deps.rxhttp
-    ksp Deps.rxhttp_ksp
-    implementation Deps.rxlife_rxjava
-    implementation Deps.picker_view
-    implementation Deps.flexbox
-    implementation Deps.indicator
-    implementation Deps.emulator
-    implementation Deps.czxing
-    implementation Deps.pattern_locker
-    implementation Deps.quatroGrade
-    implementation Deps.jsoup
-    implementation Deps.primedatepicker
-    implementation Deps.primecalendar
-    implementation Deps.jsBridge
-    implementation Deps.hanLP
+  implementation fileTree(dir: "libs", include: ['*.jar', '*.aar'])
+  implementation project(':ablibrary')
+  implementation project(':silicompressor')
+  debugImplementation Deps.leakcanary
+  implementation Deps.walle
+  implementation Deps.emoji
+  implementation Deps.dk_java
+  implementation Deps.dk_ui
+  implementation Deps.dk_exo
+  implementation Deps.side_bar
+  implementation Deps.bugly_crash
+  implementation Deps.bugly_native
+  implementation Deps.pinyin
+  implementation Deps.spedit_tool
+  implementation Deps.rxhttp
+  ksp Deps.rxhttp_ksp
+  implementation Deps.rxlife_rxjava
+  implementation Deps.picker_view
+  implementation Deps.flexbox
+  implementation Deps.indicator
+  implementation Deps.emulator
+  implementation Deps.czxing
+  implementation Deps.pattern_locker
+  implementation Deps.quatroGrade
+  implementation Deps.jsoup
+  implementation Deps.primedatepicker
+  implementation Deps.primecalendar
+  implementation Deps.jsBridge
+  implementation Deps.hanLP
 }
