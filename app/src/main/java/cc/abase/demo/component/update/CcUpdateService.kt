@@ -333,10 +333,10 @@ open class CcUpdateService : Service() {
   private fun byte2FitMemorySize(byteNum: Long): String {
     return when {
       byteNum < 0 -> "0B"
-      byteNum < MemoryConstants.KB -> DecimalFormat("#########0.##").format(byteNum.toDoubleMy()) + "B"
-      byteNum < MemoryConstants.MB -> DecimalFormat("#########0.##").format(byteNum.toDoubleMy() / MemoryConstants.KB) + "KB"
-      byteNum < MemoryConstants.GB -> DecimalFormat("#########0.##").format(byteNum.toDoubleMy() / MemoryConstants.MB) + "MB"
-      else -> DecimalFormat("#########0.###").format(byteNum.toDoubleMy() / MemoryConstants.GB) + "GB"
+      byteNum < MemoryConstants.KB -> DecimalFormat("#########0.##").format(byteNum.toDoubleMy().toBigDecimal()) + "B"
+      byteNum < MemoryConstants.MB -> DecimalFormat("#########0.##").format((byteNum.toDoubleMy() / MemoryConstants.KB).toBigDecimal()) + "KB"
+      byteNum < MemoryConstants.GB -> DecimalFormat("#########0.##").format((byteNum.toDoubleMy() / MemoryConstants.MB).toBigDecimal()) + "MB"
+      else -> DecimalFormat("#########0.###").format((byteNum.toDoubleMy() / MemoryConstants.GB).toBigDecimal()) + "GB"
     }
   }
   //</editor-fold>

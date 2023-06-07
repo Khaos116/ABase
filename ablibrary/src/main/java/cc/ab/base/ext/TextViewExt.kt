@@ -25,7 +25,7 @@ fun TextView.setNumberNo00(num: Double) {
         }
     } else {
         val decimalFormat = DecimalFormat("#########0.##########")
-        decimalFormat.format(num)
+        decimalFormat.format(num.toBigDecimal())
     }
 }
 
@@ -42,7 +42,7 @@ fun TextView.getNumberNo00ZH(num: Double): String {
         }
     } else {
         val decimalFormat = DecimalFormat("#########0.##########")
-        decimalFormat.format(num)
+        decimalFormat.format(num.toBigDecimal())
     }
 }
 
@@ -51,7 +51,7 @@ fun TextView.getNumberNo00ZH(num: Double): String {
 fun TextView.setNumber2Point(num: String, prefix: String = "", suffix: String = "") {
     val decimalFormat = DecimalFormat("#0.00")
     text = prefix + try {
-        decimalFormat.format(num.toDoubleMy())
+        decimalFormat.format(num.toDoubleMy().toBigDecimal())
     } catch (e: Exception) {
         num
     } + suffix
