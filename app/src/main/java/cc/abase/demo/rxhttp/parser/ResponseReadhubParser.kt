@@ -33,7 +33,7 @@ open class ResponseReadhubParser<T> : TypeParser<T> {
       if (result.isNullOrEmpty()) {
         throw ParseException(response.code.toString(), "body is blank", response)
       }
-      val type: Type = ParameterizedTypeImpl[ReadhubResponse::class.java, types.first()]
+      val type: Type = ParameterizedTypeImpl.get(ReadhubResponse::class.java, types.first())
       val responseGank: ReadhubResponse<T> = GsonUtils.fromJson(result, type)
       return responseGank.data ?: throw ParseException("-1", R.string.数据返回错误.xmlToString(), response)
     } else if (response.body?.contentType()?.isParsable() != true) {

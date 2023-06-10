@@ -84,7 +84,7 @@ class VerticalMarqueeTextView @kotlin.jvm.JvmOverloads constructor(c: Context, a
     inTv.animate().translationY(-mHeight).setDuration(500).start()
     outTv.animate().translationY(0f).setDuration(500)
         .setListener(object : AnimatorListenerAdapter() {
-          override fun onAnimationEnd(animation: Animator?) {
+          override fun onAnimationEnd(animation: Animator) {
             super.onAnimationEnd(animation)
             isAnim = false
             inTv.text = ""

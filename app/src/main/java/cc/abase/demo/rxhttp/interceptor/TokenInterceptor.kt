@@ -1,6 +1,8 @@
 package cc.abase.demo.rxhttp.interceptor
 
 import cc.ab.base.ext.readBodyMyString
+import cc.ab.base.net.http.response.BaseResponse
+import cc.abase.demo.bean.wan.UserBean
 import cc.abase.demo.config.*
 import cc.abase.demo.constants.MyErrorCode
 import cc.abase.demo.constants.api.WanUrls
@@ -9,8 +11,10 @@ import cc.abase.demo.utils.MMkvUtils
 import com.blankj.utilcode.util.EncryptUtils
 import okhttp3.*
 import org.json.JSONObject
-import rxhttp.RxHttp
-import rxhttp.wrapper.parse.OkResponseParser
+import rxhttp.cc.RxHttp
+import rxhttp.wrapper.entity.ParameterizedTypeImpl
+import rxhttp.wrapper.parse.*
+import java.lang.reflect.Type
 
 /**
  * token 失效，自动刷新token，然后再次发送请求，用户无感知
@@ -66,10 +70,10 @@ class TokenInterceptor : Interceptor {
   private fun autoLogin(username: String, password: String): Boolean {
     //防止出现多个同时执行登录
     synchronized(this) {
-      val response = RxHttp.postForm(WanUrls.User.LOGIN)
+      val response: Response = RxHttp.postForm(WanUrls.User.LOGIN)
         .add("username", username)
         .add("password", EncryptUtils.encryptMD5ToString(password))
-        .execute(OkResponseParser())
+        .execute()
       return if (response.isSuccessful) {
         saveToken(response)
         true

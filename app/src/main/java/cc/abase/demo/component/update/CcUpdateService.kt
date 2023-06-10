@@ -21,8 +21,8 @@ import com.blankj.utilcode.constant.MemoryConstants
 import com.blankj.utilcode.util.*
 import com.jeremyliao.liveeventbus.LiveEventBus
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
-import rxhttp.RxHttp
 import rxhttp.RxHttpPlugins
+import rxhttp.cc.RxHttp
 import java.io.File
 import java.text.DecimalFormat
 import java.util.Locale
@@ -135,7 +135,8 @@ open class CcUpdateService : Service() {
       RxHttp.get(downloadUrl)
         .setOkClient(RxHttpConfig.getOkHttpClient().build()) //不要加log打印，否则文件太大要OOM
         .setRangeHeader(downSize) //设置开始下载位置，结束位置默认为文件末尾,如果需要衔接上次的下载进度，则需要传入上次已下载的字节数length
-        .asDownload(tempFile.path, AndroidSchedulers.mainThread()) { progress ->
+        .toDownloadObservable(tempFile.path, true)//断点下载第二个参数传true
+        .onMainProgress  { progress ->
           //下载进度回调,0-100，仅在进度有更新时才会回调
           //val currentProgress = progress.progress //当前进度 0-100
           val currentSize = progress.currentSize //当前已下载的字节大小

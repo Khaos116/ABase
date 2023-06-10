@@ -33,7 +33,7 @@ open class ResponseGankParser<T> : TypeParser<T> {
       if (result.isNullOrEmpty()) {
         throw ParseException(response.code.toString(), "body is blank", response)
       }
-      val type: Type = ParameterizedTypeImpl[GankResponse::class.java, types.first()]
+      val type: Type = ParameterizedTypeImpl.get(GankResponse::class.java, types.first())
       val responseGank: GankResponse<T> = GsonUtils.fromJson(result, type)
       val data = responseGank.data
       //code不等于0，说明数据不正确，抛出异常

@@ -49,7 +49,7 @@ inline fun RecyclerView.onClick(crossinline function: (view: View) -> Unit) {
   val recyclerView = this
   recyclerView.setOnTouchListener { _, event ->
     GestureDetector(context, object : SimpleOnGestureListener() {
-      override fun onSingleTapUp(e: MotionEvent?): Boolean {
+      override fun onSingleTapUp(e: MotionEvent): Boolean {
         function.invoke(recyclerView)
         return true
       }

@@ -50,10 +50,10 @@ class JSFragment : CommBindFragment<FragmentJsBinding>() {
       ws.loadWithOverviewMode = true
       //Cannot call method ‘getItem’ of null
       ws.domStorageEnabled = true
-      ws.setAppCacheMaxSize(1024 * 1024 * 8)
-      val appCachePath: String = mContext.application.cacheDir.absolutePath
-      ws.setAppCachePath(appCachePath)
-      ws.setAppCacheEnabled(true)
+      //ws.setAppCacheMaxSize(1024 * 1024 * 8)
+      //val appCachePath: String = mContext.application.cacheDir.absolutePath
+      //ws.setAppCachePath(appCachePath)
+      //ws.setAppCacheEnabled(true)
     }
     bridgeWebView.webViewClient = object : BridgeWebViewClient(bridgeWebView) {
       override fun onReceivedSslError(view: WebView?, handler: SslErrorHandler?, error: SslError?) {

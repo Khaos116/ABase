@@ -10,15 +10,18 @@ import android.annotation.TargetApi;
 import android.media.*;
 import android.os.Build;
 import android.util.Log;
+
 import com.blankj.utilcode.util.EncryptUtils;
 import com.blankj.utilcode.util.FileUtils;
 import com.iceteck.silicompressorr.CompressCall;
+
 import java.io.*;
 import java.nio.ByteBuffer;
 import java.nio.channels.FileChannel;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
+
 import cc.ab.base.ext.StringExtKt;
 
 @SuppressLint("NewApi")
@@ -88,7 +91,7 @@ public class MediaController {
    * Width, height and bitrate are now default
    *
    * @param sourcePath the source uri for the file as per
-   * @param destDir the destination directory where compressed video is eventually saved
+   * @param destDir    the destination directory where compressed video is eventually saved
    */
   public boolean convertVideo(final String sourcePath, File destDir) {
     return convertVideo(sourcePath, destDir, 0, 0, 0);
@@ -98,9 +101,9 @@ public class MediaController {
    * Perform the actual video compression. Processes the frames and does the magic
    *
    * @param sourcePath the source uri for the file as per
-   * @param destDir the destination directory where compressed video is eventually saved
-   * @param outWidth the target width of the converted video, 0 is default
-   * @param outHeight the target height of the converted video, 0 is default
+   * @param destDir    the destination directory where compressed video is eventually saved
+   * @param outWidth   the target width of the converted video, 0 is default
+   * @param outHeight  the target height of the converted video, 0 is default
    * @param outBitrate the target bitrate of the converted video, 0 is default
    */
   @TargetApi(16)
@@ -187,7 +190,11 @@ public class MediaController {
     //奇数会导致压缩失败，所以用偶数
     if (resultWidth % 2 == 1) resultWidth--;
     if (resultHeight % 2 == 1) resultHeight--;
-    retriever.release();
+    try {
+      retriever.release();
+    } catch (Exception e) {
+      throw new RuntimeException(e);
+    }
     //=============================================修改代码2-ENd=============================================//
 
     if (Build.VERSION.SDK_INT < 18
@@ -743,11 +750,11 @@ public class MediaController {
   }
 
   public native static int convertVideoFrame(ByteBuffer src, ByteBuffer dest, int destFormat, int width, int height, int padding,
-      int swap);
+                                             int swap);
 
   @TargetApi(16)
   private long readAndWriteTrack(MediaExtractor extractor, MP4Builder mediaMuxer, MediaCodec.BufferInfo info, long start,
-      long end, File file, boolean isAudio) throws Exception {
+                                 long end, File file, boolean isAudio) throws Exception {
     int trackIndex = selectTrack(extractor, isAudio);
     if (trackIndex >= 0) {
       extractor.selectTrack(trackIndex);

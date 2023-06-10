@@ -100,7 +100,7 @@ class SplashActivity : CommBindActivity<ActivitySplashBinding>() {
       lav.repeatMode = LottieDrawable.RESTART
       lav.setOnClickListener { }
       lav.addAnimatorListener(object : AnimatorListenerAdapter() {
-        override fun onAnimationEnd(animation: Animator?) {
+        override fun onAnimationEnd(animation: Animator) {
           super.onAnimationEnd(animation)
           animIsFinished = true
           goNextPage()

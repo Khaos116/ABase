@@ -6,8 +6,6 @@ plugins {
   id 'kotlin-kapt'
   id 'bugly'
   id 'kotlin-parcelize' //https://weilu.blog.csdn.net/article/details/109557820
-  //1.6.10是Versions.kotlin的值
-  id("com.google.devtools.ksp") version "1.6.10-1.0.2" //https://github.com/liujingxing/rxhttp/blob/master/README_zh.md
 }
 
 android {
@@ -33,6 +31,7 @@ android {
     multiDexEnabled true
     //resConfigs "zh-rCN", "zh-rTW", "zh-rHK", "en-rUS", "en-rGB"
     resConfigs "zh-rCN", "en-rUS" //保留中文和英文资源(如果随便写一种没有的语言，则只会打默认的文字资源到APK)
+    //noinspection ChromeOsAbiSupport
     ndk { abiFilters 'armeabi-v7a' } //, 'arm64-v8a'
     //资源文件名冲突，引用包重复，文件名显示的格式与文件本身的格式不对应
     //aaptOptions.cruncherEnabled = false
@@ -79,13 +78,6 @@ android {
       resValue "string", "bugly_app_id", rootProject.ext.android.buglyIdS1
       resValue "string", "app_name", "${rootProject.ext.android.applicationName}-S1"
       resValue "string", "channel", "s1"
-      //让IDE知道ksp生成的kotlin代码
-      kotlin {
-        sourceSets.debug {
-          //如果通过productFlavors配置了多渠道，则配置 /../ksp/xxxDebug/kotlin
-          kotlin.srcDir("build/generated/ksp/s1debug/kotlin")
-        }
-      }
     }
     //渠道s2
     s2 {
@@ -96,13 +88,6 @@ android {
       resValue "string", "bugly_app_id", rootProject.ext.android.buglyIdS2
       resValue "string", "app_name", "${rootProject.ext.android.applicationName}-S2"
       resValue "string", "channel", "s2"
-      //让IDE知道ksp生成的kotlin代码
-      kotlin {
-        sourceSets.debug {
-          //如果通过productFlavors配置了多渠道，则配置 /../ksp/xxxDebug/kotlin
-          kotlin.srcDir("build/generated/ksp/s2debug/kotlin")
-        }
-      }
     }
   }
 
@@ -158,10 +143,12 @@ android {
   if (!tempFile2.exists()) tempFile2.mkdirs()
 }
 
-//RxHttp ksp传参方式 https://github.com/liujingxing/okhttp-RxHttp
-ksp {
-  arg("rxhttp_rxjava", "3.1.5")
-  arg("rxhttp_package", "rxhttp") //指定RxHttp类包名，非必须
+//RxHttp kapt传参方式 https://github.com/liujingxing/okhttp-RxHttp
+kapt {
+  arguments {
+    arg("rxhttp_rxjava", "3.1.6")
+    arg("rxhttp_package", "rxhttp.cc") //指定RxHttp类包名，非必须
+  }
 }
 
 //打包处理
@@ -319,7 +306,7 @@ dependencies {
   implementation Deps.pinyin
   implementation Deps.spedit_tool
   implementation Deps.rxhttp
-  ksp Deps.rxhttp_ksp
+  kapt Deps.rxhttp_kapt
   implementation Deps.rxlife_rxjava
   implementation Deps.picker_view
   implementation Deps.flexbox

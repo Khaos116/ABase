@@ -12,7 +12,9 @@ import com.blankj.utilcode.util.EncryptUtils
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.schedulers.Schedulers
 import rxhttp.*
-import rxhttp.wrapper.cahce.CacheMode
+import rxhttp.cc.RxHttp
+import rxhttp.cc.toAwaitResponseWan
+import rxhttp.wrapper.cache.CacheMode
 import rxhttp.wrapper.coroutines.Await
 
 /**
@@ -28,7 +30,7 @@ object UserRepository {
       .add("password", EncryptUtils.encryptMD5ToString(password))
       .add("repassword", EncryptUtils.encryptMD5ToString(repassword))
       .setCacheMode(CacheMode.ONLY_NETWORK) //不使用缓存
-      .toResponseWan<UserBean>()
+      .toAwaitResponseWan<UserBean>()
       .map { u ->
         UserManager.setUid(u.id)
         MMkvUtils.setAccount(username)
@@ -45,7 +47,7 @@ object UserRepository {
       .add("password", EncryptUtils.encryptMD5ToString(password))
       .setAssemblyEnabled(true) //添加公共参数/头部
       .setCacheMode(CacheMode.ONLY_NETWORK) //不使用缓存
-      .toResponseWan<UserBean>()
+      .toAwaitResponseWan<UserBean>()
       .map {
         UserManager.setUid(it.id)
         MMkvUtils.setAccount(username)
@@ -65,7 +67,7 @@ object UserRepository {
   //我的积分
   suspend fun myIntegral(): Await<IntegralBean> {
     return RxHttp.get(WanUrls.User.INTEGRAL)
-      .toResponseWan<IntegralBean>()
+      .toAwaitResponseWan<IntegralBean>()
   }
 
   //登出
@@ -73,7 +75,7 @@ object UserRepository {
   fun logOut() {
     RxHttp.get(WanUrls.User.LOGOUT)
       .setCacheMode(CacheMode.ONLY_NETWORK) //不使用缓存
-      .asString()
+      .toObservable(String::class.java)
       .observeOn(Schedulers.io())
       .observeOn(AndroidSchedulers.mainThread()) //指定在主线程回调
       .subscribe({ "退出成功:$it".logI() }, { "退出失败:$it".logI() }, {})

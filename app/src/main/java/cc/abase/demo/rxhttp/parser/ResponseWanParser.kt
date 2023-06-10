@@ -36,7 +36,7 @@ open class ResponseWanParser<T> : TypeParser<T> {
       if (result.isNullOrEmpty()) {
         throw ParseException(response.code.toString(), "body is blank", response)
       }
-      val type: Type = ParameterizedTypeImpl[BaseResponse::class.java, types.first()]
+      val type: Type = ParameterizedTypeImpl.get(BaseResponse::class.java, types.first())
       val responseWan: BaseResponse<T> = GsonUtils.fromJson(result, type)
       val data = responseWan.data
       //code不等于0，说明数据不正确，抛出异常

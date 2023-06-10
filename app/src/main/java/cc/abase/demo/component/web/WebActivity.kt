@@ -100,7 +100,7 @@ class WebActivity : CommBindTitleActivity<ActivityWebBinding>() {
       //设置此属性，可任意比例缩放，大视图模式和setUseWideViewPort(true)一起解决网页自适应问题
       ws.loadWithOverviewMode = true
       //是否使用缓存
-      ws.setAppCacheEnabled(true)
+      //ws.setAppCacheEnabled(true)
       //DOM Storage
       ws.domStorageEnabled = true
     }

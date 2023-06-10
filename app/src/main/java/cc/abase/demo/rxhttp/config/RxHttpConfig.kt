@@ -11,7 +11,7 @@ import com.ayvytr.okhttploginterceptor.LoggingInterceptor
 import okhttp3.OkHttpClient
 import okhttp3.OkHttpClient.Builder
 import rxhttp.RxHttpPlugins
-import rxhttp.wrapper.cahce.CacheMode
+import rxhttp.wrapper.cache.CacheMode
 import rxhttp.wrapper.converter.GsonConverter
 import rxhttp.wrapper.param.Param
 import rxhttp.wrapper.ssl.HttpsUtils
@@ -60,7 +60,6 @@ object RxHttpConfig {
             HeaderManger.getTokenPair()?.let { p.addHeader(it.first, it.second) }
           }
         }
-        p
       }
     //反射修改内部gson
     try {

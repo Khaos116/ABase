@@ -1,9 +1,9 @@
 object Versions {
   internal const val sdkMin = 23
-  internal const val sdkTarget = 31
-  internal const val kotlin = "1.6.10"
-  internal const val okHttp = "4.9.3"
-  internal const val rxHttp = "2.8.4"
+  internal const val sdkTarget = 33
+  internal const val kotlin = "1.8.0"
+  internal const val okHttp = "4.10.0"
+  internal const val rxHttp = "3.0.5"
   internal const val coil = "1.4.0"
   internal const val picSel = "3.0.5"
 }
@@ -11,9 +11,9 @@ object Versions {
 object Deps {
   //<editor-fold defaultstate="collapsed" desc="Studio基础配置">
   //根目录gradle https://maven.aliyun.com/mvn/search 使用ViewBinding最低3.6.0
-  const val plugin_android_gradle = "com.android.tools.build:gradle:7.0.4"
+  const val plugin_android_gradle = "com.android.tools.build:gradle:7.4.1"
   const val plugin_kotlin_gradle = "org.jetbrains.kotlin:kotlin-gradle-plugin:${Versions.kotlin}"
-  const val plugin_r8_gradle = "com.android.tools:r8:3.1.51" //更新R8版本，解决正式版无法打包的问题 https://github.com/square/okhttp/issues/4604
+  const val plugin_r8_gradle = "com.android.tools:r8:8.0.40" //更新R8版本，解决正式版无法打包的问题 https://github.com/square/okhttp/issues/4604
 
   //使用kotlin
   const val kotlin_stdlib = "org.jetbrains.kotlin:kotlin-stdlib:${Versions.kotlin}"
@@ -31,10 +31,10 @@ object Deps {
   const val constraint = "androidx.constraintlayout:constraintlayout:2.1.3"
 
   //lifecycleScope只能在Activity、Fragment中使用，会绑定Activity和Fragment的生命周期
-  const val lifecycle = "androidx.lifecycle:lifecycle-runtime-ktx:2.4.1"
+  const val lifecycle = "androidx.lifecycle:lifecycle-runtime-ktx:2.6.1"
 
   //viewModelScope只能在ViewModel中使用，绑定ViewModel的生命周期
-  const val viewmodel = "androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.1"
+  const val viewmodel = "androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.1"
   //</editor-fold>
 
   //<editor-fold defaultstate="collapsed" desc="AndroidX基础配置">
@@ -76,11 +76,11 @@ object Deps {
 
   //RxHttp https://github.com/liujingxing/okhttp-RxHttp
   const val rxhttp = "com.github.liujingxing.rxhttp:rxhttp:${Versions.rxHttp}"
-  const val rxhttp_ksp = "com.github.liujingxing.rxhttp:rxhttp-compiler:${Versions.rxHttp}"
+  const val rxhttp_kapt = "com.github.liujingxing.rxhttp:rxhttp-compiler:${Versions.rxHttp}"
   const val rxlife_rxjava = "com.github.liujingxing.rxlife:rxlife-rxjava3:2.2.1"//管理RxJava3生命周期，页面销毁，关闭请求
 
   //RxJava https://github.com/ReactiveX/RxJava
-  const val rxjava = "io.reactivex.rxjava3:rxjava:3.1.3"
+  const val rxjava = "io.reactivex.rxjava3:rxjava:3.1.6"
 
   //RxAndroid https://github.com/ReactiveX/RxAndroid
   const val rxandroid = "io.reactivex.rxjava3:rxandroid:3.0.0"

@@ -1,9 +1,9 @@
 package cc.abase.demo.rxhttp.repository
 
 import cc.abase.demo.bean.net.IpBean
-import rxhttp.RxHttp
-import rxhttp.toResponseOther
-import rxhttp.wrapper.cahce.CacheMode
+import rxhttp.cc.RxHttp
+import rxhttp.cc.toAwaitResponseOther
+import rxhttp.wrapper.cache.CacheMode
 
 /**
  * @Description
@@ -29,7 +29,7 @@ object OtherRepository {
     //备用地址 https://www.cloudflare.com/cdn-cgi/trace
     return RxHttp.get("http://ip-api.com/json/?lang=zh-CN")
       .setCacheMode(CacheMode.ONLY_NETWORK)
-      .toResponseOther<IpBean>()
+      .toAwaitResponseOther<IpBean>()
       .await()
   }
 }

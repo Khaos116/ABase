@@ -118,7 +118,7 @@ class DragFloatView @kotlin.jvm.JvmOverloads constructor(c: Context, a: Attribut
       isAniming = true
       this.animate().translationX(transX).setDuration(200)
           .setListener(object : AnimatorListenerAdapter() {
-            override fun onAnimationEnd(animation: Animator?) {
+            override fun onAnimationEnd(animation: Animator) {
               super.onAnimationEnd(animation)
               isAniming = false
             }

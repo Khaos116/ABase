@@ -165,9 +165,9 @@ class DotsIndicator : LinearLayout {
     decreaseAnimator.start()
 
     val animationListener = object : Animator.AnimatorListener {
-      override fun onAnimationRepeat(animation: Animator?) {}
+      override fun onAnimationRepeat(animation: Animator) {}
 
-      override fun onAnimationEnd(animation: Animator?) {
+      override fun onAnimationEnd(animation: Animator) {
         newSelection.scaleX = selectedDotScaleFactor
         newSelection.scaleY = selectedDotScaleFactor
 
@@ -175,9 +175,9 @@ class DotsIndicator : LinearLayout {
         selectedDot.scaleY = 1f
       }
 
-      override fun onAnimationCancel(animation: Animator?) {}
+      override fun onAnimationCancel(animation: Animator) {}
 
-      override fun onAnimationStart(animation: Animator?) {}
+      override fun onAnimationStart(animation: Animator) {}
 
     }
 
