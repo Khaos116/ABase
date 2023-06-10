@@ -1,0 +1,3 @@
+查询依赖
+gradlew :app:dependencies --info >b.txt
+.\gradlew :app:dependencies --info >b.txt
