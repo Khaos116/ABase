@@ -1,0 +1,36 @@
+=================================RxJava2处理并发==================================================
+val request1:Observable<MutableList<XXX>> = RxHttp.get("xxx")
+    .setCacheMode(CacheMode.ONLY_NETWORK)
+    .toObservableResponseLiveItemsList(XXX::class.java)
+    .subscribeOn(Schedulers.io())
+
+val request2:Observable<MutableList<YYY>> = RxHttp.get("yyy")
+    .setCacheMode(CacheMode.ONLY_NETWORK)
+    .toObservableResponseLiveItemsList(YYY::class.java)
+    .subscribeOn(Schedulers.io())
+
+val request3:Observable<MutableList<ZZZ>> = RxHttp.get("zzz")
+    .setCacheMode(CacheMode.ONLY_NETWORK)
+    .toObservableResponseLiveItemsList(ZZZ::class.java)
+    .subscribeOn(Schedulers.io())
+
+Observable.zip(request1, request2, request3,
+  Function3<MutableList<xxx>,
+      MutableList<YYY>,
+      MutableList<ZZZ>,
+      Triple<MutableList<XXX>, MutableList<YYY>, MutableList<ZZZ>>> { t1, t2, t3 ->
+    // 在这里处理请求结果，例如将它们组合成一个新的对象
+    return@Function3 Triple(t1, t2, t3)
+  })
+  .subscribeOn(Schedulers.io())
+  .observeOn(AndroidSchedulers.mainThread())
+  .subscribe({ p ->
+    // 在这里处理组合后的结果，例如更新UI
+    "OkHttp-Request: ┏[Request]$1->${GsonUtils.toJson(p.first)}".logE()
+    "OkHttp-Request: ┏[Request]$2->${GsonUtils.toJson(p.second)}".logE()
+    "OkHttp-Request: ┏[Request]$3->${GsonUtils.toJson(p.third)}".logE()
+  }, { error ->
+    // 在这里处理错误
+    "OkHttp-Request: ┏[Request]1-xx->${error.message}".logE()
+  })
+===================================================================================================
