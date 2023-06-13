@@ -4,3 +4,6 @@ gradlew :app:dependencies --info >b.txt
 
 无法连接模拟器：
 CMD或者Terminal下执行：adb connect 127.0.0.1:62001
+
+清理build和报红等：
+在项目中使用Git Bash:git clean -xfd
