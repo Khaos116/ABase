@@ -3,11 +3,7 @@ package cc.abase.demo.component.main.viewmodel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import cc.ab.base.ui.viewmodel.DataState
-import cc.ab.base.ui.viewmodel.DataState.FailMore
-import cc.ab.base.ui.viewmodel.DataState.FailRefresh
-import cc.ab.base.ui.viewmodel.DataState.Start
-import cc.ab.base.ui.viewmodel.DataState.SuccessMore
-import cc.ab.base.ui.viewmodel.DataState.SuccessRefresh
+import cc.ab.base.ui.viewmodel.DataState.*
 import cc.abase.demo.bean.wan.ArticleBean
 import cc.abase.demo.bean.wan.BannerBean
 import cc.abase.demo.component.comm.CommViewModel
@@ -51,11 +47,10 @@ class WanViewModel : CommViewModel() {
         .onStart {
           bannerLiveData.value = Start(oldData = old)
         }
-        .awaitResult {//阻塞的回调函数
-          bannerLiveData.value = SuccessRefresh(newData = it, hasMore = false)
-        }
+        .awaitResult()
+        //.awaitResult {}//阻塞的回调函数
         .onSuccess {//非阻塞的回调函数
-
+          bannerLiveData.value = SuccessRefresh(newData = it, hasMore = false)
         }
         .onFailure { e ->
           bannerLiveData.value = FailRefresh(oldData = old, exc = e)
@@ -72,7 +67,9 @@ class WanViewModel : CommViewModel() {
         .onStart {
           articleLiveData.value = Start(oldData = old)
         }
-        .awaitResult { response ->
+        .awaitResult()
+        //.awaitResult {}//阻塞的回调函数
+        .onSuccess { response ->
           val result = response.datas?.toMutableList() ?: mutableListOf()
           val hasMore = response.curPage < response.total
           currentPage = page
@@ -83,7 +80,8 @@ class WanViewModel : CommViewModel() {
             totalData = if (old.isNullOrEmpty()) result else (old + result).toMutableList(),
             hasMore = hasMore
           )
-        }.onFailure { e ->
+        }
+        .onFailure { e ->
           articleLiveData.value = if (page == 0) FailRefresh(oldData = old, exc = e) else FailMore(oldData = old, exc = e)
         }
     }
