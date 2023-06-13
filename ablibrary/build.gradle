@@ -87,4 +87,5 @@ dependencies {
     api Deps.libphonenumber
     api Deps.binding_ktx
     api Deps.binding_base
+    api Deps.kotlin_reflect//解决Rxhttp升级到3.0.5引用Kotlin1.8.0导致的转化异常 java.lang.ClassCastException: kotlin.reflect.jvm.internal.KTypeImpl cannot be cast to kotlin.jvm.internal.TypeReference
 }

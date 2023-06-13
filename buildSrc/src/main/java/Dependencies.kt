@@ -17,6 +17,7 @@ object Deps {
 
   //使用kotlin
   const val kotlin_stdlib = "org.jetbrains.kotlin:kotlin-stdlib:${Versions.kotlin}"
+  const val kotlin_reflect = "org.jetbrains.kotlin:kotlin-reflect:${Versions.kotlin}"
   //</editor-fold>
 
   //<editor-fold defaultstate="collapsed" desc="Studio-UI基础配置">
