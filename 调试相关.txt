@@ -3,4 +3,4 @@ gradlew :app:dependencies --info >b.txt
 .\gradlew :app:dependencies --info >b.txt
 
 无法连接模拟器：
-到adb目录，如：D:\SDK\platform-tools；执行CMD命令adb.exe connect 127.0.0.1:62001
+CMD或者Terminal下执行：adb connect 127.0.0.1:62001
