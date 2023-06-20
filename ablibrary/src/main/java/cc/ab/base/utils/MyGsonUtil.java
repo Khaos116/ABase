@@ -91,6 +91,11 @@ public class MyGsonUtil {
         .create();
   }
 
+  //过滤不需要序列化的字段,使用标注：@Transient
+  public static Gson newFilterGson() {
+    return new GsonBuilder().excludeFieldsWithModifiers(java.lang.reflect.Modifier.TRANSIENT).create();
+  }
+
   private static class StringAdapter implements JsonSerializer<String>, JsonDeserializer<String> {
     @Override
     public String deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context)
