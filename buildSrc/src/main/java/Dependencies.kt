@@ -22,14 +22,14 @@ object Deps {
 
   //<editor-fold defaultstate="collapsed" desc="Studio-UI基础配置">
   //系统相关 https://maven.aliyun.com/mvn/search
-  const val core_ktx = "androidx.core:core-ktx:1.7.0"
-  const val activity_ktx = "androidx.activity:activity-ktx:1.4.0"
+  const val core_ktx = "androidx.core:core-ktx:1.10.1"
+  const val activity_ktx = "androidx.activity:activity-ktx:1.7.1"
 
   //appcompat版本太低出现 Didn't find class "androidx.startup.InitializationProvider"
-  const val appcompat = "androidx.appcompat:appcompat:1.4.1"
-  const val fragment = "androidx.fragment:fragment:1.4.1"
-  const val material = "com.google.android.material:material:1.5.0"
-  const val constraint = "androidx.constraintlayout:constraintlayout:2.1.3"
+  const val appcompat = "androidx.appcompat:appcompat:1.6.1"
+  const val fragment = "androidx.fragment:fragment:1.5.7"
+  const val material = "com.google.android.material:material:1.9.0"
+  const val constraint = "androidx.constraintlayout:constraintlayout:2.1.4"
 
   //lifecycleScope只能在Activity、Fragment中使用，会绑定Activity和Fragment的生命周期
   const val lifecycle = "androidx.lifecycle:lifecycle-runtime-ktx:2.6.1"
