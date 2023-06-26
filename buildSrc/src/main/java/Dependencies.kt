@@ -197,13 +197,13 @@ object Deps {
   const val pattern_locker = "com.github.ihsg:PatternLocker:2.5.7"
 
   //万能阴影布局 https://github.com/lihangleo2/ShadowLayout
-  const val shadow_layout = "com.github.lihangleo2:ShadowLayout:3.2.4"
+  const val shadow_layout = "com.github.lihangleo2:ShadowLayout:3.3.3"
 
   //四角颜色的渐变背景  https://github.com/GIGAMOLE/QuatroGrade
   const val quatroGrade = "com.github.GIGAMOLE:QuatroGrade:1.0.0"
 
   //https://blog.csdn.net/qq_21154101/article/details/100068269
-  const val jsoup = "org.jsoup:jsoup:1.14.3"
+  const val jsoup = "org.jsoup:jsoup:1.16.1"
 
   //日历 https://github.com/aminography/PrimeDatePicker
   const val primedatepicker = "com.aminography:primedatepicker:3.6.1"
