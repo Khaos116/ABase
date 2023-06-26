@@ -162,7 +162,7 @@ object Deps {
   const val pic_ucrop = "io.github.lucksiege:ucrop:v${Versions.picSel}"
 
   //Emoji表情 https://github.com/vanniktech/Emoji
-  const val emoji = "com.vanniktech:emoji-twitter:0.8.0"
+  const val emoji = "com.vanniktech:emoji-twitter:0.16.0"
 
   //SideBar https://github.com/D10NGYANG/DL10SideBar
   const val side_bar = "com.github.D10NGYANG:DL10SideBar:1.0.0"
@@ -171,12 +171,12 @@ object Deps {
   const val flexbox = "com.google.android.flexbox:flexbox:3.0.0"
 
   //视频播放相关 https://github.com/Doikki/DKVideoPlayer/wiki
-  const val dk_java = "xyz.doikki.android.dkplayer:dkplayer-java:3.3.5"
-  const val dk_ui = "xyz.doikki.android.dkplayer:dkplayer-ui:3.3.5"
-  const val dk_exo = "xyz.doikki.android.dkplayer:player-exo:3.3.5"
+  const val dk_java = "xyz.doikki.android.dkplayer:dkplayer-java:3.3.7"
+  const val dk_ui = "xyz.doikki.android.dkplayer:dkplayer-ui:3.3.7"
+  const val dk_exo = "xyz.doikki.android.dkplayer:player-exo:3.3.7"
 
   //https://github.com/airbnb/lottie-android
-  const val lottie = "com.airbnb.android:lottie:5.0.2"
+  const val lottie = "com.airbnb.android:lottie:6.0.1"
 
   //中文转拼音 https://github.com/promeG/TinyPinyin
   const val pinyin = "com.github.promeg:tinypinyin:2.0.3" // TinyPinyin核心包，约80KB
@@ -188,7 +188,7 @@ object Deps {
   const val spedit_tool = "com.github.sunhapper.SpEditTool:SpEditText:1.0.4"
 
   //远距离识别二维码 https://github.com/devilsen/CZXing
-  const val czxing = "io.github.devilsen:czxing:1.1.0"
+  const val czxing = "io.github.devilsen:czxing:1.2.0"
 
   //多渠道读取 https://github.com/Meituan-Dianping/walle
   const val walle = "com.meituan.android.walle:library:1.1.7"
