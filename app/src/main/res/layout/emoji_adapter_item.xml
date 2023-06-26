@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--改为水波纹有界效果 https://www.cnblogs.com/yongdaimi/p/11732034.html -->
-<com.vanniktech.emoji.EmojiImageView
+<com.vanniktech.emoji.internal.EmojiImageView
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
