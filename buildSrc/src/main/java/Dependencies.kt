@@ -108,9 +108,9 @@ object Deps {
   const val eventBus = "io.github.jeremyliao:live-event-bus-x:1.8.0"
 
   //WebView https://github.com/Justson/AgentWeb
-  const val agentweb = "com.github.Justson.AgentWeb:agentweb-core:v5.0.0-alpha.1-androidx"
-  const val agentweb_file = "com.github.Justson.AgentWeb:agentweb-filechooser:v5.0.0-alpha.1-androidx"
-  const val agentweb_down = "com.github.Justson:Downloader:v5.0.0-androidx"
+  const val agentweb = "com.github.Justson.AgentWeb:agentweb-core:v5.0.6-androidx" // (必选)
+  const val agentweb_file = "com.github.Justson.AgentWeb:agentweb-filechooser:v5.0.6-androidx" // (可选)
+  const val agentweb_down = "com.github.Justson:Downloader:v5.0.4-androidx"
 
   //RecyclerView动画 https://github.com/mikepenz/ItemAnimators
   const val rv_anim = "com.mikepenz:itemanimators:1.1.0"
