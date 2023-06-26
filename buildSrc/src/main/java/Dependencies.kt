@@ -5,7 +5,7 @@ object Versions {
   internal const val okHttp = "4.11.0"
   internal const val rxHttp = "3.0.6"
   internal const val coil = "1.4.0"
-  internal const val picSel = "3.0.5"
+  internal const val picSel = "3.11.1"
 }
 
 object Deps {

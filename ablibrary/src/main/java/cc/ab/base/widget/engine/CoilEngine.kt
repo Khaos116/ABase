@@ -86,30 +86,35 @@ class CoilEngine : ImageEngine {
     imageView.loadImgVertical(url, 720f / 1280)
   }
 
-  override fun loadImageBitmap(
-    context: Context,
-    url: String,
-    maxWidth: Int,
-    maxHeight: Int,
-    call: OnCallbackListener<Bitmap>?
-  ) {
-    context.imageLoader.enqueue(
-      ImageRequest.Builder(context)
-        .size(720, 1280)
-        .data(url)
-        .target(
-          onStart = {
-            call?.onCall(PlaceHolderUtils.getLoadingHolder(720f / 1280).toBitmap())
-          },
-          onSuccess = {
-            call?.onCall(it.toBitmap())
-          },
-          onError = {
-            call?.onCall(PlaceHolderUtils.getErrorHolder(720f / 1280).toBitmap())
-          }
-        )
-        .build())
+  override fun loadImage(context: Context?, imageView: ImageView?, url: String?, maxWidth: Int, maxHeight: Int) {
+    if (context != null && imageView != null && !url.isNullOrBlank()) {
+      loadImage(context, url, imageView)
+    }
   }
+  //override fun loadImageBitmap(
+  //  context: Context,
+  //  url: String,
+  //  maxWidth: Int,
+  //  maxHeight: Int,
+  //  call: OnCallbackListener<Bitmap>?
+  //) {
+  //  context.imageLoader.enqueue(
+  //    ImageRequest.Builder(context)
+  //      .size(720, 1280)
+  //      .data(url)
+  //      .target(
+  //        onStart = {
+  //          call?.onCall(PlaceHolderUtils.getLoadingHolder(720f / 1280).toBitmap())
+  //        },
+  //        onSuccess = {
+  //          call?.onCall(it.toBitmap())
+  //        },
+  //        onError = {
+  //          call?.onCall(PlaceHolderUtils.getErrorHolder(720f / 1280).toBitmap())
+  //        }
+  //      )
+  //      .build())
+  //}
 
   override fun loadAlbumCover(context: Context, url: String, imageView: ImageView) {
     imageView.scaleType = ImageView.ScaleType.CENTER_CROP
