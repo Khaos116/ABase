@@ -26,7 +26,7 @@ import java.io.File
  * Time:13:16
  */
 @SuppressLint("ResourceType")
-class MyVideoView : VideoView<MyExoMediaPlayer>, LifecycleObserver {
+class MyVideoView : VideoView, LifecycleObserver {
   //<editor-fold defaultstate="collapsed" desc="多构造">
   constructor(c: Context) : super(c, null, 0)
   constructor(c: Context, a: AttributeSet) : super(c, a, 0)
