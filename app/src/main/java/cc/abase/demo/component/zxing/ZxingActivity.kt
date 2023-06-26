@@ -90,11 +90,11 @@ class ZxingActivity : CommBindTitleActivity<ActivityZxingBinding>() {
     XXPermissions.with(mActivity)
       .permission(Permission.CAMERA)
       .request(object : OnPermissionCallback {
-        override fun onGranted(permissions: MutableList<String>?, all: Boolean) {
+        override fun onGranted(permissions: MutableList<String>, all: Boolean) {
           if (all) openScan() else R.string.扫码需要摄像头权限.xmlToast()
         }
 
-        override fun onDenied(permissions: MutableList<String>?, never: Boolean) {
+        override fun onDenied(permissions: MutableList<String>, never: Boolean) {
           super.onDenied(permissions, never)
           if (never) {
             R.string.扫码需要摄像头权限.xmlToast()

@@ -2,8 +2,8 @@ object Versions {
   internal const val sdkMin = 23
   internal const val sdkTarget = 33
   internal const val kotlin = "1.8.0"
-  internal const val okHttp = "4.10.0"
-  internal const val rxHttp = "3.0.5"
+  internal const val okHttp = "4.11.0"
+  internal const val rxHttp = "3.0.6"
   internal const val coil = "1.4.0"
   internal const val picSel = "3.0.5"
 }
@@ -48,26 +48,26 @@ object Deps {
   const val timber = "com.jakewharton.timber:timber:5.0.1"
 
   //工具类 https://github.com/Blankj/AndroidUtilCode/blob/master/lib/utilcode/README-CN.md
-  const val utilcodex = "com.blankj:utilcodex:1.31.0"
+  const val utilcodex = "com.blankj:utilcodex:1.31.1"
 
   //UI适配 https://github.com/JessYanCoding/AndroidAutoSize
   const val autosize = "com.github.JessYanCoding:AndroidAutoSize:v1.2.1"
 
   //状态栏适配 https://github.com/gyf-dev/ImmersionBar
-  const val immersionbar = "com.geyifeng.immersionbar:immersionbar:3.2.1"
-  const val immersionbar_ktx = "com.geyifeng.immersionbar:immersionbar-ktx:3.2.1"
+  const val immersionbar = "com.geyifeng.immersionbar:immersionbar:3.2.2"
+  const val immersionbar_ktx = "com.geyifeng.immersionbar:immersionbar-ktx:3.2.2"
 
   //数据存储 https://github.com/Tencent/MMKV
-  const val mmkv = "com.tencent:mmkv:1.2.12"
+  const val mmkv = "com.tencent:mmkv:1.3.0"
   //</editor-fold>"
 
   //<editor-fold defaultstate="collapsed" desc="三方基础配置">
   //数据解析 https://github.com/google/gson
-  const val gson = "com.google.code.gson:gson:2.9.0"
+  const val gson = "com.google.code.gson:gson:2.10.1"
 
   //协程 https://github.com/Kotlin/kotlinx.coroutines
-  const val coroutine = "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.0"
-  const val coroutine_android = "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.0"
+  const val coroutine = "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.1"
+  const val coroutine_android = "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.1"
 
   //网络请求 https://github.com/square/okhttp
   const val okhttp = "com.squareup.okhttp3:okhttp:${Versions.okHttp}"
@@ -78,13 +78,13 @@ object Deps {
   //RxHttp https://github.com/liujingxing/okhttp-RxHttp
   const val rxhttp = "com.github.liujingxing.rxhttp:rxhttp:${Versions.rxHttp}"
   const val rxhttp_kapt = "com.github.liujingxing.rxhttp:rxhttp-compiler:${Versions.rxHttp}"
-  const val rxlife_rxjava = "com.github.liujingxing.rxlife:rxlife-rxjava3:2.2.1"//管理RxJava3生命周期，页面销毁，关闭请求
+  const val rxlife_rxjava = "com.github.liujingxing.rxlife:rxlife-rxjava3:2.2.2"//管理RxJava3生命周期，页面销毁，关闭请求
 
   //RxJava https://github.com/ReactiveX/RxJava
   const val rxjava = "io.reactivex.rxjava3:rxjava:3.1.6"
 
   //RxAndroid https://github.com/ReactiveX/RxAndroid
-  const val rxandroid = "io.reactivex.rxjava3:rxandroid:3.0.0"
+  const val rxandroid = "io.reactivex.rxjava3:rxandroid:3.0.2"
 
   //图片加载 https://github.com/coil-kt/coil
   const val coil = "io.coil-kt:coil:${Versions.coil}"
@@ -96,11 +96,11 @@ object Deps {
   const val multitype = "com.drakeet.multitype:multitype:4.3.0"
 
   //动态权限 https://github.com/getActivity/XXPermissions
-  const val xxpermissions = "com.github.getActivity:XXPermissions:13.5"
+  const val xxpermissions = "com.github.getActivity:XXPermissions:18.2"
 
-  //ViewBinding https://github.com/DylanCaiCoding/ViewBindingKtx/blob/master/README_CN.md
-  const val binding_ktx = "com.github.DylanCaiCoding.ViewBindingKTX:viewbinding-ktx:2.0.2"
-  const val binding_base = "com.github.DylanCaiCoding.ViewBindingKTX:viewbinding-base:2.0.2"
+  //ViewBinding https://github.com/DylanCaiCoding/ViewBindingKTX/blob/master/README_ZH.md
+  const val binding_ktx = "com.github.DylanCaiCoding.ViewBindingKTX:viewbinding-ktx:2.1.0"
+  const val binding_base = "com.github.DylanCaiCoding.ViewBindingKTX:viewbinding-base:2.1.0"
   //</editor-fold>
 
   //<editor-fold defaultstate="collapsed" desc="三方常用配置">
@@ -115,7 +115,7 @@ object Deps {
   //RecyclerView动画 https://github.com/mikepenz/ItemAnimators
   const val rv_anim = "com.mikepenz:itemanimators:1.1.0"
 
-  //指示器 https://github.com/hackware1993/MagicIndicator/tree/androidx
+  //指示器 https://github.com/hackware1993/MagicIndicator
   const val indicator = "com.github.hackware1993:MagicIndicator:1.7.0"
 
   //侧滑 https://github.com/luckybilly/SmartSwipe
@@ -123,17 +123,17 @@ object Deps {
   const val swipex = "com.billy.android:smart-swipe-x:1.1.0"
 
   //下拉刷新 https://github.com/scwang90/SmartRefreshLayout
-  const val smart_refresh = "io.github.scwang90:refresh-layout-kernel:2.0.5"
-  const val smart_header = "io.github.scwang90:refresh-header-classics:2.0.5"
-  const val smart_footer = "io.github.scwang90:refresh-footer-classics:2.0.5"
+  const val smart_refresh = "io.github.scwang90:refresh-layout-kernel:2.0.6"
+  const val smart_header = "io.github.scwang90:refresh-header-classics:2.0.6"
+  const val smart_footer = "io.github.scwang90:refresh-footer-classics:2.0.6"
 
   //手机号判断 https://github.com/google/libphonenumber/wiki/Android-Studio-setup
-  const val libphonenumber = "com.googlecode.libphonenumber:libphonenumber:8.12.44"
+  const val libphonenumber = "com.googlecode.libphonenumber:libphonenumber:8.13.15"
   //</editor-fold>
 
   //<editor-fold defaultstate="collapsed" desc="调试统计工具">
   //模拟器检测 https://github.com/happylishang/CacheEmulatorChecker
-  const val emulator = "io.github.happylishang:antifake:1.5.0"
+  const val emulator = "io.github.happylishang:antifake:1.7.0"
 
   //Google分析统计工具 https://console.firebase.google.com/
   //const val gms_gradle = "com.google.gms:google-services:4.3.4"
@@ -143,10 +143,10 @@ object Deps {
   //const val crashlytics_ktx = "com.google.firebase:firebase-crashlytics-ktx"
 
   //内存泄漏检测 https://square.github.io/leakcanary/getting_started/
-  const val leakcanary = "com.squareup.leakcanary:leakcanary-android:2.8.1"
+  const val leakcanary = "com.squareup.leakcanary:leakcanary-android:2.11"
 
   //UI调试 https://github.com/YvesCheung/UInspector
-  const val uinspector = "io.github.yvescheung:Uinspector:2.0.11"
+  const val uinspector = "io.github.yvescheung:Uinspector:2.0.19"
 
   //bugly https://bugly.qq.com/docs/user-guide/instruction-manual-android/?v=20190916214340
   const val bugly_crash = "com.tencent.bugly:crashreport:4.0.0"

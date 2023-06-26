@@ -105,11 +105,11 @@ class MainActivity : CommBindActivity<ActivityMainBinding>() {
         XXPermissions.with(mActivity)
           .permission(permissions)
           .request(object : OnPermissionCallback {
-            override fun onGranted(permissions: MutableList<String>?, all: Boolean) {
+            override fun onGranted(permissions: MutableList<String>, all: Boolean) {
               if (all) getLocation() else "获取到部分权限:${permissions.toString()}".logE()
             }
 
-            override fun onDenied(permissions: MutableList<String>?, never: Boolean) {
+            override fun onDenied(permissions: MutableList<String>, never: Boolean) {
               "被拒绝的权限:${permissions.toString()};never=$never".logE()
               permissions?.let { p ->
                 if (!never && p.size == 1 && p.first() == Permission.ACCESS_BACKGROUND_LOCATION) {
@@ -128,11 +128,11 @@ class MainActivity : CommBindActivity<ActivityMainBinding>() {
           XXPermissions.with(activity)
             .permission(permissions)
             .request(object : OnPermissionCallback {
-              override fun onGranted(permissions: MutableList<String>?, all: Boolean) {
+              override fun onGranted(permissions: MutableList<String>, all: Boolean) {
                 if (all) getLocation() else "获取到部分权限:${permissions.toString()}".logE()
               }
 
-              override fun onDenied(permissions: MutableList<String>?, never: Boolean) {
+              override fun onDenied(permissions: MutableList<String>, never: Boolean) {
                 "被拒绝的权限:${permissions.toString()};never=$never".logE()
               }
             })
@@ -217,9 +217,9 @@ class MainActivity : CommBindActivity<ActivityMainBinding>() {
     XXPermissions.with(mContext)
       .permission(Permission.NOTIFICATION_SERVICE)
       .request(object : OnPermissionCallback {
-        override fun onGranted(permissions: MutableList<String>?, all: Boolean) {}
+        override fun onGranted(permissions: MutableList<String>, all: Boolean) {}
 
-        override fun onDenied(permissions: MutableList<String>?, never: Boolean) {}
+        override fun onDenied(permissions: MutableList<String>, never: Boolean) {}
       })
   }
   //</editor-fold>

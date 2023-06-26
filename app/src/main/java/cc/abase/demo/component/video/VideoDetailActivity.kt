@@ -113,14 +113,14 @@ class VideoDetailActivity : CommBindActivity<ActivityVideoDetailBinding>() {
       XXPermissions.with(this)
         .permission(Permission.SYSTEM_ALERT_WINDOW)
         .request(object : OnPermissionCallback {
-          override fun onGranted(permissions: MutableList<String>?, all: Boolean) {
+          override fun onGranted(permissions: MutableList<String>, all: Boolean) {
             if (all) {
               mPIPManager.startFloatWindow()
               finish()
             }
           }
 
-          override fun onDenied(permissions: MutableList<String>?, never: Boolean) {
+          override fun onDenied(permissions: MutableList<String>, never: Boolean) {
             // 如果是被永久拒绝就跳转到应用权限系统设置页面
             if (never) XXPermissions.startPermissionActivity(mActivity, permissions)
           }
