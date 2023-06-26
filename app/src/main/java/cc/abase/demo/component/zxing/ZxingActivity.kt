@@ -18,23 +18,17 @@ import cc.abase.demo.widget.MyZxingView
 import com.blankj.utilcode.constant.MemoryConstants
 import com.blankj.utilcode.util.ClickUtils
 import com.blankj.utilcode.util.KeyboardUtils
-import com.hjq.permissions.OnPermissionCallback
-import com.hjq.permissions.Permission
-import com.hjq.permissions.XXPermissions
+import com.hjq.permissions.*
 import com.luck.picture.lib.basic.PictureSelector
 import com.luck.picture.lib.config.PictureConfig
 import com.luck.picture.lib.config.SelectMimeType
 import com.luck.picture.lib.entity.LocalMedia
 import com.luck.picture.lib.interfaces.OnResultCallbackListener
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.isActive
-import kotlinx.coroutines.withContext
-import me.devilsen.czxing.code.BarcodeFormat
-import me.devilsen.czxing.code.BarcodeReader
-import me.devilsen.czxing.code.BarcodeWriter
+import kotlinx.coroutines.*
+import me.devilsen.czxing.code.*
 import me.devilsen.czxing.util.BitmapUtil
-import me.devilsen.czxing.view.ScanListener
+import me.devilsen.czxing.view.scanview.ScanListener
+
 
 /**
  * @Description
@@ -111,7 +105,17 @@ class ZxingActivity : CommBindTitleActivity<ActivityZxingBinding>() {
     if (mScanView == null) {
       mScanView = MyZxingView(mContext).also { zx ->
         zx.mScanListener = object : ScanListener {
-          override fun onScanSuccess(result: String?, format: BarcodeFormat?) = showResult(result ?: R.string.扫码失败.xmlToString())
+          override fun onScanSuccess(resultList: MutableList<CodeResult>) {
+            if (resultList.size == 1) {
+              showResult(resultList.first().text)
+            }
+          }
+
+          override fun onClickResult(result: CodeResult?) {
+            val r = result?.text
+            showResult(if (r.isNullOrBlank()) R.string.扫码失败.xmlToString() else r)
+          }
+
           override fun onOpenCameraError() = showResult(R.string.扫码失败.xmlToString())
         }
       }
@@ -145,13 +149,22 @@ class ZxingActivity : CommBindTitleActivity<ActivityZxingBinding>() {
             mJob?.cancel()
             mJob = launchError {
               withContext(Dispatchers.IO) {
+                val l: MutableList<CodeResult> = mutableListOf()
                 BitmapUtil.getDecodeAbleBitmap(result.first().realPath)?.let { bit ->
                   // 这个方法因为要做bitmap的变换，所以比较耗时，推荐放到子线程执行
-                  BarcodeReader.getInstance().read(bit)
+                  val decoder = BarcodeDecoder()
+                  l.addAll(decoder.decodeBitmap(bit))
+                  decoder.destroy()
                 }
-              }.let { result ->
+                l
+              }.let { resultList ->
                 if (isActive) {
-                  showResult(result?.text ?: R.string.解析失败.xmlToString())
+                  val sb = StringBuilder()
+                  resultList.forEach { r ->
+                    if (sb.isNotBlank()) sb.append(" , ")
+                    sb.append(r.text)
+                  }
+                  showResult(if (sb.isNotBlank()) sb.toString() else R.string.解析失败.xmlToString())
                 }
               }
             }

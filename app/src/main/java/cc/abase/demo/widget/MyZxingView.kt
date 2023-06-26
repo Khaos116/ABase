@@ -4,10 +4,10 @@ import android.content.Context
 import android.util.AttributeSet
 import androidx.lifecycle.*
 import cc.ab.base.ext.getMyLifecycleOwner
-import me.devilsen.czxing.code.BarcodeFormat
+import me.devilsen.czxing.code.CodeResult
 import me.devilsen.czxing.util.SoundPoolUtil
-import me.devilsen.czxing.view.ScanListener
-import me.devilsen.czxing.view.ScanView
+import me.devilsen.czxing.view.scanview.*
+
 
 /**
  * @Description
@@ -15,7 +15,7 @@ import me.devilsen.czxing.view.ScanView
  * @Date：2021/1/26
  * @Time：17:15
  */
-class MyZxingView : ScanView, LifecycleObserver {
+class MyZxingView : ScanLayout, LifecycleObserver {
   //<editor-fold defaultstate="collapsed" desc="多构造">
   constructor(c: Context) : super(c, null, 0)
   constructor(c: Context, a: AttributeSet) : super(c, a, 0)
@@ -27,7 +27,7 @@ class MyZxingView : ScanView, LifecycleObserver {
   private var mLifecycle: Lifecycle? = null
 
   //扫码成功的声音
-  private var mSoundPoolUtil: SoundPoolUtil? = SoundPoolUtil()
+  private var mSoundPoolUtil: SoundPoolUtil = SoundPoolUtil()
 
   //扫码回调
   var mScanListener: ScanListener? = null
@@ -35,14 +35,19 @@ class MyZxingView : ScanView, LifecycleObserver {
 
   //<editor-fold defaultstate="collapsed" desc="初始化">
   init {
-    mSoundPoolUtil?.loadDefault(context)
-    this.onFlashLightClick()
-    this.setScanMode(SCAN_MODE_TINY)
-    this.setBarcodeFormat(BarcodeFormat.QR_CODE, BarcodeFormat.CODABAR, BarcodeFormat.CODE_128, BarcodeFormat.EAN_13, BarcodeFormat.UPC_A)
-    this.setScanListener(object : ScanListener {
-      override fun onScanSuccess(result: String?, format: BarcodeFormat?) {
-        mSoundPoolUtil?.play()
-        mScanListener?.onScanSuccess(result, format)
+    mSoundPoolUtil.loadDefault(context)
+    //this.onFlashLightClick()
+    //this.setScanMode(SCAN_MODE_TINY)
+    //this.setBarcodeFormat(BarcodeFormat.QR_CODE, BarcodeFormat.CODABAR, BarcodeFormat.CODE_128, BarcodeFormat.EAN_13, BarcodeFormat.UPC_A)
+    this.setOnScanListener(object : ScanListener {
+
+      override fun onScanSuccess(resultList: MutableList<CodeResult>) {
+        mSoundPoolUtil.play()
+        mScanListener?.onScanSuccess(resultList)
+      }
+
+      override fun onClickResult(result: CodeResult?) {
+        mScanListener?.onClickResult(result)
       }
 
       override fun onOpenCameraError() {
@@ -68,12 +73,12 @@ class MyZxingView : ScanView, LifecycleObserver {
   @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
   private fun onResumeScan() {
     this.openCamera()
-    this.startScan()
+    this.startDetect()
   }
 
   @OnLifecycleEvent(Lifecycle.Event.ON_PAUSE)
   private fun onPauseScan() {
-    this.stopScan()
+    this.stopDetect()
     this.closeCamera()
   }
 
