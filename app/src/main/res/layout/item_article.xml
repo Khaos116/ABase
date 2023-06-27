@@ -51,7 +51,7 @@
       tools:text="自定义控件通用库 WidgetCase"
       />
 
-  <TextView
+  <cc.ab.base.widget.fittext.FitWidthTextView
       android:id="@+id/itemArticleDes"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
