@@ -1,3 +1,4 @@
+//https://github.com/team-aliens/DMS-Android/blob/develop/settings.gradle.kts
 pluginManagement {
   repositories {
     gradlePluginPortal()
