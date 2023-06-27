@@ -2,20 +2,16 @@ package cc.abase.demo.component.main.fragment
 
 import android.graphics.Color
 import androidx.recyclerview.widget.LinearLayoutManager
+import cc.ab.base.ext.toast
 import cc.ab.base.ui.viewmodel.DataState
 import cc.ab.base.widget.engine.CoilEngine
 import cc.ab.base.widget.livedata.MyObserver
-import cc.abase.demo.bean.local.DividerBean
-import cc.abase.demo.bean.local.EmptyErrorBean
-import cc.abase.demo.bean.local.LoadingBean
+import cc.abase.demo.bean.local.*
 import cc.abase.demo.component.comm.CommBindFragment
 import cc.abase.demo.component.main.viewmodel.GankViewModel
 import cc.abase.demo.component.web.WebActivity
 import cc.abase.demo.databinding.FragmentGankBinding
-import cc.abase.demo.item.DividerItem
-import cc.abase.demo.item.EmptyErrorItem
-import cc.abase.demo.item.GankParentItem
-import cc.abase.demo.item.LoadingItem
+import cc.abase.demo.item.*
 import com.drakeet.multitype.MultiTypeAdapter
 import com.luck.picture.lib.basic.PictureSelector
 import com.luck.picture.lib.entity.LocalMedia
@@ -47,7 +43,7 @@ class GankFragment : CommBindFragment<FragmentGankBinding>() {
   //<editor-fold defaultstate="collapsed" desc="懒加载">
   override fun lazyInit() {
     mRootLayout?.setBackgroundColor(Color.WHITE)
-    viewBinding.gankRefreshLayout.setOnRefreshListener { mViewModel.refresh() }
+    viewBinding.gankRefreshLayout.setOnRefreshListener { mViewModel.refresh(false) }
     viewBinding.gankRefreshLayout.setOnLoadMoreListener { mViewModel.loadMore() }
     //设置适配器
     viewBinding.gankRecycler.layoutManager = LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false)
@@ -55,7 +51,7 @@ class GankFragment : CommBindFragment<FragmentGankBinding>() {
     //注册多类型
     multiTypeAdapter.register(LoadingItem())
     multiTypeAdapter.register(DividerItem())
-    multiTypeAdapter.register(EmptyErrorItem() { mViewModel.refresh() })
+    multiTypeAdapter.register(EmptyErrorItem() { mViewModel.refresh(false) })
     multiTypeAdapter.register(GankParentItem(
       onImgClick = { _, p, _, list ->
         val tempList = arrayListOf<LocalMedia>()
@@ -101,16 +97,19 @@ class GankFragment : CommBindFragment<FragmentGankBinding>() {
           if (it.data.isNullOrEmpty()) items.add(EmptyErrorBean()) //如果是请求异常没有数据
           else items = multiTypeAdapter.items.toMutableList()
         }
+        //加载更多失败
+        is DataState.FailMore -> {
+          items = multiTypeAdapter.items.toMutableList()
+          it.exc.toast()
+        }
         else -> {
         }
       }
-      if (it?.dataMaybeChange() == true) {
-        multiTypeAdapter.items = items
-        multiTypeAdapter.notifyDataSetChanged()
-      }
+      multiTypeAdapter.items = items
+      multiTypeAdapter.notifyDataSetChanged()
     })
     //请求数据
-    mViewModel.refresh()
+    mViewModel.refresh(true)
   }
   //</editor-fold>
 
