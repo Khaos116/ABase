@@ -3,19 +3,15 @@ package cc.abase.demo.component.main.fragment
 import android.annotation.SuppressLint
 import android.graphics.Color
 import androidx.recyclerview.widget.LinearLayoutManager
+import cc.ab.base.ext.toast
 import cc.ab.base.ui.viewmodel.DataState
 import cc.ab.base.widget.livedata.MyObserver
-import cc.abase.demo.bean.local.DividerBean
-import cc.abase.demo.bean.local.EmptyErrorBean
-import cc.abase.demo.bean.local.LoadingBean
+import cc.abase.demo.bean.local.*
 import cc.abase.demo.component.comm.CommBindFragment
 import cc.abase.demo.component.main.viewmodel.ReadhubViewModel
 import cc.abase.demo.component.web.WebActivity
 import cc.abase.demo.databinding.FragmentReadhubBinding
-import cc.abase.demo.item.DividerItem
-import cc.abase.demo.item.EmptyErrorItem
-import cc.abase.demo.item.LoadingItem
-import cc.abase.demo.item.ReadhubItem
+import cc.abase.demo.item.*
 import com.drakeet.multitype.MultiTypeAdapter
 
 /**
@@ -45,15 +41,15 @@ class ReadhubFragment : CommBindFragment<FragmentReadhubBinding>() {
   @SuppressLint("NotifyDataSetChanged")
   override fun lazyInit() {
     mRootLayout?.setBackgroundColor(Color.WHITE)
-    viewBinding.readhubRefreshLayout.setOnRefreshListener { mViewModel.refresh() }
+    viewBinding.readhubRefreshLayout.setOnRefreshListener { mViewModel.refresh(false) }
     viewBinding.readhubRefreshLayout.setOnLoadMoreListener { mViewModel.loadMore() }
     //设置适配器
     viewBinding.readhubRecycler.adapter = multiTypeAdapter
     //注册多类型
     multiTypeAdapter.register(LoadingItem())
     multiTypeAdapter.register(DividerItem())
-    multiTypeAdapter.register(EmptyErrorItem { mViewModel.refresh() })
-    multiTypeAdapter.register(ReadhubItem().also { it.onItemClick = { bean -> bean.newsArray.lastOrNull()?.mobileUrl?.let { u -> WebActivity.startActivity(mActivity, u) } } })
+    multiTypeAdapter.register(EmptyErrorItem { mViewModel.refresh(false) })
+    multiTypeAdapter.register(ReadhubItem().also { it.onItemClick = { bean -> bean.newsAggList?.firstOrNull()?.url?.let { u -> WebActivity.startActivity(mActivity, u) } } })
     //监听加载结果
     mViewModel.topicLiveData.observe(this, MyObserver {
       mViewModel.handleRefresh(viewBinding.readhubRefreshLayout, it)
@@ -86,16 +82,19 @@ class ReadhubFragment : CommBindFragment<FragmentReadhubBinding>() {
           if (it.data.isNullOrEmpty()) items.add(EmptyErrorBean()) //如果是请求异常没有数据
           else items = multiTypeAdapter.items.toMutableList()
         }
+        //加载更多失败
+        is DataState.FailMore -> {
+          items = multiTypeAdapter.items.toMutableList()
+          it.exc.toast()
+        }
         else -> {
         }
       }
-      if (it?.dataMaybeChange() == true) {
-        multiTypeAdapter.items = items
-        multiTypeAdapter.notifyDataSetChanged()
-      }
+      multiTypeAdapter.items = items
+      multiTypeAdapter.notifyDataSetChanged()
     })
     //请求数据
-    mViewModel.refresh()
+    mViewModel.refresh(true)
   }
   //</editor-fold>
 
