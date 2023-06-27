@@ -1,15 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    >
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:tools="http://schemas.android.com/tools"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent">
 
   <ImageView
-      android:id="@+id/splashBgView"
-      android:layout_width="match_parent"
-      android:layout_height="match_parent"
-      android:contentDescription="@null"
-      android:src="@drawable/icon_splash_bg"
-      />
+    android:id="@+id/splashBgView"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:contentDescription="@null"
+    android:src="@drawable/icon_splash_bg" />
+
+  <TextView
+    android:id="@+id/tvInfo"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:padding="10dp"
+    android:textColor="@color/white"
+    android:textSize="14sp"
+    android:visibility="gone"
+    tools:text="初始化的进度信息"
+    tools:visibility="visible" />
 </FrameLayout>
