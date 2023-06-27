@@ -54,6 +54,7 @@ class AppLastInit : AndroidStartup<Int>() {
     if (AppLiveData.ipLiveData.value != null) return
     launchError {
       val ipBean = OtherRepository.getNetIp()
+      AppLiveData.ipLiveData.postValue(ipBean)
       "外网IP=${ipBean.query};地址=${ipBean.country}".logI()
     }
   }
