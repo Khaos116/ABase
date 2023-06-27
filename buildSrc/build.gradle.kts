@@ -1,8 +1,10 @@
-//https://github.com/pdog18/DependenceOfKotlin
-//https://caster.io/lessons/gradle-dependency-management-using-kotlin-and-buildsrc-for-buildgradle-autocomplete-in-android-studio?autoplay=true
+//https://github.com/team-aliens/DMS-Android/blob/develop/buildSrc/build.gradle.kts
 plugins {
   `kotlin-dsl`
 }
+
 repositories {
-  jcenter()
+  google()
+  mavenCentral()
+  gradlePluginPortal()
 }
