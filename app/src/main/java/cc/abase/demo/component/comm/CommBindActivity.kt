@@ -202,6 +202,7 @@ abstract class CommBindActivity<T : ViewBinding> : BaseBindActivity<T>() {
   //</editor-fold>
 
   //<editor-fold defaultstate="collapsed" desc="退出全屏">
+  @Deprecated("Deprecated in Java")
   override fun onBackPressed() {
     val childDeal = (getCurrentFragment() as? CommBindFragment<*>)?.onBackPress() ?: false
     if (childDeal) return

@@ -66,6 +66,11 @@ abstract class BaseBindActivity<T : ViewBinding> : AppCompatActivity() {
         initView()
       }
     }
+    //onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
+    //  override fun handleOnBackPressed() {
+    //    onBackPressed()
+    //  }
+    //})
   }
   //</editor-fold>
 
@@ -135,6 +140,7 @@ abstract class BaseBindActivity<T : ViewBinding> : AppCompatActivity() {
 
   //<editor-fold defaultstate="collapsed" desc="触摸传递">
   //解决Android Q内存泄漏，如果重写记得把这个逻辑抄下去
+  @Deprecated("Deprecated in Java")
   override fun onBackPressed() {
     val childDeal = (getCurrentFragment() as? BaseBindFragment<*>)?.onBackPress() ?: false
     if (childDeal) return

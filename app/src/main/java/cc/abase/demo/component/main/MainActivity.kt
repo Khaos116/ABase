@@ -291,6 +291,7 @@ class MainActivity : CommBindActivity<ActivityMainBinding>() {
   //<editor-fold defaultstate="collapsed" desc="按两次退出APP">
   private var touchTime = 0L
   private val waitTime = 2000L
+  @Deprecated("Deprecated in Java")
   override fun onBackPressed() {
     val childDeal = (getCurrentFragment() as? BaseBindFragment<*>)?.onBackPress() ?: false
     if (childDeal) return
