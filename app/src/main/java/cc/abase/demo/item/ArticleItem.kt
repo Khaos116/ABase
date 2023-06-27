@@ -1,7 +1,5 @@
 package cc.abase.demo.item
 
-import android.view.LayoutInflater
-import android.view.ViewGroup
 import cc.ab.base.ext.visibleGone
 import cc.ab.base.ui.item.BaseBindItemView
 import cc.ab.base.ui.item.BaseViewHolder
