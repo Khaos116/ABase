@@ -14,12 +14,12 @@ class ReadhubItem : BaseBindItemView<TopicBean, ItemReadhubBinding>() {
   //<editor-fold defaultstate="collapsed" desc="数据填充">
   override fun fillData(holder: BaseViewHolder<ItemReadhubBinding>, item: TopicBean) {
     val viewBinding = holder.viewBinding
-    if (item.updatedAt.isNullOrBlank()) {
+    if (item.createdAt.isNullOrBlank()) {
       viewBinding.itemTopicTime.text = ""
     } else {
-      viewBinding.itemTopicTime.text = cc.abase.demo.utils.TimeUtils.utc2Local(item.updatedAt)
+      viewBinding.itemTopicTime.text = cc.abase.demo.utils.TimeUtils.utc2Local(item.createdAt)
     }
-    viewBinding.itemTopicTitle.text = item.newsArray.lastOrNull()?.title?.trim() ?: ""
+    viewBinding.itemTopicTitle.text = item.title?.trim() ?: ""
     viewBinding.itemTopicDes.text = item.summary?.trim()
   }
   //</editor-fold>

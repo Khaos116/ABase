@@ -10,10 +10,7 @@ object ReadhubUrl {
   const val baseUrl = "https://api.readhub.cn/" //Readhub的Host
 
   object Home {
-    //热门话题
-    val TOPIC get() = "${baseUrl}topic"
-
-    //热门话题细节
-    val TOPIC_DETAIL get() = "${baseUrl}topic/%s"
+    //热门话题 https://api.readhub.cn/topic/list?max_topic_id=8qVW9wrNq5U&size=20
+    val TOPIC get() = "${baseUrl}topic/list"
   }
 }

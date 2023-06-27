@@ -22,7 +22,7 @@ class ReadhubViewModel : CommViewModel() {
   val topicLiveData = MutableLiveData<DataState<MutableList<TopicBean>>?>()
 
   //刷新
-  fun refresh(readCache: Boolean) = requestTopicList(0, readCache)
+  fun refresh(readCache: Boolean) = requestTopicList("", readCache)
 
   //加载更多
   fun loadMore() {
@@ -33,25 +33,26 @@ class ReadhubViewModel : CommViewModel() {
         topicLiveData.value = FailMore(oldData = topicLiveData.value?.data, exc = Throwable(""))
       }
     } else {
-      requestTopicList(lastOne.order, false)
+      requestTopicList(lastOne.uid ?: "", false)
     }
   }
   //</editor-fold>
 
   //<editor-fold defaultstate="collapsed" desc="内部处理">
   private var pageSize = 20
-  private fun requestTopicList(lastOrder: Long, readCache: Boolean) {
+  private fun requestTopicList(lastTopicId: String, readCache: Boolean) {
     if (topicLiveData.value is Start) return
     val old = topicLiveData.value?.data //加载前的旧数据
     viewModelScope.launch {
-      ReadhubRepository.getTopicList(lastOrder, readCache = readCache)
+      ReadhubRepository.getTopicList(lastTopicId = lastTopicId, pageSize = pageSize, readCache = readCache)
         .onStart {
           topicLiveData.value = Start(oldData = old)
         }
-        .awaitResult { result ->
-          val more = !result.isNullOrEmpty() && result.size % pageSize == 0
+        .awaitResult { r ->
+          val result = r.items ?: mutableListOf()
+          val more = result.isNotEmpty() && result.size % pageSize == 0
           //可以直接更新UI
-          topicLiveData.value = if (lastOrder == 0L) SuccessRefresh(
+          topicLiveData.value = if (lastTopicId.isBlank()) SuccessRefresh(
             newData = result,
             hasMore = more
           )
@@ -62,7 +63,7 @@ class ReadhubViewModel : CommViewModel() {
           )
         }
         .onFailure { e ->
-          topicLiveData.value = if (lastOrder == 0L) FailRefresh(oldData = old, exc = e) else FailMore(oldData = old, exc = e)
+          topicLiveData.value = if (lastTopicId.isBlank()) FailRefresh(oldData = old, exc = e) else FailMore(oldData = old, exc = e)
         }
     }
   }
