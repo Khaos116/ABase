@@ -150,9 +150,8 @@ object Deps {
   const val uinspector = "io.github.yvescheung:Uinspector:2.0.19"
 
   //bugly https://bugly.qq.com/docs/user-guide/instruction-manual-android/?v=20190916214340
-  const val bugly_crash = "com.tencent.bugly:crashreport:4.0.0"
+  const val bugly_crash = "com.tencent.bugly:crashreport:4.1.9.2"
   const val bugly_native = "com.tencent.bugly:nativecrashreport:3.9.2"
-  const val plugin_bugly = "com.tencent.bugly:symtabfileuploader:2.2.1" //bugly的mapping上传
   //</editor-fold>
 
   //<editor-fold defaultstate="collapsed" desc="三方不常用配置">
