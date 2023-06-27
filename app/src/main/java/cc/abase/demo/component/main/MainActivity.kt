@@ -21,7 +21,6 @@ import cc.abase.demo.component.comm.CommBindActivity
 import cc.abase.demo.component.comm.CommBindFragment
 import cc.abase.demo.component.main.fragment.*
 import cc.abase.demo.config.AppLiveData
-import cc.abase.demo.constants.PinYinConstants
 import cc.abase.demo.databinding.ActivityMainBinding
 import cc.abase.demo.widget.dialog.commAlertDialog
 import com.blankj.utilcode.constant.TimeConstants
@@ -145,7 +144,7 @@ class MainActivity : CommBindActivity<ActivityMainBinding>() {
     //关闭其他所有页面
     ActivityUtils.finishOtherActivities(javaClass)
     pingTest()
-    PinYinConstants.testTransHanLP()
+    //PinYinConstants.testTransHanLP()//测试多音字
     val ipTv = TextView(mContext)
     ipTv.setTextSize(TypedValue.COMPLEX_UNIT_SP, 8f)
     ipTv.setTextColor(Color.BLUE)
@@ -291,6 +290,7 @@ class MainActivity : CommBindActivity<ActivityMainBinding>() {
   //<editor-fold defaultstate="collapsed" desc="按两次退出APP">
   private var touchTime = 0L
   private val waitTime = 2000L
+
   @Deprecated("Deprecated in Java")
   override fun onBackPressed() {
     val childDeal = (getCurrentFragment() as? BaseBindFragment<*>)?.onBackPress() ?: false
