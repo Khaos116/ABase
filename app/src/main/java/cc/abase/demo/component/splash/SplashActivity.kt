@@ -6,13 +6,11 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.view.ViewGroup
 import cc.ab.base.ext.*
+import cc.abase.demo.BuildConfig
 import cc.abase.demo.component.comm.CommBindActivity
-import cc.abase.demo.component.login.LoginActivity
-import cc.abase.demo.component.main.MainActivity
-import cc.abase.demo.config.UserManager
 import cc.abase.demo.databinding.ActivitySplashBinding
-import cc.abase.demo.utils.MMkvUtils
-import com.airbnb.lottie.*
+import com.airbnb.lottie.LottieAnimationView
+import com.airbnb.lottie.LottieDrawable
 import com.blankj.utilcode.util.TimeUtils
 import com.gyf.immersionbar.ktx.immersionBar
 import com.hjq.permissions.*
@@ -54,6 +52,9 @@ class SplashActivity : CommBindActivity<ActivitySplashBinding>() {
 
   //PAG动画
   private var mLottieAnimationView: LottieAnimationView? = null
+
+  //初始化进度信息
+  private val mSbInfo = StringBuilder()
   //</editor-fold>
 
   //<editor-fold defaultstate="collapsed" desc="状态栏">
@@ -78,10 +79,13 @@ class SplashActivity : CommBindActivity<ActivitySplashBinding>() {
   //<editor-fold defaultstate="collapsed" desc="初始化View">
   private var isFirstSize = true
   override fun initView() {
+    mSbInfo.clear()
+    addInitInfo("initView")
     //页面无缝过渡后重置背景，不然会导致页面显示出现问题。主要解决由于window背景设置后的一些问题
     window.setBackgroundDrawable(null)
     viewBinding.root.viewTreeObserver.addOnGlobalLayoutListener {
       if (viewBinding.root.height > 0 && isFirstSize) {
+        addInitInfo("GlobalLayoutListener")
         isFirstSize = false
         initAfterSize()
       }
@@ -89,13 +93,26 @@ class SplashActivity : CommBindActivity<ActivitySplashBinding>() {
   }
   //</editor-fold>
 
+  //<editor-fold defaultstate="collapsed" desc="添加初始化信息">
+  private fun addInitInfo(msg: String) {
+    //if (mSbInfo.isBlank() && BuildConfig.DEBUG) {
+    //  viewBinding.tvInfo.visible()
+    //  mSbInfo.append(msg)
+    //} else {
+    //  mSbInfo.append("\n").append(msg)
+    //}
+    //viewBinding.tvInfo.text = mSbInfo
+  }
+  //</editor-fold>
+
   //<editor-fold defaultstate="collapsed" desc="View尺寸拿到之后获取权限和添加动画+检查权限">
   private fun initAfterSize() {
+    addInitInfo("initAfterSize")
     mLottieAnimationView = LottieAnimationView(mContext)
     mLottieAnimationView?.let { lav ->
       lav.setAnimation("welcome2023.json")
       lav.imageAssetsFolder = "images/"
-      lav.setRenderMode(RenderMode.HARDWARE)
+      //lav.renderMode = RenderMode.HARDWARE
       lav.repeatCount = 0
       lav.repeatMode = LottieDrawable.RESTART
       lav.setOnClickListener { }
@@ -106,8 +123,13 @@ class SplashActivity : CommBindActivity<ActivitySplashBinding>() {
           goNextPage()
         }
       })
-      viewBinding.root.addView(lav, ViewGroup.LayoutParams(-1, -1))
-      mJob = launchError { withContext(Dispatchers.IO) { delay(1000) }.let { mLottieAnimationView?.playAnimation() } }
+      viewBinding.root.addView(lav, 1, ViewGroup.LayoutParams(-1, -1))
+      mJob = launchError {
+        withContext(Dispatchers.IO) { delay(1000) }.let {
+          mLottieAnimationView?.playAnimation()
+          addInitInfo("playAnimation")
+        }
+      }
     }
     checkSDPermission()
   }
@@ -115,6 +137,7 @@ class SplashActivity : CommBindActivity<ActivitySplashBinding>() {
 
   //<editor-fold defaultstate="collapsed" desc="SD卡权限处理">
   private fun checkSDPermission() {
+    addInitInfo("checkSDPermission")
     //请求SD卡权限
     val hasSDPermission = XXPermissions.isGranted(mContext, Permission.MANAGE_EXTERNAL_STORAGE)
     if (!hasSDPermission) {
@@ -122,11 +145,13 @@ class SplashActivity : CommBindActivity<ActivitySplashBinding>() {
         .permission(Permission.MANAGE_EXTERNAL_STORAGE)
         .request(object : OnPermissionCallback {
           override fun onGranted(permissions: MutableList<String>, all: Boolean) {
+            addInitInfo("onGranted")
             permissionFinished = true
             goNextPage()
           }
 
           override fun onDenied(permissions: MutableList<String>, never: Boolean) {
+            addInitInfo("onDenied")
             permissionFinished = true
             goNextPage()
           }
@@ -151,23 +176,27 @@ class SplashActivity : CommBindActivity<ActivitySplashBinding>() {
   //<editor-fold defaultstate="collapsed" desc="进入下个页面">
   //打开下个页面
   private fun goNextPage() {
+    addInitInfo("goNextPage")
     if (!animIsFinished) return
     if (!permissionFinished) return
-    when {
-      //是否引导
-      MMkvUtils.getNeedGuide() -> GuideActivity.startActivity(mContext)
-      //是否登录
-      UserManager.isLogin() -> MainActivity.startActivity(mContext)
-      //没有其他需要，进入主页
-      else -> LoginActivity.startActivity(mContext)
-    }
-    finish()
+    addInitInfo("finish")
+    //when {
+    //  //是否引导
+    //  MMkvUtils.getNeedGuide() -> GuideActivity.startActivity(mContext)
+    //  //是否登录
+    //  UserManager.isLogin() -> MainActivity.startActivity(mContext)
+    //  //没有其他需要，进入主页
+    //  else -> LoginActivity.startActivity(mContext)
+    //}
+    //finish()
   }
   //</editor-fold>
 
   //<editor-fold defaultstate="collapsed" desc="生命周期">
   //禁止返回
-  override fun onBackPressed() {}
+  @Deprecated("Deprecated in Java")
+  override fun onBackPressed() {
+  }
 
   override fun finish() {
     if (mLottieAnimationView?.isAnimating == true) {
