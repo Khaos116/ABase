@@ -14,4 +14,6 @@ data class BannerBean(
   var title: String? = null,//"Android高级进阶直播课免费学习",
   var type: Int = 0,//0,
   var url: String? = null//"https://url.163.com/4bj"
-)
+) {
+  var errorInfo: Throwable? = null
+}

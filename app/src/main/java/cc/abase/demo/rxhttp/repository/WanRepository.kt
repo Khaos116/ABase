@@ -8,7 +8,7 @@ import cc.abase.demo.constants.TimeConstants
 import cc.abase.demo.constants.api.WanUrls
 import rxhttp.cc.RxHttp
 import rxhttp.cc.toAwaitResponseWan
-import rxhttp.onErrorReturnItem
+import rxhttp.onErrorReturn
 import rxhttp.wrapper.cache.CacheMode
 import rxhttp.wrapper.coroutines.Await
 
@@ -25,7 +25,7 @@ object WanRepository {
       .setCacheValidTime(TimeConstants.HOME_CACHE) //设置缓存时长
       .setCacheMode(if (readCache) CacheMode.READ_CACHE_FAILED_REQUEST_NETWORK else CacheMode.ONLY_NETWORK) //先读取缓存，失败再请求数据
       .toAwaitResponseWan<MutableList<BannerBean>>()
-      .onErrorReturnItem(mutableListOf())
+      .onErrorReturn { t -> mutableListOf(BannerBean().also { b -> b.errorInfo = t }) }
   }
 
   //获取文章列表
@@ -34,6 +34,6 @@ object WanRepository {
       .setCacheValidTime(TimeConstants.HOME_CACHE) //设置缓存时长
       .setCacheMode(if (readCache) CacheMode.READ_CACHE_FAILED_REQUEST_NETWORK else CacheMode.ONLY_NETWORK) //先读取缓存，失败再请求数据
       .toAwaitResponseWan<BasePageList<ArticleBean>>()
-      .onErrorReturnItem(BasePageList())
+      .onErrorReturn { t -> BasePageList<ArticleBean>().also { b -> b.errorInfo = t } }
   }
 }

@@ -10,4 +10,6 @@ data class BasePageList<out T>(
   var pageCount: Int = 0, //总页数
   var total: Int = 0, //总条数
   val datas: List<T>? = null
-)
+) {
+  var errorInfo: Throwable? = null
+}
