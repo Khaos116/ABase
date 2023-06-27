@@ -4,7 +4,6 @@ plugins {
   id 'com.android.application'
   id 'kotlin-android'
   id 'kotlin-kapt'
-  id 'bugly'
   id 'kotlin-parcelize' //https://weilu.blog.csdn.net/article/details/109557820
 }
 
@@ -153,24 +152,6 @@ kapt {
 
 //打包处理
 android.applicationVariants.all { variant ->
-  //Bygly符号表上传
-  def buglyAppId = null
-  def buglyAppKey = null
-  if (variant.flavorName == "s1") {
-    buglyAppId = rootProject.ext.android.buglyIdS1
-    buglyAppKey = rootProject.ext.android.buglyKeyS1
-  } else if (variant.flavorName == "s2") {
-    buglyAppId = rootProject.ext.android.buglyIdS2
-    buglyAppKey = rootProject.ext.android.buglyKeyS2
-  }
-  //https://github.com/JalenChen/symtabfileuploader/issues/10
-  //由于使用了7.0+的Gradle，导致bugly无法编译，所以暂时屏蔽
-  //if (buglyAppId != null) {
-  //    variant.ext.buglyAppId = buglyAppId
-  //}
-  //if (buglyAppKey != null) {
-  //    variant.ext.buglyAppKey = buglyAppKey
-  //}
   variant.outputs.all { output ->
     //正式版还是测试版
     String typeName = buildType.name
@@ -285,9 +266,6 @@ def deleteFolder(File folder) {
   }
   folder.delete()
 }
-
-//为了在Debug模式下也上传符号表文件
-bugly { debug = true }
 
 //三方依赖
 dependencies {
