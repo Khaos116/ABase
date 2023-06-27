@@ -22,7 +22,7 @@ class ReadhubViewModel : CommViewModel() {
   val topicLiveData = MutableLiveData<DataState<MutableList<TopicBean>>?>()
 
   //刷新
-  fun refresh() = requestTopicList(0)
+  fun refresh(readCache: Boolean) = requestTopicList(0, readCache)
 
   //加载更多
   fun loadMore() {
@@ -33,18 +33,18 @@ class ReadhubViewModel : CommViewModel() {
         topicLiveData.value = FailMore(oldData = topicLiveData.value?.data, exc = Throwable(""))
       }
     } else {
-      requestTopicList(lastOne.order)
+      requestTopicList(lastOne.order, false)
     }
   }
   //</editor-fold>
 
   //<editor-fold defaultstate="collapsed" desc="内部处理">
   private var pageSize = 20
-  private fun requestTopicList(lastOrder: Long) {
+  private fun requestTopicList(lastOrder: Long, readCache: Boolean) {
     if (topicLiveData.value is Start) return
     val old = topicLiveData.value?.data //加载前的旧数据
     viewModelScope.launch {
-      ReadhubRepository.getTopicList(lastOrder)
+      ReadhubRepository.getTopicList(lastOrder, readCache = readCache)
         .onStart {
           topicLiveData.value = Start(oldData = old)
         }

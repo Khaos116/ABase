@@ -3,11 +3,7 @@ package cc.abase.demo.component.main.viewmodel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import cc.ab.base.ui.viewmodel.DataState
-import cc.ab.base.ui.viewmodel.DataState.FailMore
-import cc.ab.base.ui.viewmodel.DataState.FailRefresh
-import cc.ab.base.ui.viewmodel.DataState.Start
-import cc.ab.base.ui.viewmodel.DataState.SuccessMore
-import cc.ab.base.ui.viewmodel.DataState.SuccessRefresh
+import cc.ab.base.ui.viewmodel.DataState.*
 import cc.abase.demo.bean.gank.GankAndroidBean
 import cc.abase.demo.component.comm.CommViewModel
 import cc.abase.demo.rxhttp.repository.GankRepository
@@ -25,20 +21,20 @@ class GankViewModel : CommViewModel() {
   val androidLiveData = MutableLiveData<DataState<MutableList<GankAndroidBean>>?>()
 
   //刷新
-  fun refresh() = requestAndroidList(1)
+  fun refresh(readCache: Boolean) = requestAndroidList(1, readCache)
 
   //加载更多
-  fun loadMore() = requestAndroidList(currentPage + 1)
+  fun loadMore() = requestAndroidList(currentPage + 1, false)
   //</editor-fold>
 
   //<editor-fold defaultstate="collapsed" desc="内部处理">
   private var currentPage = 1
   private var pageSize = 10
-  private fun requestAndroidList(page: Int) {
+  private fun requestAndroidList(page: Int, readCache: Boolean) {
     if (androidLiveData.value is Start) return
     val old = androidLiveData.value?.data //加载前的旧数据
     viewModelScope.launch {
-      GankRepository.androidList(page = page, size = pageSize)
+      GankRepository.androidList(page = page, size = pageSize, readCache = readCache)
         .onStart {
           androidLiveData.value = Start(oldData = old)
         }
