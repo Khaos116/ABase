@@ -22,7 +22,7 @@ import rxhttp.wrapper.coroutines.Await
  * @author: Khaos
  * @date: 2020/3/4 16:03
  */
-object UserRepository {
+object UserRepository : BaseRepository() {
   //注册
   suspend fun register(username: String, password: String, repassword: String): Await<UserBean> {
     return RxHttp.postForm(WanUrls.User.REGISTER)

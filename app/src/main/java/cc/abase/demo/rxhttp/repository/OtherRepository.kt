@@ -11,7 +11,7 @@ import rxhttp.wrapper.cache.CacheMode
  * @Date：2021-06-02
  * @Time：20:58
  */
-object OtherRepository {
+object OtherRepository : BaseRepository() {
   //只获取外网IP的地址
   private var netIpUrls = mutableListOf(
     "http://bot.whatismyipaddress.com/",

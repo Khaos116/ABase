@@ -17,7 +17,7 @@ import rxhttp.wrapper.coroutines.Await
  * @author: Khaos
  * @date: 2020/3/5 18:10
  */
-object WanRepository {
+object WanRepository : BaseRepository() {
 
   //获取Banner
   suspend fun banner(readCache: Boolean = true): Await<MutableList<BannerBean>> {

@@ -14,7 +14,7 @@ import rxhttp.wrapper.coroutines.Await
  * @author: Khaos
  * @date: 2020/3/5 18:09
  */
-object GankRepository {
+object GankRepository : BaseRepository() {
   //安卓列表
   suspend fun androidList(@IntRange(from = 1) page: Int, size: Int, readCache: Boolean = true): Await<MutableList<GankAndroidBean>> {
     return RxHttp.get(String.format(GankUrls.ANDROID, page, size))
