@@ -1,6 +1,7 @@
 package cc.abase.demo.config
 
 import androidx.lifecycle.MutableLiveData
+import cc.abase.demo.bean.net.IpBean
 
 /**
  * Author:Khaos116
@@ -8,6 +9,9 @@ import androidx.lifecycle.MutableLiveData
  * Time:18:50
  */
 object AppLiveData {
+  //监听ip
+  val ipLiveData = MutableLiveData<IpBean>()
+
   //左右滑动监听
   val frameLayoutScrollLiveData = MutableLiveData<Pair<Int, Boolean>>()
 
