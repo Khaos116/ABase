@@ -8,7 +8,11 @@ import android.view.ViewGroup
 import cc.ab.base.ext.*
 import cc.abase.demo.BuildConfig
 import cc.abase.demo.component.comm.CommBindActivity
+import cc.abase.demo.component.login.LoginActivity
+import cc.abase.demo.component.main.MainActivity
+import cc.abase.demo.config.UserManager
 import cc.abase.demo.databinding.ActivitySplashBinding
+import cc.abase.demo.utils.MMkvUtils
 import com.airbnb.lottie.LottieAnimationView
 import com.airbnb.lottie.LottieDrawable
 import com.blankj.utilcode.util.TimeUtils
@@ -180,15 +184,15 @@ class SplashActivity : CommBindActivity<ActivitySplashBinding>() {
     if (!animIsFinished) return
     if (!permissionFinished) return
     addInitInfo("finish")
-    //when {
-    //  //是否引导
-    //  MMkvUtils.getNeedGuide() -> GuideActivity.startActivity(mContext)
-    //  //是否登录
-    //  UserManager.isLogin() -> MainActivity.startActivity(mContext)
-    //  //没有其他需要，进入主页
-    //  else -> LoginActivity.startActivity(mContext)
-    //}
-    //finish()
+    when {
+      //是否引导
+      MMkvUtils.getNeedGuide() -> GuideActivity.startActivity(mContext)
+      //是否登录
+      UserManager.isLogin() -> MainActivity.startActivity(mContext)
+      //没有其他需要，进入主页
+      else -> LoginActivity.startActivity(mContext)
+    }
+    finish()
   }
   //</editor-fold>
 
