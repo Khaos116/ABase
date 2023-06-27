@@ -23,9 +23,6 @@ sealed class DataState<T>(val data: T? = null) {
   //加载更多失败
   class FailMore<T>(oldData: T?, val exc: Throwable?) : DataState<T>(data = oldData) {}
 
-  //判断是否数据可能改变
-  fun dataMaybeChange() = (this is Start || this is SuccessRefresh || this is SuccessMore || this is FailRefresh)
-
   //是否请求结束
   fun isComplete() = this is SuccessRefresh || this is SuccessMore || this is FailRefresh || this is FailMore
 
