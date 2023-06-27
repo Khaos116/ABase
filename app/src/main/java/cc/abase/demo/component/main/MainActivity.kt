@@ -4,20 +4,23 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.os.Build
-import android.view.Gravity
-import android.view.View
+import android.util.TypedValue
+import android.view.*
 import android.widget.FrameLayout
+import android.widget.TextView
 import androidx.annotation.IntRange
 import androidx.lifecycle.Lifecycle
 import cc.ab.base.ext.*
 import cc.ab.base.ui.fragment.BaseBindFragment
 import cc.ab.base.utils.ping.*
 import cc.ab.base.widget.DragFloatView
+import cc.ab.base.widget.livedata.MyObserver
 import cc.abase.demo.BuildConfig
 import cc.abase.demo.R
 import cc.abase.demo.component.comm.CommBindActivity
 import cc.abase.demo.component.comm.CommBindFragment
 import cc.abase.demo.component.main.fragment.*
+import cc.abase.demo.config.AppLiveData
 import cc.abase.demo.constants.PinYinConstants
 import cc.abase.demo.databinding.ActivityMainBinding
 import cc.abase.demo.widget.dialog.commAlertDialog
@@ -143,6 +146,23 @@ class MainActivity : CommBindActivity<ActivityMainBinding>() {
     ActivityUtils.finishOtherActivities(javaClass)
     pingTest()
     PinYinConstants.testTransHanLP()
+    val ipTv = TextView(mContext)
+    ipTv.setTextSize(TypedValue.COMPLEX_UNIT_SP, 8f)
+    ipTv.setTextColor(Color.BLUE)
+    ipTv.gravity = Gravity.CENTER
+    val padding = 3.dp2px()
+    ipTv.setPadding(padding, padding, padding, padding)
+    AppLiveData.ipLiveData.observe(this, MyObserver { bean ->
+      bean?.let { b ->
+        val sb = StringBuilder()
+        sb.append(b.country).append("\n")
+          .append(b.city).append("\n")
+          .append(b.query)
+        ipTv.text = sb.toString()
+        ipTv.removeParent()
+        floatView?.addView(ipTv, ViewGroup.LayoutParams(-1, -1))
+      }
+    })
   }
   //</editor-fold>
 
