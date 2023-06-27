@@ -1,7 +1,9 @@
 package cc.abase.demo.component.main.fragment
 
+import android.annotation.SuppressLint
 import android.graphics.Color
 import androidx.recyclerview.widget.LinearLayoutManager
+import cc.ab.base.ext.*
 import cc.ab.base.ui.viewmodel.DataState
 import cc.ab.base.widget.livedata.MyObserver
 import cc.abase.demo.bean.local.EmptyErrorBean
@@ -10,10 +12,7 @@ import cc.abase.demo.component.comm.CommBindFragment
 import cc.abase.demo.component.main.viewmodel.WanViewModel
 import cc.abase.demo.component.web.WebActivity
 import cc.abase.demo.databinding.FragmentWanBinding
-import cc.abase.demo.item.ArticleItem
-import cc.abase.demo.item.BannerItem
-import cc.abase.demo.item.EmptyErrorItem
-import cc.abase.demo.item.LoadingItem
+import cc.abase.demo.item.*
 import cc.abase.demo.sticky.StickyAnyAdapter
 import cc.abase.demo.sticky.StickyHeaderLinearLayoutManager
 
@@ -25,10 +24,7 @@ import cc.abase.demo.sticky.StickyHeaderLinearLayoutManager
 class WanFragment : CommBindFragment<FragmentWanBinding>() {
   //<editor-fold defaultstate="collapsed" desc="外部获取实例">
   companion object {
-    fun newInstance(): WanFragment {
-      val fragment = WanFragment()
-      return fragment
-    }
+    fun newInstance(): WanFragment = WanFragment()
   }
   //</editor-fold>
 
@@ -45,19 +41,20 @@ class WanFragment : CommBindFragment<FragmentWanBinding>() {
   //</editor-fold>
 
   //<editor-fold defaultstate="collapsed" desc="懒加载">
+  @SuppressLint("NotifyDataSetChanged")
   override
   fun lazyInit() {
     mActivity.window?.setBackgroundDrawable(null)
     mRootLayout?.setBackgroundColor(Color.WHITE)
     viewBinding.wanRefreshLayout.setEnableScrollContentWhenLoaded(false) //加载更多完成整体下移，手动上滑显示更多内容
-    viewBinding.wanRefreshLayout.setOnRefreshListener { mViewModel.refresh() }
+    viewBinding.wanRefreshLayout.setOnRefreshListener { mViewModel.refresh(false) }
     viewBinding.wanRefreshLayout.setOnLoadMoreListener { mViewModel.loadMore() }
     //设置适配器
     viewBinding.wanRecycler.layoutManager = StickyHeaderLinearLayoutManager<StickyAnyAdapter>(mContext, LinearLayoutManager.VERTICAL, false)
     viewBinding.wanRecycler.adapter = stickyAdapter
     //注册多类型
     stickyAdapter.register(LoadingItem())
-    stickyAdapter.register(EmptyErrorItem() { mViewModel.refresh() })
+    stickyAdapter.register(EmptyErrorItem() { mViewModel.refresh(false) })
     stickyAdapter.register(BannerItem() { bean, _ ->
       bean.url?.let { u -> WebActivity.startActivity(mActivity, u) }
     })
@@ -66,62 +63,70 @@ class WanFragment : CommBindFragment<FragmentWanBinding>() {
         bean.link?.let { u -> WebActivity.startActivity(mActivity, u) }
       }
     })
-    //文章列表监听
-    mViewModel.articleLiveData.observe(this, MyObserver {
-      mViewModel.handleRefresh(viewBinding.wanRefreshLayout, it)
-      //正常数据处理
-      var items = mutableListOf<Any>()
-      when (it) {
-        //开始请求
-        is DataState.Start -> {
-          if (it.data.isNullOrEmpty()) items.add(LoadingBean()) //加载中
-          else items = stickyAdapter.items.toMutableList()
+    //数据监听
+    mViewModel.pairLiveData.observe(this, MyObserver { dataState ->
+      //刷新空间状态处理
+      when (dataState) {
+        is DataState.SuccessRefresh -> { //刷新成功，如果有数据则可以拉出"加载更多"或者"没有更多"
+          viewBinding.wanRefreshLayout.setEnableRefresh(true) //允许下拉刷新(空数据重新刷新)
+          viewBinding.wanRefreshLayout.setEnableLoadMore(!dataState.data?.second.isNullOrEmpty()) //列表数据不为空才能上拉
+          if (dataState.hasMore) viewBinding.wanRefreshLayout.hasMoreData() else viewBinding.wanRefreshLayout.noMoreData()
+          viewBinding.wanRefreshLayout.finishRefresh() //结束刷新(不论成功还是失败)
         }
-        //刷新成功
-        is DataState.SuccessRefresh -> {
-          if (it.data.isNullOrEmpty()) items.add(EmptyErrorBean(isEmpty = true, isError = false)) //如果请求成功没有数据
-          else it.data?.forEach { articleBean -> items.add(articleBean) }
-        }
-        //加载更多成功
-        is DataState.SuccessMore -> {
-          items = stickyAdapter.items.toMutableList()
-          it.newData?.forEach { articleBean -> items.add(articleBean) }
-        }
-        //刷新失败
         is DataState.FailRefresh -> {
-          if (it.data.isNullOrEmpty()) items.add(EmptyErrorBean()) //如果是请求异常没有数据
-          else items = stickyAdapter.items.toMutableList()
+          dataState.exc.logE()
+          viewBinding.wanRefreshLayout.finishRefresh() //结束刷新(不论成功还是失败)
+        }
+        is DataState.SuccessMore -> {
+          viewBinding.wanRefreshLayout.finishLoadMore()
+          if (dataState.hasMore) viewBinding.wanRefreshLayout.hasMoreData() else viewBinding.wanRefreshLayout.noMoreData()
+        } //加载更多成功
+        is DataState.FailMore -> {
+          dataState.exc.logE()
+          viewBinding.wanRefreshLayout.finishLoadMore(false) //加载更多失败
         }
         else -> {
         }
       }
-      if (it?.dataMaybeChange() == true) {
-        //Banner
-        if (!items.any { d -> d is MutableList<*> }) {
-          mViewModel.bannerLiveData.value?.data?.let { banner ->
-            if (banner.isNotEmpty()) {
-              items.add(0, banner)
-              items = items.filterNot { d -> d is LoadingBean || d is EmptyErrorBean }.toMutableList()
-            }
+      //正常数据处理
+      var items = mutableListOf<Any>()
+      when (dataState) {
+        //开始请求
+        is DataState.Start -> {
+          if (dataState.data?.first.isNullOrEmpty() && dataState.data?.second.isNullOrEmpty()) items.add(LoadingBean()) //加载中
+          else items = stickyAdapter.items.toMutableList()
+        }
+        //刷新成功
+        is DataState.SuccessRefresh -> {
+          if (dataState.data?.first.isNullOrEmpty() && dataState.data?.second.isNullOrEmpty()) items.add(EmptyErrorBean(isEmpty = true, isError = false)) //如果请求成功没有数据
+          else {
+            dataState.data?.first?.let { l1 -> items.add(l1) }
+            dataState.data?.second?.let { l2 -> items.addAll(l2) }
           }
         }
-        stickyAdapter.items = items
-        stickyAdapter.notifyDataSetChanged()
-      }
-    })
-    //banner监听
-    mViewModel.bannerLiveData.observe(this, MyObserver {
-      if (it?.isComplete() == true) { //如果banner刷新靠后，则请求完成后重新刷一下文章列表
-        val articleData = mViewModel.articleLiveData.value
-        if (articleData?.isComplete() == true) {
-          articleData.hasMore()?.let { m ->
-            mViewModel.articleLiveData.value = DataState.SuccessRefresh(newData = articleData.data, hasMore = m)
-          }
+        //加载更多成功
+        is DataState.SuccessMore -> {
+          items = stickyAdapter.items.toMutableList()
+          dataState.newData?.second?.let { l3 -> items.addAll(l3) }
+        }
+        //刷新失败
+        is DataState.FailRefresh -> {
+          if (dataState.data?.first.isNullOrEmpty() && dataState.data?.second.isNullOrEmpty()) items.add(EmptyErrorBean()) //如果是请求异常没有数据
+          else items = stickyAdapter.items.toMutableList()
+        }
+        //加载更多失败
+        is DataState.FailMore -> {
+          items = stickyAdapter.items.toMutableList()
+          dataState.exc.toast()
+        }
+        else -> {
         }
       }
+      stickyAdapter.items = items
+      stickyAdapter.notifyDataSetChanged()
     })
     //请求数据
-    mViewModel.refresh()
+    mViewModel.refresh(true)
   }
   //</editor-fold>
 
