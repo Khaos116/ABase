@@ -89,6 +89,7 @@ android {
       applicationIdSuffix ".s1"
       versionCode 106
       versionName "1.0.6"
+      resValue "string", "bugly_app_id", "c6e450ad19"
       resValue "string", "app_name", "${myAppName}-S1"
       resValue "string", "channel", "s1"
     }
@@ -98,6 +99,7 @@ android {
       applicationIdSuffix ".s2"
       versionCode 106
       versionName "1.0.6"
+      resValue "string", "bugly_app_id", "05fb157d78"
       resValue "string", "app_name", "${myAppName}-S2"
       resValue "string", "channel", "s2"
     }
