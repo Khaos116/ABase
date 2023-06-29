@@ -5,8 +5,8 @@ import cc.abase.demo.BuildConfig
 import cc.abase.demo.R
 import cc.abase.demo.constants.api.ApiUrl
 import com.blankj.utilcode.util.*
+import com.snail.antifake.deviceid.AndroidDeviceIMEIUtil
 import com.snail.antifake.deviceid.macaddress.MacAddressUtils
-import com.snail.antifake.jni.EmulatorDetectUtil
 import java.io.BufferedReader
 import java.io.InputStreamReader
 
@@ -21,7 +21,7 @@ object AppInfoUtils {
     val builder = SpannableStringBuilder()
     builder.append("APP信息：").append("\n")
       .append("=====================================\n")
-      .append("Emulator1：").append(EmulatorDetectUtil.isEmulator(Utils.getApp()).toString()).append("\n")
+      .append("Emulator1：").append(AndroidDeviceIMEIUtil.isRunOnEmulator(Utils.getApp()).toString()).append("\n")
       .append("Emulator2：").append(DeviceUtils.isEmulator().toString()).append("\n")
       .append("UUID：").append(DeviceUtils.getUniqueDeviceId()).append("\n")
       .append("Release：").append((!BuildConfig.DEBUG).toString()).append("\n")
