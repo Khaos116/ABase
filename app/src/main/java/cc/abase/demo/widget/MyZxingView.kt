@@ -40,6 +40,9 @@ class MyZxingView : ConstraintLayout, LifecycleObserver {
 
   //扫码
   private var mCameraScan: CameraScan? = null
+
+  //防止重复回调
+  private var mLastResult: String = ""
   //</editor-fold>
 
   //<editor-fold defaultstate="collapsed" desc="初始化">
@@ -96,7 +99,9 @@ class MyZxingView : ConstraintLayout, LifecycleObserver {
         .setOnScanResultCallback(object : CameraScan.OnScanResultCallback {
           override fun onScanResultCallback(result: Result?): Boolean {
             if (result == null || result.text.isNullOrBlank()) return false//没有识别出结果就继续扫码
+            if (mLastResult == result.text) return true
             mSoundPoolUtil?.play()
+            mLastResult = result.text
             mScanListener?.onScanResultCallback(result)
             return true//返回true表示拦截，将不自动执行后续逻辑，为false表示不拦截，默认不拦截
           }
