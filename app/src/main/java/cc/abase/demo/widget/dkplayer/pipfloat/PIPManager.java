@@ -112,7 +112,7 @@ public class PIPManager {
     ViewExtKt.removeParent(mVideoView);
     mIsShowing = false;
     //===============================释放点击事件START===============================//
-    View playView = mFloatController.findViewById(R.id.start_play);//播放按钮
+    View playView = mFloatController.findViewById(xyz.doikki.videocontroller.R.id.start_play);//播放按钮
     if (playView != null) playView.setOnClickListener(null);
     //===============================释放点击事件END===============================//
   }

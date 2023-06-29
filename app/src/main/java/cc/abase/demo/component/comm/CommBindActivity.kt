@@ -141,7 +141,7 @@ abstract class CommBindActivity<T : ViewBinding> : BaseBindActivity<T>() {
         this.isClickable = true
         this.text = if (NetworkUtils.isConnected()) R.string.加载失败点击屏幕重试.xmlToString() else R.string.网络异常点击屏幕重试.xmlToString()
         this.gravity = Gravity.CENTER
-        this.setTextColor(R.color.gray.xmlToColor())
+        this.setTextColor(cc.ab.base.R.color.gray.xmlToColor())
       }
     }
     if (!msg.isNullOrBlank()) errorView?.text = msg

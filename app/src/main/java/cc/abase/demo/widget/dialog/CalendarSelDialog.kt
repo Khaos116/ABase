@@ -217,7 +217,7 @@ class CalendarSelDialog : BaseBindFragmentDialog<DialogCalendarSelBinding>() {
   @SuppressLint("SetTextI18n")
   private fun initCalendarView() {
     val calendarView = viewBinding.calendarView
-    calendarView.typeface = ResourcesCompat.getFont(calendarView.context, R.font.harmonyos_sans_condensed_medium)
+    calendarView.typeface = ResourcesCompat.getFont(calendarView.context, cc.ab.base.R.font.harmonyos_sans_condensed_medium)
     calendarView.calendarType = CalendarType.CIVIL
     calendarView.pickType = PickType.RANGE_START
     calendarView.flingOrientation = PrimeCalendarView.FlingOrientation.HORIZONTAL

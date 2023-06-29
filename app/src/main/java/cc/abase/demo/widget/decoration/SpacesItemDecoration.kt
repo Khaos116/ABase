@@ -68,7 +68,7 @@ class SpacesItemDecoration @JvmOverloads constructor(private val mOrientation: I
     val a = Utils.getApp().obtainStyledAttributes(attrs)
     mDivider = a.getDrawable(0)
     a.recycle()
-    if (mPaint == null) setParam(dividerColor = ColorUtils.getColor(R.color.dividerColor), dividerSpacing = SizeUtils.dp2px(0.5f))
+    if (mPaint == null) setParam(dividerColor = ColorUtils.getColor(cc.ab.base.R.color.dividerColor), dividerSpacing = SizeUtils.dp2px(0.5f))
   }
   //</editor-fold>
 

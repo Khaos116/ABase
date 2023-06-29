@@ -21,7 +21,7 @@ class LineView @kotlin.jvm.JvmOverloads constructor(
   private val mLinePaint = Paint(Paint.ANTI_ALIAS_FLAG)
 
   init {
-    mLinePaint.color = ContextCompat.getColor(context, R.color.gray)
+    mLinePaint.color = ContextCompat.getColor(context, cc.ab.base.R.color.gray)
     mLinePaint.strokeWidth = 1f
     mLinePaint.style = Paint.Style.FILL
     mLinePaint.isAntiAlias = true

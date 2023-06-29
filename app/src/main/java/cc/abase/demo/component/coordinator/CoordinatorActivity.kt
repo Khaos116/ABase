@@ -15,17 +15,13 @@ import cc.ab.base.ext.*
 import cc.abase.demo.R
 import cc.abase.demo.component.comm.CommBindActivity
 import cc.abase.demo.component.simple.SimpleFragment
-import cc.abase.demo.databinding.ActivityCoordinatorBinding
-import cc.abase.demo.databinding.LayoutUserHeadBinding
-import cc.abase.demo.databinding.MergeCoordinatorUserBinding
+import cc.abase.demo.databinding.*
 import cc.abase.demo.utils.RandomName
 import cc.abase.demo.widget.indicator.ScaleTransitionPagerTitleView
 import com.google.android.material.appbar.AppBarLayout
 import net.lucode.hackware.magicindicator.ViewPagerHelper
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.CommonNavigator
-import net.lucode.hackware.magicindicator.buildins.commonnavigator.abs.CommonNavigatorAdapter
-import net.lucode.hackware.magicindicator.buildins.commonnavigator.abs.IPagerIndicator
-import net.lucode.hackware.magicindicator.buildins.commonnavigator.abs.IPagerTitleView
+import net.lucode.hackware.magicindicator.buildins.commonnavigator.abs.*
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.indicators.LinePagerIndicator
 import kotlin.math.abs
 import kotlin.math.min
@@ -100,8 +96,8 @@ class CoordinatorActivity : CommBindActivity<ActivityCoordinatorBinding>() {
           simplePagerTitleView.text = titles[index]
           simplePagerTitleView.textSize = 18f
           simplePagerTitleView.minScale = 0.8f
-          simplePagerTitleView.normalColor = R.color.gray_808A87.xmlToColor()
-          simplePagerTitleView.selectedColor = R.color.yellow_FF6100.xmlToColor()
+          simplePagerTitleView.normalColor = cc.ab.base.R.color.gray_808A87.xmlToColor()
+          simplePagerTitleView.selectedColor = cc.ab.base.R.color.yellow_FF6100.xmlToColor()
           simplePagerTitleView.setOnClickListener { viewBinding.coordinatorPager.currentItem = index }
           return simplePagerTitleView
         }
@@ -114,7 +110,7 @@ class CoordinatorActivity : CommBindActivity<ActivityCoordinatorBinding>() {
           indicator.yOffset = 8.dp2px() * 1f
           indicator.lineHeight = 2.dp2px() * 1f
           indicator.roundRadius = indicator.lineHeight / 2f
-          indicator.setColors(R.color.yellow_FF6100.xmlToColor())
+          indicator.setColors(cc.ab.base.R.color.yellow_FF6100.xmlToColor())
           return indicator
         }
       }
@@ -128,7 +124,7 @@ class CoordinatorActivity : CommBindActivity<ActivityCoordinatorBinding>() {
       bar.addOnOffsetChangedListener(AppBarLayout.OnOffsetChangedListener { appBarLayout, verticalOffset ->
         val percent = min(abs(verticalOffset * 1f) / appBarLayout.totalScrollRange, 1f)
         bindingUser.layoutUserOver.alpha = 1 - percent
-        viewBinding.coordinatorBack.setColorFilter(mEvaluator.evaluate(percent, Color.WHITE, R.color.gray.xmlToColor()) as Int)
+        viewBinding.coordinatorBack.setColorFilter(mEvaluator.evaluate(percent, Color.WHITE, cc.ab.base.R.color.gray.xmlToColor()) as Int)
       })
     }
     fillTop(bindingCoordinator, bindingUser)

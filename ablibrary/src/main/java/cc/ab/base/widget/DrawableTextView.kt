@@ -15,7 +15,7 @@ import cc.ab.base.R
 
 @SuppressLint("PrivateResource", "CustomViewStyleable")
 class DrawableTextView(context: Context, attributeSet: AttributeSet?) :
-    AppCompatTextView(context, attributeSet) {
+  AppCompatTextView(context, attributeSet) {
   private var leftWidth = -1
   private var leftHeight = -1
   private var topWidth = -1
@@ -42,7 +42,7 @@ class DrawableTextView(context: Context, attributeSet: AttributeSet?) :
 
     array.recycle()
 
-    val arrayHelper = context.obtainStyledAttributes(attributeSet, R.styleable.AppCompatTextHelper)
+    val arrayHelper = context.obtainStyledAttributes(attributeSet, androidx.appcompat.R.styleable.AppCompatTextHelper)
 
     var drawableLeft: Drawable? = null
     var drawableTop: Drawable? = null
@@ -50,40 +50,46 @@ class DrawableTextView(context: Context, attributeSet: AttributeSet?) :
     var drawableBottom: Drawable? = null
     var drawableStart: Drawable? = null
     var drawableEnd: Drawable? = null
-    arrayHelper.getResourceId(R.styleable.AppCompatTextHelper_android_drawableLeft, -1)
-        .takeIf { it != -1 }?.apply { drawableLeft = ContextCompat.getDrawable(context, this) }
-    arrayHelper.getResourceId(R.styleable.AppCompatTextHelper_android_drawableStart, -1)
-        .takeIf { it != -1 }?.apply { drawableStart = ContextCompat.getDrawable(context, this) }
-    arrayHelper.getResourceId(R.styleable.AppCompatTextHelper_android_drawableTop, -1)
-        .takeIf { it != -1 }?.apply { drawableTop = ContextCompat.getDrawable(context, this) }
-    arrayHelper.getResourceId(R.styleable.AppCompatTextHelper_android_drawableBottom, -1)
-        .takeIf { it != -1 }?.apply { drawableBottom = ContextCompat.getDrawable(context, this) }
-    arrayHelper.getResourceId(R.styleable.AppCompatTextHelper_android_drawableEnd, -1)
-        .takeIf { it != -1 }?.apply { drawableEnd = ContextCompat.getDrawable(context, this) }
-    arrayHelper.getResourceId(R.styleable.AppCompatTextHelper_android_drawableRight, -1)
-        .takeIf { it != -1 }?.apply { drawableRight = ContextCompat.getDrawable(context, this) }
+    arrayHelper.getResourceId(androidx.appcompat.R.styleable.AppCompatTextHelper_android_drawableLeft, -1)
+      .takeIf { it != -1 }?.apply { drawableLeft = ContextCompat.getDrawable(context, this) }
+    arrayHelper.getResourceId(androidx.appcompat.R.styleable.AppCompatTextHelper_android_drawableStart, -1)
+      .takeIf { it != -1 }?.apply { drawableStart = ContextCompat.getDrawable(context, this) }
+    arrayHelper.getResourceId(androidx.appcompat.R.styleable.AppCompatTextHelper_android_drawableTop, -1)
+      .takeIf { it != -1 }?.apply { drawableTop = ContextCompat.getDrawable(context, this) }
+    arrayHelper.getResourceId(androidx.appcompat.R.styleable.AppCompatTextHelper_android_drawableBottom, -1)
+      .takeIf { it != -1 }?.apply { drawableBottom = ContextCompat.getDrawable(context, this) }
+    arrayHelper.getResourceId(androidx.appcompat.R.styleable.AppCompatTextHelper_android_drawableEnd, -1)
+      .takeIf { it != -1 }?.apply { drawableEnd = ContextCompat.getDrawable(context, this) }
+    arrayHelper.getResourceId(androidx.appcompat.R.styleable.AppCompatTextHelper_android_drawableRight, -1)
+      .takeIf { it != -1 }?.apply { drawableRight = ContextCompat.getDrawable(context, this) }
 
     arrayHelper.recycle()
-    setCompoundDrawablesWithIntrinsicBounds(drawableStart ?: drawableLeft,
-        drawableTop, drawableEnd ?: drawableRight, drawableBottom)
+    setCompoundDrawablesWithIntrinsicBounds(
+      drawableStart ?: drawableLeft,
+      drawableTop, drawableEnd ?: drawableRight, drawableBottom
+    )
   }
 
   override fun setCompoundDrawablesWithIntrinsicBounds(left: Drawable?, top: Drawable?, right: Drawable?, bottom: Drawable?) {
-    left?.setBounds(0, 0,
-        if (leftWidth != -1) leftWidth else left.intrinsicWidth,
-        if (leftHeight != -1) leftHeight else left.intrinsicHeight
+    left?.setBounds(
+      0, 0,
+      if (leftWidth != -1) leftWidth else left.intrinsicWidth,
+      if (leftHeight != -1) leftHeight else left.intrinsicHeight
     )
-    top?.setBounds(0, 0,
-        if (topWidth != -1) topWidth else top.intrinsicWidth,
-        if (topHeight != -1) topHeight else top.intrinsicHeight
+    top?.setBounds(
+      0, 0,
+      if (topWidth != -1) topWidth else top.intrinsicWidth,
+      if (topHeight != -1) topHeight else top.intrinsicHeight
     )
-    right?.setBounds(0, 0,
-        if (rightWidth != -1) rightWidth else right.intrinsicWidth,
-        if (rightHeight != -1) rightHeight else right.intrinsicHeight
+    right?.setBounds(
+      0, 0,
+      if (rightWidth != -1) rightWidth else right.intrinsicWidth,
+      if (rightHeight != -1) rightHeight else right.intrinsicHeight
     )
-    bottom?.setBounds(0, 0,
-        if (bottomWidth != -1) bottomWidth else bottom.intrinsicWidth,
-        if (bottomHeight != -1) bottomHeight else bottom.intrinsicHeight
+    bottom?.setBounds(
+      0, 0,
+      if (bottomWidth != -1) bottomWidth else bottom.intrinsicWidth,
+      if (bottomHeight != -1) bottomHeight else bottom.intrinsicHeight
     )
     setCompoundDrawables(left, top, right, bottom)
   }

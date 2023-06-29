@@ -1,10 +1,8 @@
 package cc.ab.base.startup
 
 import android.content.Context
-import cc.ab.base.BuildConfig
 import cc.ab.base.ext.logI
 import com.rousetime.android_startup.AndroidStartup
-import com.rousetime.android_startup.Startup
 import timber.log.Timber
 
 /**
@@ -23,7 +21,7 @@ class TimberInit : AndroidStartup<Int>() {
 
   //<editor-fold defaultstate="collapsed" desc="初始化">
   override fun create(context: Context): Int {
-    if (BuildConfig.DEBUG) Timber.plant(Timber.DebugTree())
+    if (cc.ab.base.BuildConfig.DEBUG) Timber.plant(Timber.DebugTree())
     "初始化完成".logI()
     return 0
   }

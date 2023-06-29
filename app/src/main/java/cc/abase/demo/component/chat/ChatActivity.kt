@@ -124,7 +124,7 @@ class ChatActivity : CommBindTitleActivity<ActivityChatBinding>() {
       onEmojiPopupDismissListener = { viewBinding.chatKeyEmoji.setImageResource(R.drawable.svg_emoji) },
       onSoftKeyboardOpenListener = { keyHeight -> changeKeyHeight(keyHeight) },
       onSoftKeyboardCloseListener = { changeKeyHeight(0) },
-      keyboardAnimationStyle = R.style.emoji_fade_animation_style,
+      keyboardAnimationStyle = com.vanniktech.emoji.R.style.emoji_fade_animation_style,
     )
     viewBinding.chatKeyEmoji.click { emojiPopup?.toggle() }
   }

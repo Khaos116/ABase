@@ -265,9 +265,9 @@ class MyVideoView : VideoView, LifecycleObserver {
     controller.setEnableOrientation(false)
     //1.准备播放界面
     controller.addControlComponent(PrepareView(con).also { p ->
-      coverIv = p.findViewById(R.id.thumb) //封面
+      coverIv = p.findViewById(xyz.doikki.videocontroller.R.id.thumb) //封面
       coverIv.scaleType = ImageView.ScaleType.FIT_CENTER
-      p.findViewById<View>(R.id.start_play).setOnClickListener { //点击播放
+      p.findViewById<View>(xyz.doikki.videocontroller.R.id.start_play).setOnClickListener { //点击播放
         if (!mUrl.isNullOrBlank()) start()
       }
     })
@@ -278,7 +278,7 @@ class MyVideoView : VideoView, LifecycleObserver {
     //4.标题
     controller.addControlComponent(MyTitleView(con).also { tv ->
       titleView = tv
-      backIv = tv.findViewById(R.id.back)
+      backIv = tv.findViewById(xyz.doikki.videocontroller.R.id.back)
       backIv.setOnClickListener { if (isFullScreen) onBackPressed() else PlayerUtils.scanForActivity(context)?.onBackPressed() }
     })
     //5.滑动控制视图

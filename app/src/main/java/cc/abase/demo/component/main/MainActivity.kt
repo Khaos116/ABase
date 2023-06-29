@@ -95,7 +95,7 @@ class MainActivity : CommBindActivity<ActivityMainBinding>() {
         title = R.string.温馨提示.xmlToString()
         content = R.string.APP调试需要通知权限是否去打开.xmlToString()
         confirmText = R.string.去打开.xmlToString()
-        confirmTextColor = R.color.style_Accent.xmlToColor()
+        confirmTextColor = cc.ab.base.R.color.style_Accent.xmlToColor()
         confirmCallback = { openNoticePermission() }
       }
     }

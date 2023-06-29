@@ -277,8 +277,8 @@ object SpeditUtil {
   fun getAtSpan(
       content: String,
       atList: MutableList<AtBean>? = null,
-      spanColorNormal: Int = ColorUtils.getColor(R.color.style_Primary),
-      spanColorPress: Int = ColorUtils.getColor(R.color.style_PrimaryDark),
+      spanColorNormal: Int = ColorUtils.getColor(cc.ab.base.R.color.style_Primary),
+      spanColorPress: Int = ColorUtils.getColor(cc.ab.base.R.color.style_PrimaryDark),
       click: ((at: AtBean) -> Unit)? = null
   ): SpannableStringBuilder {
     val result = SpannableStringBuilder()

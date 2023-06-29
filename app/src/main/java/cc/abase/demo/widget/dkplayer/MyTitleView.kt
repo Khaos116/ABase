@@ -32,19 +32,19 @@ class MyTitleView @kotlin.jvm.JvmOverloads constructor(c: Context, a: AttributeS
   private var mControlWrapper: ControlWrapper? = null
 
   //标题
-  private var mBack: ImageView = findViewById(R.id.back)
+  private var mBack: ImageView = findViewById(xyz.doikki.videocontroller.R.id.back)
 
   //标题
-  private var mTitle: TextView = findViewById(R.id.title)
+  private var mTitle: TextView = findViewById(xyz.doikki.videocontroller.R.id.title)
 
   //系统时间
-  private var mSysTime: TextView = findViewById(R.id.sys_time)
+  private var mSysTime: TextView = findViewById(xyz.doikki.videocontroller.R.id.sys_time)
 
   //电池电量
-  private var batteryLevel: ImageView = findViewById(R.id.iv_battery)
+  private var batteryLevel: ImageView = findViewById(xyz.doikki.videocontroller.R.id.iv_battery)
 
   //标题容器
-  private var mTitleContainer: LinearLayout = findViewById(R.id.title_container)
+  private var mTitleContainer: LinearLayout = findViewById(xyz.doikki.videocontroller.R.id.title_container)
   //</editor-fold>
 
   //<editor-fold defaultstate="collapsed" desc="重写">

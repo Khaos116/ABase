@@ -65,7 +65,7 @@ class ZxingActivity : CommBindTitleActivity<ActivityZxingBinding>() {
       } else {
         KeyboardUtils.hideSoftInput(viewBinding.zxingEdit)
         BarcodeWriter()
-          .write(code, size / 2, R.color.cyan_40E0D0.xmlToColor(), BitmapFactory.decodeResource(resources, R.mipmap.ic_launcher))
+          .write(code, size / 2, cc.ab.base.R.color.cyan_40E0D0.xmlToColor(), BitmapFactory.decodeResource(resources, R.mipmap.ic_launcher))
           ?.let { bit ->
             val iv = ImageView(mContext)
             iv.setImageBitmap(bit)
@@ -181,7 +181,7 @@ class ZxingActivity : CommBindTitleActivity<ActivityZxingBinding>() {
   private fun showResult(msg: String) {
     launchError {
       val tv = TextView(mContext)
-      tv.setTextColor(R.color.magenta.xmlToColor())
+      tv.setTextColor(cc.ab.base.R.color.magenta.xmlToColor())
       tv.setTextSize(TypedValue.COMPLEX_UNIT_SP, 15f)
       tv.text = msg
       viewBinding.zxingContainer.removeAllViews()

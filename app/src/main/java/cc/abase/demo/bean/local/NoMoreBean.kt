@@ -10,9 +10,9 @@ import cc.abase.demo.R
  * @Time：21:27
  */
 data class NoMoreBean(val text: String = R.string.没有更多数据了.xmlToString()) {
-  var textColor: Int = R.color.gray_444444.xmlToColor()
+  var textColor: Int = cc.ab.base.R.color.gray_444444.xmlToColor()
   var textSize: Float = 14.dp2px() * 1f
-  var bgColor: Int = R.color.gray_CCCCCC.xmlToColor()
+  var bgColor: Int = cc.ab.base.R.color.gray_CCCCCC.xmlToColor()
   var bold: Boolean = false
   val heightPx: Int = 40.dp2px()
 }

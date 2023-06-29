@@ -150,7 +150,7 @@ class MineFragment : CommBindFragment<FragmentMineBinding>() {
     viewBinding.mineSetting.pressEffectAlpha()
     viewBinding.mineSetting.click { SettingActivity.startActivity(mContext) }
     //item文字颜色
-    val typeColor = ColorUtils.getColor(R.color.style_Primary)
+    val typeColor = ColorUtils.getColor(cc.ab.base.R.color.style_Primary)
     //转化为item需要的数据
     val items = mutableListOf<SimpleTxtBean>()
     menuList.forEach { p ->

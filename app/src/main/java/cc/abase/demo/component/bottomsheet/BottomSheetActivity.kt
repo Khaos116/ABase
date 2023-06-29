@@ -55,7 +55,7 @@ class BottomSheetActivity : CommBindTitleActivity<ActivityBottomSheetBinding>() 
     recycler.layoutManager = LinearLayoutManager(mContext)
     recycler.adapter = mAdapter
     //item文字颜色
-    val typeColor = ColorUtils.getColor(R.color.style_Primary)
+    val typeColor = ColorUtils.getColor(cc.ab.base.R.color.style_Primary)
     //转化为item需要的数据
     val items = mutableListOf<Any>()
     for (i in 1..50) {
@@ -76,7 +76,7 @@ class BottomSheetActivity : CommBindTitleActivity<ActivityBottomSheetBinding>() 
       //设置弹窗的View
       bsd.setContentView(binding.root)
       //去除默认背景色
-      bsd.window?.setBackgroundDrawable(ColorDrawable(R.color.black_70.xmlToColor()))
+      bsd.window?.setBackgroundDrawable(ColorDrawable(cc.ab.base.R.color.black_70.xmlToColor()))
       //设置默认弹窗高度
       bsd.behavior.peekHeight = (mContentView.height * 3 / 5f).toInt()
       //默认展开

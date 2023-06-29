@@ -51,7 +51,7 @@ class DrawableEditText(context: Context, attributeSet: AttributeSet?) :
 
     array.recycle()
 
-    val arrayHelper = context.obtainStyledAttributes(attributeSet, R.styleable.AppCompatTextHelper)
+    val arrayHelper = context.obtainStyledAttributes(attributeSet, androidx.appcompat.R.styleable.AppCompatTextHelper)
 
     var drawableLeft: Drawable? = null
     var drawableTop: Drawable? = null
@@ -59,17 +59,17 @@ class DrawableEditText(context: Context, attributeSet: AttributeSet?) :
     var drawableBottom: Drawable? = null
     var drawableStart: Drawable? = null
     var drawableEnd: Drawable? = null
-    arrayHelper.getResourceId(R.styleable.AppCompatTextHelper_android_drawableLeft, -1)
+    arrayHelper.getResourceId(androidx.appcompat.R.styleable.AppCompatTextHelper_android_drawableLeft, -1)
       .takeIf { it != -1 }?.apply { drawableLeft = ContextCompat.getDrawable(context, this) }
-    arrayHelper.getResourceId(R.styleable.AppCompatTextHelper_android_drawableStart, -1)
+    arrayHelper.getResourceId(androidx.appcompat.R.styleable.AppCompatTextHelper_android_drawableStart, -1)
       .takeIf { it != -1 }?.apply { drawableStart = ContextCompat.getDrawable(context, this) }
-    arrayHelper.getResourceId(R.styleable.AppCompatTextHelper_android_drawableTop, -1)
+    arrayHelper.getResourceId(androidx.appcompat.R.styleable.AppCompatTextHelper_android_drawableTop, -1)
       .takeIf { it != -1 }?.apply { drawableTop = ContextCompat.getDrawable(context, this) }
-    arrayHelper.getResourceId(R.styleable.AppCompatTextHelper_android_drawableBottom, -1)
+    arrayHelper.getResourceId(androidx.appcompat.R.styleable.AppCompatTextHelper_android_drawableBottom, -1)
       .takeIf { it != -1 }?.apply { drawableBottom = ContextCompat.getDrawable(context, this) }
-    arrayHelper.getResourceId(R.styleable.AppCompatTextHelper_android_drawableEnd, -1)
+    arrayHelper.getResourceId(androidx.appcompat.R.styleable.AppCompatTextHelper_android_drawableEnd, -1)
       .takeIf { it != -1 }?.apply { drawableEnd = ContextCompat.getDrawable(context, this) }
-    arrayHelper.getResourceId(R.styleable.AppCompatTextHelper_android_drawableRight, -1)
+    arrayHelper.getResourceId(androidx.appcompat.R.styleable.AppCompatTextHelper_android_drawableRight, -1)
       .takeIf { it != -1 }?.apply { drawableRight = ContextCompat.getDrawable(context, this) }
 
     arrayHelper.recycle()

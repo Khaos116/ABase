@@ -8,7 +8,6 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.OnScrollListener
 import cc.ab.base.ext.*
 import cc.abase.demo.R
-import cc.abase.demo.R.color
 import cc.abase.demo.bean.local.*
 import cc.abase.demo.component.comm.CommBindTitleActivity
 import cc.abase.demo.databinding.ActivitySticky2Binding
@@ -168,9 +167,9 @@ class StickyActivity2 : CommBindTitleActivity<ActivitySticky2Binding>() {
     list.forEach { userStickyBean ->
       userStickyBean.score?.let { score ->
         items1.add(userStickyBean.name)
-        items1.add(DividerBean(heightPx = 1, bgColor = color.gray.xmlToColor()))
+        items1.add(DividerBean(heightPx = 1, bgColor = cc.ab.base.R.color.gray.xmlToColor()))
         items2.add(score)
-        items2.add(DividerBean(heightPx = 1, bgColor = color.gray.xmlToColor()))
+        items2.add(DividerBean(heightPx = 1, bgColor = cc.ab.base.R.color.gray.xmlToColor()))
       }
     }
     leftAdapter.items = items1

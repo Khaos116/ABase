@@ -23,8 +23,8 @@ class BannerItem(
 ) : BaseBindItemView<MutableList<BannerBean>, ItemBannerBinding>() {
   //<editor-fold defaultstate="collapsed" desc="数据填充">
   override fun fillData(holder: BaseViewHolder<ItemBannerBinding>, item: MutableList<BannerBean>) {
-    if (holder.itemView.getTag(R.id.tag_banner) != item) {
-      holder.itemView.setTag(R.id.tag_banner, item)
+    if (holder.itemView.getTag(cc.ab.base.R.id.tag_banner) != item) {
+      holder.itemView.setTag(cc.ab.base.R.id.tag_banner, item)
       val banner = holder.itemView.findViewById<DiscreteBanner<BannerBean, ItemBannerImgBinding>>(R.id.itemBanner)
       banner.layoutParams.height = (ScreenUtils.getScreenWidth() * 500f / 900).toInt()
       banner.setLooper(true) //无限循环
