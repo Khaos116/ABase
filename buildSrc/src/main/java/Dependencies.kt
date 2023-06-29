@@ -1,12 +1,31 @@
 object Versions {
   const val sdkMin = 23
   const val sdkTarget = 33
-  const val kotlin = "1.8.0"
+  const val kotlin = "1.8.21"
   const val okHttp = "4.11.0"
   const val rxHttp = "3.0.6"
   const val coil = "1.4.0"
   const val picSel = "3.11.1"
-  const val gradle = "7.2.0"
+  const val gradle = "8.0.2"
+  //Gradle版本对照 https://developer.android.google.cn/studio/releases/gradle-plugin?hl=zh-cn#groovy
+  //插件版本	所需的最低Gradle版本(https\://services.gradle.org/distributions/gradle-7.5-bin.zip)
+  //8.1	    8.0
+  //8.0	    8.0
+  //7.4	    7.5
+  //7.3	    7.4
+  //7.2	    7.3.3
+  //7.1	    7.2
+  //7.0	    7.0
+
+  //Android Studio 版本	所需插件版本(com.android.tools.build:gradle:7.2.0)
+  //Hedgehog | 2023.1.1	3.2-8.2
+  //Giraffe | 2022.3.1	3.2-8.1
+  //Flamingo | 2022.2.1	3.2-8.0
+  //Electric Eel | 2022.1.1	3.2-7.4
+  //Dolphin | 2021.3.1	3.2-7.3
+  //Chipmunk | 2021.2.1	3.2-7.2
+  //Bumblebee | 2021.1.1	3.2-7.1
+  //Arctic Fox | 2020.3.1	3.1-7.0
 }
 
 object Deps {
@@ -178,8 +197,8 @@ object Deps {
   //https://github.com/airbnb/lottie-android
   const val lottie = "com.airbnb.android:lottie:6.0.1"
 
-  //中文转拼音 https://github.com/promeG/TinyPinyin
-  const val pinyin = "com.github.promeg:tinypinyin:2.0.3" // TinyPinyin核心包，约80KB
+  //中文转拼音 https://github.com/hellokaton/TinyPinyin
+  const val pinyin = "io.github.biezhi:TinyPinyin:2.0.3.RELEASE" // TinyPinyin核心包，约80KB
 
   //日期选择器 https://github.com/limxing/DatePickerView
   const val picker_view = "com.github.limxing:DatePickerView:1.1.1"
