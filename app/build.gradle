@@ -2,109 +2,51 @@ import com.android.build.gradle.internal.tasks.FinalizeBundleTask
 
 plugins {
   id 'com.android.application'
-  id 'kotlin-android'
+  id 'org.jetbrains.kotlin.android'
   id 'kotlin-kapt'
   id 'kotlin-parcelize' //https://weilu.blog.csdn.net/article/details/109557820
 }
 
+def myAppName = "ABase"
+def myPackage = "com.abase"
+
 android {
-  compileSdkVersion Versions.sdkTarget
-  //buildFeatures编译问题 https://www.freesion.com/article/90591379803/ https://blog.csdn.net/choimroc/article/details/104756365
-  //com.android.tools.build:gradle:version < 4.1.2
-  //viewBinding { enabled = true }
-  //com.android.tools.build:gradle:version >=4.1.2
-  buildFeatures { viewBinding true }
+  namespace "cc.abase.demo"//对应旧版本在Manifest顶部的包名
+  compileSdk Versions.sdkTarget
+  buildFeatures {
+    viewBinding true
+    buildConfig true//高版本不在自动生成BuildConfig,需要生成则需要配置为true
+  }
   defaultConfig {
-    //正常配置
-    minSdkVersion Versions.sdkMin
-    targetSdkVersion Versions.sdkTarget
-    applicationId rootProject.ext.android.applicationId
-    versionCode rootProject.ext.android.versionCodeS1
-    versionName rootProject.ext.android.versionNameS1
-    resValue "string", "bugly_app_id", rootProject.ext.android.buglyIdS1
-    resValue "string", "app_name", rootProject.ext.android.applicationName
-    resValue "string", "build_time", rootProject.ext.android.buildTime
-    resValue "string", "channel", "s1"
-    //允许使用SVG
-    //vectorDrawables.useSupportLibrary = true
-    multiDexEnabled true
+    applicationId myPackage
+    minSdk Versions.sdkMin
+    targetSdk Versions.sdkTarget
+    versionCode 1
+    versionName "1.0.0"
+    resValue "string", "app_name", myAppName
+    resValue "string", "build_time", new Date().format("yyyyMMdd_HHmm") //编译日期
+    resValue "string", "channel", "s0"
     //resConfigs "zh-rCN", "zh-rTW", "zh-rHK", "en-rUS", "en-rGB"
     resConfigs "zh-rCN", "en-rUS" //保留中文和英文资源(如果随便写一种没有的语言，则只会打默认的文字资源到APK)
     //noinspection ChromeOsAbiSupport
     ndk { abiFilters 'armeabi-v7a' } //, 'arm64-v8a'
-    //资源文件名冲突，引用包重复，文件名显示的格式与文件本身的格式不对应
-    //aaptOptions.cruncherEnabled = false
-    //aaptOptions.useNewCruncher = false
-    //APK生成名称
-    //archivesBaseName = "Abase-v$versionCode"
-  }
-  //APK生成名称
-  //archivesBaseName = "Abase-v$versionCode"
-  compileOptions {
-    sourceCompatibility JavaVersion.VERSION_11
-    targetCompatibility JavaVersion.VERSION_11
-  }
-
-  //部分DSL需要
-  kotlinOptions { jvmTarget = 11 }
-
-  //使用LayoutContainer代替findViewById https://www.cnblogs.com/huyang011/p/14184045.html
-  //androidExtensions { experimental = true }
-
-  //多维度 https://blog.csdn.net/chen_xi_hao/article/details/80526049
-  flavorDimensions "default"
-  //公开发布商店渠道配置
-  productFlavors {
-    //是否是jenkins打包
-    def isJenkins = IS_JENKINS ?: false
-    //版本名称
-    def vName = VERSION_NAME
-    //版本code
-    def vCode = VERSION_CODE
-    if (vCode == null || !vCode.isInteger()) {
-      vCode = null
-    }
-    if (isJenkins.toString() == "false") {
-      vName = null
-      vCode = null
-    }
-    //渠道s1
-    s1 {
-      dimension "default"
-      applicationIdSuffix ".s1"
-      versionCode vCode ? vCode as int : rootProject.ext.android.versionCodeS1
-      versionName vName ? vName : rootProject.ext.android.versionNameS1
-      resValue "string", "bugly_app_id", rootProject.ext.android.buglyIdS1
-      resValue "string", "app_name", "${rootProject.ext.android.applicationName}-S1"
-      resValue "string", "channel", "s1"
-    }
-    //渠道s2
-    s2 {
-      dimension "default"
-      applicationIdSuffix ".s2"
-      versionCode vCode ? vCode as int : rootProject.ext.android.versionCodeS2
-      versionName vName ? vName : rootProject.ext.android.versionNameS2
-      resValue "string", "bugly_app_id", rootProject.ext.android.buglyIdS2
-      resValue "string", "app_name", "${rootProject.ext.android.applicationName}-S2"
-      resValue "string", "channel", "s2"
-    }
   }
 
   //配置不同版本的keystore
   signingConfigs {
     debug {
-      storeFile file(STORE_FILE_ABASE)
-      storePassword STORE_PASSWORD_ABASE
-      keyAlias KEY_ALIAS_ABASE
-      keyPassword KEY_PASSWORD_ABASE
+      storeFile file("../com_ab.jks")
+      storePassword "com_cc"
+      keyAlias "com_cc"
+      keyPassword "com_cc"
       v1SigningEnabled true
       v2SigningEnabled true
     }
     release {
-      storeFile file(STORE_FILE_ABASE)
-      storePassword STORE_PASSWORD_ABASE
-      keyAlias KEY_ALIAS_ABASE
-      keyPassword KEY_PASSWORD_ABASE
+      storeFile file("../com_ab.jks")
+      storePassword "com_cc"
+      keyAlias "com_cc"
+      keyPassword "com_cc"
       v1SigningEnabled true
       v2SigningEnabled true
     }
@@ -130,9 +72,35 @@ android {
     }
   }
 
-  //解决com.android.tools.lint.client.api.Vendor https://stackoverflow.com/questions/24098494/applintvitalrelease-error-when-generating-signed-apk
-  lintOptions {
-    checkReleaseBuilds false
+  compileOptions {
+    sourceCompatibility JavaVersion.VERSION_17
+    targetCompatibility JavaVersion.VERSION_17
+  }
+
+  kotlinOptions { jvmTarget = 17 }//部分DSL需要
+
+  //多维度 https://blog.csdn.net/chen_xi_hao/article/details/80526049
+  flavorDimensions "default"
+  //公开发布商店渠道配置
+  productFlavors {
+    //渠道s1
+    s1 {
+      dimension "default"
+      applicationIdSuffix ".s1"
+      versionCode 106
+      versionName "1.0.6"
+      resValue "string", "app_name", "${myAppName}-S1"
+      resValue "string", "channel", "s1"
+    }
+    //渠道s2
+    s2 {
+      dimension "default"
+      applicationIdSuffix ".s2"
+      versionCode 106
+      versionName "1.0.6"
+      resValue "string", "app_name", "${myAppName}-S2"
+      resValue "string", "channel", "s2"
+    }
   }
 
   //防止没有Temp
@@ -161,7 +129,7 @@ android.applicationVariants.all { variant ->
     //渠道名称
     String flavorsName = variant.productFlavors[0].name
     //应用名称
-    String appName = "${rootProject.ext.android.applicationName}"
+    String appName = myAppName
     //AAB文件只处理正式版
     if (typeName == "Release") {
       String bundleFinalizeTaskName = "sign${flavorsName.toUpperCase()}${typeName}Bundle"
@@ -237,19 +205,16 @@ android.applicationVariants.all { variant ->
         }
       }
       //开启线程，在打包完成后20秒杀掉JDK，防止下次运行出现被占用的情况
-      def isJenkins = IS_JENKINS ?: false
-      if (isJenkins.toString() == "false") {
-        new Thread() {
-          @Override
-          void run() {
-            sleep(20 * 1000)
-            File tempFile = new File("${getProjectDir().getParentFile().getPath()}/APK/Temp")
-            if (tempFile.exists() && tempFile.isDirectory()) tempFile.deleteDir()
-            String cmd = "taskkill /f /t /im java.exe"
-            cmd.execute().text.trim()
-          }
-        }.start()
-      }
+      new Thread() {
+        @Override
+        void run() {
+          sleep(20 * 1000)
+          File tempFile = new File("${getProjectDir().getParentFile().getPath()}/APK/Temp")
+          if (tempFile.exists() && tempFile.isDirectory()) tempFile.deleteDir()
+          String cmd = "taskkill /f /t /im java.exe"
+          cmd.execute().text.trim()
+        }
+      }.start()
     }
   }
 }
@@ -266,6 +231,16 @@ def deleteFolder(File folder) {
   }
   folder.delete()
 }
+
+//dependencies {
+//  implementation fileTree(dir: "libs", include: ['*.jar', '*.aar'])
+//  implementation project(':ablibrary')
+//  implementation project(':silicompressor')
+//  //implementation 'androidx.core:core-ktx:1.10.1'
+//  //implementation 'androidx.appcompat:appcompat:1.6.1'
+//  //implementation 'com.google.android.material:material:1.9.0'
+//  //implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+//}
 
 //三方依赖
 dependencies {
