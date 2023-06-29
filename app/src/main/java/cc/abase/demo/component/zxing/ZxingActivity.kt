@@ -18,16 +18,16 @@ import cc.abase.demo.widget.MyZxingView
 import com.blankj.utilcode.constant.MemoryConstants
 import com.blankj.utilcode.util.ClickUtils
 import com.blankj.utilcode.util.KeyboardUtils
+import com.google.zxing.Result
 import com.hjq.permissions.*
+import com.king.zxing.CameraScan
+import com.king.zxing.util.CodeUtils
 import com.luck.picture.lib.basic.PictureSelector
 import com.luck.picture.lib.config.PictureConfig
 import com.luck.picture.lib.config.SelectMimeType
 import com.luck.picture.lib.entity.LocalMedia
 import com.luck.picture.lib.interfaces.OnResultCallbackListener
 import kotlinx.coroutines.*
-import me.devilsen.czxing.code.*
-import me.devilsen.czxing.util.BitmapUtil
-import me.devilsen.czxing.view.scanview.ScanListener
 
 
 /**
@@ -64,8 +64,7 @@ class ZxingActivity : CommBindTitleActivity<ActivityZxingBinding>() {
         R.string.二维码内容不能为空.xmlToast()
       } else {
         KeyboardUtils.hideSoftInput(viewBinding.zxingEdit)
-        BarcodeWriter()
-          .write(code, size / 2, cc.ab.base.R.color.cyan_40E0D0.xmlToColor(), BitmapFactory.decodeResource(resources, R.mipmap.ic_launcher))
+        CodeUtils.createQRCode(code, size / 2, BitmapFactory.decodeResource(resources, R.mipmap.ic_launcher), cc.ab.base.R.color.cyan_40E0D0.xmlToColor())
           ?.let { bit ->
             val iv = ImageView(mContext)
             iv.setImageBitmap(bit)
@@ -104,19 +103,17 @@ class ZxingActivity : CommBindTitleActivity<ActivityZxingBinding>() {
     viewBinding.zxingContainer.removeAllViews()
     if (mScanView == null) {
       mScanView = MyZxingView(mContext).also { zx ->
-        zx.mScanListener = object : ScanListener {
-          override fun onScanSuccess(resultList: MutableList<CodeResult>) {
-            if (resultList.size == 1) {
-              showResult(resultList.first().text)
-            }
+        zx.mScanListener = object : CameraScan.OnScanResultCallback {
+          override fun onScanResultCallback(result: Result?): Boolean {
+            val txt = result?.text ?: ""
+            showResult(txt.ifBlank { R.string.扫码失败.xmlToString() })
+            return true
           }
 
-          override fun onClickResult(result: CodeResult?) {
-            val r = result?.text
-            showResult(if (r.isNullOrBlank()) R.string.扫码失败.xmlToString() else r)
+          override fun onScanResultFailure() {
+            super.onScanResultFailure()
+            showResult(R.string.扫码失败.xmlToString())
           }
-
-          override fun onOpenCameraError() = showResult(R.string.扫码失败.xmlToString())
         }
       }
     }
@@ -125,6 +122,7 @@ class ZxingActivity : CommBindTitleActivity<ActivityZxingBinding>() {
       viewBinding.zxingContainer.removeAllViews()
       viewBinding.zxingContainer.addView(it, ViewGroup.LayoutParams(size, size))
     }
+    mScanView?.startCamera()
   }
   //</editor-fold>
 
@@ -148,23 +146,14 @@ class ZxingActivity : CommBindTitleActivity<ActivityZxingBinding>() {
           if (!result.isNullOrEmpty()) {
             mJob?.cancel()
             mJob = launchError {
-              withContext(Dispatchers.IO) {
-                val l: MutableList<CodeResult> = mutableListOf()
-                BitmapUtil.getDecodeAbleBitmap(result.first().realPath)?.let { bit ->
-                  // 这个方法因为要做bitmap的变换，所以比较耗时，推荐放到子线程执行
-                  val decoder = BarcodeDecoder()
-                  l.addAll(decoder.decodeBitmap(bit))
-                  decoder.destroy()
-                }
-                l
-              }.let { resultList ->
+              withContext(Dispatchers.IO) {//耗时，推荐放到子线程执行
+                //解析条形码/二维码
+                CodeUtils.parseCode(result.first().realPath) ?: ""
+                //解析二维码
+                //CodeUtils.parseQRCode(result.first().realPath)
+              }.let { result ->
                 if (isActive) {
-                  val sb = StringBuilder()
-                  resultList.forEach { r ->
-                    if (sb.isNotBlank()) sb.append(" , ")
-                    sb.append(r.text)
-                  }
-                  showResult(if (sb.isNotBlank()) sb.toString() else R.string.解析失败.xmlToString())
+                  showResult(result.ifBlank { R.string.解析失败.xmlToString() })
                 }
               }
             }
@@ -186,6 +175,8 @@ class ZxingActivity : CommBindTitleActivity<ActivityZxingBinding>() {
       tv.text = msg
       viewBinding.zxingContainer.removeAllViews()
       viewBinding.zxingContainer.addView(tv, ViewGroup.LayoutParams(-1, -2))
+      mScanView?.releaseCamera()
+      mScanView = null
     }
   }
   //</editor-fold>
@@ -193,7 +184,7 @@ class ZxingActivity : CommBindTitleActivity<ActivityZxingBinding>() {
   //<editor-fold defaultstate="collapsed" desc="生命周期">
   override fun onDestroy() {
     super.onDestroy()
-    mScanView?.onDestroy()
+    mScanView?.releaseCamera()
     mJob?.cancel()
   }
   //</editor-fold>
