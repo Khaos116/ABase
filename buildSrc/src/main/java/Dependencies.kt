@@ -206,8 +206,8 @@ object Deps {
   //@和#效果 https://github.com/sunhapper/SpEditTool
   const val spedit_tool = "com.github.sunhapper.SpEditTool:SpEditText:1.0.4"
 
-  //远距离识别二维码 https://github.com/devilsen/CZXing
-  const val czxing = "io.github.devilsen:czxing:1.2.0"
+  //识别二维码 https://github.com/jenly1314/ZXingLite
+  const val zxingLite = "com.github.jenly1314:zxing-lite:2.4.0"
 
   //多渠道读取 https://github.com/Meituan-Dianping/walle
   const val walle = "com.meituan.android.walle:library:1.1.7"
