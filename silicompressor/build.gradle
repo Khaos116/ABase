@@ -6,12 +6,12 @@ plugins {
 }
 
 android {
+  namespace 'com.iceteck.silicompressorr'//对应旧版本在Manifest顶部的包名
   compileSdkVersion Versions.sdkTarget
-  //buildFeatures编译问题 https://www.freesion.com/article/90591379803/ https://blog.csdn.net/choimroc/article/details/104756365
-  //com.android.tools.build:gradle:version < 4.1.2
-  //viewBinding { enabled = true }
-  //com.android.tools.build:gradle:version >=4.1.2
-  //buildFeatures { viewBinding = true }
+  buildFeatures {
+    viewBinding true
+    buildConfig true//高版本不在自动生成BuildConfig,需要生成则需要配置为true
+  }
   defaultConfig {
     minSdkVersion Versions.sdkMin
     targetSdkVersion Versions.sdkTarget
@@ -19,14 +19,26 @@ android {
     versionName "2.2.2"
   }
   buildTypes {
-    release {
+    debug {
       minifyEnabled false
-      proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+      proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+    }
+    release {
+      minifyEnabled true
+      proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
     }
   }
+
   lintOptions {
     abortOnError false
   }
+
+  compileOptions {
+    sourceCompatibility JavaVersion.VERSION_17
+    targetCompatibility JavaVersion.VERSION_17
+  }
+
+  kotlinOptions { jvmTarget = 17 }//部分DSL需要
 }
 
 dependencies {

@@ -1,91 +1,99 @@
 plugins {
-    id 'com.android.library'
-    id 'kotlin-android'
-    id 'kotlin-kapt'
-    //id 'kotlin-parcelize' //https://weilu.blog.csdn.net/article/details/109557820
+  id 'com.android.library'
+  id 'kotlin-android'
+  id 'kotlin-kapt'
+  //id 'kotlin-parcelize' //https://weilu.blog.csdn.net/article/details/109557820
 }
 
 android {
-    compileSdkVersion Versions.sdkTarget
-    //buildFeatures编译问题 https://www.freesion.com/article/90591379803/ https://blog.csdn.net/choimroc/article/details/104756365
-    //com.android.tools.build:gradle:version < 4.1.2
-    //viewBinding { enabled = true }
-    //com.android.tools.build:gradle:version >=4.1.2
-    buildFeatures { viewBinding true }
-    defaultConfig {
-        minSdkVersion Versions.sdkMin
-        targetSdkVersion Versions.sdkTarget
-        versionCode 1
-        versionName "1.0"
-        multiDexEnabled true
-        resConfigs "zh", "en" //保留中文和英文资源
-        ndk { abiFilters 'armeabi-v7a' } //, 'arm64-v8a'
-    }
+  namespace 'cc.ab.base'//对应旧版本在Manifest顶部的包名
+  compileSdkVersion Versions.sdkTarget
+  buildFeatures {
+    viewBinding true
+    buildConfig true//高版本不在自动生成BuildConfig,需要生成则需要配置为true
+  }
+  defaultConfig {
+    minSdkVersion Versions.sdkMin
+    targetSdkVersion Versions.sdkTarget
+    versionCode 1
+    versionName "1.0.0"
+    multiDexEnabled true
+    resConfigs "zh", "en" //保留中文和英文资源
+    //noinspection ChromeOsAbiSupport
+    ndk { abiFilters 'armeabi-v7a' } //, 'arm64-v8a'
+  }
 
-    //lambda表达式需要
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_11
-        targetCompatibility JavaVersion.VERSION_11
-    }
+  //lambda表达式需要
+  compileOptions {
+    sourceCompatibility JavaVersion.VERSION_17
+    targetCompatibility JavaVersion.VERSION_17
+  }
 
-    //部分DSL需要
-    kotlinOptions { jvmTarget = 11 }
+  kotlinOptions { jvmTarget = 17 }//部分DSL需要
 
-    buildTypes {
-        release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-        }
+  buildTypes {
+    debug {
+      buildConfigField "boolean", "buildTypeBoolean", "true"//设置数据到BuildConfig
+      buildConfigField "String", "buildTypeString", "\"debug\""//设置数据到BuildConfig
+      minifyEnabled false
+      proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
     }
+    release {
+      buildConfigField "boolean", "buildTypeBoolean", "false"//设置数据到BuildConfig
+      buildConfigField "String", "buildTypeString", "\"release\""//设置数据到BuildConfig
+      minifyEnabled true
+      proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+    }
+  }
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
-    debugImplementation Deps.uinspector
-    compileOnly(Deps.rxhttp)
-    api Deps.kotlin_stdlib
-    api Deps.timber
-    api Deps.android_startup
-    api Deps.appcompat
-    api Deps.material
-    api Deps.fragment
-    api Deps.core_ktx
-    api Deps.constraint
-    api Deps.viewmodel
-    api Deps.lifecycle
-    api Deps.utilcodex
-    api Deps.eventBus
-    api Deps.coroutine
-    api Deps.coroutine_android
-    api Deps.multitype
-    api Deps.immersionbar
-    api Deps.immersionbar_ktx
-    api Deps.autosize
-    api Deps.lottie
-    api Deps.agentweb
-    api Deps.swipe
-    api Deps.swipex
-    api Deps.smart_refresh
-    api Deps.smart_header
-    api Deps.smart_footer
-    api Deps.okhttp
-    api Deps.okhttp_log
-    api Deps.rxjava
-    api Deps.rxandroid
-    api Deps.gson
-    api Deps.mmkv
-    api Deps.pic_select
-    api Deps.pic_camerax
-    api Deps.pic_compress
-    api Deps.pic_ucrop
-    api Deps.coil
-    api Deps.coil_gif
-    api Deps.coil_svg
-    api Deps.coil_video_file
-    api Deps.xxpermissions
-    api Deps.rv_anim
-    api Deps.libphonenumber
-    api Deps.binding_ktx
-    api Deps.binding_base
-    api Deps.kotlin_reflect//解决Rxhttp升级到3.0.5引用Kotlin1.8.0导致的转化异常 java.lang.ClassCastException: kotlin.reflect.jvm.internal.KTypeImpl cannot be cast to kotlin.jvm.internal.TypeReference
+  implementation fileTree(dir: 'libs', include: ['*.jar'])
+  debugImplementation Deps.uinspector
+  compileOnly(Deps.rxhttp)
+  api Deps.kotlin_stdlib
+  api Deps.timber
+  api Deps.android_startup
+  api Deps.appcompat
+  api Deps.material
+  api Deps.fragment
+  api Deps.core_ktx
+  api Deps.constraint
+  api Deps.viewmodel
+  api Deps.lifecycle
+  api Deps.utilcodex
+  api Deps.eventBus
+  api Deps.coroutine
+  api Deps.coroutine_android
+  api Deps.multitype
+  api Deps.immersionbar
+  api Deps.immersionbar_ktx
+  api Deps.autosize
+  api Deps.lottie
+  api Deps.agentweb
+  api Deps.swipe
+  api Deps.swipex
+  api Deps.smart_refresh
+  api Deps.smart_header
+  api Deps.smart_footer
+  api Deps.okhttp
+  api Deps.okhttp_log
+  api Deps.rxjava
+  api Deps.rxandroid
+  api Deps.gson
+  api Deps.mmkv
+  api Deps.pic_select
+  api Deps.pic_camerax
+  api Deps.pic_compress
+  api Deps.pic_ucrop
+  api Deps.coil
+  api Deps.coil_gif
+  api Deps.coil_svg
+  api Deps.coil_video_file
+  api Deps.xxpermissions
+  api Deps.rv_anim
+  api Deps.libphonenumber
+  api Deps.binding_ktx
+  api Deps.binding_base
+  api Deps.kotlin_reflect//解决Rxhttp升级到3.0.5引用Kotlin1.8.0导致的转化异常 java.lang.ClassCastException: kotlin.reflect.jvm.internal.KTypeImpl cannot be cast to kotlin.jvm.internal.TypeReference
 }
