@@ -1,340 +1,339 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    package="cc.abase.demo">
-    <!--通知栏收起权限-->
-    <uses-permission android:name="android.permission.EXPAND_STATUS_BAR" />
-    <!--APP安装权限-->
-    <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
-    <!--★★★QUERY_ALL_PACKAGES权限如果上架谷歌商店需要给予说明★★★-->
-    <!-- Android 11 获取包名 需要 -->
-    <uses-permission
-        android:name="android.permission.QUERY_ALL_PACKAGES"
-        tools:ignore="QueryAllPackagesPermission" />
-    <!--前台服务-->
-    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
-    <!--bugly-->
-    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-    <!--★★★地理位置权限如果上架谷歌商店需要给予说明★★★-->
-    <!--地理位置权限-->
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
-    <!--震动-->
-    <uses-permission android:name="android.permission.VIBRATE" />
-    <uses-permission
-        android:name="android.permission.READ_LOGS"
-        tools:ignore="ProtectedPermissions" />
-    <!--suppress DeprecatedClassUsageInspection 指纹相关权限-->
-    <uses-permission android:name="android.permission.USE_FINGERPRINT" />
-    <uses-permission android:name="android.permission.USE_BIOMETRIC" />
+  xmlns:tools="http://schemas.android.com/tools">
+  <!--通知栏收起权限-->
+  <uses-permission android:name="android.permission.EXPAND_STATUS_BAR" />
+  <!--APP安装权限-->
+  <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
+  <!--★★★QUERY_ALL_PACKAGES权限如果上架谷歌商店需要给予说明★★★-->
+  <!-- Android 11 获取包名 需要 -->
+  <uses-permission
+    android:name="android.permission.QUERY_ALL_PACKAGES"
+    tools:ignore="QueryAllPackagesPermission" />
+  <!--前台服务-->
+  <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+  <!--bugly-->
+  <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+  <uses-permission android:name="android.permission.INTERNET" />
+  <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+  <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+  <!--★★★地理位置权限如果上架谷歌商店需要给予说明★★★-->
+  <!--地理位置权限-->
+  <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+  <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+  <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
+  <!--震动-->
+  <uses-permission android:name="android.permission.VIBRATE" />
+  <uses-permission
+    android:name="android.permission.READ_LOGS"
+    tools:ignore="ProtectedPermissions" />
+  <!--suppress DeprecatedClassUsageInspection 指纹相关权限-->
+  <uses-permission android:name="android.permission.USE_FINGERPRINT" />
+  <uses-permission android:name="android.permission.USE_BIOMETRIC" />
 
-    <application
-        android:name=".app.TestApplication"
-        android:allowBackup="true"
-        android:extractNativeLibs="true"
-        android:icon="@mipmap/ic_launcher"
-        android:label="@string/app_name"
-        android:requestLegacyExternalStorage="true"
-        android:supportsRtl="true"
-        android:theme="@style/AppTheme"
-        tools:ignore="AllowBackup,GoogleAppIndexingWarning,UnusedAttribute">
-        <!--启动页-->
-        <activity
-            android:name=".component.splash.SplashActivity"
-            android:configChanges="screenLayout|orientation"
-            android:exported="true"
-            android:launchMode="singleTop"
-            android:screenOrientation="portrait"
-            android:theme="@style/SplashTheme"
-            android:windowSoftInputMode="adjustPan|stateHidden"
-            tools:ignore="LockedOrientationActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+  <application
+    android:name=".app.TestApplication"
+    android:allowBackup="true"
+    android:extractNativeLibs="true"
+    android:icon="@mipmap/ic_launcher"
+    android:label="@string/app_name"
+    android:requestLegacyExternalStorage="true"
+    android:supportsRtl="true"
+    android:theme="@style/AppTheme"
+    tools:ignore="AllowBackup,GoogleAppIndexingWarning,UnusedAttribute">
+    <!--启动页-->
+    <activity
+      android:name=".component.splash.SplashActivity"
+      android:configChanges="screenLayout|orientation"
+      android:exported="true"
+      android:launchMode="singleTop"
+      android:screenOrientation="portrait"
+      android:theme="@style/SplashTheme"
+      android:windowSoftInputMode="adjustPan|stateHidden"
+      tools:ignore="LockedOrientationActivity">
+      <intent-filter>
+        <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-        <!--引导页-->
-        <activity
-            android:name=".component.splash.GuideActivity"
-            android:configChanges="screenLayout|orientation"
-            android:exported="true"
-            android:launchMode="singleTop"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan|stateHidden"
-            tools:ignore="LockedOrientationActivity" />
-        <!--登录页-->
-        <activity
-            android:name=".component.login.LoginActivity"
-            android:configChanges="screenLayout|orientation"
-            android:exported="true"
-            android:launchMode="singleTop"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan|stateHidden"
-            tools:ignore="LockedOrientationActivity" />
-        <!--注册页-->
-        <activity
-            android:name=".component.login.RegisterActivity"
-            android:configChanges="screenLayout|orientation"
-            android:exported="true"
-            android:launchMode="singleTop"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan|stateHidden"
-            tools:ignore="LockedOrientationActivity" />
-        <!--主页-->
-        <activity
-            android:name=".component.main.MainActivity"
-            android:configChanges="screenLayout|orientation"
-            android:exported="true"
-            android:launchMode="singleTask"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan|stateHidden"
-            tools:ignore="LockedOrientationActivity" />
-        <!--web-->
-        <activity
-            android:name=".component.web.WebActivity"
-            android:configChanges="screenLayout|orientation"
-            android:exported="true"
-            android:launchMode="singleTop"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan|stateHidden"
-            tools:ignore="LockedOrientationActivity" />
-        <!--聊天页面模拟-->
-        <activity
-            android:name=".component.chat.ChatActivity"
-            android:configChanges="screenLayout|orientation"
-            android:exported="true"
-            android:launchMode="singleTop"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan|stateHidden"
-            tools:ignore="LockedOrientationActivity" />
-        <!--视频封面获取和压缩-->
-        <activity
-            android:name=".component.video.VideoCompressActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize"
-            android:exported="true"
-            android:launchMode="singleTop"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan|stateHidden"
-            tools:ignore="LockedOrientationActivity" />
-        <!--视频详情页-->
-        <activity
-            android:name=".component.video.VideoDetailActivity"
-            android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|smallestScreenSize|uiMode"
-            android:exported="true"
-            android:launchMode="singleTop"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan|stateHidden"
-            tools:ignore="LockedOrientationActivity" />
-        <!--Sticky效果页面-->
-        <activity
-            android:name=".component.sticky.StickyActivity"
-            android:configChanges="screenLayout|orientation"
-            android:exported="true"
-            android:launchMode="singleTop"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan|stateHidden"
-            tools:ignore="LockedOrientationActivity" />
-        <!--学生成绩单效果-->
-        <activity
-            android:name=".component.sticky.StickyActivity2"
-            android:configChanges="screenLayout|orientation"
-            android:exported="true"
-            android:launchMode="singleTop"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan|stateHidden"
-            tools:ignore="LockedOrientationActivity" />
-        <!--item拖拽效果-->
-        <activity
-            android:name=".component.drag.DragActivity"
-            android:configChanges="screenLayout|orientation"
-            android:exported="true"
-            android:launchMode="singleTop"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan|stateHidden"
-            tools:ignore="LockedOrientationActivity" />
-        <!--@和#显示效果-->
-        <activity
-            android:name=".component.spedit.SpeditActivity"
-            android:configChanges="screenLayout|orientation"
-            android:exported="true"
-            android:launchMode="singleTop"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan|stateHidden"
-            tools:ignore="LockedOrientationActivity" />
-        <!--Coordinator嵌套刷新效果-->
-        <activity
-            android:name=".component.coordinator.CoordinatorActivity"
-            android:configChanges="screenLayout|orientation"
-            android:exported="true"
-            android:launchMode="singleTop"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan|stateHidden"
-            tools:ignore="LockedOrientationActivity" />
-        <!--MultiType展开和收缩效果-->
-        <activity
-            android:name=".component.expand.ExpandActivity"
-            android:configChanges="screenLayout|orientation"
-            android:exported="true"
-            android:launchMode="singleTop"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan|stateHidden"
-            tools:ignore="LockedOrientationActivity" />
-        <!--列表中播放-->
-        <activity
-            android:name=".component.playlist.PlayListActivity"
-            android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|smallestScreenSize|uiMode"
-            android:exported="true"
-            android:launchMode="singleTop"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan|stateHidden"
-            tools:ignore="LockedOrientationActivity" />
-        <!--分页播放-->
-        <activity
-            android:name=".component.playlist.VerticalPagerActivity"
-            android:configChanges="screenLayout|orientation"
-            android:exported="true"
-            android:launchMode="singleTop"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan|stateHidden"
-            tools:ignore="LockedOrientationActivity" />
-        <!--分割线-->
-        <activity
-            android:name=".component.decoration.DecorationActivity"
-            android:configChanges="screenLayout|orientation"
-            android:exported="true"
-            android:launchMode="singleTop"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan|stateHidden"
-            tools:ignore="LockedOrientationActivity" />
-        <!--设置页面-->
-        <activity
-            android:name=".component.set.SettingActivity"
-            android:configChanges="screenLayout|orientation"
-            android:exported="true"
-            android:launchMode="singleTop"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan|stateHidden"
-            tools:ignore="LockedOrientationActivity" />
-        <!--Flexbox-->
-        <activity
-            android:name=".component.flexbox.FlexboxActivity"
-            android:configChanges="screenLayout|orientation"
-            android:exported="true"
-            android:launchMode="singleTop"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan|stateHidden"
-            tools:ignore="LockedOrientationActivity" />
-        <!--跑马灯效果-->
-        <activity
-            android:name=".component.marquee.MarqueeActivity"
-            android:configChanges="screenLayout|orientation"
-            android:exported="true"
-            android:launchMode="singleTop"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan|stateHidden"
-            tools:ignore="LockedOrientationActivity" />
-        <!--竖向ViewPager-->
-        <activity
-            android:name=".component.recyclerpage.RecyclerPagerActivity"
-            android:configChanges="screenLayout|orientation"
-            android:exported="true"
-            android:launchMode="singleTop"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan|stateHidden"
-            tools:ignore="LockedOrientationActivity" />
-        <!--高斯模糊-->
-        <activity
-            android:name=".component.blur.BlurActivity"
-            android:configChanges="screenLayout|orientation"
-            android:exported="true"
-            android:launchMode="singleTop"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan|stateHidden"
-            tools:ignore="LockedOrientationActivity" />
-        <!--Zxing扫码-->
-        <activity
-            android:name=".component.zxing.ZxingActivity"
-            android:configChanges="screenLayout|orientation"
-            android:exported="true"
-            android:launchMode="singleTop"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan|stateHidden"
-            tools:ignore="LockedOrientationActivity" />
-        <!--手势解锁-->
-        <activity
-            android:name=".component.locker.PatternLockerActivity"
-            android:configChanges="screenLayout|orientation"
-            android:exported="true"
-            android:launchMode="singleTop"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan|stateHidden"
-            tools:ignore="LockedOrientationActivity" />
-        <!--统计相关-->
-        <activity
-            android:name=".component.count.CountActivity"
-            android:configChanges="screenLayout|orientation"
-            android:exported="true"
-            android:launchMode="singleTop"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan|stateHidden"
-            tools:ignore="LockedOrientationActivity" />
-        <!--BottomSheet-->
-        <activity
-            android:name=".component.bottomsheet.BottomSheetActivity"
-            android:configChanges="screenLayout|orientation"
-            android:exported="true"
-            android:launchMode="singleTop"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan|stateHidden"
-            tools:ignore="LockedOrientationActivity" />
-        <!--Fragment父控件-->
-        <activity
-            android:name=".component.comm.FragmentParentActivity"
-            android:configChanges="screenLayout|orientation"
-            android:exported="true"
-            android:launchMode="standard"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan|stateHidden"
-            tools:ignore="LockedOrientationActivity" />
-        <!--测试专用页面-->
-        <activity
-            android:name=".component.test.TestActivity"
-            android:configChanges="screenLayout|orientation"
-            android:exported="true"
-            android:launchMode="singleTop"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan|stateHidden"
-            tools:ignore="LockedOrientationActivity" />
-        <!-- APK更新 -->
-        <service
-            android:name=".component.update.CcUpdateService"
-            android:exported="false"
-            android:priority="1000" />
-        <!-- 点击通知栏的操作 -->
-        <receiver
-            android:name=".component.update.NotificationBroadcastReceiver"
-            android:exported="false" />
-        <!--https://github.com/idisfkj/android-startup/blob/master/README-ch.md-->
-        <provider
-            android:name="com.rousetime.android_startup.provider.StartupProvider"
-            android:authorities="${applicationId}.android_startup"
-            android:exported="false">
-            <meta-data
-                android:name="cc.abase.demo.startup.AppStartupConfig"
-                android:value="android.startup.provider.config" />
-            <meta-data
-                android:name="cc.abase.demo.startup.AppLastInit"
-                android:value="android.startup" />
-        </provider>
-        <!--设置统计的key-->
-        <meta-data
-            android:name="com.countSDK.APP_KEY"
-            android:value="abase5dd8e181bda2a33" />
-    </application>
+        <category android:name="android.intent.category.LAUNCHER" />
+      </intent-filter>
+    </activity>
+    <!--引导页-->
+    <activity
+      android:name=".component.splash.GuideActivity"
+      android:configChanges="screenLayout|orientation"
+      android:exported="true"
+      android:launchMode="singleTop"
+      android:screenOrientation="portrait"
+      android:windowSoftInputMode="adjustPan|stateHidden"
+      tools:ignore="LockedOrientationActivity" />
+    <!--登录页-->
+    <activity
+      android:name=".component.login.LoginActivity"
+      android:configChanges="screenLayout|orientation"
+      android:exported="true"
+      android:launchMode="singleTop"
+      android:screenOrientation="portrait"
+      android:windowSoftInputMode="adjustPan|stateHidden"
+      tools:ignore="LockedOrientationActivity" />
+    <!--注册页-->
+    <activity
+      android:name=".component.login.RegisterActivity"
+      android:configChanges="screenLayout|orientation"
+      android:exported="true"
+      android:launchMode="singleTop"
+      android:screenOrientation="portrait"
+      android:windowSoftInputMode="adjustPan|stateHidden"
+      tools:ignore="LockedOrientationActivity" />
+    <!--主页-->
+    <activity
+      android:name=".component.main.MainActivity"
+      android:configChanges="screenLayout|orientation"
+      android:exported="true"
+      android:launchMode="singleTask"
+      android:screenOrientation="portrait"
+      android:windowSoftInputMode="adjustPan|stateHidden"
+      tools:ignore="LockedOrientationActivity" />
+    <!--web-->
+    <activity
+      android:name=".component.web.WebActivity"
+      android:configChanges="screenLayout|orientation"
+      android:exported="true"
+      android:launchMode="singleTop"
+      android:screenOrientation="portrait"
+      android:windowSoftInputMode="adjustPan|stateHidden"
+      tools:ignore="LockedOrientationActivity" />
+    <!--聊天页面模拟-->
+    <activity
+      android:name=".component.chat.ChatActivity"
+      android:configChanges="screenLayout|orientation"
+      android:exported="true"
+      android:launchMode="singleTop"
+      android:screenOrientation="portrait"
+      android:windowSoftInputMode="adjustPan|stateHidden"
+      tools:ignore="LockedOrientationActivity" />
+    <!--视频封面获取和压缩-->
+    <activity
+      android:name=".component.video.VideoCompressActivity"
+      android:configChanges="orientation|keyboardHidden|screenSize"
+      android:exported="true"
+      android:launchMode="singleTop"
+      android:screenOrientation="portrait"
+      android:windowSoftInputMode="adjustPan|stateHidden"
+      tools:ignore="LockedOrientationActivity" />
+    <!--视频详情页-->
+    <activity
+      android:name=".component.video.VideoDetailActivity"
+      android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|smallestScreenSize|uiMode"
+      android:exported="true"
+      android:launchMode="singleTop"
+      android:screenOrientation="portrait"
+      android:windowSoftInputMode="adjustPan|stateHidden"
+      tools:ignore="LockedOrientationActivity" />
+    <!--Sticky效果页面-->
+    <activity
+      android:name=".component.sticky.StickyActivity"
+      android:configChanges="screenLayout|orientation"
+      android:exported="true"
+      android:launchMode="singleTop"
+      android:screenOrientation="portrait"
+      android:windowSoftInputMode="adjustPan|stateHidden"
+      tools:ignore="LockedOrientationActivity" />
+    <!--学生成绩单效果-->
+    <activity
+      android:name=".component.sticky.StickyActivity2"
+      android:configChanges="screenLayout|orientation"
+      android:exported="true"
+      android:launchMode="singleTop"
+      android:screenOrientation="portrait"
+      android:windowSoftInputMode="adjustPan|stateHidden"
+      tools:ignore="LockedOrientationActivity" />
+    <!--item拖拽效果-->
+    <activity
+      android:name=".component.drag.DragActivity"
+      android:configChanges="screenLayout|orientation"
+      android:exported="true"
+      android:launchMode="singleTop"
+      android:screenOrientation="portrait"
+      android:windowSoftInputMode="adjustPan|stateHidden"
+      tools:ignore="LockedOrientationActivity" />
+    <!--@和#显示效果-->
+    <activity
+      android:name=".component.spedit.SpeditActivity"
+      android:configChanges="screenLayout|orientation"
+      android:exported="true"
+      android:launchMode="singleTop"
+      android:screenOrientation="portrait"
+      android:windowSoftInputMode="adjustPan|stateHidden"
+      tools:ignore="LockedOrientationActivity" />
+    <!--Coordinator嵌套刷新效果-->
+    <activity
+      android:name=".component.coordinator.CoordinatorActivity"
+      android:configChanges="screenLayout|orientation"
+      android:exported="true"
+      android:launchMode="singleTop"
+      android:screenOrientation="portrait"
+      android:windowSoftInputMode="adjustPan|stateHidden"
+      tools:ignore="LockedOrientationActivity" />
+    <!--MultiType展开和收缩效果-->
+    <activity
+      android:name=".component.expand.ExpandActivity"
+      android:configChanges="screenLayout|orientation"
+      android:exported="true"
+      android:launchMode="singleTop"
+      android:screenOrientation="portrait"
+      android:windowSoftInputMode="adjustPan|stateHidden"
+      tools:ignore="LockedOrientationActivity" />
+    <!--列表中播放-->
+    <activity
+      android:name=".component.playlist.PlayListActivity"
+      android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|smallestScreenSize|uiMode"
+      android:exported="true"
+      android:launchMode="singleTop"
+      android:screenOrientation="portrait"
+      android:windowSoftInputMode="adjustPan|stateHidden"
+      tools:ignore="LockedOrientationActivity" />
+    <!--分页播放-->
+    <activity
+      android:name=".component.playlist.VerticalPagerActivity"
+      android:configChanges="screenLayout|orientation"
+      android:exported="true"
+      android:launchMode="singleTop"
+      android:screenOrientation="portrait"
+      android:windowSoftInputMode="adjustPan|stateHidden"
+      tools:ignore="LockedOrientationActivity" />
+    <!--分割线-->
+    <activity
+      android:name=".component.decoration.DecorationActivity"
+      android:configChanges="screenLayout|orientation"
+      android:exported="true"
+      android:launchMode="singleTop"
+      android:screenOrientation="portrait"
+      android:windowSoftInputMode="adjustPan|stateHidden"
+      tools:ignore="LockedOrientationActivity" />
+    <!--设置页面-->
+    <activity
+      android:name=".component.set.SettingActivity"
+      android:configChanges="screenLayout|orientation"
+      android:exported="true"
+      android:launchMode="singleTop"
+      android:screenOrientation="portrait"
+      android:windowSoftInputMode="adjustPan|stateHidden"
+      tools:ignore="LockedOrientationActivity" />
+    <!--Flexbox-->
+    <activity
+      android:name=".component.flexbox.FlexboxActivity"
+      android:configChanges="screenLayout|orientation"
+      android:exported="true"
+      android:launchMode="singleTop"
+      android:screenOrientation="portrait"
+      android:windowSoftInputMode="adjustPan|stateHidden"
+      tools:ignore="LockedOrientationActivity" />
+    <!--跑马灯效果-->
+    <activity
+      android:name=".component.marquee.MarqueeActivity"
+      android:configChanges="screenLayout|orientation"
+      android:exported="true"
+      android:launchMode="singleTop"
+      android:screenOrientation="portrait"
+      android:windowSoftInputMode="adjustPan|stateHidden"
+      tools:ignore="LockedOrientationActivity" />
+    <!--竖向ViewPager-->
+    <activity
+      android:name=".component.recyclerpage.RecyclerPagerActivity"
+      android:configChanges="screenLayout|orientation"
+      android:exported="true"
+      android:launchMode="singleTop"
+      android:screenOrientation="portrait"
+      android:windowSoftInputMode="adjustPan|stateHidden"
+      tools:ignore="LockedOrientationActivity" />
+    <!--高斯模糊-->
+    <activity
+      android:name=".component.blur.BlurActivity"
+      android:configChanges="screenLayout|orientation"
+      android:exported="true"
+      android:launchMode="singleTop"
+      android:screenOrientation="portrait"
+      android:windowSoftInputMode="adjustPan|stateHidden"
+      tools:ignore="LockedOrientationActivity" />
+    <!--Zxing扫码-->
+    <activity
+      android:name=".component.zxing.ZxingActivity"
+      android:configChanges="screenLayout|orientation"
+      android:exported="true"
+      android:launchMode="singleTop"
+      android:screenOrientation="portrait"
+      android:windowSoftInputMode="adjustPan|stateHidden"
+      tools:ignore="LockedOrientationActivity" />
+    <!--手势解锁-->
+    <activity
+      android:name=".component.locker.PatternLockerActivity"
+      android:configChanges="screenLayout|orientation"
+      android:exported="true"
+      android:launchMode="singleTop"
+      android:screenOrientation="portrait"
+      android:windowSoftInputMode="adjustPan|stateHidden"
+      tools:ignore="LockedOrientationActivity" />
+    <!--统计相关-->
+    <activity
+      android:name=".component.count.CountActivity"
+      android:configChanges="screenLayout|orientation"
+      android:exported="true"
+      android:launchMode="singleTop"
+      android:screenOrientation="portrait"
+      android:windowSoftInputMode="adjustPan|stateHidden"
+      tools:ignore="LockedOrientationActivity" />
+    <!--BottomSheet-->
+    <activity
+      android:name=".component.bottomsheet.BottomSheetActivity"
+      android:configChanges="screenLayout|orientation"
+      android:exported="true"
+      android:launchMode="singleTop"
+      android:screenOrientation="portrait"
+      android:windowSoftInputMode="adjustPan|stateHidden"
+      tools:ignore="LockedOrientationActivity" />
+    <!--Fragment父控件-->
+    <activity
+      android:name=".component.comm.FragmentParentActivity"
+      android:configChanges="screenLayout|orientation"
+      android:exported="true"
+      android:launchMode="standard"
+      android:screenOrientation="portrait"
+      android:windowSoftInputMode="adjustPan|stateHidden"
+      tools:ignore="LockedOrientationActivity" />
+    <!--测试专用页面-->
+    <activity
+      android:name=".component.test.TestActivity"
+      android:configChanges="screenLayout|orientation"
+      android:exported="true"
+      android:launchMode="singleTop"
+      android:screenOrientation="portrait"
+      android:windowSoftInputMode="adjustPan|stateHidden"
+      tools:ignore="LockedOrientationActivity" />
+    <!-- APK更新 -->
+    <service
+      android:name=".component.update.CcUpdateService"
+      android:exported="false"
+      android:priority="1000" />
+    <!-- 点击通知栏的操作 -->
+    <receiver
+      android:name=".component.update.NotificationBroadcastReceiver"
+      android:exported="false" />
+    <!--https://github.com/idisfkj/android-startup/blob/master/README-ch.md-->
+    <provider
+      android:name="com.rousetime.android_startup.provider.StartupProvider"
+      android:authorities="${applicationId}.android_startup"
+      android:exported="false">
+      <meta-data
+        android:name="cc.abase.demo.startup.AppStartupConfig"
+        android:value="android.startup.provider.config" />
+      <meta-data
+        android:name="cc.abase.demo.startup.AppLastInit"
+        android:value="android.startup" />
+    </provider>
+    <!--设置统计的key-->
+    <meta-data
+      android:name="com.countSDK.APP_KEY"
+      android:value="abase5dd8e181bda2a33" />
+  </application>
 
 </manifest>
