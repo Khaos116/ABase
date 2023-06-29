@@ -1,18 +1,16 @@
 buildscript {
   ext {
-    ext_kotlin = Versions.kotlin
-    ext_gradle = Versions.gradle
+    vGradle = Versions.gradle
+    vKotlin = Versions.kotlin
   }
 }
 
 plugins {
-  id 'com.android.application' version "$ext_gradle" apply false
-  id 'com.android.library' version "$ext_gradle" apply false
-  id 'org.jetbrains.kotlin.android' version "$ext_kotlin" apply false
+  id 'com.android.application' version "$vGradle" apply false
+  id 'com.android.library' version "$vGradle" apply false
+  id 'org.jetbrains.kotlin.android' version "$vKotlin" apply false
+  id 'org.jetbrains.kotlin.jvm' version "$vKotlin" apply false
 }
-
-//导入配置
-apply from: "config.gradle"
 
 task clean(type: Delete) {
   delete rootProject.buildDir
