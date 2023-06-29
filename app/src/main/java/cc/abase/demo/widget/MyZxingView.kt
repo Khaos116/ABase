@@ -102,7 +102,7 @@ class MyZxingView : ConstraintLayout, LifecycleObserver {
             if (mLastResult == result.text) return true
             mSoundPoolUtil?.play()
             mLastResult = result.text
-            mScanListener?.onScanResultCallback(result)
+            postDelayed({ mScanListener?.onScanResultCallback(result) }, 200)
             return true//返回true表示拦截，将不自动执行后续逻辑，为false表示不拦截，默认不拦截
           }
 
