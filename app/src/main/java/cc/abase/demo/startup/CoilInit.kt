@@ -9,11 +9,9 @@ import cc.abase.demo.rxhttp.interceptor.OfflineCacheInterceptor
 import coil.Coil
 import coil.ImageLoader
 import coil.decode.*
-import coil.fetch.VideoFrameFileFetcher
-import coil.fetch.VideoFrameUriFetcher
-import coil.util.CoilUtils
+import coil.disk.DiskCache
+import coil.memory.MemoryCache
 import com.rousetime.android_startup.AndroidStartup
-import com.rousetime.android_startup.Startup
 
 /**
  * Author:Khaos
@@ -33,24 +31,32 @@ class CoilInit : AndroidStartup<Int>() {
   override fun create(context: Context): Int {
     val imageLoader = ImageLoader.Builder(context)
       .crossfade(300)
-      .okHttpClient {
+      .okHttpClient {//https://coil-kt.github.io/coil/recipes/#using-a-custom-okhttpclient
         RxHttpConfig.getOkHttpClient()
           .addNetworkInterceptor(NetCacheInterceptor())
           .addInterceptor(OfflineCacheInterceptor())
-          .cache(CoilUtils.createDefaultCache(context))
           .build()
       }
-      .componentRegistry {
-        add(VideoFrameFileFetcher(context))
-        add(VideoFrameUriFetcher(context))
-        add(VideoFrameDecoder(context))
-        add(SvgDecoder(context))
+      .components {
+        add(VideoFrameDecoder.Factory())//https://coil-kt.github.io/coil/videos/
+        add(SvgDecoder.Factory())//https://coil-kt.github.io/coil/svgs/
         //animated WebP (Android 9.0+), animated HEIF (Android 11.0+)
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-          add(ImageDecoderDecoder(context))
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {//https://coil-kt.github.io/coil/gifs/
+          add(ImageDecoderDecoder.Factory())
         } else {
-          add(GifDecoder())
+          add(GifDecoder.Factory())
         }
+      }
+      .memoryCache {//https://coil-kt.github.io/coil/image_loaders/
+        MemoryCache.Builder(context)
+          .maxSizePercent(0.25)
+          .build()
+      }
+      .diskCache {//https://coil-kt.github.io/coil/image_loaders/
+        DiskCache.Builder()
+          .directory(context.cacheDir.resolve("image_cache"))
+          .maxSizePercent(0.1)
+          .build()
       }
       .build()
     Coil.setImageLoader(imageLoader)
