@@ -10,19 +10,16 @@ import cc.ab.base.R
 import cc.ab.base.config.PathConfig
 import cc.ab.base.utils.MediaMetadataRetrieverUtils
 import cc.ab.base.utils.PlaceHolderUtils
-import coil.*
+import coil.load
 import coil.request.ImageRequest
-import coil.transform.BlurTransformation
 import coil.transform.Transformation
 import coil.util.CoilUtils
 import com.blankj.utilcode.util.EncryptUtils
-import com.blankj.utilcode.util.Utils
-import okhttp3.Cache
-import okhttp3.HttpUrl.Companion.toHttpUrlOrNull
 import java.io.File
 
 /**
- * 如果需要对加载的图片进行截屏，可能需要设置非硬件加载：allowHardware(false)
+ * 预加载图片https://coil-kt.github.io/coil/getting_started/#preloading
+ * 如果需要对加载的图片进行截屏，可能需要设置非硬件加载：allowHardware(false) https://coil-kt.github.io/coil/recipes/
  * Author:Khaos
  * Date:2020/8/12
  * Time:18:28
@@ -31,7 +28,7 @@ private const val duration = 300
 
 //清除上次的加载状态，保证重新加载
 fun ImageView.clearLoad() {
-  this.clear()
+  CoilUtils.dispose(this)
   setTag(R.id.suc_img, null)
 }
 
@@ -52,7 +49,7 @@ fun ImageView.loadImgSquare(url: String?, hasHolder: Boolean = true) {
       } else {
         crossfade(false)
       }
-      listener(onError = { r, e -> "方形图片加载失败:${r.data},e=${e.message ?: "null"}".logE() }) { _, _ -> iv.setTag(R.id.suc_img, url) }
+      listener(onError = { r, e -> "方形图片加载失败:${r.data},e=${e.throwable.message ?: "null"}".logE() }) { _, _ -> iv.setTag(R.id.suc_img, url) }
     }
     val f = url.toFile()
     if (f != null) iv.load(f, builder = build) else iv.load(url, builder = build)
@@ -88,11 +85,11 @@ fun ImageView.loadImgHorizontalBlur(
       }
       if (blurRadius > 0) {//|| blackWhite) {
         val list = mutableListOf<Transformation>()
-        if (blurRadius > 0) list.add(BlurTransformation(context, blurRadius))
+        //if (blurRadius > 0) list.add(BlurTransformation(context, blurRadius))
         //if (blackWhite) list.add(GrayscaleTransformation())
         transformations(list)
       }
-      listener(onError = { r, e -> "横向图片加载失败:${r.data},e=${e.message ?: "null"}".logE() }) { _, _ -> iv.setTag(R.id.suc_img, url) }
+      listener(onError = { r, e -> "横向图片加载失败:${r.data},e=${e.throwable.message ?: "null"}".logE() }) { _, _ -> iv.setTag(R.id.suc_img, url) }
     }
     val f = url.toFile()
     if (f != null) iv.load(f, builder = build) else iv.load(url, builder = build)
@@ -116,7 +113,7 @@ fun ImageView.loadImgBlurRes(
     }
     if (blurRadius > 0) {// || blackWhite) {
       val list = mutableListOf<Transformation>()
-      if (blurRadius > 0) list.add(BlurTransformation(context, blurRadius))
+      //if (blurRadius > 0) list.add(BlurTransformation(context, blurRadius))
       //if (blackWhite) list.add(GrayscaleTransformation())
       transformations(list)
     }
@@ -153,60 +150,14 @@ fun ImageView.loadImgVerticalBlur(
       }
       if (blurRadius > 0) {//|| blackWhite) {
         val list = mutableListOf<Transformation>()
-        if (blurRadius > 0) list.add(BlurTransformation(context, blurRadius))
+        //if (blurRadius > 0) list.add(BlurTransformation(context, blurRadius))
         //if (blackWhite) list.add(GrayscaleTransformation())
         transformations(list)
       }
-      listener(onError = { r, e -> "竖向图片加载失败:${r.data},e=${e.message ?: "null"}".logE() }) { _, _ -> iv.setTag(R.id.suc_img, url) }
+      listener(onError = { r, e -> "竖向图片加载失败:${r.data},e=${e.throwable.message ?: "null"}".logE() }) { _, _ -> iv.setTag(R.id.suc_img, url) }
     }
     val f = url.toFile()
     if (f != null) iv.load(f, builder = build) else iv.load(url, builder = build)
-  }
-}
-
-//获取缓存文件
-fun ImageView.getCacheFile(url: String?): File? {
-  url?.let { u ->
-    var f = u.toFile()
-    if (f != null) {
-      return f
-    } else {
-      url.toHttpUrlOrNull()?.let { h ->
-        f = CoilUtils.createDefaultCache(Utils.getApp()).directory.listFiles()?.firstOrNull { v -> v.name.contains(Cache.key(h)) }
-        if (f?.exists() == true) {
-          return f
-        }
-      }
-    }
-  }
-  return null
-}
-
-//加载缓存文件
-fun ImageView.loadCacheFileFullScreen(url: String?, holderRatio: Float = 720f / 1280) {
-  if (url.isNullOrBlank()) {
-    this.load(PlaceHolderUtils.getErrorHolder(holderRatio))
-  } else {
-    url.toHttpUrlOrNull()?.let { u ->
-      val f = CoilUtils.createDefaultCache(Utils.getApp()).directory.listFiles()?.firstOrNull { f -> f.name.contains(Cache.key(u)) }
-      if (f?.exists() == true) { //文件存在直接加载
-        this.load(f, context.imageLoader)
-      } else { //文件不存在，进行下载
-        Utils.getApp().imageLoader.enqueue(
-          ImageRequest.Builder(Utils.getApp()).data(u).target(
-            onStart = {
-              "缓存图片开始下载".logE()
-            },
-            onSuccess = {
-              "缓存图片下载成功".logE()
-            },
-            onError = {
-              "缓存图片下载失败:${u}".logE()
-            }
-          ).build()
-        )
-      }
-    }
   }
 }
 
