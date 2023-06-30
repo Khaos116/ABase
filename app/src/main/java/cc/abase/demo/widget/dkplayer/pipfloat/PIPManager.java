@@ -5,9 +5,8 @@ import android.net.Uri;
 import android.text.TextUtils;
 import android.view.*;
 import android.widget.ImageView;
-import cc.ab.base.ext.ImageViewExt2Kt;
+import cc.ab.base.ext.ImageViewExtKt;
 import cc.ab.base.ext.ViewExtKt;
-import cc.abase.demo.R;
 import cc.abase.demo.constants.StringConstants;
 import cc.abase.demo.widget.dkplayer.MyVideoView;
 import com.blankj.utilcode.util.Utils;
@@ -81,24 +80,24 @@ public class PIPManager {
       coverIv.setClickable(true);//防止透过去点击
       if (coverPath.equals(mVideoView.getMUrlVideo())) { //封面为空拿播放地址去加载
         if (coverPath.startsWith("http")) {
-          ImageViewExt2Kt.loadNetVideoCover(coverIv, coverPath, ratio, needHolder); //加载网络封面
+          ImageViewExtKt.loadNetVideoCover(coverIv, coverPath, ratio, needHolder); //加载网络封面
         } else {
           File videoFile = new File(coverPath);
           if (videoFile.exists()) {
-            ImageViewExt2Kt.loadImgHorizontal(coverIv, Uri.fromFile(videoFile).toString(), ratio, needHolder); //加载封面
+            ImageViewExtKt.loadImgHorizontal(coverIv, Uri.fromFile(videoFile).toString(), ratio, needHolder); //加载封面
           } else {
-            ImageViewExt2Kt.loadImgHorizontal(coverIv, coverPath, ratio, needHolder); //加载封面
+            ImageViewExtKt.loadImgHorizontal(coverIv, coverPath, ratio, needHolder); //加载封面
           }
         }
       } else { //封面防止可能是视频地址
         if (coverPath.startsWith("http")) {
-          ImageViewExt2Kt.loadImgHorizontal(coverIv, coverPath, ratio, needHolder);
+          ImageViewExtKt.loadImgHorizontal(coverIv, coverPath, ratio, needHolder);
         } else {
           File videoFile = new File(coverPath);
           if (videoFile.exists()) {
-            ImageViewExt2Kt.loadImgHorizontal(coverIv, Uri.fromFile(videoFile).toString(), ratio, needHolder); //加载封面
+            ImageViewExtKt.loadImgHorizontal(coverIv, Uri.fromFile(videoFile).toString(), ratio, needHolder); //加载封面
           } else {
-            ImageViewExt2Kt.loadImgHorizontal(coverIv, coverPath, ratio, needHolder); //加载封面
+            ImageViewExtKt.loadImgHorizontal(coverIv, coverPath, ratio, needHolder); //加载封面
           }
         }
       }
