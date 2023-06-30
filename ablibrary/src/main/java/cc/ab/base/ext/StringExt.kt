@@ -2,7 +2,7 @@ package cc.ab.base.ext
 
 import android.content.Intent
 import android.net.Uri
-import coil.util.CoilUtils
+import cc.ab.base.config.PathConfig
 import com.blankj.utilcode.util.*
 import okhttp3.Cache
 import okhttp3.HttpUrl.Companion.toHttpUrlOrNull
@@ -99,7 +99,7 @@ fun String?.toFile(): File? {
 //Coil获取缓存图片文件
 fun String?.getCoilCacheFile(): File? {
   return this?.toFile() ?: this?.toHttpUrlOrNull()?.let { u ->
-    CoilUtils.createDefaultCache(Utils.getApp()).directory.listFiles()?.lastOrNull { it.name.endsWith(".1") && it.name.contains(Cache.key(u)) }
+    (File(PathConfig.IMG_CACHE_DIR)).listFiles()?.lastOrNull { it.name.endsWith(".1") && it.name.contains(Cache.key(u)) }
   }
 }
 

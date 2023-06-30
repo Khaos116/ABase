@@ -146,7 +146,7 @@ object CoilDownImgUtils {
                 if (url.startsWith("http")) { //是http开头
                     Utils.getApp().imageLoader.enqueue(ImageRequest.Builder(Utils.getApp()).data(url).listener( //下载监听
                         onCancel = { call.invoke(false, true, "", R.string.取消下载.xmlToString()) },
-                        onError = { _, e -> call.invoke(false, true, "", e.message ?: R.string.下载出错请重试.xmlToString()) },
+                        onError = { _, e -> call.invoke(false, true, "", e.throwable.message ?: R.string.下载出错请重试.xmlToString()) },
                         onSuccess = { _, _ ->
                             val cacheFile = url.getCoilCacheFile()
                             if (cacheFile?.exists() == true) {
