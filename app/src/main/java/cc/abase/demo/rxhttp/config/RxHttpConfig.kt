@@ -63,7 +63,9 @@ object RxHttpConfig {
       }
     //反射修改内部gson
     try {
-      val gsonField: Field = GsonUtil::class.java.getDeclaredField("gson")
+      val gsonHolderClass = Class.forName("rxhttp.wrapper.utils.GsonUtil\$GsonHolder")//新版本反射
+      val gsonField = gsonHolderClass.getDeclaredField("gson")
+      //val gsonField: Field = rxhttp.wrapper.utils.GsonUtil::class.java.getDeclaredField("gson")//旧版本反射
       gsonField.isAccessible = true
       gsonField.set(null, MyGsonUtil.buildGson())
       "GsonUtil的gson替换成功".logE()
