@@ -1,7 +1,7 @@
 package cc.ab.base.config
 
-import coil.util.CoilUtils
-import com.blankj.utilcode.util.*
+import com.blankj.utilcode.util.FileUtils
+import com.blankj.utilcode.util.PathUtils
 import java.io.File
 
 /**
@@ -17,7 +17,7 @@ object PathConfig {
   val VIDEO_CACHE_DIR: String = PathUtils.getExternalAppMoviesPath() + File.separator + "VideoExo"
 
   //图片缓存地址
-  val IMG_CACHE_DIR = CoilUtils.createDefaultCache(Utils.getApp()).directory
+  val IMG_CACHE_DIR = PathUtils.getExternalAppCachePath() + File.separator + "CoilImgCache"
 
   //接口数据缓存地址
   val API_CACHE_DIR = PathUtils.getExternalAppFilesPath() + File.separator + "RxHttpCache"

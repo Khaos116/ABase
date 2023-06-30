@@ -2,6 +2,7 @@ package cc.abase.demo.startup
 
 import android.content.Context
 import android.os.Build
+import cc.ab.base.config.PathConfig
 import cc.ab.base.ext.logI
 import cc.abase.demo.rxhttp.config.RxHttpConfig
 import cc.abase.demo.rxhttp.interceptor.NetCacheInterceptor
@@ -11,7 +12,9 @@ import coil.ImageLoader
 import coil.decode.*
 import coil.disk.DiskCache
 import coil.memory.MemoryCache
+import com.blankj.utilcode.util.FileUtils
 import com.rousetime.android_startup.AndroidStartup
+import java.io.File
 
 /**
  * Author:Khaos
@@ -53,8 +56,10 @@ class CoilInit : AndroidStartup<Int>() {
           .build()
       }
       .diskCache {//https://coil-kt.github.io/coil/image_loaders/
+        val cacheFile = File(PathConfig.IMG_CACHE_DIR)
+        FileUtils.createOrExistsDir(cacheFile.path)
         DiskCache.Builder()
-          .directory(context.cacheDir.resolve("image_cache"))
+          .directory(cacheFile)
           .maxSizePercent(0.1)
           .build()
       }
