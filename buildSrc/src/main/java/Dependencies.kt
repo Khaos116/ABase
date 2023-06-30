@@ -4,7 +4,7 @@ object Versions {
   const val kotlin = "1.8.21"
   const val okHttp = "4.11.0"
   const val rxHttp = "3.0.6"
-  const val coil = "1.4.0"
+  const val coil = "2.4.0"
   const val picSel = "3.11.1"
   const val gradle = "8.0.2"
   //Gradle版本对照 https://developer.android.google.cn/studio/releases/gradle-plugin?hl=zh-cn#groovy
@@ -108,9 +108,10 @@ object Deps {
 
   //图片加载 https://github.com/coil-kt/coil
   const val coil = "io.coil-kt:coil:${Versions.coil}"
+  const val coil_base = "io.coil-kt:coil-base:${Versions.coil}"
   const val coil_gif = "io.coil-kt:coil-gif:${Versions.coil}"
   const val coil_svg = "io.coil-kt:coil-svg:${Versions.coil}"
-  const val coil_video_file = "io.coil-kt:coil-video:${Versions.coil}"
+  const val coil_video = "io.coil-kt:coil-video:${Versions.coil}"
 
   //多类型适配器 https://github.com/drakeet/MultiType
   const val multitype = "com.drakeet.multitype:multitype:4.3.0"

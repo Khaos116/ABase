@@ -87,9 +87,10 @@ dependencies {
   api Deps.pic_compress
   api Deps.pic_ucrop
   api Deps.coil
+  api Deps.coil_base
   api Deps.coil_gif
   api Deps.coil_svg
-  api Deps.coil_video_file
+  api Deps.coil_video
   api Deps.xxpermissions
   api Deps.rv_anim
   api Deps.libphonenumber
