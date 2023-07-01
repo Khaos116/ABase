@@ -1,7 +1,7 @@
 package cc.abase.demo.item
 
 import android.view.Gravity
-import cc.ab.base.ext.loadImgHorizontal
+import cc.ab.base.ext.loadCoilImg
 import cc.ab.base.ui.item.BaseBindItemView
 import cc.ab.base.ui.item.BaseViewHolder
 import cc.ab.base.widget.discretescrollview.DSVOrientation
@@ -41,7 +41,7 @@ class BannerItem(
         }
         .setPages(object : DiscretePageAdapter<BannerBean, ItemBannerImgBinding>(item) {
           override fun fillData(data: BannerBean, binding: ItemBannerImgBinding, position: Int, count: Int) {
-            binding.itemBannerImg.loadImgHorizontal(data.imagePath, 900f / 500)
+            binding.itemBannerImg.loadCoilImg(url = data.imagePath, holderRatio = 900f / 500)
           }
         }, item) //BannerBean的数据列表MutableList<BannerBean>
     }

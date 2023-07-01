@@ -45,9 +45,9 @@ class RecyclerPagerActivity : CommBindTitleActivity<ActivtyVerticalpageBinding>(
       val height = h - BarUtils.getStatusBarHeight() - 49.dp2px()
       data.cover?.let {
         if (it.isVideoUrl()) {
-          binding.itemRecyclePagerCover.loadNetVideoCover(it, ScreenUtils.getScreenWidth() * 1f / height, hasHolder = false)
+          binding.itemRecyclePagerCover.loadNetVideoCover(url = it, holderRatio = ScreenUtils.getScreenWidth() * 1f / height, hasHolder = false)
         } else {
-          binding.itemRecyclePagerCover.loadImgVertical(it, ScreenUtils.getScreenWidth() * 1f / height, hasHolder = false)
+          binding.itemRecyclePagerCover.loadCoilImg(url = it, holderRatio = ScreenUtils.getScreenWidth() * 1f / height, hasHolder = false)
         }
       }
     }

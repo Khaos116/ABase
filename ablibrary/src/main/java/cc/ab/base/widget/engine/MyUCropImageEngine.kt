@@ -7,10 +7,10 @@ import android.media.MediaMetadataRetriever
 import android.net.Uri
 import android.widget.ImageView
 import androidx.core.graphics.drawable.toBitmap
-import cc.ab.base.utils.PlaceHolderUtils
-import cc.ab.base.ext.loadImgVertical
+import cc.ab.base.ext.loadCoilImg
 import cc.ab.base.ext.toFile
 import cc.ab.base.utils.MediaUtils
+import cc.ab.base.utils.PlaceHolderUtils
 import coil.imageLoader
 import coil.request.ImageRequest
 import com.luck.picture.lib.photoview.PhotoView
@@ -81,7 +81,7 @@ class MyUCropImageEngine : UCropImageEngine {
         }
       }
     }
-    imageView.loadImgVertical(url, 720f / 1280)
+    imageView.loadCoilImg(url = url, holderRatio = 720f / 1280)
   }
 
   override fun loadImage(context: Context, url: Uri, maxWidth: Int, maxHeight: Int, call: UCropImageEngine.OnCallbackListener<Bitmap>?) {

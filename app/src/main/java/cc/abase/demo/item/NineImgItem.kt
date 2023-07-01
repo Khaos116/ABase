@@ -14,8 +14,8 @@ import cc.abase.demo.databinding.ItemNineImgBinding
  * Time:15:44
  */
 class NineImgItem(
-    private val onDelClick: ((item: String, position: Int, iv: ImageView) -> Unit)? = null,
-    private val onItemChildClick: ((item: String, position: Int, iv: ImageView) -> Unit)? = null,
+  private val onDelClick: ((item: String, position: Int, iv: ImageView) -> Unit)? = null,
+  private val onItemChildClick: ((item: String, position: Int, iv: ImageView) -> Unit)? = null,
 ) : BaseBindItemView<String, ItemNineImgBinding>() {
   //<editor-fold defaultstate="collapsed" desc="数据填充">
   override fun fillData(holder: BaseViewHolder<ItemNineImgBinding>, item: String) {
@@ -28,7 +28,7 @@ class NineImgItem(
       viewBinding.itemNineImgIv.visible()
       viewBinding.itemNineImgAdd.gone()
       viewBinding.itemNineImgDel.visibleGone(onDelClick != null)
-      viewBinding.itemNineImgIv.loadImgSquare(item)
+      viewBinding.itemNineImgIv.loadCoilImg(url = item, holderRatio = 1f)
     }
     if (onDelClick != null) {
       viewBinding.itemNineImgDel.pressEffectAlpha(0.9f)

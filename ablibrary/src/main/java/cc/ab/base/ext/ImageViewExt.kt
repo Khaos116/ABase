@@ -10,9 +10,9 @@ import cc.ab.base.R
 import cc.ab.base.config.PathConfig
 import cc.ab.base.utils.MediaMetadataRetrieverUtils
 import cc.ab.base.utils.PlaceHolderUtils
+import coil.imageLoader
 import coil.load
 import coil.request.ImageRequest
-import coil.transform.Transformation
 import coil.util.CoilUtils
 import com.blankj.utilcode.util.EncryptUtils
 import java.io.File
@@ -20,6 +20,9 @@ import java.io.File
 /**
  * 预加载图片https://coil-kt.github.io/coil/getting_started/#preloading
  * 如果需要对加载的图片进行截屏，可能需要设置非硬件加载：allowHardware(false) https://coil-kt.github.io/coil/recipes/
+ * diskCachePolicy(CachePolicy.DISABLED)
+ * memoryCachePolicy(CachePolicy.DISABLED)
+ * networkCachePolicy(CachePolicy.DISABLED)
  * Author:Khaos
  * Date:2020/8/12
  * Time:18:28
@@ -32,133 +35,68 @@ fun ImageView.clearLoad() {
   setTag(R.id.suc_img, null)
 }
 
-//正方形图片加载
-fun ImageView.loadImgSquare(url: String?, hasHolder: Boolean = true) {
-  this.scaleType = ImageView.ScaleType.CENTER_CROP
+//加载网络图片或者URI图片
+fun ImageView.loadCoilImg(
+  url: String?,
+  holderRatio: Float = 1f,
+  hasHolder: Boolean = true,
+  @FloatRange(from = 0.0, to = 25.0) blurRadius: Float = 0f,
+  blackWhite: Boolean = false,
+  @FloatRange(from = 0.0) corner: Float = 0f
+) {
+  this.blackWhiteMode(false)
   if (url.isNullOrBlank()) {
     this.clearLoad()
-    if (hasHolder) this.load(PlaceHolderUtils.getErrorHolder())
+    if (hasHolder) this.load(PlaceHolderUtils.getErrorHolder(holderRatio, corner = corner))
   } else {
     if (getTag(R.id.suc_img) == url) return
-    val iv = this
-    val build = fun ImageRequest.Builder.() {
-      if (hasHolder) {
-        crossfade(duration)
-        placeholder(PlaceHolderUtils.getLoadingHolder())
-        error(PlaceHolderUtils.getErrorHolder())
-      } else {
-        crossfade(false)
-      }
-      listener(onError = { r, e -> "方形图片加载失败:${r.data},e=${e.throwable.message ?: "null"}".logE() }) { _, _ -> iv.setTag(R.id.suc_img, url) }
-    }
-    val f = url.toFile()
-    if (f != null) iv.load(f, builder = build) else iv.load(url, builder = build)
-  }
-}
-
-//横向图片加载
-fun ImageView.loadImgHorizontal(url: String?, holderRatio: Float = 720f / 400, hasHolder: Boolean = true) {
-  this.loadImgHorizontalBlur(url, holderRatio, hasHolder)
-}
-
-//横向高斯模糊+黑白图片加载
-fun ImageView.loadImgHorizontalBlur(
-  url: String?, holderRatio: Float = 720f / 400, hasHolder: Boolean = true,
-  @FloatRange(from = 0.0, to = 25.0) blurRadius: Float = 0f, blackWhite: Boolean = false
-) {
-  if (url.isNullOrBlank()) {
     this.clearLoad()
-    if (hasHolder) this.load(PlaceHolderUtils.getErrorHolder(holderRatio))
-  } else {
-    if (getTag(R.id.suc_img) == url) {
-      return
-    }
     val iv = this
-    iv.blackWhiteMode(blackWhite)//由于GrayscaleTransformation会导致加载后图片无法填充满整个ImageView，所以采用ColorMatrix实现黑白效果
-    val build = fun ImageRequest.Builder.() {
-      if (hasHolder) {
-        crossfade(duration)
-        placeholder(PlaceHolderUtils.getLoadingHolder(holderRatio))
-        error(PlaceHolderUtils.getErrorHolder(holderRatio))
-      } else {
-        crossfade(false)
-      }
-      if (blurRadius > 0) {//|| blackWhite) {
-        val list = mutableListOf<Transformation>()
-        //if (blurRadius > 0) list.add(BlurTransformation(context, blurRadius))
-        //if (blackWhite) list.add(GrayscaleTransformation())
-        transformations(list)
-      }
-      listener(onError = { r, e -> "横向图片加载失败:${r.data},e=${e.throwable.message ?: "null"}".logE() }) { _, _ -> iv.setTag(R.id.suc_img, url) }
-    }
     val f = url.toFile()
-    if (f != null) iv.load(f, builder = build) else iv.load(url, builder = build)
-  }
-}
-
-//加载高斯模糊资源
-fun ImageView.loadImgBlurRes(
-  @DrawableRes resId: Int, holderRatio: Float = 720f / 400, hasHolder: Boolean = true,
-  @FloatRange(from = 0.0, to = 25.0) blurRadius: Float = 0f, blackWhite: Boolean = false
-) {
-  val iv = this
-  iv.blackWhiteMode(blackWhite)//由于GrayscaleTransformation会导致加载后图片无法填充满整个ImageView，所以采用ColorMatrix实现黑白效果
-  val build = fun ImageRequest.Builder.() {
-    if (hasHolder) {
-      crossfade(duration)
-      placeholder(PlaceHolderUtils.getLoadingHolder(holderRatio))
-      error(PlaceHolderUtils.getErrorHolder(holderRatio))
+    if (f != null) {
+      iv.load(f)
     } else {
-      crossfade(false)
-    }
-    if (blurRadius > 0) {// || blackWhite) {
-      val list = mutableListOf<Transformation>()
-      //if (blurRadius > 0) list.add(BlurTransformation(context, blurRadius))
-      //if (blackWhite) list.add(GrayscaleTransformation())
-      transformations(list)
+      val request = ImageRequest.Builder(context)
+        .data(url)
+        .crossfade(if (hasHolder) 0 else duration)
+        .target(
+          onStart = { if (hasHolder) this.load(PlaceHolderUtils.getLoadingHolder(holderRatio, corner = corner)) },
+          onError = { if (hasHolder) this.load(PlaceHolderUtils.getErrorHolder(holderRatio, corner = corner)) },
+          onSuccess = { result ->
+            this.blackWhiteMode(blackWhite)
+            this.load(result)
+            iv.setTag(R.id.suc_img, url)
+          },
+        )
+        .build()
+      context.applicationContext.imageLoader.enqueue(request)
     }
   }
-  this.load(resId, builder = build)
 }
 
-//竖向图片加载
-fun ImageView.loadImgVertical(url: String?, holderRatio: Float = 720f / 1280, hasHolder: Boolean = true) {
-  this.loadImgVerticalBlur(url, holderRatio, hasHolder)
-}
-
-//竖向高斯模糊+黑白图片加载
-fun ImageView.loadImgVerticalBlur(
-  url: String?, holderRatio: Float = 720f / 1280, hasHolder: Boolean = true,
-  @FloatRange(from = 0.0, to = 25.0) blurRadius: Float = 0f, blackWhite: Boolean = false
+//加载图片资源
+fun ImageView.loadCoilImgRes(
+  @DrawableRes resId: Int,
+  holderRatio: Float = 1f,
+  hasHolder: Boolean = true,
+  @FloatRange(from = 0.0, to = 25.0) blurRadius: Float = 0f,
+  blackWhite: Boolean = false,
+  @FloatRange(from = 0.0) corner: Float = 0f
 ) {
-  if (url.isNullOrBlank()) {
-    this.clearLoad()
-    if (hasHolder) this.load(PlaceHolderUtils.getErrorHolder(holderRatio))
-  } else {
-    if (getTag(R.id.suc_img) == url) {
-      return
-    }
-    val iv = this
-    iv.blackWhiteMode(blackWhite)//由于GrayscaleTransformation会导致加载后图片无法填充满整个ImageView，所以采用ColorMatrix实现黑白效果
-    val build = fun ImageRequest.Builder.() {
-      if (hasHolder) {
-        crossfade(duration)
-        placeholder(PlaceHolderUtils.getLoadingHolder(holderRatio))
-        error(PlaceHolderUtils.getErrorHolder(holderRatio))
-      } else {
-        crossfade(false)
-      }
-      if (blurRadius > 0) {//|| blackWhite) {
-        val list = mutableListOf<Transformation>()
-        //if (blurRadius > 0) list.add(BlurTransformation(context, blurRadius))
-        //if (blackWhite) list.add(GrayscaleTransformation())
-        transformations(list)
-      }
-      listener(onError = { r, e -> "竖向图片加载失败:${r.data},e=${e.throwable.message ?: "null"}".logE() }) { _, _ -> iv.setTag(R.id.suc_img, url) }
-    }
-    val f = url.toFile()
-    if (f != null) iv.load(f, builder = build) else iv.load(url, builder = build)
-  }
+  this.clearLoad()
+  this.blackWhiteMode(false)
+  val request = ImageRequest.Builder(context)
+    .data(resId)
+    .target(
+      onStart = { if (hasHolder) this.load(PlaceHolderUtils.getLoadingHolder(holderRatio, corner = corner)) },
+      onError = { if (hasHolder) this.load(PlaceHolderUtils.getErrorHolder(holderRatio, corner = corner)) },
+      onSuccess = { result ->
+        this.blackWhiteMode(blackWhite)
+        this.load(result)
+      },
+    )
+    .build()
+  context.applicationContext.imageLoader.enqueue(request)
 }
 
 //加载视频网络封面

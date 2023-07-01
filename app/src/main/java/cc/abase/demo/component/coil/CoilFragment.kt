@@ -36,7 +36,7 @@ class CoilFragment : CommBindFragment<FragmentCoilBinding>() {
     urls.forEach { str ->
       val vb = LayoutCoilImgBinding.inflate(layoutInflater)
       vb.tv.text = str
-      vb.iv.loadImgHorizontal(str, ration)
+      vb.iv.loadCoilImg(url = str, holderRatio = ration)
       viewBinding.llContent.addView(vb.root)
     }
   }

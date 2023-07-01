@@ -5,12 +5,15 @@ import android.net.Uri;
 import android.text.TextUtils;
 import android.view.*;
 import android.widget.ImageView;
+
+import com.blankj.utilcode.util.Utils;
+
+import java.io.File;
+
 import cc.ab.base.ext.ImageViewExtKt;
 import cc.ab.base.ext.ViewExtKt;
 import cc.abase.demo.constants.StringConstants;
 import cc.abase.demo.widget.dkplayer.MyVideoView;
-import com.blankj.utilcode.util.Utils;
-import java.io.File;
 import xyz.doikki.videoplayer.player.VideoViewManager;
 
 /**
@@ -84,20 +87,20 @@ public class PIPManager {
         } else {
           File videoFile = new File(coverPath);
           if (videoFile.exists()) {
-            ImageViewExtKt.loadImgHorizontal(coverIv, Uri.fromFile(videoFile).toString(), ratio, needHolder); //加载封面
+            ImageViewExtKt.loadCoilImg(coverIv, Uri.fromFile(videoFile).toString(), ratio, needHolder, 0f, false, 0f); //加载封面
           } else {
-            ImageViewExtKt.loadImgHorizontal(coverIv, coverPath, ratio, needHolder); //加载封面
+            ImageViewExtKt.loadCoilImg(coverIv, coverPath, ratio, needHolder, 0f, false, 0f); //加载封面
           }
         }
       } else { //封面防止可能是视频地址
         if (coverPath.startsWith("http")) {
-          ImageViewExtKt.loadImgHorizontal(coverIv, coverPath, ratio, needHolder);
+          ImageViewExtKt.loadCoilImg(coverIv, coverPath, ratio, needHolder, 0f, false, 0f);
         } else {
           File videoFile = new File(coverPath);
           if (videoFile.exists()) {
-            ImageViewExtKt.loadImgHorizontal(coverIv, Uri.fromFile(videoFile).toString(), ratio, needHolder); //加载封面
+            ImageViewExtKt.loadCoilImg(coverIv, Uri.fromFile(videoFile).toString(), ratio, needHolder, 0f, false, 0f); //加载封面
           } else {
-            ImageViewExtKt.loadImgHorizontal(coverIv, coverPath, ratio, needHolder); //加载封面
+            ImageViewExtKt.loadCoilImg(coverIv, coverPath, ratio, needHolder, 0f, false, 0f); //加载封面
           }
         }
       }

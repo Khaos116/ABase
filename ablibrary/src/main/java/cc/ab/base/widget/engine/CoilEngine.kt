@@ -1,20 +1,13 @@
 package cc.ab.base.widget.engine
 
 import android.content.Context
-import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.media.MediaMetadataRetriever
 import android.widget.ImageView
-import androidx.core.graphics.drawable.toBitmap
-import cc.ab.base.utils.PlaceHolderUtils
-import cc.ab.base.ext.loadImgSquare
-import cc.ab.base.ext.loadImgVertical
+import cc.ab.base.ext.loadCoilImg
 import cc.ab.base.ext.toFile
 import cc.ab.base.utils.MediaUtils
-import coil.imageLoader
-import coil.request.ImageRequest
 import com.luck.picture.lib.engine.ImageEngine
-import com.luck.picture.lib.interfaces.OnCallbackListener
 import com.luck.picture.lib.photoview.PhotoView
 import java.lang.ref.WeakReference
 
@@ -83,7 +76,7 @@ class CoilEngine : ImageEngine {
         }
       }
     }
-    imageView.loadImgVertical(url, 720f / 1280)
+    imageView.loadCoilImg(url = url, holderRatio = 720f / 1280)
   }
 
   override fun loadImage(context: Context?, imageView: ImageView?, url: String?, maxWidth: Int, maxHeight: Int) {
@@ -118,12 +111,12 @@ class CoilEngine : ImageEngine {
 
   override fun loadAlbumCover(context: Context, url: String, imageView: ImageView) {
     imageView.scaleType = ImageView.ScaleType.CENTER_CROP
-    imageView.loadImgSquare(url)
+    imageView.loadCoilImg(url = url, holderRatio = 1f)
   }
 
   override fun loadGridImage(context: Context, url: String, imageView: ImageView) {
     imageView.scaleType = ImageView.ScaleType.CENTER_CROP
-    imageView.loadImgSquare(url)
+    imageView.loadCoilImg(url = url, holderRatio = 1f)
   }
 
 
