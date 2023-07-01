@@ -26,7 +26,8 @@
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
       android:hint="@string/请输入用户名"
-      android:inputType="textPersonName|textEmailAddress"
+      android:imeOptions="flagForceAscii"
+      android:inputType="text"
       android:maxLines="1" />
   </com.google.android.material.textfield.TextInputLayout>
 
