@@ -2,10 +2,11 @@ package cc.ab.base.ext
 
 import android.content.Intent
 import android.net.Uri
-import cc.ab.base.config.PathConfig
+import coil.annotation.ExperimentalCoilApi
+import coil.imageLoader
+import coil.request.CachePolicy
+import coil.request.ImageRequest
 import com.blankj.utilcode.util.*
-import okhttp3.Cache
-import okhttp3.HttpUrl.Companion.toHttpUrlOrNull
 import timber.log.Timber
 import java.io.File
 import java.math.BigDecimal
@@ -96,11 +97,19 @@ fun String?.toFile(): File? {
   return null
 }
 
-//Coil获取缓存图片文件
+//Coil获取缓存图片文件 directory是实验方法，可能会在后续版本中移除
+@ExperimentalCoilApi
 fun String?.getCoilCacheFile(): File? {
-  return this?.toFile() ?: this?.toHttpUrlOrNull()?.let { u ->
-    (File(PathConfig.IMG_CACHE_DIR)).listFiles()?.lastOrNull { it.name.endsWith(".1") && it.name.contains(Cache.key(u)) }
+  if (this.isNullOrBlank()) return null
+  val request = ImageRequest.Builder(Utils.getApp())
+    .data(this)
+    .memoryCachePolicy(CachePolicy.DISABLED)
+    .diskCachePolicy(CachePolicy.ENABLED)
+    .build()
+  val cacheFile = Utils.getApp().imageLoader.diskCache?.directory?.toFile()?.listFiles()?.find { file ->
+    file.name.endsWith(".1") && file.name.startsWith(request.diskCacheKey ?: "")
   }
+  return if (cacheFile != null && cacheFile.exists()) cacheFile else null
 }
 
 //读取Host
