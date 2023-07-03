@@ -17,7 +17,7 @@ class BlurTransformation(@FloatRange(from = 0.0, to = 25.0) private val radius: 
   override val cacheKey: String = "${BlurTransformation::class.java.name}-${radius}"
 
   @SuppressLint("Range")
-  override suspend fun transform(input: Bitmap, size: Size): Bitmap {
+  override suspend fun transform(input: Bitmap, size: Size): Bitmap {//不能使用Bitmap.createBitmap，否则会导致图片显示不全
     return if (radius > 0 && radius <= 25) ImageUtils.renderScriptBlur(input, radius) else input
   }
 }
