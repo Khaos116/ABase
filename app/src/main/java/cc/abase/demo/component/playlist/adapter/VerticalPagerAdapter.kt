@@ -63,7 +63,7 @@ class VerticalPagerAdapter(list: List<VideoBean>) : PagerAdapter() {
       if (it.isVideoUrl()) {
         viewHolder.viewBinding.itemVerticalPagerCover.loadNetVideoCover(url = it, holderRatio = ScreenUtils.getScreenWidth() * 1f / height, hasHolder = false)
       } else {
-        viewHolder.viewBinding.itemVerticalPagerCover.loadCoilImg(url = it, holderRatio = ScreenUtils.getScreenWidth() * 1f / height, hasHolder = false)
+        viewHolder.viewBinding.itemVerticalPagerCover.loadCoilSimple(url = it, holderRatio = ScreenUtils.getScreenWidth() * 1f / height, hasHolder = false)
       }
     }
   }

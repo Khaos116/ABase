@@ -7,8 +7,7 @@ import android.media.MediaMetadataRetriever
 import android.net.Uri
 import android.widget.ImageView
 import androidx.core.graphics.drawable.toBitmap
-import cc.ab.base.ext.loadCoilImg
-import cc.ab.base.ext.toFile
+import cc.ab.base.ext.*
 import cc.ab.base.utils.MediaUtils
 import cc.ab.base.utils.PlaceHolderUtils
 import coil.imageLoader
@@ -81,7 +80,7 @@ class MyUCropImageEngine : UCropImageEngine {
         }
       }
     }
-    imageView.loadCoilImg(url = url, holderRatio = 720f / 1280)
+    imageView.loadCoilSimple(url = url, holderRatio = 720f / 1280)
   }
 
   override fun loadImage(context: Context, url: Uri, maxWidth: Int, maxHeight: Int, call: UCropImageEngine.OnCallbackListener<Bitmap>?) {

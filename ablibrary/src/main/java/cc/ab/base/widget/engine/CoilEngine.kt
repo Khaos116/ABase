@@ -4,8 +4,7 @@ import android.content.Context
 import android.graphics.BitmapFactory
 import android.media.MediaMetadataRetriever
 import android.widget.ImageView
-import cc.ab.base.ext.loadCoilImg
-import cc.ab.base.ext.toFile
+import cc.ab.base.ext.*
 import cc.ab.base.utils.MediaUtils
 import com.luck.picture.lib.engine.ImageEngine
 import com.luck.picture.lib.photoview.PhotoView
@@ -76,7 +75,7 @@ class CoilEngine : ImageEngine {
         }
       }
     }
-    imageView.loadCoilImg(url = url, holderRatio = 720f / 1280)
+    imageView.loadCoilSimple(url = url, holderRatio = 720f / 1280)
   }
 
   override fun loadImage(context: Context?, imageView: ImageView?, url: String?, maxWidth: Int, maxHeight: Int) {
@@ -111,12 +110,12 @@ class CoilEngine : ImageEngine {
 
   override fun loadAlbumCover(context: Context, url: String, imageView: ImageView) {
     imageView.scaleType = ImageView.ScaleType.CENTER_CROP
-    imageView.loadCoilImg(url = url, holderRatio = 1f)
+    imageView.loadCoilSimple(url = url, holderRatio = 1f)
   }
 
   override fun loadGridImage(context: Context, url: String, imageView: ImageView) {
     imageView.scaleType = ImageView.ScaleType.CENTER_CROP
-    imageView.loadCoilImg(url = url, holderRatio = 1f)
+    imageView.loadCoilSimple(url = url, holderRatio = 1f)
   }
 
 

@@ -14,7 +14,7 @@
 
     <cc.ab.base.widget.round.shapes.RoundRectView
       android:layout_width="0dp"
-      android:layout_height="0dp"
+      android:layout_height="wrap_content"
       app:layout_constraintBottom_toBottomOf="parent"
       app:layout_constraintEnd_toEndOf="parent"
       app:layout_constraintStart_toStartOf="parent"
@@ -28,7 +28,7 @@
         app:qgv_colors="@array/default_colors" />
     </cc.ab.base.widget.round.shapes.RoundRectView>
 
-    <ImageView
+    <androidx.appcompat.widget.AppCompatImageView
       android:id="@+id/blurIv1"
       android:layout_width="match_parent"
       android:layout_height="0dp"

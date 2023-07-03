@@ -148,19 +148,19 @@ class MyVideoView : VideoView, LifecycleObserver {
       else {
         val videoFile = File(url)
         if (videoFile.exists()) {
-          coverIv.loadCoilImg(url = Uri.fromFile(videoFile).toString(), holderRatio = ratio, hasHolder = needHolder) //加载封面
+          coverIv.loadCoilSimple(url = Uri.fromFile(videoFile).toString(), holderRatio = ratio, hasHolder = needHolder) //加载封面
         } else {
-          coverIv.loadCoilImg(url = url, holderRatio = ratio, hasHolder = needHolder) //加载封面
+          coverIv.loadCoilSimple(url = url, holderRatio = ratio, hasHolder = needHolder) //加载封面
         }
       }
     } else { //封面防止可能是视频地址
-      if (cover.startsWith("http")) coverIv.loadCoilImg(url = cover, holderRatio = ratio, hasHolder = needHolder)
+      if (cover.startsWith("http")) coverIv.loadCoilSimple(url = cover, holderRatio = ratio, hasHolder = needHolder)
       else {
         val videoFile = File(cover)
         if (videoFile.exists()) {
-          coverIv.loadCoilImg(url = Uri.fromFile(videoFile).toString(), holderRatio = ratio, hasHolder = needHolder) //加载封面
+          coverIv.loadCoilSimple(url = Uri.fromFile(videoFile).toString(), holderRatio = ratio, hasHolder = needHolder) //加载封面
         } else {
-          coverIv.loadCoilImg(url = cover, holderRatio = ratio, hasHolder = needHolder) //加载封面
+          coverIv.loadCoilSimple(url = cover, holderRatio = ratio, hasHolder = needHolder) //加载封面
         }
       }
     } //加载封面

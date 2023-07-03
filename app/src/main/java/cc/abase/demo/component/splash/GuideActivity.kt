@@ -57,7 +57,7 @@ class GuideActivity : CommBindActivity<ActivityGuideBinding>() {
         override fun fillData(data: String, binding: LayoutGuideBinding, position: Int, count: Int) {
           val height = mContentView.height
           val width = ScreenUtils.getScreenWidth()
-          binding.guideKIV.loadCoilImg(url = data, holderRatio = width * 1f / height)
+          binding.guideKIV.loadCoilSimple(url = data, holderRatio = width * 1f / height)
           binding.guideGo.visibleGone(position == count - 1)
           binding.guideGo.let { view ->
             view.visibleGone(position == count - 1)

@@ -28,7 +28,7 @@ class NineImgItem(
       viewBinding.itemNineImgIv.visible()
       viewBinding.itemNineImgAdd.gone()
       viewBinding.itemNineImgDel.visibleGone(onDelClick != null)
-      viewBinding.itemNineImgIv.loadCoilImg(url = item, holderRatio = 1f)
+      viewBinding.itemNineImgIv.loadCoilSimple(url = item, holderRatio = 1f)
     }
     if (onDelClick != null) {
       viewBinding.itemNineImgDel.pressEffectAlpha(0.9f)
