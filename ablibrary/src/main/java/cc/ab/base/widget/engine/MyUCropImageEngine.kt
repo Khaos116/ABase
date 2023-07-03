@@ -80,7 +80,7 @@ class MyUCropImageEngine : UCropImageEngine {
         }
       }
     }
-    imageView.loadCoilSimple(url = url, holderRatio = 720f / 1280)
+    imageView.loadCoilSimpleUrl(url = url, holderRatio = 720f / 1280)
   }
 
   override fun loadImage(context: Context, url: Uri, maxWidth: Int, maxHeight: Int, call: UCropImageEngine.OnCallbackListener<Bitmap>?) {

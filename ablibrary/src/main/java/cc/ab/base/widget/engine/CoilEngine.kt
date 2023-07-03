@@ -75,7 +75,7 @@ class CoilEngine : ImageEngine {
         }
       }
     }
-    imageView.loadCoilSimple(url = url, holderRatio = 720f / 1280)
+    imageView.loadCoilSimpleUrl(url = url, holderRatio = 720f / 1280)
   }
 
   override fun loadImage(context: Context?, imageView: ImageView?, url: String?, maxWidth: Int, maxHeight: Int) {
@@ -110,12 +110,12 @@ class CoilEngine : ImageEngine {
 
   override fun loadAlbumCover(context: Context, url: String, imageView: ImageView) {
     imageView.scaleType = ImageView.ScaleType.CENTER_CROP
-    imageView.loadCoilSimple(url = url, holderRatio = 1f)
+    imageView.loadCoilSimpleUrl(url = url, holderRatio = 1f)
   }
 
   override fun loadGridImage(context: Context, url: String, imageView: ImageView) {
     imageView.scaleType = ImageView.ScaleType.CENTER_CROP
-    imageView.loadCoilSimple(url = url, holderRatio = 1f)
+    imageView.loadCoilSimpleUrl(url = url, holderRatio = 1f)
   }
 
 

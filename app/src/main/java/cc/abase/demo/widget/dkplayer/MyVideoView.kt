@@ -11,7 +11,6 @@ import android.widget.ImageView
 import androidx.annotation.DrawableRes
 import androidx.lifecycle.*
 import cc.ab.base.ext.*
-import cc.abase.demo.R
 import cc.abase.demo.widget.dkplayer.pipfloat.FloatView
 import xyz.doikki.videocontroller.StandardVideoController
 import xyz.doikki.videocontroller.component.*
@@ -148,19 +147,19 @@ class MyVideoView : VideoView, LifecycleObserver {
       else {
         val videoFile = File(url)
         if (videoFile.exists()) {
-          coverIv.loadCoilSimple(url = Uri.fromFile(videoFile).toString(), holderRatio = ratio, hasHolder = needHolder) //加载封面
+          coverIv.loadCoilSimpleUrl(url = Uri.fromFile(videoFile).toString(), holderRatio = ratio, hasHolder = needHolder) //加载封面
         } else {
-          coverIv.loadCoilSimple(url = url, holderRatio = ratio, hasHolder = needHolder) //加载封面
+          coverIv.loadCoilSimpleUrl(url = url, holderRatio = ratio, hasHolder = needHolder) //加载封面
         }
       }
     } else { //封面防止可能是视频地址
-      if (cover.startsWith("http")) coverIv.loadCoilSimple(url = cover, holderRatio = ratio, hasHolder = needHolder)
+      if (cover.startsWith("http")) coverIv.loadCoilSimpleUrl(url = cover, holderRatio = ratio, hasHolder = needHolder)
       else {
         val videoFile = File(cover)
         if (videoFile.exists()) {
-          coverIv.loadCoilSimple(url = Uri.fromFile(videoFile).toString(), holderRatio = ratio, hasHolder = needHolder) //加载封面
+          coverIv.loadCoilSimpleUrl(url = Uri.fromFile(videoFile).toString(), holderRatio = ratio, hasHolder = needHolder) //加载封面
         } else {
-          coverIv.loadCoilSimple(url = cover, holderRatio = ratio, hasHolder = needHolder) //加载封面
+          coverIv.loadCoilSimpleUrl(url = cover, holderRatio = ratio, hasHolder = needHolder) //加载封面
         }
       }
     } //加载封面

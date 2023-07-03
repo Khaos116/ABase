@@ -87,20 +87,20 @@ public class PIPManager {
         } else {
           File videoFile = new File(coverPath);
           if (videoFile.exists()) {
-            ImageViewExtKt.loadCoilSimple(coverIv, Uri.fromFile(videoFile).toString(), ratio, needHolder); //加载封面
+            ImageViewExtKt.loadCoilSimpleUrl(coverIv, Uri.fromFile(videoFile).toString(), ratio, needHolder); //加载封面
           } else {
-            ImageViewExtKt.loadCoilSimple(coverIv, coverPath, ratio, needHolder); //加载封面
+            ImageViewExtKt.loadCoilSimpleUrl(coverIv, coverPath, ratio, needHolder); //加载封面
           }
         }
       } else { //封面防止可能是视频地址
         if (coverPath.startsWith("http")) {
-          ImageViewExtKt.loadCoilSimple(coverIv, coverPath, ratio, needHolder);
+          ImageViewExtKt.loadCoilSimpleUrl(coverIv, coverPath, ratio, needHolder);
         } else {
           File videoFile = new File(coverPath);
           if (videoFile.exists()) {
-            ImageViewExtKt.loadCoilSimple(coverIv, Uri.fromFile(videoFile).toString(), ratio, needHolder); //加载封面
+            ImageViewExtKt.loadCoilSimpleUrl(coverIv, Uri.fromFile(videoFile).toString(), ratio, needHolder); //加载封面
           } else {
-            ImageViewExtKt.loadCoilSimple(coverIv, coverPath, ratio, needHolder); //加载封面
+            ImageViewExtKt.loadCoilSimpleUrl(coverIv, coverPath, ratio, needHolder); //加载封面
           }
         }
       }

@@ -47,7 +47,7 @@ class RecyclerPagerActivity : CommBindTitleActivity<ActivtyVerticalpageBinding>(
         if (it.isVideoUrl()) {
           binding.itemRecyclePagerCover.loadNetVideoCover(url = it, holderRatio = ScreenUtils.getScreenWidth() * 1f / height, hasHolder = false)
         } else {
-          binding.itemRecyclePagerCover.loadCoilSimple(url = it, holderRatio = ScreenUtils.getScreenWidth() * 1f / height, hasHolder = false)
+          binding.itemRecyclePagerCover.loadCoilSimpleUrl(url = it, holderRatio = ScreenUtils.getScreenWidth() * 1f / height, hasHolder = false)
         }
       }
     }

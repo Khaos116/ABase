@@ -1,7 +1,5 @@
 package cc.abase.demo.item
 
-import android.view.LayoutInflater
-import android.view.ViewGroup
 import android.widget.ImageView
 import cc.ab.base.ext.*
 import cc.ab.base.ui.item.BaseBindItemView
@@ -28,7 +26,7 @@ class NineImgItem(
       viewBinding.itemNineImgIv.visible()
       viewBinding.itemNineImgAdd.gone()
       viewBinding.itemNineImgDel.visibleGone(onDelClick != null)
-      viewBinding.itemNineImgIv.loadCoilSimple(url = item, holderRatio = 1f)
+      viewBinding.itemNineImgIv.loadCoilSimpleUrl(url = item, holderRatio = 1f)
     }
     if (onDelClick != null) {
       viewBinding.itemNineImgDel.pressEffectAlpha(0.9f)
