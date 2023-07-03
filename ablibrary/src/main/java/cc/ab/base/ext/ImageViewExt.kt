@@ -46,7 +46,6 @@ fun ImageView.loadCoilSimpleRes(@DrawableRes resId: Int, holderRatio: Float, has
   loadCoilRes(resId = resId, holderRatio = holderRatio, hasHolder = hasHolder)
 }
 
-
 //加载网络图片或者URI图片
 fun ImageView.loadCoilUrl(
   url: String?,//图片地址或者文件地址
