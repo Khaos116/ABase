@@ -101,9 +101,9 @@ lint/tmp/
 *.jks
 *.keystore
 .idea/
-class_files.txt
+**/class_files.txt
 bugly/
-/app/mapping.txt
-/app/seeds.txt
+/**/mapping.txt
+/**/seeds.txt
 temp/
 /APK/**/*.txt
