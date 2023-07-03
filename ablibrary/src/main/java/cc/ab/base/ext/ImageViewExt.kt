@@ -9,8 +9,10 @@ import cc.ab.base.R
 import cc.ab.base.config.PathConfig
 import cc.ab.base.utils.MediaMetadataRetrieverUtils
 import cc.ab.base.utils.PlaceHolderUtils
+import cc.ab.base.utils.coil.BlackAndWhiteTransformation
 import cc.ab.base.utils.coil.BlurTransformation
 import coil.load
+import coil.request.CachePolicy
 import coil.request.ImageRequest
 import coil.size.Scale
 import coil.transform.Transformation
@@ -64,8 +66,8 @@ fun ImageView.loadCoilUrl(
     val myIv = this
     myIv.clearLoad()//清理之前设置的tag，取消之前的请求
     val transList = mutableListOf<Transformation>()//图片特殊效果列表
-    //if (blackWhite) transList.add(BlackAndWhiteTransformation())//黑白化
-    if (blurRadius > 0 && blurRadius <= 25) transList.add(BlurTransformation())//高斯模糊
+    if (blackWhite) transList.add(BlackAndWhiteTransformation())//黑白化
+    if (blurRadius > 0 && blurRadius <= 25) transList.add(BlurTransformation(blurRadius))//高斯模糊
     val build = fun ImageRequest.Builder.() {
       scale(if (myIv.scaleType == ImageView.ScaleType.CENTER_CROP) Scale.FILL else Scale.FIT)//填充方式
       crossfade(if (hasHolder) 0 else duration)//过度效果
@@ -96,8 +98,8 @@ fun ImageView.loadCoilRes(
   if (getTag(R.id.suc_img) == myTag) return
   val myIv = this
   val transList = mutableListOf<Transformation>()//图片特殊效果列表
-  //if (blackWhite) transList.add(BlackAndWhiteTransformation())//黑白化
-  if (blurRadius > 0 && blurRadius <= 25) transList.add(BlurTransformation())//高斯模糊
+  if (blackWhite) transList.add(BlackAndWhiteTransformation())//黑白化
+  if (blurRadius > 0 && blurRadius <= 25) transList.add(BlurTransformation(blurRadius))//高斯模糊
   val build = fun ImageRequest.Builder.() {
     scale(if (myIv.scaleType == ImageView.ScaleType.CENTER_CROP) Scale.FILL else Scale.FIT)//填充方式
     crossfade(if (hasHolder) 0 else duration)//过度效果
