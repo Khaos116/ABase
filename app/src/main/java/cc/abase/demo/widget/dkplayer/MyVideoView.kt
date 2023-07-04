@@ -143,7 +143,7 @@ class MyVideoView : VideoView, LifecycleObserver {
     mNeedHolder = needHolder
     titleView.setTitle(if (title.isNullOrBlank()) url else title) //设置标题
     if (cover.isNullOrBlank()) { //封面为空拿播放地址去加载
-      if (url.startsWith("http")) coverIv.loadNetVideoCover(url, ratio, needHolder) //加载网络封面
+      if (url.startsWith("http")) coverIv.loadNetVideoCover(url = url, holderRatio = ratio, hasHolder = needHolder) //加载网络封面
       else {
         val videoFile = File(url)
         if (videoFile.exists()) {

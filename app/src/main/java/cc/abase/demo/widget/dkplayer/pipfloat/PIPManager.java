@@ -6,6 +6,7 @@ import android.text.TextUtils;
 import android.view.*;
 import android.widget.ImageView;
 
+import com.blankj.utilcode.util.ScreenUtils;
 import com.blankj.utilcode.util.Utils;
 
 import java.io.File;
@@ -83,7 +84,7 @@ public class PIPManager {
       coverIv.setClickable(true);//防止透过去点击
       if (coverPath.equals(mVideoView.getMUrlVideo())) { //封面为空拿播放地址去加载
         if (coverPath.startsWith("http")) {
-          ImageViewExtKt.loadNetVideoCover(coverIv, coverPath, ratio, needHolder); //加载网络封面
+          ImageViewExtKt.loadNetVideoCover(coverIv, coverPath, ratio, ScreenUtils.getScreenWidth(), needHolder); //加载网络封面
         } else {
           File videoFile = new File(coverPath);
           if (videoFile.exists()) {
