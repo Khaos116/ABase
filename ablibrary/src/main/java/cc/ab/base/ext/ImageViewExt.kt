@@ -1,13 +1,10 @@
 package cc.ab.base.ext
 
 import android.graphics.Color
-import android.media.MediaMetadataRetriever
 import android.widget.ImageView
 import androidx.annotation.DrawableRes
 import androidx.annotation.FloatRange
 import cc.ab.base.R
-import cc.ab.base.config.PathConfig
-import cc.ab.base.utils.MediaMetadataRetrieverUtils
 import cc.ab.base.utils.PlaceHolderUtils
 import cc.ab.base.utils.coil.BlackAndWhiteTransformation
 import cc.ab.base.utils.coil.BlurTransformation
@@ -16,11 +13,10 @@ import coil.request.ImageRequest
 import coil.size.Scale
 import coil.transform.Transformation
 import coil.util.CoilUtils
-import com.blankj.utilcode.util.EncryptUtils
 import com.blankj.utilcode.util.ScreenUtils
-import java.io.File
 
 /**
+ * Coil2.4.0已经支持网络视频封面加载了，所以不再使用MediaMetadataRetriever去获取网络视频封面
  * 预加载图片https://coil-kt.github.io/coil/getting_started/#preloading
  * 如果需要对加载的图片进行截屏，可能需要设置非硬件加载：allowHardware(false) https://coil-kt.github.io/coil/recipes/
  * diskCachePolicy(CachePolicy.DISABLED)
@@ -68,7 +64,7 @@ fun ImageView.loadCoilUrl(
     if (blackWhite) transList.add(BlackAndWhiteTransformation())//黑白化
     if (blurRadius > 0 && blurRadius <= 25) transList.add(BlurTransformation(blurRadius))//高斯模糊
     val build = fun ImageRequest.Builder.() {
-      crossfade(if (hasHolder) 0 else duration)//过度效果
+      crossfade(duration)//过度效果
       if (hasHolder) placeholder(PlaceHolderUtils.getLoadingHolder(ratio = holderRatio, width = holderWidth, bgColor = holderBgColor))//加载中占位图
       if (hasHolder) error(PlaceHolderUtils.getErrorHolder(ratio = holderRatio, width = holderWidth, bgColor = holderBgColor))//加载失败占位图
       if (transList.isNotEmpty()) transformations(transList)//图片特殊效果
@@ -107,7 +103,7 @@ fun ImageView.loadCoilWrapHeight(
       size(fitWidth, Int.MAX_VALUE)//宽度固定，高度自适应
       scale(Scale.FIT)//这个模式将图片缩放以适应ImageView的尺寸，同时保持图片的宽高比例不变
       //scale(Scale.FILL)//这个模式将图片缩放以填充满整个ImageView，无论图片的宽高比例如何
-      crossfade(if (hasHolder) 0 else duration)//过度效果
+      crossfade(duration)//过度效果
       if (hasHolder) placeholder(PlaceHolderUtils.getLoadingHolder(ratio = holderRatio, width = holderWidth, bgColor = holderBgColor))//加载中占位图
       if (hasHolder) error(PlaceHolderUtils.getErrorHolder(ratio = holderRatio, width = holderWidth, bgColor = holderBgColor))//加载失败占位图
       if (transList.isNotEmpty()) transformations(transList)//图片特殊效果
@@ -146,7 +142,7 @@ fun ImageView.loadCoilWrapWidth(
       size(Int.MAX_VALUE, fitHeight)//高度固定，宽度自适应
       scale(Scale.FIT)//这个模式将图片缩放以适应ImageView的尺寸，同时保持图片的宽高比例不变
       //scale(Scale.FILL)//这个模式将图片缩放以填充满整个ImageView，无论图片的宽高比例如何
-      crossfade(if (hasHolder) 0 else duration)//过度效果
+      crossfade(duration)//过度效果
       if (hasHolder) placeholder(PlaceHolderUtils.getLoadingHolder(ratio = holderRatio, width = holderWidth, bgColor = holderBgColor))//加载中占位图
       if (hasHolder) error(PlaceHolderUtils.getErrorHolder(ratio = holderRatio, width = holderWidth, bgColor = holderBgColor))//加载失败占位图
       if (transList.isNotEmpty()) transformations(transList)//图片特殊效果
@@ -178,52 +174,10 @@ fun ImageView.loadCoilRes(
   if (blurRadius > 0 && blurRadius <= 25) transList.add(BlurTransformation(blurRadius))//高斯模糊
   val build = fun ImageRequest.Builder.() {
     scale(if (myIv.scaleType == ImageView.ScaleType.CENTER_CROP) Scale.FILL else Scale.FIT)//填充方式
-    crossfade(if (hasHolder) 0 else duration)//过度效果
+    crossfade(duration)//过度效果
     if (hasHolder) error(PlaceHolderUtils.getErrorHolder(ratio = holderRatio, width = holderWidth, bgColor = holderBgColor))//加载失败占位图
     if (transList.isNotEmpty()) transformations(transList)//图片特殊效果
     listener(onSuccess = { _, _ -> setTag(R.id.suc_img, myTag) })//成功设置TAG，防止复用重新加载
   }
   myIv.load(data = resId, builder = build)//加载资源图片
 }
-
-//加载视频网络封面
-fun ImageView.loadNetVideoCover(
-  url: String?,//视频地址
-  holderRatio: Float = 16f / 9,//视频尺寸
-  holderWidth: Int = ScreenUtils.getScreenWidth(),//占位图宽度
-  hasHolder: Boolean = true,//是否需要占位图
-) {
-  (getTag(R.id.id_retriever) as? MediaMetadataRetriever)?.release() //防止之前的图还没完成.
-  if (url.isNullOrBlank()) { //有封面复用为无封面
-    if (hasHolder) this.load(PlaceHolderUtils.getErrorHolder(ratio = holderRatio, width = holderWidth))
-  } else {
-    val cacheFile = File(PathConfig.VIDEO_OVER_CACHE_DIR, EncryptUtils.encryptMD5ToString(url))
-    if (cacheFile.exists()) {
-      this.load(cacheFile) { if (!hasHolder) crossfade(false) }
-    } else {
-      if (hasHolder) this.load(PlaceHolderUtils.getLoadingHolder(ratio = holderRatio, width = holderWidth))
-      val retriever = MediaMetadataRetriever()
-      setTag(R.id.id_retriever, retriever)
-      MediaMetadataRetrieverUtils.getNetVideoCover(retriever, cacheFile, url) { bit ->
-        setTag(R.id.id_retriever, null)
-        if (bit != null) {
-          this.load(bit) { if (!hasHolder) crossfade(false) }
-        } else {
-          if (hasHolder) this.load(PlaceHolderUtils.getErrorHolder(ratio = holderRatio, width = holderWidth))
-        }
-      }
-    }
-  }
-}
-
-//设置ImageView为黑白模式
-//fun ImageView?.blackWhiteMode(blackWhite: Boolean) {
-//  if (blackWhite) {
-//    val cm = ColorMatrix()
-//    cm.setSaturation(0f) // 设置饱和度
-//    val grayColorFilter = ColorMatrixColorFilter(cm)
-//    this?.colorFilter = grayColorFilter // 如果想恢复彩色显示，设置为null即可
-//  } else {
-//    this?.colorFilter = null
-//  }
-//}
