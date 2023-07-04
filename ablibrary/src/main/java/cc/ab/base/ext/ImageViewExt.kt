@@ -50,6 +50,7 @@ fun ImageView.loadCoilSimpleRes(@DrawableRes resId: Int, holderRatio: Float, has
 fun ImageView.loadCoilUrl(
   url: String?,//图片地址或者文件地址
   holderRatio: Float = 1f,//占位图宽高比
+  holderWidth: Int = ScreenUtils.getScreenWidth(),//占位图宽度
   hasHolder: Boolean = true,//是否需要占位图
   holderBgColor: Int = Color.WHITE,//占位图默认背景色
   blackWhite: Boolean = false,//是否需要黑白效果
@@ -58,7 +59,7 @@ fun ImageView.loadCoilUrl(
 ) {
   if (url.isNullOrBlank()) {
     this.clearLoad()
-    if (hasHolder) this.load(PlaceHolderUtils.getErrorHolder(ratio = holderRatio, bgColor = holderBgColor, corner = corner))
+    if (hasHolder) this.load(PlaceHolderUtils.getErrorHolder(ratio = holderRatio, width = holderWidth, bgColor = holderBgColor, corner = corner))
   } else {
     val myTag = "${url}_${blackWhite}_${blurRadius}"
     if (getTag(R.id.suc_img) == myTag) return
@@ -69,8 +70,8 @@ fun ImageView.loadCoilUrl(
     if (blurRadius > 0 && blurRadius <= 25) transList.add(BlurTransformation(blurRadius))//高斯模糊
     val build = fun ImageRequest.Builder.() {
       crossfade(if (hasHolder) 0 else duration)//过度效果
-      if (hasHolder) placeholder(PlaceHolderUtils.getLoadingHolder(ratio = holderRatio, bgColor = holderBgColor, corner = corner))//加载中占位图
-      if (hasHolder) error(PlaceHolderUtils.getErrorHolder(ratio = holderRatio, bgColor = holderBgColor, corner = corner))//加载失败占位图
+      if (hasHolder) placeholder(PlaceHolderUtils.getLoadingHolder(ratio = holderRatio, width = holderWidth, bgColor = holderBgColor, corner = corner))//加载中占位图
+      if (hasHolder) error(PlaceHolderUtils.getErrorHolder(ratio = holderRatio, width = holderWidth, bgColor = holderBgColor, corner = corner))//加载失败占位图
       if (transList.isNotEmpty()) transformations(transList)//图片特殊效果
       listener(
         onError = { r, e -> "Coil图片加载失败:${r.data}},e=${e.throwable.message ?: "null"}".logE() },//失败打印图片地址和原因
@@ -86,6 +87,7 @@ fun ImageView.loadCoilWrapHeight(
   url: String?,//图片地址或者文件地址
   holderRatio: Float = 1f,//占位图宽高比
   hasHolder: Boolean = true,//是否需要占位图
+  holderWidth: Int = ScreenUtils.getScreenWidth(),//占位图宽度
   fitWidth: Int = ScreenUtils.getScreenWidth(),//固定宽度值
   holderBgColor: Int = Color.WHITE,//占位图默认背景色
   blackWhite: Boolean = false,//是否需要黑白效果
@@ -94,7 +96,7 @@ fun ImageView.loadCoilWrapHeight(
 ) {
   if (url.isNullOrBlank()) {
     this.clearLoad()
-    if (hasHolder) this.load(PlaceHolderUtils.getErrorHolder(ratio = holderRatio, bgColor = holderBgColor, corner = corner))
+    if (hasHolder) this.load(PlaceHolderUtils.getErrorHolder(ratio = holderRatio, width = holderWidth, bgColor = holderBgColor, corner = corner))
   } else {
     val myTag = "${url}_${blackWhite}_${blurRadius}"
     if (getTag(R.id.suc_img) == myTag) return
@@ -108,8 +110,8 @@ fun ImageView.loadCoilWrapHeight(
       scale(Scale.FIT)//这个模式将图片缩放以适应ImageView的尺寸，同时保持图片的宽高比例不变
       //scale(Scale.FILL)//这个模式将图片缩放以填充满整个ImageView，无论图片的宽高比例如何
       crossfade(if (hasHolder) 0 else duration)//过度效果
-      if (hasHolder) placeholder(PlaceHolderUtils.getLoadingHolder(ratio = holderRatio, bgColor = holderBgColor, corner = corner))//加载中占位图
-      if (hasHolder) error(PlaceHolderUtils.getErrorHolder(ratio = holderRatio, bgColor = holderBgColor, corner = corner))//加载失败占位图
+      if (hasHolder) placeholder(PlaceHolderUtils.getLoadingHolder(ratio = holderRatio, width = holderWidth, bgColor = holderBgColor, corner = corner))//加载中占位图
+      if (hasHolder) error(PlaceHolderUtils.getErrorHolder(ratio = holderRatio, width = holderWidth, bgColor = holderBgColor, corner = corner))//加载失败占位图
       if (transList.isNotEmpty()) transformations(transList)//图片特殊效果
       listener(
         onError = { r, e -> "Coil图片加载失败:${r.data}},e=${e.throwable.message ?: "null"}".logE() },//失败打印图片地址和原因
@@ -125,6 +127,7 @@ fun ImageView.loadCoilWrapWidth(
   url: String?,//图片地址或者文件地址
   holderRatio: Float = 1f,//占位图宽高比
   hasHolder: Boolean = true,//是否需要占位图
+  holderWidth: Int = ScreenUtils.getScreenWidth(),//占位图宽度
   fitHeight: Int = ScreenUtils.getScreenWidth() / 2,//固定宽度值
   holderBgColor: Int = Color.WHITE,//占位图默认背景色
   blackWhite: Boolean = false,//是否需要黑白效果
@@ -133,7 +136,7 @@ fun ImageView.loadCoilWrapWidth(
 ) {
   if (url.isNullOrBlank()) {
     this.clearLoad()
-    if (hasHolder) this.load(PlaceHolderUtils.getErrorHolder(ratio = holderRatio, bgColor = holderBgColor, corner = corner))
+    if (hasHolder) this.load(PlaceHolderUtils.getErrorHolder(ratio = holderRatio, width = holderWidth, bgColor = holderBgColor, corner = corner))
   } else {
     val myTag = "${url}_${blackWhite}_${blurRadius}"
     if (getTag(R.id.suc_img) == myTag) return
@@ -147,8 +150,8 @@ fun ImageView.loadCoilWrapWidth(
       scale(Scale.FIT)//这个模式将图片缩放以适应ImageView的尺寸，同时保持图片的宽高比例不变
       //scale(Scale.FILL)//这个模式将图片缩放以填充满整个ImageView，无论图片的宽高比例如何
       crossfade(if (hasHolder) 0 else duration)//过度效果
-      if (hasHolder) placeholder(PlaceHolderUtils.getLoadingHolder(ratio = holderRatio, bgColor = holderBgColor, corner = corner))//加载中占位图
-      if (hasHolder) error(PlaceHolderUtils.getErrorHolder(ratio = holderRatio, bgColor = holderBgColor, corner = corner))//加载失败占位图
+      if (hasHolder) placeholder(PlaceHolderUtils.getLoadingHolder(ratio = holderRatio, width = holderWidth, bgColor = holderBgColor, corner = corner))//加载中占位图
+      if (hasHolder) error(PlaceHolderUtils.getErrorHolder(ratio = holderRatio, width = holderWidth, bgColor = holderBgColor, corner = corner))//加载失败占位图
       if (transList.isNotEmpty()) transformations(transList)//图片特殊效果
       listener(
         onError = { r, e -> "Coil图片加载失败:${r.data}},e=${e.throwable.message ?: "null"}".logE() },//失败打印图片地址和原因
@@ -164,6 +167,7 @@ fun ImageView.loadCoilRes(
   @DrawableRes resId: Int,//资源图片id
   holderRatio: Float = 1f,//图片宽高比
   hasHolder: Boolean = true,//是否需要占位图
+  holderWidth: Int = ScreenUtils.getScreenWidth(),//占位图宽度
   holderBgColor: Int = Color.WHITE,//占位图默认背景色
   blackWhite: Boolean = false,//是否需要黑白效果
   @FloatRange(from = 0.0, to = 25.0) blurRadius: Float = 0f,//如果需要高斯模糊效果则输入范围(0,25]
@@ -179,7 +183,7 @@ fun ImageView.loadCoilRes(
   val build = fun ImageRequest.Builder.() {
     scale(if (myIv.scaleType == ImageView.ScaleType.CENTER_CROP) Scale.FILL else Scale.FIT)//填充方式
     crossfade(if (hasHolder) 0 else duration)//过度效果
-    if (hasHolder) error(PlaceHolderUtils.getErrorHolder(ratio = holderRatio, bgColor = holderBgColor, corner = corner))//加载失败占位图
+    if (hasHolder) error(PlaceHolderUtils.getErrorHolder(ratio = holderRatio, width = holderWidth, bgColor = holderBgColor, corner = corner))//加载失败占位图
     if (transList.isNotEmpty()) transformations(transList)//图片特殊效果
     listener(onSuccess = { _, _ -> setTag(R.id.suc_img, myTag) })//成功设置TAG，防止复用重新加载
   }
@@ -187,16 +191,21 @@ fun ImageView.loadCoilRes(
 }
 
 //加载视频网络封面
-fun ImageView.loadNetVideoCover(url: String?, holderRatio: Float = 16f / 9, hasHolder: Boolean = true) {
+fun ImageView.loadNetVideoCover(
+  url: String?,//视频地址
+  holderRatio: Float = 16f / 9,//视频尺寸
+  holderWidth: Int = ScreenUtils.getScreenWidth(),//占位图宽度
+  hasHolder: Boolean = true,//是否需要占位图
+) {
   (getTag(R.id.id_retriever) as? MediaMetadataRetriever)?.release() //防止之前的图还没完成.
   if (url.isNullOrBlank()) { //有封面复用为无封面
-    if (hasHolder) this.load(PlaceHolderUtils.getErrorHolder(holderRatio))
+    if (hasHolder) this.load(PlaceHolderUtils.getErrorHolder(ratio = holderRatio, width = holderWidth))
   } else {
     val cacheFile = File(PathConfig.VIDEO_OVER_CACHE_DIR, EncryptUtils.encryptMD5ToString(url))
     if (cacheFile.exists()) {
       this.load(cacheFile) { if (!hasHolder) crossfade(false) }
     } else {
-      if (hasHolder) this.load(PlaceHolderUtils.getLoadingHolder(holderRatio))
+      if (hasHolder) this.load(PlaceHolderUtils.getLoadingHolder(ratio = holderRatio, width = holderWidth))
       val retriever = MediaMetadataRetriever()
       setTag(R.id.id_retriever, retriever)
       MediaMetadataRetrieverUtils.getNetVideoCover(retriever, cacheFile, url) { bit ->
@@ -204,7 +213,7 @@ fun ImageView.loadNetVideoCover(url: String?, holderRatio: Float = 16f / 9, hasH
         if (bit != null) {
           this.load(bit) { if (!hasHolder) crossfade(false) }
         } else {
-          if (hasHolder) this.load(PlaceHolderUtils.getErrorHolder(holderRatio))
+          if (hasHolder) this.load(PlaceHolderUtils.getErrorHolder(ratio = holderRatio, width = holderWidth))
         }
       }
     }
