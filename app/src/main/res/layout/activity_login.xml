@@ -39,9 +39,9 @@
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
       android:hint="@string/请输入用户名"
-      android:imeOptions="flagForceAscii"
       android:inputType="text"
-      android:maxLines="1" />
+      android:maxLines="1"
+      tools:ignore="Autofill" />
   </com.google.android.material.textfield.TextInputLayout>
 
   <com.google.android.material.textfield.TextInputLayout
@@ -61,7 +61,8 @@
       android:layout_height="wrap_content"
       android:hint="@string/请输入密码"
       android:inputType="textPassword"
-      android:maxLines="1" />
+      android:maxLines="1"
+      tools:ignore="Autofill" />
   </com.google.android.material.textfield.TextInputLayout>
 
   <TextView
