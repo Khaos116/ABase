@@ -43,13 +43,7 @@ class RecyclerPagerActivity : CommBindTitleActivity<ActivtyVerticalpageBinding>(
     override fun fillData(data: VerticalPageBean, binding: ItemVerticalPageParentBinding, position: Int, count: Int) {
       val h = (binding.itemRecyclePagerContainer.context as? Activity)?.mContentView?.height ?: ScreenUtils.getScreenHeight()
       val height = h - BarUtils.getStatusBarHeight() - 49.dp2px()
-      data.cover?.let {
-        if (it.isVideoUrl()) {
-          binding.itemRecyclePagerCover.loadNetVideoCover(url = it, holderRatio = ScreenUtils.getScreenWidth() * 1f / height, hasHolder = false)
-        } else {
-          binding.itemRecyclePagerCover.loadCoilSimpleUrl(url = it, holderRatio = ScreenUtils.getScreenWidth() * 1f / height, hasHolder = false)
-        }
-      }
+      binding.itemRecyclePagerCover.loadCoilSimpleUrl(url = data.cover ?: "", holderRatio = ScreenUtils.getScreenWidth() * 1f / height, hasHolder = false)
     }
   }
 

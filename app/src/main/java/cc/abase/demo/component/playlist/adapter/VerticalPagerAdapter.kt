@@ -3,7 +3,8 @@ package cc.abase.demo.component.playlist.adapter
 import android.app.Activity
 import android.view.*
 import androidx.viewpager.widget.PagerAdapter
-import cc.ab.base.ext.*
+import cc.ab.base.ext.loadCoilSimpleUrl
+import cc.ab.base.ext.mContentView
 import cc.abase.demo.R
 import cc.abase.demo.bean.local.VideoBean
 import cc.abase.demo.databinding.ItemPlayPagerParentBinding
@@ -39,7 +40,7 @@ class VerticalPagerAdapter(list: List<VideoBean>) : PagerAdapter() {
     //基础信息
     val context = container.context
     var view: View? = null
-    if (!mViewPool.isNullOrEmpty()) {
+    if (mViewPool.isNotEmpty()) {
       //取第一个进行复用
       view = mViewPool[0]
       mViewPool.removeAt(0)
@@ -59,13 +60,7 @@ class VerticalPagerAdapter(list: List<VideoBean>) : PagerAdapter() {
   //填充数据
   fun fillData(videoBean: VideoBean, viewHolder: PagerHolder) {
     val height = (viewHolder.viewBinding.itemVerticalPagerContainer.context as? Activity)?.mContentView?.height ?: ScreenUtils.getScreenHeight()
-    videoBean.thumb?.let {
-      if (it.isVideoUrl()) {
-        viewHolder.viewBinding.itemVerticalPagerCover.loadNetVideoCover(url = it, holderRatio = ScreenUtils.getScreenWidth() * 1f / height, hasHolder = false)
-      } else {
-        viewHolder.viewBinding.itemVerticalPagerCover.loadCoilSimpleUrl(url = it, holderRatio = ScreenUtils.getScreenWidth() * 1f / height, hasHolder = false)
-      }
-    }
+    viewHolder.viewBinding.itemVerticalPagerCover.loadCoilSimpleUrl(url = videoBean.thumb ?: "", holderRatio = ScreenUtils.getScreenWidth() * 1f / height, hasHolder = false)
   }
 
   override fun destroyItem(container: ViewGroup, position: Int, o: Any) {

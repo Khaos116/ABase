@@ -1,15 +1,11 @@
 package cc.abase.demo.widget.dkplayer.pipfloat;
 
 import android.app.Application;
-import android.net.Uri;
 import android.text.TextUtils;
 import android.view.*;
 import android.widget.ImageView;
 
-import com.blankj.utilcode.util.ScreenUtils;
 import com.blankj.utilcode.util.Utils;
-
-import java.io.File;
 
 import cc.ab.base.ext.ImageViewExtKt;
 import cc.ab.base.ext.ViewExtKt;
@@ -80,31 +76,9 @@ public class PIPManager {
     View playView = mFloatController.findViewById(xyz.doikki.videocontroller.R.id.start_play);//播放按钮
     if (playView != null) playView.setOnClickListener(v -> mVideoView.start());
     ImageView coverIv = mFloatController.findViewById(xyz.doikki.videocontroller.R.id.thumb);//封面
-    if (coverIv != null && coverPath != null && !TextUtils.isEmpty(coverPath)) {//加载封面
+    if (coverIv != null && !TextUtils.isEmpty(coverPath)) {//加载封面
       coverIv.setClickable(true);//防止透过去点击
-      if (coverPath.equals(mVideoView.getMUrlVideo())) { //封面为空拿播放地址去加载
-        if (coverPath.startsWith("http")) {
-          ImageViewExtKt.loadNetVideoCover(coverIv, coverPath, ratio, ScreenUtils.getScreenWidth(), needHolder); //加载网络封面
-        } else {
-          File videoFile = new File(coverPath);
-          if (videoFile.exists()) {
-            ImageViewExtKt.loadCoilSimpleUrl(coverIv, Uri.fromFile(videoFile).toString(), ratio, needHolder); //加载封面
-          } else {
-            ImageViewExtKt.loadCoilSimpleUrl(coverIv, coverPath, ratio, needHolder); //加载封面
-          }
-        }
-      } else { //封面防止可能是视频地址
-        if (coverPath.startsWith("http")) {
-          ImageViewExtKt.loadCoilSimpleUrl(coverIv, coverPath, ratio, needHolder);
-        } else {
-          File videoFile = new File(coverPath);
-          if (videoFile.exists()) {
-            ImageViewExtKt.loadCoilSimpleUrl(coverIv, Uri.fromFile(videoFile).toString(), ratio, needHolder); //加载封面
-          } else {
-            ImageViewExtKt.loadCoilSimpleUrl(coverIv, coverPath, ratio, needHolder); //加载封面
-          }
-        }
-      }
+      ImageViewExtKt.loadCoilSimpleUrl(coverIv, coverPath, ratio, needHolder); //加载封面
     }
     //===============================封面相关END===============================//
   }

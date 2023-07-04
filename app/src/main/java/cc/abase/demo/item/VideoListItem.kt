@@ -18,7 +18,7 @@ class VideoListItem(
   //<editor-fold defaultstate="collapsed" desc="注释">
   override fun fillData(holder: BaseViewHolder<ItemListVideoBinding>, item: VideoBean) {
     val viewBinding = holder.viewBinding
-    viewBinding.itemPlayPagerThumb.loadNetVideoCover(url = item.url ?: "")
+    viewBinding.itemPlayPagerThumb.loadCoilSimpleUrl(url = item.url ?: "", holderRatio = 16f / 9)
     viewBinding.itemVideoListTitle.text = item.title
     viewBinding.itemPlayPagerBtn.pressEffectAlpha(0.9f)
     viewBinding.itemPlayPagerBtn.click { onItemPlayClick?.invoke(item) }

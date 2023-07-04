@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.Application
 import android.content.Context
-import android.net.Uri
 import android.util.AttributeSet
 import android.view.View
 import android.widget.ImageView
@@ -16,7 +15,6 @@ import xyz.doikki.videocontroller.StandardVideoController
 import xyz.doikki.videocontroller.component.*
 import xyz.doikki.videoplayer.player.VideoView
 import xyz.doikki.videoplayer.util.PlayerUtils
-import java.io.File
 
 /**
  * 将大部分控制封装后对外简单使用
@@ -142,27 +140,7 @@ class MyVideoView : VideoView, LifecycleObserver {
     mRatio = ratio
     mNeedHolder = needHolder
     titleView.setTitle(if (title.isNullOrBlank()) url else title) //设置标题
-    if (cover.isNullOrBlank()) { //封面为空拿播放地址去加载
-      if (url.startsWith("http")) coverIv.loadNetVideoCover(url = url, holderRatio = ratio, hasHolder = needHolder) //加载网络封面
-      else {
-        val videoFile = File(url)
-        if (videoFile.exists()) {
-          coverIv.loadCoilSimpleUrl(url = Uri.fromFile(videoFile).toString(), holderRatio = ratio, hasHolder = needHolder) //加载封面
-        } else {
-          coverIv.loadCoilSimpleUrl(url = url, holderRatio = ratio, hasHolder = needHolder) //加载封面
-        }
-      }
-    } else { //封面防止可能是视频地址
-      if (cover.startsWith("http")) coverIv.loadCoilSimpleUrl(url = cover, holderRatio = ratio, hasHolder = needHolder)
-      else {
-        val videoFile = File(cover)
-        if (videoFile.exists()) {
-          coverIv.loadCoilSimpleUrl(url = Uri.fromFile(videoFile).toString(), holderRatio = ratio, hasHolder = needHolder) //加载封面
-        } else {
-          coverIv.loadCoilSimpleUrl(url = cover, holderRatio = ratio, hasHolder = needHolder) //加载封面
-        }
-      }
-    } //加载封面
+    coverIv.loadCoilSimpleUrl(url = if (cover.isNullOrBlank()) url else cover, holderRatio = ratio, hasHolder = needHolder) //加载封面(如果没有封面字段则使用视频地址加载)
     if (autoPlay) start() //开始播放
     //修改控制器
     controller.removeControlComponent(liveCV)
