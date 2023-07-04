@@ -12,3 +12,37 @@
 10.增加语言工具类MyLanguageUtils
 11.三方Lib升级
 12.其他优化和修改等
+
+=================================================================
+2023年7月4日 1.0.6
+1.自定义滑动验证码
+2.AndroidStartup依赖改为Java名称
+3.Jsoup优化HTML加载
+4.打包AAB处理
+5.自定义MyGsonUtil解决.toJson()时Int变为Double问题以及不需要序列化和反序列化的字段类型
+6.增加日历选择效果
+7.解决部分HTML不自动跳转二级页面的BUG
+8.多渠道icon配置
+9.增加JS交互demo效果
+10.增加左右滑动控件效果
+11.去掉RecyclerView调用notifyItemChanged闪烁
+12.修复CollapsingToolbarLayout中Toolbar不放到第一个位置会导致内部无法点击的bug
+13.更换加载中闪动效果MyFlashTextView
+14.WebView字体大小不跟随系统
+15.增加虚线效果的XML
+16.修复精度转化丢失问题
+17.修复自定义键盘输入方式，以解决部分手机上Instrumentation().sendKeyDownUpSync无效的bug
+18.增加自定义多音字词典
+19.修改旋转屏幕后语种和字体大小变化问题
+20.新增SM国密算法工具类
+21.替换EditTextView的输入方式textPersonName为text(会在部分手机上无法输入中文)
+22.修改Wan列表的Banner和列表同步请求，解决可能拿到Banner但是不展示的bug
+23.悬浮球显示IP信息
+24.更新最新readhub网站的API接口地址和数据格式
+25.更新AS版本到Flamingo | 2022.2.1以及对于的相关配置(如：Gradle8.0、JDK17、setting.gradle、build.gradle等)
+26.CZxing新版本存在问题，暂时改为Zxing实现(自带的声音播放太长，改为自定义)
+27.升级图片加载Coil版本为2.4.0，并解决在自定义动态占位图的情况下加载黑白或者高斯模糊图片出现图片显示不全的bug
+28.增加Coil加载未知宽高比网络图片方式，以实现宽度自适应或者高度自适应的图片加载
+29.其他三方Lib和AS版本升级后对应的部分代码修改
+
+=================================================================
