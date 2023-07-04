@@ -22,7 +22,6 @@ object PlaceHolderUtils {
    * @param ratio 宽高比(不能设置为0)
    * @param width 控件宽度(默认为屏幕宽度)
    * @param bgColor 占位图背景色
-   * @param corner 圆角大小px
    */
   fun getLoadingHolder(ratio: Float = 1f, width: Int = ScreenUtils.getScreenWidth(), @ColorInt bgColor: Int = Color.WHITE): Drawable {
     return generatePlaceholder(newRatio = ratio, newWidth = width, bgColor = bgColor, loading = true)
@@ -35,7 +34,6 @@ object PlaceHolderUtils {
    * @param ratio 宽高比(不能设置为0)
    * @param width 控件宽度(默认为屏幕宽度)
    * @param bgColor 占位图背景色
-   * @param corner 圆角大小px
    */
   fun getErrorHolder(ratio: Float = 1f, width: Int = ScreenUtils.getScreenWidth(), @ColorInt bgColor: Int = Color.WHITE): Drawable {
     return generatePlaceholder(newRatio = ratio, newWidth = width, bgColor = bgColor, loading = false)
@@ -48,7 +46,6 @@ object PlaceHolderUtils {
    * @param newRatio 宽高比(不能设置为0)
    * @param newWidth 控件宽度(默认为屏幕宽度)
    * @param bgColor 占位图背景色
-   * @param corner 圆角大小px
    * @param loading 是否是加载中的占位图
    */
   private fun generatePlaceholder(newRatio: Float = 1f, newWidth: Int, bgColor: Int, loading: Boolean): Drawable {
