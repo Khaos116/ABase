@@ -43,7 +43,6 @@ import cc.abase.demo.component.web.HtmlFragment
 import cc.abase.demo.component.zxing.ZxingActivity
 import cc.abase.demo.constants.EventKeys
 import cc.abase.demo.databinding.FragmentMineBinding
-import cc.abase.demo.ext.toast2
 import cc.abase.demo.item.SimpleTxtItem
 import cc.abase.demo.rxhttp.repository.UserRepository
 import cc.abase.demo.widget.decoration.SpacesItemDecoration
@@ -53,6 +52,7 @@ import com.drakeet.multitype.MultiTypeAdapter
 import com.jeremyliao.liveeventbus.LiveEventBus
 import kotlinx.coroutines.launch
 import rxhttp.awaitResult
+import rxhttp.delay
 import java.util.*
 
 /**
@@ -127,6 +127,7 @@ class MineFragment : CommBindFragment<FragmentMineBinding>() {
             is Activity -> {
               mActivity.startActivity(Intent(mContext, cls))
             }
+
             is CcUpdateService -> {
               clickCount++
               CcUpdateService.startIntent(
@@ -135,6 +136,7 @@ class MineFragment : CommBindFragment<FragmentMineBinding>() {
                 showNotification = true
               )
             }
+
             is Fragment -> {
               FragmentParentActivity.startFragment(mContext, second.javaClass)
             }
@@ -164,21 +166,28 @@ class MineFragment : CommBindFragment<FragmentMineBinding>() {
     }
     //获取积分
     lifecycleScope.launch {
-      UserRepository.myIntegral()
-        .awaitResult {
-          viewBinding.mineIntegral.text = String.format(R.string.我的积分.xmlToString(), it.coinCount)
-          multiTypeAdapter.items = items
-          multiTypeAdapter.notifyDataSetChanged()
-          dismissLoadingView()
-          viewBinding.root.visible()
-        }
-        .onFailure { e ->
-          e.toast2()
-          viewBinding.mineIntegral.text = String.format(R.string.我的积分.xmlToString(), 0)
-          multiTypeAdapter.items = items
-          multiTypeAdapter.notifyDataSetChanged()
-          dismissLoadingView()
-          viewBinding.root.visible()
+      val b1 = UserRepository.myIntegral(true).await()
+      if (b1.coinCount >= 0) {//读取缓存成功
+        viewBinding.mineIntegral.text = String.format(R.string.我的积分.xmlToString(), b1.coinCount)
+        multiTypeAdapter.items = items
+        multiTypeAdapter.notifyDataSetChanged()
+        dismissLoadingView()
+        viewBinding.root.visible()
+      }
+      UserRepository.myIntegral(false)//更新数据
+        .delay(3000)
+        .awaitResult { b2 ->
+          if (b1.coinCount < 0) {//没有缓存，请求完成也要显示结果
+            multiTypeAdapter.items = items
+            multiTypeAdapter.notifyDataSetChanged()
+            dismissLoadingView()
+            viewBinding.root.visible()
+          }
+          if (b2.coinCount >= 0) {//拿到最新积分
+            viewBinding.mineIntegral.text = String.format(R.string.我的积分.xmlToString(), b1.coinCount)
+          } else if (b1.coinCount < 0) {//没有请求成功，也没有拿到缓存
+            viewBinding.mineIntegral.text = String.format(R.string.我的积分.xmlToString(), "0")
+          }
         }
     }
     //监听加载进度
