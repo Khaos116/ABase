@@ -1,0 +1,323 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<issues format="6" by="lint 8.0.2" type="baseline" client="gradle" dependencies="false" name="AGP (8.0.2)" variant="fatal" version="8.0.2">
+
+    <issue
+        id="Instantiatable"
+        message="`SplashActivity` must extend android.app.Activity"
+        errorLine1="      android:name=&quot;.component.splash.SplashActivity&quot;"
+        errorLine2="                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/AndroidManifest.xml"
+            line="46"
+            column="21"/>
+    </issue>
+
+    <issue
+        id="Instantiatable"
+        message="`GuideActivity` must extend android.app.Activity"
+        errorLine1="      android:name=&quot;.component.splash.GuideActivity&quot;"
+        errorLine2="                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/AndroidManifest.xml"
+            line="62"
+            column="21"/>
+    </issue>
+
+    <issue
+        id="Instantiatable"
+        message="`LoginActivity` must extend android.app.Activity"
+        errorLine1="      android:name=&quot;.component.login.LoginActivity&quot;"
+        errorLine2="                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/AndroidManifest.xml"
+            line="71"
+            column="21"/>
+    </issue>
+
+    <issue
+        id="Instantiatable"
+        message="`RegisterActivity` must extend android.app.Activity"
+        errorLine1="      android:name=&quot;.component.login.RegisterActivity&quot;"
+        errorLine2="                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/AndroidManifest.xml"
+            line="80"
+            column="21"/>
+    </issue>
+
+    <issue
+        id="Instantiatable"
+        message="`MainActivity` must extend android.app.Activity"
+        errorLine1="      android:name=&quot;.component.main.MainActivity&quot;"
+        errorLine2="                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/AndroidManifest.xml"
+            line="89"
+            column="21"/>
+    </issue>
+
+    <issue
+        id="Instantiatable"
+        message="`WebActivity` must extend android.app.Activity"
+        errorLine1="      android:name=&quot;.component.web.WebActivity&quot;"
+        errorLine2="                    ~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/AndroidManifest.xml"
+            line="98"
+            column="21"/>
+    </issue>
+
+    <issue
+        id="Instantiatable"
+        message="`ChatActivity` must extend android.app.Activity"
+        errorLine1="      android:name=&quot;.component.chat.ChatActivity&quot;"
+        errorLine2="                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/AndroidManifest.xml"
+            line="107"
+            column="21"/>
+    </issue>
+
+    <issue
+        id="Instantiatable"
+        message="`VideoCompressActivity` must extend android.app.Activity"
+        errorLine1="      android:name=&quot;.component.video.VideoCompressActivity&quot;"
+        errorLine2="                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/AndroidManifest.xml"
+            line="116"
+            column="21"/>
+    </issue>
+
+    <issue
+        id="Instantiatable"
+        message="`VideoDetailActivity` must extend android.app.Activity"
+        errorLine1="      android:name=&quot;.component.video.VideoDetailActivity&quot;"
+        errorLine2="                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/AndroidManifest.xml"
+            line="125"
+            column="21"/>
+    </issue>
+
+    <issue
+        id="Instantiatable"
+        message="`StickyActivity` must extend android.app.Activity"
+        errorLine1="      android:name=&quot;.component.sticky.StickyActivity&quot;"
+        errorLine2="                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/AndroidManifest.xml"
+            line="134"
+            column="21"/>
+    </issue>
+
+    <issue
+        id="Instantiatable"
+        message="`StickyActivity2` must extend android.app.Activity"
+        errorLine1="      android:name=&quot;.component.sticky.StickyActivity2&quot;"
+        errorLine2="                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/AndroidManifest.xml"
+            line="143"
+            column="21"/>
+    </issue>
+
+    <issue
+        id="Instantiatable"
+        message="`DragActivity` must extend android.app.Activity"
+        errorLine1="      android:name=&quot;.component.drag.DragActivity&quot;"
+        errorLine2="                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/AndroidManifest.xml"
+            line="152"
+            column="21"/>
+    </issue>
+
+    <issue
+        id="Instantiatable"
+        message="`SpeditActivity` must extend android.app.Activity"
+        errorLine1="      android:name=&quot;.component.spedit.SpeditActivity&quot;"
+        errorLine2="                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/AndroidManifest.xml"
+            line="161"
+            column="21"/>
+    </issue>
+
+    <issue
+        id="Instantiatable"
+        message="`CoordinatorActivity` must extend android.app.Activity"
+        errorLine1="      android:name=&quot;.component.coordinator.CoordinatorActivity&quot;"
+        errorLine2="                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/AndroidManifest.xml"
+            line="170"
+            column="21"/>
+    </issue>
+
+    <issue
+        id="Instantiatable"
+        message="`ExpandActivity` must extend android.app.Activity"
+        errorLine1="      android:name=&quot;.component.expand.ExpandActivity&quot;"
+        errorLine2="                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/AndroidManifest.xml"
+            line="179"
+            column="21"/>
+    </issue>
+
+    <issue
+        id="Instantiatable"
+        message="`PlayListActivity` must extend android.app.Activity"
+        errorLine1="      android:name=&quot;.component.playlist.PlayListActivity&quot;"
+        errorLine2="                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/AndroidManifest.xml"
+            line="188"
+            column="21"/>
+    </issue>
+
+    <issue
+        id="Instantiatable"
+        message="`VerticalPagerActivity` must extend android.app.Activity"
+        errorLine1="      android:name=&quot;.component.playlist.VerticalPagerActivity&quot;"
+        errorLine2="                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/AndroidManifest.xml"
+            line="197"
+            column="21"/>
+    </issue>
+
+    <issue
+        id="Instantiatable"
+        message="`DecorationActivity` must extend android.app.Activity"
+        errorLine1="      android:name=&quot;.component.decoration.DecorationActivity&quot;"
+        errorLine2="                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/AndroidManifest.xml"
+            line="206"
+            column="21"/>
+    </issue>
+
+    <issue
+        id="Instantiatable"
+        message="`SettingActivity` must extend android.app.Activity"
+        errorLine1="      android:name=&quot;.component.set.SettingActivity&quot;"
+        errorLine2="                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/AndroidManifest.xml"
+            line="215"
+            column="21"/>
+    </issue>
+
+    <issue
+        id="Instantiatable"
+        message="`FlexboxActivity` must extend android.app.Activity"
+        errorLine1="      android:name=&quot;.component.flexbox.FlexboxActivity&quot;"
+        errorLine2="                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/AndroidManifest.xml"
+            line="224"
+            column="21"/>
+    </issue>
+
+    <issue
+        id="Instantiatable"
+        message="`MarqueeActivity` must extend android.app.Activity"
+        errorLine1="      android:name=&quot;.component.marquee.MarqueeActivity&quot;"
+        errorLine2="                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/AndroidManifest.xml"
+            line="233"
+            column="21"/>
+    </issue>
+
+    <issue
+        id="Instantiatable"
+        message="`RecyclerPagerActivity` must extend android.app.Activity"
+        errorLine1="      android:name=&quot;.component.recyclerpage.RecyclerPagerActivity&quot;"
+        errorLine2="                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/AndroidManifest.xml"
+            line="242"
+            column="21"/>
+    </issue>
+
+    <issue
+        id="Instantiatable"
+        message="`BlurActivity` must extend android.app.Activity"
+        errorLine1="      android:name=&quot;.component.blur.BlurActivity&quot;"
+        errorLine2="                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/AndroidManifest.xml"
+            line="251"
+            column="21"/>
+    </issue>
+
+    <issue
+        id="Instantiatable"
+        message="`ZxingActivity` must extend android.app.Activity"
+        errorLine1="      android:name=&quot;.component.zxing.ZxingActivity&quot;"
+        errorLine2="                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/AndroidManifest.xml"
+            line="260"
+            column="21"/>
+    </issue>
+
+    <issue
+        id="Instantiatable"
+        message="`PatternLockerActivity` must extend android.app.Activity"
+        errorLine1="      android:name=&quot;.component.locker.PatternLockerActivity&quot;"
+        errorLine2="                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/AndroidManifest.xml"
+            line="269"
+            column="21"/>
+    </issue>
+
+    <issue
+        id="Instantiatable"
+        message="`CountActivity` must extend android.app.Activity"
+        errorLine1="      android:name=&quot;.component.count.CountActivity&quot;"
+        errorLine2="                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/AndroidManifest.xml"
+            line="278"
+            column="21"/>
+    </issue>
+
+    <issue
+        id="Instantiatable"
+        message="`BottomSheetActivity` must extend android.app.Activity"
+        errorLine1="      android:name=&quot;.component.bottomsheet.BottomSheetActivity&quot;"
+        errorLine2="                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/AndroidManifest.xml"
+            line="287"
+            column="21"/>
+    </issue>
+
+    <issue
+        id="Instantiatable"
+        message="`FragmentParentActivity` must extend android.app.Activity"
+        errorLine1="      android:name=&quot;.component.comm.FragmentParentActivity&quot;"
+        errorLine2="                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/AndroidManifest.xml"
+            line="296"
+            column="21"/>
+    </issue>
+
+    <issue
+        id="Instantiatable"
+        message="`TestActivity` must extend android.app.Activity"
+        errorLine1="      android:name=&quot;.component.test.TestActivity&quot;"
+        errorLine2="                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/AndroidManifest.xml"
+            line="305"
+            column="21"/>
+    </issue>
+
+</issues>
