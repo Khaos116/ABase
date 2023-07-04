@@ -144,7 +144,7 @@ class MainActivity : CommBindActivity<ActivityMainBinding>() {
     //关闭其他所有页面
     ActivityUtils.finishOtherActivities(javaClass)
     pingTest()
-    //PinYinConstants.testTransHanLP()//测试多音字
+    //PinYinConstants.testTransTiny()//测试多音字
     val ipTv = TextView(mContext)
     ipTv.setTextSize(TypedValue.COMPLEX_UNIT_SP, 8f)
     ipTv.setTextColor(Color.BLUE)
