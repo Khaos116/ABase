@@ -55,11 +55,10 @@ fun ImageView.loadCoilUrl(
   holderBgColor: Int = Color.WHITE,//占位图默认背景色
   blackWhite: Boolean = false,//是否需要黑白效果
   @FloatRange(from = 0.0, to = 25.0) blurRadius: Float = 0f,//如果需要高斯模糊效果则输入范围(0,25]
-  @FloatRange(from = 0.0) corner: Float = 0f//占位图如果需要圆角效果
 ) {
   if (url.isNullOrBlank()) {
     this.clearLoad()
-    if (hasHolder) this.load(PlaceHolderUtils.getErrorHolder(ratio = holderRatio, width = holderWidth, bgColor = holderBgColor, corner = corner))
+    if (hasHolder) this.load(PlaceHolderUtils.getErrorHolder(ratio = holderRatio, width = holderWidth, bgColor = holderBgColor))
   } else {
     val myTag = "${url}_${blackWhite}_${blurRadius}"
     if (getTag(R.id.suc_img) == myTag) return
@@ -70,15 +69,15 @@ fun ImageView.loadCoilUrl(
     if (blurRadius > 0 && blurRadius <= 25) transList.add(BlurTransformation(blurRadius))//高斯模糊
     val build = fun ImageRequest.Builder.() {
       crossfade(if (hasHolder) 0 else duration)//过度效果
-      if (hasHolder) placeholder(PlaceHolderUtils.getLoadingHolder(ratio = holderRatio, width = holderWidth, bgColor = holderBgColor, corner = corner))//加载中占位图
-      if (hasHolder) error(PlaceHolderUtils.getErrorHolder(ratio = holderRatio, width = holderWidth, bgColor = holderBgColor, corner = corner))//加载失败占位图
+      if (hasHolder) placeholder(PlaceHolderUtils.getLoadingHolder(ratio = holderRatio, width = holderWidth, bgColor = holderBgColor))//加载中占位图
+      if (hasHolder) error(PlaceHolderUtils.getErrorHolder(ratio = holderRatio, width = holderWidth, bgColor = holderBgColor))//加载失败占位图
       if (transList.isNotEmpty()) transformations(transList)//图片特殊效果
       listener(
         onError = { r, e -> "Coil图片加载失败:${r.data}},e=${e.throwable.message ?: "null"}".logE() },//失败打印图片地址和原因
         onSuccess = { _, _ -> setTag(R.id.suc_img, myTag) },//成功设置TAG，防止复用重新加载
       )
     }
-    myIv.load(url.toFile() ?: url, builder = build)//如果是文件就加载文件，否则就加载图片地址
+    myIv.load(data = url, builder = build)//如果是文件就加载文件，否则就加载图片地址
   }
 }
 
@@ -92,11 +91,10 @@ fun ImageView.loadCoilWrapHeight(
   holderBgColor: Int = Color.WHITE,//占位图默认背景色
   blackWhite: Boolean = false,//是否需要黑白效果
   @FloatRange(from = 0.0, to = 25.0) blurRadius: Float = 0f,//如果需要高斯模糊效果则输入范围(0,25]
-  @FloatRange(from = 0.0) corner: Float = 0f//占位图如果需要圆角效果
 ) {
   if (url.isNullOrBlank()) {
     this.clearLoad()
-    if (hasHolder) this.load(PlaceHolderUtils.getErrorHolder(ratio = holderRatio, width = holderWidth, bgColor = holderBgColor, corner = corner))
+    if (hasHolder) this.load(PlaceHolderUtils.getErrorHolder(ratio = holderRatio, width = holderWidth, bgColor = holderBgColor))
   } else {
     val myTag = "${url}_${blackWhite}_${blurRadius}"
     if (getTag(R.id.suc_img) == myTag) return
@@ -110,15 +108,15 @@ fun ImageView.loadCoilWrapHeight(
       scale(Scale.FIT)//这个模式将图片缩放以适应ImageView的尺寸，同时保持图片的宽高比例不变
       //scale(Scale.FILL)//这个模式将图片缩放以填充满整个ImageView，无论图片的宽高比例如何
       crossfade(if (hasHolder) 0 else duration)//过度效果
-      if (hasHolder) placeholder(PlaceHolderUtils.getLoadingHolder(ratio = holderRatio, width = holderWidth, bgColor = holderBgColor, corner = corner))//加载中占位图
-      if (hasHolder) error(PlaceHolderUtils.getErrorHolder(ratio = holderRatio, width = holderWidth, bgColor = holderBgColor, corner = corner))//加载失败占位图
+      if (hasHolder) placeholder(PlaceHolderUtils.getLoadingHolder(ratio = holderRatio, width = holderWidth, bgColor = holderBgColor))//加载中占位图
+      if (hasHolder) error(PlaceHolderUtils.getErrorHolder(ratio = holderRatio, width = holderWidth, bgColor = holderBgColor))//加载失败占位图
       if (transList.isNotEmpty()) transformations(transList)//图片特殊效果
       listener(
         onError = { r, e -> "Coil图片加载失败:${r.data}},e=${e.throwable.message ?: "null"}".logE() },//失败打印图片地址和原因
         onSuccess = { _, _ -> setTag(R.id.suc_img, myTag) },//成功设置TAG，防止复用重新加载
       )
     }
-    myIv.load(url.toFile() ?: url, builder = build)//如果是文件就加载文件，否则就加载图片地址
+    myIv.load(data = url, builder = build)//如果是文件就加载文件，否则就加载图片地址
   }
 }
 
@@ -132,11 +130,10 @@ fun ImageView.loadCoilWrapWidth(
   holderBgColor: Int = Color.WHITE,//占位图默认背景色
   blackWhite: Boolean = false,//是否需要黑白效果
   @FloatRange(from = 0.0, to = 25.0) blurRadius: Float = 0f,//如果需要高斯模糊效果则输入范围(0,25]
-  @FloatRange(from = 0.0) corner: Float = 0f//占位图如果需要圆角效果
 ) {
   if (url.isNullOrBlank()) {
     this.clearLoad()
-    if (hasHolder) this.load(PlaceHolderUtils.getErrorHolder(ratio = holderRatio, width = holderWidth, bgColor = holderBgColor, corner = corner))
+    if (hasHolder) this.load(PlaceHolderUtils.getErrorHolder(ratio = holderRatio, width = holderWidth, bgColor = holderBgColor))
   } else {
     val myTag = "${url}_${blackWhite}_${blurRadius}"
     if (getTag(R.id.suc_img) == myTag) return
@@ -150,15 +147,15 @@ fun ImageView.loadCoilWrapWidth(
       scale(Scale.FIT)//这个模式将图片缩放以适应ImageView的尺寸，同时保持图片的宽高比例不变
       //scale(Scale.FILL)//这个模式将图片缩放以填充满整个ImageView，无论图片的宽高比例如何
       crossfade(if (hasHolder) 0 else duration)//过度效果
-      if (hasHolder) placeholder(PlaceHolderUtils.getLoadingHolder(ratio = holderRatio, width = holderWidth, bgColor = holderBgColor, corner = corner))//加载中占位图
-      if (hasHolder) error(PlaceHolderUtils.getErrorHolder(ratio = holderRatio, width = holderWidth, bgColor = holderBgColor, corner = corner))//加载失败占位图
+      if (hasHolder) placeholder(PlaceHolderUtils.getLoadingHolder(ratio = holderRatio, width = holderWidth, bgColor = holderBgColor))//加载中占位图
+      if (hasHolder) error(PlaceHolderUtils.getErrorHolder(ratio = holderRatio, width = holderWidth, bgColor = holderBgColor))//加载失败占位图
       if (transList.isNotEmpty()) transformations(transList)//图片特殊效果
       listener(
         onError = { r, e -> "Coil图片加载失败:${r.data}},e=${e.throwable.message ?: "null"}".logE() },//失败打印图片地址和原因
         onSuccess = { _, _ -> setTag(R.id.suc_img, myTag) },//成功设置TAG，防止复用重新加载
       )
     }
-    myIv.load(url.toFile() ?: url, builder = build)//如果是文件就加载文件，否则就加载图片地址
+    myIv.load(data = url, builder = build)//如果是文件就加载文件，否则就加载图片地址
   }
 }
 
@@ -171,7 +168,6 @@ fun ImageView.loadCoilRes(
   holderBgColor: Int = Color.WHITE,//占位图默认背景色
   blackWhite: Boolean = false,//是否需要黑白效果
   @FloatRange(from = 0.0, to = 25.0) blurRadius: Float = 0f,//如果需要高斯模糊效果则输入范围(0,25]
-  @FloatRange(from = 0.0) corner: Float = 0f//占位图如果需要圆角效果
 ) {
   this.clearLoad()
   val myTag = "${resId}_${blackWhite}_${blurRadius}"
@@ -183,11 +179,11 @@ fun ImageView.loadCoilRes(
   val build = fun ImageRequest.Builder.() {
     scale(if (myIv.scaleType == ImageView.ScaleType.CENTER_CROP) Scale.FILL else Scale.FIT)//填充方式
     crossfade(if (hasHolder) 0 else duration)//过度效果
-    if (hasHolder) error(PlaceHolderUtils.getErrorHolder(ratio = holderRatio, width = holderWidth, bgColor = holderBgColor, corner = corner))//加载失败占位图
+    if (hasHolder) error(PlaceHolderUtils.getErrorHolder(ratio = holderRatio, width = holderWidth, bgColor = holderBgColor))//加载失败占位图
     if (transList.isNotEmpty()) transformations(transList)//图片特殊效果
     listener(onSuccess = { _, _ -> setTag(R.id.suc_img, myTag) })//成功设置TAG，防止复用重新加载
   }
-  myIv.load(resId, builder = build)//加载资源图片
+  myIv.load(data = resId, builder = build)//加载资源图片
 }
 
 //加载视频网络封面
