@@ -105,6 +105,8 @@ android {
     }
   }
 
+  lint { baseline = file("lint-baseline.xml") }//正式版无法打包处理
+
   //防止没有Temp
   File tempFile = new File("${getProjectDir().getParentFile().getPath()}/APK/Temp")
   if (!tempFile.exists()) tempFile.mkdirs()
