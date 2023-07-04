@@ -96,6 +96,7 @@ class MyVideoView : VideoView, LifecycleObserver {
 
   @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
   private fun onDestroyVideo() {
+    mMediaPlayer?.setPlayerEventListener(null)
     release()
   }
   //</editor-fold>
