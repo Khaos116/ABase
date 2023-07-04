@@ -28,10 +28,6 @@ object VideoRandomUtils {
       "https://vod.pipi.cn/fec9203cvodtransbj1251246104/c3f671d05285890807168094119/v.f42906.mp4"
     ),
     Pair(
-      "八佰 2020-08-21",
-      "https://vod.pipi.cn/fec9203cvodtransbj1251246104/83cc73365285890806554816089/v.f42906.mp4"
-    ),
-    Pair(
       "花木兰 2020-09-11",
       "https://vod.pipi.cn/fec9203cvodtransbj1251246104/2cb008ef5285890807135914942/v.f42906.mp4"
     ),
