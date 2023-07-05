@@ -9,6 +9,7 @@ import cc.abase.demo.R
 import cc.abase.demo.component.comm.CommBindFragment
 import cc.abase.demo.databinding.FragmentJsBinding
 import com.blankj.utilcode.util.TimeUtils
+import com.blankj.utilcode.util.Utils
 import com.github.lzyzsd.jsbridge.*
 
 
@@ -58,8 +59,8 @@ class JSFragment : CommBindFragment<FragmentJsBinding>() {
       //ws.setAppCacheEnabled(true)
       //DOM Storage 允许网页应用在客户端存储数据
       ws.domStorageEnabled = true
-      //请求头，可以自行修改，这里使用系统默认的请求头
-      ws.userAgentString = WebSettings.getDefaultUserAgent(mContext)
+      //请求头，可以自行修改，这里使用系统默认的请求头(如果没有可能会导致页面加载到一半无法加载)
+      ws.userAgentString = WebSettings.getDefaultUserAgent(Utils.getApp())
       //混合内容(在https连接中加载http连接的情况,默认WebView会阻止加载此类混合内容，可能会导致页面加载到一半无法加载)
       ws.mixedContentMode = WebSettings.MIXED_CONTENT_ALWAYS_ALLOW
       //是否禁止加载网络图片(把图片加载放在最后来加载渲染)
