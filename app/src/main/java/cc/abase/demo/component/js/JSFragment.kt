@@ -45,7 +45,9 @@ class JSFragment : CommBindFragment<FragmentJsBinding>() {
       ws.allowFileAccess = true
       ////设置网页字体不跟随系统字体发生改变
       //ws.textZoom = 100
-      ////自适应屏幕
+      //NORMAL（默认值）：在没有任何缩放的情况下，按照网页的原始宽度进行布局。这种布局适用于大部分网页，但可能出现一些水平滚动条
+      //SINGLE_COLUMN：把所有内容放在 WebView 的一列中，并使其适应屏幕宽度。这种布局适用于移动端，可以避免水平滚动条出现，但可能导致部分内容的缩放
+      //NARROW_COLUMNS：将页面分为更窄的列，以适应屏幕宽度。这种布局适用于在较窄屏幕上显示内容，可以更好地利用屏幕空间
       //ws.layoutAlgorithm = WebSettings.LayoutAlgorithm.SINGLE_COLUMN
       ws.loadWithOverviewMode = true
       //Cannot call method ‘getItem’ of null
@@ -54,8 +56,17 @@ class JSFragment : CommBindFragment<FragmentJsBinding>() {
       //val appCachePath: String = mContext.application.cacheDir.absolutePath
       //ws.setAppCachePath(appCachePath)
       //ws.setAppCacheEnabled(true)
+      //DOM Storage 允许网页应用在客户端存储数据
+      ws.domStorageEnabled = true
+      //请求头，可以自行修改，这里使用系统默认的请求头
+      ws.userAgentString = WebSettings.getDefaultUserAgent(mContext)
+      //混合内容(在https连接中加载http连接的情况,默认WebView会阻止加载此类混合内容，可能会导致页面加载到一半无法加载)
+      ws.mixedContentMode = WebSettings.MIXED_CONTENT_ALWAYS_ALLOW
+      //是否禁止加载网络图片(把图片加载放在最后来加载渲染)
+      ws.blockNetworkImage = false
     }
     bridgeWebView.webViewClient = object : BridgeWebViewClient(bridgeWebView) {
+      @SuppressLint("WebViewClientOnReceivedSslError")
       override fun onReceivedSslError(view: WebView?, handler: SslErrorHandler?, error: SslError?) {
         handler?.proceed()
       }

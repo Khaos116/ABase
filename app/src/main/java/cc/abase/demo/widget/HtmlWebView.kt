@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Color
 import android.net.http.SslError
-import android.os.Build
 import android.util.AttributeSet
 import android.webkit.*
 import androidx.lifecycle.*
@@ -39,20 +38,26 @@ class HtmlWebView @JvmOverloads constructor(
 
     settings.builtInZoomControls = false //不显示缩放按钮
 
-    settings.blockNetworkImage = true // 把图片加载放在最后来加载渲染
-
     settings.allowFileAccess = false // 不允许访问文件
 
     settings.saveFormData = true
     settings.setGeolocationEnabled(true)
-    settings.domStorageEnabled = true
     settings.javaScriptCanOpenWindowsAutomatically = true /// 支持通过JS打开新窗口
-
-    settings.layoutAlgorithm = WebSettings.LayoutAlgorithm.NARROW_COLUMNS
+    //NORMAL（默认值）：在没有任何缩放的情况下，按照网页的原始宽度进行布局。这种布局适用于大部分网页，但可能出现一些水平滚动条
+    //SINGLE_COLUMN：把所有内容放在 WebView 的一列中，并使其适应屏幕宽度。这种布局适用于移动端，可以避免水平滚动条出现，但可能导致部分内容的缩放
+    //NARROW_COLUMNS：将页面分为更窄的列，以适应屏幕宽度。这种布局适用于在较窄屏幕上显示内容，可以更好地利用屏幕空间
     settings.layoutAlgorithm = WebSettings.LayoutAlgorithm.SINGLE_COLUMN
 
     settings.defaultTextEncodingName = "utf-8"
     settings.loadsImagesAutomatically = true
+    //DOM Storage 允许网页应用在客户端存储数据
+    settings.domStorageEnabled = true
+    //请求头，可以自行修改，这里使用系统默认的请求头
+    settings.userAgentString = WebSettings.getDefaultUserAgent(con)
+    //混合内容(在https连接中加载http连接的情况,默认WebView会阻止加载此类混合内容，可能会导致页面加载到一半无法加载，或者图片无法加载)
+    settings.mixedContentMode = WebSettings.MIXED_CONTENT_ALWAYS_ALLOW
+    //是否禁止加载网络图片(把图片加载放在最后来加载渲染)
+    settings.blockNetworkImage = false
 
     //设置不让其跳转浏览器
     this.webViewClient = object : WebViewClient() {
@@ -61,6 +66,7 @@ class HtmlWebView @JvmOverloads constructor(
         handler.proceed()
       }
 
+      @Deprecated("Deprecated in Java")
       override fun shouldOverrideUrlLoading(view: WebView?, url: String?): Boolean {
         url?.let { u -> view?.loadUrl(u) }
         return false
@@ -68,11 +74,6 @@ class HtmlWebView @JvmOverloads constructor(
     }
     // 添加客户端支持
     this.webChromeClient = WebChromeClient()
-    //不加这个图片显示不出来
-    if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
-      settings.mixedContentMode = WebSettings.MIXED_CONTENT_ALWAYS_ALLOW
-    }
-    settings.blockNetworkImage = false
     //允许cookie 不然有的网站无法登陆
     val mCookieManager: CookieManager = CookieManager.getInstance()
     mCookieManager.setAcceptCookie(true)
@@ -120,7 +121,7 @@ class HtmlWebView @JvmOverloads constructor(
     val pElements = document.select("p")
     for (element in pElements) {
       val tags = element.getElementsByTag("strong")
-      if (tags.isNullOrEmpty()) {//设置段间距+左右间距
+      if (tags.isEmpty()) {//设置段间距+左右间距
         element.attr("style", "margin-bottom:10px;margin-left:10px;margin-right:10px")
         if (element.childrenSize() == 0) {
           if (element.text().isBlank()) {
@@ -130,7 +131,7 @@ class HtmlWebView @JvmOverloads constructor(
           }
         }
       } else {//设置段间距
-        val hasImg = !element.getElementsByTag("img").isNullOrEmpty()
+        val hasImg = element.getElementsByTag("img").isNotEmpty()
         if (hasImg) {
           element.attr("style", "margin-bottom:10px")
         } else {
