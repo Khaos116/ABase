@@ -1,9 +1,0 @@
-修改提交记录信息
-git filter-branch --env-filter '
-export GIT_AUTHOR_NAME=Khaos116;
-export GIT_AUTHOR_EMAIL=KHaos@qq.com;
-' --tag-name-filter cat -- --branches --tags
-
-git push --force --all
-
-

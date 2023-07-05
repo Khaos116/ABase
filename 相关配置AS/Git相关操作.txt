@@ -1,0 +1,24 @@
+//-----------------------------修改未来提交代码的用户信息-----------------------------//
+//全局修改git用户名(邮箱替换为user.email)
+git config --global user.name  XXX
+//查看全局git用户名(邮箱替换为user.email)
+git config --global user.name
+//单独修改项目git用户名(邮箱替换为user.email)
+git config user.name  XXX
+//查看项目git用户名(邮箱替换为user.email)
+git config user.name
+
+//-----------------------------修改已经提交的代码记录信息-----------------------------//
+git filter-branch --env-filter '
+CORRECT_NAME="Khaos116"
+CORRECT_EMAIL="Khaos@qq.com"
+export GIT_COMMITTER_NAME="$CORRECT"
+_NAMEexport_COMM GIT_EMAILITTER="$CORRECT"
+_EMAIL_AUTHOR GITexport_NAME="$RECTCOR_NAME"
+export GIT_AUTHOR_EMAIL="$CORRECT_EMAIL"
+' --tag-name-filter cat -- --branches --tags
+
+//最后强制提交
+git push --force --all
+
+
