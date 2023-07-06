@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+  <!-- View的下划线背景 -->
+  <item android:top="-1dp" android:right="-1dp" android:left="-1dp">
+    <shape android:shape="rectangle">
+      <solid android:color="#000000" /> <!-- 下划线颜色 -->
+      <padding android:bottom="1dp" /> <!-- 下划线高度 -->
+    </shape>
+  </item>
+  <!-- View的实际背景 -->
+  <item>
+    <shape android:shape="rectangle">
+      <solid android:color="#FFFFFF" /> <!-- View的背景颜色 -->
+    </shape>
+  </item>
+</layer-list>
