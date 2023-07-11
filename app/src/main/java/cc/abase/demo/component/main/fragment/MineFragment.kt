@@ -184,7 +184,7 @@ class MineFragment : CommBindFragment<FragmentMineBinding>() {
             viewBinding.root.visible()
           }
           if (b2.coinCount >= 0) {//拿到最新积分
-            viewBinding.mineIntegral.text = String.format(R.string.我的积分.xmlToString(), b1.coinCount)
+            viewBinding.mineIntegral.text = String.format(R.string.我的积分.xmlToString(), b2.coinCount)
           } else if (b1.coinCount < 0) {//没有请求成功，也没有拿到缓存
             viewBinding.mineIntegral.text = String.format(R.string.我的积分.xmlToString(), "0")
           }
