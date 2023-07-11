@@ -3,7 +3,7 @@ object Versions {
   const val sdkTarget = 33
   const val kotlin = "1.8.21"
   const val okHttp = "4.11.0"
-  const val rxHttp = "3.0.6"
+  const val rxHttp = "3.1.0"
   const val coil = "2.4.0"
   const val picSel = "3.11.1"
   const val gradle = "8.0.2"
