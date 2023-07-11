@@ -8,6 +8,7 @@ import cc.abase.demo.config.HeaderManger
 import cc.abase.demo.constants.api.WanUrls
 import cc.abase.demo.rxhttp.interceptor.TokenInterceptor
 import com.ayvytr.okhttploginterceptor.LoggingInterceptor
+import com.blankj.utilcode.constant.TimeConstants
 import okhttp3.OkHttpClient
 import okhttp3.OkHttpClient.Builder
 import rxhttp.RxHttpPlugins
@@ -48,7 +49,7 @@ object RxHttpConfig {
     RxHttpPlugins.init(getDefaultOkHttpClient()) //自定义OkHttpClient对象
       .setDebug(false) //是否开启调试模式，开启后，logcat过滤RxHttp，即可看到整个请求流程日志
       .setConverter(GsonConverter.create(MyGsonUtil.buildGson()))
-      .setCache(File(PathConfig.API_CACHE_DIR), 10 * 1024 * 1024L, mode, 1 * 60 * 60 * 1000L)  //配置缓存目录，最大size及缓存模式 (设置最大缓存为10M，缓存有效时长为1小时)
+      .setCache(File(PathConfig.API_CACHE_DIR), 10 * 1024 * 1024L, mode, 1L * TimeConstants.HOUR)  //配置缓存目录，最大size及缓存模式 (设置最大缓存为10M，缓存有效时长为1小时)
       .setExcludeCacheKeys(*noCacheKeys) //设置一些key，不参与cacheKey的组拼
       //.setResultDecoder(Function)//设置数据解密/解码器，非必须
       //.setConverter(IConverter)//设置全局的转换器，非必须
