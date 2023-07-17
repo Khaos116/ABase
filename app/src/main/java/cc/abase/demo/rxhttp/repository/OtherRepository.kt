@@ -14,14 +14,13 @@ import rxhttp.wrapper.cache.CacheMode
 object OtherRepository : BaseRepository() {
   //只获取外网IP的地址
   private var netIpUrls = mutableListOf(
-    "http://bot.whatismyipaddress.com/",
     "http://checkip.amazonaws.com",
-    "https://ipv4.icanhazip.com",
     "http://www.icanhazip.com",
     "http://icanhazip.com",
     "http://ipinfo.io/ip",
     "https://api.ip.sb/ip",
     "https://ifconfig.co/ip",
+    "https://ipv4.icanhazip.com",
     "http://www.trackip.net/ip",
   )
 
