@@ -22,11 +22,12 @@ object OtherRepository : BaseRepository() {
     "https://ifconfig.co/ip",
     "https://ipv4.icanhazip.com",
     "http://www.trackip.net/ip",
+    "https://ip-api.io/json",
   )
 
   suspend fun getNetIp(): IpBean {
     //备用地址 https://www.cloudflare.com/cdn-cgi/trace
-    return RxHttp.get("http://ip-api.com/json/?lang=zh-CN")
+    return RxHttp.get("http://ip-api.com/json?lang=zh-CN")
       .setCacheMode(CacheMode.ONLY_NETWORK)
       .toAwaitResponseOther<IpBean>()
       .await()
