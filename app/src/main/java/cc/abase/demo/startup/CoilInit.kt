@@ -15,6 +15,7 @@ import coil.memory.MemoryCache
 import com.blankj.utilcode.util.FileUtils
 import com.rousetime.android_startup.AndroidStartup
 import java.io.File
+import java.util.concurrent.TimeUnit
 
 /**
  * Author:Khaos
@@ -36,6 +37,9 @@ class CoilInit : AndroidStartup<Int>() {
       .crossfade(300)
       .okHttpClient {//https://coil-kt.github.io/coil/recipes/#using-a-custom-okhttpclient
         RxHttpConfig.getOkHttpClient()
+          .connectTimeout(60, TimeUnit.SECONDS)
+          .readTimeout(60, TimeUnit.SECONDS)
+          .writeTimeout(60, TimeUnit.SECONDS)
           .addNetworkInterceptor(NetCacheInterceptor())
           .addInterceptor(OfflineCacheInterceptor())
           .build()

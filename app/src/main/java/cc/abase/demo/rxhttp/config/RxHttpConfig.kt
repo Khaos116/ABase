@@ -92,9 +92,9 @@ object RxHttpConfig {
     val sslParams = HttpsUtils.getSslSocketFactory()
     val builder = Builder()
       //.cookieJar(CookieStore())//如果启用自动管理，则不需要在TokenInterceptor中进行保存和initRxHttp()进行读取
-      .connectTimeout(30, TimeUnit.SECONDS)
-      .readTimeout(30, TimeUnit.SECONDS)
-      .writeTimeout(30, TimeUnit.SECONDS)
+      .connectTimeout(60, TimeUnit.SECONDS)
+      .readTimeout(60, TimeUnit.SECONDS)
+      .writeTimeout(60, TimeUnit.SECONDS)
       .sslSocketFactory(sslParams.sSLSocketFactory, sslParams.trustManager) //添加信任证书
       .hostnameVerifier { _, _ -> true } //忽略host验证
     val util = CharlesUtils.getInstance()

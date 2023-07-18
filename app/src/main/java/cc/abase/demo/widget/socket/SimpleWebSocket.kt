@@ -54,10 +54,13 @@ class SimpleWebSocket {
   init {
     val sslParams = HttpsUtils.getSslSocketFactory()
     val builder = OkHttpClient.Builder()
-        .pingInterval(10, TimeUnit.SECONDS)
-        .sslSocketFactory(sslParams.sSLSocketFactory, sslParams.trustManager) //添加信任证书
-        .hostnameVerifier { _, _ -> true }
-        .retryOnConnectionFailure(true)
+      .connectTimeout(60, TimeUnit.SECONDS)
+      .readTimeout(60, TimeUnit.SECONDS)
+      .writeTimeout(60, TimeUnit.SECONDS)
+      .pingInterval(10, TimeUnit.SECONDS)
+      .sslSocketFactory(sslParams.sSLSocketFactory, sslParams.trustManager) //添加信任证书
+      .hostnameVerifier { _, _ -> true }
+      .retryOnConnectionFailure(true)
     mOkHttpClient = builder.build()
   }
   //</editor-fold>
@@ -152,7 +155,8 @@ class SimpleWebSocket {
   private val msgListOld = mutableListOf<String>() //已读消息
 
   //开始每30秒读取一次消息
-  @Synchronized private fun startLoop(delay: Long = 30 * 1000) {
+  @Synchronized
+  private fun startLoop(delay: Long = 30 * 1000) {
     stopLoop()
     mJobCountDown = launchError(handler = { _, _ -> startLoop() }) {
       withContext(Dispatchers.IO) { delay(delay) }.let {
@@ -171,6 +175,7 @@ class SimpleWebSocket {
               }
               //LiveDataConfig.noticeLiveData.value = msg
             }
+
             msgListOld.isNotEmpty() -> { //没有新数据读旧数据
               "30s读取公告旧消息".logI()
               val msg = msgListOld[0]
@@ -178,6 +183,7 @@ class SimpleWebSocket {
               msgListOld.add(msg)
               //LiveDataConfig.noticeLiveData.value = msg
             }
+
             else -> "30s没有读取到消息".logI()
           }
           startLoop()
