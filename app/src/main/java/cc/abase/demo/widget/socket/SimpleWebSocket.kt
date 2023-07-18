@@ -1,5 +1,6 @@
 package cc.abase.demo.widget.socket
 
+import cc.ab.base.config.BaseConfig
 import cc.ab.base.ext.*
 import com.blankj.utilcode.util.NetworkUtils
 import com.google.gson.reflect.TypeToken
@@ -53,11 +54,8 @@ class SimpleWebSocket {
   //<editor-fold defaultstate="collapsed" desc="初始化">
   init {
     val sslParams = HttpsUtils.getSslSocketFactory()
-    val builder = OkHttpClient.Builder()
-      .connectTimeout(60, TimeUnit.SECONDS)
-      .readTimeout(60, TimeUnit.SECONDS)
-      .writeTimeout(60, TimeUnit.SECONDS)
-      .pingInterval(10, TimeUnit.SECONDS)
+    val builder = BaseConfig.getMyOkBuilder()
+      .pingInterval(30, TimeUnit.SECONDS)
       .sslSocketFactory(sslParams.sSLSocketFactory, sslParams.trustManager) //添加信任证书
       .hostnameVerifier { _, _ -> true }
       .retryOnConnectionFailure(true)

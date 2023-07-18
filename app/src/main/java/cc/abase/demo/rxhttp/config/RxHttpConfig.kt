@@ -1,5 +1,6 @@
 package cc.abase.demo.rxhttp.config
 
+import cc.ab.base.config.BaseConfig
 import cc.ab.base.config.PathConfig
 import cc.ab.base.ext.logE
 import cc.ab.base.utils.CharlesUtils
@@ -89,12 +90,11 @@ object RxHttpConfig {
 
   //其他配置获取Okhttp对象
   fun getOkHttpClient(): Builder {
+    //如果需要自定义证书，使用带参的自定义证书信息即可，生成bks->https://www.jianshu.com/p/64172ccfb73b?utm_campaign=maleskine&utm_content=note&utm_medium=seo_notes&utm_source=recommendation
+    //HttpsUtils.getSslSocketFactory(null, context.assets.open("client.bks"), "password")
     val sslParams = HttpsUtils.getSslSocketFactory()
-    val builder = Builder()
+    val builder = BaseConfig.getMyOkBuilder()
       //.cookieJar(CookieStore())//如果启用自动管理，则不需要在TokenInterceptor中进行保存和initRxHttp()进行读取
-      .connectTimeout(60, TimeUnit.SECONDS)
-      .readTimeout(60, TimeUnit.SECONDS)
-      .writeTimeout(60, TimeUnit.SECONDS)
       .sslSocketFactory(sslParams.sSLSocketFactory, sslParams.trustManager) //添加信任证书
       .hostnameVerifier { _, _ -> true } //忽略host验证
     val util = CharlesUtils.getInstance()

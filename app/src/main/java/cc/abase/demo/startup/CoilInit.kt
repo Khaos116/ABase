@@ -37,9 +37,6 @@ class CoilInit : AndroidStartup<Int>() {
       .crossfade(300)
       .okHttpClient {//https://coil-kt.github.io/coil/recipes/#using-a-custom-okhttpclient
         RxHttpConfig.getOkHttpClient()
-          .connectTimeout(60, TimeUnit.SECONDS)
-          .readTimeout(60, TimeUnit.SECONDS)
-          .writeTimeout(60, TimeUnit.SECONDS)
           .addNetworkInterceptor(NetCacheInterceptor())
           .addInterceptor(OfflineCacheInterceptor())
           .build()
