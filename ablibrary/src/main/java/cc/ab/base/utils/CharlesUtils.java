@@ -7,13 +7,17 @@ import android.os.Build;
 import android.os.Environment;
 import android.text.TextUtils;
 import android.util.Log;
+
 import com.blankj.utilcode.util.Utils;
+
 import java.io.*;
 import java.security.KeyStore;
 import java.security.cert.*;
 import java.util.Arrays;
 import java.util.Collection;
+
 import javax.net.ssl.*;
+
 import okhttp3.OkHttpClient;
 
 /**
@@ -89,7 +93,7 @@ public class CharlesUtils {
   /**
    * 为okhttp客户端设置抓包验证
    *
-   * @param builder okhttp客户端builder
+   * @param builder     okhttp客户端builder
    * @param certificate 自签名证书的输入流
    */
   public void setOkHttpCharlesSSL(OkHttpClient.Builder builder, InputStream certificate) {
@@ -99,7 +103,7 @@ public class CharlesUtils {
       if (trustManager != null) {
         SSLContext sslContext = SSLContext.getInstance("SSL");
         //使用构建出的trustManger初始化SSLContext对象
-        sslContext.init(null, new TrustManager[] { trustManager }, null);
+        sslContext.init(null, new TrustManager[]{trustManager}, null);
         //获得sslSocketFactory对象
         SSLSocketFactory sslSocketFactory = sslContext.getSocketFactory();
         builder.sslSocketFactory(sslSocketFactory, trustManager);
@@ -123,8 +127,7 @@ public class CharlesUtils {
     try {
       CertificateFactory certificateFactory = CertificateFactory.getInstance("X.509");
       //通过证书工厂得到自签证书对象集合
-      Collection<? extends Certificate> certificates =
-          certificateFactory.generateCertificates(input);
+      Collection<? extends Certificate> certificates = certificateFactory.generateCertificates(input);
       if (certificates.isEmpty()) {
         throw new IllegalArgumentException("expected non-empty set of trusted certificates");
       }
@@ -172,18 +175,21 @@ public class CharlesUtils {
   //解决接口时间不对的bug
   private class ChainTrust implements X509TrustManager {
     @SuppressLint("TrustAllX509TrustManager")
-    @Override public void checkClientTrusted(X509Certificate[] chain, String authType)
+    @Override
+    public void checkClientTrusted(X509Certificate[] chain, String authType)
         throws CertificateException {
 
     }
 
     @SuppressLint("TrustAllX509TrustManager")
-    @Override public void checkServerTrusted(X509Certificate[] chain, String authType)
+    @Override
+    public void checkServerTrusted(X509Certificate[] chain, String authType)
         throws CertificateException {
 
     }
 
-    @Override public X509Certificate[] getAcceptedIssuers() {
+    @Override
+    public X509Certificate[] getAcceptedIssuers() {
       return new X509Certificate[0];
     }
   }
