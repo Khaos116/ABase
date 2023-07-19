@@ -77,20 +77,19 @@ fun ImageView.loadCoilUrl(
   }
 }
 
-//加载宽度固定，高度自适应的图片(fitWidth一定要和控件宽度一致，否则会填充不满)
+//加载宽度固定，高度自适应的图片(viewWidth一定要和控件宽度一致，否则会填充不满)
 fun ImageView.loadCoilWrapHeight(
   url: String?,//图片地址或者文件地址
   holderRatio: Float = 1f,//占位图宽高比
   hasHolder: Boolean = true,//是否需要占位图
-  holderWidth: Int = ScreenUtils.getScreenWidth(),//占位图宽度
-  fitWidth: Int = ScreenUtils.getScreenWidth(),//固定宽度值
+  viewWidth: Int = ScreenUtils.getScreenWidth(),//控件宽度
   holderBgColor: Int = Color.WHITE,//占位图默认背景色
   blackWhite: Boolean = false,//是否需要黑白效果
   @FloatRange(from = 0.0, to = 25.0) blurRadius: Float = 0f,//如果需要高斯模糊效果则输入范围(0,25]
 ) {
   if (url.isNullOrBlank()) {
     this.clearLoad()
-    if (hasHolder) this.load(PlaceHolderUtils.getErrorHolder(ratio = holderRatio, width = holderWidth, bgColor = holderBgColor))
+    if (hasHolder) this.load(PlaceHolderUtils.getErrorHolder(ratio = holderRatio, width = viewWidth, bgColor = holderBgColor))
   } else {
     val myTag = "${url}_${blackWhite}_${blurRadius}"
     if (getTag(R.id.suc_img) == myTag) return
@@ -100,12 +99,12 @@ fun ImageView.loadCoilWrapHeight(
     if (blackWhite) transList.add(BlackAndWhiteTransformation())//黑白化
     if (blurRadius > 0 && blurRadius <= 25) transList.add(BlurTransformation(blurRadius))//高斯模糊
     val build = fun ImageRequest.Builder.() {
-      size(fitWidth, Int.MAX_VALUE)//宽度固定，高度自适应
+      size(viewWidth, Int.MAX_VALUE)//宽度固定，高度自适应
       scale(Scale.FIT)//这个模式将图片缩放以适应ImageView的尺寸，同时保持图片的宽高比例不变
       //scale(Scale.FILL)//这个模式将图片缩放以填充满整个ImageView，无论图片的宽高比例如何
       crossfade(duration)//过度效果
-      if (hasHolder) placeholder(PlaceHolderUtils.getLoadingHolder(ratio = holderRatio, width = holderWidth, bgColor = holderBgColor))//加载中占位图
-      if (hasHolder) error(PlaceHolderUtils.getErrorHolder(ratio = holderRatio, width = holderWidth, bgColor = holderBgColor))//加载失败占位图
+      if (hasHolder) placeholder(PlaceHolderUtils.getLoadingHolder(ratio = holderRatio, width = viewWidth, bgColor = holderBgColor))//加载中占位图
+      if (hasHolder) error(PlaceHolderUtils.getErrorHolder(ratio = holderRatio, width = viewWidth, bgColor = holderBgColor))//加载失败占位图
       if (transList.isNotEmpty()) transformations(transList)//图片特殊效果
       listener(
         onError = { r, e -> "Coil图片加载失败:${r.data}},e=${e.throwable.message ?: "null"}".logE() },//失败打印图片地址和原因
@@ -116,17 +115,17 @@ fun ImageView.loadCoilWrapHeight(
   }
 }
 
-//加载高度固定，宽度自适应的图片(fitHeight一定要和控件高度一致，否则会填充不满)
+//加载高度固定，宽度自适应的图片(viewHeight一定要和控件高度一致，否则会填充不满)
 fun ImageView.loadCoilWrapWidth(
   url: String?,//图片地址或者文件地址
   holderRatio: Float = 1f,//占位图宽高比
   hasHolder: Boolean = true,//是否需要占位图
-  holderWidth: Int = ScreenUtils.getScreenWidth(),//占位图宽度
-  fitHeight: Int = ScreenUtils.getScreenWidth() / 2,//固定宽度值
+  viewHeight: Int = ScreenUtils.getScreenWidth() / 2,//控件高度
   holderBgColor: Int = Color.WHITE,//占位图默认背景色
   blackWhite: Boolean = false,//是否需要黑白效果
   @FloatRange(from = 0.0, to = 25.0) blurRadius: Float = 0f,//如果需要高斯模糊效果则输入范围(0,25]
 ) {
+  val holderWidth = (viewHeight * holderRatio).toInt()
   if (url.isNullOrBlank()) {
     this.clearLoad()
     if (hasHolder) this.load(PlaceHolderUtils.getErrorHolder(ratio = holderRatio, width = holderWidth, bgColor = holderBgColor))
@@ -139,7 +138,7 @@ fun ImageView.loadCoilWrapWidth(
     if (blackWhite) transList.add(BlackAndWhiteTransformation())//黑白化
     if (blurRadius > 0 && blurRadius <= 25) transList.add(BlurTransformation(blurRadius))//高斯模糊
     val build = fun ImageRequest.Builder.() {
-      size(Int.MAX_VALUE, fitHeight)//高度固定，宽度自适应
+      size(Int.MAX_VALUE, viewHeight)//高度固定，宽度自适应
       scale(Scale.FIT)//这个模式将图片缩放以适应ImageView的尺寸，同时保持图片的宽高比例不变
       //scale(Scale.FILL)//这个模式将图片缩放以填充满整个ImageView，无论图片的宽高比例如何
       crossfade(duration)//过度效果
