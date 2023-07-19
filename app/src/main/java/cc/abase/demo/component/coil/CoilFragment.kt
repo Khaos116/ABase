@@ -20,7 +20,7 @@ class CoilFragment : CommBindFragment<FragmentCoilBinding>() {
     viewBinding.flTitle.commTitleBack.pressEffectAlpha()
     viewBinding.flTitle.commTitleText.text = R.string.Coil特殊图片加载.xmlToString()
     viewBinding.flTitle.commTitleBack.click { mActivity.onBackPressed() }
-    val ration = ScreenUtils.getScreenWidth() * 1f / 200.dp2px()
+    val ration = ScreenUtils.getScreenWidth() * 1f / 150.dp2px()
     val urls = mutableListOf(
       "https://raw.githubusercontent.com/nokiatech/heif/gh-pages/content/images/autumn_1440x960.heic",
 
