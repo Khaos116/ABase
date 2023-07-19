@@ -55,7 +55,7 @@ class SimpleWebSocket {
   init {
     val sslParams = HttpsUtils.getSslSocketFactory()
     val builder = BaseConfig.getMyOkBuilder()
-      .connectTimeout(2, TimeUnit.HOURS)//Socket不能设置时间太短，否则内部会重新连接
+      .connectTimeout(12, TimeUnit.HOURS)//Socket不能设置时间太短，否则内部会重新连接
       .pingInterval(30, TimeUnit.SECONDS)
       .sslSocketFactory(sslParams.sSLSocketFactory, sslParams.trustManager) //添加信任证书
       .hostnameVerifier { _, _ -> true }
