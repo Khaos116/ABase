@@ -77,7 +77,7 @@ fun ImageView.loadCoilUrl(
   }
 }
 
-//加载宽度固定，高度自适应的图片(占位图高度不能比最终加载的图片高度高，否则到时候会变成占位图高度)
+//加载宽度固定，高度自适应的图片(fitWidth一定要和控件宽度一致，否则会填充不满)
 fun ImageView.loadCoilWrapHeight(
   url: String?,//图片地址或者文件地址
   holderRatio: Float = 1f,//占位图宽高比
@@ -116,7 +116,7 @@ fun ImageView.loadCoilWrapHeight(
   }
 }
 
-//加载高度固定，宽度自适应的图片(占位图宽度不能比最终加载的图片宽度宽，否则到时候会变成占位图宽度)
+//加载高度固定，宽度自适应的图片(fitHeight一定要和控件高度一致，否则会填充不满)
 fun ImageView.loadCoilWrapWidth(
   url: String?,//图片地址或者文件地址
   holderRatio: Float = 1f,//占位图宽高比
