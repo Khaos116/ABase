@@ -8,6 +8,7 @@ import java.util.*
  * zh-TW → zh-CHT → zh-Hant → zh → Invariant
  * https://www.cnblogs.com/jacksoft/p/5771130.html
  * 加载WebVie后变回了系统默认语言的坑 https://blog.csdn.net/ganduwei/article/details/88371004
+ * 2023语言切换：https://it.cha138.com/android/show-4125028.html
  * Author:Khaos
  * Date:2021/11/19
  * Time:12:51
