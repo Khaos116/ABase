@@ -1,11 +1,14 @@
 package cc.abase.demo.startup
 
 import android.content.Context
+import androidx.core.provider.FontRequest
+import androidx.emoji.text.EmojiCompat
+import androidx.emoji.text.FontRequestEmojiCompatConfig
 import cc.ab.base.ext.logI
+import cc.abase.demo.R
 import com.rousetime.android_startup.AndroidStartup
-import com.rousetime.android_startup.Startup
 import com.vanniktech.emoji.EmojiManager
-import com.vanniktech.emoji.twitter.TwitterEmojiProvider
+import com.vanniktech.emoji.googlecompat.GoogleCompatEmojiProvider
 
 /**
  * Author:Khaos
@@ -24,7 +27,22 @@ class EmojiInit : AndroidStartup<Int>() {
   //<editor-fold defaultstate="collapsed" desc="初始化">
   override fun create(context: Context): Int {
     //表情
-    EmojiManager.install(TwitterEmojiProvider())
+    //EmojiManager.install(TwitterEmojiProvider())
+    EmojiManager.install(
+      GoogleCompatEmojiProvider(
+        EmojiCompat.init(
+          FontRequestEmojiCompatConfig(
+            context,
+            FontRequest(
+              "com.google.android.gms.fonts",
+              "com.google.android.gms",
+              "Noto Color Emoji Compat",
+              R.array.com_google_android_gms_fonts_certs,
+            )
+          ).setReplaceAll(true)
+        )
+      )
+    )
     "初始化完成".logI()
     return 0
   }
