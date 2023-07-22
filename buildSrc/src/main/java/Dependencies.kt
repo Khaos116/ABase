@@ -3,7 +3,7 @@ object Versions {
   const val sdkTarget = 33
   const val kotlin = "1.8.21"
   const val okHttp = "4.11.0"
-  const val rxHttp = "3.1.0"
+  const val rxHttp = "3.1.1"
   const val coil = "2.4.0"
   const val picSel = "3.11.1"
   const val gradle = "8.0.2"
@@ -30,7 +30,7 @@ object Versions {
 
 object Deps {
   //<editor-fold defaultstate="collapsed" desc="Studio基础配置">
-  //根目录gradle https://maven.aliyun.com/mvn/search 使用ViewBinding最低3.6.0
+  //根目录gradle https://maven.aliyun.com/mvn/search
   const val plugin_android_gradle = "com.android.tools.build:gradle:${Versions.gradle}"
   const val plugin_kotlin_gradle = "org.jetbrains.kotlin:kotlin-gradle-plugin:${Versions.kotlin}"
   const val plugin_r8_gradle = "com.android.tools:r8:8.0.40" //更新R8版本，解决正式版无法打包的问题 https://github.com/square/okhttp/issues/4604
@@ -86,8 +86,8 @@ object Deps {
   const val gson = "com.google.code.gson:gson:2.10.1"
 
   //协程 https://github.com/Kotlin/kotlinx.coroutines
-  const val coroutine = "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.1"
-  const val coroutine_android = "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.1"
+  const val coroutine = "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.2"
+  const val coroutine_android = "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.2"
 
   //网络请求 https://github.com/square/okhttp
   const val okhttp = "com.squareup.okhttp3:okhttp:${Versions.okHttp}"
@@ -136,10 +136,13 @@ object Deps {
   //RecyclerView动画 https://github.com/mikepenz/ItemAnimators
   const val rv_anim = "com.mikepenz:itemanimators:1.1.0"
 
-  //指示器 https://github.com/hackware1993/MagicIndicator
+  //指示器 https://github.com/hackware1993/MagicIndicator (没怎么维护了，后续改用DslTabLayout)
   const val indicator = "com.github.hackware1993:MagicIndicator:1.7.0"
 
-  //侧滑 https://github.com/luckybilly/SmartSwipe
+  //指示器 https://github.com/angcyo/DslTabLayout
+  const val dslTabLayout = "com.github.angcyo.DslTablayout:TabLayout:3.5.4"
+
+  //侧滑 https://github.com/luckybilly/SmartSwipe(没怎么维护了，后续将弃用)
   const val swipe = "com.billy.android:smart-swipe:1.1.2"
   const val swipex = "com.billy.android:smart-swipe-x:1.1.0"
 
@@ -149,7 +152,7 @@ object Deps {
   const val smart_footer = "io.github.scwang90:refresh-footer-classics:2.0.6"
 
   //手机号判断 https://github.com/google/libphonenumber/wiki/Android-Studio-setup
-  const val libphonenumber = "com.googlecode.libphonenumber:libphonenumber:8.13.15"
+  const val libphonenumber = "com.googlecode.libphonenumber:libphonenumber:8.13.17"
   //</editor-fold>
 
   //<editor-fold defaultstate="collapsed" desc="调试统计工具">
@@ -164,7 +167,7 @@ object Deps {
   //const val crashlytics_ktx = "com.google.firebase:firebase-crashlytics-ktx"
 
   //内存泄漏检测 https://square.github.io/leakcanary/getting_started/
-  const val leakcanary = "com.squareup.leakcanary:leakcanary-android:2.11"
+  const val leakcanary = "com.squareup.leakcanary:leakcanary-android:2.12"
 
   //UI调试 https://github.com/YvesCheung/UInspector
   const val uinspector = "io.github.yvescheung:Uinspector:2.0.19"
@@ -181,8 +184,13 @@ object Deps {
   const val pic_compress = "io.github.lucksiege:compress:v${Versions.picSel}"
   const val pic_ucrop = "io.github.lucksiege:ucrop:v${Versions.picSel}"
 
-  //Emoji表情 https://github.com/vanniktech/Emoji
-  const val emoji = "com.vanniktech:emoji-twitter:0.16.0"
+  //Emoji表情 https://github.com/vanniktech/Emoji (0.17.0版本的arr大小)
+  //const val emoji = "com.vanniktech:emoji-ios:0.17.0"//3.73 MB
+  //const val emoji = "com.vanniktech:emoji-google:0.17.0"//2.81 MB
+  //const val emoji = "com.vanniktech:emoji-facebook:0.17.0"//3.97 MB
+  //const val emoji = "com.vanniktech:emoji-twitter:0.17.0"//2.61 MB
+  const val emoji = "com.vanniktech:emoji-google-compat:0.17.0"//438 KB
+  //const val emoji = "com.vanniktech:emoji-material:0.17.0"//326 KB
 
   //SideBar https://github.com/D10NGYANG/DL10SideBar
   const val side_bar = "com.github.D10NGYANG:DL10SideBar:1.0.0"
@@ -196,7 +204,7 @@ object Deps {
   const val dk_exo = "xyz.doikki.android.dkplayer:player-exo:3.3.7"
 
   //https://github.com/airbnb/lottie-android
-  const val lottie = "com.airbnb.android:lottie:6.0.1"
+  const val lottie = "com.airbnb.android:lottie:6.1.0"
 
   //中文转拼音 https://github.com/hellokaton/TinyPinyin
   const val pinyin = "io.github.biezhi:TinyPinyin:2.0.3.RELEASE" // TinyPinyin核心包，约80KB
@@ -232,7 +240,7 @@ object Deps {
   //JS交互 https://github.com/lzyzsd/JsBridge
   const val jsBridge = "com.github.lzyzsd:jsbridge:1.0.4"
 
-  //HanLP多音字转拼音(大部分正确，少部分还是无法转换，如:将进酒)https://github.com/hankcs/HanLP
+  //HanLP多音字转拼音(大部分正确，少部分还是无法转换，如:将进酒)https://github.com/hankcs/HanLP/releases
   const val hanLP = "com.hankcs:hanlp:portable-1.8.4"
   //</editor-fold>
 
