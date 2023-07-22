@@ -3,7 +3,6 @@ package cc.ab.base.startup
 import android.content.Context
 import cc.ab.base.ext.logI
 import com.rousetime.android_startup.AndroidStartup
-import com.rousetime.android_startup.Startup
 import com.tencent.mmkv.MMKV
 
 /**

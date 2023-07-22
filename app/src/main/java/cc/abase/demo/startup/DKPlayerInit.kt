@@ -9,7 +9,6 @@ import com.google.android.exoplayer2.database.ExoDatabaseProvider
 import com.google.android.exoplayer2.upstream.cache.LeastRecentlyUsedCacheEvictor
 import com.google.android.exoplayer2.upstream.cache.SimpleCache
 import com.rousetime.android_startup.AndroidStartup
-import com.rousetime.android_startup.Startup
 import xyz.doikki.videoplayer.exo.ExoMediaSourceHelper
 import xyz.doikki.videoplayer.player.VideoViewConfig
 import xyz.doikki.videoplayer.player.VideoViewManager

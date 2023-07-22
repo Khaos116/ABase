@@ -5,7 +5,6 @@ import android.content.Context
 import cc.ab.base.ext.logI
 import cc.ab.base.utils.FixResources
 import com.rousetime.android_startup.AndroidStartup
-import com.rousetime.android_startup.Startup
 import me.jessyan.autosize.AutoSizeConfig
 
 /**

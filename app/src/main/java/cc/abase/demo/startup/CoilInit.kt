@@ -15,7 +15,6 @@ import coil.memory.MemoryCache
 import com.blankj.utilcode.util.FileUtils
 import com.rousetime.android_startup.AndroidStartup
 import java.io.File
-import java.util.concurrent.TimeUnit
 
 /**
  * Author:Khaos

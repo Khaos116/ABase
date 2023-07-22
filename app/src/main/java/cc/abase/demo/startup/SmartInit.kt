@@ -12,7 +12,6 @@ import cc.abase.demo.component.splash.SplashActivity
 import cc.abase.demo.widget.smart.MidaMusicHeader
 import com.billy.android.swipe.SmartSwipeBack
 import com.rousetime.android_startup.AndroidStartup
-import com.rousetime.android_startup.Startup
 import com.scwang.smart.refresh.layout.SmartRefreshLayout
 
 /**

@@ -5,7 +5,6 @@ import android.content.Context
 import cc.ab.base.ext.logI
 import cc.ab.base.utils.IMMLeaks
 import com.rousetime.android_startup.AndroidStartup
-import com.rousetime.android_startup.Startup
 
 /**
  * @Description 输入法内存泄漏

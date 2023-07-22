@@ -5,7 +5,6 @@ import android.content.Context
 import cc.ab.base.ext.logI
 import cc.abase.demo.utils.BuglyManager
 import com.rousetime.android_startup.AndroidStartup
-import com.rousetime.android_startup.Startup
 
 /**
  * Author:Khaos
