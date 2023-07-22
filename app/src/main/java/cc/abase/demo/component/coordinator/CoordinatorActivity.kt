@@ -4,10 +4,10 @@ import android.animation.ArgbEvaluator
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
-import android.graphics.Typeface
+import android.util.TypedValue
+import android.view.Gravity
 import android.view.ViewGroup.MarginLayoutParams
-import android.view.animation.AccelerateInterpolator
-import android.view.animation.DecelerateInterpolator
+import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentPagerAdapter
@@ -17,12 +17,9 @@ import cc.abase.demo.component.comm.CommBindActivity
 import cc.abase.demo.component.simple.SimpleFragment
 import cc.abase.demo.databinding.*
 import cc.abase.demo.utils.RandomName
-import cc.abase.demo.widget.indicator.ScaleTransitionPagerTitleView
+import cc.abase.demo.widget.indictor.ViewPager1Delegate
+import com.angcyo.tablayout.DslTabLayout
 import com.google.android.material.appbar.AppBarLayout
-import net.lucode.hackware.magicindicator.ViewPagerHelper
-import net.lucode.hackware.magicindicator.buildins.commonnavigator.CommonNavigator
-import net.lucode.hackware.magicindicator.buildins.commonnavigator.abs.*
-import net.lucode.hackware.magicindicator.buildins.commonnavigator.indicators.LinePagerIndicator
 import kotlin.math.abs
 import kotlin.math.min
 
@@ -61,7 +58,7 @@ class CoordinatorActivity : CommBindActivity<ActivityCoordinatorBinding>() {
     val type = (System.currentTimeMillis() % 2).toInt()
     titles.clear()
     fragments.clear()
-    val size = 2 + (Math.random() * 4).toInt()
+    val size = 3 + (Math.random() * 4).toInt()
     for (i in 1..size) {
       titles.add((if (type == 0) "Normal" else "Smart") + i)
       fragments.add(SimpleFragment.newInstance(type))
@@ -74,48 +71,30 @@ class CoordinatorActivity : CommBindActivity<ActivityCoordinatorBinding>() {
       override fun getPageTitle(position: Int) = titles[position]
     }
     viewBinding.coordinatorPager.offscreenPageLimit = fragments.size
-    //加载页面
-    viewBinding.coordinatorCoordinator.indicator?.let {
-      val commonNavigator = CommonNavigator(mContext)
-      commonNavigator.isAdjustMode = titles.size <= 3 //设置是否等分
-      commonNavigator.adapter = object : CommonNavigatorAdapter() {
-        override fun getCount() = titles.size
-
-        override fun getTitleView(context: Context, index: Int): IPagerTitleView {
-          val simplePagerTitleView: ScaleTransitionPagerTitleView = object : ScaleTransitionPagerTitleView(context) {
-            override fun onSelected(index: Int, totalCount: Int) {
-              super.onSelected(index, totalCount)
-              setTypeface(Typeface.DEFAULT, Typeface.BOLD)
-            }
-
-            override fun onDeselected(index: Int, totalCount: Int) {
-              super.onDeselected(index, totalCount)
-              setTypeface(Typeface.DEFAULT, Typeface.NORMAL)
-            }
-          }
-          simplePagerTitleView.text = titles[index]
-          simplePagerTitleView.textSize = 18f
-          simplePagerTitleView.minScale = 0.8f
-          simplePagerTitleView.normalColor = cc.ab.base.R.color.gray_808A87.xmlToColor()
-          simplePagerTitleView.selectedColor = cc.ab.base.R.color.yellow_FF6100.xmlToColor()
-          simplePagerTitleView.setOnClickListener { viewBinding.coordinatorPager.currentItem = index }
-          return simplePagerTitleView
-        }
-
-        override fun getIndicator(context: Context): IPagerIndicator {
-          val indicator = LinePagerIndicator(context)
-          indicator.mode = LinePagerIndicator.MODE_WRAP_CONTENT
-          indicator.startInterpolator = AccelerateInterpolator()
-          indicator.endInterpolator = DecelerateInterpolator(1.6f)
-          indicator.yOffset = 8.dp2px() * 1f
-          indicator.lineHeight = 2.dp2px() * 1f
-          indicator.roundRadius = indicator.lineHeight / 2f
-          indicator.setColors(cc.ab.base.R.color.yellow_FF6100.xmlToColor())
-          return indicator
-        }
+    //配置属性 https://github.com/angcyo/DslTabLayout/wiki/%E5%B1%9E%E6%80%A7%E5%A4%A7%E5%85%A8
+    viewBinding.coordinatorCoordinator.tabLayout?.configTabLayoutConfig {
+      tabDeselectColor = cc.ab.base.R.color.gray_808A87.xmlToColor()//未选中文字颜色
+      tabSelectColor = cc.ab.base.R.color.yellow_FF6100.xmlToColor()//已选中文字颜色
+      tabTextMinSize = 15.dp2px() * 1f//未选中文字大小
+      tabTextMaxSize = 17.dp2px() * 1f//已选中文字大小
+      tabEnableGradientColor = true
+      tabEnableTextBold = true
+    }
+    //添加Tab
+    viewBinding.coordinatorCoordinator.tabLayout?.let { tab ->
+      tab.itemAutoEquWidth = true//智能判断Item是否等宽
+      val pad = 8.dp2px()
+      for (s in titles) {
+        val tv = TextView(mContext)
+        tv.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18f)
+        tv.setTextColor(cc.ab.base.R.color.gray_808A87.xmlToColor())
+        tv.gravity = Gravity.CENTER
+        tv.includeFontPadding = true
+        tv.text = s
+        tv.setPadding(pad, 0, pad, 0)
+        tab.addView(tv, DslTabLayout.LayoutParams(-2, -1))
       }
-      it.navigator = commonNavigator
-      ViewPagerHelper.bind(it, viewBinding.coordinatorPager)
+      ViewPager1Delegate.install(viewBinding.coordinatorPager, tab)
     }
     val bindingCoordinator = MergeCoordinatorUserBinding.bind(viewBinding.coordinatorCoordinator)
     val bindingUser = LayoutUserHeadBinding.bind(bindingCoordinator.coordinatorUserHead)

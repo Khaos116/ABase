@@ -136,9 +136,6 @@ object Deps {
   //RecyclerView动画 https://github.com/mikepenz/ItemAnimators
   const val rv_anim = "com.mikepenz:itemanimators:1.1.0"
 
-  //指示器 https://github.com/hackware1993/MagicIndicator (没怎么维护了，后续改用DslTabLayout)
-  const val indicator = "com.github.hackware1993:MagicIndicator:1.7.0"
-
   //指示器 https://github.com/angcyo/DslTabLayout
   const val dslTabLayout = "com.github.angcyo.DslTablayout:TabLayout:3.5.4"
 

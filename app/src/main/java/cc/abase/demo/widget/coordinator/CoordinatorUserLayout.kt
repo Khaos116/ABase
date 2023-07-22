@@ -6,9 +6,9 @@ import android.view.LayoutInflater
 import android.widget.FrameLayout
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import cc.abase.demo.databinding.MergeCoordinatorUserBinding
+import com.angcyo.tablayout.DslTabLayout
 import com.blankj.utilcode.util.BarUtils
 import com.google.android.material.appbar.AppBarLayout
-import net.lucode.hackware.magicindicator.MagicIndicator
 
 /**
  * Author:Khaos
@@ -20,13 +20,13 @@ class CoordinatorUserLayout @kotlin.jvm.JvmOverloads constructor(
   attrs: AttributeSet? = null,
   defStyleAttr: Int = 0
 ) : CoordinatorLayout(context, attrs, defStyleAttr) {
-  var indicator: MagicIndicator? = null
+  var tabLayout: DslTabLayout? = null
   var appBar: AppBarLayout? = null
 
   init {
     if (!isInEditMode) {
       val binding = MergeCoordinatorUserBinding.inflate(LayoutInflater.from(context), this)
-      indicator = binding.coordinatorUserIndicator
+      tabLayout = binding.coordinatorUserIndicator
       appBar = binding.coordinatorUserAppBar
       //适配状态栏
       (binding.coordinatorUserToolbar.layoutParams as FrameLayout.LayoutParams).topMargin = BarUtils.getStatusBarHeight()

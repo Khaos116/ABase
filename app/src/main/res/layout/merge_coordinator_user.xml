@@ -61,7 +61,7 @@
       </androidx.constraintlayout.widget.ConstraintLayout>
     </com.google.android.material.appbar.CollapsingToolbarLayout>
 
-    <net.lucode.hackware.magicindicator.MagicIndicator
+    <com.angcyo.tablayout.DslTabLayout
         android:id="@+id/coordinatorUserIndicator"
         android:layout_width="match_parent"
         android:layout_height="42dp"

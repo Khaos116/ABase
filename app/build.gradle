@@ -267,7 +267,6 @@ dependencies {
   implementation Deps.rxlife_rxjava
   implementation Deps.picker_view
   implementation Deps.flexbox
-  implementation Deps.indicator
   implementation Deps.dslTabLayout
   implementation Deps.emulator
   implementation Deps.zxingLite
