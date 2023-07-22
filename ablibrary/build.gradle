@@ -72,7 +72,6 @@ dependencies {
   api Deps.lottie
   api Deps.agentweb
   api Deps.swipe
-  api Deps.swipex
   api Deps.smart_refresh
   api Deps.smart_header
   api Deps.smart_footer

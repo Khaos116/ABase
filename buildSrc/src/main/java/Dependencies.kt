@@ -139,9 +139,8 @@ object Deps {
   //指示器 https://github.com/angcyo/DslTabLayout
   const val dslTabLayout = "com.github.angcyo.DslTablayout:TabLayout:3.5.4"
 
-  //侧滑 https://github.com/luckybilly/SmartSwipe(没怎么维护了，后续将弃用)
+  //侧滑 https://github.com/luckybilly/SmartSwipe (仅作为侧滑返回页面使用)
   const val swipe = "com.billy.android:smart-swipe:1.1.2"
-  const val swipex = "com.billy.android:smart-swipe-x:1.1.0"
 
   //下拉刷新 https://github.com/scwang90/SmartRefreshLayout
   const val smart_refresh = "io.github.scwang90:refresh-layout-kernel:2.0.6"
