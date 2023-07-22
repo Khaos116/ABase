@@ -22,7 +22,7 @@
 **[LiveEventBus](https://github.com/JeremyLiao/LiveEventBus)**|跨进程通信、跨APP通信、自动取消订阅
 **[AgentWeb](https://github.com/Justson/AgentWeb)**|简化WebView加载
 **[Itemanimators](https://github.com/mikepenz/ItemAnimators)**|RecyclerView动画局部刷新动画
-**[MagicIndicator](https://github.com/hackware1993/MagicIndicator/tree/androidx)**|样式齐全的ViewPager指示器
+**[DslTabLayout](https://github.com/angcyo/DslTabLayout)**|样式齐全的ViewPager指示器
 **[SmartSwipe](https://github.com/luckybilly/SmartSwipe)**|仿微信、小米侧滑返回
 **[SmartRefresh](https://github.com/scwang90/SmartRefreshLayout)**|下拉刷新，兼容性和效果比SmartSwipe好
 **[CacheEmulatorChecker](https://github.com/happylishang/CacheEmulatorChecker)**|模拟器检测工具
