@@ -137,7 +137,7 @@ object Deps {
   const val rv_anim = "com.mikepenz:itemanimators:1.1.0"
 
   //指示器 https://github.com/angcyo/DslTabLayout
-  const val dslTabLayout = "com.github.angcyo.DslTablayout:TabLayout:3.5.4"
+  const val dslTabLayout = "com.github.angcyo.DslTablayout:TabLayout:3.5.5"
 
   //侧滑 https://github.com/luckybilly/SmartSwipe (仅作为侧滑返回页面使用)
   const val swipe = "com.billy.android:smart-swipe:1.1.2"
