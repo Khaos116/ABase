@@ -65,9 +65,9 @@ object UserRepository : BaseRepository() {
   }
 
   //我的积分
-  suspend fun myIntegral(readCache: Boolean): Await<IntegralBean> {
+  suspend fun myIntegral(onlyReadCache: Boolean): Await<IntegralBean> {
     return RxHttp.get(WanUrls.User.INTEGRAL)
-      .setCacheMode(if (readCache) CacheMode.ONLY_CACHE else CacheMode.ONLY_NETWORK)
+      .setCacheMode(if (onlyReadCache) CacheMode.ONLY_CACHE else CacheMode.REQUEST_NETWORK_FAILED_READ_CACHE)
       .toAwaitResponseWan<IntegralBean>()
       .onErrorReturnItem(IntegralBean(coinCount = -1))
   }
