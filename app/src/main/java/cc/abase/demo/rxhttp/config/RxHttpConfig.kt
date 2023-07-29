@@ -46,7 +46,7 @@ object RxHttpConfig {
 
   //初始化RxHttp https://github.com/liujingxing/rxhttp/wiki
   private fun initRxHttp() {
-    val mode = CacheMode.REQUEST_NETWORK_FAILED_READ_CACHE
+    val mode = CacheMode.NETWORK_SUCCESS_WRITE_CACHE//请求成功就写入缓存
     RxHttpPlugins.init(getDefaultOkHttpClient()) //自定义OkHttpClient对象
       .setDebug(false) //是否开启调试模式，开启后，logcat过滤RxHttp，即可看到整个请求流程日志
       .setConverter(GsonConverter.create(MyGsonUtil.buildGson()))
