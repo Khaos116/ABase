@@ -196,4 +196,16 @@ object TimeUtils {
     return calendar.getActualMaximum(Calendar.DAY_OF_MONTH)
   }
   //</editor-fold>
+
+  //<editor-fold defaultstate="collapsed" desc="获取今天凌晨的时间戳">
+  fun getTodayStartMillTime(millTime: Long, offSet: Int): Long {
+    val sdf = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+    sdf.timeZone = when {
+      offSet >= 0 -> TimeZone.getTimeZone("GMT+${min(offSet, 11)}")
+      else -> TimeZone.getTimeZone("GMT${max(-11, offSet)}")
+    }
+    val today = sdf.format(Date(millTime))
+    return com.blankj.utilcode.util.TimeUtils.string2Millis(today, sdf)
+  }
+  //</editor-fold>
 }
