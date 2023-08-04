@@ -177,4 +177,23 @@ object TimeUtils {
     return calendar.timeInMillis
   }
   //</editor-fold>
+
+  //<editor-fold defaultstate="collapsed" desc="本月一共有多少天">
+  fun getDaysByMonth(millTime: Long): Int {
+    val calendar = Calendar.getInstance()
+    calendar.timeInMillis = millTime
+    return calendar.getActualMaximum(Calendar.DAY_OF_MONTH)
+  }
+
+  fun getDaysByMonth(millTime: Long, offSet: Int = 0): Int {
+    val calendar = Calendar.getInstance(
+      when {
+        offSet >= 0 -> TimeZone.getTimeZone("GMT+${min(offSet, 11)}")
+        else -> TimeZone.getTimeZone("GMT${max(-11, offSet)}")
+      }
+    )
+    calendar.timeInMillis = millTime
+    return calendar.getActualMaximum(Calendar.DAY_OF_MONTH)
+  }
+  //</editor-fold>
 }
