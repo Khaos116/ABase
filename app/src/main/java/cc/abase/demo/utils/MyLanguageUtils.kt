@@ -1,7 +1,10 @@
 package cc.abase.demo.utils
 
+import android.app.Activity
+import android.os.Build
+import android.os.LocaleList
 import com.blankj.utilcode.util.LanguageUtils
-import java.util.*
+import java.util.Locale
 
 /**
  * zh-CN → zh-CHS → zh-Hans → zh → Invariant
@@ -64,5 +67,21 @@ object MyLanguageUtils {
   //是否是英文
   fun isEnglish(): Boolean {
     return !isAppChinese()
+  }
+
+  //切换当前页面语种
+  @Suppress("DEPRECATION")
+  fun changeActivityLang(activity: Activity, newLocale: Locale) {
+    val resources = activity.resources
+    val configuration = resources.configuration
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+      val localeList = LocaleList(newLocale)
+      configuration.setLocales(localeList)
+    } else {
+      configuration.setLocale(newLocale)
+    }
+    configuration.setLayoutDirection(newLocale)
+    //不能使用activity.createConfigurationContext，这样修改后并不能获取其他语言的资源
+    resources.updateConfiguration(configuration, resources.displayMetrics)
   }
 }
