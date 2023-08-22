@@ -80,7 +80,7 @@ object RxHttpConfig {
   //OkHttpClient
   private fun getDefaultOkHttpClient(): OkHttpClient {
     val builder = getOkHttpClient()
-    //addInterceptor->Request：先添加先执行；Response：先添加执行
+    //addInterceptor->Request：先添加先执行；Response：先添加后执行
     builder.addInterceptor(TokenInterceptor())//其他拦截放到日志和加解密拦截前即可
     builder.addInterceptor(LoggingInterceptor(isShowAll = true))//日志打印放到请求加密执行前，响应解密执行后
     //builder.addInterceptor(DecodeInterceptor())//API接口解密拦截器(解密放到第一个响应执行)
