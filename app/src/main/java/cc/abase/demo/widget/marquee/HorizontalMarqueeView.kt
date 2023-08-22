@@ -123,6 +123,7 @@ class HorizontalMarqueeView : FrameLayout, LifecycleObserver {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = MarqueeViewHolder(MarqueeItemLayout(parent.context).also {
       it.layoutParams = ViewGroup.LayoutParams(-2, -1)
       it.addView(TextView(it.context).also { tv ->
+        tv.includeFontPadding = true
         tv.setTextColor(mTextColor)
         tv.maxLines = 1
         tv.ellipsize = TextUtils.TruncateAt.MARQUEE
