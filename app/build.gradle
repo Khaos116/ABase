@@ -82,7 +82,7 @@ android {
   //多维度 https://blog.csdn.net/chen_xi_hao/article/details/80526049
   flavorDimensions "default"
   //公开发布商店渠道配置
-  productFlavors {
+  productFlavors {//里面不能配置buildTypes，后面的会覆盖前面的
     //渠道s1
     s1 {
       dimension "default"
@@ -92,32 +92,16 @@ android {
       resValue "string", "bugly_app_id", "c6e450ad19"
       resValue "string", "app_name", "${myAppName}-S1"
       resValue "string", "channel", "s1"
-      buildTypes {
-        debug {
-
-        }
-        release {
-
-        }
-      }
     }
     //渠道s2
     s2 {
       dimension "default"
+      applicationIdSuffix ".s2"
       versionCode 106
       versionName "1.0.6"
       resValue "string", "bugly_app_id", "05fb157d78"
+      resValue "string", "app_name", "${myAppName}-S2"
       resValue "string", "channel", "s2"
-      buildTypes {
-        debug {
-          resValue "string", "app_name", "${myAppName}-S2D"
-          applicationIdSuffix ".s2d"
-        }
-        release {
-          resValue "string", "app_name", "${myAppName}-S2R"
-          applicationIdSuffix ".s2r"
-        }
-      }
     }
   }
 
