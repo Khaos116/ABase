@@ -143,6 +143,16 @@ fun String?.replaceSpace(replacement: String = "-"): String {
   return this?.trim()?.replace("\\s+".toRegex(), replacement) ?: ""
 }
 
+fun String?.checkImgUrl(): String? {
+  return when {
+    this.isNullOrBlank() -> null
+    this.startsWith("http", true) -> this
+    this.startsWith("/storage/emulated/0")->"file://$this"
+    this.startsWith("/") -> "http:$this"
+    else -> this
+  }
+}
+
 //<editor-fold defaultstate="collapsed" desc="处理精度丢失问题">
 fun String?.toFloatMy(): Float {
   return if (this.isNullOrBlank()) {

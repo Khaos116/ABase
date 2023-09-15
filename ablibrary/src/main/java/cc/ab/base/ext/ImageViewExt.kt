@@ -73,7 +73,7 @@ fun ImageView.loadCoilUrl(
         onSuccess = { _, _ -> setTag(R.id.suc_img, myTag) },//成功设置TAG，防止复用重新加载
       )
     }
-    myIv.load(data = url, builder = build)//如果是文件就加载文件，否则就加载图片地址
+    myIv.load(data = url.checkImgUrl(), builder = build)//如果是文件就加载文件，否则就加载图片地址
   }
 }
 
@@ -111,7 +111,7 @@ fun ImageView.loadCoilWrapHeight(
         onSuccess = { _, _ -> setTag(R.id.suc_img, myTag) },//成功设置TAG，防止复用重新加载
       )
     }
-    myIv.load(data = url, builder = build)//如果是文件就加载文件，否则就加载图片地址
+    myIv.load(data = url.checkImgUrl(), builder = build)//如果是文件就加载文件，否则就加载图片地址
   }
 }
 
@@ -150,7 +150,7 @@ fun ImageView.loadCoilWrapWidth(
         onSuccess = { _, _ -> setTag(R.id.suc_img, myTag) },//成功设置TAG，防止复用重新加载
       )
     }
-    myIv.load(data = url, builder = build)//如果是文件就加载文件，否则就加载图片地址
+    myIv.load(data = url.checkImgUrl(), builder = build)//如果是文件就加载文件，否则就加载图片地址
   }
 }
 
