@@ -60,7 +60,7 @@ android {
       shrinkResources false
       minifyEnabled false
       signingConfig signingConfigs.debug
-      proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+      proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), '../proguard/my-proguard-rules.pro'
     }
     release {
       debuggable false
@@ -68,7 +68,7 @@ android {
       shrinkResources true
       minifyEnabled true
       signingConfig signingConfigs.release
-      proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+      proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), '../proguard/my-proguard-rules.pro'
     }
   }
 
