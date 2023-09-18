@@ -209,16 +209,16 @@ android.applicationVariants.all { variant ->
         }
       }
       //开启线程，在打包完成后20秒杀掉JDK，防止下次运行出现被占用的情况
-      new Thread() {
-        @Override
-        void run() {
-          sleep(20 * 1000)
-          File tempFile = new File("${getProjectDir().getParentFile().getPath()}/APK/Temp")
-          if (tempFile.exists() && tempFile.isDirectory()) tempFile.deleteDir()
-          String cmd = "taskkill /f /t /im java.exe"
-          cmd.execute().text.trim()
-        }
-      }.start()
+      //new Thread() {
+      //  @Override
+      //  void run() {
+      //    sleep(20 * 1000)
+      //    File tempFile = new File("${getProjectDir().getParentFile().getPath()}/APK/Temp")
+      //    if (tempFile.exists() && tempFile.isDirectory()) tempFile.deleteDir()
+      //    String cmd = "taskkill /f /t /im java.exe"
+      //    cmd.execute().text.trim()
+      //  }
+      //}.start()
     }
   }
 }
