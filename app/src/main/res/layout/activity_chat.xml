@@ -1,85 +1,79 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    >
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
+  xmlns:tools="http://schemas.android.com/tools"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  android:orientation="vertical">
 
   <ImageView
-      android:layout_width="match_parent"
-      android:layout_height="match_parent"
-      android:contentDescription="@null"
-      android:scaleType="centerCrop"
-      android:src="@drawable/icon_splash_bg"
-      />
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:contentDescription="@null"
+    android:scaleType="centerCrop"
+    android:src="@drawable/icon_splash_bg3" />
 
   <androidx.recyclerview.widget.RecyclerView
-      android:id="@+id/chatRecycler"
-      android:layout_width="match_parent"
-      android:layout_height="240dp"
-      android:background="@color/black_35"
-      app:layout_constraintBottom_toTopOf="@id/chatInputLayout"
-      />
+    android:id="@+id/chatRecycler"
+    android:layout_width="match_parent"
+    android:layout_height="240dp"
+    android:background="@color/black_35"
+    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+    app:layout_constraintBottom_toTopOf="@id/chatInputLayout"
+    tools:itemCount="15"
+    tools:listitem="@layout/item_simple_text" />
 
   <LinearLayout
-      android:id="@+id/chatInputLayout"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:background="@color/white"
-      android:orientation="horizontal"
-      app:layout_constraintBottom_toBottomOf="parent"
-      >
+    android:id="@+id/chatInputLayout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:orientation="horizontal"
+    app:layout_constraintBottom_toBottomOf="parent">
 
     <ImageView
-        android:id="@+id/chatKeyEmoji"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_gravity="bottom"
-        android:contentDescription="@null"
-        android:padding="10dp"
-        android:src="@drawable/svg_emoji"
-        />
+      android:id="@+id/chatKeyEmoji"
+      android:layout_width="50dp"
+      android:layout_height="50dp"
+      android:layout_gravity="bottom"
+      android:contentDescription="@null"
+      android:padding="10dp"
+      android:src="@drawable/svg_emoji" />
 
     <com.vanniktech.emoji.EmojiEditText
-        android:id="@+id/chatEdit"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp"
-        android:layout_weight="1"
-        android:background="@drawable/shape_stroke1_corner8_gray"
-        android:gravity="center_vertical"
-        android:imeOptions="actionSend"
-        android:inputType="textCapSentences|textMultiLine"
-        android:lineSpacingMultiplier="1.2"
-        android:maxLines="5"
-        android:minHeight="30dp"
-        android:padding="5dp"
-        android:textColor="@color/black"
-        android:textSize="14sp"
-        tools:text="12"
-        />
+      android:id="@+id/chatEdit"
+      android:layout_width="0dp"
+      android:layout_height="wrap_content"
+      android:layout_gravity="center_vertical"
+      android:layout_marginTop="10dp"
+      android:layout_marginBottom="10dp"
+      android:layout_weight="1"
+      android:background="@drawable/shape_stroke1_corner8_gray"
+      android:gravity="center_vertical"
+      android:imeOptions="actionSend"
+      android:inputType="textCapSentences|textMultiLine"
+      android:lineSpacingMultiplier="1.2"
+      android:maxLines="5"
+      android:minHeight="30dp"
+      android:padding="5dp"
+      android:textColor="@color/black"
+      android:textSize="14sp"
+      tools:text="12" />
 
     <ImageView
-        android:id="@+id/chatSend"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_gravity="bottom"
-        android:contentDescription="@null"
-        android:padding="10dp"
-        android:src="@drawable/svg_send"
-        android:text="@string/发送"
-        />
+      android:id="@+id/chatSend"
+      android:layout_width="50dp"
+      android:layout_height="50dp"
+      android:layout_gravity="bottom"
+      android:contentDescription="@null"
+      android:padding="10dp"
+      android:src="@drawable/svg_send"
+      android:text="@string/发送" />
   </LinearLayout>
 
   <View
-      android:layout_width="match_parent"
-      android:layout_height="1px"
-      android:background="@color/gray_CCCCCC"
-      app:layout_constraintBottom_toBottomOf="parent"
-      />
+    android:layout_width="match_parent"
+    android:layout_height="1px"
+    android:background="@color/gray_CCCCCC"
+    app:layout_constraintBottom_toBottomOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

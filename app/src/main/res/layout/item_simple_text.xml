@@ -1,9 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.vanniktech.emoji.EmojiTextView
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/itemSimpleTv"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="?attr/selectableItemBackground"
-    android:orientation="vertical"
-    />
+<com.vanniktech.emoji.EmojiTextView xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:tools="http://schemas.android.com/tools"
+  android:id="@+id/itemSimpleTv"
+  android:layout_width="match_parent"
+  android:layout_height="wrap_content"
+  android:background="?attr/selectableItemBackground"
+  android:orientation="vertical"
+  android:shadowColor="@color/red"
+  android:shadowDx="2"
+  android:shadowDy="2"
+  android:shadowRadius="4"
+  android:textColor="@color/blue"
+  tools:text="聊天内容预览" />
