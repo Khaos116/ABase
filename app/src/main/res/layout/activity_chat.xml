@@ -11,7 +11,7 @@
     android:layout_height="match_parent"
     android:contentDescription="@null"
     android:scaleType="centerCrop"
-    android:src="@drawable/icon_splash_bg3" />
+    android:src="@drawable/icon_splash_bg" />
 
   <androidx.recyclerview.widget.RecyclerView
     android:id="@+id/chatRecycler"

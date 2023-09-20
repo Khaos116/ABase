@@ -6,7 +6,9 @@
   </style>
   <!-- 启动页风格 -->
   <style name="SplashTheme" parent="AppTheme">
-    <item name="android:windowBackground">@drawable/icon_splash_bg</item>
+    <item name="android:windowBackground">@drawable/fit_splash_bg</item>
+    <item name="android:windowTranslucentStatus">true</item>
+    <item name="android:windowTranslucentNavigation">true</item>
   </style>
 
   <!--透明Activity-->
@@ -26,7 +28,7 @@
     <item name="android:windowTranslucentStatus">true</item>
   </style>
 
-  <style name="CollapsingTextAppearance" parent="Base.TextAppearance.AppCompat.Widget.ActionBar.Title"/>
+  <style name="CollapsingTextAppearance" parent="Base.TextAppearance.AppCompat.Widget.ActionBar.Title" />
 
   <style name="CollapsingTextAppearance.Inverse">
     <item name="android:textSize">21sp</item>

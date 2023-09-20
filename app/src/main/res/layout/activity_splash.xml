@@ -4,12 +4,10 @@
   android:layout_width="match_parent"
   android:layout_height="match_parent">
 
-  <ImageView
-    android:id="@+id/splashBgView"
+  <View
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:contentDescription="@null"
-    android:src="@drawable/icon_splash_bg" />
+    android:background="@drawable/fit_splash_bg" />
 
   <TextView
     android:id="@+id/tvInfo"
