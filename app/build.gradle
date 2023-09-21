@@ -11,6 +11,10 @@ def myAppName = "ABase"
 def myPackage = "com.abase"
 
 android {
+  project.afterEvaluate {
+    apply from: "${rootDir}/检测重复文件.gradle"
+    checkDuplicateResources()
+  }
   namespace "cc.abase.demo"//对应旧版本在Manifest顶部的包名
   compileSdk Versions.sdkTarget
   buildFeatures {

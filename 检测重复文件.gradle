@@ -1,0 +1,3 @@
+ext.checkDuplicateResources = {
+  println "开始检测是否存在重复资源文件"
+}
