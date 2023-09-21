@@ -112,9 +112,9 @@ android {
   lint { baseline = file("lint-baseline.xml") }//正式版无法打包处理
 
   //防止没有Temp
-  File tempFile = new File("${getProjectDir().getParentFile().getPath()}/APK/Temp")
+  File tempFile = new File("${rootDir}/APK/Temp")
   if (!tempFile.exists()) tempFile.mkdirs()
-  File tempFile2 = new File("${getProjectDir().getParentFile().getPath()}/AAB/Temp")
+  File tempFile2 = new File("${rootDir}/AAB/Temp")
   if (!tempFile2.exists()) tempFile2.mkdirs()
 }
 
@@ -148,7 +148,7 @@ android.applicationVariants.configureEach { variant ->
           //编译时间
           String buildEndTime = "${new Date().format("yyyyMMdd_HHmm")}"
           String aabFileName = "${appName}_${flavorsName}_${typeName}_${versionName}_${buildEndTime}.aab"
-          File aabDir = new File("${getProjectDir().getParentFile().getPath()}/AAB/${flavorsName}/${typeName}")
+          File aabDir = new File("${rootDir}/AAB/${flavorsName}/${typeName}")
           if (!aabDir.exists()) aabDir.mkdirs()
           println "bundle编译结束=$aabFileName"
           project.copy {
@@ -168,7 +168,7 @@ android.applicationVariants.configureEach { variant ->
             @Override
             void run() {
               sleep(20 * 1000)
-              File tempFile = new File("${getProjectDir().getParentFile().getPath()}/AAB/Temp")
+              File tempFile = new File("${rootDir}/AAB/Temp")
               if (tempFile.exists() && tempFile.isDirectory()) tempFile.deleteDir()
               String cmd = "taskkill /f /t /im java.exe"
               cmd.execute().text.trim()
@@ -186,7 +186,7 @@ android.applicationVariants.configureEach { variant ->
       //把正式版拷贝到项目APK目录
       if (typeName == "Release") {
         //创建APK目录(APK+渠道名称)
-        File apkDir = new File("${getProjectDir().getParentFile().getPath()}/APK/${flavorsName}/${typeName}")
+        File apkDir = new File("${rootDir}/APK/${flavorsName}/${typeName}")
         if (!apkDir.exists()) apkDir.mkdirs()
         project.copy {
           from("${output.outputFile}")
@@ -203,7 +203,7 @@ android.applicationVariants.configureEach { variant ->
         }
       } else {
         //默认运行生成的apk
-        File apkDirDebug = new File("${getProjectDir().getParentFile().getPath()}/APK/Debug")
+        File apkDirDebug = new File("${rootDir}/APK/Debug")
         if (apkDirDebug.exists()) apkDirDebug.deleteDir()
         apkDirDebug.mkdirs()
         project.copy {
@@ -217,7 +217,7 @@ android.applicationVariants.configureEach { variant ->
         @Override
         void run() {
           sleep(20 * 1000)
-          File tempFile = new File("${getProjectDir().getParentFile().getPath()}/APK/Temp")
+          File tempFile = new File("${rootDir}/APK/Temp")
           if (tempFile.exists() && tempFile.isDirectory()) tempFile.deleteDir()
           String cmd = "taskkill /f /t /im java.exe"
           cmd.execute().text.trim()
