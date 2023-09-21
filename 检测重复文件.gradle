@@ -1,3 +1,42 @@
 ext.checkDuplicateResources = {
-  println "开始检测是否存在重复资源文件"
+  List<String> filePaths = new ArrayList<>()
+  findAllName(new File("$rootDir"), filePaths)//找出全部文件名称
+  checkRepeatFile(filePaths, "layout", ".xml")//打印重复的XML文件名
+  checkRepeatFile(filePaths, "drawable-xhdpi", ".png")//打印重复的png文件名
+  checkRepeatFile(filePaths, "drawable-xxhdpi", ".png")//打印重复的png文件名
+  checkRepeatFile(filePaths, "drawable-xxxhdpi", ".png")//打印重复的png文件名
+  checkRepeatFile(filePaths, "drawable-zh-xxxhdpi", ".png")//打印重复的png文件名
+  checkRepeatFile(filePaths, "drawable-xhdpi", ".jpg")//打印重复的jpg文件名
+  checkRepeatFile(filePaths, "drawable-xxhdpi", ".jpg")//打印重复的jpg文件名
+  checkRepeatFile(filePaths, "drawable-xxxhdpi", ".jpg")//打印重复的jpg文件名
+  checkRepeatFile(filePaths, "drawable-zh-xxxhdpi", ".jpg")//打印重复的jpg文件名
+}
+
+//检测病打印重复的文件
+void checkRepeatFile(List<String> filePaths, String pathKey, String suffix) {
+  //过滤出需要等文件名称
+  List<String> filterListPath = filePaths.findAll { path -> path.endsWith(suffix) }
+  List<String> filterListName = new ArrayList<>()
+  for (String path : filterListPath) {
+    if (path.contains("\\build\\")) continue
+    if (!path.contains(pathKey)) continue
+    String name = new File(path).name
+    if (filterListName.contains(name)) {
+      println "重复文件：${path}"
+    } else {
+      filterListName.add(name)
+    }
+  }
+}
+
+//找出全部文件
+void findAllName(File dir, List<String> filePaths) {
+  File[] files = dir.listFiles()
+  for (File file : files) {
+    if (file.isDirectory()) {
+      findAllName(file, filePaths)
+    } else if (file.isFile()) {
+      filePaths.add(file.absolutePath)
+    }
+  }
 }
