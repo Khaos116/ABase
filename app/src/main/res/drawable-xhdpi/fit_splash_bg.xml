@@ -7,8 +7,8 @@
   </item>
   <item
     android:width="720px"
-    android:height="1280px"
+    android:height="1600px"
     android:gravity="center">
-    <bitmap android:src="@drawable/icon_splash_bg" />
+    <bitmap android:src="@drawable/icon_splash_bg2" />
   </item>
 </layer-list>
