@@ -212,17 +212,6 @@ android.applicationVariants.configureEach { variant ->
           rename("${output.outputFile.name}", "${apkFileName}")
         }
       }
-      //开启线程，在打包完成后20秒杀掉JDK，防止下次运行出现被占用的情况
-      new Thread() {
-        @Override
-        void run() {
-          sleep(20 * 1000)
-          File tempFile = new File("${rootDir}/APK/Temp")
-          if (tempFile.exists() && tempFile.isDirectory()) tempFile.deleteDir()
-          String cmd = "taskkill /f /t /im java.exe"
-          cmd.execute().text.trim()
-        }
-      }.start()
     }
   }
 }
@@ -239,16 +228,6 @@ def deleteFolder(File folder) {
   }
   folder.delete()
 }
-
-//dependencies {
-//  implementation fileTree(dir: "libs", include: ['*.jar', '*.aar'])
-//  implementation project(':ablibrary')
-//  implementation project(':silicompressor')
-//  //implementation 'androidx.core:core-ktx:1.10.1'
-//  //implementation 'androidx.appcompat:appcompat:1.6.1'
-//  //implementation 'com.google.android.material:material:1.9.0'
-//  //implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
-//}
 
 //三方依赖
 dependencies {

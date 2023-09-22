@@ -12,6 +12,46 @@ plugins {
   id 'org.jetbrains.kotlin.jvm' version "$vKotlin" apply false
 }
 
-task clean(type: Delete) {
+tasks.register('clean', Delete) {
   delete rootProject.buildDir
+}
+
+//监听任务
+gradle.taskGraph.whenReady { graph ->
+  def debugTasks = tasks.findAll { task -> task.name.toLowerCase().contains("debug") }
+  def isDebug = !debugTasks.isEmpty()
+  if (isDebug) {
+    tasks.each { task ->//测试版跳过Lint和Test相关的task,以加速编译
+      def name = task.name.toLowerCase()
+      if (name.contains("test") || name.contains("lint") || name.contains("upload")) task.enabled = false
+    }
+  }
+  List<String> names = new ArrayList<>()
+  def tasks = graph.getAllTasks().findAll { task ->
+    boolean add = task.name.startsWith("assemble")
+    if (add) System.err.println("开始Gradle任务：${task.name}")
+    if (add && !names.contains(task.name)) names.add(task.name)
+    add
+  }
+  tasks.each { task ->
+    task.doLast {
+      System.err.println("已完成Gradle任务：${task.name}")
+      names.remove(task.name)
+      if (names.isEmpty()) killJavaAfterFinish()
+    }
+  }
+}
+
+//释放内存
+static void killJavaAfterFinish() {
+  System.err.println("Gradle任务已全部完成，20秒后释放java进程")
+  new Thread() {
+    @Override
+    void run() {
+      sleep(20 * 1000)
+      System.err.println("开始执行释放java占用任务")
+      String cmd = "taskkill /f /t /im java.exe"
+      cmd.execute().text.trim()
+    }
+  }.start()
 }
