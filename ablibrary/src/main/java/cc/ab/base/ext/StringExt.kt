@@ -130,6 +130,15 @@ fun String?.openOutLink() {
   }
 }
 
+//16进制的字符串转换为String
+fun String?.hexToString(): String {
+  return if (this.isNullOrBlank()) {
+    ""
+  } else {
+    String(this.chunked(2).map { it.toInt(16).toByte() }.toByteArray())
+  }
+}
+
 //正则获取两个符号之间的内容，只查找第一个
 @Suppress("ConvertToStringTemplate")
 fun String?.findBySymbols(start: String = "(", end: String = ")"): String {
@@ -147,7 +156,7 @@ fun String?.checkImgUrl(): String? {
   return when {
     this.isNullOrBlank() -> null
     this.startsWith("http", true) -> this
-    this.startsWith("/storage/emulated/0")->"file://$this"
+    this.startsWith("/storage/emulated/0") -> "file://$this"
     this.startsWith("/") -> "http:$this"
     else -> this
   }
