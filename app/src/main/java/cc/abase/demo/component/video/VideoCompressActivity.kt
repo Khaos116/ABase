@@ -80,9 +80,7 @@ class VideoCompressActivity : CommBindTitleActivity<ActivityVideoCompressBinding
         .forResult(object : OnResultCallbackListener<LocalMedia> {
           override fun onResult(result: ArrayList<LocalMedia>?) {
             if (!result.isNullOrEmpty()) {
-              val path = result.first().path
-              val file = path.toFile()
-              if (file?.exists() == true) parseVideo(file.path)
+              parseVideo(result.first().availablePath)
             }
           }
 

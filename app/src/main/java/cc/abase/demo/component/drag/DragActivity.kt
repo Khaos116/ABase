@@ -124,7 +124,7 @@ class DragActivity : CommBindTitleActivity<ActivityDragBinding>() {
   private fun setSelectMedias(list: MutableList<LocalMedia>?) {
     list?.let { l ->
       val items = mutableListOf<Any>()
-      items.addAll(l.flatMap { f -> listOf(f.path) })
+      items.addAll(l.flatMap { f -> listOf(f.availablePath) })
       if (items.size < MAX_IMG_SIZE) items.add("")
       multiTypeAdapter.items = items
       multiTypeAdapter.notifyDataSetChanged()
