@@ -118,15 +118,17 @@ fun Fragment.getAllChildFragments(): MutableList<Fragment> {
 
 //设置没有更多的显示
 fun SmartRefreshLayout?.noMoreData() {
+  this?.finishRefresh()
+  this?.finishLoadMore()
   this?.setEnableLoadMore(true)
-  this?.setNoMoreData(false) //防止下一个设置无效，所以先重置
   this?.setNoMoreData(true)
 }
 
 //设置还有更多的显示
 fun SmartRefreshLayout?.hasMoreData() {
+  this?.finishRefresh()
+  this?.finishLoadMore()
   this?.setEnableLoadMore(true)
-  this?.setNoMoreData(true) //防止下一个设置无效，所以先重置
   this?.setNoMoreData(false)
 }
 
