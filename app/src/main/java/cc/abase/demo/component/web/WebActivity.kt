@@ -17,9 +17,7 @@ import cc.abase.demo.config.HeaderManger
 import cc.abase.demo.databinding.ActivityWebBinding
 import cc.abase.demo.widget.LollipopFixedWebView
 import com.blankj.utilcode.constant.MemoryConstants
-import com.blankj.utilcode.util.ColorUtils
-import com.blankj.utilcode.util.UriUtils
-import com.blankj.utilcode.util.Utils
+import com.blankj.utilcode.util.*
 import com.hjq.permissions.*
 import com.just.agentweb.AgentWeb
 import com.just.agentweb.DefaultWebClient
@@ -73,7 +71,6 @@ class WebActivity : CommBindTitleActivity<ActivityWebBinding>() {
     viewBinding.root.removeAllViews()
     initAgentBuilder()
     webUrl = intent.getStringExtra(WEB_URL) ?: "https://www.baidu.com" //获取加载地址
-    agentWeb = agentBuilder?.createAgentWeb()?.ready()?.go(webUrl) //创建web并打开
     //agentWeb = agentBuilder?.createAgentWeb()?.ready()?.get()?.also {
     //  it.urlLoader?.loadData(htmlStr, "text/html", "UTF-8") //打开Html代码
     //}
@@ -112,6 +109,10 @@ class WebActivity : CommBindTitleActivity<ActivityWebBinding>() {
       ws.mixedContentMode = WebSettings.MIXED_CONTENT_ALWAYS_ALLOW
       //是否禁止加载网络图片(把图片加载放在最后来加载渲染)
       ws.blockNetworkImage = false
+      //允许开发多个窗口
+      ws.setSupportMultipleWindows(true)
+      //设置允许JS弹窗
+      ws.javaScriptCanOpenWindowsAutomatically = true
     }
     //解决键盘不弹起的BUG
     web?.requestFocus(View.FOCUS_DOWN)
@@ -131,7 +132,10 @@ class WebActivity : CommBindTitleActivity<ActivityWebBinding>() {
     //    }
     //}
     //解决部分HTML不自动跳转二级页面的BUG
-    viewBinding.root.post { agentWeb?.webLifeCycle?.onResume() }
+    viewBinding.root.post {
+      agentWeb?.webLifeCycle?.onResume()
+      agentWeb = agentBuilder?.createAgentWeb()?.ready()?.go(webUrl) //创建web并打开
+    }
   }
   //</editor-fold>
 
@@ -188,6 +192,32 @@ class WebActivity : CommBindTitleActivity<ActivityWebBinding>() {
       }
       return true
     }
+
+    override fun onPermissionRequest(request: PermissionRequest?) {
+      //浏览器权限请求处理 https://blog.csdn.net/chenli_001/article/details/79633761
+      mActivity.runOnUiThread { request?.let { pr -> requestWebPermission(pr) } }
+    }
+  }
+  //</editor-fold>
+
+  //<editor-fold defaultstate="collapsed" desc="权限请求">
+  private fun requestWebPermission(request: PermissionRequest?) {
+    XXPermissions.with(mActivity)
+      .permission(Permission.CAMERA)
+      .request(object : OnPermissionCallback {
+        override fun onGranted(permissions: MutableList<String>, all: Boolean) {
+          if (all) {
+            request?.grant(request.resources)
+            request?.origin
+          } else {
+            R.string.需要给予权限才能使用该功能.xmlToString()
+          }
+        }
+
+        override fun onDenied(permissions: MutableList<String>, never: Boolean) {
+          R.string.需要给予权限才能使用该功能.xmlToString()
+        }
+      })
   }
   //</editor-fold>
 
@@ -247,6 +277,7 @@ class WebActivity : CommBindTitleActivity<ActivityWebBinding>() {
   //解决SSL无法打开的问题
   private fun getWebViewClientSSL(): com.just.agentweb.WebViewClient {
     return object : com.just.agentweb.WebViewClient() {
+      @SuppressLint("WebViewClientOnReceivedSslError")
       override fun onReceivedSslError(view: WebView?, handler: SslErrorHandler, error: SslError?) {
         handler.proceed()
       }
