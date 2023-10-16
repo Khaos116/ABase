@@ -1,11 +1,14 @@
 package cc.abase.demo.startup
 
 import android.content.Context
+import android.os.Build
+import android.webkit.WebView
 import cc.ab.base.config.PathConfig
 import cc.ab.base.ext.*
 import cc.abase.demo.config.AppLiveData
 import cc.abase.demo.rxhttp.repository.OtherRepository
 import com.blankj.utilcode.util.NetworkUtils
+import com.blankj.utilcode.util.ProcessUtils
 import com.rousetime.android_startup.AndroidStartup
 
 /**
@@ -25,6 +28,15 @@ class AppLastInit : AndroidStartup<Int>() {
 
   //<editor-fold defaultstate="collapsed" desc="初始化">
   override fun create(context: Context): Int {
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) WebView.setDataDirectorySuffix(ProcessUtils.getCurrentProcessName())//Android 9.0及以上版本，多进程使用WebView会引发应用程序崩溃
+    if (ProcessUtils.isMainProcess()) {
+      //修复WebView导致的语言切换失效，要放到设置语言前
+      try {
+        WebView(context).destroy()
+      } catch (e: Exception) {
+        e.printStackTrace()
+      }
+    }
     try {
       PathConfig.initCacheDir()
     } catch (e: Exception) {
