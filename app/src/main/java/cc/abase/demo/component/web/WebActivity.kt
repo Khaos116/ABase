@@ -6,6 +6,7 @@ import android.content.Intent
 import android.content.pm.ActivityInfo
 import android.net.Uri
 import android.net.http.SslError
+import android.os.Bundle
 import android.view.*
 import android.webkit.*
 import cc.ab.base.ext.*
@@ -64,6 +65,19 @@ class WebActivity : CommBindTitleActivity<ActivityWebBinding>() {
   private var mUploadCall: ValueCallback<Array<Uri>>? = null
   //</editor-fold>
 
+  //<editor-fold defaultstate="collapsed" desc="AwContents must be created if we are not posting!问题">
+  override fun onCreate(savedInstanceState: Bundle?) {
+    try {
+      //部分手机第一次创建Web会崩溃, 让他自己先崩一次再创建正常的WebView
+      //"AwContents must be created if we are not posting!"
+      WebView(this)
+    } catch (e: Exception) {
+      e.printStackTrace()
+    }
+    super.onCreate(savedInstanceState)
+  }
+  //</editor-fold>
+
   //<editor-fold defaultstate="collapsed" desc="初始化View">
   //初始化view
   @SuppressLint("SetJavaScriptEnabled", "ClickableViewAccessibility")
@@ -71,6 +85,8 @@ class WebActivity : CommBindTitleActivity<ActivityWebBinding>() {
     viewBinding.root.removeAllViews()
     initAgentBuilder()
     webUrl = intent.getStringExtra(WEB_URL) ?: "https://www.baidu.com" //获取加载地址
+    setTitleText(webUrl ?: "")
+    agentWeb = agentBuilder?.createAgentWeb()?.ready()?.go(webUrl) //创建web并打开
     //agentWeb = agentBuilder?.createAgentWeb()?.ready()?.get()?.also {
     //  it.urlLoader?.loadData(htmlStr, "text/html", "UTF-8") //打开Html代码
     //}
@@ -132,10 +148,7 @@ class WebActivity : CommBindTitleActivity<ActivityWebBinding>() {
     //    }
     //}
     //解决部分HTML不自动跳转二级页面的BUG
-    viewBinding.root.post {
-      agentWeb?.webLifeCycle?.onResume()
-      agentWeb = agentBuilder?.createAgentWeb()?.ready()?.go(webUrl) //创建web并打开
-    }
+    viewBinding.root.post { agentWeb?.webLifeCycle?.onResume() }
   }
   //</editor-fold>
 
