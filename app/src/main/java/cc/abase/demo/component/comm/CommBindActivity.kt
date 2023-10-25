@@ -30,6 +30,7 @@ abstract class CommBindActivity<T : ViewBinding> : BaseBindActivity<T>() {
         .remove(fragment)
         .commitAllowingStateLoss()
     }
+    supportFragmentManager.fragments.clear()
     super.onCreate(savedInstanceState)
   }
   //</editor-fold>
