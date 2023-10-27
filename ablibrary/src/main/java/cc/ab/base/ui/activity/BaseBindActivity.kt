@@ -105,6 +105,7 @@ abstract class BaseBindActivity<T : ViewBinding> : AppCompatActivity() {
   //状态栏处理(默认白底，黑字)
   protected open fun initStatus() {
     immersionBar {
+      keyboardEnable(needAdjustResizeAndNoFitsSystemWindows())
       statusBarDarkFont(true)
       statusBarView(baseBinding.baseStatusView)
     }
@@ -112,6 +113,9 @@ abstract class BaseBindActivity<T : ViewBinding> : AppCompatActivity() {
 
   //是否显示默认状态栏占位
   protected open fun showHolderStatusView() = true
+
+  //需要使用adjustResize但是又没有使用fitsSystemWindows=true,则需要返回true
+  protected open fun needAdjustResizeAndNoFitsSystemWindows() = false
 
   //专门处理从桌面重新打开APP的BUG
   open fun isOpenAgainFromHome(): Boolean = false

@@ -78,6 +78,10 @@ class ZxingActivity : CommBindTitleActivity<ActivityZxingBinding>() {
   }
   //</editor-fold>
 
+  //<editor-fold defaultstate="collapsed" desc="处理键盘弹起的问题">
+  override fun needAdjustResizeAndNoFitsSystemWindows() = true
+  //</editor-fold>
+
   //<editor-fold defaultstate="collapsed" desc="摄像头权限">
   private fun checkCameraPermission() {
     XXPermissions.with(mActivity)
