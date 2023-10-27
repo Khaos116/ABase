@@ -44,8 +44,8 @@ class CoordinatorActivity : CommBindActivity<ActivityCoordinatorBinding>() {
   private var titles: MutableList<String> = mutableListOf()
   //</editor-fold>
 
-  //<editor-fold defaultstate="collapsed" desc="状态栏操作">
-  override fun fillStatus() = false
+  //<editor-fold defaultstate="collapsed" desc="是否显示默认状态栏占位">
+  override fun showHolderStatusView() = false
   //</editor-fold>
 
   //<editor-fold defaultstate="collapsed" desc="初始化View">

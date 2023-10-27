@@ -60,8 +60,8 @@ class VerticalPagerActivity : CommBindActivity<ActivityPlayPagerBinding>() {
   private val viewModel: VerticalPagerViewModel by lazy { VerticalPagerViewModel() }
   //</editor-fold>
 
-  //<editor-fold defaultstate="collapsed" desc="状态栏操作">
-  override fun fillStatus() = false
+  //<editor-fold defaultstate="collapsed" desc="是否显示默认状态栏占位">
+  override fun showHolderStatusView() = false
 
   override fun initStatus() {
     immersionBar { statusBarDarkFont(false) }

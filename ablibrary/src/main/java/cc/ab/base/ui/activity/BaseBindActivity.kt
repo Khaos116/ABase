@@ -58,7 +58,7 @@ abstract class BaseBindActivity<T : ViewBinding> : AppCompatActivity() {
     super.onCreate(savedInstanceState)
     setContentView(baseBinding.root)
     FixResources.fixDp2Px(mContext)
-    baseBinding.baseStatusView.visibleGone(fillStatus())
+    baseBinding.baseStatusView.visibleGone(showHolderStatusView())
     //异步加载布局，可以实现快速打开页面
     mJobLoading = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate).launch(context = Dispatchers.Main + CoroutineExceptionHandler { _, e -> e.logE() }) {
       withContext(Dispatchers.IO) { initBinding() }.let {
@@ -110,8 +110,8 @@ abstract class BaseBindActivity<T : ViewBinding> : AppCompatActivity() {
     }
   }
 
-  //是否需要默认填充状态栏,默认填充为白色view
-  protected open fun fillStatus() = true
+  //是否显示默认状态栏占位
+  protected open fun showHolderStatusView() = true
 
   //专门处理从桌面重新打开APP的BUG
   open fun isOpenAgainFromHome(): Boolean = false

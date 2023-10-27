@@ -66,8 +66,8 @@ class VideoDetailActivity : CommBindActivity<ActivityVideoDetailBinding>() {
   }
   //</editor-fold>
 
-  //<editor-fold defaultstate="collapsed" desc="是否默认填充到状态栏">
-  override fun fillStatus() = false
+  //<editor-fold defaultstate="collapsed" desc="是否显示默认状态栏占位">
+  override fun showHolderStatusView() = false
   //</editor-fold>
 
   //<editor-fold defaultstate="collapsed" desc="状态栏颜色设置">
