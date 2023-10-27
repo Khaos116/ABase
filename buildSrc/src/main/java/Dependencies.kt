@@ -73,7 +73,7 @@ object Deps {
   //UI适配 https://github.com/JessYanCoding/AndroidAutoSize
   const val autosize = "com.github.JessYanCoding:AndroidAutoSize:v1.2.1"
 
-  //状态栏适配 https://github.com/gyf-dev/ImmersionBar
+  //状态栏适配 https://github.com/gyf-dev/ImmersionBar 如果需要adjustResize，需要调用keyboardEnable(true)或者fitsSystemWindows
   const val immersionbar = "com.geyifeng.immersionbar:immersionbar:3.2.2"
   const val immersionbar_ktx = "com.geyifeng.immersionbar:immersionbar-ktx:3.2.2"
 
