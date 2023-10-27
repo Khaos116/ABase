@@ -36,9 +36,9 @@ class GuideActivity : CommBindActivity<ActivityGuideBinding>() {
   private val mList = ImageUrls.imgs.take(4).toMutableList()
   //</editor-fold>
 
-  //<editor-fold defaultstate="collapsed" desc="状态栏">
+  //<editor-fold defaultstate="collapsed" desc="是否显示默认状态栏占位">
   //不默认填充状态栏
-  override fun fillStatus() = false
+  override fun showHolderStatusView() = false
 
   //状态栏透明
   override fun initStatus() {
