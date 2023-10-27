@@ -47,9 +47,6 @@ class SplashActivity : CommBindActivity<ActivitySplashBinding>() {
   //动画是否结束
   private var animIsFinished = false
 
-  //是否结束权限检查(好像现在上架的APP不允许强制给予权限才能使用，加上目前APP基本使用私有目录存储，所以只做权限请求，不做强制，需要使用的时候才进行强制)
-  private var permissionFinished = false
-
   //延迟执行动画
   private var mJob: Job? = null
 
@@ -60,9 +57,8 @@ class SplashActivity : CommBindActivity<ActivitySplashBinding>() {
   private val mSbInfo = StringBuilder()
   //</editor-fold>
 
-  //<editor-fold defaultstate="collapsed" desc="状态栏">
-  //不设置状态栏填充，即显示全屏
-  override fun fillStatus() = false
+  //<editor-fold defaultstate="collapsed" desc="是否显示默认状态栏占位">
+  override fun showHolderStatusView() = false
 
   //状态栏透明
   override fun initStatus() {
@@ -134,35 +130,6 @@ class SplashActivity : CommBindActivity<ActivitySplashBinding>() {
         }
       }
     }
-    checkSDPermission()
-  }
-  //</editor-fold>
-
-  //<editor-fold defaultstate="collapsed" desc="SD卡权限处理">
-  private fun checkSDPermission() {
-    addInitInfo("checkSDPermission")
-    //请求SD卡权限
-    val hasSDPermission = XXPermissions.isGranted(mContext, Permission.MANAGE_EXTERNAL_STORAGE)
-    if (!hasSDPermission) {
-      XXPermissions.with(this)
-        .permission(Permission.MANAGE_EXTERNAL_STORAGE)
-        .request(object : OnPermissionCallback {
-          override fun onGranted(permissions: MutableList<String>, all: Boolean) {
-            addInitInfo("onGranted")
-            permissionFinished = true
-            goNextPage()
-          }
-
-          override fun onDenied(permissions: MutableList<String>, never: Boolean) {
-            addInitInfo("onDenied")
-            permissionFinished = true
-            goNextPage()
-          }
-        })
-    } else {
-      permissionFinished = true
-      goNextPage()
-    }
   }
   //</editor-fold>
 
@@ -181,7 +148,6 @@ class SplashActivity : CommBindActivity<ActivitySplashBinding>() {
   private fun goNextPage() {
     addInitInfo("goNextPage")
     if (!animIsFinished) return
-    if (!permissionFinished) return
     addInitInfo("finish")
     when {
       //是否引导
