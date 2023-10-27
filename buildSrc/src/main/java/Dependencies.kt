@@ -117,7 +117,7 @@ object Deps {
   const val multitype = "com.drakeet.multitype:multitype:4.3.0"
 
   //动态权限 https://github.com/getActivity/XXPermissions
-  const val xxpermissions = "com.github.getActivity:XXPermissions:18.2"
+  const val xxpermissions = "com.github.getActivity:XXPermissions:18.5"
 
   //ViewBinding https://github.com/DylanCaiCoding/ViewBindingKTX/blob/master/README_ZH.md
   const val binding_ktx = "com.github.DylanCaiCoding.ViewBindingKTX:viewbinding-ktx:2.1.0"
