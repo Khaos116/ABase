@@ -1,62 +1,69 @@
 <?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:tools="http://schemas.android.com/tools"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent">
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+  <LinearLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <EditText
-        android:id="@+id/zxingEdit"
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:layout_margin="5dp"
-        android:background="@color/white_FAEBD7"
-        android:gravity="center"
-        android:hint="@string/请输入要生二维码的文字"
-        android:singleLine="true"
-        android:textColor="@color/red_FF00FF"
-        android:textColorHint="@color/gray_808A87"
-        android:textSize="15sp"
-        tools:ignore="Autofill,HardcodedText,TextFields" />
 
     <TextView
-        android:id="@+id/zxingCreate"
-        android:layout_width="match_parent"
-        android:layout_height="30dp"
-        android:layout_margin="5dp"
-        android:background="@color/blue_03A89E"
-        android:gravity="center"
-        android:text="@string/生成二维码"
-        android:textColor="@color/white"
-        tools:ignore="HardcodedText" />
+      android:id="@+id/zxingCreate"
+      android:layout_width="match_parent"
+      android:layout_height="30dp"
+      android:layout_margin="5dp"
+      android:background="@color/blue_03A89E"
+      android:gravity="center"
+      android:text="@string/生成二维码"
+      android:textColor="@color/white"
+      tools:ignore="HardcodedText" />
 
     <TextView
-        android:id="@+id/zxingParse"
-        android:layout_width="match_parent"
-        android:layout_height="30dp"
-        android:layout_margin="5dp"
-        android:background="@color/brown_F4A460"
-        android:gravity="center"
-        android:text="@string/解析二维码"
-        android:textColor="@color/white"
-        tools:ignore="HardcodedText" />
+      android:id="@+id/zxingParse"
+      android:layout_width="match_parent"
+      android:layout_height="30dp"
+      android:layout_margin="5dp"
+      android:background="@color/brown_F4A460"
+      android:gravity="center"
+      android:text="@string/解析二维码"
+      android:textColor="@color/white"
+      tools:ignore="HardcodedText" />
 
     <TextView
-        android:id="@+id/zxingScan"
-        android:layout_width="match_parent"
-        android:layout_height="30dp"
-        android:layout_margin="5dp"
-        android:background="@color/blue_6A5ACD"
-        android:gravity="center"
-        android:text="@string/扫描二维码"
-        android:textColor="@color/white"
-        tools:ignore="HardcodedText" />
+      android:id="@+id/zxingScan"
+      android:layout_width="match_parent"
+      android:layout_height="30dp"
+      android:layout_margin="5dp"
+      android:background="@color/blue_6A5ACD"
+      android:gravity="center"
+      android:text="@string/扫描二维码"
+      android:textColor="@color/white"
+      tools:ignore="HardcodedText" />
 
     <FrameLayout
-        android:id="@+id/zxingContainer"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_margin="5dp"
-        tools:ignore="UselessLeaf" />
-</LinearLayout>
+      android:id="@+id/zxingContainer"
+      android:layout_width="match_parent"
+      android:layout_height="350dp"
+      android:layout_margin="5dp"
+      tools:ignore="UselessLeaf" />
+
+  </LinearLayout>
+
+  <EditText
+    android:id="@+id/zxingEdit"
+    android:layout_width="match_parent"
+    android:layout_height="40dp"
+    android:layout_gravity="bottom"
+    android:layout_margin="5dp"
+    android:background="@color/white_FAEBD7"
+    android:gravity="center"
+    android:hint="@string/请输入要生二维码的文字"
+    android:singleLine="true"
+    android:textColor="@color/red_FF00FF"
+    android:textColorHint="@color/gray_808A87"
+    android:textSize="15sp"
+    tools:ignore="Autofill,HardcodedText,TextFields" />
+</FrameLayout>

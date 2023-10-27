@@ -262,7 +262,7 @@
       android:exported="true"
       android:launchMode="singleTop"
       android:screenOrientation="portrait"
-      android:windowSoftInputMode="adjustPan|stateHidden"
+      android:windowSoftInputMode="adjustResize|stateHidden"
       tools:ignore="LockedOrientationActivity" />
     <!--手势解锁-->
     <activity
