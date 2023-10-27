@@ -191,6 +191,8 @@
   <!--梅红色-->
   <color name="purple_DDA0DD">#DDA0DD</color>
 
+  <color name="cyan_05">#0D00FFFF</color>
+
   <!--黑色带透明度-->
   <color name="black_95">#F2000000</color>
   <color name="black_90">#E6000000</color>
