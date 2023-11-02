@@ -151,7 +151,13 @@ abstract class BaseBindActivity<T : ViewBinding> : AppCompatActivity() {
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) { //Android Q的bug https://blog.csdn.net/oLengYueZa/article/details/109207492
       finishAfterTransition()
     } else {
-      super.onBackPressed()
+
+      try {
+        super.onBackPressed()
+      } catch (e: Exception) {
+        e.printStackTrace()
+        finish()
+      }
     }
   }
 
