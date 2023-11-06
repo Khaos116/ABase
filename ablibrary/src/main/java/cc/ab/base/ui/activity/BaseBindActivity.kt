@@ -1,8 +1,8 @@
 package cc.ab.base.ui.activity
 
 import android.content.res.Configuration
-import android.os.Build
-import android.os.Bundle
+import android.content.res.Resources
+import android.os.*
 import android.view.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
@@ -16,7 +16,7 @@ import com.dylanc.viewbinding.base.ViewBindingUtil
 import com.dylanc.viewbinding.inflateBinding
 import com.gyf.immersionbar.ktx.immersionBar
 import kotlinx.coroutines.*
-import me.jessyan.autosize.AutoSize
+import me.jessyan.autosize.AutoSizeCompat
 import java.util.*
 
 /**
@@ -75,11 +75,16 @@ abstract class BaseBindActivity<T : ViewBinding> : AppCompatActivity() {
   //</editor-fold>
 
   //<editor-fold defaultstate="collapsed" desc="修改旋转屏幕后语种和字体大小变化问题">
+  //修改旋转屏幕后语种变化问题
   override fun onConfigurationChanged(newConfig: Configuration) {
-    val locale = LanguageUtils.getAppliedLanguage() ?: Locale.CHINA
-    setAcLocale(locale)
+    setAcLocale(LanguageUtils.getAppliedLanguage() ?: Locale.CHINA)
     super.onConfigurationChanged(newConfig)
-    AutoSize.autoConvertDensityOfGlobal(this)
+  }
+
+  //修改旋转屏幕后字体大小变化问题
+  override fun getResources(): Resources {
+    if (Looper.myLooper() == Looper.getMainLooper()) AutoSizeCompat.autoConvertDensityOfGlobal(super.getResources())
+    return super.getResources()
   }
 
   private fun setAcLocale(locale: Locale) {
