@@ -125,8 +125,8 @@ class WebActivity : CommBindTitleActivity<ActivityWebBinding>() {
       ws.mixedContentMode = WebSettings.MIXED_CONTENT_ALWAYS_ALLOW
       //是否禁止加载网络图片(把图片加载放在最后来加载渲染)
       ws.blockNetworkImage = false
-      //允许开发多个窗口
-      ws.setSupportMultipleWindows(true)
+      //不允许开发多个窗口
+      ws.setSupportMultipleWindows(false)
     }
     //解决键盘不弹起的BUG
     web?.requestFocus(View.FOCUS_DOWN)
