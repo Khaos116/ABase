@@ -127,8 +127,6 @@ class WebActivity : CommBindTitleActivity<ActivityWebBinding>() {
       ws.blockNetworkImage = false
       //允许开发多个窗口
       ws.setSupportMultipleWindows(true)
-      //设置允许JS弹窗
-      ws.javaScriptCanOpenWindowsAutomatically = true
     }
     //解决键盘不弹起的BUG
     web?.requestFocus(View.FOCUS_DOWN)
