@@ -27,7 +27,7 @@
     <!--去除水波纹按压效果-->
     <!--<item name="android:colorControlHighlight">@android:color/transparent</item>-->
     <!--默认字体设置-->
-    <item name="android:fontFamily">@font/harmonyos_sans_condensed_light</item>
+    <item name="android:fontFamily">@font/pingfangsc_regular</item>
   </style>
 
   <style name="BaseActivitySwitchAnimation">
