@@ -333,6 +333,9 @@
     *;
 }
 -dontwarn com.just.agentweb.**
+
+#不混淆解密工具 https://blog.csdn.net/Android_Mr_Zhao/article/details/134435850
+-keep class bouncycastle.** { *; }
 #############################################
 #----------------丧心病狂的混淆----------------#
 # 指定外部模糊字典 proguard-chinese.txt 改为混淆文件名，下同
