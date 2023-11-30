@@ -12,6 +12,7 @@ import kotlin.math.min
  * 3.android:overScrollMode="never"
  * 4.android:scrollbarThumbVertical="@drawable/scrollbar_vertical_thumb"
  * 5.android:scrollbarTrackVertical="@drawable/scrollbar_vertical_track"
+ * 6.android:background="@color/transparent"
  * @Author：Khaos
  * @Date：2021-06-24
  * @Time：22:03
