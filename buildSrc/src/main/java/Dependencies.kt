@@ -33,7 +33,7 @@ object Deps {
   //根目录gradle https://maven.aliyun.com/mvn/search
   const val plugin_android_gradle = "com.android.tools.build:gradle:${Versions.gradle}"
   const val plugin_kotlin_gradle = "org.jetbrains.kotlin:kotlin-gradle-plugin:${Versions.kotlin}"
-  const val plugin_r8_gradle = "com.android.tools:r8:8.0.40" //更新R8版本，解决正式版无法打包的问题 https://github.com/square/okhttp/issues/4604
+  const val plugin_r8_gradle = "com.android.tools:r8:8.1.72" //更新R8版本，解决正式版无法打包的问题 https://github.com/square/okhttp/issues/4604
 
   //使用kotlin
   const val kotlin_stdlib = "org.jetbrains.kotlin:kotlin-stdlib:${Versions.kotlin}"
