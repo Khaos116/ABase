@@ -41,6 +41,17 @@
     android:supportsRtl="true"
     android:theme="@style/AppTheme"
     tools:ignore="AllowBackup,GoogleAppIndexingWarning,UnusedAttribute">
+    <!--
+    screenOrientation
+    landscape：限制界面为横屏，旋转屏幕也不会改变当前状态。
+    portrait：限制界面为竖屏，旋转屏幕也不会改变当前状态。
+    sensor:根据传感器定位方向，旋转手机90度，180,270,360，界面都会发生变化。
+    sensorLandscape：（横屏的旋转，不会出现竖屏的现象）根据传感器定位方向，旋转手机180度界面旋转。一般横屏游戏会是这个属性。
+    sensorPortrait：（竖屏的旋转，不会出现横屏的现象）根据传感器定位方向，旋转手机180度界面会旋转。
+    unspecified：由系统选择显示方向，不同的设备可能会有所不同。（旋转手机，界面会跟着旋转）
+    user:用户当前的首选方向。
+    nosensor：不由传感器确定方向。旋转设备的时候，界面不会跟着旋转。初始界面方向由系统提供。
+    -->
     <!--启动页-->
     <activity
       android:name=".component.splash.SplashActivity"
