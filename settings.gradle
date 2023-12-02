@@ -21,6 +21,8 @@ dependencyResolutionManagement {
       url "https://maven.google.com"
       name "google"
     }
+    //Emoji
+    maven { url "https://oss.sonatype.org/content/repositories/snapshots" }
     //-----------国内通用-----------
     maven { url "https://maven.aliyun.com/repository/gradle-plugin" }
     maven { url "https://maven.aliyun.com/repository/jcenter" }

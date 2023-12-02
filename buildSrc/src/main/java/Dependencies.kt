@@ -185,7 +185,7 @@ object Deps {
   //const val emoji = "com.vanniktech:emoji-google:0.17.0"//2.81 MB
   //const val emoji = "com.vanniktech:emoji-facebook:0.17.0"//3.97 MB
   //const val emoji = "com.vanniktech:emoji-twitter:0.17.0"//2.61 MB
-  const val emoji = "com.vanniktech:emoji-google-compat:0.17.0"//438 KB
+  const val emoji = "com.vanniktech:emoji-google-compat:0.18.0-SNAPSHOT"//438 KB
   //const val emoji = "com.vanniktech:emoji-material:0.17.0"//326 KB
 
   //SideBar https://github.com/D10NGYANG/DL10SideBar
