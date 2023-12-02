@@ -107,7 +107,6 @@
           android:layout_width="10dp"
           android:layout_height="10dp"
           android:layout_gravity="center_vertical|end"
-          android:layout_marginEnd="10dp"
           android:contentDescription="@null"
           android:src="@drawable/white_triangle_bottom"
           app:tint="#333333" />
@@ -137,7 +136,6 @@
           android:layout_width="10dp"
           android:layout_height="10dp"
           android:layout_gravity="center_vertical|end"
-          android:layout_marginEnd="10dp"
           android:contentDescription="@null"
           android:src="@drawable/white_triangle_bottom"
           app:tint="#333333" />
