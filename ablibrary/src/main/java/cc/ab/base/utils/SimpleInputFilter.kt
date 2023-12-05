@@ -44,6 +44,9 @@ class SimpleInputFilter(private val maxLength: Int = 16) : InputFilter {
    * @param dstart 原内容起始下标
    * @param dend   原内容结尾下标
    * @return 输入内容
+   * 如果返回值为 null，则表示接受全部的输入内容，不作任何处理
+   * 如果返回值为一个空字符串 ""，则表示不接受任何输入，即丢弃用户输入的字符
+   * 如果返回值为一个 CharSequence 类型的字符串，则表示替换用户输入的当前文本段，具体将替换从 start 到 end 的源字符中间的一段，返回的字符串就是要替换的内容
    */
   override fun filter(source: CharSequence, start: Int, end: Int, dest: Spanned?, dstart: Int, dend: Int): CharSequence {
     val sourceText = source.toString()
