@@ -125,7 +125,7 @@ class WebActivity : CommBindTitleActivity<ActivityWebBinding>() {
       ws.mixedContentMode = WebSettings.MIXED_CONTENT_ALWAYS_ALLOW
       //是否禁止加载网络图片(把图片加载放在最后来加载渲染)
       ws.blockNetworkImage = false
-      //不允许开发多个窗口
+      //不允许开发多个窗口(允许打开多个窗口会导致H5按钮无法跳转)
       ws.setSupportMultipleWindows(false)
     }
     //解决键盘不弹起的BUG
