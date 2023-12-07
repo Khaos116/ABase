@@ -10,16 +10,16 @@ import cc.abase.demo.constants.api.WanUrls
 import cc.abase.demo.rxhttp.interceptor.TokenInterceptor
 import com.ayvytr.okhttploginterceptor.LoggingInterceptor
 import com.blankj.utilcode.constant.TimeConstants
+import com.blankj.utilcode.util.Utils
+import com.chuckerteam.chucker.api.ChuckerInterceptor
+import okhttp3.ConnectionPool
 import okhttp3.OkHttpClient
 import okhttp3.OkHttpClient.Builder
 import rxhttp.RxHttpPlugins
 import rxhttp.wrapper.cache.CacheMode
 import rxhttp.wrapper.converter.GsonConverter
 import rxhttp.wrapper.param.Param
-import rxhttp.wrapper.ssl.HttpsUtils
-import rxhttp.wrapper.utils.GsonUtil
 import java.io.File
-import java.lang.reflect.Field
 import java.util.concurrent.TimeUnit
 
 /**
@@ -79,24 +79,24 @@ object RxHttpConfig {
 
   //OkHttpClient
   private fun getDefaultOkHttpClient(): OkHttpClient {
-    val builder = getOkHttpClient()
+    val builder = getOkHttpClient(retry = false, morePool = true)
     //addInterceptor->Request：先添加先执行；Response：先添加后执行
     builder.addInterceptor(TokenInterceptor())//其他拦截放到日志和加解密拦截前即可
     builder.addInterceptor(LoggingInterceptor(isShowAll = true))//日志打印放到请求加密执行前，响应解密执行后
+    builder.addInterceptor(ChuckerInterceptor.Builder(Utils.getApp()).build())//通知栏查询请求日志
     //builder.addInterceptor(DecodeInterceptor())//API接口解密拦截器(解密放到第一个响应执行)
     //builder.addInterceptor(EncodeInterceptor())//API接口加密拦截器(加密放到最后一个请求执行)
     return builder.build()
   }
 
   //其他配置获取Okhttp对象
-  fun getOkHttpClient(): Builder {
+  fun getOkHttpClient(retry: Boolean, morePool: Boolean): Builder {
     //如果需要自定义证书，使用带参的自定义证书信息即可，生成bks->https://www.jianshu.com/p/64172ccfb73b?utm_campaign=maleskine&utm_content=note&utm_medium=seo_notes&utm_source=recommendation
     //HttpsUtils.getSslSocketFactory(null, context.assets.open("client.bks"), "password")
-    val sslParams = HttpsUtils.getSslSocketFactory()
-    val builder = BaseConfig.getMyOkBuilder()
-      //.cookieJar(CookieStore())//如果启用自动管理，则不需要在TokenInterceptor中进行保存和initRxHttp()进行读取
-      .sslSocketFactory(sslParams.sSLSocketFactory, sslParams.trustManager) //添加信任证书
-      .hostnameVerifier { _, _ -> true } //忽略host验证
+    val builder = BaseConfig.getMyOkBuilder(seconds = 60, bySocket = false, retry = retry)
+    //如果同时存在多个请求，则需要在空闲关闭后才会发起新的请求(测试发现好像是这样)，所以把连接池数量放大，把时间缩短
+    if (morePool) builder.connectionPool(ConnectionPool(20, 60, TimeUnit.SECONDS))//https://zhuanlan.zhihu.com/p/623859579
+    //.cookieJar(CookieStore())//如果启用自动管理，则不需要在TokenInterceptor中进行保存和initRxHttp()进行读取
     val util = CharlesUtils.getInstance()
     util.setOkHttpCharlesSSL(builder, util.getCharlesInputStream("charles.pem"))
     return builder

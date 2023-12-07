@@ -35,7 +35,7 @@ class CoilInit : AndroidStartup<Int>() {
     val imageLoader = ImageLoader.Builder(context)
       .crossfade(300)
       .okHttpClient {//https://coil-kt.github.io/coil/recipes/#using-a-custom-okhttpclient
-        RxHttpConfig.getOkHttpClient()
+        RxHttpConfig.getOkHttpClient(retry = true, morePool = true)
           .addNetworkInterceptor(NetCacheInterceptor())
           .addInterceptor(OfflineCacheInterceptor())
           .build()

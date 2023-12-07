@@ -2,6 +2,7 @@ package cc.abase.demo.rxhttp.repository
 
 import cc.abase.demo.bean.net.IpBean
 import cc.abase.demo.bean.net.SysTimeBean
+import com.blankj.utilcode.constant.TimeConstants
 import rxhttp.cc.RxHttp
 import rxhttp.cc.toAwaitResponseOther
 import rxhttp.map
@@ -15,6 +16,8 @@ import rxhttp.wrapper.cache.CacheMode
  * @Time：20:58
  */
 object OtherRepository : BaseRepository() {
+  private const val TIME_OUT = 30L * TimeConstants.SEC
+
   //只获取外网IP的地址
   private var netIpUrls = mutableListOf(
     "http://checkip.amazonaws.com",
@@ -47,6 +50,9 @@ object OtherRepository : BaseRepository() {
   suspend fun getNetIp(): IpBean {
     //备用地址 https://www.cloudflare.com/cdn-cgi/trace
     return RxHttp.get("http://ip-api.com/json?lang=zh-CN")
+      .connectTimeout(TIME_OUT)
+      .readTimeout(TIME_OUT)
+      .writeTimeout(TIME_OUT)
       .setCacheMode(CacheMode.ONLY_NETWORK)
       .toAwaitResponseOther<IpBean>()
       .await()
@@ -65,6 +71,9 @@ object OtherRepository : BaseRepository() {
   //}
   suspend fun getSysTime1(): String {
     return RxHttp.get("http://worldclockapi.com/api/json/utc/now")
+      .connectTimeout(TIME_OUT)
+      .readTimeout(TIME_OUT)
+      .writeTimeout(TIME_OUT)
       .setCacheMode(CacheMode.ONLY_NETWORK)
       .toAwaitResponseOther<SysTimeBean>()
       .map { it.currentDateTime ?: "" }
@@ -89,6 +98,9 @@ object OtherRepository : BaseRepository() {
   //}
   suspend fun getSysTime2(): String {
     return RxHttp.get("https://timeapi.io/api/Time/current/zone?timeZone=UTC")
+      .connectTimeout(TIME_OUT)
+      .readTimeout(TIME_OUT)
+      .writeTimeout(TIME_OUT)
       .setCacheMode(CacheMode.ONLY_NETWORK)
       .toAwaitResponseOther<SysTimeBean>()
       .map { it.dateTime ?: "" }

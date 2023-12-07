@@ -235,6 +235,8 @@ dependencies {
   implementation project(':ablibrary')
   implementation project(':silicompressor')
   debugImplementation Deps.leakcanary
+  debugImplementation Deps.chucker
+  releaseImplementation Deps.chucker_no
   implementation Deps.walle
   implementation Deps.emoji
   implementation Deps.dk_java

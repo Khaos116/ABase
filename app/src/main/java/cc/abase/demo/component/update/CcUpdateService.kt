@@ -132,7 +132,7 @@ open class CcUpdateService : Service() {
       val tempFile = File(mFileDir, downLoadName)
       val downSize = if (tempFile.exists()) tempFile.length() else 0L
       RxHttp.get(downloadUrl)
-        .setOkClient(RxHttpConfig.getOkHttpClient().build()) //不要加log打印，否则文件太大要OOM
+        .setOkClient(RxHttpConfig.getOkHttpClient(retry = false, morePool = false).build()) //不要加log打印，否则文件太大要OOM
         .setRangeHeader(downSize) //设置开始下载位置，结束位置默认为文件末尾,如果需要衔接上次的下载进度，则需要传入上次已下载的字节数length
         .toDownloadObservable(tempFile.path, true)//断点下载第二个参数传true
         .onMainProgress { progress ->
