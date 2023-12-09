@@ -22,6 +22,7 @@ import cc.abase.demo.item.SimpleTxtItem
 import com.blankj.utilcode.util.KeyboardUtils
 import com.drakeet.multitype.MultiTypeAdapter
 import com.mikepenz.itemanimators.SlideInOutBottomAnimator
+import com.vanniktech.emoji.EmojiMaxLenFilter
 import com.vanniktech.emoji.EmojiPopup
 import kotlin.math.max
 
@@ -89,6 +90,9 @@ class ChatActivity : CommBindTitleActivity<ActivityChatBinding>() {
           if (isBottom) scrollChatBottom()
         }
       }
+    })
+    viewBinding.chatEdit.filters = arrayOf(EmojiMaxLenFilter(200) {
+      cc.ab.base.R.string.字数超出限制.xmlToast()
     })
     //判断手机号
     viewBinding.chatEdit.addTextChangedListener {
