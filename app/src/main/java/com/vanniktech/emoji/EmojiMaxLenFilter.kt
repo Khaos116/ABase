@@ -93,7 +93,6 @@ class EmojiMaxLenFilter(private val maxLen: Int, var callOverMax: ((max: Int) ->
     return findAllEmojis(s, mRegex, mEmojiMap ?: mutableMapOf())
   }
 
-
   private fun findAllEmojis(text: CharSequence?, emojiPattern: Regex?, emojiMap: MutableMap<String, Emoji>): List<EmojiRange> {
     if (!text.isNullOrEmpty()) {
       return emojiPattern?.findAll(text)?.mapNotNull {
