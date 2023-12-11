@@ -28,7 +28,7 @@ gradle.taskGraph.whenReady { graph ->
   }
   List<String> names = new ArrayList<>()
   def tasks = graph.getAllTasks().findAll { task ->
-    boolean add = task.name.startsWith("assemble")
+    boolean add = task.name.startsWith("assemble") && !task.name.endsWith("Test")
     if (add) System.err.println("开始Gradle任务：${task.name}")
     if (add && !names.contains(task.name)) names.add(task.name)
     add
