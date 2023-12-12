@@ -44,7 +44,7 @@ gradle.taskGraph.whenReady { graph ->
 
 //释放内存
 static void killJavaAfterFinish() {
-  System.err.println("Gradle任务已全部完成，20秒后释放java进程")
+  System.err.println("Gradle任务已全部完成，20秒后释放java进程，${new Date().format("yyyy-MM-dd HH:mm:ss")}")
   new Thread() {
     @Override
     void run() {

@@ -111,6 +111,12 @@ android {
 
   lint { baseline = file("lint-baseline.xml") }//正式版无法打包处理
 
+  dexOptions { //优化dex配置
+    dexInProcess true
+    preDexLibraries true
+    javaMaxHeapSize "2g"
+  }
+
   //防止没有Temp
   File tempFile = new File("${rootDir}/APK/Temp")
   if (!tempFile.exists()) tempFile.mkdirs()
