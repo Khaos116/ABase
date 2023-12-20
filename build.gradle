@@ -18,22 +18,22 @@ tasks.register('clean', Delete) {
 
 //监听任务
 gradle.taskGraph.whenReady { graph ->
-  def debugTasks = tasks.findAll { task -> task.name.toLowerCase().contains("debug") }
-  def isDebug = !debugTasks.isEmpty()
-  if (isDebug) {
-    tasks.each { task ->//测试版跳过Lint和Test相关的task,以加速编译
-      def name = task.name.toLowerCase()
-      if (name.contains("test") || name.contains("lint") || name.contains("upload")) task.enabled = false
+  def allTask = graph.getAllTasks()
+  allTask.each { task ->
+    def name = task.name.toLowerCase()
+    if (name.contains("debugandroidtest")) {
+      task.enabled = false
     }
   }
   List<String> names = new ArrayList<>()
-  def tasks = graph.getAllTasks().findAll { task ->
-    boolean add = task.name.startsWith("assemble") && !task.name.endsWith("Test")
+  def addTasks = allTask.findAll { task ->
+    def name = task.name.toLowerCase()
+    boolean add = name.startsWith("assemble") && !name.endsWith("test")
     if (add) System.err.println("开始Gradle任务：${task.name}")
     if (add && !names.contains(task.name)) names.add(task.name)
     add
   }
-  tasks.each { task ->
+  addTasks.each { task ->
     task.doLast {
       System.err.println("已完成Gradle任务：${task.name}")
       names.remove(task.name)
