@@ -7,6 +7,7 @@ import cc.ab.base.utils.CharlesUtils
 import cc.ab.base.utils.MyGsonUtil
 import cc.abase.demo.config.HeaderManger
 import cc.abase.demo.constants.api.WanUrls
+import cc.abase.demo.rxhttp.interceptor.RedirectInterceptor
 import cc.abase.demo.rxhttp.interceptor.TokenInterceptor
 import com.ayvytr.okhttploginterceptor.LoggingInterceptor
 import com.blankj.utilcode.constant.TimeConstants
@@ -80,6 +81,10 @@ object RxHttpConfig {
   //OkHttpClient
   private fun getDefaultOkHttpClient(): OkHttpClient {
     val builder = getOkHttpClient(retry = false, morePool = true)
+    //服务端返回301、302状态码，okhttp会把post请求转换成get请求，导致请求异常,通过followRedirects设置关闭跳转，自定义重定向
+    builder.followRedirects(false)  //禁止OkHttp的重定向操作，我们自己处理重定向
+    builder.followSslRedirects(false)//https的重定向也自己处理
+    builder.addInterceptor(RedirectInterceptor())//自己处理重定向
     //addInterceptor->Request：先添加先执行；Response：先添加后执行
     builder.addInterceptor(TokenInterceptor())//其他拦截放到日志和加解密拦截前即可
     builder.addInterceptor(LoggingInterceptor(isShowAll = true))//日志打印放到请求加密执行前，响应解密执行后
