@@ -243,6 +243,9 @@ object Deps {
 
   //HanLP多音字转拼音(大部分正确，少部分还是无法转换，如:将进酒)https://github.com/hankcs/HanLP/releases
   const val hanLP = "com.hankcs:hanlp:portable-1.8.4"
+
+  //https://github.com/dromara/hutool
+  const val hutool = "cn.hutool:hutool-crypto:5.8.24"
   //</editor-fold>
 
   //<editor-fold defaultstate="collapsed" desc="其他">
