@@ -176,13 +176,13 @@ class HtmlWebView @JvmOverloads constructor(
 
   override fun onPause(owner: LifecycleOwner) {
     this.onPause()
-    this.pauseTimers() //小心这个！！！暂停整个 WebView 所有布局、解析、JS
+    //this.pauseTimers() //会导致打开新的web页面加载停止
     "HtmlWebView:onPause".logD()
   }
 
   override fun onResume(owner: LifecycleOwner) {
     this.onResume()
-    this.resumeTimers()
+    //this.resumeTimers()
     "HtmlWebView:onResume".logD()
   }
 
