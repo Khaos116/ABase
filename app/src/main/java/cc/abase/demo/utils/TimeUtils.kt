@@ -8,6 +8,7 @@ import java.util.*
 import kotlin.math.*
 
 /**
+ * 获取当前时区(GMT+07:00):TimeZone.getDefault().getDisplayName(false, TimeZone.SHORT)
  * Description:时区转换工具
  * UTC(Universal Time/Temps Cordonné 世界标准时间)
  * GMT(Greenwich Mean Time，格林威治标准时间)
