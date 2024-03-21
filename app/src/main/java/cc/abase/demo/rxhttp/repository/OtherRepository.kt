@@ -20,15 +20,26 @@ object OtherRepository : BaseRepository() {
 
   //只获取外网IP的地址
   private var netIpUrls = mutableListOf(
-    "http://checkip.amazonaws.com",
-    "http://www.icanhazip.com",
-    "http://icanhazip.com",
-    "http://ipinfo.io/ip",
-    "https://api.ip.sb/ip",
-    "https://ifconfig.co/ip",
-    "https://ipv4.icanhazip.com",
-    "http://www.trackip.net/ip",
-    "https://ip-api.io/json",
+    "https://api.ip.sb/ip",//只返回ip
+    "https://api.ipify.org",//只返回ip
+    "https://api64.ipify.org/",//只返回ip
+    "https://ipapi.co/ip",//只返回ip
+    "https://ipapi.io/ip",//只返回ip
+    "https://ifconfig.co/ip",//只返回ip
+    "https://ifconfig.io/ip",//只返回ip
+    "https://ipinfo.io/ip",//只返回ip
+    "https://ipv4.icanhazip.com",//只返回ip
+    "https://icanhazip.com",//只返回ip
+    "https://checkip.amazonaws.com",//只返回ip
+    "https://www.icanhazip.com",//只返回ip
+    "https://www.trackip.net/ip",//只返回ip
+
+    "https://ip-api.io/json",//返回Json包含国家、城市、ip
+    "https://ip-api.org/json",//返回Json包含国家、城市、ip
+    "https://ifconfig.co/json",//返回Json包含国家、城市、ip
+    "https://ifconfig.me/all.json",//返回Json只有ip有用
+    "https://ipinfo.io/json",//返回Json包含国家、城市、ip
+    "http://ip-api.com/json",//HTTP->返回Json包含国家、城市、ip
   )
 
   //{
