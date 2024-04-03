@@ -119,18 +119,36 @@ fun Fragment.getAllChildFragments(): MutableList<Fragment> {
 
 //设置没有更多的显示
 fun SmartRefreshLayout?.noMoreData() {
-  this?.finishRefresh()
-  this?.finishLoadMore()
-  this?.setEnableLoadMore(true)
-  this?.setNoMoreData(true)
+  if (this?.refreshFooter != null) {
+    this.finishRefresh()
+    this.finishLoadMore()
+    this.setEnableLoadMore(true)
+    this.setNoMoreData(true)
+  } else {
+    this?.post {
+      this.finishRefresh()
+      this.finishLoadMore()
+      this.setEnableLoadMore(true)
+      this.setNoMoreData(true)
+    }
+  }
 }
 
 //设置还有更多的显示
 fun SmartRefreshLayout?.hasMoreData() {
-  this?.finishRefresh()
-  this?.finishLoadMore()
-  this?.setEnableLoadMore(true)
-  this?.setNoMoreData(false)
+  if (this?.refreshFooter != null) {
+    this.finishRefresh()
+    this.finishLoadMore()
+    this.setEnableLoadMore(true)
+    this.setNoMoreData(false)
+  } else {
+    this?.post {
+      this.finishRefresh()
+      this.finishLoadMore()
+      this.setEnableLoadMore(true)
+      this.setNoMoreData(false)
+    }
+  }
 }
 
 fun SmartRefreshLayout?.setTxtColor(color: Int) {
