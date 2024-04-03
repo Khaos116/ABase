@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SimpleItemAnimator
 import com.google.i18n.phonenumbers.PhoneNumberUtil
 import com.google.i18n.phonenumbers.Phonenumber
+import com.scwang.smart.refresh.classics.ClassicsAbstract
 import com.scwang.smart.refresh.layout.SmartRefreshLayout
 import kotlinx.coroutines.*
 import okhttp3.Response
@@ -130,6 +131,16 @@ fun SmartRefreshLayout?.hasMoreData() {
   this?.finishLoadMore()
   this?.setEnableLoadMore(true)
   this?.setNoMoreData(false)
+}
+
+fun SmartRefreshLayout?.setTxtColor(color: Int) {
+  if (this?.refreshFooter != null) {
+    (this.refreshFooter as? ClassicsAbstract<*>)?.setAccentColor(color)
+  } else {
+    this?.post {
+      (this.refreshFooter as? ClassicsAbstract<*>)?.setAccentColor(color)
+    }
+  }
 }
 
 //开机时间
