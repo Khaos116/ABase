@@ -7,7 +7,7 @@ package cc.ab.base.ui.viewmodel
  * Date:2020-11-30
  * Time:15:46
  */
-sealed class DataState<T>(val data: T? = null) {
+sealed class DataState<out T>(val data: T? = null) {
   //请求开始
   class Start<T>(oldData: T?) : DataState<T>(data = oldData) {}
 
