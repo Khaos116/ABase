@@ -33,7 +33,7 @@ class MyFlashTextView @kotlin.jvm.JvmOverloads constructor(
     }
     super.onDraw(canvas)
     if (width > 0 && text.toString().contains(R.string.加载中.xmlToString(), true)) {
-      if (mViewWidth != width) {
+      if (mViewWidth != width || paint.shader == null) {
         mViewWidth = width
         paint.shader = LinearGradient(
           0f, 0f, mViewWidth * 1f, 0f,
