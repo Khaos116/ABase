@@ -139,12 +139,10 @@ fun String?.hexToString(): String {
   }
 }
 
-//正则获取两个符号之间的内容，只查找第一个
-@Suppress("ConvertToStringTemplate")
-fun String?.findBySymbols(start: String = "(", end: String = ")"): String {
+//正则获取两个符号之间的内容，特殊符号需要加双斜杠\\
+fun String?.findBySymbols(start: String = "\\(", end: String = "\\)"): String {
   if (this.isNullOrBlank()) return ""
-  val matcher = Pattern.compile("(?<=\\" + start + ")(\\S+)(?=\\" + end + ")").matcher(this)
-  return if (matcher.find()) matcher.group() else ""
+  return Regex("${start}(.*?)${end}").find(this)?.groupValues?.lastOrNull() ?: ""
 }
 
 //多空格替换 "AA   BB  CC"->"AA-BB-CC"
