@@ -20,7 +20,7 @@ object PathConfig {
   val IMG_CACHE_DIR = PathUtils.getExternalAppCachePath() + File.separator + "CoilImgCache"
 
   //接口数据缓存地址
-  val API_CACHE_DIR = PathUtils.getExternalAppFilesPath() + File.separator + "RxHttpCache"
+  val API_CACHE_DIR = PathUtils.getInternalAppFilesPath() + File.separator + "RxHttpCache"
 
   //异常数据目录
   val CRASH_CACHE_DIR = PathUtils.getExternalAppFilesPath() + File.separator + "Crash"
