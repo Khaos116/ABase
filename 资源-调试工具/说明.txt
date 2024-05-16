@@ -1,7 +1,7 @@
 1.SSL和Watchman
 https://blog.csdn.net/weixin_54607676/article/details/132433360
 2.Flipper
-https://flipper.cn.uptodown.com/windows#versions
+https://github.com/facebook/flipper/releases?page=2
 3.集成
 https://github.com/facebook/flipper/blob/main/docs/getting-started/android-native.mdx
 4.插件

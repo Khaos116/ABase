@@ -267,5 +267,8 @@ dependencies {
   implementation Deps.primedatepicker
   implementation Deps.primecalendar
   implementation Deps.jsBridge
+  implementation Deps.flipper
+  implementation Deps.flipper_network
+  implementation Deps.soloader
   //implementation Deps.hanLP
 }

@@ -5,6 +5,7 @@ import cc.ab.base.config.PathConfig
 import cc.ab.base.ext.logE
 import cc.ab.base.utils.CharlesUtils
 import cc.ab.base.utils.MyGsonUtil
+import cc.abase.demo.app.TestApplication
 import cc.abase.demo.config.HeaderManger
 import cc.abase.demo.constants.api.WanUrls
 import cc.abase.demo.rxhttp.interceptor.RedirectInterceptor
@@ -13,6 +14,7 @@ import com.ayvytr.okhttploginterceptor.LoggingInterceptor
 import com.blankj.utilcode.constant.TimeConstants
 import com.blankj.utilcode.util.Utils
 import com.chuckerteam.chucker.api.ChuckerInterceptor
+import com.facebook.flipper.plugins.network.FlipperOkhttpInterceptor
 import okhttp3.ConnectionPool
 import okhttp3.OkHttpClient
 import okhttp3.OkHttpClient.Builder
@@ -89,6 +91,7 @@ object RxHttpConfig {
     builder.addInterceptor(TokenInterceptor())//其他拦截放到日志和加解密拦截前即可
     builder.addInterceptor(LoggingInterceptor(isShowAll = true))//日志打印放到请求加密执行前，响应解密执行后
     builder.addInterceptor(ChuckerInterceptor.Builder(Utils.getApp()).build())//通知栏查询请求日志
+    builder.addInterceptor(FlipperOkhttpInterceptor(TestApplication.networkFlipperPlugin))
     //builder.addInterceptor(DecodeInterceptor())//API接口解密拦截器(解密放到第一个响应执行)
     //builder.addInterceptor(EncodeInterceptor())//API接口加密拦截器(加密放到最后一个请求执行)
     return builder.build()

@@ -176,6 +176,10 @@ object Deps {
   //日志查看 https://github.com/ChuckerTeam/chucker
   const val chucker = "com.github.chuckerteam.chucker:library:4.0.0"
   const val chucker_no = "com.github.chuckerteam.chucker:library-no-op:4.0.0"
+  //https://github.com/facebook/flipper/blob/e2c826ddd23c669d9014a32d32d806467a234b9d/docs/getting-started/android-native.mdx#L27
+  const val flipper = "com.facebook.flipper:flipper:0.250.0"
+  const val soloader = "com.facebook.soloader:soloader:0.10.5"
+  const val flipper_network = "com.facebook.flipper:flipper-network-plugin:0.250.0"
   //</editor-fold>
 
   //<editor-fold defaultstate="collapsed" desc="三方不常用配置">
