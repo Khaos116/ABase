@@ -35,15 +35,15 @@ object OtherRepository : BaseRepository() {
     "https://www.trackip.net/ip",//只返回ip
     "https://ip.42.pl/raw",//只返回ip
 
-    "https://ip-api.org/json",//返回Json包含国家、城市、ip
-    "https://ipinfo.io/json",//返回Json包含国家、城市、ip
+    "https://ip-api.org/json",//返回Json包含国家、城市、ip【次数太多也会被限制】
+    "https://ipinfo.io/json",//返回Json包含国家、城市、ip 【出现过无法访问的情况】
     "https://api.ip2location.io",//返回Json包含国家、城市、ip【每天限制500次】
-    "https://freeipapi.com/api/json",//返回Json包含国家、城市、ip
-    "https://api.wolfx.jp/geoip.php",//返回Json包含国家、城市、ip
-    "https://am.i.mullvad.net/json",//返回Json包含国家、城市、ip
-    "https://airvpn.org/api/whatismyip",//返回Json包含国家、城市、ip
+    "https://freeipapi.com/api/json",//返回Json包含国家、城市、ip【国内可能无法访问】
+    "https://api.wolfx.jp/geoip.php",//返回Json包含国家、城市、ip【可能没有城市】
+    "https://am.i.mullvad.net/json",//返回Json包含国家、城市、ip【国内可能无法访问】
+    "https://airvpn.org/api/whatismyip",//返回Json包含国家、城市、ip【国内可能无法访问】
     "https://ipwho.is",//返回Json包含国家、城市、ip
-    "https://ip.nf/me.json",//返回Json包含国家、城市、ip
+    "https://ip.nf/me.json",//返回Json包含国家、城市、ip【可能没有省份】
     "https://www.ip.cn/api/index?ip=&type=0",//返回Json包含国家、城市、ip
     "https://ip-api.io/json",//返回Json包含国家、ip
     "https://ifconfig.co/json",//返回Json包含国家、ip
