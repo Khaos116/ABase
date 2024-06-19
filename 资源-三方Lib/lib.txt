@@ -1,0 +1,59 @@
+1.多渠道打包 VasDolly https://github.com/Tencent/VasDolly
+2.今日头条适配 AndroidAutoSize https://github.com/JessYanCoding/AndroidAutoSize
+3.工具类 AndroidUtilCode https://github.com/Blankj/AndroidUtilCode
+4.刘强东合集[网络请求+列表+缺省+计算器] https://github.com/liangjingkanji
+5.轮子哥合集[权限+吐司+语言切换+GSON容错+ShapeView+Logcat] https://github.com/getActivity/XXPermissions
+6.图片加载 Coil https://github.com/coil-kt/coil
+7.持久化 MMKV https://github.com/Tencent/MMKV
+8.骨架屏和闪亮效果 AndroidVeil https://github.com/skydoves/AndroidVeil
+9.启动效果 Android-Startup https://github.com/idisfkj/android-startup/tree/master
+10.状态栏 ImmersionBar https://github.com/gyf-dev/ImmersionBar
+11.网络请求 OkHttp https://github.com/square/okhttp
+12.UI绑定 ViewBindingKTX https://github.com/DylanCaiCoding/ViewBindingKTX
+13.TAB切换 DslTabLayout https://github.com/angcyo/DslTabLayout
+14.图片选择 PictureSelector https://github.com/LuckSiege/PictureSelector
+15.下拉刷新 SmartRefreshLayout https://github.com/scwang90/SmartRefreshLayout
+16.请求拦截 Chucker https://github.com/ChuckerTeam/chucker
+17.调试套件 Flipper https://github.com/facebook/flipper
+18.播放器 DKVideoPlayer https://github.com/Doikki/DKVideoPlayer
+19.动画1 Lottie https://github.com/airbnb/lottie-android
+20.动画2 Svga https://github.com/qqnp1100/SVGAPlayer-Android
+21.HTML处理 Jsoup https://github.com/jhy/jsoup
+22.手机号判断 Libphonenumber https://github.com/google/libphonenumber
+23.日期选择 DatePickerView https://github.com/limxing/DatePickerView
+24.日历选择 PrimeDatePicker https://github.com/aminography/PrimeDatePicker【https://github.com/kizitonwose/Calendar】
+25.加解密 Hutool https://github.com/dromara/hutool
+26.数据 Protobuf https://github.com/protocolbuffers/protobuf【https://juejin.cn/post/7135365943282122765】
+27.表情 Emoji https://github.com/vanniktech/Emoji
+28.APP更新 AppUpdate https://github.com/azhon/AppUpdate
+29.轮播 Banner https://github.com/youth5201314/banner
+30.APK解析 ApkParser https://github.com/hsiafan/apk-parser
+31.JS交互 JsBridge https://github.com/uknownothingsnow/JsBridge
+32.流式布局 Flexbox https://github.com/google/flexbox-layout【https://blog.csdn.net/weixin_39397471/article/details/90257522】
+33.文件操作 FileOperator https://github.com/javakam/FileOperator
+34.异常上报 Lark https://open.larksuite.com/document/client-docs/bot-v3/use-custom-bots-in-a-group
+35.文件上传 AndroidUploadSrvice https://github.com/gotev/android-upload-service
+36.控件过度动画 TransformationLayout https://github.com/skydoves/TransformationLayout
+37.图片控件 Sketch https://github.com/panpf/sketch
+38.新手引导 FancyShowCaseView https://github.com/faruktoptas/FancyShowCaseView
+39.更多列表选框 PowerSpinner https://github.com/skydoves/PowerSpinner
+40.弹窗 XPopup https://github.com/junixapp/XPopup
+41.UI控件 XUI https://github.com/xuexiangjys/XUI
+42.高斯模糊 BlurView https://github.com/Dimezis/BlurView
+43.弹窗 DialogX https://github.com/kongzue/DialogX
+44.简单富文本 AndroidRichtextEditor https://github.com/sophimp/android-richtext-editor【https://github.com/1gravity/Android-RTEditor】
+45.换肤 PaintedSkin https://github.com/CoderAlee/PaintedSkin
+46.日志打印 https://github.com/elvishew/xLog/blob/master/xlog-libcat/README_ZH.md
+
+换肤
+夜间模式
+bug监听
+揭露动画 CircularReveal(截屏实现换肤动画效果)【https://blog.csdn.net/u011387817/article/details/79604418】
+MotionLayout动画 ConstraintSet【https://juejin.cn/post/7361392237887242276】
+
+2024安卓开发 https://juejin.cn/post/7342861726000791603
+kotlin
+架构 MVI【https://juejin.cn/post/7240034353370152997】
+网络请求 Ktor【https://juejin.cn/post/7136829279903416333】
+日志打印 Klogging【https://github.com/klogging/klogging】
+代码检查 konsist【https://github.com/LemonAppDev/konsist】
