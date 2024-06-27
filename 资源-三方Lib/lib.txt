@@ -44,6 +44,17 @@
 44.简单富文本 AndroidRichtextEditor https://github.com/sophimp/android-richtext-editor【https://github.com/1gravity/Android-RTEditor】
 45.换肤 PaintedSkin https://github.com/CoderAlee/PaintedSkin
 46.日志打印 https://github.com/elvishew/xLog/blob/master/xlog-libcat/README_ZH.md
+47.多类型适配器 https://github.com/drakeet/MultiType
+48.WebView https://github.com/youlookwhat/ByWebView 【https://github.com/yale8848/CacheWebView】
+49.列表动画 https://github.com/wasabeef/recyclerview-animators
+50.Leakcanary https://square.github.io/leakcanary/getting_started/
+51.字母索引 https://github.com/D10NGYANG/DL10SideBar
+52.播放器 https://github.com/CarGuo/GSYVideoPlayer【https://github.com/androidx/media】
+53.汉字转拼音 https://github.com/promeG/TinyPinyin
+54.@话题效果 https://github.com/wangtaoT/MentionEditText?tab=readme-ov-file【https://github.com/Elip-kio/MentionEditText】
+55.二维码 https://github.com/jenly1314/ZXingLite
+56.手势解锁 https://github.com/aritraroy/PatternLockView
+
 
 换肤
 夜间模式
