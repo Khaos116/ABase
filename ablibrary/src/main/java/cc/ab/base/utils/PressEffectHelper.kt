@@ -43,10 +43,11 @@ object PressEffectHelper {
           isDown = true
           v.alpha = 1f
           //为了解决列表按下滑动不执行按压效果，所以增加一点延时执行按压效果
-          v.postDelayed({ v.alpha = if (isDown) pressAlpha else 1.0f }, 150)
+          v.postDelayed({ if (v != null) v.alpha = if (isDown) pressAlpha else 1.0f }, 150)
           longClick(view)
           return@setOnTouchListener true
         }
+
         MotionEvent.ACTION_MOVE ->
           //如果手指移出控件，则不执行按压效果和点击效果
           if (!contains) {
@@ -63,8 +64,10 @@ object PressEffectHelper {
             if (v.alpha == 1f) {
               v.alpha = pressAlpha
               v.postDelayed({
-                v.alpha = 1f
-                v.performClick()
+                if (v != null) {
+                  v.alpha = 1f
+                  v.performClick()
+                }
               }, 50)
             } else {
               v.alpha = 1f
@@ -83,12 +86,14 @@ object PressEffectHelper {
           cancelLongClick()
           return@setOnTouchListener true
         }
+
         MotionEvent.ACTION_CANCEL -> {
           isDown = false
           v.alpha = 1f
           cancelLongClick()
           return@setOnTouchListener true
         }
+
         else -> {
         }
       }
@@ -177,11 +182,12 @@ object PressEffectHelper {
           v.background = originalBgColor
           //为了解决列表按下滑动不执行按压效果，所以增加一点延时执行按压效果
           v.postDelayed({
-            v.background = if (isDown) pressDrawable else originalBgColor
+            if (v != null) v.background = if (isDown) pressDrawable else originalBgColor
           }, 150)
           longClick(view)
           return@setOnTouchListener true
         }
+
         MotionEvent.ACTION_MOVE ->
           //如果手指移出控件，则不执行按压效果和点击效果
           if (!contains) {
@@ -198,8 +204,10 @@ object PressEffectHelper {
             if (v.background == originalBgColor) {
               v.background = pressDrawable
               v.postDelayed({
-                v.background = originalBgColor
-                v.performClick()
+                if (v != null) {
+                  v.background = originalBgColor
+                  v.performClick()
+                }
               }, 50)
             } else {
               v.background = originalBgColor
@@ -218,12 +226,14 @@ object PressEffectHelper {
           cancelLongClick()
           return@setOnTouchListener true
         }
+
         MotionEvent.ACTION_CANCEL -> {
           isDown = false
           v.background = originalBgColor
           cancelLongClick()
           return@setOnTouchListener true
         }
+
         else -> {
         }
       }
