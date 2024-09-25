@@ -29,7 +29,6 @@ import com.luck.picture.lib.entity.LocalMedia
 import com.luck.picture.lib.interfaces.OnResultCallbackListener
 import java.io.File
 
-
 /**
  * WebView加载Html 解决图片自适应屏幕宽度问题
  * Description: https://blog.csdn.net/oZhuiMeng123/article/details/120830455
@@ -137,6 +136,16 @@ class WebActivity : CommBindTitleActivity<ActivityWebBinding>() {
         }
       }
       false
+    }
+    web?.setDownloadListener { url, _, _, _, _ ->
+      try {
+        val fileUri = Uri.parse(url)
+        val intent = Intent(Intent.ACTION_VIEW)
+        intent.setData(fileUri)
+        startActivity(intent)
+      } catch (e: Exception) {
+        e.printStackTrace()
+      }
     }
     //有些页面不能自动设置，需要自己计算缩放比
     //web?.addJavascriptInterface(JavaScriptInterface(), "HTMLOUT")
@@ -303,14 +312,14 @@ class WebActivity : CommBindTitleActivity<ActivityWebBinding>() {
       }
 
       private val HUB_CODE = "javascript:window.addEventListener(\"message\", function( event ) {\n" +
-          "    if (event.origin === 'https://app.hubspot.com') {\n" +
-          "        var data = JSON.parse(event.data);\n" +
-          "        console.log(data);\n" +
-          "        if (data.type === 'open-change' && data.data.isOpen === false) {\n" +
-          "            window.location.href = 'js://webview?event=close';\n" +
-          "        }\n" +
-          "    }\n" +
-          "});"
+        "    if (event.origin === 'https://app.hubspot.com') {\n" +
+        "        var data = JSON.parse(event.data);\n" +
+        "        console.log(data);\n" +
+        "        if (data.type === 'open-change' && data.data.isOpen === false) {\n" +
+        "            window.location.href = 'js://webview?event=close';\n" +
+        "        }\n" +
+        "    }\n" +
+        "});"
 
       @Suppress("DEPRECATION")
       override fun shouldOverrideUrlLoading(view: WebView?, request: WebResourceRequest?): Boolean {
@@ -372,7 +381,7 @@ class WebActivity : CommBindTitleActivity<ActivityWebBinding>() {
       .setImageEngine(CoilEngine())
       .isGif(false)
       //.setCropEngine(MyCropEngine())//初步测试好像没办法实现先裁切后压缩(SD卡没有找到2个文件同时存在)，所以暂时只进行压缩
-      .setCompressEngine(MyCompressEngine())//本来想先裁切后压缩的，但是同时设置后，只找的到裁切文件，没有压缩文件，所以只进行压缩
+      .setCompressEngine(MyCompressEngine()) //本来想先裁切后压缩的，但是同时设置后，只找的到裁切文件，没有压缩文件，所以只进行压缩
       .isPageStrategy(true, PictureConfig.MAX_PAGE_SIZE, true) //过滤掉已损坏的
       .setMaxSelectNum(1)
       .setFilterMaxFileSize((if (chooseMode == SelectMimeType.ofImage()) 5L else 500L) * MemoryConstants.MB)
