@@ -46,6 +46,7 @@ object FixDp2PxUtils {
       }
 
       override fun onActivityStopped(activity: Activity) {
+        fixDp2Px(activity)
       }
 
       override fun onActivitySaveInstanceState(activity: Activity, outState: Bundle) {
@@ -70,6 +71,11 @@ object FixDp2PxUtils {
 
     override fun onFragmentResumed(fm: FragmentManager, f: Fragment) {
       super.onFragmentResumed(fm, f)
+      f.context?.let { c -> fixDp2Px(c) }
+    }
+
+    override fun onFragmentStopped(fm: FragmentManager, f: Fragment) {
+      super.onFragmentStopped(fm, f)
       f.context?.let { c -> fixDp2Px(c) }
     }
   }
