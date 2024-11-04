@@ -18,6 +18,7 @@ class MarqueeTextView @kotlin.jvm.JvmOverloads constructor(
 ) : AppCompatTextView(context, attrs, defStyleAttr) {
 
   init {
+    isSelected = true
     isFocusable = true
     isFocusableInTouchMode = true
     setSingleLine()
