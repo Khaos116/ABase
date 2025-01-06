@@ -84,4 +84,15 @@
     <attr name="shape_roundRect_borderWidth" format="dimension"/>
     <attr name="shape_roundRect_borderColor" format="color"/>
   </declare-styleable>
+
+    <!--圆角遮挡-->
+  <declare-styleable name="OnlyCornerView">
+    <attr name="cornerRadius" format="dimension" />
+    <attr name="bgColor" format="color" />
+    <attr name="cornerType" format="enum">
+      <enum name="ALL" value="0" />
+      <enum name="TOP" value="1" />
+      <enum name="BOTTOM" value="2" />
+    </attr>
+  </declare-styleable>
 </resources>
