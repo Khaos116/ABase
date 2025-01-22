@@ -137,6 +137,16 @@ class WebActivity : CommBindTitleActivity<ActivityWebBinding>() {
       }
       false
     }
+    //web?.setOnLongClickListener(v -> {
+    //  WebView.HitTestResult result = web.getHitTestResult();
+    //  if (result.getExtra() != null) {
+    //    ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+    //    ClipData clip = ClipData.newPlainText("Copied Link", result.getExtra());
+    //    clipboard.setPrimaryClip(clip);
+    //    //StringExtKt.toast("已复制到剪贴板");
+    //  }
+    //  return false;
+    //});
     web?.setDownloadListener { url, _, _, _, _ ->
       try {
         val fileUri = Uri.parse(url)
