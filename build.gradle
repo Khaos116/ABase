@@ -29,14 +29,14 @@ gradle.taskGraph.whenReady { graph ->
   def addTasks = allTask.findAll { task ->
     def name = task.name.toLowerCase()
     boolean add = name.startsWith("assemble") && !name.endsWith("test")
-    if (add) System.err.println("开始Gradle任务：${task.name}")
-    if (add && !names.contains(task.name)) names.add(task.name)
+    if (add) System.err.println("开始Gradle任务：${task.path}")
+    if (add && !names.contains(task.path)) names.add(task.path)
     add
   }
   addTasks.each { task ->
     task.doLast {
-      System.err.println("已完成Gradle任务：${task.name}")
-      names.remove(task.name)
+      System.err.println("已完成Gradle任务：${task.path}")
+      names.remove(task.path)
       if (names.isEmpty()) killJavaAfterFinish()
     }
   }
