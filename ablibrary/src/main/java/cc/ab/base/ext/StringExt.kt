@@ -195,3 +195,29 @@ fun String?.toDoubleMy(): Double {
   }
 }
 //</editor-fold>
+
+fun String?.delEnd0(): String {
+  if (this.isNullOrBlank()) return "0"
+  if (this == "-" || this == "*" || this == "?" || this == "_") return "0"
+  if (this.contains("/")) return this
+  var prefix = ""
+  var num = ""
+  if (this.contains("+")) {
+    prefix = "+"
+    num = this.replace("+", "").replace(",", "").trim()
+  } else if (this.contains("-")) {
+    prefix = "-"
+    num = this.replace("-", "").replace(",", "").trim()
+  } else {
+    num = this.replace(",", "").trim()
+  }
+  return try {
+    if (num.matches(Regex("^\\d+(\\.\\d+)?$"))) { //如果是数字类型
+      prefix + DecimalFormat("#########0.##########").format(num.toDoubleMy().toBigDecimal()).replace(",", ".")
+    } else {
+      this
+    }
+  } catch (e: Exception) {
+    this
+  }
+}
