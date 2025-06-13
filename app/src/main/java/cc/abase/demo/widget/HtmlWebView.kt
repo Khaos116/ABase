@@ -144,6 +144,80 @@ class HtmlWebView @JvmOverloads constructor(
     this.loadDataWithBaseURL(null, result, "text/html", "utf-8", null)
   }
 
+  //富文本显示优化
+  fun loadHtml2(divHtml: String) {
+    val document = Jsoup.parse(divHtml)
+    val containsImage = document.select("img").isNotEmpty()
+    //上右下左
+    val bodyMargin = if (containsImage) "0px" else "0px 5px 0px 5px"
+    document.head().appendElement("style").text(
+      """
+        body {
+            font-size: 14px; /* 等效 Android 14dp */
+            line-height: 1.5;
+            margin: $bodyMargin;
+            padding: 0;
+            max-width: 100%;
+            word-wrap: break-word;
+            color: #333;
+            background-color: #fff;
+        }
+        img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin: 8px 0;
+        }
+        p {
+            margin: 0 0 8px 0;
+        }
+        a {
+            color: #007AFF;
+            text-decoration: none;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 8px 0;
+        }
+        th, td {
+            font-size: 14px;
+            padding: 4px;
+            border: 1px solid #ddd;
+        }
+        ul, ol {
+            padding-left: 20px;
+            margin: 0 0 8px 0;
+        }
+        li {
+            margin-bottom: 4px;
+        }
+        h1, h2, h3, h4, h5, h6 {
+            font-size: 16px;
+            margin: 8px 0 4px 0;
+        }
+        pre, code {
+            background-color: #f4f4f4;
+            padding: 4px;
+            border-radius: 4px;
+            white-space: pre-wrap;
+            word-break: break-word;
+            font-family: monospace;
+            font-size: 13px;
+        }
+        blockquote {
+            margin: 0 0 8px 10px;
+            padding-left: 10px;
+            border-left: 3px solid #ccc;
+            color: #666;
+        }
+        """.trimIndent()
+    )
+    val result = document.outerHtml()
+    "\n$result".logD()
+    this.loadDataWithBaseURL(null, result, "text/html", "utf-8", null)
+  }
+
   //<editor-fold defaultstate="collapsed" desc="自感应生命周期">
   override fun onAttachedToWindow() {
     super.onAttachedToWindow()
