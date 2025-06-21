@@ -150,6 +150,11 @@ class HtmlWebView @JvmOverloads constructor(
     val containsImage = document.select("img").isNotEmpty()
     //上右下左
     val bodyMargin = if (containsImage) "0px" else "0px 5px 0px 5px"
+    //添加<meta name="viewport">标签
+    document.head().prependElement("meta").apply {
+      attr("name", "viewport")
+      attr("content", "width=device-width, initial-scale=1.0, user-scalable=no") //文字缩放处理
+    }
     document.head().appendElement("style").text(
       """
         body {
