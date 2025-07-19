@@ -20,38 +20,38 @@ tasks.register('clean', Delete) {
 gradle.taskGraph.whenReady { graph ->
   def allTask = graph.getAllTasks()
   allTask.each { task ->
-    def name = task.name.toLowerCase()
-    if (name.contains("debugandroidtest")) {
+    def name = task.name
+    if (name.contains("DebugAndroidTest")) {
       task.enabled = false
-    }
-  }
-  List<String> names = new ArrayList<>()
-  def addTasks = allTask.findAll { task ->
-    def name = task.name.toLowerCase()
-    boolean add = name.startsWith("assemble") && !name.endsWith("test")
-    if (add) System.err.println("开始Gradle任务：${task.path}")
-    if (add && !names.contains(task.path)) names.add(task.path)
-    add
-  }
-  addTasks.each { task ->
-    task.doLast {
-      System.err.println("已完成Gradle任务：${task.path}")
-      names.remove(task.path)
-      if (names.isEmpty()) killJavaAfterFinish()
+    } else if (name.contains("Debug")) {
+      task.enabled = !name.contains("Lint") && !name.contains("Upload")
     }
   }
 }
 
+def isWindows = System.getProperty('os.name').toLowerCase().contains('win')
+
 //释放内存
-static void killJavaAfterFinish() {
-  System.err.println("Gradle任务已全部完成，20秒后释放java进程，${new Date().format("yyyy-MM-dd HH:mm:ss")}")
-  new Thread() {
-    @Override
-    void run() {
-      sleep(20 * 1000)
-      System.err.println("开始执行释放java占用任务")
-      String cmd = "taskkill /f /t /im java.exe"
-      cmd.execute().text.trim()
+gradle.buildFinished {
+  if (isWindows) { // 是windows编译环境
+    boolean hasRun = false
+    for (Task task in project.gradle.taskGraph.allTasks) {
+      hasRun = task.name.toLowerCase().contains("assemble")
+      if (hasRun) break
     }
-  }.start()
+    int seconds = 0
+    if (hasRun) {
+      seconds = 5
+      System.in.println("5秒后释放java进程(${new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(System.currentTimeMillis())})")
+    } else {
+      System.in.println("立即释放java进程(${new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(System.currentTimeMillis())})")
+    }
+    new Thread() {
+      @Override
+      void run() {
+        sleep(seconds * 1000)
+        "taskkill /f /t /im java.exe".execute().text.trim()
+      }
+    }.start()
+  }
 }
