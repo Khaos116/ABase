@@ -1,4 +1,6 @@
 import com.android.build.gradle.internal.tasks.FinalizeBundleTask
+// import com.reandroid.apk.ApkModule
+// import com.reandroid.arsc.model.ResourceEntry
 
 plugins {
   id 'com.android.application'
@@ -150,7 +152,7 @@ android.applicationVariants.configureEach { variant ->
       //参考 https://stackoverflow.com/questions/52508720/how-to-change-the-generated-filename-for-app-bundles-with-gradle
       tasks.named(bundleFinalizeTaskName, FinalizeBundleTask.class) {
         File bundleFile = finalBundleFile.asFile.get()
-        doLast {
+        doLast {         
           //编译时间
           String buildEndTime = "${new Date().format("yyyyMMdd_HHmm")}"
           String aabFileName = "${appName}_${flavorsName}_${typeName}_${versionName}_${buildEndTime}.aab"
@@ -185,6 +187,10 @@ android.applicationVariants.configureEach { variant ->
     }
     //打包APK完成后的重命名和拷贝
     assemble.doLast {
+      //ApkModule apkModule = ApkModule.loadApkFile(outputFile)
+      //ResourceEntry resAppName = apkModule.getTableBlock().getResource(null, "string", "app_name")
+      //String appName = resAppName.stringValues.next()
+      
       //编译完成的时间
       String buildEndTime = "${new Date().format("yyyyMMdd_HHmm")}"
       String apkFileName = "${appName}_${flavorsName}_${typeName}_${versionName}_${buildEndTime}.apk"
